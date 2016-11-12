@@ -306,11 +306,11 @@ plot_base <- setRefClass(
       theme  <- "0"
 
       options(
-        Bio__FontSize   = size,
-        Bio__FontFamily = family,
-        Bio__ColourSet  = colour,
-        Bio__SaveGraph  = save,
-        Bio__Theme      = theme
+        Bio_FontSize   = size,
+        Bio_FontFamily = family,
+        Bio_ColourSet  = colour,
+        Bio_SaveGraph  = save,
+        Bio_Theme      = theme
       )
 
       list(

@@ -205,19 +205,19 @@ ghist <- setRefClass(
       theme  <- checkTheme(getSelection(tbbox1$theme))
       # ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~
     options(
-        Bio__FontSize   = tclvalue(tbbox1$size$value),
+        Bio_FontSize   = tclvalue(tbbox1$size$value),
 
-        Bio__FontFamily = seq_along(tbbox1$family$varlist)[
+        Bio_FontFamily = seq_along(tbbox1$family$varlist)[
             tbbox1$family$varlist == getSelection(tbbox1$family)
             ] - 1,
 
-        Bio__ColourSet  = seq_along(tbbox1$colour$varlist)[
+        Bio_ColourSet  = seq_along(tbbox1$colour$varlist)[
             tbbox1$colour$varlist == getSelection(tbbox1$colour)
             ] - 1,
 
-        Bio__SaveGraph  = tclvalue(tbbox1$goption$value[[1]]),
+        Bio_SaveGraph  = tclvalue(tbbox1$goption$value[[1]]),
 
-        Bio__Theme      = seq_along(tbbox1$theme$varlist)[
+        Bio_Theme      = seq_along(tbbox1$theme$varlist)[
             tbbox1$theme$varlist == getSelection(tbbox1$theme)
             ] - 1
       )

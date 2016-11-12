@@ -174,10 +174,10 @@ gqq <- setRefClass(
       theme  <- checkTheme(getSelection(tbbox1$theme))
       
       options(
-        Bio__FontSize   = tclvalue(tbbox1$size$value),
-        Bio__FontFamily = seq_along(tbbox1$family$varlist)[tbbox1$family$varlist == getSelection(tbbox1$family)] - 1,
-        Bio__SaveGraph  = tclvalue(tbbox1$goption$value[[1]]),
-        Bio__Theme      = seq_along(tbbox1$theme$varlist)[tbbox1$theme$varlist == getSelection(tbbox1$theme)] - 1
+        Bio_FontSize   = tclvalue(tbbox1$size$value),
+        Bio_FontFamily = seq_along(tbbox1$family$varlist)[tbbox1$family$varlist == getSelection(tbbox1$family)] - 1,
+        Bio_SaveGraph  = tclvalue(tbbox1$goption$value[[1]]),
+        Bio_Theme      = seq_along(tbbox1$theme$varlist)[tbbox1$theme$varlist == getSelection(tbbox1$theme)] - 1
       )
       
       distType  <- tclvalue(rbbox1$value)
