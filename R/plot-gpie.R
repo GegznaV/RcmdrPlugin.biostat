@@ -269,7 +269,7 @@ gpie <- setRefClass(
 
       opts <- list()
       if (length(parms$s) != 0 || length(parms$t) != 0) {
-        opts <- c(opts, "panel.margin = unit(0.3, \"lines\")")
+        opts <- c(opts, "panel.spacing = unit(0.3, \"lines\")")
       }
 
       opts <- c(
@@ -285,7 +285,7 @@ gpie <- setRefClass(
         opts <- c(opts, "legend.title = element_blank()")
       }
 
-      if (parms$theme == "RcmdrPlugin.KMggplot2::theme_simple") {
+      if (parms$theme == "RcmdrPlugin.BioStat::theme_simple") {
         opts <- c(opts, "panel.border = element_blank()")
       }
 
@@ -313,7 +313,7 @@ gpie <- setRefClass(
 #' @export
 windowPie <- function() {
 
-  Pie <- RcmdrPlugin.KMggplot2::gpie$new()
+  Pie <- RcmdrPlugin.BioStat::gpie$new()
   Pie$plotWindow()
 
 }

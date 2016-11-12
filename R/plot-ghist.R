@@ -6,14 +6,14 @@
 #'
 #' @section Fields:
 #' \describe{
-#' \item{\code{top}: }{\code{tkwin} class object; parent of widget window.} 
-#' \item{\code{alternateFrame}: }{\code{tkwin} class object; a special frame for some GUI parts.} 
-#' \item{\code{vbbox1}: }{\code{variableboxes} class object; the frame to select variables.} 
-#' \item{\code{vbbox2}: }{\code{variableboxes} class object; the frame to select facet variables.} 
-#' \item{\code{vbbox3}: }{\code{variableboxes} class object; the frame to set the no. of bins.} 
-#' \item{\code{lbbox1}: }{\code{textfields} class object; the frame to set axis labels and the main title.} 
-#' \item{\code{rbbox1}: }{\code{radioboxes} class object; the frame to set the axis scaling.} 
-#' \item{\code{cbbox1}: }{\code{checkboxes} class object; the frame to set options.} 
+#' \item{\code{top}: }{\code{tkwin} class object; parent of widget window.}
+#' \item{\code{alternateFrame}: }{\code{tkwin} class object; a special frame for some GUI parts.}
+#' \item{\code{vbbox1}: }{\code{variableboxes} class object; the frame to select variables.}
+#' \item{\code{vbbox2}: }{\code{variableboxes} class object; the frame to select facet variables.}
+#' \item{\code{vbbox3}: }{\code{variableboxes} class object; the frame to set the no. of bins.}
+#' \item{\code{lbbox1}: }{\code{textfields} class object; the frame to set axis labels and the main title.}
+#' \item{\code{rbbox1}: }{\code{radioboxes} class object; the frame to set the axis scaling.}
+#' \item{\code{cbbox1}: }{\code{checkboxes} class object; the frame to set options.}
 #' \item{\code{tbbox1}: }{\code{toolbox} class object; the frame to set the font, the colour set, other option, and the theme.}
 #' }
 #' @section Contains:
@@ -59,58 +59,64 @@
 #' @importFrom RColorBrewer brewer.pal
 #' @export ghist
 ghist <- setRefClass(
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Class = "ghist",
-
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   fields = c("vbbox1", "vbbox2", "vbbox3", "lbbox1", "rbbox1", "cbbox1", "tbbox1"),
-
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   contains = c("plot_base"),
-
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   methods = list(
 
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
     setFront = function() {
-
+      # ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~
       vbbox1 <<- variableboxes$new()
       vbbox1$front(
-        top       = top, 
-        types     = list(nonFactors()),
+        top       = top,
+        types     = list(nonFactors(),
+                         c("black","gray","white","red", "blue", "green4")
+                     ),
         titles    = list(
-          gettextKmg2("Variable (pick one)")
+          gettextKmg2("Variable (pick one)"),
+          gettextKmg2("Border color")
         ),
-        initialSelection = list(0)
+        initialSelection = list(0,0)
       )
-
+      # ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~
       vbbox2 <<- variableboxes$new()
       vbbox2$front(
-        top       = top, 
+        top       = top,
         types     = list(Factors(), Factors()),
         titles    = list(
           gettextKmg2("Facet variable in rows"),
           gettextKmg2("Facet variable in cols")
         )
       )
-
+      # ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~
       lbbox1 <<- textfields$new()
       lbbox1$front(
         top        = top,
-        initValues = list("<auto>", "<auto>", ""),
+        initValues = list("","<auto>", "<auto>", ""),
         titles     = list(
+          gettextKmg2("No. of bins (if manual)"),
           gettextKmg2("Horizontal axis label"),
           gettextKmg2("Vertical axis label"),
           gettextKmg2("Title")
         )
       )
-
+      # ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~
       vbbox3 <<- variableboxes$new()
       vbbox3$front(
-        top       = alternateFrame, 
-        types     = list(c("Scott", "Freedman-Diaconis", "Sturges")),
+        top       = alternateFrame,
+        types     = list(c("<manual>","Scott", "Freedman-Diaconis", "Sturges")),
         titles    = list(
-          gettextKmg2("No. of bins")
+          gettextKmg2("No. of bins (if automatic)")
         ),
-        initialSelection = list(0)
+        initialSelection = list(2)
       )
-
+      # ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~
       rbbox1 <<- radioboxes$new()
       rbbox1$front(
         top    = alternateFrame,
@@ -121,23 +127,24 @@ ghist <- setRefClass(
         ),
         title  = gettextKmg2("Axis scaling")
       )
-
+      # ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~
       cbbox1 <<- checkboxes$new()
       cbbox1$front(
         top        = alternateFrame,
-        initValues = list("0", "0"),
+        initValues = list("0", "0", "0"),
         labels     = list(
-          gettextKmg2("Density estimation"),
-          gettextKmg2("Heat map")
+          gettextKmg2("Add density estimation"),
+          gettextKmg2("Use heat map"),
+          gettextKmg2("Correct no. of bins (pretty)")
         ),
         title      = gettextKmg2("Options")
       )
-
+      # ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~
       tbbox1 <<- toolbox$new()
       tbbox1$front(top)
-
+      # ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~
     },
-
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
     setBack = function() {
 
       vbbox1$back()
@@ -159,22 +166,19 @@ ghist <- setRefClass(
       tbbox1$back()
 
     },
-
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
     getWindowTitle = function() {
-      
       gettextKmg2("Histogram")
-      
     },
-    
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
     getHelp = function() {
-      
       "geom_histogram"
-      
     },
-
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
     getParms = function() {
 
       x      <- getSelection(vbbox1$variable[[1]])
+      l_color<- getSelection(vbbox1$variable[[2]])
       # y      <- ""
       z      <- character(0)
 
@@ -185,35 +189,50 @@ ghist <- setRefClass(
       s      <- checkVariable(s)
       t      <- checkVariable(t)
 
-      xlab   <- tclvalue(lbbox1$fields[[1]]$value)
+      nbins_manual <- tclvalue(lbbox1$fields[[1]]$value)
+
+      xlab   <- tclvalue(lbbox1$fields[[2]]$value)
       xauto  <- x
-      ylab   <- tclvalue(lbbox1$fields[[2]]$value)
+      ylab   <- tclvalue(lbbox1$fields[[3]]$value)
       # yauto  <- y
       zlab   <- ""
-      main   <- tclvalue(lbbox1$fields[[3]]$value)
+      main   <- tclvalue(lbbox1$fields[[4]]$value)
 
       size   <- tclvalue(tbbox1$size$value)
       family <- getSelection(tbbox1$family)
       colour <- getSelection(tbbox1$colour)
       save   <- tclvalue(tbbox1$goption$value[[1]])
       theme  <- checkTheme(getSelection(tbbox1$theme))
-      
-      options(
+      # ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~
+    options(
         kmg2FontSize   = tclvalue(tbbox1$size$value),
-        kmg2FontFamily = seq_along(tbbox1$family$varlist)[tbbox1$family$varlist == getSelection(tbbox1$family)] - 1,
-        kmg2ColourSet  = seq_along(tbbox1$colour$varlist)[tbbox1$colour$varlist == getSelection(tbbox1$colour)] - 1,
+
+        kmg2FontFamily = seq_along(tbbox1$family$varlist)[
+            tbbox1$family$varlist == getSelection(tbbox1$family)
+            ] - 1,
+
+        kmg2ColourSet  = seq_along(tbbox1$colour$varlist)[
+            tbbox1$colour$varlist == getSelection(tbbox1$colour)
+            ] - 1,
+
         kmg2SaveGraph  = tclvalue(tbbox1$goption$value[[1]]),
-        kmg2Theme      = seq_along(tbbox1$theme$varlist)[tbbox1$theme$varlist == getSelection(tbbox1$theme)] - 1
+
+        kmg2Theme      = seq_along(tbbox1$theme$varlist)[
+            tbbox1$theme$varlist == getSelection(tbbox1$theme)
+            ] - 1
       )
-      
+    # ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~
       densityPlot  <- tclvalue(cbbox1$value[[1]])
       heatPlot     <- tclvalue(cbbox1$value[[2]])
-      nbins        <- getSelection(vbbox3$variable[[1]])
+      prettyBins   <- tclvalue(cbbox1$value[[3]])
+
+      nbins_auto        <- getSelection(vbbox3$variable[[1]])
       axisScaling  <- tclvalue(rbbox1$value)
       if (densityPlot == "1" || axisScaling == "1") {
         yauto       <- gettextKmg2("Density")
         y           <- "..density.."
         axisScaling <- "1"
+# !!!  # Reikalinga funkcija (pataisa), denity plot pri'scale'inimui
       }  else if (axisScaling == "2") {
         yauto  <- gettextKmg2("Count")
         y      <- "..count.."
@@ -221,16 +240,20 @@ ghist <- setRefClass(
         yauto  <- gettextKmg2("Percent")
         y      <- "..count../sum(..count..)"
       }
-
+      # ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~
       list(
         x = x, y = y, z = z, s = s, t = t,
         xlab = xlab, xauto = xauto, ylab = ylab, yauto = yauto, zlab = zlab, main = main,
         size = size, family = family, colour = colour, save = save, theme = theme,
-        axisScaling = axisScaling, densityPlot = densityPlot, heatPlot = heatPlot, nbins = nbins
+        axisScaling = axisScaling, densityPlot = densityPlot, heatPlot = heatPlot,
+        nbins_auto = nbins_auto,
+        nbins_manual=nbins_manual,
+        l_color = l_color,
+        prettyBins = prettyBins
       )
 
     },
-
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
     checkError = function(parms) {
 
       if (length(parms$x) == 0) {
@@ -245,7 +268,7 @@ ghist <- setRefClass(
       errorCode
 
     },
-
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
     setDataframe = function(parms) {
 
       var <- list()
@@ -258,14 +281,14 @@ ghist <- setRefClass(
       if (length(parms$t) != 0) {
         var <- c(var, paste0("t = ", ActiveDataSet(), "$", parms$t))
       }
-      command <- do.call(paste, c(var, list(sep = ", ")))
+      command <- do.call(paste, c(var, list(sep = ",\n")))
       command <- paste0(".df <- data.frame(", command, ")")
 
       commandDoIt(command)
       registRmlist(.df)
 
     },
-
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
     getGgplot = function(parms) {
 
       paste0(
@@ -273,76 +296,111 @@ ghist <- setRefClass(
       )
 
     },
-
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
     getGeom = function(parms) {
 
-      if (length(parms$nbins) == 0) {
-        command <- ".nbins <- pretty(range(.df$x), n = nclass.scott(.df$x), min.n = 1)"
-      } else if (parms$nbins == "Sturges") {
-        command <- ".nbins <- pretty(range(.df$x), n = nclass.Sturges(.df$x), min.n = 1)"
-      } else if (parms$nbins == "Freedman-Diaconis") {
-        command <- ".nbins <- pretty(range(.df$x), n = nclass.FD(.df$x), min.n = 1)"
-      } else {
-        command <- ".nbins <- pretty(range(.df$x), n = nclass.scott(.df$x), min.n = 1)"
-      }
+
+        pretty_text <- if (parms$prettyBins == 1) "\n(with correction for pretty display)" else ""
+        logger(paste("#Method used to select number of bins:",
+                     parms$nbins_auto, pretty_text))
+
+        # Select number of bins
+        n_bins <- switch(parms$nbins_auto,
+
+         "<manual>"=           {
+             n_bins <- as.numeric(parms$nbins_manual)
+             # If not numeric input
+             if (is.na(n_bins)) {
+                 error(paste("Number of bins must be numeric. \nYou entered:", parms$nbins_manual))
+             } else {
+                 # If n_bins is not integer
+                 if (n_bins %% 1 != 0){
+                     n_bins <- ceiling(n_bins)
+                     if (parms$prettyBins == 0)
+                         logger(paste("# Number of bins was rounded up to",  n_bins,"."))
+                 }
+                 n_bins
+             }
+         },
+         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         # Automatic methods
+         "Sturges" =           "nclass.Sturges(.df$x)",
+         "Freedman-Diaconis" = "nclass.FD(.df$x)",
+         "Scott" =             "nclass.scott(.df$x)",
+         # Otherwise:
+                               "nclass.FD(.df$x)"
+         )
+
+        command <- if(parms$prettyBins == 0){
+            # Positions of bins (from min to max)
+            paste0(".nbins <- seq(min(.df$x), max(.df$x), length.out = ", n_bins,"+1)")
+        } else { # Prettify (correct) position of bins
+            paste0(".nbins <- pretty(range(.df$x), n = ", n_bins ,", min.n = 1)")
+        }
+
       commandDoIt(command)
       registRmlist(.nbins)
 
       if (parms$heatPlot == "1") {
         geom <- paste0(
-          "geom_histogram(aes(fill = ", parms$y, "), breaks = .nbins) + "
+           tab(1),"geom_histogram(aes(fill = ", parms$y, "), breaks = .nbins,\n",
+           tab(3), "color = \"", parms$l_color,"\") + \n"
         )
       } else {
-        geom <- "geom_histogram(breaks = .nbins) + "
+        geom <- paste0(tab(1),"geom_histogram(breaks = .nbins,",
+                       "color = \"", parms$l_color, "\") + \n")
       }
 
       if (parms$densityPlot == "1") {
         geom <- paste0(
           geom,
-          "stat_density(geom = \"path\", size = 1, alpha = 0.5) + "
+          "   stat_density(geom = \"path\", size = 1, alpha = 0.5) + \n"
         )
       }
       geom
 
     },
-
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
     getScale = function(parms) {
-      
+
       if (parms$axisScaling == "3") {
-        scale <- "scale_y_continuous(expand = c(0.01, 0), labels = scales::percent_format()) + "
+        scale <- paste0("   scale_y_continuous(expand = c(0.01, 0),\n",
+                        "   labels = scales::percent_format()) + \n")
       } else {
-        scale <- "scale_y_continuous(expand = c(0.01, 0)) + "
+        scale <- "   scale_y_continuous(expand = c(0.01, 0)) + \n"
       }
 
       if (parms$heatPlot == "1") {
         if (parms$axisScaling == "3") {
           scale <- paste0(
             scale,
-            "scale_fill_gradient(",
-              "low = RColorBrewer::brewer.pal(3, \"", parms$colour, "\")[2], ", 
-              "high = RColorBrewer::brewer.pal(3, \"", parms$colour, "\")[1], ",
-              "labels = scales::percent_format()",
-            ") + "
+            "scale_fill_gradient(\n",
+              "low = RColorBrewer::brewer.pal(3, \"", parms$colour, "\")[2], \n",
+              "high = RColorBrewer::brewer.pal(3, \"", parms$colour, "\")[1], \n",
+              "labels = scales::percent_format()\n",
+            ") + \n"
           )
         } else {
           scale <- paste0(
             scale,
-            "scale_fill_gradient(",
-              "low = RColorBrewer::brewer.pal(3, \"", parms$colour, "\")[2], ", 
-              "high = RColorBrewer::brewer.pal(3, \"", parms$colour, "\")[1]",
-            ") + "
+            "scale_fill_gradient(\n",
+              "low = RColorBrewer::brewer.pal(3, \"", parms$colour, "\")[2], \n",
+              "high = RColorBrewer::brewer.pal(3, \"", parms$colour, "\")[1] \n",
+            ") + \n"
           )
         }
       }
       scale
 
     },
-
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
     getOpts = function(parms) {
 
+
+# !!! panel margin
       opts <- list()
       if (length(parms$s) != 0 || length(parms$t) != 0) {
-        opts <- c(opts, "panel.margin = unit(0.3, \"lines\")")
+        opts <- c(opts, "panel.spacing = unit(0.3, \"lines\")")
       }
 
       if (parms$heatPlot == "1") {
@@ -350,8 +408,8 @@ ghist <- setRefClass(
       }
 
       if (length(opts) != 0) {
-        opts <- do.call(paste, c(opts, list(sep = ", ")))
-        opts <- paste0(" + theme(", opts, ")")
+        opts <- do.call(paste, c(opts, list(sep = ",\n")))
+        opts <- paste0(" + theme(", opts, ")\n")
       } else {
         opts <- ""
       }
@@ -366,14 +424,15 @@ ghist <- setRefClass(
 
 #' Wrapper Function of Histogram Subclass
 #'
-#' \code{windowHist} function is a wrapper function of \code{ghist} class for the R-commander menu bar.
+#' \code{windowHist} function is a wrapper function of \code{ghist} class for
+#' the R-commander menu bar.
 #'
 #' @rdname plot-ghist-windowHist
 #' @keywords hplot
 #' @export
 windowHist <- function() {
 
-  Hist <- RcmdrPlugin.KMggplot2::ghist$new()
+  Hist <- RcmdrPlugin.BioStat::ghist$new()
   Hist$plotWindow()
 
 }

@@ -250,7 +250,7 @@ gdist <- setRefClass(
 #' @export
 windowDistNorm <- function() {
 
-  DistNorm <- RcmdrPlugin.KMggplot2::gdist$new(
+  DistNorm <- RcmdrPlugin.BioStat::gdist$new(
     windowTitle = gettextKmg2("Plot normal distiribution"),
     distType    = "continuous",
     distName    = "norm",
@@ -275,7 +275,7 @@ windowDistNorm <- function() {
 #' @export
 windowDistT <- function() {
 
-  DistT <- RcmdrPlugin.KMggplot2::gdist$new(
+  DistT <- RcmdrPlugin.BioStat::gdist$new(
     windowTitle = gettextKmg2("Plot t distiribution"),
     distType    = "continuous",
     distName    = "t",
@@ -299,7 +299,7 @@ windowDistT <- function() {
 #' @export
 windowDistChisq <- function() {
 
-  DistChisq <- RcmdrPlugin.KMggplot2::gdist$new(
+  DistChisq <- RcmdrPlugin.BioStat::gdist$new(
     windowTitle = gettextKmg2("Plot chi-square distiribution"),
     distType    = "continuous",
     distName    = "chisq",
@@ -323,7 +323,7 @@ windowDistChisq <- function() {
 #' @export
 windowDistF <- function() {
 
-  DistF <- RcmdrPlugin.KMggplot2::gdist$new(
+  DistF <- RcmdrPlugin.BioStat::gdist$new(
     windowTitle = gettextKmg2("Plot F distiribution"),
     distType    = "continuous",
     distName    = "f",
@@ -348,7 +348,7 @@ windowDistF <- function() {
 #' @export
 windowDistExp <- function() {
 
-  DistExp <- RcmdrPlugin.KMggplot2::gdist$new(
+  DistExp <- RcmdrPlugin.BioStat::gdist$new(
     windowTitle = gettextKmg2("Plot exponential distiribution"),
     distType    = "continuous",
     distName    = "exp",
@@ -372,7 +372,7 @@ windowDistExp <- function() {
 #' @export
 windowDistUnif <- function() {
 
-  DistUnif <- RcmdrPlugin.KMggplot2::gdist$new(
+  DistUnif <- RcmdrPlugin.BioStat::gdist$new(
     windowTitle = gettextKmg2("Plot uniform distiribution"),
     distType    = "continuous",
     distName    = "unif",
@@ -397,7 +397,7 @@ windowDistUnif <- function() {
 #' @export
 windowDistBeta <- function() {
 
-  DistBeta <- RcmdrPlugin.KMggplot2::gdist$new(
+  DistBeta <- RcmdrPlugin.BioStat::gdist$new(
     windowTitle = gettextKmg2("Plot beta distiribution"),
     distType    = "continuous",
     distName    = "beta",
@@ -422,7 +422,7 @@ windowDistBeta <- function() {
 #' @export
 windowDistCauchy <- function() {
 
-  DistCauchy <- RcmdrPlugin.KMggplot2::gdist$new(
+  DistCauchy <- RcmdrPlugin.BioStat::gdist$new(
     windowTitle = gettextKmg2("Plot cauchy distiribution"),
     distType    = "continuous",
     distName    = "cauchy",
@@ -447,7 +447,7 @@ windowDistCauchy <- function() {
 #' @export
 windowDistLogis <- function() {
 
-  DistLogis <- RcmdrPlugin.KMggplot2::gdist$new(
+  DistLogis <- RcmdrPlugin.BioStat::gdist$new(
     windowTitle = gettextKmg2("Plot logistic distiribution"),
     distType    = "continuous",
     distName    = "logis",
@@ -472,7 +472,7 @@ windowDistLogis <- function() {
 #' @export
 windowDistLnorm <- function() {
 
-  DistLnorm <- RcmdrPlugin.KMggplot2::gdist$new(
+  DistLnorm <- RcmdrPlugin.BioStat::gdist$new(
     windowTitle = gettextKmg2("Plot log-normal distiribution"),
     distType    = "continuous",
     distName    = "lnorm",
@@ -497,7 +497,7 @@ windowDistLnorm <- function() {
 #' @export
 windowDistGamma <- function() {
 
-  DistGamma <- RcmdrPlugin.KMggplot2::gdist$new(
+  DistGamma <- RcmdrPlugin.BioStat::gdist$new(
     windowTitle = gettextKmg2("Plot gamma distiribution"),
     distType    = "continuous",
     distName    = "gamma",
@@ -522,7 +522,7 @@ windowDistGamma <- function() {
 #' @export
 windowDistWeibull <- function() {
 
-  DistWeibull <- RcmdrPlugin.KMggplot2::gdist$new(
+  DistWeibull <- RcmdrPlugin.BioStat::gdist$new(
     windowTitle = gettextKmg2("Plot weibull distiribution"),
     distType    = "continuous",
     distName    = "weibull",
@@ -547,7 +547,7 @@ windowDistWeibull <- function() {
 #' @export
 windowDistBinom <- function() {
 
-  DistBinom <- RcmdrPlugin.KMggplot2::gdist$new(
+  DistBinom <- RcmdrPlugin.BioStat::gdist$new(
     windowTitle = gettextKmg2("Plot binomial distiribution"),
     distType    = "discrete",
     distName    = "binom",
@@ -572,7 +572,7 @@ windowDistBinom <- function() {
 #' @export
 windowDistPois <- function() {
 
-  DistPois <- RcmdrPlugin.KMggplot2::gdist$new(
+  DistPois <- RcmdrPlugin.BioStat::gdist$new(
     windowTitle = gettextKmg2("Plot poisson distiribution"),
     distType    = "discrete",
     distName    = "pois",
@@ -596,7 +596,7 @@ windowDistPois <- function() {
 #' @export
 windowDistGeom <- function() {
 
-  DistGeom <- RcmdrPlugin.KMggplot2::gdist$new(
+  DistGeom <- RcmdrPlugin.BioStat::gdist$new(
     windowTitle = gettextKmg2("Plot geometric distiribution"),
     distType    = "discrete",
     distName    = "geom",
@@ -620,7 +620,7 @@ windowDistGeom <- function() {
 #' @export
 windowDistHyper <- function() {
 
-  DistHyper <- RcmdrPlugin.KMggplot2::gdist$new(
+  DistHyper <- RcmdrPlugin.BioStat::gdist$new(
     windowTitle = gettextKmg2("Plot hypergeometric distiribution"),
     distType    = "discrete",
     distName    = "hyper",
@@ -646,7 +646,7 @@ windowDistHyper <- function() {
 #' @export
 windowDistNbinom <- function() {
 
-  DistNbinom <- RcmdrPlugin.KMggplot2::gdist$new(
+  DistNbinom <- RcmdrPlugin.BioStat::gdist$new(
     windowTitle = gettextKmg2("Plot negative binomial distiribution"),
     distType    = "discrete",
     distName    = "nbinom",

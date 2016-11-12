@@ -378,7 +378,7 @@ gline <- setRefClass(
 
       opts <- list()
       if (length(parms$s) != 0 || length(parms$t) != 0) {
-        opts <- c(opts, "panel.margin = unit(0.3, \"lines\")")
+        opts <- c(opts, "panel.spacing = unit(0.3, \"lines\")")
       }
 
       if (length(parms$z) != 0 && nchar(parms$zlab) == 0) {
@@ -411,7 +411,7 @@ gline <- setRefClass(
 #' @export
 windowLine <- function() {
 
-  Line <- RcmdrPlugin.KMggplot2::gline$new()
+  Line <- RcmdrPlugin.BioStat::gline$new()
   Line$plotWindow()
 
 }

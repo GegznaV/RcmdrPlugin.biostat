@@ -1,3 +1,10 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+data-raw*
+
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db

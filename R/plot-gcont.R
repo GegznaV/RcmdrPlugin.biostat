@@ -289,7 +289,7 @@ gcont <- setRefClass(
 
       opts <- list()
       if (length(parms$s) != 0 || length(parms$t) != 0) {
-        opts <- c(opts, "panel.margin = unit(0.3, \"lines\")")
+        opts <- c(opts, "panel.spacing = unit(0.3, \"lines\")")
       }
 
       if (parms$decoType != "1") {
@@ -324,7 +324,7 @@ gcont <- setRefClass(
 #' @export
 windowContour <- function() {
 
-  Contour <- RcmdrPlugin.KMggplot2::gcont$new()
+  Contour <- RcmdrPlugin.BioStat::gcont$new()
   Contour$plotWindow()
 
 }

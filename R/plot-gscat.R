@@ -296,7 +296,7 @@ gscat <- setRefClass(
 
       opts <- list()
       if (length(parms$s) != 0 || length(parms$t) != 0) {
-        opts <- c(opts, "panel.margin = unit(0.3, \"lines\")")
+        opts <- c(opts, "panel.spacing = unit(0.3, \"lines\")")
       }
 
       if (length(parms$z) != 0 && nchar(parms$zlab) == 0) {
@@ -335,7 +335,7 @@ gscat <- setRefClass(
 #' @export
 windowScatter <- function() {
 
-  Scatter <- RcmdrPlugin.KMggplot2::gscat$new()
+  Scatter <- RcmdrPlugin.BioStat::gscat$new()
   Scatter$plotWindow()
 
 }

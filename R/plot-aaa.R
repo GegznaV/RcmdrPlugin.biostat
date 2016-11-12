@@ -6,10 +6,10 @@
 #'
 #' @section Fields:
 #' \describe{
-#' \item{\code{top}: }{\code{tkwin} class object; parent of widget window.} 
-#' \item{\code{alternateFrame}: }{\code{tkwin} class object; a special frame for some GUI parts.} 
-#' \item{\code{rmlist}: }{List of character; deletable temporary objects.} 
-#' \item{\code{mode}: }{numeric; the executive mode (0 = justDoIt, 1 = doItAndPrint).} 
+#' \item{\code{top}: }{\code{tkwin} class object; parent of widget window.}
+#' \item{\code{alternateFrame}: }{\code{tkwin} class object; a special frame for some GUI parts.}
+#' \item{\code{rmlist}: }{List of character; deletable temporary objects.}
+#' \item{\code{mode}: }{numeric; the executive mode (0 = justDoIt, 1 = doItAndPrint).}
 #' }
 #' @section Contains:
 #' NULL
@@ -91,7 +91,7 @@ plot_base <- setRefClass(
           logger("require(\"ggplot2\")")
 
           setDataframe(parms)
-          
+
           .plot <- getPlot(parms)
           logger("print(.plot)")
           response <- tryCatch({
@@ -113,7 +113,7 @@ plot_base <- setRefClass(
           }
           if (parms$save == "1") savePlot(.plot)
         }
-        
+
         removeRmlist()
 
         activateMenus()
@@ -122,14 +122,14 @@ plot_base <- setRefClass(
       }
 
       setBack()
-      
+
 
       # note: The OKCancelHelp() generates "buttonsFrame"
       OKCancelHelp(window = top, helpSubject = getHelp())
-      
+
       # Preview
       onPreview <- function() {
-        
+
         # justDoIt mode
         mode <<- 0
 
@@ -140,9 +140,9 @@ plot_base <- setRefClass(
           removeRmlist()
           return()
         } else if (errorCode == FALSE) {
-          
+
           setDataframe(parms)
-          
+
           .plot <- getPlot(parms)
           response <- tryCatch({
             print(.plot)
@@ -163,12 +163,16 @@ plot_base <- setRefClass(
           }
         }
         removeRmlist()
-        
+
       }
       previewButton <- buttonRcmdr(
-        rightButtonsBox, text = gettextKmg2("Preview"), foreground = "yellow",
-        width = nchar(gettextKmg2("Preview")), command = onPreview, 
-        image = "::image::applyIcon", compound = "left"
+        rightButtonsBox,
+        text = gettextKmg2("Preview"),
+        foreground = "yellow",
+        width = nchar(gettextKmg2("Preview")),
+        command = onPreview,
+        image = "::image::applyIcon",
+        compound = "left"
         )
 
       tkgrid(previewButton, row = 0, column = 3, sticky = "nw")
@@ -209,7 +213,7 @@ plot_base <- setRefClass(
       if (file == "") return()
 
       if (class(.self)[1] == "gkm") {
-        command <- paste0("RcmdrPlugin.KMggplot2::ggsaveKmg2(filename = \"", file, "\", plot = ", plotName, ")")
+        command <- paste0("RcmdrPlugin.BioStat::ggsaveKmg2(filename = \"", file, "\", plot = ", plotName, ")")
       } else {
         command <- paste0("ggsave(filename = \"", file, "\", plot = ", plotName, ")")
       }
@@ -221,7 +225,7 @@ plot_base <- setRefClass(
 
     #' Register \code{rm()} List
     registRmlist = function(object) {
-      
+
       txtObjects <- deparse(substitute(object))
       if (class(rmlist) == "uninitializedField") {
         rmlist <<- list(txtObjects)
@@ -268,9 +272,9 @@ plot_base <- setRefClass(
 
     #' Get Help
     getHelp = function() {
-      
+
       "plot_base"
-      
+
     },
 
     #' Get Parameters
@@ -323,7 +327,7 @@ plot_base <- setRefClass(
       if (index == "theme_bw") {
         theme <- "theme_bw"
       } else if (index == "theme_simple") {
-        theme <- "RcmdrPlugin.KMggplot2::theme_simple"
+        theme <- "RcmdrPlugin.BioStat::theme_simple"
       } else if (index == "theme_classic") {
         theme <- "theme_classic"
       } else if (index == "theme_gray") {
@@ -381,7 +385,7 @@ plot_base <- setRefClass(
       } else if (index == "theme_tufte") {
         theme <- "ggthemes::theme_tufte"
       } else if (index == "theme_wsj2") {
-        theme <- "RcmdrPlugin.KMggplot2::theme_wsj2"
+        theme <- "RcmdrPlugin.BioStat::theme_wsj2"
         commandDoIt("ggthemes_data <- ggthemes::ggthemes_data")
         registRmlist(ggthemes_data)
       } else if (index == "theme_igray") {
@@ -390,17 +394,17 @@ plot_base <- setRefClass(
         theme <- "theme_bw"
       }
       theme
-      
+
     },
 
     #' Check variable length.
     checkVariable = function(var) {
-      
+
       if (length(var) > 1) {
         var <- var[1]
       }
       var
-      
+
     },
 
     #' Check Error
@@ -412,7 +416,7 @@ plot_base <- setRefClass(
 
     #' Set \code{data.frame}
     setDataframe = function(parms) {
-      
+
       var <- list()
       if (length(parms$x) != 0) {
         var <- c(var, paste0("x = ", ActiveDataSet(), "$", parms$x))
@@ -436,79 +440,79 @@ plot_base <- setRefClass(
       registRmlist(.df)
 
     },
-    
+
     #' Get Ggplot
     getGgplot = function(parms) {
-      
+
       "ggplot(data.frame(1), aes(x = 1, y = 1)) + "
-      
+
     },
-    
+
     #' Get Geom
     getGeom = function(parms) {
-      
+
       "geom_point() + "
-      
+
     },
-    
+
     #' Get Scale
     getScale = function(parms) {
-      
+
       "scale_y_continuous(expand = c(0.01, 0)) + "
-      
+
     },
-    
+
     #' Get Coord
     getCoord = function(parms) {
-      
+
       ""
-      
+
     },
 
     #' Get Facet
     getFacet = function(parms) {
 
       if (length(parms$s) != 0 && length(parms$t) != 0) {
-        facet <- "facet_grid(s ~ t) + "
+        facet <- "facet_grid(s ~ t) + \n"
       } else if (length(parms$s) != 0) {
-        facet <- "facet_wrap( ~ s) + "
+        facet <- "facet_wrap( ~ s) + \n"
       } else if (length(parms$t) != 0) {
-        facet <- "facet_wrap( ~ t) + "
+        facet <- "facet_wrap( ~ t) + \n"
       } else {
         facet <- ""
       }
       facet
 
     },
-    
+
     #' Get Xlab
     getXlab = function(parms) {
 
       if (nchar(parms$xlab) == 0) {
-        xlab <- "xlab(NULL) + "
+        xlab <- "    xlab(NULL) + \n"
       } else if (parms$xlab == "<auto>") {
-        xlab <- paste0("xlab(\"", parms$xauto, "\") + ")
+        xlab <- paste0(tab(),"xlab(\"", parms$xauto, "\") + \n")
       } else {
-        xlab <- paste0("xlab(\"", parms$xlab, "\") + ")
+        xlab <- paste0(tab(),"xlab(\"", parms$xlab, "\") + \n")
       }
       xlab
 
     },
-    
+
     #' Get Ylab
     getYlab = function(parms) {
 
       if (nchar(parms$ylab) == 0) {
-        ylab <- "ylab(NULL) + "
+        ylab <- "    ylab(NULL) + \n"
       } else if (parms$ylab == "<auto>") {
-        ylab <- paste0("ylab(\"", parms$yauto, "\") + ")
+        ylab <- paste0(tab(),"ylab(\"", parms$yauto, "\") + \n")
       } else {
-        ylab <- paste0("ylab(\"", parms$ylab, "\") + ")
+        ylab <- paste0(tab(),"ylab(\"", parms$ylab, "\") + \n")
       }
       ylab
 
     },
-    
+
     #' Get Zlab
     getZlab = function(parms) {
 
@@ -522,37 +526,37 @@ plot_base <- setRefClass(
       if (nchar(parms$main) == 0) {
         main <- ""
       } else {
-        main <- paste0("labs(title = \"", parms$main, "\") + ")
+        main <- paste0(tab(),"labs(title = \"", parms$main, "\") + \n")
       }
       main
 
     },
-    
+
     #' Get Theme
     getTheme = function(parms) {
 
       paste0(parms$theme, "(base_size = ", parms$size, ", base_family = \"", parms$family, "\")")
 
     },
-    
+
     #' Get Opts
     getOpts = function(parms) {
-      
+
       opts <- list()
       if (length(parms$s) != 0 || length(parms$t) != 0) {
-        opts <- c(opts, "panel.margin = grid::unit(0.3, \"lines\")")
+        opts <- c(opts, "panel.spacing = grid::unit(0.3, \"lines\")")
       }
 
       if (length(opts) != 0) {
-        opts <- do.call(paste, c(opts, list(sep = ", ")))
-        opts <- paste0(" + theme(", opts, ")")
+        opts <- do.call(paste, c(opts, list(sep = ",\n")))
+        opts <- paste0(" + theme(", opts, ")\n")
       } else {
         opts <- ""
       }
       opts
-      
+
     },
-    
+
     #' Get Plot
     getPlot = function(parms) {
 
@@ -585,17 +589,17 @@ plot_base <- setRefClass(
       gettextKmg2("Plot failed.  Please check the data and variables, or try other options.")
 
     },
-    
+
     #' An wrapper function for command execution
     commandDoIt = function(command, log = TRUE) {
-      
+
       if (mode == 1) {
         doItAndPrint(command, log = log)
       } else {
         justDoIt(command)
       }
       NULL
-      
+
     }
 
   )

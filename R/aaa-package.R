@@ -12,9 +12,9 @@
 #' \code{\link[RColorBrewer:RColorBrewer]{RColorBrewer}}
 #' \code{\link[ggthemes:ggthemes]{ggthemes}}
 #'
-#' @name RcmdrPlugin.KMggplot2-package
-#' @rdname package-RcmdrPlugin.KMggplot2
-#' @aliases RcmdrPlugin.KMggplot2 KMggplot2
+#' @name RcmdrPlugin.BioStat-package
+#' @rdname package-RcmdrPlugin.BioStat
+#' @aliases RcmdrPlugin.BioStat KMggplot2
 #' @docType package
 #' @keywords hplot package
 #' @import stats

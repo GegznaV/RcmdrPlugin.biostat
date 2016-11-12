@@ -423,7 +423,7 @@ gqq <- setRefClass(
 #' @export
 windowQQ <- function() {
 
-  QQ <- RcmdrPlugin.KMggplot2::gqq$new()
+  QQ <- RcmdrPlugin.BioStat::gqq$new()
   QQ$plotWindow()
 
 }

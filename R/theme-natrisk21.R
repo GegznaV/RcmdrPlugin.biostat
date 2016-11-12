@@ -30,7 +30,7 @@ theme_natrisk21 <- function(base_theme, base_size = 20, base_family = "") {
       panel.background = element_rect(fill = "transparent", colour = "transparent"),
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
-      panel.margin     = unit(0, "lines"),
+      panel.spacing    = unit(0, "lines"),
       panel.border     = element_blank(),
       plot.background  = element_rect(fill = "transparent", colour = "transparent"),
       plot.title       = element_blank(),

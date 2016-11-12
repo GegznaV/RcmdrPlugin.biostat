@@ -524,7 +524,7 @@ gkm <- setRefClass(
       if (parms$confIntB == "1") {
         geom <- paste0(
           geom,
-          "RcmdrPlugin.KMggplot2::geom_stepribbon(data = .fit, aes(x = x, ymin = lower, ymax = upper, fill = z), alpha = 0.25, colour = NA, show.legend = FALSE, kmplot = TRUE) + "
+          "RcmdrPlugin.BioStat::geom_stepribbon(data = .fit, aes(x = x, ymin = lower, ymax = upper, fill = z), alpha = 0.25, colour = NA, show.legend = FALSE, kmplot = TRUE) + "
         )
       }
       
@@ -609,7 +609,7 @@ gkm <- setRefClass(
 
       opts <- list()
       if (length(parms$s) != 0 || length(parms$t) != 0) {
-        opts <- c(opts, "panel.margin = unit(0.3, \"lines\")")
+        opts <- c(opts, "panel.spacing = unit(0.3, \"lines\")")
       }
 
       if (length(parms$z) == 0) {
@@ -716,7 +716,7 @@ gkm <- setRefClass(
           "scale_y_continuous(limits = c(0, 1)) + ",
           "scale_colour_brewer(palette = \"", parms$colour, "\") + ",
           ylab,
-          "RcmdrPlugin.KMggplot2::theme_natrisk(", parms$theme, ", ", parms$size, ", \"", parms$family, "\")"
+          "RcmdrPlugin.BioStat::theme_natrisk(", parms$theme, ", ", parms$size, ", \"", parms$family, "\")"
         )
         commandDoIt(command)
 
@@ -726,13 +726,13 @@ gkm <- setRefClass(
           "scale_x_continuous(limits = c(-5, 5)) + ",
           "scale_y_continuous(limits = c(0, 1)) + ",
           "scale_colour_brewer(palette = \"", parms$colour, "\") + ",
-          "RcmdrPlugin.KMggplot2::theme_natrisk21(", parms$theme, ", ", parms$size, ", \"", parms$family, "\")"
+          "RcmdrPlugin.BioStat::theme_natrisk21(", parms$theme, ", ", parms$size, ", \"", parms$family, "\")"
         )
         commandDoIt(command)
         
         command <- paste0(
           ".plotb <- ggplot(.df, aes(x = x, y = y)) + geom_blank() + ",
-          "RcmdrPlugin.KMggplot2::theme_natriskbg(", parms$theme, ", ", parms$size, ", \"", parms$family, "\")"
+          "RcmdrPlugin.BioStat::theme_natriskbg(", parms$theme, ", ", parms$size, ", \"", parms$family, "\")"
         )
         commandDoIt(command)
         
@@ -783,7 +783,7 @@ gkm <- setRefClass(
 #' @export
 windowKM <- function() {
 
-  KM <- RcmdrPlugin.KMggplot2::gkm$new()
+  KM <- RcmdrPlugin.BioStat::gkm$new()
   KM$plotWindow()
 
 }

@@ -1,10 +1,11 @@
 #type	menu/item	operation/parent	label	command/menu	activation	install?
 menu	kmg2Menu	topMenu	""	""	""	""
-item	topMenu	cascade "KMggplot2"	kmg2Menu	""	""
+item	topMenu	    cascade "BioStat"	kmg2Menu	""	""
 item	kmg2Menu	command "Kaplan-Meier plot..."	windowKM	"numericP()"	""
 item	kmg2Menu	command "Histogram..."	windowHist	"nonFactorsP()"	""
+item	kmg2Menu	command "Density plot..."	windowDensity	"nonFactorsP()"	""
 item	kmg2Menu	command "Q-Q plot..."	windowQQ	"nonFactorsP()"	""
-item	kmg2Menu	command "Box plot / Violin plot / Confidence interval..."	windowBox	"nonFactorsP()"	""
+item	kmg2Menu	command "Box plot / Confidence interval/ Violin plot..."	windowBox	"nonFactorsP()"	""
 item	kmg2Menu	command "Scatter plot..."	windowScatter	"nonFactorsP(2)"	""
 item	kmg2Menu	command "Scatter matrix..."	windowScattermat	"nonFactorsP(3)"	""
 item	kmg2Menu	command "Line chart..."	windowLine	"nonFactorsP(2)"	""

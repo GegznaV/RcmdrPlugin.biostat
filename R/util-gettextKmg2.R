@@ -10,6 +10,6 @@
 #' @export
 gettextKmg2 <- function(...) {
 
-  gettext(..., domain = "R-RcmdrPlugin.KMggplot2")
+  gettext(..., domain = "R-RcmdrPlugin.BioStat")
 
 }

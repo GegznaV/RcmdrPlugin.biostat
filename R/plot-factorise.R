@@ -260,7 +260,7 @@ factorize <- setRefClass(
 #' @export
 windowFactorize <- function() {
   
-  Factorize <- RcmdrPlugin.KMggplot2::factorize$new()
+  Factorize <- RcmdrPlugin.BioStat::factorize$new()
   Factorize$plotWindow()
   
 }

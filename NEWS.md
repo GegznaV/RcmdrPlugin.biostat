@@ -1,6 +1,16 @@
 
 # RcmdrPlugin.KMggplot2 package
 
+## Changes (2016-11-12)
+
+Package renamed to BioStat.
+Plot Density tab added.
+Function `tab()` added.
+Tab for histogram plot modified.
+Some other changes were made.
+
+
+
 
 ## Changes in version 0.2-3 (2015-12-30)
 
