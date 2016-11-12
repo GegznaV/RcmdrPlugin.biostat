@@ -183,19 +183,19 @@ gDensity <- setRefClass(
             theme  <- checkTheme(getSelection(tbbox1$theme))
             # ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~
             options(
-                kmg2FontSize   = tclvalue(tbbox1$size$value),
+                Bio__FontSize   = tclvalue(tbbox1$size$value),
 
-                kmg2FontFamily = seq_along(tbbox1$family$varlist)[
+                Bio__FontFamily = seq_along(tbbox1$family$varlist)[
                     tbbox1$family$varlist == getSelection(tbbox1$family)
                     ] - 1,
 
-                kmg2ColourSet  = seq_along(tbbox1$colour$varlist)[
+                Bio__ColourSet  = seq_along(tbbox1$colour$varlist)[
                     tbbox1$colour$varlist == getSelection(tbbox1$colour)
                     ] - 1,
 
-                kmg2SaveGraph  = tclvalue(tbbox1$goption$value[[1]]),
+                Bio__SaveGraph  = tclvalue(tbbox1$goption$value[[1]]),
 
-                kmg2Theme      = seq_along(tbbox1$theme$varlist)[
+                Bio__Theme      = seq_along(tbbox1$theme$varlist)[
                     tbbox1$theme$varlist == getSelection(tbbox1$theme)
                     ] - 1
             )

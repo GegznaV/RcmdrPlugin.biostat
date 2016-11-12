@@ -4,11 +4,11 @@
   if (!interactive()) return()
   Rcmdr <- options()$Rcmdr
   options(
-    kmg2FontSize   = "14",
-    kmg2FontFamily = 0,
-    kmg2ColourSet  = 0,
-    kmg2SaveGraph  = 0,
-    kmg2Theme      = 0
+    Bio__FontSize   = "14",
+    Bio__FontFamily = 0,
+    Bio__ColourSet  = 0,
+    Bio__SaveGraph  = 0,
+    Bio__Theme      = 0
   )
   
   if (.Platform$OS.type == "windows") {

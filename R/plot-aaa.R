@@ -306,11 +306,11 @@ plot_base <- setRefClass(
       theme  <- "0"
 
       options(
-        kmg2FontSize   = size,
-        kmg2FontFamily = family,
-        kmg2ColourSet  = colour,
-        kmg2SaveGraph  = save,
-        kmg2Theme      = theme
+        Bio__FontSize   = size,
+        Bio__FontFamily = family,
+        Bio__ColourSet  = colour,
+        Bio__SaveGraph  = save,
+        Bio__Theme      = theme
       )
 
       list(

@@ -22,12 +22,12 @@
 #' \item{\code{back(perline = 3)}: }{\code{back} method for \code{gparts_base} class.}
 #' \item{\code{front(top,
 #'   showcolourbox = TRUE, 
-#'   fontSize = unlist(options("kmg2FontSize")), 
-#'   fontSize = unlist(options("kmg2FontSize")), 
-#'   fontFamily = unlist(options("kmg2FontFamily")), 
-#'   colourSet = unlist(options("kmg2ColourSet")), 
-#'   saveGraph = unlist(options("kmg2SaveGraph")), 
-#'   themeBase = unlist(options("kmg2Theme"))
+#'   fontSize = unlist(options("Bio__FontSize")), 
+#'   fontSize = unlist(options("Bio__FontSize")), 
+#'   fontFamily = unlist(options("Bio__FontFamily")), 
+#'   colourSet = unlist(options("Bio__ColourSet")), 
+#'   saveGraph = unlist(options("Bio__SaveGraph")), 
+#'   themeBase = unlist(options("Bio__Theme"))
 #' )}: }{
 #'   \code{front} method for \code{toolbox} subclass.
 #' }
@@ -54,11 +54,11 @@ toolbox <- setRefClass(
 
     front = function(
       top, showcolourbox = TRUE,
-      fontSize   = unlist(options("kmg2FontSize")),
-      fontFamily = unlist(options("kmg2FontFamily")),
-      colourSet  = unlist(options("kmg2ColourSet")),
-      saveGraph  = unlist(options("kmg2SaveGraph")),
-      themeBase  = unlist(options("kmg2Theme"))
+      fontSize   = unlist(options("Bio__FontSize")),
+      fontFamily = unlist(options("Bio__FontFamily")),
+      colourSet  = unlist(options("Bio__ColourSet")),
+      saveGraph  = unlist(options("Bio__SaveGraph")),
+      themeBase  = unlist(options("Bio__Theme"))
     ) {
 
       frame <<- tkframe(top)
@@ -155,12 +155,12 @@ toolbox <- setRefClass(
 #'
 #' @usage \S4method{front}{toolbox}(top, 
 #'   showcolourbox = TRUE, 
-#'   fontSize = unlist(options("kmg2FontSize")), 
-#'   fontSize = unlist(options("kmg2FontSize")), 
-#'   fontFamily = unlist(options("kmg2FontFamily")), 
-#'   colourSet = unlist(options("kmg2ColourSet")), 
-#'   saveGraph = unlist(options("kmg2SaveGraph")), 
-#'   themeBase = unlist(options("kmg2Theme"))
+#'   fontSize = unlist(options("Bio__FontSize")), 
+#'   fontSize = unlist(options("Bio__FontSize")), 
+#'   fontFamily = unlist(options("Bio__FontFamily")), 
+#'   colourSet = unlist(options("Bio__ColourSet")), 
+#'   saveGraph = unlist(options("Bio__SaveGraph")), 
+#'   themeBase = unlist(options("Bio__Theme"))
 #' )
 #' @param top \code{tkwin} class object; top of widget window.
 #' @param showcolourbox Boolean; whether the colour set frame is shown or not.
