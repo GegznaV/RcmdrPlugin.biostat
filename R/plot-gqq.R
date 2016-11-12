@@ -71,7 +71,7 @@ gqq <- setRefClass(
         top       = top, 
         types     = list(nonFactors()),
         titles    = list(
-          gettextKmg2("Y variable (pick one)")
+          gettext_Bio("Y variable (pick one)")
         ),
         initialSelection = list(0)
       )
@@ -81,9 +81,9 @@ gqq <- setRefClass(
         top        = top,
         initValues = list("<auto>", "<auto>", "<auto>"),
         titles     = list(
-          gettextKmg2("Horizontal axis label"),
-          gettextKmg2("Vertical axis label"),
-          gettextKmg2("Title")
+          gettext_Bio("Horizontal axis label"),
+          gettext_Bio("Vertical axis label"),
+          gettext_Bio("Title")
         )
       )
 
@@ -91,15 +91,15 @@ gqq <- setRefClass(
       rbbox1$front(
         top    = alternateFrame,
         labels = list(
-          gettextKmg2("Normal distribution"),
-          gettextKmg2("Log-normal distribution"),
-          gettextKmg2("Beta distribution"),
-          gettextKmg2("Exponential distribution"),
-          gettextKmg2("Gamma distribution"),
-          gettextKmg2("Weibull distribution"),
-          gettextKmg2("Other distribution")
+          gettext_Bio("Normal distribution"),
+          gettext_Bio("Log-normal distribution"),
+          gettext_Bio("Beta distribution"),
+          gettext_Bio("Exponential distribution"),
+          gettext_Bio("Gamma distribution"),
+          gettext_Bio("Weibull distribution"),
+          gettext_Bio("Other distribution")
         ),
-        title = gettextKmg2("Distribution")
+        title = gettext_Bio("Distribution")
       )
 
       lbbox2 <<- textfields$new()
@@ -109,7 +109,7 @@ gqq <- setRefClass(
           "distribution = qnorm, dparams = list(mean = 0, sd = 1)"
         ),
         titles     = list(
-          gettextKmg2("Parameters for other distribution")
+          gettext_Bio("Parameters for other distribution")
         )
       )
 
@@ -139,7 +139,7 @@ gqq <- setRefClass(
 
     getWindowTitle = function() {
       
-      gettextKmg2("Q-Q plot")
+      gettext_Bio("Q-Q plot")
       
     },
     
@@ -197,7 +197,7 @@ gqq <- setRefClass(
       if (length(parms$y) == 0) {
         errorCondition(
           recall  = windowQQ,
-          message = gettextKmg2("Y variable is not selected")
+          message = gettext_Bio("Y variable is not selected")
         )
         errorCode <- TRUE
       } else {
@@ -210,8 +210,8 @@ gqq <- setRefClass(
 
         if (parms$distType == "2" && any(.df$y <= 0)) {
           response <- tclvalue(RcmdrTkmessageBox(
-            message = gettextKmg2("The log-normal distribution defined on the interval (0, +Inf)."),
-            title   = gettextKmg2("Error"),
+            message = gettext_Bio("The log-normal distribution defined on the interval (0, +Inf)."),
+            title   = gettext_Bio("Error"),
             icon    = "error",
             type    = "ok",
             default = "ok")
@@ -221,8 +221,8 @@ gqq <- setRefClass(
           }
         } else if (parms$distType == "3" && any(.df$y > 1 | .df$y < 0)) {
           response <- tclvalue(RcmdrTkmessageBox(
-            message = gettextKmg2("The beta distribution defined on the interval [0, 1]."),
-            title   = gettextKmg2("Error"),
+            message = gettext_Bio("The beta distribution defined on the interval [0, 1]."),
+            title   = gettext_Bio("Error"),
             icon    = "error",
             type    = "ok",
             default = "ok")
@@ -232,8 +232,8 @@ gqq <- setRefClass(
           }
         } else if (parms$distType == "4" && any(.df$y < 0)) {
           response <- tclvalue(RcmdrTkmessageBox(
-            message = gettextKmg2("The exponential distribution defined on the interval [0, +Inf)."),
-            title   = gettextKmg2("Error"),
+            message = gettext_Bio("The exponential distribution defined on the interval [0, +Inf)."),
+            title   = gettext_Bio("Error"),
             icon    = "error",
             type    = "ok",
             default = "ok")
@@ -243,8 +243,8 @@ gqq <- setRefClass(
           }
         } else if (parms$distType == "5" && any(.df$y < 0)) {
           response <- tclvalue(RcmdrTkmessageBox(
-            message = gettextKmg2("The gamma distribution defined on the interval [0, +Inf)."),
-            title   = gettextKmg2("Error"),
+            message = gettext_Bio("The gamma distribution defined on the interval [0, +Inf)."),
+            title   = gettext_Bio("Error"),
             icon    = "error",
             type    = "ok",
             default = "ok")
@@ -254,8 +254,8 @@ gqq <- setRefClass(
           }
         } else if (parms$distType == "6" && any(.df$y < 0)) {
           response <- tclvalue(RcmdrTkmessageBox(
-            message = gettextKmg2("The weibull distribution defined on the interval [0, +Inf)."),
-            title   = gettextKmg2("Error"),
+            message = gettext_Bio("The weibull distribution defined on the interval [0, +Inf)."),
+            title   = gettext_Bio("Error"),
             icon    = "error",
             type    = "ok",
             default = "ok")
@@ -314,8 +314,8 @@ gqq <- setRefClass(
 
           if (any(parms$distType == c("5", "6")) && (is.na(match(".est", ls(envir = .GlobalEnv, all.names = TRUE))) || .est$convergence != 0)) {
             response <- tclvalue(RcmdrTkmessageBox(
-              message = gettextKmg2("Parameter estimation failed."),
-              title   = gettextKmg2("Error"),
+              message = gettext_Bio("Parameter estimation failed."),
+              title   = gettext_Bio("Error"),
               icon    = "error",
               type    = "ok",
               default = "ok"

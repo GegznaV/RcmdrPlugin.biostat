@@ -5,10 +5,10 @@
 #' @param ... arguments passed to gettext function
 #' @seealso \code{\link[Rcmdr:Rcmdr.Utilities]{Rcmdr.Utilities}}
 #'
-#' @rdname util-gettextKmg2
+#' @rdname util-gettext_Bio
 #' @keywords documentation
 #' @export
-gettextKmg2 <- function(...) {
+gettext_Bio <- function(...) {
 
   gettext(..., domain = "R-RcmdrPlugin.BioStat")
 

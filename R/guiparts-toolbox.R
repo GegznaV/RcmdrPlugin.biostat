@@ -68,7 +68,7 @@ toolbox <- setRefClass(
         top          = frame,
         initialValue = fontSize,
         boxwidth     = "10", 
-        title        = gettextKmg2("Font size")
+        title        = gettext_Bio("Font size")
       )
       
       if (.Platform$OS.type == "windows") {
@@ -83,7 +83,7 @@ toolbox <- setRefClass(
         listHeight       = 5,
         selectmode       = "single",
         initialSelection = fontFamily,
-        title            = gettextKmg2("Font family")
+        title            = gettext_Bio("Font family")
       )
       
       if (showcolourbox) {
@@ -95,7 +95,7 @@ toolbox <- setRefClass(
           listHeight       = 5,
           selectmode       = "single",
           initialSelection = colourSet,
-          title            = gettextKmg2("Colour pattern")
+          title            = gettext_Bio("Colour pattern")
         )
       }
 
@@ -103,8 +103,8 @@ toolbox <- setRefClass(
       goption$front(
         top        = frame,
         initValues = list(saveGraph),
-        labels     = list(gettextKmg2("Save graph")),
-        title      = gettextKmg2("Graph options")
+        labels     = list(gettext_Bio("Save graph")),
+        title      = gettext_Bio("Graph options")
       )
       
       theme <<- variableListBox(
@@ -122,7 +122,7 @@ toolbox <- setRefClass(
         listHeight       = 5,
         selectmode       = "single",
         initialSelection = themeBase,
-        title            = gettextKmg2("Theme")
+        title            = gettext_Bio("Theme")
       )
       
       if (showcolourbox) {

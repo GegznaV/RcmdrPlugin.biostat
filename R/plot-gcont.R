@@ -72,9 +72,9 @@ gcont <- setRefClass(
         top       = top, 
         types     = list(nonFactors(), nonFactors(), Numeric()),
         titles    = list(
-          gettextKmg2("X variable (pick one)"),
-          gettextKmg2("Y variable (pick one)"),
-          gettextKmg2("Z variable (pick one)")
+          gettext_Bio("X variable (pick one)"),
+          gettext_Bio("Y variable (pick one)"),
+          gettext_Bio("Z variable (pick one)")
         ),
         initialSelection = list(0, 1, 2)
       )
@@ -84,8 +84,8 @@ gcont <- setRefClass(
         top       = top, 
         types     = list(Factors(), Factors()),
         titles    = list(
-          gettextKmg2("Facet variable in rows"),
-          gettextKmg2("Facet variable in cols")
+          gettext_Bio("Facet variable in rows"),
+          gettext_Bio("Facet variable in cols")
         )
       )
 
@@ -94,10 +94,10 @@ gcont <- setRefClass(
         top        = top,
         initValues = list("<auto>", "<auto>", "<auto>", ""),
         titles     = list(
-          gettextKmg2("Horizontal axis label"),
-          gettextKmg2("Vertical axis label"),
-          gettextKmg2("Legend label"),
-          gettextKmg2("Title")
+          gettext_Bio("Horizontal axis label"),
+          gettext_Bio("Vertical axis label"),
+          gettext_Bio("Legend label"),
+          gettext_Bio("Title")
         )
       )
 
@@ -105,11 +105,11 @@ gcont <- setRefClass(
       rbbox1$front(
         top    = top,
         labels = list(
-          gettextKmg2("None"),
-          gettextKmg2("Coloured lines"),
-          gettextKmg2("Heat map")
+          gettext_Bio("None"),
+          gettext_Bio("Coloured lines"),
+          gettext_Bio("Heat map")
         ),
-        title  = gettextKmg2("Options")
+        title  = gettext_Bio("Options")
       )
 
       tbbox1 <<- toolbox$new()
@@ -129,7 +129,7 @@ gcont <- setRefClass(
 
     getWindowTitle = function() {
       
-      gettextKmg2("Contour plot")
+      gettext_Bio("Contour plot")
       
     },
     
@@ -191,25 +191,25 @@ gcont <- setRefClass(
       if (length(parms$x) == 0) {
         errorCondition(
           recall  = windowContour,
-          message = gettextKmg2("X variable is not selected")
+          message = gettext_Bio("X variable is not selected")
         )
         errorCode <- TRUE
       } else if (length(parms$y) == 0) {
         errorCondition(
           recall  = windowContour,
-          message = gettextKmg2("Y variable is not selected")
+          message = gettext_Bio("Y variable is not selected")
         )
         errorCode <- TRUE
       } else if (length(parms$z) == 0) {
         errorCondition(
           recall  = windowContour,
-          message = gettextKmg2("Z variable is not selected")
+          message = gettext_Bio("Z variable is not selected")
         )
         errorCode <- TRUE
       } else if (parms$x == parms$y || parms$x == parms$z || parms$y == parms$z) {
         errorCondition(
           recall  = windowContour,
-          message = gettextKmg2("Each variable must be different.")
+          message = gettext_Bio("Each variable must be different.")
         )
         errorCode <- TRUE
       } else {

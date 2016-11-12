@@ -96,7 +96,7 @@ factorize <- setRefClass(
           }, error = function(ex) {
             tclvalue(RcmdrTkmessageBox(
               message = getMessage(),
-              title   = gettextKmg2("Error"),
+              title   = gettext_Bio("Error"),
               icon    = "error",
               type    = "ok",
               default = "ok"
@@ -138,7 +138,7 @@ factorize <- setRefClass(
         top       = top, 
         types     = list(Numeric()),
         titles    = list(
-          gettextKmg2("Variable (pick one or more)")
+          gettext_Bio("Variable (pick one or more)")
         ),
         modes     = list("multiple"),
         initialSelection = list(0)
@@ -148,10 +148,10 @@ factorize <- setRefClass(
       rbbox1$front(
         top    = top,
         labels = list(
-          gettextKmg2("Simple factorization"),
-          gettextKmg2("Categorize according to the quartiles")
+          gettext_Bio("Simple factorization"),
+          gettext_Bio("Categorize according to the quartiles")
         ),
-        title  = gettextKmg2("Options")
+        title  = gettext_Bio("Options")
       )
       
     },
@@ -165,7 +165,7 @@ factorize <- setRefClass(
     
     getWindowTitle = function() {
       
-      gettextKmg2("Factorizing numeric variables")
+      gettext_Bio("Factorizing numeric variables")
       
     },
     
@@ -213,7 +213,7 @@ factorize <- setRefClass(
       if (length(parms$x) == 0) {
         errorCondition(
           recall  = windowScatter,
-          message = gettextKmg2("Variables are not selected")
+          message = gettext_Bio("Variables are not selected")
         )
         errorCode <- TRUE
       } else {

@@ -76,9 +76,9 @@ gline <- setRefClass(
         top       = top, 
         types     = list(nonFactors(), nonFactors(), Factors()),
         titles    = list(
-          gettextKmg2("X variable (pick one)"),
-          gettextKmg2("Y variable (pick one)"),
-          gettextKmg2("Stratum variable")
+          gettext_Bio("X variable (pick one)"),
+          gettext_Bio("Y variable (pick one)"),
+          gettext_Bio("Stratum variable")
         ),
         initialSelection = list(0, 0, FALSE)
       )
@@ -88,8 +88,8 @@ gline <- setRefClass(
         top       = top, 
         types     = list(Factors(), Factors()),
         titles    = list(
-          gettextKmg2("Facet variable in rows"),
-          gettextKmg2("Facet variable in cols")
+          gettext_Bio("Facet variable in rows"),
+          gettext_Bio("Facet variable in cols")
         )
       )
 
@@ -98,10 +98,10 @@ gline <- setRefClass(
         top        = top,
         initValues = list("<auto>", "<auto>", "<auto>", ""),
         titles     = list(
-          gettextKmg2("Horizontal axis label"),
-          gettextKmg2("Vertical axis label"),
-          gettextKmg2("Legend label"),
-          gettextKmg2("Title")
+          gettext_Bio("Horizontal axis label"),
+          gettext_Bio("Vertical axis label"),
+          gettext_Bio("Legend label"),
+          gettext_Bio("Title")
         )
       )
 
@@ -109,37 +109,37 @@ gline <- setRefClass(
       rbbox1$front(
         top    = alternateFrame,
         labels = list(
-          gettextKmg2("Line"),
-          gettextKmg2("Step"),
-          gettextKmg2("Area")
+          gettext_Bio("Line"),
+          gettext_Bio("Step"),
+          gettext_Bio("Area")
         ),
-        title  = gettextKmg2("Plot type")
+        title  = gettext_Bio("Plot type")
       )
 
       rbbox2 <<- radioboxes$new()
       rbbox2$front(
         top    = alternateFrame,
         labels = list(
-          gettextKmg2("None"),
-          gettextKmg2("Mean"),
-          gettextKmg2("Sum")
+          gettext_Bio("None"),
+          gettext_Bio("Mean"),
+          gettext_Bio("Sum")
         ),
-        title  = gettextKmg2("Summarization")
+        title  = gettext_Bio("Summarization")
       )
 
       rbbox3 <<- radioboxes$new()
       rbbox3$front(
         top    = alternateFrame,
         labels = list(
-          gettextKmg2("None"),
-          gettextKmg2("%Y-%m-%d (ISO 8601)"),
-          gettextKmg2("%m/%d/%y (ISO C99)")
+          gettext_Bio("None"),
+          gettext_Bio("%Y-%m-%d (ISO 8601)"),
+          gettext_Bio("%m/%d/%y (ISO C99)")
         ),
-        title  = gettextKmg2("Scale")
+        title  = gettext_Bio("Scale")
       )
       tk2tip(
         rbbox3$frame,
-        gettextKmg2("If you needs complementary informations about scales, \nplease run or search ?format.Date, ?scale_x_date, or ?strptime.")
+        gettext_Bio("If you needs complementary informations about scales, \nplease run or search ?format.Date, ?scale_x_date, or ?strptime.")
       )
 
       tbbox1 <<- toolbox$new()
@@ -166,7 +166,7 @@ gline <- setRefClass(
 
     getWindowTitle = function() {
       
-      gettextKmg2("Line chart")
+      gettext_Bio("Line chart")
       
     },
     
@@ -230,13 +230,13 @@ gline <- setRefClass(
       if (length(parms$x) == 0) {
         errorCondition(
           recall  = windowLine,
-          message = gettextKmg2("X variable is not selected")
+          message = gettext_Bio("X variable is not selected")
         )
         errorCode <- TRUE
       } else if (length(parms$y) == 0) {
         errorCondition(
           recall  = windowLine,
-          message = gettextKmg2("Y variable is not selected")
+          message = gettext_Bio("Y variable is not selected")
         )
         errorCode <- TRUE
       } else {

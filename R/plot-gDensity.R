@@ -76,9 +76,9 @@ gDensity <- setRefClass(
                                  Factors(),
                                  c("black","gray","red", "blue", "green4","white")
                                  ),
-                titles    = list(gettextKmg2("Variable (pick one)"),
-                                 gettextKmg2("Stratum variable"),
-                                 gettextKmg2("Color (for single group only)")
+                titles    = list(gettext_Bio("Variable (pick one)"),
+                                 gettext_Bio("Stratum variable"),
+                                 gettext_Bio("Color (for single group only)")
                                  ),
                 initialSelection = list(0, FALSE, 0)
             )
@@ -88,8 +88,8 @@ gDensity <- setRefClass(
                 top       = top,
                 types     = list(Factors(), Factors()),
                 titles    = list(
-                    gettextKmg2("Facet variable in rows"),
-                    gettextKmg2("Facet variable in cols")
+                    gettext_Bio("Facet variable in rows"),
+                    gettext_Bio("Facet variable in cols")
                 )
             )
             # ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~
@@ -98,10 +98,10 @@ gDensity <- setRefClass(
                 top        = top,
                 initValues = list("<auto>", "<auto>", "<auto>", ""),
                 titles     = list(
-                    gettextKmg2("Horizontal axis label"),
-                    gettextKmg2("Vertical axis label"),
-                    gettextKmg2("Legend label"),
-                    gettextKmg2("Title")
+                    gettext_Bio("Horizontal axis label"),
+                    gettext_Bio("Vertical axis label"),
+                    gettext_Bio("Legend label"),
+                    gettext_Bio("Title")
                 )
             )
             # ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~
@@ -110,7 +110,7 @@ gDensity <- setRefClass(
                 top        = top,
                 initValues = list("1"),
                 titles     = list(
-                    gettextKmg2("Bandwidth adjustment coef. Use 0-1 to make narower or 1-100 to broaden.")
+                    gettext_Bio("Bandwidth adjustment coef. Use 0-1 to make narower or 1-100 to broaden.")
                 )
             )
             # ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~
@@ -143,7 +143,7 @@ gDensity <- setRefClass(
         },
         # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
         getWindowTitle = function() {
-            gettextKmg2("Density plot")
+            gettext_Bio("Density plot")
         },
         # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
         getHelp = function() {
@@ -232,7 +232,7 @@ gDensity <- setRefClass(
             if (length(parms$x) == 0) {
                 errorCondition(
                     recall  = windowDensity,
-                    message = gettextKmg2("Variable is not selected")
+                    message = gettext_Bio("Variable is not selected")
                 )
                 errorCode <- TRUE
             } else {

@@ -71,7 +71,7 @@ gpie <- setRefClass(
         top       = top, 
         types     = list(Factors()),
         titles    = list(
-          gettextKmg2("Variable (pick one)")
+          gettext_Bio("Variable (pick one)")
         ),
         initialSelection = list(0)
       )
@@ -81,8 +81,8 @@ gpie <- setRefClass(
         top       = top, 
         types     = list(Factors(), Factors()),
         titles    = list(
-          gettextKmg2("Facet variable in rows"),
-          gettextKmg2("Facet variable in cols")
+          gettext_Bio("Facet variable in rows"),
+          gettext_Bio("Facet variable in cols")
         )
       )
 
@@ -91,8 +91,8 @@ gpie <- setRefClass(
         top        = top,
         initValues = list("<auto>", ""),
         titles     = list(
-          gettextKmg2("Legend label"),
-          gettextKmg2("Title")
+          gettext_Bio("Legend label"),
+          gettext_Bio("Title")
         )
       )
 
@@ -112,7 +112,7 @@ gpie <- setRefClass(
 
     getWindowTitle = function() {
       
-      gettextKmg2("Pie chart")
+      gettext_Bio("Pie chart")
       
     },
     
@@ -169,7 +169,7 @@ gpie <- setRefClass(
       if (length(parms$y) == 0) {
         errorCondition(
           recall  = windowPie,
-          message = gettextKmg2("Variable is not selected")
+          message = gettext_Bio("Variable is not selected")
         )
         errorCode <- TRUE
       } else {

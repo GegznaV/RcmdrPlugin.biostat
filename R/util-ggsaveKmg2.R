@@ -15,14 +15,14 @@
 #' @param ... other arguments passed to graphics device
 #' @seealso \code{\link[ggplot2:ggsave]{ggsave}}
 #'
-#' @rdname util-ggsaveKmg2
+#' @rdname util-ggsave_Bio
 #' @keywords hplot
 #' @importFrom ggplot2 last_plot
 #' @importFrom grDevices dev.off
 #' @importFrom graphics par
 #' @importFrom utils capture.output
 #' @export
-ggsaveKmg2 <- function(
+ggsave_Bio <- function(
   filename = default_name(plot), plot = last_plot(), device = default_device(filename),
   path = NULL, scale = 1, width = par("din")[1], height = par("din")[2], units = c("in", "cm", "mm"),
   dpi = 300, ...) {

@@ -72,8 +72,8 @@ gdiscbar <- setRefClass(
         top       = top, 
         types     = list(Factors(), Factors()),
         titles    = list(
-          gettextKmg2("X variable (pick one)"),
-          gettextKmg2("Stratum variable")
+          gettext_Bio("X variable (pick one)"),
+          gettext_Bio("Stratum variable")
         ),
         initialSelection = list(0, FALSE)
       )
@@ -83,8 +83,8 @@ gdiscbar <- setRefClass(
         top       = top, 
         types     = list(Factors(), Factors()),
         titles    = list(
-          gettextKmg2("Facet variable in rows"),
-          gettextKmg2("Facet variable in cols")
+          gettext_Bio("Facet variable in rows"),
+          gettext_Bio("Facet variable in cols")
         )
       )
 
@@ -93,10 +93,10 @@ gdiscbar <- setRefClass(
         top        = top,
         initValues = list("<auto>", "<auto>", "<auto>", ""),
         titles     = list(
-          gettextKmg2("Horizontal axis label"),
-          gettextKmg2("Vertical axis label"),
-          gettextKmg2("Legend label"),
-          gettextKmg2("Title")
+          gettext_Bio("Horizontal axis label"),
+          gettext_Bio("Vertical axis label"),
+          gettext_Bio("Legend label"),
+          gettext_Bio("Title")
         )
       )
 
@@ -104,10 +104,10 @@ gdiscbar <- setRefClass(
       rbbox1$front(
         top    = top,
         labels = list(
-          gettextKmg2("Percentages"),
-          gettextKmg2("Frequency counts")
+          gettext_Bio("Percentages"),
+          gettext_Bio("Frequency counts")
         ),
-        title  = gettextKmg2("Axis scaling")
+        title  = gettext_Bio("Axis scaling")
       )
 
       tbbox1 <<- toolbox$new()
@@ -127,7 +127,7 @@ gdiscbar <- setRefClass(
 
     getWindowTitle = function() {
       
-      gettextKmg2("Bar chart for discrete variables")
+      gettext_Bio("Bar chart for discrete variables")
       
     },
     
@@ -174,9 +174,9 @@ gdiscbar <- setRefClass(
       
       axisScaling  <- tclvalue(rbbox1$value)
       if (axisScaling == "1") {
-        yauto  <- gettextKmg2("Percent")
+        yauto  <- gettext_Bio("Percent")
       } else {
-        yauto  <- gettextKmg2("Count")
+        yauto  <- gettext_Bio("Count")
       }
 
       list(
@@ -193,7 +193,7 @@ gdiscbar <- setRefClass(
       if (length(parms$x) == 0) {
         errorCondition(
           recall  = windowDiscretebar,
-          message = gettextKmg2("Variable is not selected")
+          message = gettext_Bio("Variable is not selected")
         )
         errorCode <- TRUE
       } else {

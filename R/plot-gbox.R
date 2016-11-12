@@ -73,9 +73,9 @@ gbox <- setRefClass(
         top       = top,
         types     = list(Variables(), nonFactors(), Factors()),
         titles    = list(
-          gettextKmg2("X variable"),
-          gettextKmg2("Y variable (pick one)"),
-          gettextKmg2("Stratum variable")
+          gettext_Bio("X variable"),
+          gettext_Bio("Y variable (pick one)"),
+          gettext_Bio("Stratum variable")
         ),
         initialSelection = list(FALSE, 0, FALSE)
       )
@@ -85,8 +85,8 @@ gbox <- setRefClass(
         top       = top,
         types     = list(Factors(), Factors()),
         titles    = list(
-          gettextKmg2("Facet variable in rows"),
-          gettextKmg2("Facet variable in cols")
+          gettext_Bio("Facet variable in rows"),
+          gettext_Bio("Facet variable in cols")
         )
       )
 
@@ -95,10 +95,10 @@ gbox <- setRefClass(
         top        = top,
         initValues = list("<auto>", "<auto>", "<auto>", ""),
         titles     = list(
-          gettextKmg2("Horizontal axis label"),
-          gettextKmg2("Vertical axis label"),
-          gettextKmg2("Legend label"),
-          gettextKmg2("Title")
+          gettext_Bio("Horizontal axis label"),
+          gettext_Bio("Vertical axis label"),
+          gettext_Bio("Legend label"),
+          gettext_Bio("Title")
         )
       )
 
@@ -106,13 +106,13 @@ gbox <- setRefClass(
       rbbox1$front(
         top    = alternateFrame,
         labels = list(
-          gettextKmg2("Box plot"),
-          gettextKmg2("Notched box plot"),
-          gettextKmg2("Violin plot"),
-          gettextKmg2("95% C.I. (t distribution)"),
-          gettextKmg2("95% C.I. (bootstrap)")
+          gettext_Bio("Box plot"),
+          gettext_Bio("Notched box plot"),
+          gettext_Bio("Violin plot"),
+          gettext_Bio("95% C.I. (t distribution)"),
+          gettext_Bio("95% C.I. (bootstrap)")
         ),
-        title  = gettextKmg2("Plot type")
+        title  = gettext_Bio("Plot type")
       )
 
       cbbox1 <<- checkboxes$new()
@@ -120,10 +120,10 @@ gbox <- setRefClass(
         top        = alternateFrame,
         initValues = list("0", "0"),
         labels     = list(
-          gettextKmg2("Flipped coordinates"),
-          gettextKmg2("Add data point")
+          gettext_Bio("Flipped coordinates"),
+          gettext_Bio("Add data point")
         ),
-        title      = gettextKmg2("Options")
+        title      = gettext_Bio("Options")
       )
 
       tbbox1 <<- toolbox$new()
@@ -150,7 +150,7 @@ gbox <- setRefClass(
 
     getWindowTitle = function() {
 
-      gettextKmg2("Box plot / Violin plot / Confidence interval")
+      gettext_Bio("Box plot / Violin plot / Confidence interval")
 
     },
 
@@ -229,7 +229,7 @@ gbox <- setRefClass(
       if (length(parms$y) == 0) {
         errorCondition(
           recall  = windowBox,
-          message = gettextKmg2("Y variable is not selected")
+          message = gettext_Bio("Y variable is not selected")
         )
         errorCode <- TRUE
       } else {

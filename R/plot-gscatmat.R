@@ -70,8 +70,8 @@ gscatmat <- setRefClass(
         top       = top,
         types     = list(nonFactors(), Factors()),
         titles    = list(
-          gettextKmg2("Select variables (three or more)"),
-          gettextKmg2("Stratum variable")
+          gettext_Bio("Select variables (three or more)"),
+          gettext_Bio("Stratum variable")
         ),
         modes     = list("multiple", "single"),
         initialSelection = list(0:2, FALSE)
@@ -82,8 +82,8 @@ gscatmat <- setRefClass(
         top        = top,
         initValues = list("<auto>", ""),
         titles     = list(
-          gettextKmg2("Legend label"),
-          gettextKmg2("Title")
+          gettext_Bio("Legend label"),
+          gettext_Bio("Title")
         )
       )
 
@@ -91,13 +91,13 @@ gscatmat <- setRefClass(
       rbbox1$front(
         top    = top,
         labels = list(
-          gettextKmg2("None"),
-          gettextKmg2("Smoothing with C.I. (linear regression)"),
-          gettextKmg2("Smoothing without C.I. (linear regression)"),
-          gettextKmg2("Smoothing with C.I. (loess or gam)"),
-          gettextKmg2("Smoothing without C.I. (loess or gam)")
+          gettext_Bio("None"),
+          gettext_Bio("Smoothing with C.I. (linear regression)"),
+          gettext_Bio("Smoothing without C.I. (linear regression)"),
+          gettext_Bio("Smoothing with C.I. (loess or gam)"),
+          gettext_Bio("Smoothing without C.I. (loess or gam)")
         ),
-        title  = gettextKmg2("Smoothing type")
+        title  = gettext_Bio("Smoothing type")
       )
 
       tbbox1 <<- toolbox$new()
@@ -116,7 +116,7 @@ gscatmat <- setRefClass(
 
     getWindowTitle = function() {
 
-      gettextKmg2("Scatter plot matrix")
+      gettext_Bio("Scatter plot matrix")
 
     },
 
@@ -172,7 +172,7 @@ gscatmat <- setRefClass(
       if (length(parms$x) < 3) {
         errorCondition(
           recall  = windowScatter,
-          message = gettextKmg2("Please select more than 3 variables.")
+          message = gettext_Bio("Please select more than 3 variables.")
         )
         errorCode <- TRUE
       } else {
@@ -315,7 +315,7 @@ gscatmat <- setRefClass(
 
     getMessage = function() {
 
-      gettextKmg2("Smoothing failed.  Please try another smoothing type, or check the data and variables.")
+      gettext_Bio("Smoothing failed.  Please try another smoothing type, or check the data and variables.")
 
     }
 

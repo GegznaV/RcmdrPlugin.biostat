@@ -100,7 +100,7 @@ plot_base <- setRefClass(
             }, error = function(ex) {
               tclvalue(RcmdrTkmessageBox(
                 message = getMessage(),
-                title   = gettextKmg2("Error"),
+                title   = gettext_Bio("Error"),
                 icon    = "error",
                 type    = "ok",
                 default = "ok"
@@ -150,7 +150,7 @@ plot_base <- setRefClass(
           }, error = function(ex) {
             tclvalue(RcmdrTkmessageBox(
               message = getMessage(),
-              title   = gettextKmg2("Error"),
+              title   = gettext_Bio("Error"),
               icon    = "error",
               type    = "ok",
               default = "ok"
@@ -167,9 +167,9 @@ plot_base <- setRefClass(
       }
       previewButton <- buttonRcmdr(
         rightButtonsBox,
-        text = gettextKmg2("Preview"),
+        text = gettext_Bio("Preview"),
         foreground = "yellow",
-        width = nchar(gettextKmg2("Preview")),
+        width = nchar(gettext_Bio("Preview")),
         command = onPreview,
         image = "::image::applyIcon",
         compound = "left"
@@ -213,7 +213,7 @@ plot_base <- setRefClass(
       if (file == "") return()
 
       if (class(.self)[1] == "gkm") {
-        command <- paste0("RcmdrPlugin.BioStat::ggsaveKmg2(filename = \"", file, "\", plot = ", plotName, ")")
+        command <- paste0("RcmdrPlugin.BioStat::ggsave_Bio(filename = \"", file, "\", plot = ", plotName, ")")
       } else {
         command <- paste0("ggsave(filename = \"", file, "\", plot = ", plotName, ")")
       }
@@ -586,7 +586,7 @@ plot_base <- setRefClass(
     #' Get Plot Error Message
     getMessage = function() {
 
-      gettextKmg2("Plot failed.  Please check the data and variables, or try other options.")
+      gettext_Bio("Plot failed.  Please check the data and variables, or try other options.")
 
     },
 

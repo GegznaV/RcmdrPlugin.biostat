@@ -76,9 +76,9 @@ gkm <- setRefClass(
         top       = top, 
         types     = list(nonFactors(), Variables(), Factors()),
         titles    = list(
-          gettextKmg2("Time variable"),
-          gettextKmg2("Event variable (0=censor, 1=event)"),
-          gettextKmg2("Stratum variable")
+          gettext_Bio("Time variable"),
+          gettext_Bio("Event variable (0=censor, 1=event)"),
+          gettext_Bio("Stratum variable")
         ),
         initialSelection = list(0, 0, FALSE)
       )
@@ -88,8 +88,8 @@ gkm <- setRefClass(
         top       = top, 
         types     = list(Factors(), Factors()),
         titles    = list(
-          gettextKmg2("Facet variable in rows"),
-          gettextKmg2("Facet variable in cols")
+          gettext_Bio("Facet variable in rows"),
+          gettext_Bio("Facet variable in cols")
         )
       )
 
@@ -98,10 +98,10 @@ gkm <- setRefClass(
         top        = top,
         initValues = list("Time from entry", "Proportion of survival", "<auto>", ""),
         titles     = list(
-          gettextKmg2("Horizontal axis label"),
-          gettextKmg2("Vertical axis label"),
-          gettextKmg2("Legend label"),
-          gettextKmg2("Title")
+          gettext_Bio("Horizontal axis label"),
+          gettext_Bio("Vertical axis label"),
+          gettext_Bio("Legend label"),
+          gettext_Bio("Title")
         )
       )
 
@@ -109,11 +109,11 @@ gkm <- setRefClass(
       rbbox1$front(
         top    = alternateFrame,
         labels = list(
-          gettextKmg2("None"),
-          gettextKmg2("Inside"),
-          gettextKmg2("Outside (facet ignored)")
+          gettext_Bio("None"),
+          gettext_Bio("Inside"),
+          gettext_Bio("Outside (facet ignored)")
         ),
-        title  = gettextKmg2("No at risk.")
+        title  = gettext_Bio("No at risk.")
       )
 
       lbbox2 <<- textfields$new()
@@ -121,7 +121,7 @@ gkm <- setRefClass(
         top        = alternateFrame,
         initValues = list("4"),
         titles     = list(
-          gettextKmg2("Tick count")
+          gettext_Bio("Tick count")
         )
       )
 
@@ -130,13 +130,13 @@ gkm <- setRefClass(
         top        = alternateFrame,
         initValues = list("0", "0", "0", "0", "0"),
         labels     = list(
-          gettextKmg2("Confidence interval (dotted lines)"),
-          gettextKmg2("Confidence interval (band)"),
-          gettextKmg2("Dot censored symbol"),
-          gettextKmg2("P-value (log-rank test)"),
-          gettextKmg2("Reference line at median survival")
+          gettext_Bio("Confidence interval (dotted lines)"),
+          gettext_Bio("Confidence interval (band)"),
+          gettext_Bio("Dot censored symbol"),
+          gettext_Bio("P-value (log-rank test)"),
+          gettext_Bio("Reference line at median survival")
         ),
-        title      = gettextKmg2("Options")
+        title      = gettext_Bio("Options")
       )
 
       tbbox1 <<- toolbox$new()
@@ -168,7 +168,7 @@ gkm <- setRefClass(
 
     getWindowTitle = function() {
       
-      gettextKmg2("Kaplan-Meier plot")
+      gettext_Bio("Kaplan-Meier plot")
       
     },
     
@@ -255,13 +255,13 @@ gkm <- setRefClass(
       if (length(parms$x) == 0) {
         errorCondition(
           recall  = windowScatter,
-          message = gettextKmg2("Time variable is not selected.")
+          message = gettext_Bio("Time variable is not selected.")
         )
         errorCode <- TRUE
       } else if (length(parms$y) == 0) {
         errorCondition(
           recall  = windowScatter,
-          message = gettextKmg2("Event variable is not selected.")
+          message = gettext_Bio("Event variable is not selected.")
         )
         errorCode <- TRUE
       } else {
@@ -288,8 +288,8 @@ gkm <- setRefClass(
             ""
           }, error = function(ex) {
             tclvalue(RcmdrTkmessageBox(
-              message = gettextKmg2("Estimation failed in survfit().  This data may be inappropriate."),
-              title   = gettextKmg2("Error"),
+              message = gettext_Bio("Estimation failed in survfit().  This data may be inappropriate."),
+              title   = gettext_Bio("Error"),
               icon    = "error",
               type    = "ok",
               default = "ok"
@@ -367,7 +367,7 @@ gkm <- setRefClass(
           
         } else if (parms$pValue == "1" && strataNum == 1) {
           
-          Message(message = gettextKmg2("There is only 1 group. P-value could not be calculated."),
+          Message(message = gettext_Bio("There is only 1 group. P-value could not be calculated."),
                   type = "warning")
           
         }
@@ -434,8 +434,8 @@ gkm <- setRefClass(
 
         if (!all(round(.fit$x - .fit$x.1, 1e-13) == 0)) {
           tclvalue(RcmdrTkmessageBox(
-            message = gettextKmg2("Unknown error.  This plot may be broken."),
-            title   = gettextKmg2("Error"),
+            message = gettext_Bio("Unknown error.  This plot may be broken."),
+            title   = gettext_Bio("Error"),
             icon    = "error",
             type    = "ok",
             default = "ok"
@@ -452,7 +452,7 @@ gkm <- setRefClass(
           }, error = function(ex) {
             tclvalue(RcmdrTkmessageBox(
               message = getMessage(),
-              title   = gettextKmg2("Error"),
+              title   = gettext_Bio("Error"),
               icon    = "error",
               type    = "ok",
               default = "ok"
@@ -565,7 +565,7 @@ gkm <- setRefClass(
           "geom_vline(data = .med, aes(xintercept = median), colour = \"black\", lty = 2) + "
         )
       } else if (parms$refMedian == "1" && all(is.infinite(.med$median))) {
-        Message(message = gettextKmg2("Median survival times did not exist."),
+        Message(message = gettext_Bio("Median survival times did not exist."),
                 type = "warning")
       }
       

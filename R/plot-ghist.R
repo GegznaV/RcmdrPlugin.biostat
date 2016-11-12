@@ -79,8 +79,8 @@ ghist <- setRefClass(
                          c("black","gray","white","red", "blue", "green4")
                      ),
         titles    = list(
-          gettextKmg2("Variable (pick one)"),
-          gettextKmg2("Border color")
+          gettext_Bio("Variable (pick one)"),
+          gettext_Bio("Border color")
         ),
         initialSelection = list(0,0)
       )
@@ -90,8 +90,8 @@ ghist <- setRefClass(
         top       = top,
         types     = list(Factors(), Factors()),
         titles    = list(
-          gettextKmg2("Facet variable in rows"),
-          gettextKmg2("Facet variable in cols")
+          gettext_Bio("Facet variable in rows"),
+          gettext_Bio("Facet variable in cols")
         )
       )
       # ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~
@@ -100,10 +100,10 @@ ghist <- setRefClass(
         top        = top,
         initValues = list("","<auto>", "<auto>", ""),
         titles     = list(
-          gettextKmg2("No. of bins (if manual)"),
-          gettextKmg2("Horizontal axis label"),
-          gettextKmg2("Vertical axis label"),
-          gettextKmg2("Title")
+          gettext_Bio("No. of bins (if manual)"),
+          gettext_Bio("Horizontal axis label"),
+          gettext_Bio("Vertical axis label"),
+          gettext_Bio("Title")
         )
       )
       # ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~
@@ -112,7 +112,7 @@ ghist <- setRefClass(
         top       = alternateFrame,
         types     = list(c("<manual>","Scott", "Freedman-Diaconis", "Sturges")),
         titles    = list(
-          gettextKmg2("No. of bins (if automatic)")
+          gettext_Bio("No. of bins (if automatic)")
         ),
         initialSelection = list(2)
       )
@@ -121,11 +121,11 @@ ghist <- setRefClass(
       rbbox1$front(
         top    = alternateFrame,
         labels = list(
-          gettextKmg2("Densities"),
-          gettextKmg2("Frequency counts"),
-          gettextKmg2("Percentages")
+          gettext_Bio("Densities"),
+          gettext_Bio("Frequency counts"),
+          gettext_Bio("Percentages")
         ),
-        title  = gettextKmg2("Axis scaling")
+        title  = gettext_Bio("Axis scaling")
       )
       # ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~
       cbbox1 <<- checkboxes$new()
@@ -133,11 +133,11 @@ ghist <- setRefClass(
         top        = alternateFrame,
         initValues = list("0", "0", "0"),
         labels     = list(
-          gettextKmg2("Add density estimation"),
-          gettextKmg2("Use heat map"),
-          gettextKmg2("Correct no. of bins (pretty)")
+          gettext_Bio("Add density estimation"),
+          gettext_Bio("Use heat map"),
+          gettext_Bio("Correct no. of bins (pretty)")
         ),
-        title      = gettextKmg2("Options")
+        title      = gettext_Bio("Options")
       )
       # ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~
       tbbox1 <<- toolbox$new()
@@ -168,7 +168,7 @@ ghist <- setRefClass(
     },
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
     getWindowTitle = function() {
-      gettextKmg2("Histogram")
+      gettext_Bio("Histogram")
     },
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
     getHelp = function() {
@@ -229,15 +229,15 @@ ghist <- setRefClass(
       nbins_auto        <- getSelection(vbbox3$variable[[1]])
       axisScaling  <- tclvalue(rbbox1$value)
       if (densityPlot == "1" || axisScaling == "1") {
-        yauto       <- gettextKmg2("Density")
+        yauto       <- gettext_Bio("Density")
         y           <- "..density.."
         axisScaling <- "1"
 # !!!  # Reikalinga funkcija (pataisa), denity plot pri'scale'inimui
       }  else if (axisScaling == "2") {
-        yauto  <- gettextKmg2("Count")
+        yauto  <- gettext_Bio("Count")
         y      <- "..count.."
       } else if (axisScaling == "3") {
-        yauto  <- gettextKmg2("Percent")
+        yauto  <- gettext_Bio("Percent")
         y      <- "..count../sum(..count..)"
       }
       # ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~   ~~~
@@ -259,7 +259,7 @@ ghist <- setRefClass(
       if (length(parms$x) == 0) {
         errorCondition(
           recall  = windowHist,
-          message = gettextKmg2("Variable is not selected")
+          message = gettext_Bio("Variable is not selected")
         )
         errorCode <- TRUE
       } else {

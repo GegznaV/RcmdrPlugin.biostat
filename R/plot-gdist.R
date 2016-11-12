@@ -82,9 +82,9 @@ gdist <- setRefClass(
         top        = top,
         initValues = list("<auto>", "<auto>", "<auto>"),
         titles     = list(
-          gettextKmg2("Horizontal axis label"),
-          gettextKmg2("Vertical axis label"),
-          gettextKmg2("Title")
+          gettext_Bio("Horizontal axis label"),
+          gettext_Bio("Vertical axis label"),
+          gettext_Bio("Title")
         )
       )
 
@@ -92,10 +92,10 @@ gdist <- setRefClass(
       rbbox1$front(
         top    = top,
         labels = list(
-          gettextKmg2("Plot density function"),
-          gettextKmg2("Plot distribution function")
+          gettext_Bio("Plot density function"),
+          gettext_Bio("Plot distribution function")
         ),
-        title  = gettextKmg2("Function type")
+        title  = gettext_Bio("Function type")
       )
 
       tbbox1 <<- toolbox$new()
@@ -251,12 +251,12 @@ gdist <- setRefClass(
 windowDistNorm <- function() {
 
   DistNorm <- RcmdrPlugin.BioStat::gdist$new(
-    windowTitle = gettextKmg2("Plot normal distiribution"),
+    windowTitle = gettext_Bio("Plot normal distiribution"),
     distType    = "continuous",
     distName    = "norm",
     parmNames  = list(
-      gettextKmg2("Mean"),
-      gettextKmg2("S.D.")
+      gettext_Bio("Mean"),
+      gettext_Bio("S.D.")
     ),
     parmInits   = list("0", "1")
   )
@@ -276,11 +276,11 @@ windowDistNorm <- function() {
 windowDistT <- function() {
 
   DistT <- RcmdrPlugin.BioStat::gdist$new(
-    windowTitle = gettextKmg2("Plot t distiribution"),
+    windowTitle = gettext_Bio("Plot t distiribution"),
     distType    = "continuous",
     distName    = "t",
     parmNames  = list(
-      gettextKmg2("df")
+      gettext_Bio("df")
     ),
     parmInits   = list("5")
   )
@@ -300,11 +300,11 @@ windowDistT <- function() {
 windowDistChisq <- function() {
 
   DistChisq <- RcmdrPlugin.BioStat::gdist$new(
-    windowTitle = gettextKmg2("Plot chi-square distiribution"),
+    windowTitle = gettext_Bio("Plot chi-square distiribution"),
     distType    = "continuous",
     distName    = "chisq",
     parmNames  = list(
-      gettextKmg2("df")
+      gettext_Bio("df")
     ),
     parmInits   = list("5")
   )
@@ -324,12 +324,12 @@ windowDistChisq <- function() {
 windowDistF <- function() {
 
   DistF <- RcmdrPlugin.BioStat::gdist$new(
-    windowTitle = gettextKmg2("Plot F distiribution"),
+    windowTitle = gettext_Bio("Plot F distiribution"),
     distType    = "continuous",
     distName    = "f",
     parmNames  = list(
-      gettextKmg2("Numerator df"),
-      gettextKmg2("Denominator df")
+      gettext_Bio("Numerator df"),
+      gettext_Bio("Denominator df")
     ),
     parmInits   = list("2", "3")
   )
@@ -349,11 +349,11 @@ windowDistF <- function() {
 windowDistExp <- function() {
 
   DistExp <- RcmdrPlugin.BioStat::gdist$new(
-    windowTitle = gettextKmg2("Plot exponential distiribution"),
+    windowTitle = gettext_Bio("Plot exponential distiribution"),
     distType    = "continuous",
     distName    = "exp",
     parmNames  = list(
-      gettextKmg2("rate")
+      gettext_Bio("rate")
     ),
     parmInits   = list("1")
   )
@@ -373,12 +373,12 @@ windowDistExp <- function() {
 windowDistUnif <- function() {
 
   DistUnif <- RcmdrPlugin.BioStat::gdist$new(
-    windowTitle = gettextKmg2("Plot uniform distiribution"),
+    windowTitle = gettext_Bio("Plot uniform distiribution"),
     distType    = "continuous",
     distName    = "unif",
     parmNames  = list(
-      gettextKmg2("Minimum"),
-      gettextKmg2("Maximum")
+      gettext_Bio("Minimum"),
+      gettext_Bio("Maximum")
     ),
     parmInits   = list("0", "1")
   )
@@ -398,12 +398,12 @@ windowDistUnif <- function() {
 windowDistBeta <- function() {
 
   DistBeta <- RcmdrPlugin.BioStat::gdist$new(
-    windowTitle = gettextKmg2("Plot beta distiribution"),
+    windowTitle = gettext_Bio("Plot beta distiribution"),
     distType    = "continuous",
     distName    = "beta",
     parmNames  = list(
-      gettextKmg2("Shape 1"),
-      gettextKmg2("Shape 2")
+      gettext_Bio("Shape 1"),
+      gettext_Bio("Shape 2")
     ),
     parmInits   = list("9", "3")
   )
@@ -423,12 +423,12 @@ windowDistBeta <- function() {
 windowDistCauchy <- function() {
 
   DistCauchy <- RcmdrPlugin.BioStat::gdist$new(
-    windowTitle = gettextKmg2("Plot cauchy distiribution"),
+    windowTitle = gettext_Bio("Plot cauchy distiribution"),
     distType    = "continuous",
     distName    = "cauchy",
     parmNames  = list(
-      gettextKmg2("Location"),
-      gettextKmg2("Scale")
+      gettext_Bio("Location"),
+      gettext_Bio("Scale")
     ),
     parmInits   = list("0", "1")
   )
@@ -448,12 +448,12 @@ windowDistCauchy <- function() {
 windowDistLogis <- function() {
 
   DistLogis <- RcmdrPlugin.BioStat::gdist$new(
-    windowTitle = gettextKmg2("Plot logistic distiribution"),
+    windowTitle = gettext_Bio("Plot logistic distiribution"),
     distType    = "continuous",
     distName    = "logis",
     parmNames  = list(
-      gettextKmg2("Location"),
-      gettextKmg2("Scale")
+      gettext_Bio("Location"),
+      gettext_Bio("Scale")
     ),
     parmInits   = list("0", "1")
   )
@@ -473,12 +473,12 @@ windowDistLogis <- function() {
 windowDistLnorm <- function() {
 
   DistLnorm <- RcmdrPlugin.BioStat::gdist$new(
-    windowTitle = gettextKmg2("Plot log-normal distiribution"),
+    windowTitle = gettext_Bio("Plot log-normal distiribution"),
     distType    = "continuous",
     distName    = "lnorm",
     parmNames  = list(
-      gettextKmg2("Mean (log scale)"),
-      gettextKmg2("S.D. (log scale)")
+      gettext_Bio("Mean (log scale)"),
+      gettext_Bio("S.D. (log scale)")
     ),
     parmInits   = list("0", "1")
   )
@@ -498,12 +498,12 @@ windowDistLnorm <- function() {
 windowDistGamma <- function() {
 
   DistGamma <- RcmdrPlugin.BioStat::gdist$new(
-    windowTitle = gettextKmg2("Plot gamma distiribution"),
+    windowTitle = gettext_Bio("Plot gamma distiribution"),
     distType    = "continuous",
     distName    = "gamma",
     parmNames  = list(
-      gettextKmg2("Shape"),
-      gettextKmg2("Rate (inverse scale)")
+      gettext_Bio("Shape"),
+      gettext_Bio("Rate (inverse scale)")
     ),
     parmInits   = list("1", "1")
   )
@@ -523,12 +523,12 @@ windowDistGamma <- function() {
 windowDistWeibull <- function() {
 
   DistWeibull <- RcmdrPlugin.BioStat::gdist$new(
-    windowTitle = gettextKmg2("Plot weibull distiribution"),
+    windowTitle = gettext_Bio("Plot weibull distiribution"),
     distType    = "continuous",
     distName    = "weibull",
     parmNames  = list(
-      gettextKmg2("Shape"),
-      gettextKmg2("Scale")
+      gettext_Bio("Shape"),
+      gettext_Bio("Scale")
     ),
     parmInits   = list("1", "pi")
   )
@@ -548,12 +548,12 @@ windowDistWeibull <- function() {
 windowDistBinom <- function() {
 
   DistBinom <- RcmdrPlugin.BioStat::gdist$new(
-    windowTitle = gettextKmg2("Plot binomial distiribution"),
+    windowTitle = gettext_Bio("Plot binomial distiribution"),
     distType    = "discrete",
     distName    = "binom",
     parmNames  = list(
-      gettextKmg2("Binomial trials"),
-      gettextKmg2("Probability of success")
+      gettext_Bio("Binomial trials"),
+      gettext_Bio("Probability of success")
     ),
     parmInits   = list("20", "0.5")
   )
@@ -573,11 +573,11 @@ windowDistBinom <- function() {
 windowDistPois <- function() {
 
   DistPois <- RcmdrPlugin.BioStat::gdist$new(
-    windowTitle = gettextKmg2("Plot poisson distiribution"),
+    windowTitle = gettext_Bio("Plot poisson distiribution"),
     distType    = "discrete",
     distName    = "pois",
     parmNames  = list(
-      gettextKmg2("Mean")
+      gettext_Bio("Mean")
     ),
     parmInits   = list("10")
   )
@@ -597,11 +597,11 @@ windowDistPois <- function() {
 windowDistGeom <- function() {
 
   DistGeom <- RcmdrPlugin.BioStat::gdist$new(
-    windowTitle = gettextKmg2("Plot geometric distiribution"),
+    windowTitle = gettext_Bio("Plot geometric distiribution"),
     distType    = "discrete",
     distName    = "geom",
     parmNames  = list(
-      gettextKmg2("Probability of success")
+      gettext_Bio("Probability of success")
     ),
     parmInits   = list("0.25")
   )
@@ -621,13 +621,13 @@ windowDistGeom <- function() {
 windowDistHyper <- function() {
 
   DistHyper <- RcmdrPlugin.BioStat::gdist$new(
-    windowTitle = gettextKmg2("Plot hypergeometric distiribution"),
+    windowTitle = gettext_Bio("Plot hypergeometric distiribution"),
     distType    = "discrete",
     distName    = "hyper",
     parmNames  = list(
-      gettextKmg2("m (number of white balls in the urn)"),
-      gettextKmg2("n (number of black balls in the urn)"),
-      gettextKmg2("k (number of balls drawn from the urn)")
+      gettext_Bio("m (number of white balls in the urn)"),
+      gettext_Bio("n (number of black balls in the urn)"),
+      gettext_Bio("k (number of balls drawn from the urn)")
     ),
     parmInits   = list("25", "20", "8")
   )
@@ -647,12 +647,12 @@ windowDistHyper <- function() {
 windowDistNbinom <- function() {
 
   DistNbinom <- RcmdrPlugin.BioStat::gdist$new(
-    windowTitle = gettextKmg2("Plot negative binomial distiribution"),
+    windowTitle = gettext_Bio("Plot negative binomial distiribution"),
     distType    = "discrete",
     distName    = "nbinom",
     parmNames  = list(
-      gettextKmg2("Target number of success"),
-      gettextKmg2("Probability of success")
+      gettext_Bio("Target number of success"),
+      gettext_Bio("Probability of success")
     ),
     parmInits   = list("5", "0.5")
   )
