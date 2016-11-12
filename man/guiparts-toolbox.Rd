@@ -36,12 +36,12 @@ This class is a subclass which make GUI tool box frame.
 \item{\code{back(perline = 3)}: }{\code{back} method for \code{gparts_base} class.}
 \item{\code{front(top,
   showcolourbox = TRUE, 
-  fontSize = unlist(options("kmg2FontSize")), 
-  fontSize = unlist(options("kmg2FontSize")), 
-  fontFamily = unlist(options("kmg2FontFamily")), 
-  colourSet = unlist(options("kmg2ColourSet")), 
-  saveGraph = unlist(options("kmg2SaveGraph")), 
-  themeBase = unlist(options("kmg2Theme"))
+  fontSize = unlist(options("Bio_FontSize")), 
+  fontSize = unlist(options("Bio_FontSize")), 
+  fontFamily = unlist(options("Bio_FontFamily")), 
+  colourSet = unlist(options("Bio_ColourSet")), 
+  saveGraph = unlist(options("Bio_SaveGraph")), 
+  themeBase = unlist(options("Bio_Theme"))
 )}: }{
   \code{front} method for \code{toolbox} subclass.
 }
