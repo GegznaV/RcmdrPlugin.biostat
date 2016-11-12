@@ -1,0 +1,53 @@
+---
+title: "Dataset requirements to make Kaplan-Meier plot with RcmdrPlugin.KMggplot2"
+author: "Triad sou."
+date: "2016-01-04"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Dataset requirements for Kaplan-Meier plot}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+`RcmdrPlugin.KMggplot2` depends `survfit` function of `survival` package.
+Dataset requirements are same as `survfit` function, which works with `Surv` objects.
+
+
+## `Surv` object
+
+`Surv` objects are generated from `Surv` function.
+`RcmdrPlugin.KMggplot2` calls as follows:
+
+```r
+survfit(Surv(time = x, event = y, type = "right") ~ z + s + t, .df)
+```
+
+### Arguments
+* `time`
+    * The follow up time variable.
+* `event`
+    * The status indicator variable, 0 = alive (censor), 1 = dead (event).
+* `type`
+    * Character string specifying the type of censoring. `RcmdrPlugin.KMggplot2` can only handle "right" censoring.
+* `z`, `s`, `t`
+    * The stratum (`z`) and the facet (`s`, `t`) variables (factor variables).
+* `.df`
+    * A data frame for plotting.
+    
+    
+`RcmdrPlugin.KMggplot2` requires a data frame that at least includes `time` and `event` variables, and includes `z`, `s`, `t` if you needs
+
+
+## Data Example
+
+```{r, echo=FALSE, results='asis'}
+data(dataKm, package = "RcmdrPlugin.KMggplot2")
+exampleData <- dataKm[, c("time", "event", "trt", "sex", "marker")]
+knitr::kable(head(exampleData, 10))
+```
+
+In this case: 
+
+* `time`: "time"
+* `event`: "event" (0 = alive (censor), 1 = dead (event))
+* `z`, `s`, or `t`: "trt", "sex", or "marker"

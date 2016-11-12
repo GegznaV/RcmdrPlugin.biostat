@@ -1,0 +1,777 @@
+﻿# # Matjaž Jeran <matjaz.jeran@amis.net>, 2015.
+# # Slovenian translation by Matjaž Jeran"
+msgid ""
+msgstr ""
+"Project-Id-Version: RcmdrPlugin.KMggplot2 0.2-4\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-12-30 22:46+0900\n"
+"PO-Revision-Date: 2015-12-30 22:47+0900\n"
+"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
+"Language-Team: Slovenian <lugos-slo@lugos.si>\n"
+"Language: sl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3);\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: gettextKmg2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SearchPath-0: ./R\n"
+"X-Poedit-SearchPath-1: ./inst/etc\n"
+
+#: R/guiparts-toolbox.r:71
+msgid "Font size"
+msgstr "Velikost črkopisa"
+
+#: R/guiparts-toolbox.r:86
+msgid "Font family"
+msgstr "Družina črkopisa"
+
+#: R/guiparts-toolbox.r:98
+msgid "Colour pattern"
+msgstr "Barvni vzorec"
+
+#: R/guiparts-toolbox.r:106
+msgid "Save graph"
+msgstr "Shrani graf"
+
+#: R/guiparts-toolbox.r:107
+msgid "Graph options"
+msgstr "Opcije grafikona"
+
+#: R/guiparts-toolbox.r:125
+msgid "Theme"
+msgstr "Barvna shema"
+
+#: R/plot-aaa.r:103 R/plot-aaa.r:153 R/plot-factorise.r:99 R/plot-gkm.r:292
+#: R/plot-gkm.r:438 R/plot-gkm.r:455 R/plot-gqq.r:214 R/plot-gqq.r:225
+#: R/plot-gqq.r:236 R/plot-gqq.r:247 R/plot-gqq.r:258 R/plot-gqq.r:318
+msgid "Error"
+msgstr "Napaka"
+
+#: R/plot-aaa.r:169 R/plot-aaa.r:170
+msgid "Preview"
+msgstr "Predogled"
+
+#: R/plot-aaa.r:585
+msgid ""
+"Plot failed.  Please check the data and variables, or try other options."
+msgstr ""
+"Ne morem narisati. Prosim preverite podatke in spremenljivke ali poskusite z "
+"drugačnimi nastavitvami"
+
+#: R/plot-factorise.r:141
+msgid "Variable (pick one or more)"
+msgstr "Spremenljivka (izberite eno)"
+
+#: R/plot-factorise.r:151
+msgid "Simple factorization"
+msgstr "Enostavna faktorizacija"
+
+#: R/plot-factorise.r:152
+msgid "Categorize according to the quartiles"
+msgstr "Kategoriziraj glede na kvartile"
+
+#: R/plot-factorise.r:154 R/plot-gbox.r:125 R/plot-gcont.r:112
+#: R/plot-ghist.r:133 R/plot-gkm.r:139
+msgid "Options"
+msgstr "Opcije"
+
+#: R/plot-factorise.r:168
+msgid "Factorizing numeric variables"
+msgstr "Faktoriziranje številskih spremenljivk"
+
+#: R/plot-factorise.r:216
+msgid "Variables are not selected"
+msgstr "Spremenljivke niso izbrane"
+
+#: R/plot-gbox.r:75
+msgid "X variable"
+msgstr "Spremenljivka X"
+
+#: R/plot-gbox.r:76 R/plot-gcont.r:76 R/plot-gline.r:80 R/plot-gqq.r:74
+#: R/plot-gscat.r:75
+msgid "Y variable (pick one)"
+msgstr "Spremenljivka Y (izberite eno)"
+
+#: R/plot-gbox.r:77 R/plot-gdiscbar.r:76 R/plot-gkm.r:81 R/plot-gline.r:81
+#: R/plot-gscat.r:76 R/plot-gscatmat.r:74
+msgid "Stratum variable"
+msgstr "Spremenljivka ravni"
+
+#: R/plot-gbox.r:87 R/plot-gcont.r:87 R/plot-gdiscbar.r:86 R/plot-ghist.r:88
+#: R/plot-gkm.r:91 R/plot-gline.r:91 R/plot-gpie.r:84 R/plot-gscat.r:86
+msgid "Facet variable in rows"
+msgstr "Fasetna spremenljivka v vrsticah"
+
+#: R/plot-gbox.r:88 R/plot-gcont.r:88 R/plot-gdiscbar.r:87 R/plot-ghist.r:89
+#: R/plot-gkm.r:92 R/plot-gline.r:92 R/plot-gpie.r:85 R/plot-gscat.r:87
+msgid "Facet variable in cols"
+msgstr "Fasetna spremenljivka v stolpcih"
+
+#: R/plot-gbox.r:97 R/plot-gcont.r:97 R/plot-gdiscbar.r:96 R/plot-gdist.r:85
+#: R/plot-ghist.r:98 R/plot-gkm.r:101 R/plot-gline.r:101 R/plot-gqq.r:84
+#: R/plot-gscat.r:96
+msgid "Horizontal axis label"
+msgstr "Oznaka vodoravne osi"
+
+#: R/plot-gbox.r:98 R/plot-gcont.r:98 R/plot-gdiscbar.r:97 R/plot-gdist.r:86
+#: R/plot-ghist.r:99 R/plot-gkm.r:102 R/plot-gline.r:102 R/plot-gqq.r:85
+#: R/plot-gscat.r:97
+msgid "Vertical axis label"
+msgstr "Oznaka navpične osi"
+
+#: R/plot-gbox.r:99 R/plot-gcont.r:99 R/plot-gdiscbar.r:98 R/plot-gkm.r:103
+#: R/plot-gline.r:103 R/plot-gpie.r:94 R/plot-gscat.r:98 R/plot-gscatmat.r:85
+msgid "Legend label"
+msgstr "Oznaka legende"
+
+#: R/plot-gbox.r:100 R/plot-gcont.r:100 R/plot-gdiscbar.r:99 R/plot-gdist.r:87
+#: R/plot-ghist.r:100 R/plot-gkm.r:104 R/plot-gline.r:104 R/plot-gpie.r:95
+#: R/plot-gqq.r:86 R/plot-gscat.r:99 R/plot-gscatmat.r:86
+msgid "Title"
+msgstr "Naslov"
+
+#: R/plot-gbox.r:108
+msgid "Box plot"
+msgstr "Okvir z ročaji"
+
+#: R/plot-gbox.r:109
+msgid "Notched box plot"
+msgstr "Zarezani okvir z ročaji"
+
+#: R/plot-gbox.r:110
+msgid "Violin plot"
+msgstr "Violinski graf"
+
+#: R/plot-gbox.r:111
+msgid "95% C.I. (t distribution)"
+msgstr "95% interval zaupanja (t distribucija)"
+
+#: R/plot-gbox.r:112
+msgid "95% C.I. (bootstrap)"
+msgstr "95% interval zaupanja (bootstrap)"
+
+#: R/plot-gbox.r:114 R/plot-gline.r:116
+msgid "Plot type"
+msgstr "Zvrst grafa"
+
+#: R/plot-gbox.r:122
+msgid "Flipped coordinates"
+msgstr "Zrcaljene koordinate"
+
+#: R/plot-gbox.r:123
+msgid "Add data point"
+msgstr "Dodaj podatkovno točko"
+
+#: R/plot-gbox.r:152
+msgid "Box plot / Violin plot / Confidence interval"
+msgstr "Okvir z ročaji / Violinski graf / Interval zaupanja"
+
+#: R/plot-gbox.r:222 R/plot-gcont.r:200 R/plot-gline.r:239 R/plot-gqq.r:200
+#: R/plot-gscat.r:201
+msgid "Y variable is not selected"
+msgstr "Spremenljivka Y ni izbrana"
+
+#: R/plot-gcont.r:75 R/plot-gdiscbar.r:75 R/plot-gline.r:79 R/plot-gscat.r:74
+msgid "X variable (pick one)"
+msgstr "Spremenljivka X (izberite eno)"
+
+#: R/plot-gcont.r:77
+msgid "Z variable (pick one)"
+msgstr "Spremenljivka Z (izberite eno)"
+
+#: R/plot-gcont.r:108 R/plot-gkm.r:112 R/plot-gline.r:123 R/plot-gline.r:134
+#: R/plot-gscat.r:107 R/plot-gscatmat.r:94
+msgid "None"
+msgstr "Nobena"
+
+#: R/plot-gcont.r:109
+msgid "Coloured lines"
+msgstr "Barvne črte"
+
+#: R/plot-gcont.r:110 R/plot-ghist.r:131
+msgid "Heat map"
+msgstr "Toplotni grafikon"
+
+#: R/plot-gcont.r:132
+msgid "Contour plot"
+msgstr "Grafikon plasti"
+
+#: R/plot-gcont.r:194 R/plot-gline.r:233 R/plot-gscat.r:195
+msgid "X variable is not selected"
+msgstr "Spremenljivka X ni izbrana"
+
+#: R/plot-gcont.r:206
+msgid "Z variable is not selected"
+msgstr "Spremenljivka Z ni izbrana"
+
+#: R/plot-gcont.r:212
+msgid "Each variable must be different."
+msgstr "Vsaka od spremenljivk mora biti različna"
+
+#: R/plot-gdiscbar.r:107 R/plot-ghist.r:120
+msgid "Percentages"
+msgstr "Odstotki"
+
+#: R/plot-gdiscbar.r:108 R/plot-ghist.r:119
+msgid "Frequency counts"
+msgstr "Frekvence"
+
+#: R/plot-gdiscbar.r:110 R/plot-ghist.r:122
+msgid "Axis scaling"
+msgstr "Merilo osi"
+
+#: R/plot-gdiscbar.r:130
+msgid "Bar chart for discrete variables"
+msgstr "Stolpični diagram za diskretne spremenljivke"
+
+#: R/plot-gdiscbar.r:177 R/plot-ghist.r:221
+msgid "Percent"
+msgstr "Odstotek"
+
+#: R/plot-gdiscbar.r:179 R/plot-ghist.r:218
+msgid "Count"
+msgstr "Števec"
+
+#: R/plot-gdiscbar.r:196 R/plot-ghist.r:239 R/plot-gpie.r:172
+msgid "Variable is not selected"
+msgstr "Spremenljivka ni izbrana"
+
+#: R/plot-gdist.r:95
+msgid "Plot density function"
+msgstr "Riši funkcijo gostote"
+
+#: R/plot-gdist.r:96
+msgid "Plot distribution function"
+msgstr "Riši funkcijo distribucije"
+
+#: R/plot-gdist.r:98
+msgid "Function type"
+msgstr "Tip funkcije"
+
+#: R/plot-gdist.r:254
+msgid "Plot normal distiribution"
+msgstr "Riši normalno distribucijo"
+
+#: R/plot-gdist.r:258 R/plot-gdist.r:580 R/plot-gline.r:124
+msgid "Mean"
+msgstr "Povprečje"
+
+#: R/plot-gdist.r:259
+msgid "S.D."
+msgstr "Standardna deviacija"
+
+#: R/plot-gdist.r:279
+msgid "Plot t distiribution"
+msgstr "Riši t distribucijo"
+
+#: R/plot-gdist.r:283 R/plot-gdist.r:307
+msgid "df"
+msgstr "St. prostosti"
+
+#: R/plot-gdist.r:303
+msgid "Plot chi-square distiribution"
+msgstr "Riši hi-kvadrat distribucijo"
+
+#: R/plot-gdist.r:327
+msgid "Plot F distiribution"
+msgstr "Riši F distribucijo"
+
+#: R/plot-gdist.r:331
+msgid "Numerator df"
+msgstr "Števec st.pr."
+
+#: R/plot-gdist.r:332
+msgid "Denominator df"
+msgstr "Imenovalec st.pr."
+
+#: R/plot-gdist.r:352
+msgid "Plot exponential distiribution"
+msgstr "Riši eksponentno distribucijo"
+
+#: R/plot-gdist.r:356
+msgid "rate"
+msgstr "stopnja"
+
+#: R/plot-gdist.r:376
+msgid "Plot uniform distiribution"
+msgstr "Riši enakomerno distribucijo"
+
+#: R/plot-gdist.r:380
+msgid "Minimum"
+msgstr "Minimum"
+
+#: R/plot-gdist.r:381
+msgid "Maximum"
+msgstr "Maksimum"
+
+#: R/plot-gdist.r:401
+msgid "Plot beta distiribution"
+msgstr "Riši beta distribucijo"
+
+#: R/plot-gdist.r:405
+msgid "Shape 1"
+msgstr "Oblika 1"
+
+#: R/plot-gdist.r:406
+msgid "Shape 2"
+msgstr "Oblika 2"
+
+#: R/plot-gdist.r:426
+msgid "Plot cauchy distiribution"
+msgstr "Riši Cauchyjevo distribucijo"
+
+#: R/plot-gdist.r:430 R/plot-gdist.r:455
+msgid "Location"
+msgstr "Lokacija"
+
+#: R/plot-gdist.r:431 R/plot-gdist.r:456 R/plot-gdist.r:531 R/plot-gline.r:138
+msgid "Scale"
+msgstr "Merilo"
+
+#: R/plot-gdist.r:451
+msgid "Plot logistic distiribution"
+msgstr "Riši logistično distribucijo"
+
+#: R/plot-gdist.r:476
+msgid "Plot log-normal distiribution"
+msgstr "Riši log-normalno distribucijo"
+
+#: R/plot-gdist.r:480
+msgid "Mean (log scale)"
+msgstr "Povprečje (logaritemsko merilo)"
+
+#: R/plot-gdist.r:481
+msgid "S.D. (log scale)"
+msgstr "S.D. (logaritemsko merilo)"
+
+#: R/plot-gdist.r:501
+msgid "Plot gamma distiribution"
+msgstr "Riši gamma distribucijo"
+
+#: R/plot-gdist.r:505 R/plot-gdist.r:530
+msgid "Shape"
+msgstr "Oblika"
+
+#: R/plot-gdist.r:506
+msgid "Rate (inverse scale)"
+msgstr "Stopnja (inverzna skala)"
+
+#: R/plot-gdist.r:526
+msgid "Plot weibull distiribution"
+msgstr "Riši Weinbulovo distribucijo)"
+
+#: R/plot-gdist.r:551
+msgid "Plot binomial distiribution"
+msgstr "Riši binomsko distribucijo"
+
+#: R/plot-gdist.r:555
+msgid "Binomial trials"
+msgstr "Binomski poskusi"
+
+#: R/plot-gdist.r:556 R/plot-gdist.r:604 R/plot-gdist.r:655
+msgid "Probability of success"
+msgstr "Verjetnost ugodnega izida"
+
+#: R/plot-gdist.r:576
+msgid "Plot poisson distiribution"
+msgstr "Riši Poissonovo distribucijo"
+
+#: R/plot-gdist.r:600
+msgid "Plot geometric distiribution"
+msgstr "Riši geometrijsko distribucijo"
+
+#: R/plot-gdist.r:624
+msgid "Plot hypergeometric distiribution"
+msgstr "Riši hipergeometrijsko distribucijo"
+
+#: R/plot-gdist.r:628
+msgid "m (number of white balls in the urn)"
+msgstr "m (število belih kroglic v urni)"
+
+#: R/plot-gdist.r:629
+msgid "n (number of black balls in the urn)"
+msgstr "n (število črnih korglic v urni)"
+
+#: R/plot-gdist.r:630
+msgid "k (number of balls drawn from the urn)"
+msgstr "k (število že pobranih kroglic iz urne)"
+
+#: R/plot-gdist.r:650
+msgid "Plot negative binomial distiribution"
+msgstr "Riši negativno binomsko distribucijo"
+
+#: R/plot-gdist.r:654
+msgid "Target number of success"
+msgstr "Cilljno število uspehov"
+
+#: R/plot-ghist.r:78 R/plot-gpie.r:74
+msgid "Variable (pick one)"
+msgstr "Spremenljivka (izberite eno)"
+
+#: R/plot-ghist.r:109
+msgid "No. of bins"
+msgstr "Število razredov"
+
+#: R/plot-ghist.r:118
+msgid "Densities"
+msgstr "Gostote"
+
+#: R/plot-ghist.r:130
+msgid "Density estimation"
+msgstr "Ocena gostote"
+
+#: R/plot-ghist.r:165
+msgid "Histogram"
+msgstr "Histogram"
+
+#: R/plot-ghist.r:214
+msgid "Density"
+msgstr "Gostota"
+
+#: R/plot-gkm.r:79
+msgid "Time variable"
+msgstr "Časovna spremenljivka"
+
+#: R/plot-gkm.r:80
+msgid "Event variable (0=censor, 1=event)"
+msgstr "Indikatorska spremenljivka dogodka (0=cenzor, 1=dogodek)"
+
+#: R/plot-gkm.r:113
+msgid "Inside"
+msgstr "Znotraj"
+
+#: R/plot-gkm.r:114
+msgid "Outside (facet ignored)"
+msgstr "Zunaj (faseta zanemarjena)"
+
+#: R/plot-gkm.r:116
+msgid "No at risk."
+msgstr "Število ogroženih"
+
+#: R/plot-gkm.r:124
+msgid "Tick count"
+msgstr "Število tikov"
+
+#: R/plot-gkm.r:133
+msgid "Confidence interval (dotted lines)"
+msgstr "Interval zaupanja (črtni)"
+
+#: R/plot-gkm.r:134
+msgid "Confidence interval (band)"
+msgstr "Interval zaupanja (pasu)"
+
+#: R/plot-gkm.r:135
+msgid "Dot censored symbol"
+msgstr "Simbol okrnjene pike"
+
+#: R/plot-gkm.r:136
+msgid "P-value (log-rank test)"
+msgstr "Vrednost P (test log rank)"
+
+#: R/plot-gkm.r:137
+msgid "Reference line at median survival"
+msgstr "Referenčna črta mediane preživetja"
+
+#: R/plot-gkm.r:171
+msgid "Kaplan-Meier plot"
+msgstr "Kaplan-Meierjev grafikon"
+
+#: R/plot-gkm.r:258
+msgid "Time variable is not selected."
+msgstr "Časovna spremenljivka ni izbrana"
+
+#: R/plot-gkm.r:264
+msgid "Event variable is not selected."
+msgstr "Spremenljivka digodka ni izbrana"
+
+#: R/plot-gkm.r:291
+msgid "Estimation failed in survfit().  This data may be inappropriate."
+msgstr "Ocena preživetja ni možna. Ti podatki morda niso primerni za izračun."
+
+#: R/plot-gkm.r:370
+msgid "There is only 1 group. P-value could not be calculated."
+msgstr "Obstaja samo ena skupina. Ne morem izračunati vrednosti P."
+
+#: R/plot-gkm.r:437
+msgid "Unknown error.  This plot may be broken."
+msgstr "Neznana napaka. Ta graf je najbrž pokvarjen."
+
+#: R/plot-gkm.r:568
+msgid "Median survival times did not exist."
+msgstr "Mediana časa preživetja ne obstaja."
+
+#: R/plot-gline.r:112
+msgid "Line"
+msgstr "Črta"
+
+#: R/plot-gline.r:113
+msgid "Step"
+msgstr "Korak"
+
+#: R/plot-gline.r:114
+msgid "Area"
+msgstr "Ploskev"
+
+#: R/plot-gline.r:125
+msgid "Sum"
+msgstr "Vsota"
+
+#: R/plot-gline.r:127
+msgid "Summarization"
+msgstr "Izvleček"
+
+#: R/plot-gline.r:135
+msgid "%Y-%m-%d (ISO 8601)"
+msgstr "%Y-%m-%d (ISO 8601)"
+
+#: R/plot-gline.r:136
+msgid "%m/%d/%y (ISO C99)"
+msgstr "%m/%d/%y (ISO C99)"
+
+#: R/plot-gline.r:142
+msgid ""
+"If you needs complementary informations about scales, \n"
+"please run or search ?format.Date, ?scale_x_date, or ?strptime."
+msgstr ""
+"Če potrebujete več informacij o merilu,\n"
+"preiščite ?format.Date, ?scale_x_date, ali ?strptime."
+
+#: R/plot-gline.r:169
+msgid "Line chart"
+msgstr "Črtni graf"
+
+#: R/plot-gpie.r:115
+msgid "Pie chart"
+msgstr "Krožni grafikon"
+
+#: R/plot-gqq.r:94
+msgid "Normal distribution"
+msgstr "Normalna distribucija"
+
+#: R/plot-gqq.r:95
+msgid "Log-normal distribution"
+msgstr "Log-normalna distribucija"
+
+#: R/plot-gqq.r:96
+msgid "Beta distribution"
+msgstr "Beta distribucija"
+
+#: R/plot-gqq.r:97
+msgid "Exponential distribution"
+msgstr "Eksponentna distribucija"
+
+#: R/plot-gqq.r:98
+msgid "Gamma distribution"
+msgstr "Gamma distribucija"
+
+#: R/plot-gqq.r:99
+msgid "Weibull distribution"
+msgstr "Weinbullova distribucija"
+
+#: R/plot-gqq.r:100
+msgid "Other distribution"
+msgstr "Druga distribucija"
+
+#: R/plot-gqq.r:102
+msgid "Distribution"
+msgstr "Distribucija"
+
+#: R/plot-gqq.r:112
+msgid "Parameters for other distribution"
+msgstr "Parametri druge distribucije"
+
+#: R/plot-gqq.r:142
+msgid "Q-Q plot"
+msgstr "Diagram primerjave kvantilov (QQ)"
+
+#: R/plot-gqq.r:213
+msgid "The log-normal distribution defined on the interval (0, +Inf)."
+msgstr "Log-normalna distribucija definirana na intervalu (0, +Inf)."
+
+#: R/plot-gqq.r:224
+msgid "The beta distribution defined on the interval [0, 1]."
+msgstr "Beta distribucija definirana na intervalu [0, 1]."
+
+#: R/plot-gqq.r:235
+msgid "The exponential distribution defined on the interval [0, +Inf)."
+msgstr "Eksponentna distribucija definirana na intervalu [0, +Inf)."
+
+#: R/plot-gqq.r:246
+msgid "The gamma distribution defined on the interval [0, +Inf)."
+msgstr "Gama distribucija definirana na intervalu [0, +Inf)."
+
+#: R/plot-gqq.r:257
+msgid "The weibull distribution defined on the interval [0, +Inf)."
+msgstr "Weinbullova distribucija definirana na intervalu [0, +Inf)."
+
+#: R/plot-gqq.r:317
+msgid "Parameter estimation failed."
+msgstr "Ocena parametra ni možna."
+
+#: R/plot-gscat.r:108 R/plot-gscatmat.r:95
+msgid "Smoothing with C.I. (linear regression)"
+msgstr "Glajenje z intervalom zaupanja (linearna regresija)"
+
+#: R/plot-gscat.r:109 R/plot-gscatmat.r:96
+msgid "Smoothing without C.I. (linear regression)"
+msgstr "Glajenje brez intervala zaupanja (linearna regresija)"
+
+#: R/plot-gscat.r:110 R/plot-gscatmat.r:97
+msgid "Smoothing with C.I. (loess or gam)"
+msgstr "Glajenje z intervalom zaupanja (Loess ali GAM)"
+
+#: R/plot-gscat.r:111 R/plot-gscatmat.r:98
+msgid "Smoothing without C.I. (loess or gam)"
+msgstr "Glajenje brez intervala zaupanja (Loess ali GAM)"
+
+#: R/plot-gscat.r:113 R/plot-gscatmat.r:100
+msgid "Smoothing type"
+msgstr "Zvrst glajenja"
+
+#: R/plot-gscat.r:133
+msgid "Scatter plot"
+msgstr "Razsevni grafikon"
+
+#: R/plot-gscat.r:320 R/plot-gscatmat.r:318
+msgid ""
+"Smoothing failed.  Please try another smoothing type, or check the data and "
+"variables."
+msgstr ""
+"Glajenje ni možno. Prosimo poskusite drugo zvrst glajenja oz. preverite "
+"podatke in spremenljivke."
+
+#: R/plot-gscatmat.r:73
+msgid "Select variables (three or more)"
+msgstr "Izberite spremenljivke (tri ali več)"
+
+#: R/plot-gscatmat.r:119
+msgid "Scatter plot matrix"
+msgstr "Matrika razsevnega grafikona"
+
+#: R/plot-gscatmat.r:175
+msgid "Please select more than 3 variables."
+msgstr "Prosim izberite več kot 3 spremenljivke."
+
+#: inst/etc/tmenus.txt:2
+msgid "Kaplan-Meier plot..."
+msgstr "Kaplan-Meierjev grafikon..."
+
+#: inst/etc/tmenus.txt:3
+msgid "Histogram..."
+msgstr "Histogram..."
+
+#: inst/etc/tmenus.txt:4
+msgid "Q-Q plot..."
+msgstr "Diagram primerjave kvantilov..."
+
+#: inst/etc/tmenus.txt:5
+msgid "Box plot / Violin plot / Confidence interval..."
+msgstr "Okvir z ročaji / Violinski grafikon / Interval zaupanja..."
+
+#: inst/etc/tmenus.txt:6
+msgid "Scatter plot..."
+msgstr "Razsevni grafikon..."
+
+#: inst/etc/tmenus.txt:7
+msgid "Scatter matrix..."
+msgstr "Matrika razsevnega grafikona..."
+
+#: inst/etc/tmenus.txt:8
+msgid "Line chart..."
+msgstr "Črtni grafikon..."
+
+#: inst/etc/tmenus.txt:9
+msgid "Pie chart..."
+msgstr "Krožni grafikon..."
+
+#: inst/etc/tmenus.txt:10
+msgid "Bar chart for discrete variables..."
+msgstr "Stolpični diagram za diskretne spremenljivke..."
+
+#: inst/etc/tmenus.txt:11
+msgid "Contour plot..."
+msgstr "Grafikon plasti..."
+
+#: inst/etc/tmenus.txt:12
+msgid "Data handling..."
+msgstr "Obdelava podatkov..."
+
+#: inst/etc/tmenus.txt:13
+msgid "Factorizing numeric variables..."
+msgstr "Faktoriziranje številskih spremenljivk..."
+
+#: inst/etc/tmenus.txt:14
+msgid "Plot distribution..."
+msgstr "Rišem distribucijo..."
+
+#: inst/etc/tmenus.txt:15
+msgid "Normal distribution..."
+msgstr "Normalna distribucija..."
+
+#: inst/etc/tmenus.txt:16
+msgid "t distribution..."
+msgstr "t distribucija..."
+
+#: inst/etc/tmenus.txt:17
+msgid "Chi-square distribution..."
+msgstr "Hi-kvadrat distribucija..."
+
+#: inst/etc/tmenus.txt:18
+msgid "F distribution..."
+msgstr "F distribucija..."
+
+#: inst/etc/tmenus.txt:19
+msgid "Exponential distribution..."
+msgstr "Eksponentna distribucija..."
+
+#: inst/etc/tmenus.txt:20
+msgid "Uniform distribution..."
+msgstr "Enakomerna distribucija..."
+
+#: inst/etc/tmenus.txt:21
+msgid "Beta distribution..."
+msgstr "Beta distribucija..."
+
+#: inst/etc/tmenus.txt:22
+msgid "Cauchy distribution..."
+msgstr "Cauchyjeva dsitribucija..."
+
+#: inst/etc/tmenus.txt:23
+msgid "Logistic distribution..."
+msgstr "Logistična distribucija..."
+
+#: inst/etc/tmenus.txt:24
+msgid "Log-normal distribution..."
+msgstr "Log-normalna distribucija..."
+
+#: inst/etc/tmenus.txt:25
+msgid "Gamma distribution..."
+msgstr "Gama distribucija..."
+
+#: inst/etc/tmenus.txt:26
+msgid "Weibull distribution..."
+msgstr "Weinbullova distribucija..."
+
+#: inst/etc/tmenus.txt:27
+msgid "Binomial distribution..."
+msgstr "Binomska distribucija..."
+
+#: inst/etc/tmenus.txt:28
+msgid "Poisson distribution..."
+msgstr "Poissonova distribucija..."
+
+#: inst/etc/tmenus.txt:29
+msgid "Geometric distribution..."
+msgstr "Geometrijska distribucija..."
+
+#: inst/etc/tmenus.txt:30
+msgid "Hypergeometric distribution..."
+msgstr "Hipergeometrična distribucija..."
+
+#: inst/etc/tmenus.txt:31
+msgid "Negative binomial distribution..."
+msgstr "Negativna binomska distribucija..."

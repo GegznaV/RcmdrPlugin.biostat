@@ -1,0 +1,767 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: RcmdrPlugin.KMggplot2 0.2-1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-12-30 22:30+0900\n"
+"PO-Revision-Date: 2015-12-30 22:30+0900\n"
+"Last-Translator: Triad sou. <triadsou@gmail.com>\n"
+"Language-Team: Triad sou. <triadsou@gmail.com>\n"
+"Language: ja_JP\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: gettextKmg2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SearchPath-0: ./R\n"
+"X-Poedit-SearchPath-1: ./inst/etc\n"
+
+#: R/guiparts-toolbox.r:71
+msgid "Font size"
+msgstr ""
+
+#: R/guiparts-toolbox.r:86
+msgid "Font family"
+msgstr ""
+
+#: R/guiparts-toolbox.r:98
+msgid "Colour pattern"
+msgstr ""
+
+#: R/guiparts-toolbox.r:106
+msgid "Save graph"
+msgstr ""
+
+#: R/guiparts-toolbox.r:107
+msgid "Graph options"
+msgstr ""
+
+#: R/guiparts-toolbox.r:125
+msgid "Theme"
+msgstr ""
+
+#: R/plot-aaa.r:103 R/plot-aaa.r:153 R/plot-factorise.r:99 R/plot-gkm.r:292
+#: R/plot-gkm.r:438 R/plot-gkm.r:455 R/plot-gqq.r:214 R/plot-gqq.r:225
+#: R/plot-gqq.r:236 R/plot-gqq.r:247 R/plot-gqq.r:258 R/plot-gqq.r:318
+msgid "Error"
+msgstr ""
+
+#: R/plot-aaa.r:169 R/plot-aaa.r:170
+msgid "Preview"
+msgstr ""
+
+#: R/plot-aaa.r:585
+msgid ""
+"Plot failed.  Please check the data and variables, or try other options."
+msgstr ""
+
+#: R/plot-factorise.r:141
+msgid "Variable (pick one or more)"
+msgstr ""
+
+#: R/plot-factorise.r:151
+msgid "Simple factorization"
+msgstr ""
+
+#: R/plot-factorise.r:152
+msgid "Categorize according to the quartiles"
+msgstr ""
+
+#: R/plot-factorise.r:154 R/plot-gbox.r:125 R/plot-gcont.r:112
+#: R/plot-ghist.r:133 R/plot-gkm.r:139
+msgid "Options"
+msgstr ""
+
+#: R/plot-factorise.r:168
+msgid "Factorizing numeric variables"
+msgstr ""
+
+#: R/plot-factorise.r:216
+msgid "Variables are not selected"
+msgstr ""
+
+#: R/plot-gbox.r:75
+msgid "X variable"
+msgstr ""
+
+#: R/plot-gbox.r:76 R/plot-gcont.r:76 R/plot-gline.r:80 R/plot-gqq.r:74
+#: R/plot-gscat.r:75
+msgid "Y variable (pick one)"
+msgstr ""
+
+#: R/plot-gbox.r:77 R/plot-gdiscbar.r:76 R/plot-gkm.r:81 R/plot-gline.r:81
+#: R/plot-gscat.r:76 R/plot-gscatmat.r:74
+msgid "Stratum variable"
+msgstr ""
+
+#: R/plot-gbox.r:87 R/plot-gcont.r:87 R/plot-gdiscbar.r:86 R/plot-ghist.r:88
+#: R/plot-gkm.r:91 R/plot-gline.r:91 R/plot-gpie.r:84 R/plot-gscat.r:86
+msgid "Facet variable in rows"
+msgstr ""
+
+#: R/plot-gbox.r:88 R/plot-gcont.r:88 R/plot-gdiscbar.r:87 R/plot-ghist.r:89
+#: R/plot-gkm.r:92 R/plot-gline.r:92 R/plot-gpie.r:85 R/plot-gscat.r:87
+msgid "Facet variable in cols"
+msgstr ""
+
+#: R/plot-gbox.r:97 R/plot-gcont.r:97 R/plot-gdiscbar.r:96 R/plot-gdist.r:85
+#: R/plot-ghist.r:98 R/plot-gkm.r:101 R/plot-gline.r:101 R/plot-gqq.r:84
+#: R/plot-gscat.r:96
+msgid "Horizontal axis label"
+msgstr ""
+
+#: R/plot-gbox.r:98 R/plot-gcont.r:98 R/plot-gdiscbar.r:97 R/plot-gdist.r:86
+#: R/plot-ghist.r:99 R/plot-gkm.r:102 R/plot-gline.r:102 R/plot-gqq.r:85
+#: R/plot-gscat.r:97
+msgid "Vertical axis label"
+msgstr ""
+
+#: R/plot-gbox.r:99 R/plot-gcont.r:99 R/plot-gdiscbar.r:98 R/plot-gkm.r:103
+#: R/plot-gline.r:103 R/plot-gpie.r:94 R/plot-gscat.r:98 R/plot-gscatmat.r:85
+msgid "Legend label"
+msgstr ""
+
+#: R/plot-gbox.r:100 R/plot-gcont.r:100 R/plot-gdiscbar.r:99 R/plot-gdist.r:87
+#: R/plot-ghist.r:100 R/plot-gkm.r:104 R/plot-gline.r:104 R/plot-gpie.r:95
+#: R/plot-gqq.r:86 R/plot-gscat.r:99 R/plot-gscatmat.r:86
+msgid "Title"
+msgstr ""
+
+#: R/plot-gbox.r:108
+msgid "Box plot"
+msgstr ""
+
+#: R/plot-gbox.r:109
+msgid "Notched box plot"
+msgstr ""
+
+#: R/plot-gbox.r:110
+msgid "Violin plot"
+msgstr ""
+
+#: R/plot-gbox.r:111
+msgid "95% C.I. (t distribution)"
+msgstr ""
+
+#: R/plot-gbox.r:112
+msgid "95% C.I. (bootstrap)"
+msgstr ""
+
+#: R/plot-gbox.r:114 R/plot-gline.r:116
+msgid "Plot type"
+msgstr ""
+
+#: R/plot-gbox.r:122
+msgid "Flipped coordinates"
+msgstr ""
+
+#: R/plot-gbox.r:123
+msgid "Add data point"
+msgstr ""
+
+#: R/plot-gbox.r:152
+msgid "Box plot / Violin plot / Confidence interval"
+msgstr ""
+
+#: R/plot-gbox.r:222 R/plot-gcont.r:200 R/plot-gline.r:239 R/plot-gqq.r:200
+#: R/plot-gscat.r:201
+msgid "Y variable is not selected"
+msgstr ""
+
+#: R/plot-gcont.r:75 R/plot-gdiscbar.r:75 R/plot-gline.r:79 R/plot-gscat.r:74
+msgid "X variable (pick one)"
+msgstr ""
+
+#: R/plot-gcont.r:77
+msgid "Z variable (pick one)"
+msgstr ""
+
+#: R/plot-gcont.r:108 R/plot-gkm.r:112 R/plot-gline.r:123 R/plot-gline.r:134
+#: R/plot-gscat.r:107 R/plot-gscatmat.r:94
+msgid "None"
+msgstr ""
+
+#: R/plot-gcont.r:109
+msgid "Coloured lines"
+msgstr ""
+
+#: R/plot-gcont.r:110 R/plot-ghist.r:131
+msgid "Heat map"
+msgstr ""
+
+#: R/plot-gcont.r:132
+msgid "Contour plot"
+msgstr ""
+
+#: R/plot-gcont.r:194 R/plot-gline.r:233 R/plot-gscat.r:195
+msgid "X variable is not selected"
+msgstr ""
+
+#: R/plot-gcont.r:206
+msgid "Z variable is not selected"
+msgstr ""
+
+#: R/plot-gcont.r:212
+msgid "Each variable must be different."
+msgstr ""
+
+#: R/plot-gdiscbar.r:107 R/plot-ghist.r:120
+msgid "Percentages"
+msgstr ""
+
+#: R/plot-gdiscbar.r:108 R/plot-ghist.r:119
+msgid "Frequency counts"
+msgstr ""
+
+#: R/plot-gdiscbar.r:110 R/plot-ghist.r:122
+msgid "Axis scaling"
+msgstr ""
+
+#: R/plot-gdiscbar.r:130
+msgid "Bar chart for discrete variables"
+msgstr ""
+
+#: R/plot-gdiscbar.r:177 R/plot-ghist.r:221
+msgid "Percent"
+msgstr ""
+
+#: R/plot-gdiscbar.r:179 R/plot-ghist.r:218
+msgid "Count"
+msgstr ""
+
+#: R/plot-gdiscbar.r:196 R/plot-ghist.r:239 R/plot-gpie.r:172
+msgid "Variable is not selected"
+msgstr ""
+
+#: R/plot-gdist.r:95
+msgid "Plot density function"
+msgstr ""
+
+#: R/plot-gdist.r:96
+msgid "Plot distribution function"
+msgstr ""
+
+#: R/plot-gdist.r:98
+msgid "Function type"
+msgstr ""
+
+#: R/plot-gdist.r:254
+msgid "Plot normal distiribution"
+msgstr ""
+
+#: R/plot-gdist.r:258 R/plot-gdist.r:580 R/plot-gline.r:124
+msgid "Mean"
+msgstr ""
+
+#: R/plot-gdist.r:259
+msgid "S.D."
+msgstr ""
+
+#: R/plot-gdist.r:279
+msgid "Plot t distiribution"
+msgstr ""
+
+#: R/plot-gdist.r:283 R/plot-gdist.r:307
+msgid "df"
+msgstr ""
+
+#: R/plot-gdist.r:303
+msgid "Plot chi-square distiribution"
+msgstr ""
+
+#: R/plot-gdist.r:327
+msgid "Plot F distiribution"
+msgstr ""
+
+#: R/plot-gdist.r:331
+msgid "Numerator df"
+msgstr ""
+
+#: R/plot-gdist.r:332
+msgid "Denominator df"
+msgstr ""
+
+#: R/plot-gdist.r:352
+msgid "Plot exponential distiribution"
+msgstr ""
+
+#: R/plot-gdist.r:356
+msgid "rate"
+msgstr ""
+
+#: R/plot-gdist.r:376
+msgid "Plot uniform distiribution"
+msgstr ""
+
+#: R/plot-gdist.r:380
+msgid "Minimum"
+msgstr ""
+
+#: R/plot-gdist.r:381
+msgid "Maximum"
+msgstr ""
+
+#: R/plot-gdist.r:401
+msgid "Plot beta distiribution"
+msgstr ""
+
+#: R/plot-gdist.r:405
+msgid "Shape 1"
+msgstr ""
+
+#: R/plot-gdist.r:406
+msgid "Shape 2"
+msgstr ""
+
+#: R/plot-gdist.r:426
+msgid "Plot cauchy distiribution"
+msgstr ""
+
+#: R/plot-gdist.r:430 R/plot-gdist.r:455
+msgid "Location"
+msgstr ""
+
+#: R/plot-gdist.r:431 R/plot-gdist.r:456 R/plot-gdist.r:531 R/plot-gline.r:138
+msgid "Scale"
+msgstr ""
+
+#: R/plot-gdist.r:451
+msgid "Plot logistic distiribution"
+msgstr ""
+
+#: R/plot-gdist.r:476
+msgid "Plot log-normal distiribution"
+msgstr ""
+
+#: R/plot-gdist.r:480
+msgid "Mean (log scale)"
+msgstr ""
+
+#: R/plot-gdist.r:481
+msgid "S.D. (log scale)"
+msgstr ""
+
+#: R/plot-gdist.r:501
+msgid "Plot gamma distiribution"
+msgstr ""
+
+#: R/plot-gdist.r:505 R/plot-gdist.r:530
+msgid "Shape"
+msgstr ""
+
+#: R/plot-gdist.r:506
+msgid "Rate (inverse scale)"
+msgstr ""
+
+#: R/plot-gdist.r:526
+msgid "Plot weibull distiribution"
+msgstr ""
+
+#: R/plot-gdist.r:551
+msgid "Plot binomial distiribution"
+msgstr ""
+
+#: R/plot-gdist.r:555
+msgid "Binomial trials"
+msgstr ""
+
+#: R/plot-gdist.r:556 R/plot-gdist.r:604 R/plot-gdist.r:655
+msgid "Probability of success"
+msgstr ""
+
+#: R/plot-gdist.r:576
+msgid "Plot poisson distiribution"
+msgstr ""
+
+#: R/plot-gdist.r:600
+msgid "Plot geometric distiribution"
+msgstr ""
+
+#: R/plot-gdist.r:624
+msgid "Plot hypergeometric distiribution"
+msgstr ""
+
+#: R/plot-gdist.r:628
+msgid "m (number of white balls in the urn)"
+msgstr ""
+
+#: R/plot-gdist.r:629
+msgid "n (number of black balls in the urn)"
+msgstr ""
+
+#: R/plot-gdist.r:630
+msgid "k (number of balls drawn from the urn)"
+msgstr ""
+
+#: R/plot-gdist.r:650
+msgid "Plot negative binomial distiribution"
+msgstr ""
+
+#: R/plot-gdist.r:654
+msgid "Target number of success"
+msgstr ""
+
+#: R/plot-ghist.r:78 R/plot-gpie.r:74
+msgid "Variable (pick one)"
+msgstr ""
+
+#: R/plot-ghist.r:109
+msgid "No. of bins"
+msgstr ""
+
+#: R/plot-ghist.r:118
+msgid "Densities"
+msgstr ""
+
+#: R/plot-ghist.r:130
+msgid "Density estimation"
+msgstr ""
+
+#: R/plot-ghist.r:165
+msgid "Histogram"
+msgstr ""
+
+#: R/plot-ghist.r:214
+msgid "Density"
+msgstr ""
+
+#: R/plot-gkm.r:79
+msgid "Time variable"
+msgstr ""
+
+#: R/plot-gkm.r:80
+msgid "Event variable (0=censor, 1=event)"
+msgstr ""
+
+#: R/plot-gkm.r:113
+msgid "Inside"
+msgstr ""
+
+#: R/plot-gkm.r:114
+msgid "Outside (facet ignored)"
+msgstr ""
+
+#: R/plot-gkm.r:116
+msgid "No at risk."
+msgstr ""
+
+#: R/plot-gkm.r:124
+msgid "Tick count"
+msgstr ""
+
+#: R/plot-gkm.r:133
+msgid "Confidence interval (dotted lines)"
+msgstr ""
+
+#: R/plot-gkm.r:134
+msgid "Confidence interval (band)"
+msgstr ""
+
+#: R/plot-gkm.r:135
+msgid "Dot censored symbol"
+msgstr ""
+
+#: R/plot-gkm.r:136
+msgid "P-value (log-rank test)"
+msgstr ""
+
+#: R/plot-gkm.r:137
+msgid "Reference line at median survival"
+msgstr ""
+
+#: R/plot-gkm.r:171
+msgid "Kaplan-Meier plot"
+msgstr ""
+
+#: R/plot-gkm.r:258
+msgid "Time variable is not selected."
+msgstr ""
+
+#: R/plot-gkm.r:264
+msgid "Event variable is not selected."
+msgstr ""
+
+#: R/plot-gkm.r:291
+msgid "Estimation failed in survfit().  This data may be inappropriate."
+msgstr ""
+
+#: R/plot-gkm.r:370
+msgid "There is only 1 group. P-value could not be calculated."
+msgstr ""
+
+#: R/plot-gkm.r:437
+msgid "Unknown error.  This plot may be broken."
+msgstr ""
+
+#: R/plot-gkm.r:568
+msgid "Median survival times did not exist."
+msgstr ""
+
+#: R/plot-gline.r:112
+msgid "Line"
+msgstr ""
+
+#: R/plot-gline.r:113
+msgid "Step"
+msgstr ""
+
+#: R/plot-gline.r:114
+msgid "Area"
+msgstr ""
+
+#: R/plot-gline.r:125
+msgid "Sum"
+msgstr ""
+
+#: R/plot-gline.r:127
+msgid "Summarization"
+msgstr ""
+
+#: R/plot-gline.r:135
+msgid "%Y-%m-%d (ISO 8601)"
+msgstr ""
+
+#: R/plot-gline.r:136
+msgid "%m/%d/%y (ISO C99)"
+msgstr ""
+
+#: R/plot-gline.r:142
+msgid ""
+"If you needs complementary informations about scales, \n"
+"please run or search ?format.Date, ?scale_x_date, or ?strptime."
+msgstr ""
+
+#: R/plot-gline.r:169
+msgid "Line chart"
+msgstr ""
+
+#: R/plot-gpie.r:115
+msgid "Pie chart"
+msgstr ""
+
+#: R/plot-gqq.r:94
+msgid "Normal distribution"
+msgstr ""
+
+#: R/plot-gqq.r:95
+msgid "Log-normal distribution"
+msgstr ""
+
+#: R/plot-gqq.r:96
+msgid "Beta distribution"
+msgstr ""
+
+#: R/plot-gqq.r:97
+msgid "Exponential distribution"
+msgstr ""
+
+#: R/plot-gqq.r:98
+msgid "Gamma distribution"
+msgstr ""
+
+#: R/plot-gqq.r:99
+msgid "Weibull distribution"
+msgstr ""
+
+#: R/plot-gqq.r:100
+msgid "Other distribution"
+msgstr ""
+
+#: R/plot-gqq.r:102
+msgid "Distribution"
+msgstr ""
+
+#: R/plot-gqq.r:112
+msgid "Parameters for other distribution"
+msgstr ""
+
+#: R/plot-gqq.r:142
+msgid "Q-Q plot"
+msgstr ""
+
+#: R/plot-gqq.r:213
+msgid "The log-normal distribution defined on the interval (0, +Inf)."
+msgstr ""
+
+#: R/plot-gqq.r:224
+msgid "The beta distribution defined on the interval [0, 1]."
+msgstr ""
+
+#: R/plot-gqq.r:235
+msgid "The exponential distribution defined on the interval [0, +Inf)."
+msgstr ""
+
+#: R/plot-gqq.r:246
+msgid "The gamma distribution defined on the interval [0, +Inf)."
+msgstr ""
+
+#: R/plot-gqq.r:257
+msgid "The weibull distribution defined on the interval [0, +Inf)."
+msgstr ""
+
+#: R/plot-gqq.r:317
+msgid "Parameter estimation failed."
+msgstr ""
+
+#: R/plot-gscat.r:108 R/plot-gscatmat.r:95
+msgid "Smoothing with C.I. (linear regression)"
+msgstr ""
+
+#: R/plot-gscat.r:109 R/plot-gscatmat.r:96
+msgid "Smoothing without C.I. (linear regression)"
+msgstr ""
+
+#: R/plot-gscat.r:110 R/plot-gscatmat.r:97
+msgid "Smoothing with C.I. (loess or gam)"
+msgstr ""
+
+#: R/plot-gscat.r:111 R/plot-gscatmat.r:98
+msgid "Smoothing without C.I. (loess or gam)"
+msgstr ""
+
+#: R/plot-gscat.r:113 R/plot-gscatmat.r:100
+msgid "Smoothing type"
+msgstr ""
+
+#: R/plot-gscat.r:133
+msgid "Scatter plot"
+msgstr ""
+
+#: R/plot-gscat.r:320 R/plot-gscatmat.r:318
+msgid ""
+"Smoothing failed.  Please try another smoothing type, or check the data and "
+"variables."
+msgstr ""
+
+#: R/plot-gscatmat.r:73
+msgid "Select variables (three or more)"
+msgstr ""
+
+#: R/plot-gscatmat.r:119
+msgid "Scatter plot matrix"
+msgstr ""
+
+#: R/plot-gscatmat.r:175
+msgid "Please select more than 3 variables."
+msgstr ""
+
+#: inst/etc/tmenus.txt:2
+msgid "Kaplan-Meier plot..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:3
+msgid "Histogram..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:4
+msgid "Q-Q plot..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:5
+msgid "Box plot / Violin plot / Confidence interval..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:6
+msgid "Scatter plot..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:7
+msgid "Scatter matrix..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:8
+msgid "Line chart..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:9
+msgid "Pie chart..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:10
+msgid "Bar chart for discrete variables..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:11
+msgid "Contour plot..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:12
+msgid "Data handling..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:13
+msgid "Factorizing numeric variables..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:14
+msgid "Plot distribution..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:15
+msgid "Normal distribution..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:16
+msgid "t distribution..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:17
+msgid "Chi-square distribution..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:18
+msgid "F distribution..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:19
+msgid "Exponential distribution..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:20
+msgid "Uniform distribution..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:21
+msgid "Beta distribution..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:22
+msgid "Cauchy distribution..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:23
+msgid "Logistic distribution..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:24
+msgid "Log-normal distribution..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:25
+msgid "Gamma distribution..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:26
+msgid "Weibull distribution..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:27
+msgid "Binomial distribution..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:28
+msgid "Poisson distribution..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:29
+msgid "Geometric distribution..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:30
+msgid "Hypergeometric distribution..."
+msgstr ""
+
+#: inst/etc/tmenus.txt:31
+msgid "Negative binomial distribution..."
+msgstr ""
