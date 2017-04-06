@@ -1,9 +1,11 @@
 Package: RcmdrPlugin.BioStat
 Type: Package
 Version: 0.0.1
+Date: 2016-11-15
 Title: An Rcmdr Plug-in for Various Plots by Using the 'ggplot2' and 'plotly'
     Packages
-Description: A GUI front-end for 'ggplot2' allows Kaplan-Meier plot, histogram,
+Description: A GUI front-end for 'ggplot2' Based on 'RcmdrPlugin.KMggplot2'. 
+    It allows Kaplan-Meier plot, histogram,
     Q-Q plot, box plot, errorbar plot, scatter plot, line chart, pie chart,
     bar chart, contour plot, and distribution plot.
 Author: VG, Triad sou. and Kengo NAGASHIMA
@@ -16,7 +18,7 @@ Depends:
     grid,
     Rcmdr (>= 2.1-7),
     ggplot2 (>= 2.0.0),
-    plotly
+    tidyr
 Imports:
     stats,
     methods,
