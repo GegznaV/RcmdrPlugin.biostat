@@ -6,7 +6,7 @@ output: github_document
  
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
-  collapse = FALSE,
+  collapse = FALSE, fig.height = 4, fig.width = 6,
   comment = "#>",
   fig.path = "README-"
 )
@@ -14,29 +14,33 @@ knitr::opts_chunk$set(
 
 ***
 
-[![CRAN version](http://www.r-pkg.org/badges/version/BioStat)](https://cran.rstudio.com/web/packages/BioStat/index.html)
-[![GitHub version](https://img.shields.io/badge/GitHub-v`r packageVersion("BioStat")`-brightgreen.svg)](https://github.com/GegznaV/BioStat)
-[![Travis-CI Build Status](https://travis-ci.org/GegznaV/BioStat.png?branch=master)](https://travis-ci.org/GegznaV/BioStat)
-[![codecov.io](https://codecov.io/github/GegznaV/BioStat/coverage.svg?branch=master)](https://codecov.io/github/GegznaV/BioStat?branch=master)
+[![CRAN version](http://www.r-pkg.org/badges/version/RcmdrPlugin.BioStat)](https://cran.rstudio.com/web/packages/RcmdrPlugin.BioStat/index.html)
+[![GitHub version](https://img.shields.io/badge/GitHub-v`r packageVersion("RcmdrPlugin.BioStat")`-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.BioStat)
+[![Travis-CI Build Status](https://travis-ci.org/GegznaV/RcmdrPlugin.BioStat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.BioStat)
+[![codecov.io](https://codecov.io/github/GegznaV/RcmdrPlugin.BioStat/coverage.svg?branch=master)](https://codecov.io/github/GegznaV/RcmdrPlugin.BioStat?branch=master)
 [![Last-update](https://img.shields.io/badge/last%20update-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](/commits/master)
 
 ***
 
-```{r logo, fig.align='center', out.height='30%', out.width='30%',echo=FALSE}
-knitr::include_graphics("https://raw.githubusercontent.com/GegznaV/BioStat/master/docs/logo.png")
-```
+<!-- 
+```{r logo, fig.align='center', out.height='30%', out.width='30%',echo=FALSE} 
+ knitr::include_graphics("https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.BioStat/master/docs/logo.png") 
+ ``` 
+ -->
 
+```{r logo-local, fig.align='center', out.height='30%', out.width='30%',echo=FALSE} 
+ knitr::include_graphics("logo.png") 
+``` 
+ 
 
-`BioStat` – Convenience Functions for Statistical Analysis
+`RcmdrPlugin.BioStat` – Convenience Functions for Statistical Analysis
 ===========================================================
 
-`BioStat` is an `R` package that contais a collection of supplementary 
-functions for biostatistics and biometry lectures.
+`RcmdrPlugin.BioStat` is an experimental branch of `R` package [`RcmdrPlugin.KMggplot2`](https://cran.r-project.org/web/packages/RcmdrPlugin.KMggplot2/index.html)
 
 ***
 
-**Package is under development** and some functions and default seting may 
-change significantly.
+**Package is under development** and will change significantly. Package is experimental. Use it at your own risk.
 
 ***
 
@@ -45,9 +49,7 @@ change significantly.
 To install a developement version of the package from `GitHub`:
 
 ```{r Install package, eval=FALSE}
-if (!"devtools" %in% installed.packages()) install.packages("devtools")
-
-devtools::install_github("GegznaV/BioStat")
+devtools::install_github("GegznaV/RcmdrPlugin.BioStat")
 ```
 
 
@@ -59,6 +61,6 @@ devtools::install_github("GegznaV/BioStat")
 
 ***
 
-More information at http://gegznav.github.io/spAddins/
+More information at http://gegznav.github.io/RcmdrPlugin.BioStat/
 
 ***

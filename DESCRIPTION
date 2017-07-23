@@ -8,8 +8,13 @@ Description: A GUI front-end for 'ggplot2' Based on 'RcmdrPlugin.KMggplot2'.
     It allows Kaplan-Meier plot, histogram,
     Q-Q plot, box plot, errorbar plot, scatter plot, line chart, pie chart,
     bar chart, contour plot, and distribution plot.
-Author: VG, Triad sou. and Kengo NAGASHIMA
-Maintainer: Triad sou. <triadsou@gmail.com>
+Author: VG, Triad Sou. and Kengo NAGASHIMA
+Authors@R: c(
+    person("Vilmantas", "Gegna", role = c("ctb")),
+	person("Triad", "Sou", role = c("aut","cre","cph"),
+            email = "triadsou@gmail.com"),
+	person("Kengo", "NAGASHIMA", role = c("aut","cre","cph"))
+    )
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
