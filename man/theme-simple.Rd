@@ -18,4 +18,3 @@ A Simple Black and White Theme
 \code{\link[ggplot2:ggplot]{ggplot}}
 }
 \keyword{color}
-

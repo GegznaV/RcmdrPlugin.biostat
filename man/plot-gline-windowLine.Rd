@@ -10,4 +10,3 @@ windowLine()
 \code{windowScatter} function is a wrapper function of \code{gline} class for the R-commander menu bar.
 }
 \keyword{hplot}
-

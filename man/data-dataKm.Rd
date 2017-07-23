@@ -40,4 +40,3 @@ A Dummy Data for Survival Analysis
 km-class
 }
 \keyword{data}
-

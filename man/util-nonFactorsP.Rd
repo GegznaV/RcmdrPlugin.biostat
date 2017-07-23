@@ -21,4 +21,3 @@ This is a function to check the active dataset has more than or equal to \code{n
 \code{\link[Rcmdr:Rcmdr.Utilities]{Rcmdr.Utilities}}
 }
 \keyword{hplot}
-

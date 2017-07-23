@@ -10,4 +10,3 @@ windowDensity()
 \code{windowDensity} function is a wrapper function of \code{gDensity} class for the R-commander menu bar.
 }
 \keyword{hplot}
-

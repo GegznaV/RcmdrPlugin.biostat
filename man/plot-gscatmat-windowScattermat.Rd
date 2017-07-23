@@ -10,4 +10,3 @@ windowScattermat()
 \code{windowScattermat} function is a wrapper function of \code{gscatmat} class for the R-commander menu bar.
 }
 \keyword{hplot}
-

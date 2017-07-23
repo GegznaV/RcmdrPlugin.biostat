@@ -2,8 +2,8 @@
 % Please edit documentation in R/plot-gscat.R
 \docType{class}
 \name{gscat-class}
-\alias{gscat}
 \alias{gscat-class}
+\alias{gscat}
 \title{Scatter Plot Subclass}
 \description{
 \code{gscat} class is a subclass for scatter plots.
@@ -11,6 +11,7 @@
 \details{
 This class is a subclass which show dialog boxes of scatter plots for graphics editing.
 }
+
 \section{Fields}{
 
 \describe{
@@ -61,6 +62,7 @@ NULL
 \item{\code{commandDoIt(command)}: }{An wrapper function for command execution.}
 }
 }
+
 \seealso{
 Other plot: \code{\link{checkError,plot_base-method}},
   \code{\link{checkTheme,plot_base-method}},
@@ -99,4 +101,3 @@ Other plot: \code{\link{checkError,plot_base-method}},
   \code{\link{setFront,plot_base-method}}
 }
 \keyword{hplot}
-

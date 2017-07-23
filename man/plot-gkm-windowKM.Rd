@@ -10,4 +10,3 @@ windowKM()
 \code{windowKM} function is a wrapper function of \code{gkm} class for the R-commander menu bar.
 }
 \keyword{hplot}
-

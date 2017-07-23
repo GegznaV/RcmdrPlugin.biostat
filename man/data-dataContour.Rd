@@ -28,4 +28,3 @@ A Dummy Data for Contour Plots
 contour-class
 }
 \keyword{data}
-

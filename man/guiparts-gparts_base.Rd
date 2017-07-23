@@ -2,8 +2,8 @@
 % Please edit documentation in R/guiparts-aaa.R
 \docType{class}
 \name{gparts_base-class}
-\alias{gparts_base}
 \alias{gparts_base-class}
+\alias{gparts_base}
 \title{Base Class for GUI Frames}
 \description{
 \code{gparts_base} class is the base class for GUI frames.
@@ -11,6 +11,7 @@
 \details{
 This class is a framework for implementing subclasses which make GUI frames.
 }
+
 \section{Fields}{
 
 \describe{
@@ -31,6 +32,7 @@ NULL
 \item{\code{back(perline = 3)}: }{\code{back} method for \code{gparts_base} class.}
 }
 }
+
 \seealso{
 Other guiparts: \code{\link{back,gparts_base-method}},
   \code{\link{checkboxes-class}},
@@ -47,4 +49,3 @@ Other guiparts: \code{\link{back,gparts_base-method}},
   \code{\link{variableboxes-class}}
 }
 \keyword{hplot}
-

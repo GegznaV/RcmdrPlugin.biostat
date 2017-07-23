@@ -2,8 +2,8 @@
 % Please edit documentation in R/guiparts-textfields.R
 \docType{class}
 \name{textfields-class}
-\alias{textfields}
 \alias{textfields-class}
+\alias{textfields}
 \title{Multiple Text Fields Subclass}
 \description{
 \code{textfields} class is a subclass for GUI multiple text fileds frame.
@@ -11,6 +11,7 @@
 \details{
 This class is a subclass which make GUI multiple text fileds frame.
 }
+
 \section{Fields}{
 
 \describe{
@@ -33,6 +34,7 @@ This class is a subclass which make GUI multiple text fileds frame.
 \item{\code{front(top, initValues, titles, boxwidth = "20")}: }{\code{front} method for \code{textfields} subclass.}
 }
 }
+
 \seealso{
 Other guiparts: \code{\link{back,gparts_base-method}},
   \code{\link{checkboxes-class}},
@@ -49,4 +51,3 @@ Other guiparts: \code{\link{back,gparts_base-method}},
   \code{\link{variableboxes-class}}
 }
 \keyword{hplot}
-

@@ -35,4 +35,3 @@ Other guiparts: \code{\link{back,gparts_base-method}},
   \code{\link{variableboxes-class}}
 }
 \keyword{hplot}
-

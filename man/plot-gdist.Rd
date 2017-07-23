@@ -2,8 +2,8 @@
 % Please edit documentation in R/plot-gdist.R
 \docType{class}
 \name{gdist-class}
-\alias{gdist}
 \alias{gdist-class}
+\alias{gdist}
 \title{Distribution Plot Subclass}
 \description{
 \code{gdist} class is a subclass for distribution plots.
@@ -11,6 +11,7 @@
 \details{
 This class is a subclass which show dialog boxes of distribution plots for graphics editing.
 }
+
 \section{Fields}{
 
 \describe{
@@ -65,6 +66,7 @@ NULL
 \item{\code{commandDoIt(command)}: }{An wrapper function for command execution.}
 }
 }
+
 \seealso{
 Other plot: \code{\link{checkError,plot_base-method}},
   \code{\link{checkTheme,plot_base-method}},
@@ -103,4 +105,3 @@ Other plot: \code{\link{checkError,plot_base-method}},
   \code{\link{setFront,plot_base-method}}
 }
 \keyword{hplot}
-

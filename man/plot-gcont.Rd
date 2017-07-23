@@ -2,8 +2,8 @@
 % Please edit documentation in R/plot-gcont.R
 \docType{class}
 \name{gcont-class}
-\alias{gcont}
 \alias{gcont-class}
+\alias{gcont}
 \title{Contour Plot Subclass}
 \description{
 \code{gcont} class is a subclass for contour plots.
@@ -11,6 +11,7 @@
 \details{
 This class is a subclass which show dialog boxes of contour plots for graphics editing.
 }
+
 \section{Fields}{
 
 \describe{
@@ -61,6 +62,7 @@ NULL
 \item{\code{commandDoIt(command)}: }{An wrapper function for command execution.}
 }
 }
+
 \seealso{
 Other plot: \code{\link{checkError,plot_base-method}},
   \code{\link{checkTheme,plot_base-method}},
@@ -99,4 +101,3 @@ Other plot: \code{\link{checkError,plot_base-method}},
   \code{\link{setFront,plot_base-method}}
 }
 \keyword{hplot}
-

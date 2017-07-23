@@ -10,4 +10,3 @@ windowPie()
 \code{windowPie} function is a wrapper function of \code{gpie} class for the R-commander menu bar.
 }
 \keyword{hplot}
-

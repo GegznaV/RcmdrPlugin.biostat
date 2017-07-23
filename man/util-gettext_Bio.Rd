@@ -16,4 +16,3 @@ This function is a \code{gettextRcmdr} wrapper function for this package.
 \code{\link[Rcmdr:Rcmdr.Utilities]{Rcmdr.Utilities}}
 }
 \keyword{documentation}
-

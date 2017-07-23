@@ -10,4 +10,3 @@ windowContour()
 \code{windowContour} function is a wrapper function of \code{gcont} class for the R-commander menu bar.
 }
 \keyword{hplot}
-

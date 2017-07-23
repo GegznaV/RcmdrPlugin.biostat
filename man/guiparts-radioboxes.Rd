@@ -2,8 +2,8 @@
 % Please edit documentation in R/guiparts-radioboxes.R
 \docType{class}
 \name{radioboxes-class}
-\alias{radioboxes}
 \alias{radioboxes-class}
+\alias{radioboxes}
 \title{Radio Boxes Subclass}
 \description{
 \code{radioboxes} class is a subclass for GUI radio box frame.
@@ -11,6 +11,7 @@
 \details{
 This class is a subclass which make GUI radio box frame.
 }
+
 \section{Fields}{
 
 \describe{
@@ -34,6 +35,7 @@ This class is a subclass which make GUI radio box frame.
 \item{\code{front(top, labels, title = "", initValue = 1, right.buttons = FALSE)}: }{\code{front} method for \code{radioboxes} subclass.}
 }
 }
+
 \seealso{
 Other guiparts: \code{\link{back,gparts_base-method}},
   \code{\link{checkboxes-class}},
@@ -50,4 +52,3 @@ Other guiparts: \code{\link{back,gparts_base-method}},
   \code{\link{variableboxes-class}}
 }
 \keyword{hplot}
-

@@ -10,4 +10,3 @@ windowScatter()
 \code{windowScatter} function is a wrapper function of \code{gscat} class for the R-commander menu bar.
 }
 \keyword{hplot}
-

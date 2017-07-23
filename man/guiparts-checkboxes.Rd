@@ -2,8 +2,8 @@
 % Please edit documentation in R/guiparts-checkboxes.R
 \docType{class}
 \name{checkboxes-class}
-\alias{checkboxes}
 \alias{checkboxes-class}
+\alias{checkboxes}
 \title{Check Boxes Subclass}
 \description{
 \code{checkboxes} class is a subclass for GUI check box frame.
@@ -11,6 +11,7 @@
 \details{
 This class is a subclass which make GUI check box frame.
 }
+
 \section{Fields}{
 
 \describe{
@@ -34,6 +35,7 @@ This class is a subclass which make GUI check box frame.
 \item{\code{front(top, initValues, labels, title = "", right.buttons = FALSE)}: }{\code{front} method for \code{checkboxes} subclass.}
 }
 }
+
 \seealso{
 Other guiparts: \code{\link{back,gparts_base-method}},
   \code{\link{front,checkboxes-method}},
@@ -50,4 +52,3 @@ Other guiparts: \code{\link{back,gparts_base-method}},
   \code{\link{variableboxes-class}}
 }
 \keyword{hplot}
-

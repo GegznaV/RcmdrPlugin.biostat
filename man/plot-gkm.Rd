@@ -2,8 +2,8 @@
 % Please edit documentation in R/plot-gkm.R
 \docType{class}
 \name{gkm-class}
-\alias{gkm}
 \alias{gkm-class}
+\alias{gkm}
 \title{Kaplan-Meier Plot Subclass}
 \description{
 \code{gkm} class is a subclass for Kaplan-Meier plots.
@@ -11,6 +11,7 @@
 \details{
 This class is a subclass which show dialog boxes of Kaplan-Meier plots for graphics editing.
 }
+
 \section{Fields}{
 
 \describe{
@@ -63,6 +64,7 @@ NULL
 \item{\code{commandDoIt(command)}: }{An wrapper function for command execution.}
 }
 }
+
 \seealso{
 Other plot: \code{\link{checkError,plot_base-method}},
   \code{\link{checkTheme,plot_base-method}},
@@ -101,4 +103,3 @@ Other plot: \code{\link{checkError,plot_base-method}},
   \code{\link{setFront,plot_base-method}}
 }
 \keyword{hplot}
-

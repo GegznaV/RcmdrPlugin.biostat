@@ -38,4 +38,3 @@ objects.
 \code{\link[ggplot2:ggsave]{ggsave}}
 }
 \keyword{hplot}
-

@@ -2,8 +2,8 @@
 % Please edit documentation in R/plot-gdiscbar.R
 \docType{class}
 \name{gdiscbar-class}
-\alias{gdiscbar}
 \alias{gdiscbar-class}
+\alias{gdiscbar}
 \title{Discrete Bar Charts Subclass}
 \description{
 \code{gdiscbar} class is a subclass for discrete bar charts.
@@ -11,6 +11,7 @@
 \details{
 This class is a subclass which show dialog boxes of discrete bar charts for graphics editing.
 }
+
 \section{Fields}{
 
 \describe{
@@ -61,6 +62,7 @@ NULL
 \item{\code{commandDoIt(command)}: }{An wrapper function for command execution.}
 }
 }
+
 \seealso{
 Other plot: \code{\link{checkError,plot_base-method}},
   \code{\link{checkTheme,plot_base-method}},
@@ -99,4 +101,3 @@ Other plot: \code{\link{checkError,plot_base-method}},
   \code{\link{setFront,plot_base-method}}
 }
 \keyword{hplot}
-

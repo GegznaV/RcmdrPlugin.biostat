@@ -10,4 +10,3 @@ windowQQ()
 \code{windowQQ} function is a wrapper function of \code{gqq} class for the R-commander menu bar.
 }
 \keyword{hplot}
-

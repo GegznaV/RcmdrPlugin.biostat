@@ -10,4 +10,3 @@ windowBox()
 \code{windowBox} function is a wrapper function of \code{gbox} class for the R-commander menu bar.
 }
 \keyword{hplot}
-

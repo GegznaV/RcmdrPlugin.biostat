@@ -56,4 +56,3 @@ Other plot: \code{\link{checkTheme,plot_base-method}},
   \code{\link{setFront,plot_base-method}}
 }
 \keyword{hplot}
-

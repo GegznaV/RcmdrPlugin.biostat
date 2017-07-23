@@ -2,8 +2,8 @@
 % Please edit documentation in R/plot-gpie.R
 \docType{class}
 \name{gpie-class}
-\alias{gpie}
 \alias{gpie-class}
+\alias{gpie}
 \title{Pie Charts Subclass}
 \description{
 \code{gpie} class is a subclass for pie charts.
@@ -11,6 +11,7 @@
 \details{
 This class is a subclass which show dialog boxes of pie charts for graphics editing.
 }
+
 \section{Fields}{
 
 \describe{
@@ -60,6 +61,7 @@ NULL
 \item{\code{commandDoIt(command)}: }{An wrapper function for command execution.}
 }
 }
+
 \seealso{
 Other plot: \code{\link{checkError,plot_base-method}},
   \code{\link{checkTheme,plot_base-method}},
@@ -98,4 +100,3 @@ Other plot: \code{\link{checkError,plot_base-method}},
   \code{\link{setFront,plot_base-method}}
 }
 \keyword{hplot}
-

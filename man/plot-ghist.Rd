@@ -2,8 +2,8 @@
 % Please edit documentation in R/plot-ghist.R
 \docType{class}
 \name{ghist-class}
-\alias{ghist}
 \alias{ghist-class}
+\alias{ghist}
 \title{Histogram Subclass}
 \description{
 \code{ghist} class is a subclass for histograms.
@@ -11,6 +11,7 @@
 \details{
 This class is a subclass which show dialog boxes of histograms for graphics editing.
 }
+
 \section{Fields}{
 
 \describe{
@@ -63,6 +64,7 @@ NULL
 \item{\code{commandDoIt(command)}: }{An wrapper function for command execution.}
 }
 }
+
 \seealso{
 Other plot: \code{\link{checkError,plot_base-method}},
   \code{\link{checkTheme,plot_base-method}},
@@ -101,4 +103,3 @@ Other plot: \code{\link{checkError,plot_base-method}},
   \code{\link{setFront,plot_base-method}}
 }
 \keyword{hplot}
-

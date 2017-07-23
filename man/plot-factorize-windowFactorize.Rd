@@ -10,4 +10,3 @@ windowFactorize()
 \code{windowFactorize} function is a wrapper function of \code{factorize} class for the R-commander menu bar.
 }
 \keyword{hplot}
-

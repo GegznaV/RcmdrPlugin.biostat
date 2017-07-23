@@ -2,8 +2,8 @@
 % Please edit documentation in R/plot-gDensity.R
 \docType{class}
 \name{gDensity-class}
-\alias{gDensity}
 \alias{gDensity-class}
+\alias{gDensity}
 \title{Density plot Subclass}
 \description{
 \code{gDensity} class is a subclass for density plots.
@@ -11,6 +11,7 @@
 \details{
 This class is a subclass which show dialog boxes of density plots for graphics editing.
 }
+
 \section{Fields}{
 
 \describe{
@@ -60,6 +61,7 @@ NULL
 \item{\code{commandDoIt(command)}: }{An wrapper function for command execution.}
 }
 }
+
 \seealso{
 Other plot: \code{\link{checkError,plot_base-method}},
   \code{\link{checkTheme,plot_base-method}},
@@ -98,4 +100,3 @@ Other plot: \code{\link{checkError,plot_base-method}},
   \code{\link{setFront,plot_base-method}}
 }
 \keyword{hplot}
-

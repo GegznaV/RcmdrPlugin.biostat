@@ -18,4 +18,3 @@ A Wrapper Theme for ggthemes's theme_wsj
 \code{\link[ggplot2:ggplot]{ggplot}} \code{\link[ggthemes:theme_wsj]{theme_wsj}}
 }
 \keyword{color}
-

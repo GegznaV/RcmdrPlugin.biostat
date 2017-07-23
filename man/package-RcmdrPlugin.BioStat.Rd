@@ -2,16 +2,12 @@
 % Please edit documentation in R/aaa-package.R
 \docType{package}
 \name{RcmdrPlugin.BioStat-package}
-\alias{KMggplot2}
-\alias{RcmdrPlugin.BioStat}
 \alias{RcmdrPlugin.BioStat-package}
+\alias{RcmdrPlugin.BioStat}
+\alias{KMggplot2}
 \title{Rcmdr Plug-In for Kaplan-Meier Plot and Other Plots by Using the ggplot2 Package}
 \description{
 This package is an R Commander plug-in for Kaplan-Meier plots and other plots by using the ggplot2 package in GUI interface.
-}
-\author{
-Author: Triad sou. and Kengo NAGASHIMA
-Maintainer: Triad sou. \email{triadsou@gmail.com}
 }
 \seealso{
 \code{\link[Rcmdr:Rcmdr]{Rcmdr}},
@@ -20,6 +16,9 @@ Maintainer: Triad sou. \email{triadsou@gmail.com}
 \code{\link[RColorBrewer:RColorBrewer]{RColorBrewer}}
 \code{\link[ggthemes:ggthemes]{ggthemes}}
 }
+\author{
+Author: Triad sou. and Kengo NAGASHIMA
+Maintainer: Triad sou. \email{triadsou@gmail.com}
+}
 \keyword{hplot}
 \keyword{package}
-

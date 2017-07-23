@@ -2,8 +2,8 @@
 % Please edit documentation in R/guiparts-toolbox.R
 \docType{class}
 \name{toolbox-class}
-\alias{toolbox}
 \alias{toolbox-class}
+\alias{toolbox}
 \title{Tool Box Subclass}
 \description{
 \code{toolbox} class is a subclass for GUI tool box frame.
@@ -11,6 +11,7 @@
 \details{
 This class is a subclass which make GUI tool box frame.
 }
+
 \section{Fields}{
 
 \describe{
@@ -47,6 +48,7 @@ This class is a subclass which make GUI tool box frame.
 }
 }
 }
+
 \seealso{
 Other guiparts: \code{\link{back,gparts_base-method}},
   \code{\link{checkboxes-class}},
@@ -63,4 +65,3 @@ Other guiparts: \code{\link{back,gparts_base-method}},
   \code{\link{variableboxes-class}}
 }
 \keyword{hplot}
-

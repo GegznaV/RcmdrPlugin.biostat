@@ -48,4 +48,3 @@ Other plot: \code{\link{checkError,plot_base-method}},
   \code{\link{setDataframe,plot_base-method}}
 }
 \keyword{hplot}
-

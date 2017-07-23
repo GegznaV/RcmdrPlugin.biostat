@@ -2,8 +2,8 @@
 % Please edit documentation in R/plot-aaa.R
 \docType{class}
 \name{plot_base-class}
-\alias{plot_base}
 \alias{plot_base-class}
+\alias{plot_base}
 \title{Base Class for Plot Windows}
 \description{
 \code{plot_base} class is the base class for plot windows.
@@ -11,6 +11,7 @@
 \details{
 This class is a framework for implementing subclasses which show dialog boxes for graphics editing.
 }
+
 \section{Fields}{
 
 \describe{
@@ -58,6 +59,7 @@ NULL
 \item{\code{commandDoIt(command)}: }{An wrapper function for command execution.}
 }
 }
+
 \seealso{
 Other plot: \code{\link{checkError,plot_base-method}},
   \code{\link{checkTheme,plot_base-method}},
@@ -135,4 +137,3 @@ Other plot: \code{\link{checkError,plot_base-method}},
 \keyword{themes.}
 \keyword{variable}
 \keyword{wrapper}
-

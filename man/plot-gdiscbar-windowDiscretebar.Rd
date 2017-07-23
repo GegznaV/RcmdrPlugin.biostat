@@ -10,4 +10,3 @@ windowDiscretebar()
 \code{windowDiscretebar} function is a wrapper function of \code{gdiscbar} class for the R-commander menu bar.
 }
 \keyword{hplot}
-

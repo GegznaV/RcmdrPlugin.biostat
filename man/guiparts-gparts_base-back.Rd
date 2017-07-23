@@ -29,4 +29,3 @@ Other guiparts: \code{\link{checkboxes-class}},
   \code{\link{variableboxes-class}}
 }
 \keyword{hplot}
-

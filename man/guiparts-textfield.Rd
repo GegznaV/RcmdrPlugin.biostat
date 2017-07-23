@@ -2,8 +2,8 @@
 % Please edit documentation in R/guiparts-textfield.R
 \docType{class}
 \name{textfield-class}
-\alias{textfield}
 \alias{textfield-class}
+\alias{textfield}
 \title{Text Field Subclass}
 \description{
 \code{textfield} class is a subclass for GUI text field frame.
@@ -11,6 +11,7 @@
 \details{
 This class is a subclass which make GUI text field frame.
 }
+
 \section{Fields}{
 
 \describe{
@@ -33,6 +34,7 @@ This class is a subclass which make GUI text field frame.
 \item{\code{front(top, initialValue, boxwidth, title)}: }{\code{front} method for \code{textfield} subclass.}
 }
 }
+
 \seealso{
 Other guiparts: \code{\link{back,gparts_base-method}},
   \code{\link{checkboxes-class}},
@@ -49,4 +51,3 @@ Other guiparts: \code{\link{back,gparts_base-method}},
   \code{\link{variableboxes-class}}
 }
 \keyword{hplot}
-

@@ -2,8 +2,8 @@
 % Please edit documentation in R/guiparts-variableboxes.R
 \docType{class}
 \name{variableboxes-class}
-\alias{variableboxes}
 \alias{variableboxes-class}
+\alias{variableboxes}
 \title{Variable Boxes Subclass}
 \description{
 \code{variableboxes} class is a subclass for GUI variable box frame.
@@ -11,6 +11,7 @@
 \details{
 This class is a subclass which make GUI variable box frame.
 }
+
 \section{Fields}{
 
 \describe{
@@ -33,6 +34,7 @@ This class is a subclass which make GUI variable box frame.
 \item{\code{front(top, types, titles, modes = "default")}: }{\code{front} method for \code{variableboxes} subclass.}
 }
 }
+
 \seealso{
 Other guiparts: \code{\link{back,gparts_base-method}},
   \code{\link{checkboxes-class}},
@@ -49,4 +51,3 @@ Other guiparts: \code{\link{back,gparts_base-method}},
   \code{\link{toolbox-class}}
 }
 \keyword{hplot}
-

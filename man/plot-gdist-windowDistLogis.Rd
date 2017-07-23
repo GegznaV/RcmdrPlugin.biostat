@@ -10,4 +10,3 @@ windowDistLogis()
 \code{windowDistLogis} function is a wrapper function of \code{gdist} class for the R-commander menu bar.
 }
 \keyword{hplot}
-

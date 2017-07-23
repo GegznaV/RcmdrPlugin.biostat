@@ -11,4 +11,3 @@ windowHist()
 the R-commander menu bar.
 }
 \keyword{hplot}
-

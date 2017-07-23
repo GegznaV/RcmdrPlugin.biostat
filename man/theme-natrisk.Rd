@@ -20,4 +20,3 @@ These functions generate graphics themes for no of at risk in Kaplan-Meier Plots
 \code{\link[ggplot2:ggplot]{ggplot}}
 }
 \keyword{color}
-

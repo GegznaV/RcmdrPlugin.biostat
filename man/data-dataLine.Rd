@@ -32,4 +32,3 @@ A Dummy Data for Line Charts
 line-class
 }
 \keyword{data}
-
