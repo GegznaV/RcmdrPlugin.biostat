@@ -22,8 +22,7 @@ This class is a subclass which show dialog boxes of box plots for graphics editi
 \item{\code{lbbox1}: }{\code{textfields} class object; the frame to set axis labels and the main title.}
 \item{\code{rbbox1}: }{\code{radioboxes} class object; the frame to set the plot type.}
 \item{\code{cbbox1}: }{\code{checkboxes} class object; the frame to set options.}
-\item{\code{tbbox1}: }{\code{toolbox} class object; the frame to set the font,
-                                the colour set, other option, and the theme.}
+\item{\code{tbbox1}: }{\code{toolbox} class object; the frame to set the font, the colour set, other option, and the theme.}
 }
 }
 

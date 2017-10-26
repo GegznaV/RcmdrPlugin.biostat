@@ -5,10 +5,12 @@
 \alias{commandDoIt,plot_base-method}
 \title{An Wrapper Function for Command Execution}
 \usage{
-\S4method{commandDoIt}{plot_base}(command)
+\S4method{commandDoIt}{plot_base}(command, log)
 }
 \arguments{
 \item{command}{String; command codes.}
+
+\item{log}{Boolean; use \code{logger}.}
 }
 \description{
 \code{commandDoIt} method gets the plot error message.

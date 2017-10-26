@@ -7,6 +7,7 @@
 window_all_fct()
 }
 \description{
-\code{window_all_fct} function is a wrapper function of \code{factorize} class for the R-commander menu bar.
+\code{window_all_fct} function is a wrapper function of \code{factorize}
+class for the R-commander menu bar.
 }
 \keyword{hplot}

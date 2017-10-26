@@ -7,7 +7,6 @@
 windowHist()
 }
 \description{
-\code{windowHist} function is a wrapper function of \code{ghist} class for
-the R-commander menu bar.
+\code{windowHist} function is a wrapper function of \code{ghist} class for the R-commander menu bar.
 }
 \keyword{hplot}

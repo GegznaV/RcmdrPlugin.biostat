@@ -15,14 +15,14 @@ This class is a subclass which show dialog boxes of histograms for graphics edit
 \section{Fields}{
 
 \describe{
-\item{\code{top}: }{\code{tkwin} class object; parent of widget window.}
-\item{\code{alternateFrame}: }{\code{tkwin} class object; a special frame for some GUI parts.}
-\item{\code{vbbox1}: }{\code{variableboxes} class object; the frame to select variables.}
-\item{\code{vbbox2}: }{\code{variableboxes} class object; the frame to select facet variables.}
-\item{\code{vbbox3}: }{\code{variableboxes} class object; the frame to set the no. of bins.}
-\item{\code{lbbox1}: }{\code{textfields} class object; the frame to set axis labels and the main title.}
-\item{\code{rbbox1}: }{\code{radioboxes} class object; the frame to set the axis scaling.}
-\item{\code{cbbox1}: }{\code{checkboxes} class object; the frame to set options.}
+\item{\code{top}: }{\code{tkwin} class object; parent of widget window.} 
+\item{\code{alternateFrame}: }{\code{tkwin} class object; a special frame for some GUI parts.} 
+\item{\code{vbbox1}: }{\code{variableboxes} class object; the frame to select variables.} 
+\item{\code{vbbox2}: }{\code{variableboxes} class object; the frame to select facet variables.} 
+\item{\code{vbbox3}: }{\code{variableboxes} class object; the frame to set the no. of bins.} 
+\item{\code{lbbox1}: }{\code{textfields} class object; the frame to set axis labels and the main title.} 
+\item{\code{rbbox1}: }{\code{radioboxes} class object; the frame to set the axis scaling.} 
+\item{\code{cbbox1}: }{\code{checkboxes} class object; the frame to set options.} 
 \item{\code{tbbox1}: }{\code{toolbox} class object; the frame to set the font, the colour set, other option, and the theme.}
 }
 }

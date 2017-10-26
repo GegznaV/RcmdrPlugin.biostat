@@ -3,7 +3,7 @@
 
 ------------------------------------------------------------------------
 
-[![CRAN version](http://www.r-pkg.org/badges/version/RcmdrPlugin.BioStat)](https://cran.rstudio.com/web/packages/RcmdrPlugin.BioStat/index.html) [![GitHub version](https://img.shields.io/badge/GitHub-v0.0.1-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.BioStat) [![Travis-CI Build Status](https://travis-ci.org/GegznaV/RcmdrPlugin.BioStat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.BioStat) [![codecov.io](https://codecov.io/github/GegznaV/RcmdrPlugin.BioStat/coverage.svg?branch=master)](https://codecov.io/github/GegznaV/RcmdrPlugin.BioStat?branch=master) [![Last-update](https://img.shields.io/badge/last%20update-2017--07--24-yellowgreen.svg)](/commits/master)
+[![CRAN version](http://www.r-pkg.org/badges/version/RcmdrPlugin.BioStat)](https://cran.rstudio.com/web/packages/RcmdrPlugin.BioStat/index.html) [![GitHub version](https://img.shields.io/badge/GitHub-v0.0.1-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.BioStat) [![Travis-CI Build Status](https://travis-ci.org/GegznaV/RcmdrPlugin.BioStat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.BioStat) [![codecov.io](https://codecov.io/github/GegznaV/RcmdrPlugin.BioStat/coverage.svg?branch=master)](https://codecov.io/github/GegznaV/RcmdrPlugin.BioStat?branch=master) [![Last-update](https://img.shields.io/badge/last%20update-2017--10--26-yellowgreen.svg)](/commits/master)
 
 ------------------------------------------------------------------------
 
