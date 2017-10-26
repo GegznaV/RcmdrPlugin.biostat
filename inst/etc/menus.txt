@@ -1,45 +1,87 @@
 #type	menu/item	    operation/parent	label	    command/menu	activation	    install?
-menu	Bio_Menu	    topMenu	            ""	        ""	""	""
-item	topMenu	        cascade             "BioStat"	        Bio_Menu	    ""	    ""
 
-menu	Bio_data_Menu	Bio_Menu	""	""	""	""
-item	Bio_Menu    	cascade	            "Dataset"   Bio_data_Menu	""	""
-item	Bio_data_Menu   command "Convert text to factors"	window_all_fct	""	""
+# ==============================================================================
+menu	BioStat_menu	topMenu	            ""	        ""	""	""
+item	topMenu	        cascade             "BioStat"	        BioStat_menu	    ""	    ""
+
+# ---- Data wrangling ---------------------------------------------------------
+
+menu	Dataset	        BioStat_menu	    ""	""	""	""
+item	BioStat_menu    cascade	            "Data handling"   Dataset	""	""
+item	Dataset         command             "Convert all text variables to factors"	window_all_fct	""	""
+item	Dataset         command             "Log transformation"	    window_all_fct	"numericP"	""
+item	Dataset         command             "z transformation"  	    window_all_fct	"numericP"	""
+item	Dataset	        command             "Factorizing numeric variables..."	windowFactorize	"nonFactorsP()"	""
+
+# ---- Statistical summaries --------------------------------------------------
+
+menu	Summary	        BioStat_menu	    ""	""	""	""
+item	BioStat_menu    cascade	            "Summary"   Summary	""	""
+item	Summary         command             "dplyr::glimpse"	window_all_fct	""	""
+item	Summary         command             "Hmisc::describe"	window_all_fct	""	""
+item	Summary         command             "psych::describe"	window_all_fct	""	""
+
+# ---- Statistical tests ------------------------------------------------------
+
+menu	Tests	        BioStat_menu	    ""	""	""	""
+item	BioStat_menu    cascade	            "Tests"   Tests	""	""
+item	Tests           command             "BioStat::test_normality"	window_all_fct	"numericP"	""
 
 
-menu	Bio_plot_menu	Bio_Menu	""	""	""	""
-item	Bio_Menu    	cascade	"Plots"	                Bio_plot_menu	""	""
-item	Bio_plot_menu	command "Histogram..."	        windowHist	        "nonFactorsP()"	""
-item	Bio_plot_menu	command "Density plot..."   	windowDensity	    "nonFactorsP()"	""
-item	Bio_plot_menu	command "Box plot / Confidence interval/ Violin plot..."	windowBox	"nonFactorsP()"	""
-item	Bio_plot_menu	command "Scatter plot..."	    windowScatter	    "nonFactorsP(2)"	""
-item	Bio_plot_menu	command "Scatter matrix..."	    windowScattermat	"nonFactorsP(3)"	""
-item	Bio_plot_menu	command "Line chart..."	        windowLine	        "nonFactorsP(2)"	""
-item	Bio_plot_menu	command "Pie chart..."	        windowPie	        "factorsP()"	""
-item	Bio_plot_menu	command "Bar chart for discrete variables..."	windowDiscretebar	"factorsP()"	""
-item	Bio_plot_menu	command "Q-Q plot..."	        windowQQ	        "nonFactorsP()"	""
-item	Bio_plot_menu	command "Contour plot..."	    windowContour	    "nonFactorsP(3)"	""
+# =============================================================================
 
-menu	Bio_dhMenu	    Bio_Menu	""	""	""	""
-item	Bio_Menu	    cascade	"Data handling..."	    Bio_dhMenu	""	""
-item	Bio_dhMenu	    command "Factorizing numeric variables..."	windowFactorize	"nonFactorsP()"	""
+# ---- Main plots -------------------------------------------------------------
 
-menu	Bio_dMenu	    Bio_Menu	""	""	""	""
-item	Bio_Menu	    cascade	"Plot distribution..."	            Bio_dMenu	""	""
-item	Bio_dMenu	    command	"Normal distribution..."	        windowDistNorm	""	""
-item	Bio_dMenu	    command	"t distribution..."	                windowDistT	""	""
-item	Bio_dMenu	    command	"Chi-square distribution..."	    windowDistChisq	""	""
-item	Bio_dMenu	    command	"F distribution..."	windowDistF	""	""
-item	Bio_dMenu	    command	"Exponential distribution..."	    windowDistExp	""	""
-item	Bio_dMenu	    command	"Uniform distribution..."	        windowDistUnif	""	""
-item	Bio_dMenu	    command	"Beta distribution..."	            windowDistBeta	""	""
-item	Bio_dMenu	    command	"Cauchy distribution..."	        windowDistCauchy	""	""
-item	Bio_dMenu	    command	"Logistic distribution..."	        windowDistLogis	""	""
-item	Bio_dMenu	    command	"Log-normal distribution..."	    windowDistLnorm	""	""
-item	Bio_dMenu	    command	"Gamma distribution..."	            windowDistGamma	""	""
-item	Bio_dMenu	    command	"Weibull distribution..."	        windowDistWeibull	""	""
-item	Bio_dMenu	    command	"Binomial distribution..."	        windowDistBinom	""	""
-item	Bio_dMenu	    command	"Poisson distribution..."	        windowDistPois	""	""
-item	Bio_dMenu	    command	"Geometric distribution..."	        windowDistGeom	""	""
-item	Bio_dMenu	    command	"Hypergeometric distribution..."	windowDistHyper	""	""
-item	Bio_dMenu	    command	"Negative binomial distribution..."	windowDistNbinom	""	""
+menu	Main_plots	    BioStat_menu	""	""	""	""
+item	BioStat_menu    cascade	"Plots"	            Main_plots	""	""
+
+item	Main_plots	    separator	"Continuous variables"	""	""	""
+item	Main_plots	    command "Histogram..."	        windowHist	        "nonFactorsP()"	""
+item	Main_plots	    command "Density plot..."   	windowDensity	    "nonFactorsP()"	""
+item	Main_plots	    command "Box plot / Confidence interval/ Violin plot..."	windowBox	"nonFactorsP()"	""
+
+item	Main_plots	    separator	""	""	""	""
+item	Main_plots	    command "Scatter plot..."	    windowScatter	    "nonFactorsP(2)"	""
+item	Main_plots	    command "Scatter matrix..."	    windowScattermat	"nonFactorsP(3)"	""
+item	Main_plots	    command "Line chart..."	        windowLine	        "nonFactorsP(2)"	""
+
+item	Main_plots	    separator	"Discrete variables"	""	""	""
+item	Main_plots	    command "Pie chart..."	        windowPie	        "factorsP()"	""
+item	Main_plots	    command "Bar chart for discrete variables..."	windowDiscretebar	"factorsP()"	""
+
+item	Main_plots	    separator	""	""	""	""
+item	Main_plots	    command "Contour plot..."	    windowContour	    "nonFactorsP(3)"	""
+
+item	Main_plots	    separator	""	""	""	""
+item	Main_plots	    command "Q-Q plot..."	        windowQQ	        "nonFactorsP()"	""
+item	Main_plots	    command "Q-Q plot by group"	    windowQQ	        "nonFactorsP()"	""
+
+
+
+# ---- Distributions ----------------------------------------------------------
+
+menu	distr_menu	        BioStat_menu	""	""	""	""
+item	BioStat_menu	    cascade	"Plot distribution..."	            distr_menu	""	""
+
+menu	c_distr_menu	    distr_menu	""	""	""	""
+item	distr_menu	        cascade	"Continuous"	                    c_distr_menu	""	""
+item	c_distr_menu	    command	"Normal distribution..."	        windowDistNorm	""	""
+item	c_distr_menu	    command	"t distribution..."	                windowDistT	""	""
+item	c_distr_menu	    command	"Chi-square distribution..."	    windowDistChisq	""	""
+item	c_distr_menu	    command	"F distribution..."	                windowDistF	""	""
+item	c_distr_menu	    command	"Exponential distribution..."	    windowDistExp	""	""
+item	c_distr_menu	    command	"Uniform distribution..."	        windowDistUnif	""	""
+item	c_distr_menu	    command	"Beta distribution..."	            windowDistBeta	""	""
+item	c_distr_menu	    command	"Cauchy distribution..."	        windowDistCauchy	""	""
+item	c_distr_menu	    command	"Logistic distribution..."	        windowDistLogis	""	""
+item	c_distr_menu	    command	"Log-normal distribution..."	    windowDistLnorm	""	""
+item	c_distr_menu	    command	"Gamma distribution..."	            windowDistGamma	""	""
+item	c_distr_menu	    command	"Weibull distribution..."	        windowDistWeibull	""	""
+
+menu	d_distr_menu	    distr_menu	""	""	""	""
+item	distr_menu	        cascade	"Discrete"	                        d_distr_menu	""	""
+item	d_distr_menu	    command	"Binomial distribution..."	        windowDistBinom	""	""
+item	d_distr_menu	    command	"Poisson distribution..."	        windowDistPois	""	""
+item	d_distr_menu	    command	"Geometric distribution..."	        windowDistGeom	""	""
+item	d_distr_menu	    command	"Hypergeometric distribution..."	windowDistHyper	""	""
+item	d_distr_menu	    command	"Negative binomial distribution..."	windowDistNbinom	""	""
