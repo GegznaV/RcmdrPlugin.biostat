@@ -89,7 +89,7 @@ factorize <- setRefClass(
           setDataframe(parms)
           
           .plot <- getPlot(parms)
-          logger("print(.plot)")
+          commandDoIt("print(.plot)", log = TRUE)
           response <- tryCatch({
             print(.plot)
             ""
@@ -241,7 +241,7 @@ factorize <- setRefClass(
         )
       }
       
-      doItAndPrint(command)
+      commandDoIt(command)
       activeDataSet(ActiveDataSet())
       
     }

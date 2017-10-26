@@ -221,18 +221,18 @@ gcont <- setRefClass(
 
     getGgplot = function(parms) {
 
-      "ggplot(data = .df, aes(x = x, y = y, z = z)) + "
+      "ggplot(data = .df, aes(x = x, y = y, z = z)) + \n  "
 
     },
 
     getGeom = function(parms) {
 
       if (parms$decoType == "1") {
-        geom <- "stat_contour(size = 1) + "
+        geom <- "stat_contour(size = 1) + \n  "
       } else if (parms$decoType == "2") {
-        geom <- "stat_contour(aes(colour = ..level..), size = 1) + "
+        geom <- "stat_contour(aes(colour = ..level..), size = 1) + \n  "
       } else {
-        geom <- "geom_tile(aes(fill = z)) + stat_contour(size = 1) + "
+        geom <- "geom_tile(aes(fill = z)) + \n  stat_contour(size = 1) + \n  "
       }
       geom
 
@@ -241,24 +241,48 @@ gcont <- setRefClass(
     getScale = function(parms) {
       
       scale <- paste0(
-        "scale_x_continuous(expand = c(0, 0)) + ",
-        "scale_y_continuous(expand = c(0, 0)) + "
+        "scale_x_continuous(expand = c(0, 0)) + \n  ",
+        "scale_y_continuous(expand = c(0, 0)) + \n  "
       )
 
       if (parms$decoType == "2") {
-        scale <- paste0(
-          scale,
-          "scale_colour_gradient(",
-          "low = RColorBrewer::brewer.pal(3, \"", parms$colour,  "\")[2], ",
-          "high = RColorBrewer::brewer.pal(3, \"", parms$colour, "\")[1]) + "
-        )
+        if (parms$colour == "Default") {
+        } else if (parms$colour == "Hue") {
+          scale <- paste0(
+            scale,
+            "scale_colour_gradient(low = scale_color_hue()$palette(2)[1], high = scale_color_hue()$palette(2)[2]) + \n  "
+          )
+        } else if (parms$colour == "Grey") {
+          scale <- paste0(
+            scale,
+            "scale_colour_gradient(low = scale_color_grey()$palette(2)[1], high = scale_color_grey()$palette(2)[2]) + \n  "
+          )
+        } else {
+          scale <- paste0(
+            scale, "scale_colour_gradient(",
+            "low = RColorBrewer::brewer.pal(3, \"", parms$colour,  "\")[2], ",
+            "high = RColorBrewer::brewer.pal(3, \"", parms$colour, "\")[1]) + \n  "
+          )
+        }
       } else if (parms$decoType == "3") {
-        scale <- paste0(
-          scale,
-          "scale_fill_gradient(",
-          "low = RColorBrewer::brewer.pal(3, \"", parms$colour,  "\")[2], ",
-          "high = RColorBrewer::brewer.pal(3, \"", parms$colour, "\")[1]) + "
-        )
+        if (parms$colour == "Default") {
+        } else if (parms$colour == "Hue") {
+          scale <- paste0(
+            scale,
+            "scale_fill_gradient(low = scale_color_hue()$palette(2)[1], high = scale_color_hue()$palette(2)[2]) + \n  "
+          )
+        } else if (parms$colour == "Grey") {
+          scale <- paste0(
+            scale,
+            "scale_fill_gradient(low = scale_color_grey()$palette(2)[1], high = scale_color_grey()$palette(2)[2]) + \n  "
+          )
+        } else {
+          scale <- paste0(
+            scale, "scale_fill_gradient(",
+            "low = RColorBrewer::brewer.pal(3, \"", parms$colour,  "\")[2], ",
+            "high = RColorBrewer::brewer.pal(3, \"", parms$colour, "\")[1]) + \n  "
+          )
+        }
       }
       scale
       
@@ -267,18 +291,18 @@ gcont <- setRefClass(
     getZlab = function(parms) {
 
       if (parms$decoType == "1") {
-        zlab <- "stat_contour(size = 1) + "
+        zlab <- "stat_contour(size = 1) + \n  "
       } else if (parms$decoType == "2") {
         if (parms$zlab == "<auto>") {
-          zlab <- paste0("labs(colour = \"", parms$z, "\") + ")
+          zlab <- paste0("labs(colour = \"", parms$z, "\") + \n  ")
         } else {
-          zlab <- paste0("labs(colour = \"", parms$zlab, "\") + ")
+          zlab <- paste0("labs(colour = \"", parms$zlab, "\") + \n  ")
         }
       } else {
         if (parms$zlab == "<auto>") {
-          zlab <- paste0("labs(fill = \"", parms$z, "\") + ")
+          zlab <- paste0("labs(fill = \"", parms$z, "\") + \n  ")
         } else {
-          zlab <- paste0("labs(fill = \"", parms$zlab, "\") + ")
+          zlab <- paste0("labs(fill = \"", parms$zlab, "\") + \n  ")
         }
       }
       zlab
@@ -302,7 +326,7 @@ gcont <- setRefClass(
 
       if (length(opts) != 0) {
         opts <- do.call(paste, c(opts, list(sep = ", ")))
-        opts <- paste0(" + theme(", opts, ")")
+        opts <- paste0(" + \n  theme(", opts, ")")
       } else {
         opts <- ""
       }

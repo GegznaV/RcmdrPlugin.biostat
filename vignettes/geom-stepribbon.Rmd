@@ -39,7 +39,7 @@ require("ggplot2")
 
 huron <- data.frame(year = 1875:1972, level = as.vector(LakeHuron))
 h <- ggplot(huron, aes(year))
-h + RcmdrPlugin.KMggplot2::geom_stepribbon(
+h + RcmdrPlugin.BioStat::geom_stepribbon(
       aes(ymin = level - 1, ymax = level + 1),
       fill = "grey70"
     ) +
@@ -50,7 +50,7 @@ h + geom_ribbon(
     ) +
     geom_line(aes(y = level))
 
-data(dataKm, package = "RcmdrPlugin.KMggplot2")
+data(dataKm, package = "RcmdrPlugin.BioStat")
 
 .df <- na.omit(data.frame(x = dataKm$time, y = dataKm$event, z = dataKm$trt))
 .df <- .df[do.call(order, .df[, c("z", "x"), drop = FALSE]), , drop = FALSE]
@@ -66,7 +66,7 @@ data(dataKm, package = "RcmdrPlugin.KMggplot2")
 .cens <- subset(.fit, ncensor == 1)
 
 ggplot(data = .fit, aes(x = x, y = y, colour = z)) + 
-  RcmdrPlugin.KMggplot2::geom_stepribbon(data = .fit,
+  RcmdrPlugin.BioStat::geom_stepribbon(data = .fit,
     aes(x = x, ymin = lower, ymax = upper, fill = z), alpha = 0.25,
     colour = "transparent", show.legend = FALSE, kmplot = TRUE) +
   geom_step(size = 1.5) +

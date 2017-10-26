@@ -24,10 +24,10 @@ loadfonts(device = "postscript")
 ```
 
 
-After installation, you load the `extrafont` package before starting `RcmdrPlugin.KMggplot2`.
+After installation, you load the `extrafont` package before starting `RcmdrPlugin.BioStat`.
 ```r
 library("extrafont")
-library("RcmdrPlugin.KMggplot2")
+library("RcmdrPlugin.BioStat")
 ```
 
 

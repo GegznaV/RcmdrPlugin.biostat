@@ -6,10 +6,10 @@
 #'
 #' @section Fields:
 #' \describe{
-#' \item{\code{top}: }{\code{tkwin} class object; parent of widget window.}
-#' \item{\code{alternateFrame}: }{\code{tkwin} class object; a special frame for some GUI parts.}
-#' \item{\code{rmlist}: }{List of character; deletable temporary objects.}
-#' \item{\code{mode}: }{numeric; the executive mode (0 = justDoIt, 1 = doItAndPrint).}
+#' \item{\code{top}: }{\code{tkwin} class object; parent of widget window.} 
+#' \item{\code{alternateFrame}: }{\code{tkwin} class object; a special frame for some GUI parts.} 
+#' \item{\code{rmlist}: }{List of character; deletable temporary objects.} 
+#' \item{\code{mode}: }{numeric; the executive mode (0 = justDoIt, 1 = doItAndPrint).} 
 #' }
 #' @section Contains:
 #' NULL
@@ -56,93 +56,98 @@
 #' @importFrom grid unit
 #' @keywords hplot
 plot_base <- setRefClass(
-
+  
   Class = "plot_base",
-
+  
   fields = c("top", "alternateFrame", "rmlist", "codes", "mode"),
-
+  
   methods = list(
-
+    
     #' Plot Windows
     plotWindow = function() {
-
+      
       # note: The initializeDialog() generates "top"
       initializeDialog(window = topwindow, title = getWindowTitle())
       top            <<- topwindow
       alternateFrame <<- tkframe(top)
-
+      
       setFront()
-
+      
       # OK
       onOK <- function() {
-
+        
         # doItAndPrint mode
         mode <<- 1
+        codes <<- ""
         parms <- getParms()
-
+        
         closeDialog()
-
+        
         errorCode <- checkError(parms)
         if (errorCode == TRUE) {
           removeRmlist()
           return()
         } else if (errorCode == FALSE) {
-
-          logger("require(\"ggplot2\")")
-
+          
+          commandDoIt("require(\"ggplot2\")", log = TRUE)
+          
           setDataframe(parms)
-
+          
           .plot <- getPlot(parms)
-          logger("print(.plot)")
+          commandDoIt("print(.plot)", log = TRUE)
           response <- tryCatch({
-              print(.plot)
-              ""
-            }, error = function(ex) {
-              tclvalue(RcmdrTkmessageBox(
-                message = getMessage(),
-                title   = gettext_Bio("Error"),
-                icon    = "error",
-                type    = "ok",
-                default = "ok"
-              ))
-            }
+            print(.plot)
+            ""
+          }, error = function(ex) {
+            tclvalue(RcmdrTkmessageBox(
+              message = getMessage(),
+              title   = gettext_Bio("Error"),
+              icon    = "error",
+              type    = "ok",
+              default = "ok"
+            ))
+          }
           )
           if (response == "ok") {
             removeRmlist()
             return()
           }
           if (parms$save == "1") savePlot(.plot)
+          
+          pos <- 1
+          assign(".lastcom", paste0(codes, "\n"), envir = as.environment(pos))
+          
         }
-
+        
         removeRmlist()
-
+        
         activateMenus()
         tkfocus(CommanderWindow())
-
+        
       }
-
+      
       setBack()
-
-
+      
+      
       # note: The OKCancelHelp() generates "buttonsFrame"
       OKCancelHelp(window = top, helpSubject = getHelp())
-
+      
       # Preview
       onPreview <- function() {
-
+        
         # justDoIt mode
         mode <<- 0
-
+        codes <<- ""
         parms <- getParms()
-
+        
         errorCode <- checkError(parms)
         if (errorCode == TRUE) {
           removeRmlist()
           return()
         } else if (errorCode == FALSE) {
-
+          
           setDataframe(parms)
-
+          
           .plot <- getPlot(parms)
           response <- tryCatch({
             print(.plot)
@@ -163,30 +168,25 @@ plot_base <- setRefClass(
           }
         }
         removeRmlist()
-
       }
       previewButton <- buttonRcmdr(
-        rightButtonsBox,
-        text = gettext_Bio("Preview"),
-        foreground = "yellow",
-        width = nchar(gettext_Bio("Preview")),
-        command = onPreview,
-        image = "::image::applyIcon",
-        compound = "left"
-        )
-
+        rightButtonsBox, text = gettext_Bio("Preview"), foreground = "yellow",
+        width = nchar(gettext_Bio("Preview")), command = onPreview, 
+        image = "::image::applyIcon", compound = "left"
+      )
+      
       tkgrid(previewButton, row = 0, column = 3, sticky = "nw")
       tkgrid.configure(previewButton, padx = c(5, 0))
       tkgrid(buttonsFrame, sticky = "nw")
       dialogSuffix()
-
+      
       return()
-
+      
     },
-
+    
     #' Save Plot
-    savePlot = function(plot) {
-
+    savePlot = function(plot, useGgsave = TRUE) {
+      
       plotName <- deparse(substitute(plot))
       if (.Platform$OS.type == "windows") {
         file <- tclvalue(tkgetSaveFile(
@@ -211,34 +211,34 @@ plot_base <- setRefClass(
         ))
       }
       if (file == "") return()
-
-      if (class(.self)[1] == "gkm") {
-        command <- paste0("RcmdrPlugin.BioStat::ggsave_Bio(filename = \"", file, "\", plot = ", plotName, ")")
-      } else {
+      
+      if (useGgsave) {
         command <- paste0("ggsave(filename = \"", file, "\", plot = ", plotName, ")")
+      } else {
+        command <- paste0("RcmdrPlugin.BioStat::ggsave_Bio(filename = \"", file, "\", plot = ", plotName, ")")
       }
-      doItAndPrint(command)
-
+      commandDoIt(command)
+      
       return()
-
+      
     },
-
+    
     #' Register \code{rm()} List
     registRmlist = function(object) {
-
+      
       txtObjects <- deparse(substitute(object))
       if (class(rmlist) == "uninitializedField") {
         rmlist <<- list(txtObjects)
       } else {
-        rmlist <<- c(rmlist, txtObjects)
+        rmlist <<- unique(c(rmlist, txtObjects))
       }
       return()
-
+      
     },
-
+    
     #' Remove \code{rm()} List
     removeRmlist = function() {
-
+      
       if (class(rmlist) != "uninitializedField") {
         command <- do.call(paste, c(rmlist, sep=", "))
         command <- paste0("rm(", command, ")")
@@ -246,65 +246,65 @@ plot_base <- setRefClass(
         rmlist <<- list()
       }
       return()
-
+      
     },
-
+    
     #' Set Front
     setFront = function() {
-
+      
       return()
-
+      
     },
-
+    
     #' Set Back
     setBack = function() {
-
+      
       return()
-
+      
     },
-
+    
     #' Get Window Title
     getWindowTitle = function() {
-
+      
       "plot_base"
-
+      
     },
-
+    
     #' Get Help
     getHelp = function() {
-
+      
       "plot_base"
-
+      
     },
-
+    
     #' Get Parameters
     getParms = function() {
-
+      
       x      <- "x"
       y      <- "y"
       z      <- "z"
       s      <- "s"
       t      <- "t"
-
+      
       x      <- checkVariable(x)
       y      <- checkVariable(y)
       z      <- checkVariable(z)
       s      <- checkVariable(s)
       t      <- checkVariable(t)
-
+      
       xlab   <- ""
       xauto  <- x
       ylab   <- ""
       yauto  <- y
       zlab   <- ""
       main   <- ""
-
-      size   <- "16"
+      
+      size   <- "14"
       family <- "0"
       colour <- "0"
       save   <- "0"
       theme  <- "0"
-
+      
       options(
         Bio_FontSize   = size,
         Bio_FontFamily = family,
@@ -312,26 +312,26 @@ plot_base <- setRefClass(
         Bio_SaveGraph  = save,
         Bio_Theme      = theme
       )
-
+      
       list(
         x = x, y = y, z = z, s = s, t = t,
         xlab = xlab, xauto = xauto, ylab = ylab, yauto = yauto, zlab = zlab, main = main,
         size = size, family = family, colour = colour, save = save, theme = theme
       )
-
+      
     },
-
+    
     #' Check themes.
     checkTheme = function(index) {
-
+      
       if (index == "theme_bw") {
         theme <- "theme_bw"
       } else if (index == "theme_simple") {
         theme <- "RcmdrPlugin.BioStat::theme_simple"
       } else if (index == "theme_classic") {
         theme <- "theme_classic"
-      } else if (index == "theme_gray") {
-        theme <- "theme_gray"
+      } else if (index == "theme_grey") {
+        theme <- "theme_grey"
       } else if (index == "theme_minimal") {
         theme <- "theme_minimal"
       } else if (index == "theme_linedraw") {
@@ -362,18 +362,22 @@ plot_base <- setRefClass(
         theme <- "ggthemes::theme_fivethirtyeight"
         commandDoIt("ggthemes_data <- ggthemes::ggthemes_data")
         registRmlist(ggthemes_data)
+      } else if (index == "theme_foundation") {
+        theme <- "ggthemes::theme_foundation"
       } else if (index == "theme_gdocs") {
         theme <- "ggthemes::theme_gdocs"
       } else if (index == "theme_hc") {
         theme <- "ggthemes::theme_hc"
         commandDoIt("ggthemes_data <- ggthemes::ggthemes_data")
         registRmlist(ggthemes_data)
+      } else if (index == "theme_igray") {
+        theme <- "ggthemes::theme_igray"
+      } else if (index == "theme_pander") {
+        theme <- "ggthemes::theme_pander"
       } else if (index == "theme_par") {
         theme <- "ggthemes::theme_par"
         commandDoIt("ggthemes_data <- ggthemes::ggthemes_data")
         registRmlist(ggthemes_data)
-      } else if (index == "theme_pander") {
-        theme <- "ggthemes::theme_pander"
       } else if (index == "theme_solarized") {
         theme <- "ggthemes::theme_solarized"
         commandDoIt("ggthemes_data <- ggthemes::ggthemes_data")
@@ -388,35 +392,33 @@ plot_base <- setRefClass(
         theme <- "RcmdrPlugin.BioStat::theme_wsj2"
         commandDoIt("ggthemes_data <- ggthemes::ggthemes_data")
         registRmlist(ggthemes_data)
-      } else if (index == "theme_igray") {
-        theme <- "ggthemes::theme_igray"
       } else {
         theme <- "theme_bw"
       }
       theme
-
+      
     },
-
+    
     #' Check variable length.
     checkVariable = function(var) {
-
+      
       if (length(var) > 1) {
         var <- var[1]
       }
       var
-
+      
     },
-
+    
     #' Check Error
     checkError = function(parms) {
-
+      
       errorCode <- FALSE
-
+      
     },
-
+    
     #' Set \code{data.frame}
     setDataframe = function(parms) {
-
+      
       var <- list()
       if (length(parms$x) != 0) {
         var <- c(var, paste0("x = ", ActiveDataSet(), "$", parms$x))
@@ -435,131 +437,131 @@ plot_base <- setRefClass(
       }
       command <- do.call(paste, c(var, list(sep = ", ")))
       command <- paste0(".df <- data.frame(", command, ")")
-
+      
       commandDoIt(command)
       registRmlist(.df)
-
+      
     },
-
+    
     #' Get Ggplot
     getGgplot = function(parms) {
-
-      "ggplot(data.frame(1), aes(x = 1, y = 1)) + "
-
+      
+      "ggplot(data.frame(1), aes(x = 1, y = 1)) + \n  "
+      
     },
-
+    
     #' Get Geom
     getGeom = function(parms) {
-
+      
       "geom_point() + "
-
+      
     },
-
+    
     #' Get Scale
     getScale = function(parms) {
-
-      "scale_y_continuous(expand = c(0.01, 0)) + "
-
+      
+      "scale_y_continuous(expand = c(0.01, 0)) + \n  "
+      
     },
-
+    
     #' Get Coord
     getCoord = function(parms) {
-
+      
       ""
-
+      
     },
-
+    
     #' Get Facet
     getFacet = function(parms) {
-
+      
       if (length(parms$s) != 0 && length(parms$t) != 0) {
-        facet <- "facet_grid(s ~ t) + \n"
+        facet <- "facet_grid(s ~ t) + \n  "
       } else if (length(parms$s) != 0) {
-        facet <- "facet_wrap( ~ s) + \n"
+        facet <- "facet_wrap( ~ s) + \n  "
       } else if (length(parms$t) != 0) {
-        facet <- "facet_wrap( ~ t) + \n"
+        facet <- "facet_wrap( ~ t) + \n  "
       } else {
         facet <- ""
       }
       facet
-
+      
     },
-
+    
     #' Get Xlab
     getXlab = function(parms) {
-
+      
       if (nchar(parms$xlab) == 0) {
-        xlab <- "    xlab(NULL) + \n"
+        xlab <- "xlab(NULL) + \n  "
       } else if (parms$xlab == "<auto>") {
-        xlab <- paste0(tab(),"xlab(\"", parms$xauto, "\") + \n")
+        xlab <- paste0("xlab(\"", parms$xauto, "\") + \n  ")
       } else {
-        xlab <- paste0(tab(),"xlab(\"", parms$xlab, "\") + \n")
+        xlab <- paste0("xlab(\"", parms$xlab, "\") + \n  ")
       }
       xlab
-
+      
     },
-
+    
     #' Get Ylab
     getYlab = function(parms) {
-
+      
       if (nchar(parms$ylab) == 0) {
-        ylab <- "    ylab(NULL) + \n"
+        ylab <- "ylab(NULL) + \n  "
       } else if (parms$ylab == "<auto>") {
-        ylab <- paste0(tab(),"ylab(\"", parms$yauto, "\") + \n")
+        ylab <- paste0("ylab(\"", parms$yauto, "\") + \n  ")
       } else {
-        ylab <- paste0(tab(),"ylab(\"", parms$ylab, "\") + \n")
+        ylab <- paste0("ylab(\"", parms$ylab, "\") + \n  ")
       }
       ylab
-
+      
     },
-
+    
     #' Get Zlab
     getZlab = function(parms) {
-
+      
       ""
-
+      
     },
-
+    
     #' Get Main
     getMain = function(parms) {
-
+      
       if (nchar(parms$main) == 0) {
         main <- ""
       } else {
-        main <- paste0(tab(),"labs(title = \"", parms$main, "\") + \n")
+        main <- paste0("labs(title = \"", parms$main, "\") + \n  ")
       }
       main
-
+      
     },
-
+    
     #' Get Theme
     getTheme = function(parms) {
-
+      
       paste0(parms$theme, "(base_size = ", parms$size, ", base_family = \"", parms$family, "\")")
-
+      
     },
-
+    
     #' Get Opts
     getOpts = function(parms) {
-
+      
       opts <- list()
       if (length(parms$s) != 0 || length(parms$t) != 0) {
         opts <- c(opts, "panel.spacing = grid::unit(0.3, \"lines\")")
       }
-
+      
       if (length(opts) != 0) {
-        opts <- do.call(paste, c(opts, list(sep = ",\n")))
-        opts <- paste0(" + theme(", opts, ")\n")
+        opts <- do.call(paste, c(opts, list(sep = ", ")))
+        opts <- paste0(" + \n  theme(", opts, ")\n")
       } else {
         opts <- ""
       }
       opts
-
+      
     },
-
+    
     #' Get Plot
     getPlot = function(parms) {
-
+      
       gg    <- getGgplot(parms)
       geom  <- getGeom(parms)
       scale <- getScale(parms)
@@ -571,7 +573,7 @@ plot_base <- setRefClass(
       main  <- getMain(parms)
       theme <- getTheme(parms)
       opts  <- getOpts(parms)
-
+      
       command <- paste0(
         ".plot <- ",
         gg, geom, scale, coord, facet,
@@ -580,28 +582,35 @@ plot_base <- setRefClass(
       commandDoIt(command)
       registRmlist(.plot)
       return(.plot)
-
+      
     },
-
+    
     #' Get Plot Error Message
     getMessage = function() {
-
+      
       gettext_Bio("Plot failed.  Please check the data and variables, or try other options.")
-
+      
     },
-
+    
     #' An wrapper function for command execution
-    commandDoIt = function(command, log = TRUE) {
-
-      if (mode == 1) {
-        doItAndPrint(command, log = log)
+    commandDoIt = function(command, log = FALSE) {
+      
+      if (codes == "") {
+        codes <<- command
+      } else {
+        codes <<- paste0(codes, "\n", command)
+      }
+      if (log) {
+        logger(command)
+      } else if (mode == 1) {
+        doItAndPrint(command, log = TRUE)
       } else {
         justDoIt(command)
       }
       NULL
-
+      
     }
-
+    
   )
 )
 
@@ -626,8 +635,9 @@ NULL
 #'
 #' \code{savePlot} method saves the plot.
 #'
-#' @usage \S4method{savePlot}{plot_base}(plot)
+#' @usage \S4method{savePlot}{plot_base}(plot, useGgsave)
 #' @param plot \code{ggplot} or \code{recordedplot} class object; the plot to save.
+#' @param useGgsave Boolean; use \code{ggsave}.
 #' @family plot
 #'
 #' @name savePlot,plot_base-method
@@ -1095,8 +1105,9 @@ NULL
 #'
 #' \code{commandDoIt} method gets the plot error message.
 #'
-#' @usage \S4method{commandDoIt}{plot_base}(command)
+#' @usage \S4method{commandDoIt}{plot_base}(command, log)
 #' @param command String; command codes.
+#' @param log Boolean; use \code{logger}.
 #' @family plot
 #'
 #' @name commandDoIt,plot_base-method

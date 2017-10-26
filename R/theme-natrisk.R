@@ -34,8 +34,8 @@ theme_natrisk <- function(base_theme, base_size = 20, base_family = "") {
   natheme$axis.title.y$colour <- "transparent"
   natheme$axis.text.y$colour <- "transparent"
   natheme$axis.ticks$colour <- "transparent"
-  natheme$plot.margin[1] <- 0
-  natheme$plot.margin[3] <- 0
+  natheme$plot.margin[1] <- unit(0, "lines")
+  natheme$plot.margin[3] <- unit(0, "lines")
   if (!is.null(natheme$axis.ticks.x)) natheme$axis.ticks.x$colour <- "transparent"
   if (!is.null(natheme$axis.ticks.y)) natheme$axis.ticks.y$colour <- "transparent"
   

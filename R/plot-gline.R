@@ -280,11 +280,11 @@ gline <- setRefClass(
     getGgplot = function(parms) {
 
       if (length(parms$z) == 0) {
-        ggplot <-  "ggplot(data = .df, aes(x = x, y = y)) + "
+        ggplot <-  "ggplot(data = .df, aes(x = x, y = y)) + \n  "
       } else if (any(parms$plotType == c("1", "2"))) {
-        ggplot <-  "ggplot(data = .df, aes(x = x, y = y, colour = z, shape = z)) + "
+        ggplot <-  "ggplot(data = .df, aes(x = x, y = y, colour = z, shape = z)) + \n  "
       } else {
-        ggplot <-  "ggplot(data = .df, aes(x = x, y = y, fill = z)) + "
+        ggplot <-  "ggplot(data = .df, aes(x = x, y = y, fill = z)) + \n  "
       }
       ggplot
 
@@ -294,27 +294,27 @@ gline <- setRefClass(
 
       if (parms$summaryType == "1") {
         if (parms$plotType == "1") {
-          geom <- "geom_point() + geom_line(size = 1) + "
+          geom <- "geom_point() + \n  geom_line(size = 1) + \n  "
         } else if (parms$plotType == "2") {
-          geom <- "geom_point() + geom_step(size = 1) + "
+          geom <- "geom_point() + \n  geom_step(size = 1) + \n  "
         } else {
-          geom <- "geom_area(alpha = 0.3) + "
+          geom <- "geom_area(alpha = 0.3) + \n  "
         }
       } else if (parms$summaryType == "2") {
         if (parms$plotType == "1") {
-          geom <- "stat_summary(fun.y = \"mean\", geom = \"point\") + stat_summary(fun.y = \"mean\", geom = \"line\", size = 1) + "
+          geom <- "stat_summary(fun.y = \"mean\", geom = \"point\") + \n  stat_summary(fun.y = \"mean\", geom = \"line\", size = 1) + \n  "
         } else if (parms$plotType == "2") {
-          geom <- "stat_summary(fun.y = \"mean\", geom = \"point\") + stat_summary(fun.y = \"mean\", geom = \"step\", size = 1) + "
+          geom <- "stat_summary(fun.y = \"mean\", geom = \"point\") + \n  stat_summary(fun.y = \"mean\", geom = \"step\", size = 1) + \n  "
         } else {
-          geom <- "stat_summary(fun.y = \"mean\", geom = \"area\", alpha = 0.3) + "
+          geom <- "stat_summary(fun.y = \"mean\", geom = \"area\", alpha = 0.3) + \n  "
         }
       } else {
         if (parms$plotType == "1") {
-          geom <- "stat_summary(fun.y = \"sum\", geom = \"point\") + stat_summary(fun.y = \"sum\", geom = \"line\", size = 1) + "
+          geom <- "stat_summary(fun.y = \"sum\", geom = \"point\") + \n  stat_summary(fun.y = \"sum\", geom = \"line\", size = 1) + \n  "
         } else if (parms$plotType == "2") {
-          geom <- "stat_summary(fun.y = \"sum\", geom = \"point\") + stat_summary(fun.y = \"sum\", geom = \"step\", size = 1) + "
+          geom <- "stat_summary(fun.y = \"sum\", geom = \"point\") + \n  stat_summary(fun.y = \"sum\", geom = \"step\", size = 1) + \n  "
         } else {
-          geom <- "stat_summary(fun.y = \"sum\", geom = \"area\", alpha = 0.3) + "
+          geom <- "stat_summary(fun.y = \"sum\", geom = \"area\", alpha = 0.3) + \n  "
         }
       }
       geom
@@ -326,26 +326,42 @@ gline <- setRefClass(
       if (length(parms$z) == 0) {
         scale <- ""
       } else if (any(parms$plotType == c("1", "2"))) {
-        scale <- paste("scale_colour_brewer(palette = \"", parms$colour, "\") + ", sep="")
+        if (parms$colour == "Default") {
+          scale <- ""
+        } else if (parms$colour == "Hue") {
+          scale <- paste0("scale_colour_hue() + \n  ")
+        } else if (parms$colour == "Grey") {
+          scale <- paste0("scale_colour_grey() + \n  ")
+        } else {
+          scale <- paste0("scale_colour_brewer(palette = \"", parms$colour, "\") + \n  ")
+        }
       } else {
-        scale <- paste("scale_fill_brewer(palette = \"", parms$colour, "\") + ", sep="")
+        if (parms$colour == "Default") {
+          scale <- ""
+        } else if (parms$colour == "Hue") {
+          scale <- paste0("scale_fill_hue() + \n  ")
+        } else if (parms$colour == "Grey") {
+          scale <- paste0("scale_fill_grey() + \n  ")
+        } else {
+          scale <- paste0("scale_fill_brewer(palette = \"", parms$colour, "\") + \n  ")
+        }
       }
 
       if (parms$scaleType == "2") {
         scale <- paste0(
           scale,
-          "scale_x_date(labels = scales::date_format()) + "
+          "scale_x_date(labels = scales::date_format()) + \n  "
         )
       } else if (parms$scaleType == "3") {
         scale <- paste0(
           scale,
-          "scale_x_date(labels = scales::date_format(\"%m/%d/%y\")) + "
+          "scale_x_date(labels = scales::date_format(\"%m/%d/%y\")) + \n  "
         )
       }
 
       scale <- paste0(
         scale,
-        "scale_y_continuous(expand = c(0.01, 0)) + "
+        "scale_y_continuous(expand = c(0.01, 0)) + \n  "
       )
       scale
       
@@ -359,15 +375,15 @@ gline <- setRefClass(
         zlab <- ""
       } else if (parms$zlab == "<auto>") {
         if (any(parms$plotType == c("1", "2"))) {
-          zlab <- paste0("labs(colour = \"", parms$z, "\", shape = \"", parms$z, "\") + ")
+          zlab <- paste0("labs(colour = \"", parms$z, "\", shape = \"", parms$z, "\") + \n  ")
         } else {
-          zlab <- paste0("labs(fill = \"", parms$z, "\") + ")
+          zlab <- paste0("labs(fill = \"", parms$z, "\") + \n  ")
         }
       } else {
         if (any(parms$plotType == c("1", "2"))) {
-          zlab <- paste0("labs(colour = \"", parms$zlab, "\", shape = \"", parms$zlab, "\") + ")
+          zlab <- paste0("labs(colour = \"", parms$zlab, "\", shape = \"", parms$zlab, "\") + \n  ")
         } else {
-          zlab <- paste0("labs(fill = \"", parms$zlab, "\") + ")
+          zlab <- paste0("labs(fill = \"", parms$zlab, "\") + \n  ")
         }
       }
       zlab
@@ -389,7 +405,7 @@ gline <- setRefClass(
 
       if (length(opts) != 0) {
         opts <- do.call(paste, c(opts, list(sep = ", ")))
-        opts <- paste0(" + theme(", opts, ")")
+        opts <- paste0(" + \n  theme(", opts, ")")
       } else {
         opts <- ""
       }

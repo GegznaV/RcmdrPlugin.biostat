@@ -202,18 +202,18 @@ gdist <- setRefClass(
 
     getGgplot = function(parms) {
 
-      "ggplot(.df, aes(x = x, y = y)) + "
+      "ggplot(.df, aes(x = x, y = y)) + \n  "
 
     },
 
     getGeom = function(parms) {
       
       if (distType == "continuous") {
-        geom <- "geom_line(size = 1.5) + "
+        geom <- "geom_line(size = 1.5) + \n  "
       } else if (distType == "discrete" && parms$funcType == "1") {
-        geom <- "geom_bar(stat = \"identity\") + "
+        geom <- "geom_bar(stat = \"identity\") + \n  "
       } else {
-        geom <- "geom_step(size = 1.5) + "
+        geom <- "geom_step(size = 1.5) + \n  "
       }
       geom
 
@@ -225,12 +225,12 @@ gdist <- setRefClass(
         main <- ""
       } else if (parms$main == "<auto>") {
         if (parms$funcType == "1") {
-          main <- paste0("labs(title = \"d", distName, "(x", parms$parmValuesList, ")\") + ")
+          main <- paste0("labs(title = \"d", distName, "(x", parms$parmValuesList, ")\") + \n  ")
         } else {
-          main <- paste0("labs(title = \"p", distName, "(x", parms$parmValuesList, ")\") + ")
+          main <- paste0("labs(title = \"p", distName, "(x", parms$parmValuesList, ")\") + \n  ")
         }
       } else {
-        main <- paste0("labs(title = \"", parms$main, "\") + ")
+        main <- paste0("labs(title = \"", parms$main, "\") + \n  ")
       }
       main
 
