@@ -13,7 +13,7 @@ Authors@R: c(
     person("Vilmantas", "Gegna", role = c("ctb")),
 	person("Triad", "Sou", role = c("aut","cre","cph"),
             email = "triadsou@gmail.com"),
-	person("Kengo", "NAGASHIMA", role = c("aut","cre","cph"))
+	person("Kengo", "NAGASHIMA", role = c("aut","cph"))
     )
 License: GPL-2
 Encoding: UTF-8
@@ -21,6 +21,7 @@ LazyData: true
 Depends:
     R (>= 3.1.3),
     grid,
+    BioStat,
     Rcmdr (>= 2.1-7),
     ggplot2 (>= 2.0.0),
     tidyr
@@ -28,6 +29,7 @@ Imports:
     stats,
     methods,
     utils,
+    glue,
     grDevices,
     graphics,
     ggthemes (>= 3.0.0),
