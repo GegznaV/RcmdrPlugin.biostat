@@ -25,6 +25,8 @@ Imports:
     methods,
     utils,
     glue,
+    dplyr,
+    magrittr,
     grDevices,
     graphics,
     ggthemes (>= 3.3.0),
