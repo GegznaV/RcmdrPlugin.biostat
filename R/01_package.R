@@ -10,9 +10,10 @@
 #' \code{RcmdrPlugin.BioStat} is an \code{Rcmdr} plugin for package
 #' \code{BioStat}.
 #'
-#' @import glue
+#' @import Rcmdr
+#' @import BioStat
+#' @importFrom glue glue
 #' @importFrom dplyr glimpse
 #' @importFrom magrittr "%>%"  "%<>%"  "%T>%"  "%$%"
-
 
 NULL

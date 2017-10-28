@@ -1,73 +1,78 @@
 #type	menu/item	    operation/parent	label	    command/menu	activation	    install?
 
-# ==============================================================================
-menu	BioStat_menu	topMenu	            ""	        ""	""	""
+# =============================================================================
 item	topMenu	        cascade             "BioStat"	        BioStat_menu	    ""	    ""
+menu	BioStat_menu	topMenu	            ""	        ""	""	""
 
+# ==============================================================================
 # ---- Manage dataset ---------------------------------------------------------
-#
-menu	Dataset	        BioStat_menu	    ""	""	""	""
-item	BioStat_menu    cascade	            "Dataset"   Dataset	""	""
-item	Dataset         command             "Show class"	                    dataset_class	"activeDataSetP()"	""
-item	Dataset         command             "Convert to data frame"	            dataset_as_df	"activeDataSetP()"	""
-item	Dataset         command             "Convert all strings to factors"	dataset_all_chr_to_fctr "characterP()"	""
-item	Dataset	        separator	""	""	""	""
-item	Dataset         command             "Import R data structure (.Rds)"	"as.data.frame"	        ""	""
 
-item	Dataset	        separator	""	""	""	""
-item	Dataset         command             "Save as text (.csv)"	            "as.data.frame"	        "activeDataSetP()"	""
-item	Dataset         command             "Save as R data structure (.Rds)"	"as.data.frame"	        "activeDataSetP()"	""
-item	Dataset         command             "Save as Excel (.xlsx)"	            "as.data.frame"	        "activeDataSetP()"	""
+item	BioStat_menu   cascade	    "Dataset"   dataset_menu	""	""
+menu	dataset_menu   BioStat_menu	    ""	""	""	""
+item	dataset_menu   command      "Refresh active dataset"	        dataset_refresh  "activeDataSetP()"	""
+item	dataset_menu   command      "Show class of dataset"	            dataset_class 	 "activeDataSetP()"	""
+item	dataset_menu   command      "Convert to data frame"	            dataset_as_df	  "activeDataSetP() && !first_class_is_dataframeP()"	""
+item	dataset_menu   command      "Convert all strings to factors"	dataset_all_chr_to_fctr  "characterP()"	""
+
+
+#   item	dataset_menu	 separator	""	""	""	""
+#   item	dataset_menu     command      "Import R data object (.Rds)"	"dataset_import_rds"	        ""	""
+#
+#
+#   item	dataset_menu	 separator	""	""	""	""
+#   item	dataset_menu     command      "Save as text file"	            "window_export_as_textfile"	    "activeDataSetP()"	""
+#   item	dataset_menu     command      "Save as R data object (.Rds)"  	"window_export_as_rds"	        "activeDataSetP()"	""
+#   item	dataset_menu     command      "Save as Excel (.xlsx)"	        "window_export_as_excel"	    "activeDataSetP()"	""
 
 
 # ---- Manage variables ---------------------------------------------------------
 
-menu	Variables	    BioStat_menu	    ""	""	""	""
-item	BioStat_menu    cascade	            "Variables"   Variables	""	""
-item	Variables       command             "Log transformation"	                window_log_transform	"numericP()"	""
+item	BioStat_menu    cascade	            "Variables"   Variable_menu	""	""
+menu	Variable_menu	BioStat_menu	    ""	""	""	""
+item	Variable_menu   command             "Log transformation"	        window_log_transform	"numericP()"	""
+item	Variable_menu   command             "z transformation"  	        window_z_transform	    "numericP()"	""
+#  item	Variable_menu	command             "Convert numeric to factors"	windowFactorize	        "nonFactorsP()"	""
 
-item	Variables       command             "z transformation"  	                window_z_transform	    "numericP()"	""
-item	Variables	    command             "Factorizing numeric variables..."	    windowFactorize	        "nonFactorsP()"	""
 
-
+# ==============================================================================
 # ---- Statistical summaries --------------------------------------------------
-#
-menu	Summary	        BioStat_menu	    ""	""	""	""
-item	BioStat_menu    cascade	            "Summary"   Summary	""	""
-item	Summary         command             "Glimpse at variables"	            summary_glimpse	"activeDataSetP()"	""
-item	Summary         command             "Describe all variables (Hmisc)"	summary_Hmisc_describe	"activeDataSetP()"	""
-item	Summary         command             "Describe numerical variables (psych)"	summary_psych_describe	"activeDataSetP()"	""
-#
-#   # ---- Statistical tests ------------------------------------------------------
-    menu	Tests	        BioStat_menu	    ""	""	""	""
-    item	BioStat_menu    cascade	            "Tests"   Tests	""	""
-#   item	Tests           command             "BioStat::test_normality"	"as.data.frame"	"numericP"	""
+
+item	BioStat_menu  cascade	   "Summary"   Summary_bs	""	""
+menu	Summary_bs	  BioStat_menu	    ""	""	""	""
+item	Summary_bs    command      "Glimpse at variables"	                summary_glimpse	"activeDataSetP()"	""
+item	Summary_bs    command      "Describe all variables (Hmisc)"	        summary_Hmisc_describe	"activeDataSetP()"	""
+item	Summary_bs    command      "Describe numerical variables (psych)"	summary_psych_describe	"activeDataSetP()"	""
 
 # =============================================================================
 # ---- Main plots -------------------------------------------------------------
-#   menu	Main_plots	    BioStat_menu	""	""	""	""
-#   item	BioStat_menu    cascade	"Plots"	            Main_plots	""	""
-#   item	Main_plots	    separator	"Continuous variables"	""	""	""
-#   item	Main_plots	    command "Histogram..."	        windowHist	        "nonFactorsP()"	""
-#   item	Main_plots	    command "Density plot..."   	windowDensity	    "nonFactorsP()"	""
-#   item	Main_plots	    command "Box plot / Confidence interval/ Violin plot..."	windowBox	"nonFactorsP#   ()"	""
-#   item	Main_plots	    separator	""	""	""	""
-#   item	Main_plots	    command "Scatter plot..."	    windowScatter	    "nonFactorsP(2)"	""
-#   item	Main_plots	    command "Scatter matrix..."	    windowScattermat	"nonFactorsP(3)"	""
-#   item	Main_plots	    command "Line chart..."	        windowLine	        "nonFactorsP(2)"	""
-#   item	Main_plots	    separator	"Discrete variables"	""	""	""
-#   item	Main_plots	    command "Pie chart..."	        windowPie	        "factorsP()"	""
-#   item	Main_plots	    command "Bar chart for discrete variables..."	windowDiscretebar	"factorsP()"	""
-#   item	Main_plots	    separator	""	""	""	""
-#   item	Main_plots	    command "Contour plot..."	    windowContour	    "nonFactorsP(3)"	""
-#   item	Main_plots	    separator	""	""	""	""
-#   item	Main_plots	    command "Q-Q plot..."	        windowQQ	        "nonFactorsP()"	""
-#   item	Main_plots	    command "Q-Q plot by group"	    windowQQ	        "nonFactorsP()"	""
-#
-#
-#
-#   # ---- Distributions ----------------------------------------------------------
-#   menu	distr_menu	        BioStat_menu	""	""	""	""
+
+item	BioStat_menu    cascade	"Plots"	            plots_menu	""	""
+menu	plots_menu	    BioStat_menu	""	""	""	""
+
+#   item	plots_menu	    separator	"Continuous variables"	""	""	""
+#   item	plots_menu	    command "Histogram..."	        windowHist	        "nonFactorsP()"	""
+#   item	plots_menu	    command "Density plot..."   	windowDensity	    "nonFactorsP()"	""
+#   item	plots_menu	    command "Box plot / Confidence interval/ Violin plot..."	windowBox	"nonFactorsP()"	""
+
+#   item	plots_menu	    separator	""	""	""	""
+#   item	plots_menu	    command "Scatter plot..."	    windowScatter	    "nonFactorsP(2)"	""
+#   item	plots_menu	    command "Scatter matrix..."	    windowScattermat	"nonFactorsP(3)"	""
+#   item	plots_menu	    command "Line chart..."	        windowLine	        "nonFactorsP(2)"	""
+
+#   item	plots_menu	    separator	"Discrete variables"	""	""	""
+#   item	plots_menu	    command "Pie chart..."	        windowPie	        "factorsP()"	""
+#   item	plots_menu	    command "Bar chart for discrete variables..."	    windowDiscretebar	"factorsP()"	""
+
+#   item	plots_menu	    separator	""	""	""	""
+#   item	plots_menu	    command "Contour plot..."	    windowContour	    "nonFactorsP(3)"	""
+#   item	plots_menu	    separator	""	""	""	""
+#   item	plots_menu	    command "Q-Q plot..."	        windowQQ	        "nonFactorsP()"	""
+#   item	plots_menu	    command "Q-Q plot by group"	    windowQQ	        "nonFactorsP()"	""
+
+
+# ---- Distributions ----------------------------------------------------------
+menu	distr_menu	        BioStat_menu	""	""	""	""
+
 #   item	BioStat_menu	    cascade	"Plot distribution..."	            distr_menu	""	""
 #
 #   menu	c_distr_menu	    distr_menu	""	""	""	""
@@ -92,4 +97,13 @@ item	Summary         command             "Describe numerical variables (psych)"	
 #   item	d_distr_menu	    command	"Geometric distribution..."	        windowDistGeom	""	""
 #   item	d_distr_menu	    command	"Hypergeometric distribution..."	windowDistHyper	""	""
 #   item	d_distr_menu	    command	"Negative binomial distribution..."	windowDistNbinom	""	""
-#
+
+
+# ==============================================================================
+# ---- Statistical tests ------------------------------------------------------
+
+menu	Tests_menu	    BioStat_menu    ""	""	""	""
+item	BioStat_menu    cascade	        "Tests"   Tests_menu	""	""
+item	Tests_menu        command       "BioStat::test_normality"	NormalityTest	"numericP()"	""
+
+# =============================================================================

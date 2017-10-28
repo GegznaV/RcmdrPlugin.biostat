@@ -12,11 +12,11 @@ Authors@R: c(
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-ByteCompile: true
+ByteCompile: false
 Depends:
     R (>= 3.3.0),
     grid,
-    BioStat,
+    BioStat (>= 0.0.8),
     Rcmdr (>= 2.4-1),
     ggplot2 (>= 2.2.0),
     tidyr

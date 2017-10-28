@@ -2,8 +2,7 @@
 % Please edit documentation in R/hepler-functions.R
 \name{characterP}
 \alias{characterP}
-\title{characterP
-Return TRUE, if at least n character variables exist in the active dataset.}
+\title{Does data contain characters?}
 \usage{
 characterP(n = 1)
 }
@@ -11,7 +10,6 @@ characterP(n = 1)
 \item{n}{Minimum number of character variables}
 }
 \description{
-characterP
 Return TRUE, if at least n character variables exist in the active dataset.
 }
 \keyword{internal}
