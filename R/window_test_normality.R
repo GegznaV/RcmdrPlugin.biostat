@@ -10,6 +10,7 @@ window_normality_test <- function() {
                      initial_groups = NULL,
                      initial_add_plot = FALSE,
                      initial_plot_in_colors = TRUE,
+                     initial_separate_window = FALSE,
                      initial_report_friendly = FALSE
     )
 
@@ -56,16 +57,18 @@ window_normality_test <- function() {
         frame = "checkBoxFrame",
         # frame = vBox_frame,
         title = "Options",
-        boxes = c("add_plot", "plot_in_colors", "report_friendly"),
+        boxes = c("add_plot", "plot_in_colors", "separate_window", "report_friendly"),
         initialValues = c(
             dialog_values$initial_add_plot,
             dialog_values$initial_plot_in_colors,
+            dialog_values$initial_separate_window,
             dialog_values$initial_report_friendly
         ),
         labels = gettextRcmdr(
             c(
                 "Draw a qq-plot",
                 "Plot in color",
+                "Separate window for each plot",
                 "RMarkdown-friendly results"
             )
         )
@@ -113,6 +116,7 @@ window_normality_test <- function() {
         add_plot <- as.logical(as.integer(tclvalue(add_plotVariable)))
         plot_in_colors <- as.logical(as.integer(tclvalue(plot_in_colorsVariable)))
         report_friendly <- as.logical(as.integer(tclvalue(report_friendlyVariable)))
+        separate_window <- as.logical(as.integer(tclvalue(separate_windowVariable)))
 
         putDialog("window_normality_test",
                   list(initial_var = var,
@@ -121,6 +125,7 @@ window_normality_test <- function() {
                        initial_groups = if(.groups == FALSE) NULL else .groups,
                        initial_add_plot = add_plot,
                        initial_plot_in_colors = plot_in_colors,
+                       initial_separate_window = separate_window,
                        initial_report_friendly = report_friendly
                   )
         )
@@ -155,6 +160,10 @@ window_normality_test <- function() {
         if (add_plot == TRUE) {
         # logger(paste("add_plot:", add_plot, class(add_plot)))
         # logger(paste("plot_in_colors:", plot_in_colors, class(add_plot)))
+
+            if (separate_window == TRUE) {
+                new_plots_window()
+            }
 
             if (.groups == FALSE) {
                 command2 <- glue::glue(
