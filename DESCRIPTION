@@ -1,6 +1,6 @@
 Package: RcmdrPlugin.BioStat
 Type: Package
-Version: 0.0.2
+Version: 0.0.3
 Date: 2017-10-29
 Title: An R Commander Plug-in for Package "BioStat"
 Description: An Rcmdr plug-in for functions in package "BioStat" and various 
@@ -22,6 +22,7 @@ Depends:
 Imports:
     tidyverse,
     stats,
+    nortest,
     methods,
     utils,
     glue,

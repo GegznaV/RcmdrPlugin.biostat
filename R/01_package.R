@@ -15,6 +15,7 @@
 #' @importFrom tcltk tkbutton
 #' @import BioStat
 #' @import Rcmdr
+#' @import nortest
 
 # @import tcltk
 NULL

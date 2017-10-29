@@ -135,6 +135,7 @@ window_normality_test <- function() {
 
         Library("tidyverse")
         Library("BioStat")
+        Library("nortest")
 
         print_as_report <-
             if (report_friendly == TRUE) {
