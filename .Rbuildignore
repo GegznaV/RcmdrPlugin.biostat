@@ -2,3 +2,4 @@
 ^\.Rproj\.user$
 data-raw.*
 .gitignore
+^D:\Dokumentai\R\RcmdrPlugin\.BioStat\docs$

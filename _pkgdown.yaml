@@ -14,13 +14,7 @@ navbar:
   - text: Functions
     href: reference/index.html
   - text: Turorials and Examples
-    menu:
-    - text: Extend with the `extrafont` package
-      href: articles/extrafont.html
-    - text: '`geom_stepribbon`'
-      href: articles/geom-stepribbon.html
-    - text: Dataset requirements to make Kaplan-Meier plot with RcmdrPlugin.KMggplot2
-      href: articles/plot-km-requirement.html
+    href: articles/index.html
   right:
   - icon: fa-github fa-lg
     href: https://github.com/GegznaV/RcmdrPlugin.BioStat

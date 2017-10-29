@@ -1,10 +1,11 @@
 Package: RcmdrPlugin.BioStat
 Type: Package
 Version: 0.0.1
-Date: 2017-10-25
-Title: An Rcmdr Plug-in for Various Common Tasks
-Description: An Rcmdr plug-in for various common data analysis tasks: 
-             making plots, describing data, etc.
+Date: 2017-10-29
+Title: An R Commander Plug-in for Package "BioStat"
+Description: An Rcmdr plug-in for functions in package "BioStat" and various 
+             other various common data analysis tasks: 
+             making plots, summarizing and describing data, etc.
 Authors@R: c(
     person("Vilmantas", "Gegna", role = c("aut","cre","cph"),
     email = "GegznaV@gmail.com")

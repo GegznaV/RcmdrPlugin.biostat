@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>An Rcmdr Plug-in for Various Common Tasks • RcmdrPlugin.BioStat</title>
+<title>An R Commander Plug-in for Package "BioStat" • RcmdrPlugin.BioStat</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
@@ -38,23 +38,8 @@
 <li>
   <a href="reference/index.html">Functions</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Turorials and Examples
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/extrafont.html">Extend with the `extrafont` package</a>
-    </li>
-    <li>
-      <a href="articles/geom-stepribbon.html">`geom_stepribbon`</a>
-    </li>
-    <li>
-      <a href="articles/plot-km-requirement.html">Dataset requirements to make Kaplan-Meier plot with RcmdrPlugin.KMggplot2</a>
-    </li>
-  </ul>
+  <a href="articles/index.html">Turorials and Examples</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -83,27 +68,50 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <hr>
 <hr>
-<!-- 
-<img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.BioStat/master/docs/logo.png" width="30%" height="30%" style="display: block; margin: auto;" />
- --><p><img src="logo.png" width="30%" height="30%" style="display: block; margin: auto;"></p>
-<div id="rcmdrplugin-biostat-convenience-functions-for-statistical-analysis" class="section level1">
+<p><img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.BioStat/master/docs/logo.png" width="30%" height="30%" style="display: block; margin: auto;"></p>
+<div id="rcmdrplugin-biostat-an-r-commander-plugin-for-biostat-package" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#rcmdrplugin-biostat-convenience-functions-for-statistical-analysis" class="anchor"></a><code>RcmdrPlugin.BioStat</code> – Convenience Functions for Statistical Analysis</h1></div>
-<p><code>RcmdrPlugin.BioStat</code> is an experimental branch of <code>R</code> package <a href="https://cran.r-project.org/web/packages/RcmdrPlugin.KMggplot2/index.html"><code>RcmdrPlugin.KMggplot2</code></a></p>
-<hr>
-<p><strong>Package is under development</strong> and will change significantly. Package is experimental. Use it at your own risk.</p>
-<hr>
-<div id="install-package" class="section level2">
+<a href="#rcmdrplugin-biostat-an-r-commander-plugin-for-biostat-package" class="anchor"></a><code>RcmdrPlugin.BioStat</code> – an <em>R Commander</em> plugin for <code>BioStat</code> package</h1></div>
+<p>The package is still in its development and some functions and menus are not fully functional yet.</p>
+<p>Documentation and more information available at <a href="http://gegznav.github.io/RcmdrPlugin.BioStat/" class="uri">http://gegznav.github.io/RcmdrPlugin.BioStat/</a></p>
+<div id="install-the-package" class="section level2">
 <h2 class="hasAnchor">
-<a href="#install-package" class="anchor"></a>Install package</h2>
+<a href="#install-the-package" class="anchor"></a>Install the package</h2>
 <p>To install a developement version of the package from <code>GitHub</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"GegznaV/RcmdrPlugin.BioStat"</span>)</code></pre></div>
-<!-- * * * -->
-<!--  <p align="right"> </p>     -->
-<hr>
-<p>More information at <a href="http://gegznav.github.io/RcmdrPlugin.BioStat/" class="uri">http://gegznav.github.io/RcmdrPlugin.BioStat/</a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (<span class="op">!</span><span class="st">"devtools"</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">installed.packages</span>())
+        <span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
+
+devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"GegznaV/RcmdrPlugin.BioStat"</span>)</code></pre></div>
 <hr>
 </div>
+</div>
+<div id="other-related-packages" class="section level1">
+<h1 class="hasAnchor">
+<a href="#other-related-packages" class="anchor"></a>Other related packages</h1>
+<p>Other related packages:</p>
+<ol style="list-style-type: lower-alpha">
+<li>
+<strong>BioStat</strong> is an <code>R</code> package that contains a collection of functions that do some common statistical routines without writing to much code (<a href="https://gegznav.github.io/BioStat/">homepage</a>);</li>
+<li>
+<strong>RcmdrPlugin.EZR.2</strong> – an <em>R Commander</em> plugin for the most common statistical analyses (the same as <em>RcmdrPlugin.EZR</em>, except that <em>RcmdrPlugin.EZR.2</em> does not modify original <em>Rcmdr</em> menu so dramatically);</li>
+<li>
+<strong>RcmdrPlugin.KMggplot2</strong> – an <em>R Commander</em> plugin for <em>ggplot2</em> graphics.</li>
+</ol>
+<p>To install these packages, use the following code:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># BioStat</span>
+devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"GegznaV/BioStat"</span>)
+
+<span class="co"># RcmdrPlugin.EZR.2</span>
+devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"GegznaV/RcmdrPlugin.EZR@unmodified_Rcmdr_menu"</span>)
+
+<span class="co"># RcmdrPlugin.KMggplot2</span>
+<span class="kw">install.packages</span>(<span class="st">"RcmdrPlugin.KMggplot2"</span>)</code></pre></div>
+<hr>
+<!-- [![Travis-CI Build Status]
+(https://travis-ci.org/GegznaV/RcmdrPlugin.BioStat.png?branch=master)]
+(https://travis-ci.org/GegznaV/RcmdrPlugin.BioStat) --><!-- [![codecov.io]
+(https://codecov.io/github/GegznaV/RcmdrPlugin.BioStat/coverage.svg?branch=master)]
+(https://codecov.io/github/GegznaV/RcmdrPlugin.BioStat?branch=master) --><!-- * * * --><!--  <p align="right"> </p>     -->
 </div>
 </div>
   </div>
@@ -111,7 +119,7 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2 class="hasAnchor">
 <a href="#sidebar" class="anchor"></a>License</h2>
-<p><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></p>
+<p>GPL (&gt;= 3)</p>
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>Vilmantas Gegna <br><small class="roles"> Author, maintainer, copyright holder </small> </li>
@@ -120,9 +128,7 @@
 <ul class="list-unstyled">
 <li><a href="https://cran.rstudio.com/web/packages/RcmdrPlugin.BioStat/index.html"><embed src="http://www.r-pkg.org/badges/version/RcmdrPlugin.BioStat"></embed></a></li>
 <li><a href="https://github.com/GegznaV/RcmdrPlugin.BioStat"><img src="https://img.shields.io/badge/GitHub-v0.0.1-brightgreen.svg" alt="GitHub version"></a></li>
-<li><a href="https://travis-ci.org/GegznaV/RcmdrPlugin.BioStat"><img src="https://travis-ci.org/GegznaV/RcmdrPlugin.BioStat.png?branch=master" alt="Travis-CI Build Status"></a></li>
-<li><a href="https://codecov.io/github/GegznaV/RcmdrPlugin.BioStat?branch=master"><img src="https://codecov.io/github/GegznaV/RcmdrPlugin.BioStat/coverage.svg?branch=master" alt="codecov.io"></a></li>
-<li><a href="/commits/master"><img src="https://img.shields.io/badge/last%20update-2017--10--26-yellowgreen.svg" alt="Last-update"></a></li>
+<li><a href="/commits/master"><img src="https://img.shields.io/badge/last%20update-2017--10--29-yellowgreen.svg" alt="Last-update"></a></li>
 </ul>
 </div>
 
