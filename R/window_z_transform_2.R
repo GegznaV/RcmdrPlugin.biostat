@@ -5,7 +5,7 @@
 #' @export
 #' @family transformations
 #'
-window_z_transform <- function() {
+window_z_transform_2 <- function() {
     initializeDialog(title = get_text("Z transformation"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     variableBox <-
@@ -16,14 +16,13 @@ window_z_transform <- function() {
                         listHeight = 5
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # [!!!]
-    # radioButtons(name = "transformation_type",
-    #              title = get_text("---",
-    #              buttons = c("A", "B"),
-    #              values  = c("", ", center = median, scale = IQR"),
-    #              labels =  get_text(c("z-transformation",
-    #                                   "center = median, scale = IQR")))
-    # )
+    radioButtons(name = "base",
+                 buttons = c("z_transformation"),
+                 values = c("10"),
+
+                 labels =  get_text(c("z transformation")),
+                 title = get_text("Transformation")
+    )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     prefix      <- tclVar(get_text("<automatic prefix>"))
     prefixField <- ttkentry(top, width = "20", textvariable = prefix)
@@ -40,7 +39,7 @@ window_z_transform <- function() {
         }
 
         prefix <- trim.blanks(tclvalue(prefix))
-        # type   <- as.character(tclvalue(transformation_typeVariable))
+        base   <- as.character(tclvalue(baseVariable))
 
         .activeDataSet <- ActiveDataSet()
 
@@ -74,9 +73,9 @@ window_z_transform <- function() {
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         command <- paste0(c("\n",
-            glue("{.activeDataSet} <- within({.activeDataSet}, {{ "),
-            glue("   {new_names} <- BioStat::scale_vector({variables}) "),
-            "})\n"
+                            glue("{.activeDataSet} <- within({.activeDataSet}, {{ "),
+                            glue("   {new_names} <- BioStat::scale_vector({variables}) "),
+                            "})\n"
         ),
         collapse = "\n")
 
@@ -87,9 +86,8 @@ window_z_transform <- function() {
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         msg <- glue("#---  ", get_text("Z transformation"), "  ---#\n\n",
-                     "# ",
-                     get_text("New variable(s):"), " \n",
-                     paste("#   ", new_names, collapse = "\n"))
+                    "# ", get_text("New variable(s):"), " \n",
+                    paste("#   ", new_names, collapse = "\n"))
 
         logger(paste0(msg, command, collapse = "\n"))
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -106,11 +104,10 @@ window_z_transform <- function() {
         ),
         prefixField, sticky = "w")
 
-    # [!!!]
     tkgrid(buttonsFrame, sticky = "w", columnspan = 2)
 
     dialogSuffix(rows = 4,
-                 columns = 1,
+                 columns = 2,
                  preventGrabFocus = TRUE)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

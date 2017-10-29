@@ -10,5 +10,6 @@ window_log_transform()
 window_log_transform
 }
 \seealso{
-Other transformations: \code{\link{window_z_transform}}
+Other transformations: \code{\link{window_z_transform_2}},
+  \code{\link{window_z_transform}}
 }

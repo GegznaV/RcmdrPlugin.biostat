@@ -13,6 +13,7 @@
 \alias{summary_Hmisc_describe}
 \alias{summary_psych_describe}
 \alias{new_plots_window}
+\alias{load_packages_command}
 \alias{window_normality_test}
 \title{RcmdrPlugin.BioStat functions for menus and windows}
 \usage{
@@ -37,6 +38,8 @@ summary_Hmisc_describe()
 summary_psych_describe()
 
 new_plots_window()
+
+load_packages_command()
 
 window_normality_test()
 }

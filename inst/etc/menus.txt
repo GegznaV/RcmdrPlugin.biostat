@@ -30,7 +30,7 @@ item	dataset_menu   command      "Convert all strings to factors"	dataset_all_ch
 item	BioStat_menu    cascade	            "Variables"   Variable_menu	""	""
 menu	Variable_menu	BioStat_menu	    ""	""	""	""
 item	Variable_menu   command             "Log transformation"	        window_log_transform	"numericP()"	""
-item	Variable_menu   command             "z transformation"  	        window_z_transform	    "numericP()"	""
+item	Variable_menu   command             "z transformation"  	        window_z_transform_2	    "numericP()"	""
 #  item	Variable_menu	command             "Convert numeric to factors"	windowFactorize	        "nonFactorsP()"	""
 
 
