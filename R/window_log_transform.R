@@ -1,8 +1,9 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#' window_log_transform
+#' Rcmdr window for log transformation
 #'
 #' @export
+#' @keywords internal
 #' @family transformations
 #'
 window_log_transform <- function() {

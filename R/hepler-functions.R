@@ -1,3 +1,15 @@
+# Create new window for plots
+#' @rdname Menu-winow-functions
+#' @export
+#' @keywords internal
+load_packages_command <- function() {
+    Rcmdr::doItAndPrint(paste0(
+        "library(tidyverse) \n",
+        "library(BioStat)   \n",
+        "library(magrittr)  \n"))
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 # ------------------------------------------------------------------------------
 eval_glue <- function(..., envir = parent.frame(),
                       .sep = "", .open = "{", .close = "}") {

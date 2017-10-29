@@ -18,11 +18,12 @@ Depends:
     R (>= 3.3.0),
     grid,
     BioStat (>= 0.0.8),
-    Rcmdr (>= 2.4-1),
+    Rcmdr,
     ggplot2 (>= 2.2.0),
     tidyr,
     tcltk
 Imports:
+    tidyverse,
     stats,
     methods,
     utils,
@@ -32,11 +33,9 @@ Imports:
     magrittr,
     grDevices,
     graphics,
-    ggthemes (>= 3.3.0),
-    plyr (>= 1.8.4),
-    RColorBrewer (>= 1.1-2),
-    scales (>= 0.4.1),
-    survival (>= 2.40-3),
+    ggthemes,
+    plyr,
+    scales,
     tcltk2 (>= 1.2-11)
 Suggests:
     extrafont,
