@@ -5,7 +5,7 @@
 #' @keywords internal
 summary_glimpse <- function() {
     Library("tidyverse")
-
+    # doItAndPrint('library("tidyverse")')
     doItAndPrint(glue::glue("dplyr::glimpse({ActiveDataSet()})"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -15,6 +15,8 @@ summary_glimpse <- function() {
 #' @keywords internal
 summary_Hmisc_describe <- function() {
     Library("Hmisc")
+    # doItAndPrint('library("Hmisc")')
+
     doItAndPrint(glue::glue("# Summary of all variables\n",
 
                             "Hmisc::describe({ActiveDataSet()})"))
@@ -27,6 +29,8 @@ summary_Hmisc_describe <- function() {
 summary_psych_describe <- function() {
     Library("tidyverse")
     Library("psych")
+
+    # doItAndPrint('library("tidyverse")\n library("psych")\n')
 
     doItAndPrint(glue::glue("# Summary of numeric variables\n",
 

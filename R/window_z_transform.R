@@ -3,7 +3,7 @@
 #' Rcmdr window for z transformation
 #'
 #' @export
-#' @kaywords internal
+#' @keywords internal
 #' @family transformations
 #'
 window_z_transform <- function() {

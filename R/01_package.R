@@ -12,6 +12,7 @@
 #' @importFrom glue glue
 #' @importFrom dplyr glimpse
 #' @importFrom magrittr "%>%"  "%<>%"  "%T>%"  "%$%"
+#' @importFrom tcltk tkbutton
 #' @import BioStat
 #' @import Rcmdr
 

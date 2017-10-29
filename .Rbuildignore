@@ -3,3 +3,7 @@
 data-raw.*
 .gitignore
 ^D:\Dokumentai\R\RcmdrPlugin\.BioStat\docs$
+README.Rmd
+_pkgdown.yaml
+^docs.*
+logfilename

@@ -1,18 +1,20 @@
 
 
 ###! Rcmdr Options Begin !###
-options(Rcmdr = list(plugins = "RcmdrPlugin.BioStat",
+options(Rcmdr = list(plugins = c("RcmdrPlugin.KMggplot2",
+                                 "RcmdrPlugin.EZR.2",
+                                 "RcmdrPlugin.BioStat"),
                      use.rgl = TRUE,
                      console.output = FALSE
                      )
         )
 
-library(magrittr)
-library(pander)
-library(ggplot2)
-library(spMisc)
+# library(magrittr)
+# library(pander)
+# library(ggplot2)
+# library(spMisc)
+# Sys.setlocale(locale = "Lithuanian")  %>% strsplit(";")
 
-Sys.setlocale(locale="Lithuanian")  %>% strsplit(";")
 
 # Uncomment the following 4 lines (remove the #s)
 #  to start the R Commander automatically when R starts:

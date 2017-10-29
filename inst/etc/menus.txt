@@ -11,9 +11,7 @@ item	BioStat_menu   cascade	    "Dataset"   dataset_menu	""	""
 menu	dataset_menu   BioStat_menu	    ""	""	""	""
 item	dataset_menu   command      "Refresh active dataset"	        dataset_refresh  "activeDataSetP()"	""
 item	dataset_menu   command      "Show class of dataset"	            dataset_class 	 "activeDataSetP()"	""
-item	dataset_menu   command      "Convert to data frame"	            dataset_as_df	  "activeDataSetP() && !first_class_is_dataframeP()"	""
-item	dataset_menu   command      "Convert all strings to factors"	dataset_all_chr_to_fctr  "characterP()"	""
-
+item	dataset_menu   command      "Convert to data frame"	            dataset_as_df	 "activeDataSetP() && !first_class_is_dataframeP()"	""
 
 #   item	dataset_menu	 separator	""	""	""	""
 #   item	dataset_menu     command      "Import R data object (.Rds)"	"dataset_import_rds"	        ""	""
@@ -29,8 +27,9 @@ item	dataset_menu   command      "Convert all strings to factors"	dataset_all_ch
 
 item	BioStat_menu    cascade	            "Variables"   Variable_menu	""	""
 menu	Variable_menu	BioStat_menu	    ""	""	""	""
+item	Variable_menu   command             "Convert all strings to factors"	command_all_chr_to_fctr  "characterP()"	""
 item	Variable_menu   command             "Log transformation"	        window_log_transform	"numericP()"	""
-item	Variable_menu   command             "z transformation"  	        window_z_transform_2	    "numericP()"	""
+item	Variable_menu   command             "Z transformation"  	        window_z_transform	    "numericP()"	""
 #  item	Variable_menu	command             "Convert numeric to factors"	windowFactorize	        "nonFactorsP()"	""
 
 
@@ -49,9 +48,12 @@ item	Summary_bs    command      "Describe numerical variables (psych)"	summary_p
 item	BioStat_menu    cascade	"Plots"	            plots_menu	""	""
 menu	plots_menu	    BioStat_menu	""	""	""	""
 
-item	plots_menu	    command "New window for plots"	        new_plots_window	        ""	""
+item	plots_menu	    command "Open new window for plots"	        new_plots_window	        ""	""
 
-item	plots_menu	    separator	"Continuous variables"	""	""	""
+# item	plots_menu	    separator	"Continuous variables"	""	""	""
+# item	plots_menu	    command	    "Normal Q-Q plot (by groups)"	window_qqplot_biostat	"numericP()"	""
+
+
 #   item	plots_menu	    command "Histogram..."	        windowHist	        "nonFactorsP()"	""
 #   item	plots_menu	    command "Density plot..."   	windowDensity	    "nonFactorsP()"	""
 #   item	plots_menu	    command "Box plot / Confidence interval/ Violin plot..."	windowBox	"nonFactorsP()"	""
@@ -106,9 +108,18 @@ menu	distr_menu	        BioStat_menu	""	""	""	""
 
 item	BioStat_menu    cascade	        "Tests"   Tests_menu	""	""
 menu	Tests_menu	    BioStat_menu    ""	""	""	""
-# item	Tests_menu      command       "RcmdrMisc::normalityTest"	NormalityTest	"numericP()"	""
 item	Tests_menu      command        "Normality tests"	window_normality_test	"numericP()"	""
-item	Tests_menu	    separator	""	""	""	""
+# item	Tests_menu	    separator	""	""	""	""
 
+
+
+
+# ==============================================================================
+# ---- Locale -----------------------------------------------------------------
+
+item	BioStat_menu  cascade	   "Options"   options_menu	""	""
+menu	options_menu   BioStat_menu	    ""	""	""	""
+item	options_menu   command      "Set locale: Lithuanian"	 command_set_locale_lt  ""	""
+item	options_menu   command      "Set locale: English"	     command_set_locale_en 	""	""
 
 # =============================================================================

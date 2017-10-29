@@ -13,3 +13,4 @@ Rcmdr window for z transformation
 Other transformations: \code{\link{window_log_transform}},
   \code{\link{window_z_transform_2}}
 }
+\keyword{internal}

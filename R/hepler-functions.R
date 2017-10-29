@@ -9,7 +9,19 @@ load_packages_command <- function() {
         "library(magrittr)  \n"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+#' @rdname Menu-winow-functions
+#' @export
+#' @keywords internal
+command_set_locale_lt <- function() {
+    Rcmdr::doItAndPrint('Sys.setlocale(locale = "Lithuanian")')
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-winow-functions
+#' @export
+#' @keywords internal
+command_set_locale_en <- function() {
+    Rcmdr::doItAndPrint('Sys.setlocale(locale = "English")')
+}
 # ------------------------------------------------------------------------------
 eval_glue <- function(..., envir = parent.frame(),
                       .sep = "", .open = "{", .close = "}") {

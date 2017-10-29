@@ -11,6 +11,8 @@
 \alias{window_export_as_textfile}
 \alias{window_export_as_rds}
 \alias{load_packages_command}
+\alias{command_set_locale_lt}
+\alias{command_set_locale_en}
 \alias{new_plots_window}
 \alias{summary_glimpse}
 \alias{summary_Hmisc_describe}
@@ -33,6 +35,10 @@ window_export_as_textfile()
 window_export_as_rds()
 
 load_packages_command()
+
+command_set_locale_lt()
+
+command_set_locale_en()
 
 new_plots_window()
 

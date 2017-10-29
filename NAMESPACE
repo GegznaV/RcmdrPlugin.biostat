@@ -2,6 +2,8 @@
 
 export(characterP)
 export(command_all_chr_to_fctr)
+export(command_set_locale_en)
+export(command_set_locale_lt)
 export(dataset_as_df)
 export(dataset_class)
 export(dataset_import_rds)
@@ -27,3 +29,4 @@ importFrom(magrittr,"%$%")
 importFrom(magrittr,"%<>%")
 importFrom(magrittr,"%>%")
 importFrom(magrittr,"%T>%")
+importFrom(tcltk,tkbutton)
