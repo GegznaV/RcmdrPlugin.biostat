@@ -2,12 +2,12 @@
 % Please edit documentation in R/window_z_transform.R
 \name{window_z_transform}
 \alias{window_z_transform}
-\title{window_log_transform}
+\title{Rcmdr window for z transformation}
 \usage{
 window_z_transform()
 }
 \description{
-window_log_transform
+Rcmdr window for z transformation
 }
 \seealso{
 Other transformations: \code{\link{window_log_transform}},

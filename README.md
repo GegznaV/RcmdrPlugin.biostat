@@ -9,7 +9,7 @@
 
 <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.BioStat/master/docs/logo.png" width="30%" height="30%" style="display: block; margin: auto;" />
 
-`RcmdrPlugin.BioStat` -- an *R Commander* plugin for `BioStat` package
+`RcmdrPlugin.BioStat` -- an *R Commander* plugin for package `BioStat`
 ======================================================================
 
 The package is still in its development and some functions and menus are not fully functional yet.
@@ -51,6 +51,11 @@ devtools::install_github("GegznaV/RcmdrPlugin.EZR@unmodified_Rcmdr_menu")
 # RcmdrPlugin.KMggplot2
 install.packages("RcmdrPlugin.KMggplot2")
 ```
+
+Important
+=========
+
+Some of the functions in the package are based on and modified from functions in packages *Rcmdr*, *RcmdrPlugin.EZR* and *RcmdrPlugin.KMggplot2*. All of those packages are under either GPL-2 or GPL-3 license.
 
 ------------------------------------------------------------------------
 

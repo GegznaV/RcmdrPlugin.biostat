@@ -2,14 +2,15 @@
 % Please edit documentation in R/window_log_transform.R
 \name{window_log_transform}
 \alias{window_log_transform}
-\title{window_log_transform}
+\title{Rcmdr window for log transformation}
 \usage{
 window_log_transform()
 }
 \description{
-window_log_transform
+Rcmdr window for log transformation
 }
 \seealso{
 Other transformations: \code{\link{window_z_transform_2}},
   \code{\link{window_z_transform}}
 }
+\keyword{internal}

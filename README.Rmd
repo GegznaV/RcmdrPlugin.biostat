@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
  
 
 
-`RcmdrPlugin.BioStat` -- an *R Commander* plugin for `BioStat` package 
+`RcmdrPlugin.BioStat` -- an *R Commander* plugin for package `BioStat` 
 ==============================================================================
 
 
@@ -45,6 +45,7 @@ if (!"devtools" %in% installed.packages())
 
 devtools::install_github("GegznaV/RcmdrPlugin.BioStat")
 ```
+
 
 
 ***
@@ -74,6 +75,11 @@ devtools::install_github("GegznaV/RcmdrPlugin.EZR@unmodified_Rcmdr_menu")
 install.packages("RcmdrPlugin.KMggplot2")
 ```
 
+# Important
+
+Some of the functions in the package are based on and modified from functions 
+in packages *Rcmdr*, *RcmdrPlugin.EZR* and *RcmdrPlugin.KMggplot2*. All of 
+those packages are under either GPL-2 or GPL-3 license.
 
 ***
 

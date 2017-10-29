@@ -2,14 +2,15 @@
 % Please edit documentation in R/window_z_transform_2.R
 \name{window_z_transform_2}
 \alias{window_z_transform_2}
-\title{window_log_transform}
+\title{Rcmdr window for z transformation (does not work)}
 \usage{
 window_z_transform_2()
 }
 \description{
-window_log_transform
+Rcmdr window for z transformation (does not work)
 }
 \seealso{
 Other transformations: \code{\link{window_log_transform}},
   \code{\link{window_z_transform}}
 }
+\keyword{internal}
