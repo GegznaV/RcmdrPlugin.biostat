@@ -1,4 +1,12 @@
 
+# install.packages("RcmdrPlugin.KMggplot2")
+#
+# if (!"devtools" %in% installed.packages())  install.packages("devtools")
+#
+# devtools::install_github("GegznaV/RcmdrPlugin.EZR@unmodified_Rcmdr_menu")
+# devtools::install_github("GegznaV/BioStat")
+# devtools::install_github("GegznaV/RcmdrPlugin.BioStat")
+
 
 ###! Rcmdr Options Begin !###
 options(Rcmdr = list(plugins = c("RcmdrPlugin.KMggplot2",
@@ -9,11 +17,13 @@ options(Rcmdr = list(plugins = c("RcmdrPlugin.KMggplot2",
                      )
         )
 
+Sys.setlocale(locale = "Lithuanian")
+
 # library(magrittr)
 # library(pander)
 # library(ggplot2)
 # library(spMisc)
-# Sys.setlocale(locale = "Lithuanian")  %>% strsplit(";")
+
 
 
 # Uncomment the following 4 lines (remove the #s)
