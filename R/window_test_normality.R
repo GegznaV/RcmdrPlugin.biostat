@@ -7,18 +7,15 @@ window_normality_test <- function() {
     defaults <- list(initial_var = NULL,
                      initial_test = if (nrows <= 5000) "shapiro.test" else "ad.test",
                      initial_bins = gettextRcmdr("<auto>"),
-                     initial_groups = NULL
+                     initial_groups = NULL,
+                     initial_add_plot = FALSE,
+                     initial_plot_in_colors = TRUE,
+                     initial_report_friendly = FALSE
     )
 
-    dialog.values <- getDialog("window_normality_test", defaults)
-    initializeDialog(title = gettextRcmdr("Test of Normality"))
+    dialog_values <- getDialog("window_normality_test", defaults)
 
-    variableBox <- variableListBox(
-        top,
-        Numeric(),
-        title = gettextRcmdr("Variable to test\n(pick one)"),
-        initialSelection = varPosn(dialog.values$initial_var, "numeric")
-    )
+    initializeDialog(title = gettextRcmdr("Test of Normality (BioStat)"))
 
     optionsFrame <- tkframe(top)
     radioButtons(optionsFrame,
@@ -39,28 +36,57 @@ window_normality_test <- function() {
                      gettextRcmdr("Pearson chi-square")
                  ),
                  title = gettextRcmdr("Normality Test"),
-                 initialValue = dialog.values$initial_test
+                 initialValue = dialog_values$initial_test
     )
     binsFrame <- tkframe(optionsFrame)
-    binsVariable <- tclVar(dialog.values$initial_bins)
+    binsVariable <- tclVar(dialog_values$initial_bins)
     binsField <- ttkentry(binsFrame, width = "8", textvariable = binsVariable)
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    variableBox <- variableListBox(
+        top,
+        Numeric(),
+        title = gettextRcmdr("Variable to test\n(pick one)"),
+        initialSelection = varPosn(dialog_values$initial_var, "numeric")
+    )
+
+    # vBox_frame <- tkframe(getFrame(variableBox))
+
+    checkBoxes(
+        frame = "checkBoxFrame",
+        # frame = vBox_frame,
+        title = "Options",
+        boxes = c("add_plot", "plot_in_colors", "report_friendly"),
+        initialValues = c(
+            dialog_values$initial_add_plot,
+            dialog_values$initial_plot_in_colors,
+            dialog_values$initial_report_friendly
+        ),
+        labels = gettextRcmdr(
+            c(
+                "Draw a qq-plot",
+                "Plot in color",
+                "RMarkdown-friendly results"
+            )
+        )
+    )
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     groupsBox(
         recall = window_normality_test,
         label = gettextRcmdr("Test by:"),
-        initialLabel = if (is.null(dialog.values$initial_group)) {
+        initialLabel = if (is.null(dialog_values$initial_groups)) {
             gettextRcmdr("Test by groups")
         } else {
             paste(gettextRcmdr("Test by:"),
-                  paste0(dialog.values$initial_group, collapse = " + "))
+                  paste0(dialog_values$initial_groups, collapse = " + "))
 
-            # [!!!] 2ia gali b8ti reikialinti str_ komanda,
+            # [!!!] Čia gali būti reikialinga str_ komanda,
             # kuri po tam tikro ilgio eiličių rašo "..."
         },
-        initialGroup = dialog.values$initial_group
+        initialGroup = dialog_values$initial_groups
     )
-
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         var <- getSelection(variableBox)
         test <- tclvalue(testVariable)
@@ -84,13 +110,21 @@ window_normality_test <- function() {
                 paste0(", n.classes = ", bins)
             }
 
+        add_plot <- as.logical(as.integer(tclvalue(add_plotVariable)))
+        plot_in_colors <- as.logical(as.integer(tclvalue(plot_in_colorsVariable)))
+        report_friendly <- as.logical(as.integer(tclvalue(report_friendlyVariable)))
+
         putDialog("window_normality_test",
                   list(initial_var = var,
                        initial_test = test,
                        initial_bins = bins,
-                       initial_groups = if(.groups == FALSE) NULL else .groups
+                       initial_groups = if(.groups == FALSE) NULL else .groups,
+                       initial_add_plot = add_plot,
+                       initial_plot_in_colors = plot_in_colors,
+                       initial_report_friendly = report_friendly
                   )
         )
+
         if (length(var) == 0) {
             errorCondition(recall = window_normality_test,
                            message = gettextRcmdr("You must select a variable."))
@@ -99,64 +133,79 @@ window_normality_test <- function() {
 
         closeDialog()
 
+        Library("tidyverse")
+        Library("BioStat")
+
+        print_as_report <-
+            if (report_friendly == TRUE) {
+                Library("pander")
+                " %>% \n pander()\n"
+            } else {
+                ""
+            }
+
         # For many groups ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (length(.groups) > 1) {
             .groups <- paste0(.groups, collapse = " + ")
         }
 
         # plot ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (.groups == FALSE) {
-            command2 <- glue::glue(
-                'BioStat::qq_plot(~{var}, ',
-                'data = {ActiveDataSet()}, use_colors = TRUE)')
-        } else{
-            command2 <- glue::glue(
-                'BioStat::qq_plot({var}~{.groups}, ',
-                'data = {ActiveDataSet()}, use_colors = TRUE)')
+
+        if (add_plot == TRUE) {
+        # logger(paste("add_plot:", add_plot, class(add_plot)))
+        # logger(paste("plot_in_colors:", plot_in_colors, class(add_plot)))
+
+            if (.groups == FALSE) {
+                command2 <- glue::glue(
+                    'BioStat::qq_plot(~{var}, ',
+                    'data = {ActiveDataSet()}, use_colors = {plot_in_colors})')
+            } else{
+                command2 <- glue::glue(
+                    'BioStat::qq_plot({var}~{.groups}, ',
+                    'data = {ActiveDataSet()}, use_colors = {plot_in_colors})')
+            }
+
+            doItAndPrint(command2)
         }
-
-        doItAndPrint(command2)
-
         # Test results ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
         if (.groups == FALSE) {
             command <- glue::glue(
                 'BioStat::test_normality(~{var}, ',
-                'data = {ActiveDataSet()}, test = {test}{n.classes})')
+                'data = {ActiveDataSet()},\n test = {test}{n.classes})',
+                print_as_report)
         } else{
             command <- glue::glue(
                 'BioStat::test_normality({var}~{.groups}, ',
-                'data = {ActiveDataSet()}, test = {test}{n.classes})')
+                'data = {ActiveDataSet()},\n test = {test}{n.classes})',
+                print_as_report)
         }
-
-        # if (.groups == FALSE) {
-        #     command <- glue::glue(
-        #         'normalityTest(~{var}, test = "{test}",',
-        #         ' data = {ActiveDataSet()}{n.classes})'                )
-        # } else{
-        #     command <- glue::glue(
-        #         'normalityTest({var}~{.groups}, test = "{test}",',
-        #         ' data = {ActiveDataSet()}{n.classes})'                )
-        # }
-
         doItAndPrint(command)
-
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkfocus(CommanderWindow())
     }
+
     OKCancelHelp(helpSubject = "normalityTest",
                  reset = "window_normality_test",
                  apply = "window_normality_test")
+
     tkgrid(getFrame(variableBox), sticky = "nw")
+    tkgrid(checkBoxFrame, sticky = "ne")
+    tkgrid(groupsFrame, sticky = "w", padx = 6)
+    # tkgrid(vBox_frame, sticky = "nw")
+
     tkgrid(
         labelRcmdr(binsFrame, text = gettextRcmdr(
-            "Number of bins\nfor Pearson chi-square"
-        )),
+            "Number of bins\nfor Pearson chi-square")),
         binsField,
         padx = 3,
         sticky = "sw"
     )
+
     tkgrid(testFrame, binsFrame, sticky = "sw")
     tkgrid(optionsFrame, sticky = "sw")
-    tkgrid(groupsFrame, sticky = "w", padx = 6)
     tkgrid(buttonsFrame, sticky = "w")
+
     dialogSuffix()
 }
