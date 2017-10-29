@@ -1,4 +1,3 @@
-
 #' @name RcmdrPlugin.BioStat
 #' @docType package
 #'
@@ -10,6 +9,7 @@
 #' \code{RcmdrPlugin.BioStat} is an \code{Rcmdr} plugin for package
 #' \code{BioStat}.
 #'
+#' @import tcltk
 #' @import Rcmdr
 #' @import BioStat
 #' @importFrom glue glue

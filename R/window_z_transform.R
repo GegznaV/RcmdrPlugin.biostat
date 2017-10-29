@@ -16,14 +16,13 @@ window_z_transform <- function() {
                         listHeight = 5
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # radioButtons(name = "base",
-    #              buttons = c("common", "natural", "binary"),
-    #              values = c("10", "exp(1)", "2"),
-    #
-    #              labels =  get_text(c("Common logarithm (base = 10)",
-    #                                   "Natural logarithm (base = e)",
-    #                                   "Binary logarithm (base = 2)")),
-    #              title = get_text("Base of logarithmic transformation")
+    # [!!!]
+    # radioButtons(name = "transformation_type",
+    #              title = get_text("---",
+    #              buttons = c("A", "B"),
+    #              values  = c("", ", center = median, scale = IQR"),
+    #              labels =  get_text(c("z-transformation",
+    #                                   "center = median, scale = IQR")))
     # )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     prefix      <- tclVar(get_text("<automatic prefix>"))
@@ -41,7 +40,7 @@ window_z_transform <- function() {
         }
 
         prefix <- trim.blanks(tclvalue(prefix))
-        # base   <- as.character(tclvalue(baseVariable))
+        # type   <- as.character(tclvalue(transformation_typeVariable))
 
         .activeDataSet <- ActiveDataSet()
 
@@ -107,7 +106,8 @@ window_z_transform <- function() {
         ),
         prefixField, sticky = "w")
 
-    # tkgrid(buttonsFrame, sticky = "w", columnspan = 2)
+    # [!!!]
+    tkgrid(buttonsFrame, sticky = "w", columnspan = 2)
 
     dialogSuffix(rows = 4,
                  columns = 1,

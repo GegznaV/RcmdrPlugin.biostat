@@ -19,12 +19,14 @@ Depends:
     BioStat (>= 0.0.8),
     Rcmdr (>= 2.4-1),
     ggplot2 (>= 2.2.0),
-    tidyr
+    tidyr,
+    tcltk
 Imports:
     stats,
     methods,
     utils,
     glue,
+    tidyverse,
     dplyr,
     magrittr,
     grDevices,

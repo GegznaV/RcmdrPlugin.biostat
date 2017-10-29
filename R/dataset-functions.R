@@ -90,7 +90,9 @@ summary_glimpse <- function() {
 #' @export
 #' @keywords internal
 summary_Hmisc_describe <- function() {
-    doItAndPrint(glue::glue("Hmisc::describe({ActiveDataSet()})"))
+    doItAndPrint(glue::glue("# Summary of all variables\n",
+
+                            "Hmisc::describe({ActiveDataSet()})"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -98,10 +100,38 @@ summary_Hmisc_describe <- function() {
 #' @export
 #' @keywords internal
 summary_psych_describe <- function() {
-    doItAndPrint(glue::glue("# Statistics of variables marked with  * should be \n",
-                            "# interpreted cautiously (if at all) as they are \n",
-                            "# either categorical or logical.\n",
+    doItAndPrint(glue::glue("# Summary of numeric variables\n",
 
-                            "psych::describe({ActiveDataSet()}) \n"))
+                            "{ActiveDataSet()} %>% \n",
+                            "dplyr::select_if(is.numeric) %>% \n",
+                            "psych::describe() \n"))
+    # logger(glue::glue("# * - Statistics of variables marked with  * should be interpreted\n",
+    #                   "#     cautiously (if at all) as they are either categorical or logical. \n\n"))
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+# "Plots" menu related functions ===========================================
+
+# Create new window for plots
+#' @rdname Menu-winow-functions
+#' @export
+#' @keywords internal
+new_plots_window <- function() {
+    grDevices::windows()
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# "Plots" menu related functions ===========================================
+
+# Create new window for plots
+#' @rdname Menu-winow-functions
+#' @export
+#' @keywords internal
+load_packages_command <- function() {
+    Rcmdr::doItAndPrint(paste0(
+        "library(tidyverse) \n",
+        "library(BioStat)   \n",
+        "library(magrittr)  \n"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

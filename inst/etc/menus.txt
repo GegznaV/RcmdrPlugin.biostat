@@ -49,7 +49,9 @@ item	Summary_bs    command      "Describe numerical variables (psych)"	summary_p
 item	BioStat_menu    cascade	"Plots"	            plots_menu	""	""
 menu	plots_menu	    BioStat_menu	""	""	""	""
 
-#   item	plots_menu	    separator	"Continuous variables"	""	""	""
+item	plots_menu	    command "New window for plots"	        new_plots_window	        ""	""
+
+item	plots_menu	    separator	"Continuous variables"	""	""	""
 #   item	plots_menu	    command "Histogram..."	        windowHist	        "nonFactorsP()"	""
 #   item	plots_menu	    command "Density plot..."   	windowDensity	    "nonFactorsP()"	""
 #   item	plots_menu	    command "Box plot / Confidence interval/ Violin plot..."	windowBox	"nonFactorsP()"	""
@@ -102,8 +104,11 @@ menu	distr_menu	        BioStat_menu	""	""	""	""
 # ==============================================================================
 # ---- Statistical tests ------------------------------------------------------
 
-menu	Tests_menu	    BioStat_menu    ""	""	""	""
 item	BioStat_menu    cascade	        "Tests"   Tests_menu	""	""
-item	Tests_menu        command       "BioStat::test_normality"	NormalityTest	"numericP()"	""
+menu	Tests_menu	    BioStat_menu    ""	""	""	""
+# item	Tests_menu      command       "RcmdrMisc::normalityTest"	NormalityTest	"numericP()"	""
+item	Tests_menu      command        "Normality tests"	window_normality_test	"numericP()"	""
+item	Tests_menu	    separator	""	""	""	""
+
 
 # =============================================================================
