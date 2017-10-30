@@ -162,7 +162,7 @@ window_normality_test <- function() {
         # logger(paste("plot_in_colors:", plot_in_colors, class(add_plot)))
 
             if (separate_window == TRUE) {
-                new_plots_window()
+                open_new_plots_window()
             }
 
             if (.groups == FALSE) {

@@ -4,8 +4,12 @@
 #' @rdname Menu-winow-functions
 #' @export
 #' @keywords internal
-new_plots_window <- function() {
-    grDevices::windows()
+open_new_plots_window <- function() {
+    if (.Platform$OS.type == "windows") {
+        grDevices::windows()
+    } else {
+        grDevices::X11()
+    }
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

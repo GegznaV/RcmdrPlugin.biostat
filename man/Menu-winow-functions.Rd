@@ -13,7 +13,7 @@
 \alias{load_packages_command}
 \alias{command_set_locale_lt}
 \alias{command_set_locale_en}
-\alias{new_plots_window}
+\alias{open_new_plots_window}
 \alias{summary_glimpse}
 \alias{summary_Hmisc_describe}
 \alias{summary_psych_describe}
@@ -40,7 +40,7 @@ command_set_locale_lt()
 
 command_set_locale_en()
 
-new_plots_window()
+open_new_plots_window()
 
 summary_glimpse()
 

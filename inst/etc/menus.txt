@@ -10,7 +10,6 @@ menu	BioStat_menu	topMenu	            ""	        ""	""	""
 item	BioStat_menu   cascade	    "Dataset"   dataset_menu	""	""
 menu	dataset_menu   BioStat_menu	    ""	""	""	""
 item	dataset_menu   command      "Refresh active dataset"	        dataset_refresh  "activeDataSetP()"	""
-item	dataset_menu   command      "Show class of dataset"	            dataset_class 	 "activeDataSetP()"	""
 item	dataset_menu   command      "Convert to data frame"	            dataset_as_df	 "activeDataSetP() && !first_class_is_dataframeP()"	""
 
 #   item	dataset_menu	 separator	""	""	""	""
@@ -48,7 +47,7 @@ item	Summary_bs    command      "Describe numerical variables (psych)"	summary_p
 item	BioStat_menu    cascade	"Plots"	            plots_menu	""	""
 menu	plots_menu	    BioStat_menu	""	""	""	""
 
-item	plots_menu	    command "Open new window for plots"	        new_plots_window	        ""	""
+item	plots_menu	    command "Open a new window for plots"	  open_new_plots_window	        ""	""
 
 # item	plots_menu	    separator	"Continuous variables"	""	""	""
 # item	plots_menu	    command	    "Normal Q-Q plot (by groups)"	window_qqplot_biostat	"numericP()"	""
