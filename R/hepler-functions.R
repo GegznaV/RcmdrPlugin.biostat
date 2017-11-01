@@ -38,4 +38,14 @@ first_class_is_dataframeP <- function() {
         (eval_glue("class({activeDataSet()})[1]") == "data.frame")
 }
 # ------------------------------------------------------------------------------
+#' @keywords internal
+#' @export
+modelClassP <- function(class_) {
+    activeModelP() && (inherits(
+        x = get(ActiveModel(), envir = .GlobalEnv),
+        what = class_))
+}
+# ------------------------------------------------------------------------------
+
+
 

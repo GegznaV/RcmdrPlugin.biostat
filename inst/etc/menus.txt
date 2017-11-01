@@ -116,8 +116,19 @@ item	Tests_menu      command        "Normality tests"	window_normality_test	"num
 # ==============================================================================
 # ---- Locale -----------------------------------------------------------------
 
+item	BioStat_menu  cascade	   "Models"   models_menu	""	""
+menu	models_menu   BioStat_menu	    ""	""	""	""
+# item	models_menu   command      "Get model class"	 command_get_model_class  "activeModelP()"	""
+item	models_menu   command      "Standardized coefficients"	 command_std_lm_coeffs  "modelClassP('lm')"	""
+
+
+
+# ==============================================================================
+# ---- Locale -----------------------------------------------------------------
+
 item	BioStat_menu  cascade	   "Options"   options_menu	""	""
 menu	options_menu   BioStat_menu	    ""	""	""	""
+item	options_menu   command      "Show current locale"	     command_get_locale     ""	""
 item	options_menu   command      "Set locale: Lithuanian"	 command_set_locale_lt  ""	""
 item	options_menu   command      "Set locale: English"	     command_set_locale_en 	""	""
 
