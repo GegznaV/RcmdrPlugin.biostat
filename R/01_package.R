@@ -13,6 +13,7 @@
 #' @importFrom dplyr glimpse
 #' @importFrom magrittr "%>%"  "%<>%"  "%T>%"  "%$%"
 #' @importFrom tcltk tkbutton
+#' @import tcltk2
 #' @import BioStat
 #' @import Rcmdr
 #' @import nortest
