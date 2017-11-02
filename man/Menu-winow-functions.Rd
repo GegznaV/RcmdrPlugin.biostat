@@ -4,10 +4,11 @@
 %   R/window_qqplot_biostat.R, R/window_test_normality.R
 \name{Menu-winow-functions}
 \alias{Menu-winow-functions}
-\alias{dataset_refresh}
-\alias{dataset_class}
-\alias{dataset_as_df}
-\alias{dataset_import_rds}
+\alias{command_dataset_refresh}
+\alias{command_dataset_class}
+\alias{command_dataset_as_df}
+\alias{window_import_rds}
+\alias{dataset_import_excel}
 \alias{window_export_as_textfile}
 \alias{window_export_as_rds}
 \alias{command_std_lm_coeffs}
@@ -25,13 +26,15 @@
 \alias{window_normality_test}
 \title{RcmdrPlugin.BioStat functions for menus and windows}
 \usage{
-dataset_refresh()
+command_dataset_refresh()
 
-dataset_class()
+command_dataset_class()
 
-dataset_as_df()
+command_dataset_as_df()
 
-dataset_import_rds()
+window_import_rds()
+
+dataset_import_excel()
 
 window_export_as_textfile()
 

@@ -73,7 +73,7 @@ window_import_rds <- function() {
             window_enter_info(
                 title    = "Import Rds object",
                 text_1a  = "Filename: ",
-                text_1b  = basename(file_name),
+                text_1b  = stringr::str_trunc(file_name, 30, side = "center"),
                 text_2a  = "Name of your object: ",
                 entry_2b = object_name,
                 text_2c  = "",

@@ -21,6 +21,7 @@ Depends:
     tcltk
 Imports:
     tidyverse,
+    stringr,
     stats,
     nortest,
     methods,

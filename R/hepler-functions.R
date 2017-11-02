@@ -46,6 +46,11 @@ modelClassP <- function(class_) {
         what = class_))
 }
 # ------------------------------------------------------------------------------
+#' @keywords internal
+#' @export
+make_relative_path <- function(str) {
+    sub(paste0(getwd(), "/?"), "", str)
+}
 
 
 

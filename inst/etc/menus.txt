@@ -9,16 +9,17 @@ menu	BioStat_menu	topMenu	            ""	        ""	""	""
 
 item	BioStat_menu   cascade	    "Dataset"   dataset_menu	""	""
 menu	dataset_menu   BioStat_menu	    ""	""	""	""
-item	dataset_menu   command      "Refresh active dataset"	        dataset_refresh  "activeDataSetP()"	""
-item	dataset_menu   command      "Convert to data frame"	            dataset_as_df	 "activeDataSetP() && !first_class_is_dataframeP()"	""
+item	dataset_menu   command      "Refresh active dataset"	command_dataset_refresh  "activeDataSetP()"	""
+item	dataset_menu   command      "Show dataset's class"	    command_dataset_class    "activeDataSetP()"	""
+item	dataset_menu   command      "Convert to data frame"	    command_dataset_as_df	 "activeDataSetP() && !first_class_is_dataframeP()"	""
 
-#   item	dataset_menu	 separator	""	""	""	""
-#   item	dataset_menu     command      "Import R data object (.Rds)"	"dataset_import_rds"	        ""	""
+item	dataset_menu	 separator	""	""	""	""
+item	dataset_menu     command      "Import R data object (.Rds)"	window_import_rds	        ""	""
 #
 #
-#   item	dataset_menu	 separator	""	""	""	""
+item	dataset_menu	 separator	""	""	""	""
 #   item	dataset_menu     command      "Save as text file"	            "window_export_as_textfile"	    "activeDataSetP()"	""
-#   item	dataset_menu     command      "Save as R data object (.Rds)"  	"window_export_as_rds"	        "activeDataSetP()"	""
+item	dataset_menu     command      "Save as R object (.Rds)"  	window_export_as_rds	        "activeDataSetP()"	""
 #   item	dataset_menu     command      "Save as Excel (.xlsx)"	        "window_export_as_excel"	    "activeDataSetP()"	""
 
 
@@ -118,8 +119,8 @@ item	Tests_menu      command        "Normality tests"	window_normality_test	"num
 
 item	BioStat_menu  cascade	   "Models"   models_menu	""	""
 menu	models_menu   BioStat_menu	    ""	""	""	""
-# item	models_menu   command      "Get model class"	 command_get_model_class  "activeModelP()"	""
-item	models_menu   command      "Standardized coefficients"	 command_std_lm_coeffs  "modelClassP('lm')"	""
+# item	models_menu   command      "Show model's class"	         command_get_model_class  "activeModelP()"	""
+item	models_menu   command      "Standardized coefficients"	 command_std_lm_coeffs    "modelClassP('lm')"	""
 
 
 

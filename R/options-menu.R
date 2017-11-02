@@ -38,3 +38,6 @@ command_set_locale_en <- function() {
         'writeLines(gsub(";", "\\n", locale_info))',
         sep = " \n"))
 }
+
+
+
