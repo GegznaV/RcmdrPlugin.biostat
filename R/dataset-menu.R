@@ -40,73 +40,63 @@ command_dataset_as_df <- function() {
 #' @export
 #' @keywords internal
 window_import_rds <- function() {
-    # Message("This fuction will work in future versions of the package.",
-    #         type = "warning")
-
-    file_filters <-
-        matrix(ncol = 2, byrow = TRUE,
-               c("Excel files (*.RDS, *.Rds, *.rds)", "*.RDS;*.Rds;*.rds",
-                 "All files (*.*)",                   "*.*" )
-        )
-
-    file_name = ""
-
-    # Choose file and variable name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     while (TRUE) {
         break_cycle <- "yes"
 
         # Choose file name
-        file_name <- choose.files(
-            caption = "Select Rds file",
-            default = file_name,
-            filters = file_filters,
-            multi = FALSE,
-            index = 1
-        )  %>%
-            gsub(pattern = "\\\\", replacement = "/")
+        file_name <- tclvalue(tkgetOpenFile(
+            title = "Choose an R data object file",
+            multiple = FALSE,
+            filetypes = "{ {R data object} {.RDS .Rds .rds} } { {All Files} * }"))
 
         # Choose variable name
-        object_name <- make.names(
-            sub("(.*\\/)([^.]+)(\\.[[:alnum:]]+$)", "\\2", file_name))
+        object_name <- make.names(extract_filename(file_name))
 
         object_name <-
             window_enter_info(
                 title    = "Import Rds object",
                 text_1a  = "Filename: ",
-                text_1b  = stringr::str_trunc(file_name, 30, side = "center"),
+                text_1b  = stringr::str_trunc(file_name,
+                                              width = 60,
+                                              side = "center",
+                                              ellipsis = " ... "),
                 text_2a  = "Name of your object: ",
                 entry_2b = object_name,
                 text_2c  = "",
-                entryWidth = 30,
+                entryWidth = 40,
                 returnValOnCancel = NULL,
                 returnValOnChose  = NA
             )
 
+        # If canceled
         if (is.null(object_name)) {
             Message("Operation to read .Rds file was canceled.",
                     type = "warning")
             return()
         }
 
+        # If requested for a new filename
         if (is.na(object_name)) {
             # Choose a new file name
             next
         }
 
+        # Make a valid variable name
         object_name <- make.names(object_name)
 
-        # Check an object with the same name exists
+        # Check if an object with the same name exists
         if (object_name %in% ls())
             break_cycle <- tclvalue(checkReplace(
                 glue::glue('"{object_name}"'), type = "Object"))
 
+        # Exit the cycle, if everything is selected correctly
         if (break_cycle == "yes") {
             break
         }
     } # END: Choose variable name
 
 
-    # Change these lines: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Change these lines [!!!]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     make_relative = TRUE
 
     if (make_relative) {
@@ -119,7 +109,7 @@ window_import_rds <- function() {
     doItAndPrint(command)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (inherits(get(object_name, envir = .GlobalEnv), "data.frame"))
-        activeDataSet(object_name)
+        ActiveDataSet(object_name)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
@@ -156,8 +146,7 @@ window_export_as_textfile <- function() {
 #' @keywords internal
 window_export_as_rds <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    rds_filename <- tclvalue(
-        tkgetSaveFile(
+    rds_filename <- tclvalue(tkgetSaveFile(
             initialfile = paste0(activeDataSet(), ".Rds"),
             filetypes = "{ {Rds file} {.Rds .RDS .rds} } { {All Files} * }"))
 

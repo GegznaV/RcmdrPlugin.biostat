@@ -51,6 +51,11 @@ modelClassP <- function(class_) {
 make_relative_path <- function(str) {
     sub(paste0(getwd(), "/?"), "", str)
 }
+#' @keywords internal
+#' @export
+extract_filename <- function(str) {
+    sub("(.*\\/)([^.]+)(\\.[[:alnum:]]+$)", "\\2", str)
+}
 
 
 
