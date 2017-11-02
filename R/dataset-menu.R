@@ -109,10 +109,10 @@ window_import_rds <- function() {
     doItAndPrint(command)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (inherits(get(object_name, envir = .GlobalEnv), "data.frame"))
-        ActiveDataSet(object_name)
+       ActiveDataSet(object_name)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-winow-functions
 #' @export
 #' @keywords internal
@@ -126,10 +126,8 @@ dataset_import_excel <- function() {
                  "All files (*.*)",             "*.*" )
         )
 
-    choose.files(caption = "Select Excel file",
-                 filters = file_filters,
-                 multi = FALSE,
-                 index = 1)
+    # "Select Excel file"
+
 }
 
 # Export dataset =============================================================
@@ -145,23 +143,55 @@ window_export_as_textfile <- function() {
 #' @export
 #' @keywords internal
 window_export_as_rds <- function() {
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    rds_filename <- tclvalue(tkgetSaveFile(
-            initialfile = paste0(activeDataSet(), ".Rds"),
+    file_name <- ""
+    while (TRUE) {
+        break_cycle <- "yes"
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        file_name <- tclvalue(tkgetSaveFile(
+            initialfile =
+                if (nchar(trimws(file_name)) > 0) {
+                    extract_filename(file_name)
+                } else {
+                    activeDataSet()
+                },
             filetypes = "{ {Rds file} {.Rds .RDS .rds} } { {All Files} * }"))
 
-    # Add extension if missing
-    if (!grepl("\\.[Rr][Dd][Ss]$", rds_filename))
-        rds_filename <- paste0(rds_filename, ".Rds")
+
+        # If canceled
+        if (nchar(trimws(file_name)) == 0) {
+            Message("Operation canceled, object was not saved.",
+                    type = "warning")
+            return()
+        }
+
+        # Add extension if missing
+        if (!grepl("\\.[Rr][Dd][Ss]$", file_name)) {
+            # Add extension
+            file_name <- paste0(file_name, ".Rds")
+
+            # Check if a file with the same name exists
+            if (file.exists(file_name))
+                break_cycle <- tclvalue(Rcmdr::checkReplace(
+                    glue::glue('"{file_name}"'), type = "File"))
+        }
+
+        # Exit the cycle, if everything is selected correctly
+        if (break_cycle == "yes") {
+            break
+        }
+    }
+
+
 
     # Change these lines: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     make_relative = TRUE
 
     if (make_relative) {
-        rds_filename <- make_relative_path(rds_filename)
+        file_name <- make_relative_path(file_name)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    command <- glue::glue('saveRDS({activeDataSet()}, file = "{rds_filename}")')
+    command <- glue::glue('saveRDS({activeDataSet()}, file = "{file_name}")')
     doItAndPrint(command)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
