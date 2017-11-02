@@ -11,7 +11,7 @@ eval_ <- function(x, envir = parent.frame(), ...) {
     eval(parse(text = x), envir = envir, ...)
 }
 # ------------------------------------------------------------------------------
-get_text <- function(txt) {
+get_EZR_text <- function(txt) {
     gettext(domain = "R-RcmdrPlugin.EZR", txt)
 
 }
@@ -31,6 +31,8 @@ characterP <- function(n = 1) {
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 #' Is the first class "data.frame"
+#'
+#' Check if the first class of active Rcmdr dataset is "data.frame"
 #' @keywords internal
 #' @export
 first_class_is_dataframeP <- function() {
@@ -38,6 +40,10 @@ first_class_is_dataframeP <- function() {
         (eval_glue("class({activeDataSet()})[1]") == "data.frame")
 }
 # ------------------------------------------------------------------------------
+#' Chech the class of the active model in Rcmdr
+#'
+#' @param class_ (string) a character vector of length 1. The name of class.
+#'
 #' @keywords internal
 #' @export
 modelClassP <- function(class_) {
@@ -46,16 +52,37 @@ modelClassP <- function(class_) {
         what = class_))
 }
 # ------------------------------------------------------------------------------
+#' Make path to relative
+#'
+#' Make absolute path into relative one in respect to current working directory.
+#'
+#' @param str (character) Sting (or vector of strings) with absolute path.
+#'
 #' @keywords internal
 #' @export
 make_relative_path <- function(str) {
     sub(paste0(getwd(), "/?"), "", str)
 }
+
+#' Extract file parts.
+#' @name extract-fileparts
+#' @param str (character) Path to file (with filename and extension).
+#'
 #' @keywords internal
 #' @export
 extract_filename <- function(str) {
     sub("(.*\\/)([^.]+)(\\.[[:alnum:]]+$)", "\\2", str)
 }
-
-
+#' @rdname extract-fileparts
+#' @keywords internal
+#' @export
+extract_path <- function(str) {
+    sub("(.*\\/)([^.]+)(\\.[[:alnum:]]+$)", "\\1", str)
+}
+#' @rdname extract-fileparts
+#' @keywords internal
+#' @export
+extract_extension <- function(str) {
+    sub("(.*\\/)([^.]+)(\\.[[:alnum:]]+$)", "\\3", str)
+}
 

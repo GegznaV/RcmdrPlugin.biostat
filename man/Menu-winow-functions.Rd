@@ -13,7 +13,8 @@
 \alias{window_export_as_rds}
 \alias{command_std_lm_coeffs}
 \alias{command_get_model_class}
-\alias{load_packages_command}
+\alias{command_load_packages}
+\alias{command_getwd}
 \alias{command_get_locale}
 \alias{command_set_locale_lt}
 \alias{command_set_locale_en}
@@ -44,7 +45,9 @@ command_std_lm_coeffs()
 
 command_get_model_class()
 
-load_packages_command()
+command_load_packages()
+
+command_getwd()
 
 command_get_locale()
 

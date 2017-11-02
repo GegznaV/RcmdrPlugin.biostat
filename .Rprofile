@@ -11,13 +11,17 @@
 ###! Rcmdr Options Begin !###
 options(Rcmdr = list(plugins = c("RcmdrPlugin.KMggplot2",
                                  "RcmdrPlugin.EZR.2",
-                                 "RcmdrPlugin.BioStat"),
+                                 "RcmdrPlugin.BioStat",
+                                 NULL
+                                 ),
                      use.rgl = TRUE,
                      console.output = FALSE
                      )
         )
 
 Sys.setlocale(locale = "Lithuanian")
+
+# library(BioStat)
 
 # library(magrittr)
 # library(pander)

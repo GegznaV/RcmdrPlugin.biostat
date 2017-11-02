@@ -7,6 +7,6 @@
 first_class_is_dataframeP()
 }
 \description{
-Is the first class "data.frame"
+Check if the first class of active Rcmdr dataset is "data.frame"
 }
 \keyword{internal}

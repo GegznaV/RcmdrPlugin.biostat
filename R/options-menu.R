@@ -2,11 +2,21 @@
 #' @rdname Menu-winow-functions
 #' @export
 #' @keywords internal
-load_packages_command <- function() {
+command_load_packages <- function() {
     Rcmdr::doItAndPrint(paste0(
         "library(tidyverse) \n",
         "library(BioStat)   \n",
         "library(magrittr)  \n"))
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-winow-functions
+#' @export
+#' @keywords internal
+command_getwd <- function() {
+    Rcmdr::doItAndPrint(paste(
+        '# You are workin in folder:',
+        'getwd()',
+        sep = " \n"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-winow-functions

@@ -7,13 +7,13 @@
 #' @family transformations
 #'
 window_log_transform <- function() {
-    initializeDialog(title = get_text("Logarithmic transformation"))
+    initializeDialog(title = get_EZR_text("Logarithmic transformation"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     variableBox <-
         variableListBox(top,
                         Numeric(),
                         selectmode = "multiple",
-                        title = get_text("Variables (pick one or more)"),
+                        title = get_EZR_text("Variables (pick one or more)"),
                         listHeight = 5
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -21,13 +21,13 @@ window_log_transform <- function() {
                  buttons = c("common", "natural", "binary"),
                  values = c("10", "exp(1)", "2"),
 
-                 labels =  get_text(c("Common logarithm (base = 10)",
+                 labels =  get_EZR_text(c("Common logarithm (base = 10)",
                                       "Natural logarithm (base = e)",
                                       "Binary logarithm (base = 2)")),
-                 title = get_text("Base of logarithmic transformation")
+                 title = get_EZR_text("Base of logarithmic transformation")
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    prefix      <- tclVar(get_text("<automatic prefix>"))
+    prefix      <- tclVar(get_EZR_text("<automatic prefix>"))
     prefixField <- ttkentry(top, width = "20", textvariable = prefix)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
@@ -37,7 +37,7 @@ window_log_transform <- function() {
 
         if (length(variables) == 0) {
             errorCondition(recall = window_log_transform,
-                           message = get_text("You must select a variable."))
+                           message = get_EZR_text("You must select a variable."))
             return()
         }
 
@@ -47,7 +47,7 @@ window_log_transform <- function() {
         .activeDataSet <- ActiveDataSet()
 
         new_names <-
-            if (prefix == get_text("<automatic prefix>")) {
+            if (prefix == get_EZR_text("<automatic prefix>")) {
                 paste0("log_", variables)
 
             } else if (length(variables) == 1) {
@@ -63,7 +63,7 @@ window_log_transform <- function() {
             if (!is.valid.name(new_names[i])) {
                 errorCondition(
                     recall = window_log_transform,
-                    message = paste(new_names[i], get_text("is not a valid name."))
+                    message = paste(new_names[i], get_EZR_text("is not a valid name."))
                 )
                 return()
             }
@@ -88,8 +88,8 @@ window_log_transform <- function() {
             activeDataSet(.activeDataSet, flushModel = FALSE)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        msg <- glue("#---  ", get_text("Logarithmic transformation"), "  ---#\n\n",
-                    "# ", get_text("New variable(s):"), " \n",
+        msg <- glue("#---  ", get_EZR_text("Logarithmic transformation"), "  ---#\n\n",
+                    "# ", get_EZR_text("New variable(s):"), " \n",
                     paste("#   ", new_names, collapse = "\n"))
 
         logger(paste0(msg, command, collapse = "\n"))
@@ -103,7 +103,7 @@ window_log_transform <- function() {
 
     tkgrid(
         labelRcmdr(top,
-                   text = get_text("New variable name or prefix for multiple variables:")
+                   text = get_EZR_text("New variable name or prefix for multiple variables:")
         ),
         prefixField, sticky = "w")
 

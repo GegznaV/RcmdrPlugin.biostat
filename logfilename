@@ -1,9 +1,1 @@
 
-BioStat::test_normality(~uptake, data = CO2, test = shapiro.test)
-BioStat::test_normality(~uptake, data = CO2, test = shapiro.test)
-BioStat::test_normality(~uptake, data = CO2, test = shapiro.test)
-BioStat::test_normality(~uptake, data = CO2, test = shapiro.test)
-BioStat::test_normality(~uptake, data = CO2, test = shapiro.test)
-BioStat::test_normality(~uptake, data = CO2, test = shapiro.test)
-BioStat::test_normality(~uptake, data = CO2, test = shapiro.test)
-
