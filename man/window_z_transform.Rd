@@ -10,7 +10,6 @@ window_z_transform()
 Rcmdr window for z transformation
 }
 \seealso{
-Other transformations: \code{\link{window_log_transform}},
-  \code{\link{window_z_transform_2}}
+Other transformations: \code{\link{window_log_transform}}
 }
 \keyword{internal}

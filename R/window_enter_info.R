@@ -25,13 +25,13 @@ window_enter_info <-
                                     width = paste(entryWidth),
                                     textvariable = textEntryVarTcl)
 
-        tkgrid(tklabel(dlg, text = text_1a),
+        tkgrid(tklabel(dlg, text = text_1a, fg = getRcmdr("title.color")),
                tklabel(dlg, text = text_1b),
                tklabel(dlg, text = text_1c),
                padx = 10,
                pady = 5)
 
-        tkgrid(tklabel(dlg, text = text_2a),
+        tkgrid(tklabel(dlg, text = text_2a, fg = getRcmdr("title.color")),
                textEntryWidget,
                tklabel(dlg, text = text_2c),
                padx = 10,
@@ -70,14 +70,13 @@ window_enter_info <-
                            text = "OK",
                            width = -6,
                            command = onOK)
-        butCancel <-
-            tk2button(dlg,
-                      text = "Cancel",
-                      width = -6,
-                      command = onCancel)
 
-        tkgrid(butCancel, butOK,
-               butCHOOSE,
+        butCancel <- tk2button(dlg,
+                               text = "Cancel",
+                               width = -6,
+                               command = onCancel)
+
+        tkgrid(butCancel, butCHOOSE, butOK,
                padx = 10, pady = c(0, 15))
 
         tkfocus(dlg)

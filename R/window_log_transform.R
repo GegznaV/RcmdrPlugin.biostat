@@ -77,6 +77,7 @@ window_log_transform <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         command <- paste0(c("\n",
             glue("{.activeDataSet} <- within({.activeDataSet}, {{ "),
+            # Next line will be repeated many times:
             glue("   {new_names} <- log({variables}, base = {base}) "),
             "})\n"
         ),
@@ -100,12 +101,12 @@ window_log_transform <- function() {
     OKCancelHelp(helpSubject = "log")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(getFrame(variableBox), baseFrame, sticky = "nw")
+    tkgrid(labelRcmdr(top,
+                      text = get_BioStat_text("New variable name or prefix for multiple variables:"),
+                      fg = getRcmdr("title.color")),
+           sticky = "w")
 
-    tkgrid(
-        labelRcmdr(top,
-                   text = get_BioStat_text("New variable name or prefix for multiple variables:")
-        ),
-        prefixField, sticky = "w")
+    tkgrid(prefixField, sticky = "ew", columnspan = 2)
 
     tkgrid(buttonsFrame, sticky = "w", columnspan = 2)
 

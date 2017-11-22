@@ -17,16 +17,18 @@ window_z_transform <- function() {
                         listHeight = 5
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    radioButtons(name = "base",
-                 buttons = c("z_transformation"),
-                 values = c("10"),
-
-                 labels = get_BioStat_text(c("z transformation")),
-                 title  = get_BioStat_text("Transformation")
-    )
+    # radioButtons(name = "base",
+    #              buttons = c("z_transformation"),
+    #              values = c("10"),
+    #
+    #              labels = get_BioStat_text(c("z transformation")),
+    #              title  = get_BioStat_text("Transformation")
+    # )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    prefix      <- tclVar(get_BioStat_text("<automatic prefix>"))
-    prefixField <- ttkentry(top, width = "20", textvariable = prefix)
+    prefix      <- tclVar(get_BioStat_text('<automatic prefix>'))
+    prefixField <- ttkentry(top,
+                            width = "25",
+                            textvariable = prefix)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         variables <- getSelection(variableBox)
@@ -40,19 +42,19 @@ window_z_transform <- function() {
         }
 
         prefix <- trim.blanks(tclvalue(prefix))
-        base   <- as.character(tclvalue(baseVariable))
+        # base   <- as.character(tclvalue(baseVariable))
 
         .activeDataSet <- ActiveDataSet()
 
         new_names <-
-            if (prefix == get_BioStat_text("<automatic prefix>")) {
+            if (prefix == get_BioStat_text('<automatic prefix>')) {
                 paste0("z_", variables)
 
             } else if (length(variables) == 1) {
                 prefix
 
             } else {
-                paste0(prefix, variables)
+                paste0(make.names(prefix), variables)
             }
 
         # Chech for errors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -97,13 +99,19 @@ window_z_transform <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     OKCancelHelp(helpSubject = "scale_vector")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(getFrame(variableBox), baseFrame, sticky = "nw")
+    # tkgrid(getFrame(variableBox), baseFrame, sticky = "nw")
+    tkgrid(getFrame(variableBox), sticky = "nw")
 
-    tkgrid(
-        labelRcmdr(top,
-                   text = get_BioStat_text("New variable name or prefix for multiple variables:")
-        ),
-        prefixField, sticky = "w")
+    # tkgrid(
+    #     labelRcmdr(top,
+    #                text = get_BioStat_text("New variable name or prefix for multiple variables:")),
+    #     prefixField, sticky = "w")
+    tkgrid(labelRcmdr(top,
+                      text = get_BioStat_text("New variable name or prefix for multiple variables:"),
+                      fg = getRcmdr("title.color")),
+           sticky = "w")
+
+    tkgrid(prefixField, sticky = "ew")
 
     tkgrid(buttonsFrame, sticky = "w", columnspan = 2)
 
