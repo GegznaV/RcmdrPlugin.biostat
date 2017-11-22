@@ -29,7 +29,7 @@ item	BioStat_menu    cascade	            "Variables"   Variable_menu	""	""
 menu	Variable_menu	BioStat_menu	    ""	""	""	""
 item	Variable_menu   command             "Convert all strings (chr) to factors"	command_all_chr_to_fctr  "characterP()"	""
 item	Variable_menu   command             "Log transformation"	        window_log_transform	"numericP()"	""
-item	Variable_menu   command             "Z transformation"  	        window_z_transform	    "numericP()"	""
+item	Variable_menu   command             "Z transformation (standardization)"  	        window_z_transform	    "numericP()"	""
 #  item	Variable_menu	command             "Convert numeric to factors"	windowFactorize	        "nonFactorsP()"	""
 
 

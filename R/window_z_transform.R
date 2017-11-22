@@ -7,7 +7,7 @@
 #' @family transformations
 #'
 window_z_transform <- function() {
-    initializeDialog(title = get_EZR_text("Z transformation"))
+    initializeDialog(title = get_EZR_text("Z transformation (standardization)"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     variableBox <-
         variableListBox(top,
