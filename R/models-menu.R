@@ -5,7 +5,7 @@
 #' @keywords internal
 command_std_lm_coeffs <- function() {
     Library("BioStat")
-    doItAndPrint(glue::glue("standardized_coef({ActiveModel()})"))
+    doItAndPrint(glue::glue("summary(coef_standardized({ActiveModel()}))"))
 }
 
 #' @rdname Menu-winow-functions

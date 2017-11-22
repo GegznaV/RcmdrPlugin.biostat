@@ -120,7 +120,7 @@ item	Tests_menu      command        "Normality tests"	window_normality_test	"num
 item	BioStat_menu  cascade	   "Models"   models_menu	""	""
 menu	models_menu   BioStat_menu	    ""	""	""	""
 # item	models_menu   command      "Show model's class"	         command_get_model_class  "activeModelP()"	""
-item	models_menu   command      "Standardized coefficients"	 command_std_lm_coeffs    "modelClassP('lm')"	""
+item	models_menu   command      "Standardized regression coefficients"	 command_std_lm_coeffs    "modelClassP('lm')"	""
 
 
 
