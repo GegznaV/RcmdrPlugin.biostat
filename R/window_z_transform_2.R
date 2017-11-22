@@ -7,26 +7,26 @@
 #' @family transformations
 #'
 window_z_transform_2 <- function() {
-    initializeDialog(title = get_EZR_text("Z transformation"))
+    initializeDialog(title = get_BioStat_text("Z transformation"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     variableBox <-
         variableListBox(top,
                         Numeric(),
                         selectmode = "multiple",
-                        title = get_EZR_text("Variables (pick one or more)"),
+                        title = get_BioStat_text("Variables (pick one or more)"),
                         listHeight = 5
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # [!!!]
     # radioButtons(name = "transformation_type",
-    #              title = get_EZR_text("---",
+    #              title = get_BioStat_text("---",
     #              buttons = c("A", "B"),
     #              values  = c("", ", center = median, scale = IQR"),
-    #              labels =  get_EZR_text(c("z-transformation",
+    #              labels =  get_BioStat_text(c("z-transformation",
     #                                   "center = median, scale = IQR")))
     # )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    prefix      <- tclVar(get_EZR_text("<automatic prefix>"))
+    prefix      <- tclVar(get_BioStat_text("<automatic prefix>"))
     prefixField <- ttkentry(top, width = "20", textvariable = prefix)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
@@ -36,7 +36,7 @@ window_z_transform_2 <- function() {
 
         if (length(variables) == 0) {
             errorCondition(recall = window_log_transform,
-                           message = get_EZR_text("You must select a variable."))
+                           message = get_BioStat_text("You must select a variable."))
             return()
         }
 
@@ -46,7 +46,7 @@ window_z_transform_2 <- function() {
         .activeDataSet <- ActiveDataSet()
 
         new_names <-
-            if (prefix == get_EZR_text("<automatic prefix>")) {
+            if (prefix == get_BioStat_text("<automatic prefix>")) {
                 paste0("z_", variables)
 
             } else if (length(variables) == 1) {
@@ -62,7 +62,7 @@ window_z_transform_2 <- function() {
             if (!is.valid.name(new_names[i])) {
                 errorCondition(
                     recall = window_log_transform,
-                    message = paste(new_names[i], get_EZR_text("is not a valid name."))
+                    message = paste(new_names[i], get_BioStat_text("is not a valid name."))
                 )
                 return()
             }
@@ -87,9 +87,9 @@ window_z_transform_2 <- function() {
             activeDataSet(.activeDataSet, flushModel = FALSE)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        msg <- glue("#---  ", get_EZR_text("Z transformation"), "  ---#\n\n",
+        msg <- glue("#---  ", get_BioStat_text("Z transformation"), "  ---#\n\n",
                      "# ",
-                     get_EZR_text("New variable(s):"), " \n",
+                     get_BioStat_text("New variable(s):"), " \n",
                      paste("#   ", new_names, collapse = "\n"))
 
         logger(paste0(msg, command, collapse = "\n"))
@@ -103,7 +103,7 @@ window_z_transform_2 <- function() {
 
     tkgrid(
         labelRcmdr(top,
-                   text = get_EZR_text("New variable name or prefix for multiple variables:")
+                   text = get_BioStat_text("New variable name or prefix for multiple variables:")
         ),
         prefixField, sticky = "w")
 

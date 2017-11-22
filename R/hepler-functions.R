@@ -11,8 +11,8 @@ eval_ <- function(x, envir = parent.frame(), ...) {
     eval(parse(text = x), envir = envir, ...)
 }
 # ------------------------------------------------------------------------------
-get_EZR_text <- function(txt) {
-    gettext(domain = "R-RcmdrPlugin.EZR", txt)
+get_BioStat_text <- function(txt) {
+    gettext(domain = "R-RcmdrPlugin.BioStat", txt)
 
 }
 # ------------------------------------------------------------------------------
