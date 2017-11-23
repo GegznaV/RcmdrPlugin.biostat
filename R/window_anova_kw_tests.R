@@ -20,7 +20,7 @@ window_anova_kw_tests <- function() {
             initial.welch = 0
         )
 
-    dialog.values <- getDialog("compare_centers", defaults)
+    dialog.values <- getDialog("window_anova_kw_tests", defaults)
 
 
 
@@ -43,16 +43,28 @@ window_anova_kw_tests <- function() {
 
     main_top_frame <- tkframe(mainTab)
 
+
+
+
+    labelText <- tclVar("...") ### [!!!] Initial value
+
+    update_test_name <- function() {
+        tclvalue(labelText) <-
+            paste("Current test: ", as.character(tclvalue(main_testVariable)))
+    }
+
     # Choose test
     radioButtons(window = main_top_frame,
                  name = "main_test",
                  buttons = c("anova", "welch_anova", "kw_test"),
                  values = c("anova", "welch_anova", "kw_test"),
+                 # initialValue = -1,
 
                  labels =  get_BioStat_text(c("ANOVA",
                                               "Welch ANOVA",
                                               "Kruskal-Wallis test")),
-                 title = get_BioStat_text("Test")
+                 title = get_BioStat_text("Test"),
+                 command = update_test_name
     )
 
     # Choose model name
@@ -92,10 +104,16 @@ window_anova_kw_tests <- function() {
         sticky = "nw"
     )
 
-
     tkgrid(main_top_frame, sticky = "w")
 
+    # tkgrid(tk2label(mainTab, text = paste("Current test: ", test_name)),
+    tkgrid(tk2label(mainTab,
+                    textvariable = labelText),
+           pady = c(20, 0),
+           sticky = "w")
 
+
+    # ** Data tab ------------------------------------------------------------
     # . Variable selection -----------------------------------------------------
 
     dataFrame <- tkframe(dataTab)
@@ -169,7 +187,7 @@ window_anova_kw_tests <- function() {
         #
         # if (!is.valid.name(modelValue)) {
         #     UpdateModelNumber(-1)
-        #     errorCondition(recall = window_compare_centers,
+        #     errorCondition(recall = window_anova_kw_tests,
         #                    message = sprintf(gettextRcmdr("\"%s\" is not a valid name."),modelValue
         #                    ))
         #     return()
@@ -178,7 +196,7 @@ window_anova_kw_tests <- function() {
         #     if ("no" == tclvalue(checkReplace(modelValue, type = gettextRcmdr("Model")))) {
         #         UpdateModelNumber(-1)
         #         tkdestroy(top)
-        #         window_compare_centers()
+        #         window_anova_kw_tests()
         #         return()
         #     }
         # }
@@ -191,7 +209,7 @@ window_anova_kw_tests <- function() {
 
         # if (length(group) == 0) {
         #     errorCondition(
-        #         recall = window_compare_centers,
+        #         recall = window_anova_kw_tests,
         #         message = gettextRcmdr("You must select a groups factor.")
         #     )
         #     return()
@@ -199,7 +217,7 @@ window_anova_kw_tests <- function() {
         #
         # if (length(response) == 0) {
         #     errorCondition(
-        #         recall = window_compare_centers,
+        #         recall = window_anova_kw_tests,
         #         message = gettextRcmdr("You must select a response variable.")
         #     )
         #     return()
@@ -226,7 +244,7 @@ window_anova_kw_tests <- function() {
         # pairwise <- tclvalue(pairwiseVariable)
         #    welch <- tclvalue(welchVariable)
         #
-        # putDialog("compare_centers",
+        # putDialog("window_anova_kw_tests",
         #           list(initial.group = group,
         #                initial.response = response,
         #                initial.pairwise = pairwise,
@@ -299,8 +317,8 @@ window_anova_kw_tests <- function() {
     OKCancelHelp(
         helpSubject = "anova",
         model = TRUE,
-        reset = "compare_centers",
-        apply = "compare_centers"
+        reset = "window_anova_kw_tests",
+        apply = "window_anova_kw_tests"
     )
     # tkgrid(buttonsFrame, sticky = "w")
 
