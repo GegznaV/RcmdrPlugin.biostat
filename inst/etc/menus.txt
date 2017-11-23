@@ -108,31 +108,29 @@ menu	distr_menu	        BioStat_menu	""	""	""	""
 
 item	BioStat_menu    cascade	        "Tests"   Tests_menu	""	""
 menu	Tests_menu	    BioStat_menu    ""	""	""	""
-item	Tests_menu      command        "Normality tests"	window_normality_test	"numericP()"	""
-item	Tests_menu      command        "ANOVA & Kruskal-Wallis test"	window_anova_kw_tests	"numericP() & factorsP()"	""
-# item	Tests_menu	    separator	""	""	""	""
-
-
+item	Tests_menu      command         "Normality tests"	window_normality_test	"numericP()"	""
+item	Tests_menu	    separator   	""	""	""	""
+item	Tests_menu      command         "ANOVA & Kruskal-Wallis test"	window_anova_kw_tests	"numericP() & factorsP()"	""
 
 
 # ==============================================================================
-# ---- Locale -----------------------------------------------------------------
+# ---- Models -----------------------------------------------------------------
 
 item	BioStat_menu  cascade	   "Models"   models_menu	""	""
 menu	models_menu   BioStat_menu	    ""	""	""	""
-# item	models_menu   command      "Show model's class"	         command_get_model_class  "activeModelP()"	""
+item	models_menu   command      "Show model's class"	                     command_get_model_class  "activeModelP()"	""
 item	models_menu   command      "Standardized regression coefficients"	 command_std_lm_coeffs    "modelClassP('lm')"	""
 
 
 
 # ==============================================================================
-# ---- Locale -----------------------------------------------------------------
+# ---- Settings -----------------------------------------------------------------
 
-item	BioStat_menu  cascade	   "Options"   options_menu	""	""
-menu	options_menu   BioStat_menu	    ""	""	""	""
-item	options_menu   command      "Show working directory"	 command_getwd     ""	""
-item	options_menu   command      "Show current locale"	     command_get_locale     ""	""
-item	options_menu   command      "Set locale: Lithuanian"	 command_set_locale_lt  ""	""
-item	options_menu   command      "Set locale: English"	     command_set_locale_en 	""	""
+item	BioStat_menu  cascade	   "Settings"   settings_menu	""	""
+menu	settings_menu   BioStat_menu	    ""	""	""	""
+item	settings_menu   command      "Show working directory"	 command_getwd     ""	""
+item	settings_menu   command      "Show current locale"	     command_get_locale     ""	""
+item	settings_menu   command      "Set locale to Lithuanian"	 command_set_locale_lt  ""	""
+item	settings_menu   command      "Set locale to English"	 command_set_locale_en 	""	""
 
 # =============================================================================
