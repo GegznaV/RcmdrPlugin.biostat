@@ -109,6 +109,7 @@ menu	distr_menu	        BioStat_menu	""	""	""	""
 item	BioStat_menu    cascade	        "Tests"   Tests_menu	""	""
 menu	Tests_menu	    BioStat_menu    ""	""	""	""
 item	Tests_menu      command        "Normality tests"	window_normality_test	"numericP()"	""
+item	Tests_menu      command        "ANOVA & Kruskal-Wallis test"	window_anova_kw_tests	"numericP() & factorsP()"	""
 # item	Tests_menu	    separator	""	""	""	""
 
 

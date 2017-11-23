@@ -22,6 +22,7 @@
 \alias{summary_glimpse}
 \alias{summary_Hmisc_describe}
 \alias{summary_psych_describe}
+\alias{summary_psych_describeBy}
 \alias{command_all_chr_to_fctr}
 \alias{window_qqplot_biostat}
 \alias{window_normality_test}
@@ -62,6 +63,8 @@ summary_glimpse()
 summary_Hmisc_describe()
 
 summary_psych_describe()
+
+summary_psych_describeBy()
 
 command_all_chr_to_fctr()
 
