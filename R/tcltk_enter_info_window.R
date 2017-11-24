@@ -1,7 +1,7 @@
-library(tcltk2)
+# library(tcltk2)
 
 
-window_enter_info <-
+enter_info_window <-
     function(
         # parent,
              title = "",

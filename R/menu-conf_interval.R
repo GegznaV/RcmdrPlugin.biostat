@@ -4,6 +4,9 @@
 #' @export
 #' @keywords internal
 window_ci_mean <- function() {
+    function_not_implemented("Function for confidence intervals of mean")
+    return()
+
     Library("tidyverse")
     Library("BioStat")
 
@@ -35,7 +38,8 @@ window_ci_mean <- function() {
 
     doItAndPrint(glue::glue("BioStat::ci_mean_t({ActiveDataSet()}${Numeric()[1]}, conf_level = {conf_level})"))
 
-    doItAndPrint(glue::glue("# Not ready yet!"))
+
+    function_not_implemented()
 
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -46,6 +50,10 @@ window_ci_mean <- function() {
 #' @export
 #' @keywords internal
 window_ci_prop <- function() {
+    function_not_implemented("Function for proportion confidence intervals")
+    return()
+
+
     Library("tidyverse")
     Library("binom")
     # doItAndPrint('library("tidyverse")')
@@ -63,7 +71,7 @@ window_ci_prop <- function() {
         dplyr::rename(proportion = mean)  %>%
         dplyr::select(proportion, lower, upper)
 
-    doItAndPrint(glue::glue("# Not ready yet!"))
+    function_not_implemented()
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -71,6 +79,10 @@ window_ci_prop <- function() {
 #' @export
 #' @keywords internal
 window_ci_boot <- function() {
+    function_not_implemented("Function for bootstrap confidence intervals")
+    return()
+
+
     Library("tidyverse")
     Library("boot")
     # doItAndPrint('library("tidyverse")')
@@ -106,8 +118,6 @@ window_ci_boot <- function() {
 
     boot.ci(boot_obj, conf = conf_level, type = boot_ci_type)
 
-
-    doItAndPrint(glue::glue("# Not ready yet!"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

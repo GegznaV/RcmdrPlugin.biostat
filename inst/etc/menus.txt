@@ -7,30 +7,38 @@ menu	BioStat_menu	topMenu	            ""	        ""	""	""
 # ==============================================================================
 # ---- Manage dataset ---------------------------------------------------------
 
-item	BioStat_menu   cascade	    "Data"   data_menu	""	""
-menu	data_menu   BioStat_menu	    ""	""	""	""
-item	data_menu   command      "Refresh active dataset"	command_dataset_refresh  "activeDataSetP()"	""
-item	data_menu   command      "Show dataset's class"	    command_dataset_class    "activeDataSetP()"	""
-item	data_menu   command      "Convert to data frame"	    command_dataset_as_df	 "activeDataSetP() && !first_class_is_dataframeP()"	""
-
-item	data_menu	 separator	""	""	""	""
-item	data_menu     command      "Import R data object (.Rds)"	window_import_rds	        ""	""
-#
-#
-item	data_menu	 separator	""	""	""	""
-# item	data_menu     command      "Save as text file"	         "window_export_as_textfile"	"activeDataSetP()"	""
-item	data_menu     command      "Save as R data object (.Rds)"  window_export_as_rds	        "activeDataSetP()"	""
-# item	data_menu     command      "Save as Excel (.xlsx)"	     "window_export_as_excel"	    "activeDataSetP()"	""
+item	BioStat_menu cascade	    "Data"   data_menu	""	""
+menu	data_menu    BioStat_menu	    ""	""	""	""
+item	data_menu    command      "Refresh active dataset"	command_dataset_refresh  "activeDataSetP()"	""
+item	data_menu    command      "Show dataset's class"	command_dataset_class    "activeDataSetP()"	""
+item	data_menu    command      "Convert to data frame"	command_dataset_as_df	 "activeDataSetP() && !first_class_is_dataframeP()"	""
+item	data_menu	 separator	  ""	""	""	""
 
 
-# ---- Manage variables ---------------------------------------------------------
+# ~~~~ Data Import Menu ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+item	data_menu    cascade	  "Import / Load data"   import_menu	""	""
+menu	import_menu  data_menu	  ""	""	""	""
+item	import_menu  command      "Import R data object (.Rds)"	window_import_rds	        ""	""
+
+
+# ~~~~ Data Export Menu ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+item	data_menu    cascade	  "Export / Save data"   export_menu	 ""	""
+menu	export_menu  data_menu	  ""	""	""	""
+# item	export_menu  command      "Save as text file"	          window_export_as_textfile	"activeDataSetP()"	""
+item	export_menu  command      "Save as R data object (.Rds)"  window_export_as_rds	    "activeDataSetP()"	""
+# item	export_menu  command      "Save as Excel (.xlsx)"	      window_export_as_excel	"activeDataSetP()"	""
+
+
+# ==============================================================================
+# ---- Manage variables ------------------------------------------------------
 
 item	BioStat_menu    cascade	            "Variables"   Variable_menu	""	""
 menu	Variable_menu	BioStat_menu	    ""	""	""	""
-item	Variable_menu   command             "Convert all strings (chr) to factors"	command_all_chr_to_fctr  "characterP()"	""
-item	Variable_menu   command             "Log transformation"	        window_log_transform	"numericP()"	""
-item	Variable_menu   command             "Z transformation (standardization)"  	        window_z_transform	    "numericP()"	""
-#  item	Variable_menu	command             "Convert numeric to factors"	windowFactorize	        "nonFactorsP()"	""
+item	Variable_menu   command             "Convert all strings (chr) to factors"	command_all_chr_to_fctr "characterP()"	""
+item	Variable_menu   command             "Log transformation"	                window_log_transform	"numericP()"	""
+item	Variable_menu   command             "Z transformation (standardization)"  	window_z_transform	    "numericP()"	""
 
 
 # ==============================================================================
@@ -38,70 +46,28 @@ item	Variable_menu   command             "Z transformation (standardization)"  	
 
 item	BioStat_menu  cascade	   "Summary"   Summary_bs	""	""
 menu	Summary_bs	  BioStat_menu	    ""	""	""	""
-item	Summary_bs    command      "Glimpse at variables"	                summary_glimpse	"activeDataSetP()"	""
-item	Summary_bs    command      "Describe all variables (Hmisc)"	        summary_Hmisc_describe	"activeDataSetP()"	""
-item	Summary_bs    command      "Describe numerical variables (psych)"	summary_psych_describe	"activeDataSetP()"	""
+item	Summary_bs    command      "Glimpse at variables"	                  summary_glimpse	        "activeDataSetP()"	""
+item	Summary_bs    command      "Describe all variables [Hmisc]"	          summary_Hmisc_describe	"activeDataSetP()"	""
+item	Summary_bs    command      "Describe numerical variables (by groups)" summary_psych_describe	"activeDataSetP()"	""
+
 
 # =============================================================================
 # ---- Main plots -------------------------------------------------------------
 
 item	BioStat_menu    cascade	"Plots"	            plots_menu	""	""
 menu	plots_menu	    BioStat_menu	""	""	""	""
-
 item	plots_menu	    command "Open a new window for plots"	  open_new_plots_window	        ""	""
 
-# item	plots_menu	    separator	"Continuous variables"	""	""	""
-# item	plots_menu	    command	    "Normal Q-Q plot (by groups)"	window_qqplot_biostat	"numericP()"	""
+# item	plots_menu	    separator	""	""	""	""
+# item	plots_menu	    command	    "Normal Q-Q plot (by groups)"	function_not_implemented('window_qqplot_biostat')	"numericP()"	""
 
+item	plots_menu	    separator	""	""	""	""
+item	plots_menu	    command "[!] Histogram"	        window_histogram       "nonFactorsP()"	""
+item	plots_menu	    command "[!] Density plot"   	window_density_plot	   "nonFactorsP()"	""
 
-#   item	plots_menu	    command "Histogram..."	        windowHist	        "nonFactorsP()"	""
-#   item	plots_menu	    command "Density plot..."   	windowDensity	    "nonFactorsP()"	""
-#   item	plots_menu	    command "Box plot / Confidence interval/ Violin plot..."	windowBox	"nonFactorsP()"	""
-
-#   item	plots_menu	    separator	""	""	""	""
-#   item	plots_menu	    command "Scatter plot..."	    windowScatter	    "nonFactorsP(2)"	""
-#   item	plots_menu	    command "Scatter matrix..."	    windowScattermat	"nonFactorsP(3)"	""
-#   item	plots_menu	    command "Line chart..."	        windowLine	        "nonFactorsP(2)"	""
-
-#   item	plots_menu	    separator	"Discrete variables"	""	""	""
-#   item	plots_menu	    command "Pie chart..."	        windowPie	        "factorsP()"	""
-#   item	plots_menu	    command "Bar chart for discrete variables..."	    windowDiscretebar	"factorsP()"	""
-
-#   item	plots_menu	    separator	""	""	""	""
-#   item	plots_menu	    command "Contour plot..."	    windowContour	    "nonFactorsP(3)"	""
-#   item	plots_menu	    separator	""	""	""	""
-#   item	plots_menu	    command "Q-Q plot..."	        windowQQ	        "nonFactorsP()"	""
-#   item	plots_menu	    command "Q-Q plot by group"	    windowQQ	        "nonFactorsP()"	""
-
-
-# ---- Distributions ----------------------------------------------------------
-menu	distr_menu	        BioStat_menu	""	""	""	""
-
-#   item	BioStat_menu	    cascade	"Plot distribution..."	            distr_menu	""	""
-#
-#   menu	c_distr_menu	    distr_menu	""	""	""	""
-#   item	distr_menu	        cascade	"Continuous"	                    c_distr_menu	""	""
-#   item	c_distr_menu	    command	"Normal distribution..."	        windowDistNorm	""	""
-#   item	c_distr_menu	    command	"t distribution..."	                windowDistT	""	""
-#   item	c_distr_menu	    command	"Chi-square distribution..."	    windowDistChisq	""	""
-#   item	c_distr_menu	    command	"F distribution..."	                windowDistF	""	""
-#   item	c_distr_menu	    command	"Exponential distribution..."	    windowDistExp	""	""
-#   item	c_distr_menu	    command	"Uniform distribution..."	        windowDistUnif	""	""
-#   item	c_distr_menu	    command	"Beta distribution..."	            windowDistBeta	""	""
-#   item	c_distr_menu	    command	"Cauchy distribution..."	        windowDistCauchy	""	""
-#   item	c_distr_menu	    command	"Logistic distribution..."	        windowDistLogis	""	""
-#   item	c_distr_menu	    command	"Log-normal distribution..."	    windowDistLnorm	""	""
-#   item	c_distr_menu	    command	"Gamma distribution..."	            windowDistGamma	""	""
-#   item	c_distr_menu	    command	"Weibull distribution..."	        windowDistWeibull	""	""
-#
-#   menu	d_distr_menu	    distr_menu	""	""	""	""
-#   item	distr_menu	        cascade	"Discrete"	                        d_distr_menu	""	""
-#   item	d_distr_menu	    command	"Binomial distribution..."	        windowDistBinom	""	""
-#   item	d_distr_menu	    command	"Poisson distribution..."	        windowDistPois	""	""
-#   item	d_distr_menu	    command	"Geometric distribution..."	        windowDistGeom	""	""
-#   item	d_distr_menu	    command	"Hypergeometric distribution..."	windowDistHyper	""	""
-#   item	d_distr_menu	    command	"Negative binomial distribution..."	windowDistNbinom	""	""
-
+item	plots_menu	    separator	""	""	""	""
+item	plots_menu	    command "[!] Dots (with error bars)"    window_plot_dot_err   "nonFactorsP()"	""
+item	plots_menu	    command "[!] Columns (with error bars)" window_plot_bar_err	  "nonFactorsP()"	""
 
 # ==============================================================================
 # ---- Statistical tests ------------------------------------------------------
@@ -110,16 +76,17 @@ item	BioStat_menu    cascade	        "Tests"   Tests_menu	""	""
 menu	Tests_menu	    BioStat_menu    ""	""	""	""
 item	Tests_menu      command         "Normality tests"	window_normality_test	"numericP()"	""
 item	Tests_menu	    separator   	""	""	""	""
-item	Tests_menu      command         "ANOVA & Kruskal-Wallis test"	window_anova_kw_tests	"numericP() & factorsP()"	""
+item	Tests_menu      command         "[!] ANOVA & Kruskal-Wallis test"	window_anova_kw_tests	"numericP() & factorsP()"	""
+
 
 # ==============================================================================
 # ---- Confidence intervals ---------------------------------------------------
 
 item	BioStat_menu    cascade	        "Confidence intervals"   ci_menu	""	""
 menu	ci_menu	        BioStat_menu    ""	""	""	""
-item	ci_menu         command         "Confidence interval for mean"	     window_ci_mean	""	""
-item	ci_menu         command         "Confidence interval for proportion" window_ci_prop	""	""
-item	ci_menu         command         "Bootstrap confidence intervals"     window_ci_boot	""	""
+item	ci_menu         command         "[!] Confidence interval for mean"	     window_ci_mean	""	""
+item	ci_menu         command         "[!] Confidence interval for proportion" window_ci_prop	""	""
+item	ci_menu         command         "[!] Bootstrap confidence intervals"     window_ci_boot	""	""
 # item	ci_menu	        separator   	""	""	""	""
 
 
@@ -128,19 +95,20 @@ item	ci_menu         command         "Bootstrap confidence intervals"     window
 
 item	BioStat_menu  cascade	   "Models"   models_menu	""	""
 menu	models_menu   BioStat_menu	    ""	""	""	""
-item	models_menu   command      "Show model's class"	                     command_get_model_class  "activeModelP()"	""
-item	models_menu   command      "Standardized regression coefficients"	 command_std_lm_coeffs    "modelClassP('lm')"	""
-
+item	models_menu   command      "Show model's class"	                     command_get_model_class  "activeModelP()"	   ""
+item	models_menu   command      "Standardized regression coefficients"	 command_std_lm_coeffs    "modelClassP('lm')"  ""
 
 
 # ==============================================================================
-# ---- Settings -----------------------------------------------------------------
+# ---- Settings ---------------------------------------------------------------
 
 item	BioStat_menu    cascade	     "Settings"   settings_menu	""	""
 menu	settings_menu   BioStat_menu	    ""	""	""	""
-item	settings_menu   command      "Show working directory"	 command_getwd     ""	""
+item	settings_menu   command      "Show working directory"	 command_getwd          ""	""
+item	settings_menu	separator   	""	""	""	""
 item	settings_menu   command      "Show current locale"	     command_get_locale     ""	""
 item	settings_menu   command      "Set locale to Lithuanian"	 command_set_locale_lt  ""	""
 item	settings_menu   command      "Set locale to English"	 command_set_locale_en 	""	""
+
 
 # =============================================================================

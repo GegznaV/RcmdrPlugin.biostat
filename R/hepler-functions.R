@@ -1,4 +1,24 @@
 # ------------------------------------------------------------------------------
+function_not_implemented <- function(x = NULL) {
+
+    doItAndPrint("# ~~~ Not implemented yet! ~~~\n")
+
+    if (is.null(x)) {
+        x <- "This function"
+    }
+
+    text <- glue("# ~~~ {x} will be implemented  \n ",
+                 "# ~~~ in the future versions of package RcmdrPlugin.BioStat! ")
+
+    doItAndPrint(text)
+    Message(text, type = "warning")
+}
+# ------------------------------------------------------------------------------
+nonFactorsP <- function(n = 1) {
+    #  n - number of non-factors.
+    activeDataSetP() && length(setdiff(listVariables(), listFactors())) >= n
+}
+# ------------------------------------------------------------------------------
 glue <- glue::glue
 # ------------------------------------------------------------------------------
 eval_glue <- function(..., envir = parent.frame(),

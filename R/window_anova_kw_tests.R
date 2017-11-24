@@ -142,7 +142,7 @@ window_anova_kw_tests <- function() {
     tkgrid(dataFrame, sticky = "w")
 
     # ** Post-hoc tab -----------------------------------------------------------
-    posthoc_test_panel <- ttk_labelframe(posthocTab, "Post-hoc test options")
+    posthoc_test_panel <- labeled_frame(posthocTab, "Post-hoc test options")
 
     radioButtons(window = posthoc_test_panel,
                  name = "posthoc_test",

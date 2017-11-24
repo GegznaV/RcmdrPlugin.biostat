@@ -24,6 +24,7 @@ command_getwd <- function() {
 #' @keywords internal
 command_get_locale <- function() {
     Rcmdr::doItAndPrint(paste(
+        '# Current locale:  \n',
         'locale_info <- Sys.getlocale()',
         'writeLines(gsub(";", "\\n", locale_info))',
         sep = " \n"))
@@ -34,6 +35,7 @@ command_get_locale <- function() {
 #' @keywords internal
 command_set_locale_lt <- function() {
     Rcmdr::doItAndPrint(paste(
+        '# Set locale to Lithuanian \n',
         'locale_info <- Sys.setlocale(locale = "Lithuanian")',
         'writeLines(gsub(";", "\\n", locale_info))',
         sep = " \n"))
@@ -44,6 +46,7 @@ command_set_locale_lt <- function() {
 #' @keywords internal
 command_set_locale_en <- function() {
     Rcmdr::doItAndPrint(paste(
+        '# Set locale to English \n',
         'locale_info <- Sys.setlocale(locale = "English")',
         'writeLines(gsub(";", "\\n", locale_info))',
         sep = " \n"))
