@@ -1,10 +1,10 @@
 Package: RcmdrPlugin.BioStat
 Type: Package
 Version: 0.0.3.9006
-Date: 2017-11-22
+Date: 2017-11-23
 Title: An R Commander Plug-in for Package "BioStat"
 Description: An Rcmdr plug-in for functions in package "BioStat" and various 
-             other various common data analysis tasks: 
+             other common data analysis tasks: 
              making plots, summarizing and describing data, etc.
 Authors@R: c(
     person("Vilmantas", "Gegna", role = c("aut","cre"),
@@ -16,7 +16,7 @@ LazyData: true
 ByteCompile: false
 Depends:
     R (>= 3.3.0),
-    BioStat (>= 0.0.8.9012),
+    BioStat (>= 0.0.8.9015),
     tcltk,
     tcltk2 (>= 1.2-11),
     Rcmdr
@@ -27,6 +27,7 @@ Imports:
     nortest,
     methods,
     utils,
+    boot,
     glue,
     dplyr,
     magrittr,

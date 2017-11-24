@@ -112,6 +112,16 @@ item	Tests_menu      command         "Normality tests"	window_normality_test	"nu
 item	Tests_menu	    separator   	""	""	""	""
 item	Tests_menu      command         "ANOVA & Kruskal-Wallis test"	window_anova_kw_tests	"numericP() & factorsP()"	""
 
+# ==============================================================================
+# ---- Confidence intervals ---------------------------------------------------
+
+item	BioStat_menu    cascade	        "Confidence intervals"   ci_menu	""	""
+menu	ci_menu	        BioStat_menu    ""	""	""	""
+item	ci_menu         command         "Confidence interval for mean"	     window_ci_mean	""	""
+item	ci_menu         command         "Confidence interval for proportion" window_ci_prop	""	""
+item	ci_menu         command         "Bootstrap confidence intervals"     window_ci_boot	""	""
+# item	ci_menu	        separator   	""	""	""	""
+
 
 # ==============================================================================
 # ---- Models -----------------------------------------------------------------
