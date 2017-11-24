@@ -7,20 +7,20 @@ menu	BioStat_menu	topMenu	            ""	        ""	""	""
 # ==============================================================================
 # ---- Manage dataset ---------------------------------------------------------
 
-item	BioStat_menu   cascade	    "Dataset"   dataset_menu	""	""
-menu	dataset_menu   BioStat_menu	    ""	""	""	""
-item	dataset_menu   command      "Refresh active dataset"	command_dataset_refresh  "activeDataSetP()"	""
-item	dataset_menu   command      "Show dataset's class"	    command_dataset_class    "activeDataSetP()"	""
-item	dataset_menu   command      "Convert to data frame"	    command_dataset_as_df	 "activeDataSetP() && !first_class_is_dataframeP()"	""
+item	BioStat_menu   cascade	    "Data"   data_menu	""	""
+menu	data_menu   BioStat_menu	    ""	""	""	""
+item	data_menu   command      "Refresh active dataset"	command_dataset_refresh  "activeDataSetP()"	""
+item	data_menu   command      "Show dataset's class"	    command_dataset_class    "activeDataSetP()"	""
+item	data_menu   command      "Convert to data frame"	    command_dataset_as_df	 "activeDataSetP() && !first_class_is_dataframeP()"	""
 
-item	dataset_menu	 separator	""	""	""	""
-item	dataset_menu     command      "Import R data object (.Rds)"	window_import_rds	        ""	""
+item	data_menu	 separator	""	""	""	""
+item	data_menu     command      "Import R data object (.Rds)"	window_import_rds	        ""	""
 #
 #
-item	dataset_menu	 separator	""	""	""	""
-# item	dataset_menu     command      "Save as text file"	         "window_export_as_textfile"	"activeDataSetP()"	""
-item	dataset_menu     command      "Save as R data object (.Rds)"  window_export_as_rds	        "activeDataSetP()"	""
-# item	dataset_menu     command      "Save as Excel (.xlsx)"	     "window_export_as_excel"	    "activeDataSetP()"	""
+item	data_menu	 separator	""	""	""	""
+# item	data_menu     command      "Save as text file"	         "window_export_as_textfile"	"activeDataSetP()"	""
+item	data_menu     command      "Save as R data object (.Rds)"  window_export_as_rds	        "activeDataSetP()"	""
+# item	data_menu     command      "Save as Excel (.xlsx)"	     "window_export_as_excel"	    "activeDataSetP()"	""
 
 
 # ---- Manage variables ---------------------------------------------------------
@@ -136,7 +136,7 @@ item	models_menu   command      "Standardized regression coefficients"	 command_
 # ==============================================================================
 # ---- Settings -----------------------------------------------------------------
 
-item	BioStat_menu  cascade	   "Settings"   settings_menu	""	""
+item	BioStat_menu    cascade	     "Settings"   settings_menu	""	""
 menu	settings_menu   BioStat_menu	    ""	""	""	""
 item	settings_menu   command      "Show working directory"	 command_getwd     ""	""
 item	settings_menu   command      "Show current locale"	     command_get_locale     ""	""
