@@ -8,10 +8,13 @@ function_not_implemented <- function(x = NULL) {
     }
 
     text <- glue("# ~~~ {x} will be implemented  \n ",
-                 "# ~~~ in the future versions of package RcmdrPlugin.BioStat! ")
+                 "# ~~~ in the future versions of package `RcmdrPlugin.BioStat`! ")
+
+    msg <- glue("{x} will be implemented in the future versions of package",
+                " `RcmdrPlugin.BioStat`! ")
 
     doItAndPrint(text)
-    Message(text, type = "warning")
+    Message(msg, type = "warning")
 }
 # ------------------------------------------------------------------------------
 nonFactorsP <- function(n = 1) {

@@ -48,7 +48,8 @@ item	BioStat_menu  cascade	   "Summary"   Summary_bs	""	""
 menu	Summary_bs	  BioStat_menu	    ""	""	""	""
 item	Summary_bs    command      "Glimpse at variables"	                  summary_glimpse	        "activeDataSetP()"	""
 item	Summary_bs    command      "Describe all variables [Hmisc]"	          summary_Hmisc_describe	"activeDataSetP()"	""
-item	Summary_bs    command      "Describe numerical variables (by groups)" summary_psych_describe	"activeDataSetP()"	""
+item	Summary_bs    command      "Describe numerical variables" summary_psych_describe	"activeDataSetP()"	""
+# item	Summary_bs    command      "Describe numerical variables (by groups)" summary_psych_describe	"activeDataSetP()"	""
 
 
 # =============================================================================
@@ -61,13 +62,13 @@ item	plots_menu	    command "Open a new window for plots"	  open_new_plots_windo
 # item	plots_menu	    separator	""	""	""	""
 # item	plots_menu	    command	    "Normal Q-Q plot (by groups)"	function_not_implemented('window_qqplot_biostat')	"numericP()"	""
 
-item	plots_menu	    separator	""	""	""	""
-item	plots_menu	    command "[!] Histogram"	        window_histogram       "nonFactorsP()"	""
-item	plots_menu	    command "[!] Density plot"   	window_density_plot	   "nonFactorsP()"	""
+# item	plots_menu	    separator	""	""	""	""
+# item	plots_menu	    command "[!] Histogram"	        window_histogram       "nonFactorsP()"	""
+# item	plots_menu	    command "[!] Density plot"   	window_density_plot	   "nonFactorsP()"	""
 
-item	plots_menu	    separator	""	""	""	""
-item	plots_menu	    command "[!] Dots (with error bars)"    window_plot_dot_err   "nonFactorsP()"	""
-item	plots_menu	    command "[!] Columns (with error bars)" window_plot_bar_err	  "nonFactorsP()"	""
+# item	plots_menu	    separator	""	""	""	""
+# item	plots_menu	    command "[!] Dots (with error bars)"    window_plot_dot_err   "nonFactorsP()"	""
+# item	plots_menu	    command "[!] Columns (with error bars)" window_plot_bar_err	  "nonFactorsP()"	""
 
 # ==============================================================================
 # ---- Statistical tests ------------------------------------------------------
@@ -75,8 +76,8 @@ item	plots_menu	    command "[!] Columns (with error bars)" window_plot_bar_err	
 item	BioStat_menu    cascade	        "Tests"   Tests_menu	""	""
 menu	Tests_menu	    BioStat_menu    ""	""	""	""
 item	Tests_menu      command         "Normality tests"	window_normality_test	"numericP()"	""
-item	Tests_menu	    separator   	""	""	""	""
-item	Tests_menu      command         "[!] ANOVA & Kruskal-Wallis test"	window_anova_kw_tests	"numericP() & factorsP()"	""
+# item	Tests_menu	    separator   	""	""	""	""
+# item	Tests_menu      command         "[!] ANOVA, Kruskal-Wallis, Median tests" window_anova_kw_tests	"numericP() & factorsP()"	""
 
 
 # ==============================================================================
@@ -84,9 +85,9 @@ item	Tests_menu      command         "[!] ANOVA & Kruskal-Wallis test"	window_an
 
 item	BioStat_menu    cascade	        "Confidence intervals"   ci_menu	""	""
 menu	ci_menu	        BioStat_menu    ""	""	""	""
-item	ci_menu         command         "[!] Confidence interval for mean"	     window_ci_mean	""	""
-item	ci_menu         command         "[!] Confidence interval for proportion" window_ci_prop	""	""
-item	ci_menu         command         "[!] Bootstrap confidence intervals"     window_ci_boot	""	""
+# item	ci_menu         command         "[!] Confidence interval for mean"	     window_ci_mean	""	""
+# item	ci_menu         command         "[!] Confidence interval for proportion" window_ci_prop	""	""
+# item	ci_menu         command         "[!] Bootstrap confidence intervals"     window_ci_boot	""	""
 # item	ci_menu	        separator   	""	""	""	""
 
 
