@@ -12,8 +12,7 @@
 options(Rcmdr = list(plugins = c("RcmdrPlugin.KMggplot2",
                                  "RcmdrPlugin.EZR.2",
                                  "RcmdrPlugin.BioStat",
-                                 NULL
-                                 ),
+                                 NULL),
                      use.rgl = TRUE,
                      console.output = FALSE
                      )

@@ -18,7 +18,6 @@
 #' @import nortest
 #' @importFrom Rcmdr activeDataSet
 
-# @import tcltk
 NULL
 
 # .onLoad <- function(...){

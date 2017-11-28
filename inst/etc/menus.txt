@@ -106,7 +106,7 @@ item	models_menu   command      "Standardized regression coefficients"	 command_
 item	BioStat_menu    cascade	     "Settings"   settings_menu	""	""
 menu	settings_menu   BioStat_menu	    ""	""	""	""
 item	settings_menu   command      "Show working directory"	 command_getwd          ""	""
-item	settings_menu	separator   	""	""	""	""
+item	settings_menu	separator    ""	""	""	""
 item	settings_menu   command      "Show current locale"	     command_get_locale     ""	""
 item	settings_menu   command      "Set locale to Lithuanian"	 command_set_locale_lt  ""	""
 item	settings_menu   command      "Set locale to English"	 command_set_locale_en 	""	""
