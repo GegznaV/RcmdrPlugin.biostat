@@ -35,9 +35,8 @@ eval_ <- function(x, envir = parent.frame(), ...) {
     eval(parse(text = x), envir = envir, ...)
 }
 # ------------------------------------------------------------------------------
-get_BioStat_text <- function(txt) {
-    gettext(domain = "R-RcmdrPlugin.BioStat", txt)
-
+gettext_Bio <- function(...) {
+    gettext(..., domain = "R-RcmdrPlugin.BioStat")
 }
 # ------------------------------------------------------------------------------
 #' Does data contain characters?

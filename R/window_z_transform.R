@@ -1,5 +1,4 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 #' Rcmdr window for z transformation
 #'
 #' @export
@@ -7,25 +6,17 @@
 #' @family transformations
 #'
 window_z_transform <- function() {
-    initializeDialog(title = get_BioStat_text("Z transformation (standardization)"))
+    initializeDialog(title = gettext_Bio("Z transformation (standardization)"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     variableBox <-
         variableListBox(top,
                         Numeric(),
                         selectmode = "multiple",
-                        title = get_BioStat_text("Variables (pick one or more)"),
+                        title = gettext_Bio("Variables (pick one or more)"),
                         listHeight = 5
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # radioButtons(name = "base",
-    #              buttons = c("z_transformation"),
-    #              values = c("10"),
-    #
-    #              labels = get_BioStat_text(c("z transformation")),
-    #              title  = get_BioStat_text("Transformation")
-    # )
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    prefix      <- tclVar(get_BioStat_text('<automatic prefix>'))
+    prefix      <- tclVar(gettext_Bio('<automatic prefix>'))
     prefixField <- ttkentry(top,
                             width = "25",
                             textvariable = prefix)
@@ -37,7 +28,7 @@ window_z_transform <- function() {
 
         if (length(variables) == 0) {
             errorCondition(recall = window_log_transform,
-                           message = get_BioStat_text("You must select a variable."))
+                           message = gettext_Bio("You must select a variable."))
             return()
         }
 
@@ -47,7 +38,7 @@ window_z_transform <- function() {
         .activeDataSet <- ActiveDataSet()
 
         new_names <-
-            if (prefix == get_BioStat_text('<automatic prefix>')) {
+            if (prefix == gettext_Bio('<automatic prefix>')) {
                 paste0("z_", variables)
 
             } else if (length(variables) == 1) {
@@ -63,7 +54,7 @@ window_z_transform <- function() {
             if (!is.valid.name(new_names[i])) {
                 errorCondition(
                     recall = window_log_transform,
-                    message = paste(new_names[i], get_BioStat_text("is not a valid name."))
+                    message = paste(new_names[i], gettext_Bio("is not a valid name."))
                 )
                 return()
             }
@@ -88,8 +79,8 @@ window_z_transform <- function() {
             activeDataSet(.activeDataSet, flushModel = FALSE)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        msg <- glue("#---  ", get_BioStat_text("Z transformation"), "  ---#\n\n",
-                    "# ", get_BioStat_text("New variable(s):"), " \n",
+        msg <- glue("#---  ", gettext_Bio("Z transformation"), "  ---#\n\n",
+                    "# ", gettext_Bio("New variable(s):"), " \n",
                     paste("#   ", new_names, collapse = "\n"))
 
         logger(paste0(msg, command, collapse = "\n"))
@@ -99,20 +90,15 @@ window_z_transform <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     OKCancelHelp(helpSubject = "scale_vector")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # tkgrid(getFrame(variableBox), baseFrame, sticky = "nw")
     tkgrid(getFrame(variableBox), sticky = "nw")
 
-    # tkgrid(
-    #     labelRcmdr(top,
-    #                text = get_BioStat_text("New variable name or prefix for multiple variables:")),
-    #     prefixField, sticky = "w")
     tkgrid(labelRcmdr(top,
-                      text = get_BioStat_text("New variable name or prefix for multiple variables:"),
+                      text = gettext_Bio("New variable name or prefix for multiple variables:"),
                       fg = getRcmdr("title.color")),
-           sticky = "w")
+           sticky = "w",
+           pady = c(10, 0))
 
     tkgrid(prefixField, sticky = "ew")
-
     tkgrid(buttonsFrame, sticky = "w", columnspan = 2)
 
     dialogSuffix(rows = 4,

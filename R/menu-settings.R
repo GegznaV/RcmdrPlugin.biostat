@@ -14,7 +14,7 @@ command_load_packages <- function() {
 #' @keywords internal
 command_getwd <- function() {
     Rcmdr::doItAndPrint(paste(
-        '# You are workin in folder:',
+        '# You are working in folder:',
         'getwd()',
         sep = " \n"))
 }

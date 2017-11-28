@@ -7,27 +7,31 @@
 #' @family transformations
 #'
 window_log_transform <- function() {
-    initializeDialog(title = get_BioStat_text("Logarithmic transformation"))
+    initializeDialog(title = gettext_Bio("Logarithmic transformation"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    upper_Frame <- tkframe(top)
+
     variableBox <-
-        variableListBox(top,
-                        Numeric(),
-                        selectmode = "multiple",
-                        title = get_BioStat_text("Variables (pick one or more)"),
-                        listHeight = 5
+        variableListBox2(upper_Frame,
+                         Numeric(),
+                         selectmode = "multiple",
+                         title = gettext_Bio("Variables (pick one or more)"),
+                         listHeight = 4
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    radioButtons(name = "base",
+    base_outter_Frame <- tkframe(upper_Frame)
+    radioButtons(base_outter_Frame,
+                 name = "base",
+                 title = gettext_Bio("Base of logarithm"),
                  buttons = c("common", "natural", "binary"),
                  values = c("10", "exp(1)", "2"),
-
-                 labels =  get_BioStat_text(c("Common logarithm (base = 10)",
-                                      "Natural logarithm (base = e)",
-                                      "Binary logarithm (base = 2)")),
-                 title = get_BioStat_text("Base of logarithmic transformation")
+                 labels =  gettext_Bio(
+                     c("Common (base = 10)",
+                       "Natural (base = e)",
+                       "Binary (base = 2)"))
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    prefix      <- tclVar(get_BioStat_text("<automatic prefix>"))
+    prefix      <- tclVar(gettext_Bio("<automatic prefix>"))
     prefixField <- ttkentry(top, width = "20", textvariable = prefix)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
@@ -37,7 +41,7 @@ window_log_transform <- function() {
 
         if (length(variables) == 0) {
             errorCondition(recall = window_log_transform,
-                           message = get_BioStat_text("You must select a variable."))
+                           message = gettext_Bio("You must select a variable."))
             return()
         }
 
@@ -47,7 +51,7 @@ window_log_transform <- function() {
         .activeDataSet <- ActiveDataSet()
 
         new_names <-
-            if (prefix == get_BioStat_text("<automatic prefix>")) {
+            if (prefix == gettext_Bio("<automatic prefix>")) {
                 paste0("log_", variables)
 
             } else if (length(variables) == 1) {
@@ -63,7 +67,7 @@ window_log_transform <- function() {
             if (!is.valid.name(new_names[i])) {
                 errorCondition(
                     recall = window_log_transform,
-                    message = paste(new_names[i], get_BioStat_text("is not a valid name."))
+                    message = paste(new_names[i], gettext_Bio("is not a valid name."))
                 )
                 return()
             }
@@ -89,26 +93,28 @@ window_log_transform <- function() {
             activeDataSet(.activeDataSet, flushModel = FALSE)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        msg <- glue("#---  ", get_BioStat_text("Logarithmic transformation"), "  ---#\n\n",
-                    "# ", get_BioStat_text("New variable(s):"), " \n",
+        msg <- glue("#---  ", gettext_Bio("Logarithmic transformation"), "  ---#\n\n",
+                    "# ", gettext_Bio("New variable(s):"), " \n",
                     paste("#   ", new_names, collapse = "\n"))
 
         logger(paste0(msg, command, collapse = "\n"))
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkfocus(CommanderWindow())
-    } # [end: onOK]
+    } # [end: onOK] ----------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     OKCancelHelp(helpSubject = "log")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(getFrame(variableBox), baseFrame, sticky = "nw")
+    tkgrid(baseFrame, padx = c(15, 5))
+    tkgrid(getFrame(variableBox), base_outter_Frame, sticky = "nw")
+    tkgrid(upper_Frame)
     tkgrid(labelRcmdr(top,
-                      text = get_BioStat_text("New variable name or prefix for multiple variables:"),
+                      text = gettext_Bio("New variable name or prefix for multiple variables:"),
                       fg = getRcmdr("title.color")),
-           sticky = "w")
+           sticky = "w",
+           pady = c(10, 0))
 
     tkgrid(prefixField, sticky = "ew", columnspan = 2)
-
-    tkgrid(buttonsFrame, sticky = "w", columnspan = 2)
+    tkgrid(buttonsFrame, sticky = "ew", columnspan = 2)
 
     dialogSuffix(rows = 4,
                  columns = 2,

@@ -44,7 +44,7 @@ item	Variable_menu   command             "Z transformation (standardization)"  	
 # ==============================================================================
 # ---- Statistical summaries --------------------------------------------------
 
-item	BioStat_menu  cascade	   "Summary"   Summary_bs	""	""
+item	BioStat_menu  cascade	   "Summaries"   Summary_bs	""	""
 menu	Summary_bs	  BioStat_menu	    ""	""	""	""
 item	Summary_bs    command      "Glimpse at variables"	                  summary_glimpse	        "activeDataSetP()"	""
 item	Summary_bs    command      "Describe all variables [Hmisc]"	          summary_Hmisc_describe	"activeDataSetP()"	""
@@ -77,14 +77,14 @@ item	BioStat_menu    cascade	        "Tests"   Tests_menu	""	""
 menu	Tests_menu	    BioStat_menu    ""	""	""	""
 item	Tests_menu      command         "Normality tests"	window_normality_test	"numericP()"	""
 # item	Tests_menu	    separator   	""	""	""	""
-# item	Tests_menu      command         "[!] ANOVA, Kruskal-Wallis, Median tests" window_anova_kw_tests	"numericP() & factorsP()"	""
+# item	Tests_menu      command         "[!] ANOVA, Kruskal-Wallis, Median tests" window_anova_kw_mood_tests	"numericP() & factorsP()"	""
 
 
 # ==============================================================================
 # ---- Confidence intervals ---------------------------------------------------
 
-item	BioStat_menu    cascade	        "Confidence intervals"   ci_menu	""	""
-menu	ci_menu	        BioStat_menu    ""	""	""	""
+# item	BioStat_menu    cascade	        "Confidence intervals"   ci_menu	""	""
+# menu	ci_menu	        BioStat_menu    ""	""	""	""
 # item	ci_menu         command         "[!] Confidence interval for mean"	     window_ci_mean	""	""
 # item	ci_menu         command         "[!] Confidence interval for proportion" window_ci_prop	""	""
 # item	ci_menu         command         "[!] Bootstrap confidence intervals"     window_ci_boot	""	""

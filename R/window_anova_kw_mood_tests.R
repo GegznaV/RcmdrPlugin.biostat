@@ -1,6 +1,6 @@
 #' @export
 #' @keywords internal
-window_anova_kw_tests <- function() {
+window_anova_kw_mood_tests <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Required packages ------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -20,7 +20,7 @@ window_anova_kw_tests <- function() {
             initial.welch = 0
         )
 
-    dialog.values <- getDialog("window_anova_kw_tests", defaults)
+    dialog.values <- getDialog("window_anova_kw_mood_tests", defaults)
 
 
 
@@ -60,10 +60,10 @@ window_anova_kw_tests <- function() {
                  values = c("anova", "welch_anova", "kw_test"),
                  # initialValue = -1,
 
-                 labels =  get_BioStat_text(c("ANOVA",
+                 labels =  gettext_Bio(c("ANOVA",
                                               "Welch ANOVA",
                                               "Kruskal-Wallis test")),
-                 title = get_BioStat_text("Test"),
+                 title = gettext_Bio("Test"),
                  command = update_test_name
     )
 
@@ -149,18 +149,18 @@ window_anova_kw_tests <- function() {
                  buttons = c("none", "tukey_test", "gh_test", "con_im_test"),
                  values  = c("none", "tukey_test", "gh_test", "con_im_test"),
 
-                 labels =  get_BioStat_text(c("none",
+                 labels =  gettext_Bio(c("none",
                                               "Tukey HSD",
                                               "Games-Howell",
                                               "Conover-Iman")),
-                 title = get_BioStat_text("Post-hoc test")
+                 title = gettext_Bio("Post-hoc test")
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     pval_adjustment <- inputComboBox(
         posthoc_test_panel,
         variableList = p.adjust.methods,
         initialSelection = p.adjust.methods[1],
-        title = get_BioStat_text("P value adjustment method")
+        title = gettext_Bio("P value adjustment method")
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(posthoc_testFrame,         pady = c(0, 5), padx = c(5, 5), sticky = "nw")
@@ -187,7 +187,7 @@ window_anova_kw_tests <- function() {
         #
         # if (!is.valid.name(modelValue)) {
         #     UpdateModelNumber(-1)
-        #     errorCondition(recall = window_anova_kw_tests,
+        #     errorCondition(recall = window_anova_kw_mood_tests,
         #                    message = sprintf(gettextRcmdr("\"%s\" is not a valid name."),modelValue
         #                    ))
         #     return()
@@ -196,7 +196,7 @@ window_anova_kw_tests <- function() {
         #     if ("no" == tclvalue(checkReplace(modelValue, type = gettextRcmdr("Model")))) {
         #         UpdateModelNumber(-1)
         #         tkdestroy(top)
-        #         window_anova_kw_tests()
+        #         window_anova_kw_mood_tests()
         #         return()
         #     }
         # }
@@ -209,7 +209,7 @@ window_anova_kw_tests <- function() {
 
         # if (length(group) == 0) {
         #     errorCondition(
-        #         recall = window_anova_kw_tests,
+        #         recall = window_anova_kw_mood_tests,
         #         message = gettextRcmdr("You must select a groups factor.")
         #     )
         #     return()
@@ -217,7 +217,7 @@ window_anova_kw_tests <- function() {
         #
         # if (length(response) == 0) {
         #     errorCondition(
-        #         recall = window_anova_kw_tests,
+        #         recall = window_anova_kw_mood_tests,
         #         message = gettextRcmdr("You must select a response variable.")
         #     )
         #     return()
@@ -244,7 +244,7 @@ window_anova_kw_tests <- function() {
         # pairwise <- tclvalue(pairwiseVariable)
         #    welch <- tclvalue(welchVariable)
         #
-        # putDialog("window_anova_kw_tests",
+        # putDialog("window_anova_kw_mood_tests",
         #           list(initial.group = group,
         #                initial.response = response,
         #                initial.pairwise = pairwise,
@@ -317,8 +317,8 @@ window_anova_kw_tests <- function() {
     OKCancelHelp(
         helpSubject = "anova",
         model = TRUE,
-        reset = "window_anova_kw_tests",
-        apply = "window_anova_kw_tests"
+        reset = "window_anova_kw_mood_tests",
+        apply = "window_anova_kw_mood_tests"
     )
     # tkgrid(buttonsFrame, sticky = "w")
 
