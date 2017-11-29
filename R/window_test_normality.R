@@ -26,25 +26,25 @@ window_normality_test <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Variables
 
-    variable_Frame <- tkframe(top)
+    # variables_Frame <- labeled_frame(top, "Select variables")
+    variables_Frame <- tkframe(top)
 
     numeric_var_Box <- variableListBox2(
-        variable_Frame,
+        variables_Frame,
         listHeight =  6,
         Numeric(),
         title = gettextRcmdr("Variable to test\n(pick one)"),
         initialSelection = varPosn(dialog_values$initial_var, "numeric")
     )
 
-
-    gr_variable_Frame <- tkframe(variable_Frame)
+    group_var_Frame <- tkframe(variables_Frame)
 
     groups_var_Box <- variableListBox2(
-        gr_variable_Frame,
+        group_var_Frame,
         selectmode = "multiple",
         Factors(),
         listHeight =  5,
-        title = gettextRcmdr("Groups\n(pick one, several or none)"),
+        title = gettextRcmdr("Groups variable\n(pick one, several or none)"),
         initialSelection =  varPosn(dialog_values$initial_groups, "factor"),
         onRelease_fun = function() {
             # On mouse relese select/deselect checkbox
@@ -56,7 +56,7 @@ window_normality_test <- function() {
         }
     )
 
-    checkBoxes_cmd(gr_variable_Frame,
+    checkBoxes_cmd(group_var_Frame,
                frame = "by_groups_Frame",
                boxes = c("by_groups"),
                initialValues = c(dialog_values$initial_by_groups),
@@ -75,24 +75,16 @@ window_normality_test <- function() {
                })
     )
 
-    tkgrid(getFrame(groups_var_Box), sticky = "nsw",       padx = c(20, 0))
-    tkgrid(by_groups_Frame, sticky = "sw", pady = c(0, 5), padx = c(20, 0))
-
-    tkgrid(getFrame(numeric_var_Box),
-           gr_variable_Frame, sticky = "nw")
-
-    tkgrid(variable_Frame, sticky = "nw", padx = c(10, 5))
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     options_Frame <- tkframe(top)
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Choose test
 
     choose_test_Frame <- labeled_frame(options_Frame,
                                        gettextRcmdr("Normality test"))
 
-    radioButtons(choose_test_Frame,
+    choose_test_inner_Frame <- tkframe(choose_test_Frame)
+    radioButtons(choose_test_inner_Frame,
                  name = "test",
                  buttons = c(if (nrows <= 5000) "shapiro.test",
                              "ad.test",
@@ -112,19 +104,9 @@ window_normality_test <- function() {
                  initialValue = dialog_values$initial_test
     )
 
-    binsFrame <- tkframe(choose_test_Frame)
     binsVariable <- tclVar(dialog_values$initial_bins)
-    binsField <- ttkentry(binsFrame, width = "8", textvariable = binsVariable)
-
-    tkgrid(testFrame, sticky = "sw",  padx = c(8, 8))
-    tkgrid(binsFrame, sticky = "nse", padx = c(8, 8), pady = c(0, 0))
-    tkgrid(
-        labelRcmdr(binsFrame,
-                   text = gettextRcmdr("Number of bins for\nPearson chi-square")),
-        binsField,
-        padx = 3,
-        sticky = "sw"
-    )
+    binsFrame    <- tkframe(choose_test_inner_Frame)
+    binsField    <- ttkentry(binsFrame, width = "8", textvariable = binsVariable)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     options_right_Frame <- tkframe(options_Frame)
@@ -148,8 +130,8 @@ window_normality_test <- function() {
 
     checkBoxes(options_right_Frame,
                ttk = TRUE,
-        frame = "output_options_Frame",
-        title = "Output options",
+        frame = "numerical_options_Frame",
+        title = "Numerical output options",
         boxes = c("report_friendly",
                   "pval_legend"),
         initialValues = c(
@@ -162,24 +144,26 @@ window_normality_test <- function() {
         )
     )
 
-    radioButtons_horizontal(output_options_Frame,
-                 title = "Decimal digits in p-values: ",
+    radioButtons_horizontal(numerical_options_Frame,
+                 # title = "Decimal digits to round p-values to: ",
+                 title = "Round p-values to decimal digits: ",
                  # right.buttons = FALSE,
                  name = "digits_p",
                  buttons = c("d2","d3","d4", "d5"),
                  values =  c("2","3","4", "5"),
-                 labels =  c("2 ","3 ","4 ", "5 "),
+                 labels =  c("2   ","3   ","4   ", "5          "),
                  initialValue = dialog_values$initial_digits_p
     )
 
-    tkgrid(digits_pFrame, sticky = "nwe")
-    tkgrid(plot_options_Frame,   padx = c(5, 0), sticky = "nwe")
-    tkgrid(output_options_Frame, padx = c(5, 0), sticky = "s")
+    tkgrid(
+        labelRcmdr(binsFrame,
+                   text = gettextRcmdr("Number of bins for\nPearson chi-square")),
+        binsField,
+        padx = 3,
+        sticky = "sw"
+    )
 
-    tkgrid(choose_test_Frame, options_right_Frame, padx = c(0, 5), sticky = "nsw")
-    tkgrid(options_Frame, pady = c(5, 5), sticky = "esw")
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Functions --------------------------------------------------------------
     onOK <- function() {
         # Get values ---------------------------------------------------------
               by_groups <- tclvalue(by_groupsVariable)
@@ -193,6 +177,7 @@ window_normality_test <- function() {
         report_friendly <- tclvalue_lgl(report_friendlyVariable)
         separate_window <- tclvalue_lgl(separate_windowVariable)
                    bins <- tclvalue(binsVariable)
+
         # Chi-square bins ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         warn <- options(warn = -1)
         nbins <- as.numeric(bins)
@@ -210,7 +195,7 @@ window_normality_test <- function() {
             if (test != "pearson.test" || bins == gettextRcmdr("<auto>")) {
                 ""
             } else {
-                paste0(", n.classes = ", bins)
+                glue(",\n{spaces(24)}n.classes = ", bins)
             }
 
 
@@ -249,9 +234,9 @@ window_normality_test <- function() {
         print_as_report <-
             if (report_friendly == TRUE) {
                 Library("pander")
-                " %>% \n   pander({print_opt})\n"
+                " %>% \n    pander({print_opt})\n"
             } else {
-                " %>% \n   print({print_opt})\n"
+                " %>% \n    print({print_opt})\n"
             }
         #
         # For many groups ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -286,14 +271,14 @@ window_normality_test <- function() {
             command <- glue(
                 'BioStat::test_normality(~{var}, ',
                 'data = {ActiveDataSet()},\n',
-                '    test = {test}{chi_sq_params})',
+                '{spaces(24)}test = {test}{chi_sq_params})',
                 print_as_report)
 
         } else {
             command <- glue(
                 'BioStat::test_normality({var} ~ {groups}, ',
-                'data = {ActiveDataSet()}, ',
-                '    test = {test}{chi_sq_params})',
+                'data = {ActiveDataSet()},\n',
+                '{spaces(24)}test = {test}{chi_sq_params})',
                 print_as_report)
         }
         doItAndPrint(command)
@@ -302,11 +287,34 @@ window_normality_test <- function() {
         # # onOK [end] ---------------------------------------------------------
     }
 
+    # Layout -----------------------------------------------------------------
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(variables_Frame, sticky = "nwe", padx = c(0, 4)) #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    tkgrid(getFrame(numeric_var_Box), group_var_Frame, sticky = "nwe", padx = c(10, 0))
+
+    tkgrid(getFrame(groups_var_Box), sticky = "nsw", padx = c(20, 0))
+    tkgrid(by_groups_Frame,          sticky = "sw",  padx = c(20, 0), pady = c(0, 5))
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(options_Frame, pady = c(5, 0), sticky = "we") #~~~~~~~~~~~~~~~~~~~~
+    tkgrid(choose_test_Frame, options_right_Frame, padx = c(0, 5), sticky = "nse")
+    # choose_test_Frame
+    tkgrid(choose_test_inner_Frame,   padx = c(0, 43), sticky = "nswe")
+    tkgrid(testFrame, sticky = "swe", padx = c(8, 8))
+    tkgrid(binsFrame, sticky = "nse", padx = c(8, 8), pady = c(0, 0))
+    # options_right_Frame
+    tkgrid(plot_options_Frame,      padx = c(5, 0), sticky = "nwe")
+
+    tkgrid(numerical_options_Frame, padx = c(5, 0), sticky = "swe")
+    tkgrid(digits_pFrame, sticky = "swe")
+    # Buttons ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     OKCancelHelp(helpSubject = "normalityTest",
                  reset = "window_normality_test",
                  apply = "window_normality_test")
 
     tkgrid(buttonsFrame, sticky = "w")
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     dialogSuffix()
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }

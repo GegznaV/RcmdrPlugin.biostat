@@ -3,7 +3,7 @@
 %   R/menu-export.R, R/menu-import.R, R/menu-models.R, R/menu-plots.R,
 %   R/menu-settings.R, R/menu-summary.R, R/menu-variables.R,
 %   R/window_anova_kw_mood_tests.R, R/window_qqplot_biostat.R,
-%   R/window_test_normality.R, R/window_tmp.R
+%   R/window_test_normality.R
 \name{window_ci_mean}
 \alias{window_ci_mean}
 \alias{window_ci_prop}
@@ -36,7 +36,6 @@
 \alias{window_anova_kw_mood_tests}
 \alias{window_qqplot_biostat}
 \alias{window_normality_test}
-\alias{window_tmp}
 \title{RcmdrPlugin.BioStat functions for menus and windows}
 \usage{
 window_ci_mean()
@@ -98,8 +97,6 @@ window_anova_kw_mood_tests()
 window_qqplot_biostat()
 
 window_normality_test()
-
-window_tmp()
 }
 \description{
 Functions that open Rcmdr menus and windows windows
