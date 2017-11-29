@@ -17,6 +17,10 @@ function_not_implemented <- function(x = NULL) {
     Message(msg, type = "warning")
 }
 # ------------------------------------------------------------------------------
+spaces <- function(n) {
+    paste0(rep(" ", length = n), collapse = "")
+}
+# ------------------------------------------------------------------------------
 nonFactorsP <- function(n = 1) {
     #  n - number of non-factors.
     activeDataSetP() && length(setdiff(listVariables(), listFactors())) >= n
