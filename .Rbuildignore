@@ -7,3 +7,4 @@ README.Rmd
 _pkgdown.yaml
 ^docs.*
 logfilename
+.travis.yml

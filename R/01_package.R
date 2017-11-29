@@ -17,7 +17,8 @@
 #' @import BioStat
 #' @import nortest
 #' @importFrom Rcmdr activeDataSet
-
+#' @importFrom graphics plot
+#' @importFrom stats p.adjust.methods
 NULL
 
 # .onLoad <- function(...){
