@@ -2,7 +2,8 @@
 % Please edit documentation in R/menu-conf_interval.R, R/menu-data.R,
 %   R/menu-export.R, R/menu-import.R, R/menu-models.R, R/menu-plots.R,
 %   R/menu-settings.R, R/menu-summary.R, R/menu-variables.R,
-%   R/window_qqplot_biostat.R, R/window_test_normality.R
+%   R/window_anova_kw_mood_tests.R, R/window_qqplot_biostat.R,
+%   R/window_test_normality.R
 \name{window_ci_mean}
 \alias{window_ci_mean}
 \alias{window_ci_prop}
@@ -32,6 +33,7 @@
 \alias{summary_psych_describe}
 \alias{summary_psych_describeBy}
 \alias{command_all_chr_to_fctr}
+\alias{window_anova_kw_mood_tests}
 \alias{window_qqplot_biostat}
 \alias{window_normality_test}
 \title{RcmdrPlugin.BioStat functions for menus and windows}
@@ -89,6 +91,8 @@ summary_psych_describe()
 summary_psych_describeBy()
 
 command_all_chr_to_fctr()
+
+window_anova_kw_mood_tests()
 
 window_qqplot_biostat()
 
