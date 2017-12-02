@@ -9,6 +9,14 @@ summary_glimpse <- function() {
     doItAndPrint(glue::glue("dplyr::glimpse({ActiveDataSet()})"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-winow-functions
+#' @export
+#' @keywords internal
+summary_head_tail <- function() {
+    Library("BioStat")
+    doItAndPrint(glue::glue("BioStat::head_tail({ActiveDataSet()}, 4)"))
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #' @rdname Menu-winow-functions
 #' @export
