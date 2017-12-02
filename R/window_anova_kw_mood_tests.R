@@ -403,6 +403,14 @@ window_anova_kw_mood_tests <- function() {
 
 do_anova <- function(variables) {
 
+
+    # y_var  <- "weight"
+    # gr_var <- "group"
+    # .activeDataSet <- "PlantGrowth"
+    # model_name <- "model_1a"
+    #
+    # markdown_compatible <- FALSE
+
     # model_anova <- aov(weight ~ group, data = PlantGrowth)
     #
     # model_anova_summary <- summary(model_anova)
@@ -416,24 +424,12 @@ do_anova <- function(variables) {
         'print(anova_summary)'
     }
 
-
-    y_var  <- "weight"
-    gr_var <- "group"
-    .activeDataSet <- "PlantGrowth"
-    model_name <- "model_1a"
-
     .activeDataSet <- activeDataSet()
     glue("{model_name} <- aov({y_var} ~ {gr_var}, data = {.activeDataSet}) \n",
          "anova_summary <- summary({model_name}) \n",
          '{print_anova}',
          'remove(anova_summary)'
-
     )
-
-
-
-
-    pander::pander(anova_summary, missing = "")
 
 
 }
