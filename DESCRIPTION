@@ -18,7 +18,7 @@ Remotes:
     GegznaV/BioStat
 Depends:
     R (>= 3.3.0),
-    BioStat (>= 0.0.11),
+    BioStat (>= 0.0.11.9003),
     tcltk,
     tcltk2 (>= 1.2-11),
     Rcmdr
