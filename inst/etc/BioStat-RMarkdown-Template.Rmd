@@ -1,0 +1,28 @@
+---
+title:    "Replace with Main Title"
+subtitle: "Replace with Subtitle Title"
+author:   "Your Name"
+date:     "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+# Code chunk called "setup" contains the default options
+knitr::opts_chunk$set(
+    echo    = TRUE,   # (TRUE|FALSE) Show program code in the report.
+    prompt  = FALSE,  # (TRUE|FALSE) Show prompt symbol before R code.
+    comment = NA,     # (NA|"##") Comment symbol before results in the report.
+                      #           NA - do not show.
+    fig.height = 5,   # Default height of figures.
+    fig.width  = 7    # Default width of figures. 
+    )
+
+# Load packages
+library(Rcmdr)
+library(car)
+library(RcmdrMisc)
+library(BioStat)
+library(tidyverse)
+```
+
+
+
