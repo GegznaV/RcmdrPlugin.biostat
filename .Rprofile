@@ -7,15 +7,24 @@
 # devtools::install_github("GegznaV/BioStat")
 # devtools::install_github("GegznaV/RcmdrPlugin.BioStat")
 
+if (!"RcmdrPlugin.BioStat" %in% utils::installed.packages()) {
+    utils::install.packages("BioStat")
+    utils::install.packages("RcmdrPlugin.BioStat")
+}
+
+rmd_template_filenamename <- paste0(
+    dir(.libPaths(), pattern = "RcmdrPlugin.BioStat", full.names = TRUE),
+    "/etc/BioStat-RMarkdown-Template.Rmd"
+)
 
 ###! Rcmdr Options Begin !###
 options(Rcmdr = list(plugins = c("RcmdrPlugin.KMggplot2",
                                  "RcmdrPlugin.EZR.2",
                                  "RcmdrPlugin.BioStat",
                                  NULL),
-                     use.rgl = TRUE,
-                     console.output = FALSE
-                     )
+                     console.output = FALSE,
+                     use.rgl = FALSE,
+                     rmd.template = rmd_template_filenamename)
         )
 
 Sys.setlocale(locale = "Lithuanian")
