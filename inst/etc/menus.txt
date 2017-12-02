@@ -46,9 +46,12 @@ item	Variable_menu   command             "Z transformation (standardization)"  	
 
 item	BioStat_menu  cascade	   "Summaries"   Summary_bs	""	""
 menu	Summary_bs	  BioStat_menu	    ""	""	""	""
-item	Summary_bs    command      "Glimpse at variables"	                  summary_glimpse	        "activeDataSetP()"	""
+item	Summary_bs    command      "Structure of dataset (glimpse)"	          summary_glimpse	        "activeDataSetP()"	""
+item	Summary_bs    command      "Top and bottom rows"	                  summary_head_tail	        "activeDataSetP()"	""
 item	Summary_bs    command      "Describe all variables [Hmisc]"	          summary_Hmisc_describe	"activeDataSetP()"	""
 item	Summary_bs    command      "Describe numerical variables [psych]"     summary_psych_describe	"activeDataSetP()"	""
+item	Summary_bs    command      "Summarie numerical variables by group"    window_do_summary	        "activeDataSetP()"	""
+
 
 # =============================================================================
 # ---- Main plots -------------------------------------------------------------
@@ -58,7 +61,7 @@ menu	plots_menu	    BioStat_menu	""	""	""	""
 item	plots_menu	    command "Open a new window for plots"	  open_new_plots_window	        ""	""
 
 # item	plots_menu	    separator	""	""	""	""
-# item	plots_menu	    command	    "Normal Q-Q plot (by groups)"	function_not_implemented('window_qqplot_biostat')	"numericP()"	""
+# item	plots_menu	    command	    "Normal Q-Q plot (by groups)"	"function_not_implemented('window_qqplot_biostat')"	"numericP()"	""
 #
 # item	plots_menu	    separator	""	""	""	""
 # item	plots_menu	    command "[!] Histogram"	        window_histogram       "nonFactorsP()"	""
@@ -73,10 +76,15 @@ item	plots_menu	    command "Open a new window for plots"	  open_new_plots_windo
 
 item	BioStat_menu    cascade	        "Tests"   Tests_menu	""	""
 menu	Tests_menu	    BioStat_menu    ""	""	""	""
-item	Tests_menu      command         "Normality tests & normal QQ plots"	window_normality_test	"numericP()"	""
+item	Tests_menu      command         "Normality tests"	window_normality_test	"numericP()"	""
 # item	Tests_menu	    separator   	""	""	""	""
 # item	Tests_menu      command         "[!] ANOVA, Kruskal-Wallis, Median tests" window_anova_kw_mood_tests	"numericP() & factorsP()"	""
-# item	Tests_menu      command         "[!] ANOVA [tmp]" window_tmp	"numericP() & factorsP()"	""
+
+item	Tests_menu       cascade	        "Center tendency tests"   ceners_menu	""	""
+menu	ceners_menu	     Tests_menu    ""	""	""	""
+item	ceners_menu      command         "[!] Exactly 2 independent samples" function_not_implemented	"numericP() & twoLevelFactorsP()"	""
+item	ceners_menu      command         "[!] 2 or more independent samples [tmp]" window_tmp	"numericP() & factorsP()"	""
+# item	Tests_menu      command         "[!] "t tests, Wilcoxon, Mann-Whitney tests, Wald-Wolfowitz" function_not_implemented	"numericP() & factorsP()"	""
 
 
 # ==============================================================================
