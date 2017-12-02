@@ -129,7 +129,8 @@ variableListBox2 <-
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Checkboxes with command functions
-# commands - a list of commands (functions) for checkbox
+# commands - a named list of commands (functions) for checkbox.
+#            The names are the same as in "boxes"
 checkBoxes_cmd <- defmacro(
     window = top,
     frame,
@@ -138,8 +139,23 @@ checkBoxes_cmd <- defmacro(
     labels,
     title = NULL,
     ttk = FALSE,
-    commands = rep(list(function(){}), length(1:3)),
+    commands = list(),
     expr = {
+
+        # Manage `commands` ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (length(commands) > 0) {
+            if (!all(names(commands) %in% boxes)) {
+                stop("`commands` must be a named list with field names: \n",
+                     paste(boxes, collapse = ", "),
+                     ".\nCurrent names: \n",
+                     paste(names(commands), collapse = ", "))
+            }
+        }
+
+        new_cmd_list <- sapply(force(boxes), function(x) function() {})
+        ..commands <- modifyList(new_cmd_list, commands)
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
         ..initialValues <- if (is.null(initialValues)) rep("1", length(boxes)) else initialValues
         assign(frame,
                if (ttk) {
@@ -164,14 +180,16 @@ checkBoxes_cmd <- defmacro(
 
         for (i in 1:length(boxes)) {
             assign(..variables[i], tclVar(..initialValues[i]))
-            ..checkBox <- paste(boxes[i], "CheckBox", sep = "")
+            ..checkBox <- paste0(boxes[i], "CheckBox")
+
             assign(..checkBox,
                    ttkcheckbutton(
                        eval(parse(text = frame)),
                        variable = eval(parse(text = ..variables[i])),
                        text = labels[i],
-                       command = commands[[i]]))
-            tkgrid(eval(parse(text = ..checkBox)), sticky = "w")
+                       command = ..commands[[i]]))
+
+            tkgrid(eval_(..checkBox), sticky = "w")
         }
     }
 )

@@ -1,4 +1,15 @@
+list_summaries_Models <- function(envir = .GlobalEnv, ...) {
+    objects <- ls(envir = envir, ...)
+    if (length(objects) == 0)
+        NULL
+    else objects[sapply(objects,
+                        function(.x) "summaries_model" == (class(get(.x, envir = envir))[1]))]
+}
+
 # ------------------------------------------------------------------------------
+#' @rdname Menu-winow-functions
+#' @export
+#' @keywords internal
 function_not_implemented <- function(x = NULL) {
 
     doItAndPrint("# ~~~ Not implemented yet! ~~~\n")

@@ -1,3 +1,15 @@
+# state_disabled <- function(widget) {
+#     tkconfigure(widget, state = "disabled")
+# }
+#
+# active <- function(widget) {
+#     tkconfigure(widget, state = "active")
+# }
+#
+# normal <- function(widget) {
+#     tkconfigure(widget, state = "normal")
+# }
+
 tclvalue_lgl <- function(x) {
     # as.logical(as.integer(tclvalue(x)))
     as.logical(tclvalue_int(x))
