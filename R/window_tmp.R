@@ -1,6 +1,6 @@
-# @rdname Menu-winow-functions
-# @export
-# @keywords internal
+#' @rdname Menu-winow-functions
+#' @export
+#' @keywords internal
 window_tmp <- function() {
 
     cur_env <- environment()

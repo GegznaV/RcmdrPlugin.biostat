@@ -29,7 +29,7 @@ window_anova_kw_mood_tests <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Dialog elements --------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         tabs = c("dataTab", "mainTab",    "posthocTab",          "outputTab", "plotsTab")
+         tabs = c("dataTab", "mainTab",    "posthocTab",          "outputTab",        "plotsTab")
     tab_names = c(" Data ", " Main test ", " Post-hoc analysis ", "Numerical output", "Plots ")
 
     initializeDialog(title = gettextRcmdr("Compare centers of independent samples"),
@@ -56,6 +56,9 @@ window_anova_kw_mood_tests <- function() {
     ph_buttons <- tclVar("...")
     ph_values  <- tclVar("...")
     ph_labels  <- tclVar("...")
+
+
+
 
 
     update_posthoc_choices <- function() {
@@ -114,7 +117,7 @@ window_anova_kw_mood_tests <- function() {
     radioButtons(window = main_top_frame,
                  name = "main_test",
                  buttons = c("anova", "welch_anova", "kw_test", "mood_test"),
-                 values =  c("anova", "welch_anova", "kw_test", "mood_test"),
+                 values  = c("anova", "welch_anova", "kw_test", "mood_test"),
                  # initialValue = NULL,
 
                  labels =  gettext_Bio(c("ANOVA",
@@ -397,4 +400,41 @@ window_anova_kw_mood_tests <- function() {
 
 
 # ==============================================================================
+
+do_anova <- function(variables) {
+
+    # model_anova <- aov(weight ~ group, data = PlantGrowth)
+    #
+    # model_anova_summary <- summary(model_anova)
+    #
+    # pander::pander(model_anova_summary, missing = "")
+    # print(model_anova_summary)
+
+    print_anova <- if (markdown_compatible) {
+        'pander::pander(anova_summary, missing = "")'
+    } else {
+        'print(anova_summary)'
+    }
+
+
+    y_var  <- "weight"
+    gr_var <- "group"
+    .activeDataSet <- "PlantGrowth"
+    model_name <- "model_1a"
+
+    .activeDataSet <- activeDataSet()
+    glue("{model_name} <- aov({y_var} ~ {gr_var}, data = {.activeDataSet}) \n",
+         "anova_summary <- summary({model_name}) \n",
+         '{print_anova}',
+         'remove(anova_summary)'
+
+    )
+
+
+
+
+    pander::pander(anova_summary, missing = "")
+
+
+}
 
