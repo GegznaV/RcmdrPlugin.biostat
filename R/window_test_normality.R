@@ -14,7 +14,7 @@ window_normality_test <- function() {
                      initial_separate_window = TRUE,
                      initial_report_friendly = FALSE,
                      initial_pval_legend = FALSE,
-                     initial_digits_p = "2"
+                     initial_digits_p = "3"
     )
 
     dialog_values <- getDialog("window_normality_test", defaults)
@@ -22,6 +22,42 @@ window_normality_test <- function() {
     initializeDialog(title = gettextRcmdr("Test of Normality (BioStat)"))
 
     # plot_options_Frame <- labeled_frame(options_Frame, "Plot options")
+
+    # Callback  functions-----------------------------------------------------
+
+    cmd_onClick_by_groups_checkbox <- function(){
+        if (tclvalue_lgl(by_groupsVariable) == FALSE) {
+            # Clear factor variable box
+            for (sel in seq_along(groups_var_Box$varlist) - 1)
+                tkselection.clear(groups_var_Box$listbox, sel)
+            tkconfigure(by_groupsCheckBox, state = "disabled")
+        } else {
+            # Box is checked only if groups in groups_var_Box
+            # are selected
+            tclvalue(by_groupsVariable) <- "0"
+        }
+    }
+
+    cmd_onRelease_groups_var_Box <- function() {
+        # On mouse relese select/deselect checkbox
+        if (length(getSelection(groups_var_Box)) == 0) {
+            tclvalue(by_groupsVariable) <- "0"
+            tkconfigure(by_groupsCheckBox, state = "disabled")
+        } else {
+            tclvalue(by_groupsVariable) <- "1"
+            tkconfigure(by_groupsCheckBox, state = "active")
+        }
+    }
+
+    cmd_onClick_add_plot_checkbox <- function() {
+        if (tclvalue_lgl(add_plotVariable) ) {
+            tkconfigure(plot_in_colorsCheckBox,  state = "active")
+            tkconfigure(separate_windowCheckBox, state = "active")
+        } else {
+            tkconfigure(plot_in_colorsCheckBox,  state = "disabled")
+            tkconfigure(separate_windowCheckBox, state = "disabled")
+        }
+    }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Variables
@@ -46,33 +82,15 @@ window_normality_test <- function() {
         listHeight =  5,
         title = gettextRcmdr("Groups variable\n(pick one, several or none)"),
         initialSelection =  varPosn(dialog_values$initial_groups, "factor"),
-        onRelease_fun = function() {
-            # On mouse relese select/deselect checkbox
-            if (length(getSelection(groups_var_Box)) == 0) {
-                tclvalue(by_groupsVariable) <- "0"
-            } else {
-                tclvalue(by_groupsVariable) <- "1"
-            }
-        }
-    )
+        onRelease_fun = cmd_onRelease_groups_var_Box)
 
     checkBoxes_cmd(group_var_Frame,
                frame = "by_groups_Frame",
                boxes = c("by_groups"),
-               initialValues = c(dialog_values$initial_by_groups),
-               labels = gettextRcmdr(c("Test by groups")),
-               commands = list(
-                   "by_groups" = function(){
-                       if (tclvalue_lgl(by_groupsVariable) == FALSE) {
-                           # Clear factor variable box
-                           for (sel in seq_along(groups_var_Box$varlist) - 1)
-                               tkselection.clear(groups_var_Box$listbox, sel)
-                       } else {
-                           # Box is checked only if groups in groups_var_Box
-                           # are selected
-                           tclvalue(by_groupsVariable) <- "0"
-                       }
-               })
+               commands = list("by_groups" = cmd_onClick_by_groups_checkbox),
+               # initialValues = c(dialog_values$initial_by_groups),
+               initialValues = (length(getSelection(groups_var_Box)) != 0),
+               labels = gettextRcmdr(c("Test by groups"))
     )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -111,7 +129,7 @@ window_normality_test <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     options_right_Frame <- tkframe(options_Frame)
 
-    checkBoxes(options_right_Frame,
+    checkBoxes_cmd(options_right_Frame,
                ttk = TRUE,
         frame = "plot_options_Frame",
         title = "Plot options",
@@ -125,7 +143,8 @@ window_normality_test <- function() {
             c(  "Draw a normal qq-plot",
                 "Plot groups in colors",
                 "Make a new window for the plot")
-        )
+        ),
+        commands = list("add_plot" = cmd_onClick_add_plot_checkbox)
     )
 
     checkBoxes(options_right_Frame,
@@ -149,9 +168,10 @@ window_normality_test <- function() {
                  title = "Round p-values to decimal digits: ",
                  # right.buttons = FALSE,
                  name = "digits_p",
-                 buttons = c("d2","d3","d4", "d5"),
-                 values =  c("2","3","4", "5"),
-                 labels =  c("2   ","3   ","4   ", "5          "),
+                 # sticky_buttons = "w",
+                 buttons = c("d2", "d3", "d4",  "d5"),
+                 values =  c("2",  "3",  "4",   "5"),
+                 labels =  c("2    ","3    ","4    ", "5     "),
                  initialValue = dialog_values$initial_digits_p
     )
 
@@ -229,6 +249,8 @@ window_normality_test <- function() {
         Library("BioStat")
         Library("nortest")
 
+        # NA means no rounding
+        digits_p <- if (digits_p > 0) digits_p else NA
         print_opt <- glue("digits_p = {digits_p}, legend = {pval_leg}")
 
         print_as_report <-
@@ -315,6 +337,9 @@ window_normality_test <- function() {
 
     tkgrid(buttonsFrame, sticky = "w")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    dialogSuffix()
+    # Activate cmd_... functions
+    eval_(paste0(ls(pattern = "^cmd_"), "();", collapse = ""))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    dialogSuffix()
 }
+
