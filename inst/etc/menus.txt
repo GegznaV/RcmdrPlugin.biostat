@@ -81,10 +81,11 @@ item	Tests_menu      command         "Normality tests"	window_normality_test	"nu
 # item	Tests_menu	    separator   	""	""	""	""
 # item	Tests_menu      command         "[!] ANOVA, Kruskal-Wallis, Median tests" window_anova_kw_mood_tests	"numericP() & factorsP()"	""
 
-item	Tests_menu       cascade	        "Center tendency tests"   ceners_menu	""	""
-menu	ceners_menu	     Tests_menu    ""	""	""	""
-item	ceners_menu      command         "[!] Exactly 2 independent samples" function_not_implemented	"numericP() & twoLevelFactorsP()"	""
-item	ceners_menu      command         "[!] 2 or more independent samples [tmp]" window_tmp	"numericP() & factorsP()"	""
+item	Tests_menu       cascade	     "Central tendency tests"   ceners_menu	""	""
+menu	ceners_menu	     Tests_menu      ""	""	""	""
+item	ceners_menu      command         "[!] Independent samples (eactly 2)"  function_not_implemented  	"numericP() & twoLevelFactorsP()"	""
+item	ceners_menu      command         "[!] Independent samples (2 or more)" window_anova_kw_mood_tests	"numericP() & factorsP()"	""
+item	ceners_menu      command         "[!] Independent samples (2 or more) [tmp]" window_tmp	            "numericP() & factorsP()"	""
 # item	Tests_menu      command         "[!] "t tests, Wilcoxon, Mann-Whitney tests, Wald-Wolfowitz" function_not_implemented	"numericP() & factorsP()"	""
 
 
