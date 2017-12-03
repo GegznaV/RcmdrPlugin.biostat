@@ -417,19 +417,154 @@ do_anova <- function(variables) {
     #
     # pander::pander(model_anova_summary, missing = "")
     # print(model_anova_summary)
+    #
+    # autoplot(model_anova, which = 1:2, alpha = 0.6,
+    # data = PlantGrowth, colour = "group")
 
-    print_anova <- if (markdown_compatible) {
-        'pander::pander(anova_summary, missing = "")'
-    } else {
-        'print(anova_summary)'
-    }
+    # model_to_print <- .activeDataSet
+    #
 
     .activeDataSet <- activeDataSet()
-    glue("{model_name} <- aov({y_var} ~ {gr_var}, data = {.activeDataSet}) \n",
-         "anova_summary <- summary({model_name}) \n",
-         '{print_anova}',
-         'remove(anova_summary)'
-    )
+    formula <- glue('{y_var} ~ {gr_var}, data = {.activeDataSet}')
+
+    model_to_print <- switch(main_test,
+                             "anova" = "anova_summary",
+                             # otherwise
+                             model_name)
+
+    if (markdown_compatible) {
+        Library("pander")
+        if (is.na(pander::panderOptions("missing"))) {
+            doItAndPrint('panderOptions("missing", "") \n')
+        }
+        print_fun <- "pander"
+    } else {
+        print_fun <- "print"
+    }
+
+    switch(main_test,
+           "anova" = {
+               glue('#  --- One-way ANOVA --- \n\n',
+                    '{model_name} <- aov({formula}) \n',
+                    'anova_summary <- summary({model_name}) \n',
+                    '{print_fun}(anova_summary) \n',
+                    'remove(anova_summary)')
+
+               if (use_anova_diagnostics) {
+                   # Diagnostics (ANOVA only)
+                   # 1. Homogeneity of variances
+                   # 2. Normality
+                   Library(ggfortify)
+                   open_new_plots_window()
+                   glue('autoplot({model_name}, which = 1:2, alpha = 0.6,',
+                        '{spaces(9)}data = {.activeDataSet}, colour = "{gr_var}")')
+               }
+
+
+             },
+           wanova = {
+               glue('#  --- Welch ANOVA --- \n\n',
+                    '{model_name} <- oneway.test({formula}) \n',
+                    '{print_fun}({model_name}) \n')
+           },
+
+           kw_test = {
+               glue('#  --- Kruskal-Wallis test --- \n\n',
+                    '{model_name} <- kruskal.test({formula}) \n',
+                    '{print_fun}({model_name}) \n')
+           },
+
+           mood_test = {
+               library(RVAideMemoire)
+               glue('#  --- Mood Median test --- \n\n',
+                    '{model_name} <- mood.medtest({formula}) \n',
+                    '{print_fun}({model_name}) \n')
+           },
+
+           stop("Unrecognized test")
+
+           )
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Patikrinti, ar pagrindinio testo rezultatas statistiškai reikšmingas
+    #
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    p_adj <- "holm"
+    switch(posthoc_test,
+           "tukey" = {
+               library(BioStat)
+
+               # Formula based results
+               glue('# --- Post-hoc analysis: Tukey HSD test ---\n\n',
+                    'posthoc_results <- posthoc_anova({formula}, \n',
+                    '                                 method = "Tukey") \n')
+
+
+               glue('# --- Post-hoc analysis: Games-Howell test ---\n\n',
+                    'posthoc_results <- posthoc_anova({formula}, \n',
+                    '                                 method = "Games-Howell") \n')
+
+
+               glue('# --- Post-hoc analysis: Pairwise median test ---\n\n',
+                    'posthoc_results <- pairwiseMedianTest({formula}, \n',
+                    '                                      method = "{p_adj}") \n')
+
+               Library("PMCMR")
+               glue('# --- Post-hoc analysis: Conover-Iman test ---\n\n',
+                    'posthoc_results <- ',
+                    '    posthoc.kruskal.conover.test({formula}, \n',
+                    '                                 p.adjust.method = "{p_adj}")')
+
+               Library("PMCMR")
+               glue('# --- Post-hoc analysis: Dunn test ---\n\n',
+                    'posthoc_results <- ',
+                    '    posthoc.kruskal.dunn.test({formula}, \n',
+                    '                              p.adjust.method = "{p_adj}")')
+
+               Library("PMCMR")
+               glue('# --- Post-hoc analysis: Nemenyi test ---\n\n',
+                    'posthoc_results <- ',
+                    '    posthoc.kruskal.nemenyi.test({formula}, \n',
+                    '                                 dist = "Chisquare")')
+
+
+
+               # Non-formula based
+               # Pairwise Student t test
+                glue('# --- Post-hoc analysis: Pairwise Student t test ---\n\n',
+                     'with({.activeDataSet}, \n',
+                    '     pairwise.t.test({y_var}, {gr_var}, \n',
+                    '                     p.adjust.method = "{p_adj}", \n',
+                    '                     pool.sd = TRUE))')
+               # Pairwise Welch t test
+                glue('# --- Post-hoc analysis: Pairwise Welch t test ---\n\n',
+                     'with({.activeDataSet}, \n',
+                    '     pairwise.t.test({y_var}, {gr_var}, \n',
+                    '                     p.adjust.method = "{p_adj}", \n',
+                    '                     pool.sd = FALSE))')
+
+               # Pairwise Wilcoxon t test
+                glue('# --- Post-hoc analysis: Pairwise Mann-Whitney-Wilcoxon test ---\n\n',
+                     'with({.activeDataSet}, \n',
+                    '     pairwise.wilcox.test({y_var}, {gr_var}, \n',
+                    '                          p.adjust.method = "{p_adj}"))')
+           }
+
+     )
+
+    glue('cld_results <- make_cld(posthoc_results)',
+         "\n\n",
+         '{print_fun}(posthoc_results) \n',
+         '{print_fun}(cld_results) \n')
+
+
+    # Grafikas su cld žymėjimais
+    plot_parameters <- ""
+    glue('gg_boxplot_plus({formula},\n',
+         '{spaces(16)}cld = cld_results{plot_parameters})\n')
+
+
 
 
 }
