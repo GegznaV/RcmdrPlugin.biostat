@@ -46,11 +46,12 @@ item	Variable_menu   command             "Z transformation (standardization)"  	
 
 item	BioStat_menu  cascade	   "Summaries"   Summary_bs	""	""
 menu	Summary_bs	  BioStat_menu	    ""	""	""	""
-item	Summary_bs    command      "Structure of dataset (glimpse)"	          summary_glimpse	        "activeDataSetP()"	""
-item	Summary_bs    command      "Top and bottom rows"	                  summary_head_tail	        "activeDataSetP()"	""
+item	Summary_bs    command      "Structure of data set (glimpse)"	      summary_glimpse	        "activeDataSetP()"	""
+item	Summary_bs    command      "Top and bottom rows of data set"	      summary_head_tail	        "activeDataSetP()"	""
+item	Summary_bs    separator    "" "" "" ""
 item	Summary_bs    command      "Describe all variables [Hmisc]"	          summary_Hmisc_describe	"activeDataSetP()"	""
 item	Summary_bs    command      "Describe numerical variables [psych]"     summary_psych_describe	"activeDataSetP()"	""
-item	Summary_bs    command      "Summarie numerical variables by group"    window_do_summary	        "activeDataSetP()"	""
+item	Summary_bs    command      "Summarize numerical variables by group"   window_do_summary	    "activeDataSetP()"	""
 
 
 # =============================================================================
