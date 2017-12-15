@@ -34,6 +34,7 @@ command_get_locale <- function() {
 #' @export
 #' @keywords internal
 command_set_locale_lt <- function() {
+    # [!!!] works in Windows only.
     Rcmdr::doItAndPrint(paste(
         '# Set locale to Lithuanian \n',
         'locale_info <- Sys.setlocale(locale = "Lithuanian")',
@@ -45,6 +46,7 @@ command_set_locale_lt <- function() {
 #' @export
 #' @keywords internal
 command_set_locale_en <- function() {
+    # [!!!] works in Windows only.
     Rcmdr::doItAndPrint(paste(
         '# Set locale to English \n',
         'locale_info <- Sys.setlocale(locale = "English")',

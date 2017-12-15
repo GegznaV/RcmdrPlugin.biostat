@@ -3,16 +3,16 @@
 
 ------------------------------------------------------------------------
 
-[![CRAN version](http://www.r-pkg.org/badges/version/RcmdrPlugin.BioStat)](https://cran.rstudio.com/web/packages/RcmdrPlugin.BioStat/index.html) [![GitHub version](https://img.shields.io/badge/GitHub-v0.0.5-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.BioStat) [![Travis-CI Build Status](https://travis-ci.org/GegznaV/RcmdrPlugin.BioStat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.BioStat) [![Last-update](https://img.shields.io/badge/Updated%20on-2017--11--29-yellowgreen.svg)](/commits/master)
+[![CRAN version](http://www.r-pkg.org/badges/version/RcmdrPlugin.BioStat)](https://cran.rstudio.com/web/packages/RcmdrPlugin.BioStat/index.html) [![GitHub version](https://img.shields.io/badge/GitHub-v0.0.6-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.BioStat) [![Travis-CI Build Status](https://travis-ci.org/GegznaV/RcmdrPlugin.BioStat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.BioStat) [![Last-update](https://img.shields.io/badge/Updated%20on-2017--12--15-yellowgreen.svg)](/commits/master)
 
 ------------------------------------------------------------------------
 
 <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.BioStat/master/docs/logo.png" width="30%" height="30%" style="display: block; margin: auto;" />
 
-`RcmdrPlugin.BioStat` -- an *R Commander* plugin for package `BioStat`
-======================================================================
+An *R Commander* Plugin for Basic (Bio)Statistical Routines
+===========================================================
 
-The package is still in its development and some functions and menus are not fully functional yet.
+The package `RcmdrPlugin.BioStat` is still in its development sate and some functions and menus are not fully functional yet.
 
 Documentation and more information available at <http://gegznav.github.io/RcmdrPlugin.BioStat/>
 

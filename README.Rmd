@@ -27,11 +27,11 @@ knitr::opts_chunk$set(
  
 
 
-`RcmdrPlugin.BioStat` -- an *R Commander* plugin for package `BioStat` 
+An *R Commander* Plugin for Basic (Bio)Statistical Routines 
 ==============================================================================
 
 
-The package is still in its development and some functions and menus are not fully functional yet. 
+The package `RcmdrPlugin.BioStat` is still in its development sate and some functions and menus are not fully functional yet. 
 
 Documentation and more information available at http://gegznav.github.io/RcmdrPlugin.BioStat/
 

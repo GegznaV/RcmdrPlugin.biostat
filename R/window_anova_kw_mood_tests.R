@@ -1,3 +1,4 @@
+#' @rdname Menu-winow-functions
 #' @export
 #' @keywords internal
 window_anova_kw_mood_tests <- function() {
@@ -8,6 +9,7 @@ window_anova_kw_mood_tests <- function() {
     Library("abind")
     Library("BioStat")
 
+    cur_env <- environment()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Default values ---------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -27,67 +29,135 @@ window_anova_kw_mood_tests <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Dialog elements --------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         tabs = c("dataTab", "mainTab",    "posthocTab",       "plotsTab")
-    tab_names = c(" Data ", " Main test ", " Post-hoc analysis ", " Plots ")
-
+         tabs = c("dataTab", "mainTab",    "posthocTab",          "outputTab",        "plotsTab")
+    tab_names = c(" Data ", " Main test ", " Post-hoc analysis ", "Numerical output", "Plots ")
 
     initializeDialog(title = gettextRcmdr("Compare centers of independent samples"),
                      use.tabs = TRUE, tabs = tabs)
 
-    optionsFrame <- tkframe(posthocTab)
-    optionsFrame <- tkframe(plotsTab)
+    # posthocFrame <- tkframe(posthocTab)
+    # plotsFrame <- tkframe(plotsTab)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # ** Main tab ------------------------------------------------------------
+    # ** Main test tab ------------------------------------------------------------
     # . Main test & model name textbox ---------------------------------------
 
     main_top_frame <- tkframe(mainTab)
 
-
-
-
     labelText <- tclVar("...") ### [!!!] Initial value
 
+    # Callback functions
     update_test_name <- function() {
         tclvalue(labelText) <-
-            paste("Current test: ", as.character(tclvalue(main_testVariable)))
+            paste("Current test: ", tclvalue(main_testVariable))
     }
 
-    # Choose test
+
+    ph_buttons <- tclVar("...")
+    ph_values  <- tclVar("...")
+    ph_labels  <- tclVar("...")
+
+
+
+
+
+    update_posthoc_choices <- function() {
+        switch(tclvalue(main_testVariable),
+               "anova" = {
+                   logger("ANOVA")
+                   tclvalue(ph_buttons) = c("none", "tukey_test", "gh_test", "pw_stud_t_test", "pw_welch_t_test")
+                   tclvalue(ph_values)  = c("none", "tukey_test", "gh_test", "pw_stud_t_test", "pw_welch_t_test" )
+                   tclvalue(ph_labels)  = s2u(c("none", "Tukey HSD test", "Games-Howell test", "Pairwise Student t test", "Pairwise Welch t test"))
+               },
+
+               "welch_anova" = {
+                   logger("Welch ANOVA")
+                   tclvalue(ph_buttons) = c("none", "gh_test", "pw_welch_t_test")
+                   tclvalue(ph_values)  = c("none", "gh_test", "pw_welch_t_test")
+                   tclvalue(ph_labels)  = s2u(c("none", "Games-Howell test", "Pairwise Welch t"))
+               },
+
+               "kw_test" = {
+                   logger("Kruskal-Wallis ANOVA")
+
+                   tclvalue(ph_buttons) = c("none", "con_im_test", "dunn_test", "nemenyi", "pw_wicoxon_test")
+                   tclvalue(ph_values)  = c("none", "con_im_test", "dunn_test", "nemenyi", "pw_wicoxon_test")
+                   tclvalue(ph_labels)  = s2u(c("none", "Conover-Iman test", "Dunn test", "Nemenyi test", "Pairwise Wilcoxon test"))
+               },
+
+               "mood_test" = {
+                   logger("Mood test")
+
+                   tclvalue(ph_buttons) = c("none", "pw_median_test")
+                   tclvalue(ph_values)  = c("none", "pw_median_test")
+                   tclvalue(ph_labels)  = s2u(c("none", "Pairwise median test", "Dunn test", "Nemenyi test"))
+               }
+
+        )
+               logger(paste(tclvalue_chr(ph_labels), collapse = ", "))
+
+               tkdestroy(posthoc_test_panel)
+
+        radiobuttons_env(window = posthoc_test_panel,
+                            name = "posthoc_test",
+                            buttons = tclvalue_chr(ph_buttons),
+                            values  = tclvalue_chr(ph_values),
+
+                            labels = gettext_Bio(u2s(tclvalue_chr(ph_labels))),
+                            title = gettext_Bio("Post-hoc test"), env = parent.frame()
+               )
+
+        tkgrid(posthoc_testFrame,         pady = c(0, 5), padx = c(5, 5), sticky = "nw")
+        tkgrid(getFrame(pval_adjustment), pady = c(5, 5), padx = c(5, 5), sticky = "nw")
+        tkgrid(posthoc_test_panel, sticky = "nw")
+
+    }
+
+    # Main test --------------------------------------------------------------
     radioButtons(window = main_top_frame,
                  name = "main_test",
-                 buttons = c("anova", "welch_anova", "kw_test"),
-                 values = c("anova", "welch_anova", "kw_test"),
-                 # initialValue = -1,
+                 buttons = c("anova", "welch_anova", "kw_test", "mood_test"),
+                 values  = c("anova", "welch_anova", "kw_test", "mood_test"),
+                 # initialValue = NULL,
 
                  labels =  gettext_Bio(c("ANOVA",
-                                              "Welch ANOVA",
-                                              "Kruskal-Wallis test")),
+                                         "Welch ANOVA",
+                                         "Kruskal-Wallis test",
+                                         "Mood's median test")),
                  title = gettext_Bio("Test"),
-                 command = update_test_name
+                 command = function() {
+                     logger("ok")
+                     update_test_name()
+                     update_posthoc_choices()
+                     if (!missing("posthoc_test_panel"))
+                         tkdestroy(posthoc_test_panel)
+                     create_posthoc_tab(env = cur_env)
+                 }
+
     )
 
-    # Choose model name
+    # Choose model name ------------------------------------------------------
     UpdateModelNumber()
 
     modelName  <- tclVar(paste0("Model_", getRcmdr("modelNumber")))
-    mode_boxlFrame <- tkframe(main_top_frame)
-    model <- ttkentry(mode_boxlFrame, width = "20", textvariable = modelName)
+    model_boxlFrame <- tkframe(main_top_frame)
+    model <- ttkentry(model_boxlFrame, width = "20", textvariable = modelName)
 
-    tkgrid(labelRcmdr(mode_boxlFrame,
+    tkgrid(labelRcmdr(model_boxlFrame,
                       text = gettextRcmdr("Enter name for model: "),
                       fg = Rcmdr::getRcmdr("title.color")),   sticky = "w")
+
     tkgrid(model, sticky = "ew")
 
-    # Choose alpha
+    # Choose alpha -----------------------------------------------------------
 
     # textEntryVarTcl <- tclVar(dialog.values$initial.alpha)
     textEntryVarTcl <- tclVar("0.05")
-    text_alpha <- tk2entry(mode_boxlFrame,
+    text_alpha <- tk2entry(model_boxlFrame,
                            width = 5,
                            textvariable = textEntryVarTcl)
 
-    tkgrid(labelRcmdr(mode_boxlFrame,
+    tkgrid(labelRcmdr(model_boxlFrame,
                text = gettextRcmdr("Significance level (0-1):"),
                fg = Rcmdr::getRcmdr("title.color")),
            pady = c(5, 0),
@@ -98,7 +168,7 @@ window_anova_kw_mood_tests <- function() {
 
     tkgrid(
         main_testFrame,
-        mode_boxlFrame,
+        model_boxlFrame,
         pady = c(0, 5),
         padx = c(10, 5),
         sticky = "nw"
@@ -107,8 +177,7 @@ window_anova_kw_mood_tests <- function() {
     tkgrid(main_top_frame, sticky = "w")
 
     # tkgrid(tk2label(mainTab, text = paste("Current test: ", test_name)),
-    tkgrid(tk2label(mainTab,
-                    textvariable = labelText),
+    tkgrid(tk2label(mainTab, textvariable = labelText),
            pady = c(20, 0),
            sticky = "w")
 
@@ -117,18 +186,18 @@ window_anova_kw_mood_tests <- function() {
     # . Variable selection -----------------------------------------------------
 
     dataFrame <- tkframe(dataTab)
-    groupBox <- variableListBox(
+    groupBox <- variableListBox2(
         dataFrame,
         Factors(),
-        listHeight = 5,
+        listHeight = 10,
         title = gettextRcmdr("Group variable \n(pick one)"),
         initialSelection = varPosn(dialog.values$initial.group, "factor"))
 
-    responseBox <- variableListBox(
+    responseBox <- variableListBox2(
         dataFrame,
         Numeric(),
-        listHeight = 5,
-        title = gettextRcmdr("Response variable \n(pick one)"),
+        listHeight = 10,
+        title = gettextRcmdr("Variable to test \n(pick one)"),
         initialSelection = varPosn(dialog.values$initial.response, "numeric")
     )
 
@@ -142,31 +211,32 @@ window_anova_kw_mood_tests <- function() {
     tkgrid(dataFrame, sticky = "w")
 
     # ** Post-hoc tab -----------------------------------------------------------
-    posthoc_test_panel <- labeled_frame(posthocTab, "Post-hoc test options")
+    create_posthoc_tab <- function(env = parent.frame()) {
+        posthoc_test_panel <- labeled_frame(posthocTab, "Post-hoc test options")
 
-    radioButtons(window = posthoc_test_panel,
-                 name = "posthoc_test",
-                 buttons = c("none", "tukey_test", "gh_test", "con_im_test"),
-                 values  = c("none", "tukey_test", "gh_test", "con_im_test"),
+        radioButtons(window = posthoc_test_panel,
+                     name = "posthoc_test",
+                     buttons = tclvalue_chr(ph_buttons),
+                     values  = tclvalue_chr(ph_values),
 
-                 labels =  gettext_Bio(c("none",
-                                              "Tukey HSD",
-                                              "Games-Howell",
-                                              "Conover-Iman")),
-                 title = gettext_Bio("Post-hoc test")
-    )
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    pval_adjustment <- inputComboBox(
-        posthoc_test_panel,
-        variableList = p.adjust.methods,
-        initialSelection = p.adjust.methods[1],
-        title = gettext_Bio("P value adjustment method")
-    )
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(posthoc_testFrame,         pady = c(0, 5), padx = c(5, 5), sticky = "nw")
-    tkgrid(getFrame(pval_adjustment), pady = c(5, 5), padx = c(5, 5), sticky = "nw")
-    tkgrid(posthoc_test_panel, sticky = "nw")
+                     labels = gettext_Bio(u2s(tclvalue_chr(ph_labels))),
+                     title = gettext_Bio("Post-hoc test")
+        )
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        pval_adjustment <- inputComboBox(
+            posthoc_test_panel,
+            variableList = p.adjust.methods,
+            initialSelection = p.adjust.methods[1],
+            title = gettext_Bio("P value adjustment method")
+        )
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        tkgrid(posthoc_testFrame,         pady = c(0, 5), padx = c(5, 5), sticky = "nw")
+        tkgrid(getFrame(pval_adjustment), pady = c(5, 5), padx = c(5, 5), sticky = "nw")
+        tkgrid(posthoc_test_panel, sticky = "nw")
 
+        assign("posthoc_test_panel", posthoc_test_panel, envir = env)
+    }
+    create_posthoc_tab(env = cur_env)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     #
     #
@@ -331,169 +401,171 @@ window_anova_kw_mood_tests <- function() {
 
 # ==============================================================================
 
-
-# ----------------------------------------------------------------------------
-...ANOVA... <- function() {
-
-    model_anova <- aov(weight ~ group, data = PlantGrowth)
-
-    model_anova_summary <- summary(model_anova)
-    pander::pander(model_anova_summary)
-    print(model_anova_summary)
+do_anova <- function(variables) {
 
 
-    # 1. Homogeneity of variances
-    plot(model_anova, 1)
+    # y_var  <- "weight"
+    # gr_var <- "group"
+    # .activeDataSet <- "PlantGrowth"
+    # model_name <- "model_1a"
+    #
+    # markdown_compatible <- FALSE
 
-    # 2. Normality
-    plot(model_anova, 2)
+    # model_anova <- aov(weight ~ group, data = PlantGrowth)
+    #
+    # model_anova_summary <- summary(model_anova)
+    #
+    # pander::pander(model_anova_summary, missing = "")
+    # print(model_anova_summary)
+    #
+    # autoplot(model_anova, which = 1:2, alpha = 0.6,
+    # data = PlantGrowth, colour = "group")
 
-    library(ggplot2)
-    library(ggfortify)
+    # model_to_print <- .activeDataSet
+    #
 
-    old_parameters <- par(mfrow = c(1, 2))
-    plot(model_anova, which = 1:2)
-    par(old_parameters)
+    .activeDataSet <- activeDataSet()
+    formula <- glue('{y_var} ~ {gr_var}, data = {.activeDataSet}')
 
-    autoplot(model_anova, which = 1:2)
+    model_to_print <- switch(main_test,
+                             "anova" = "anova_summary",
+                             # otherwise
+                             model_name)
 
-    autoplot(model_anova, which = 1) + geom_point(aes(color = group))
+    if (markdown_compatible) {
+        Library("pander")
+        if (is.na(pander::panderOptions("missing"))) {
+            doItAndPrint('panderOptions("missing", "") \n')
+        }
+        print_fun <- "pander"
+    } else {
+        print_fun <- "print"
+    }
+
+    switch(main_test,
+           "anova" = {
+               glue('#  --- One-way ANOVA --- \n\n',
+                    '{model_name} <- aov({formula}) \n',
+                    'anova_summary <- summary({model_name}) \n',
+                    '{print_fun}(anova_summary) \n',
+                    'remove(anova_summary)')
+
+               if (use_anova_diagnostics) {
+                   # Diagnostics (ANOVA only)
+                   # 1. Homogeneity of variances
+                   # 2. Normality
+                   Library(ggfortify)
+                   open_new_plots_window()
+                   glue('autoplot({model_name}, which = 1:2, alpha = 0.6,',
+                        '{spaces(9)}data = {.activeDataSet}, colour = "{gr_var}")')
+               }
+
+
+             },
+           wanova = {
+               glue('#  --- Welch ANOVA --- \n\n',
+                    '{model_name} <- oneway.test({formula}) \n',
+                    '{print_fun}({model_name}) \n')
+           },
+
+           kw_test = {
+               glue('#  --- Kruskal-Wallis test --- \n\n',
+                    '{model_name} <- kruskal.test({formula}) \n',
+                    '{print_fun}({model_name}) \n')
+           },
+
+           mood_test = {
+               Library(RVAideMemoire)
+               glue('#  --- Mood Median test --- \n\n',
+                    '{model_name} <- mood.medtest({formula}) \n',
+                    '{print_fun}({model_name}) \n')
+           },
+
+           stop("Unrecognized test")
+
+           )
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Patikrinti, ar pagrindinio testo rezultatas statistiškai reikšmingas
+    #
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    p_adj <- "holm"
+    switch(posthoc_test,
+           "tukey" = {
+               Library(BioStat)
+
+               # Formula based results
+               glue('# --- Post-hoc analysis: Tukey HSD test ---\n\n',
+                    'posthoc_results <- posthoc_anova({formula}, \n',
+                    '                                 method = "Tukey") \n')
+
+
+               glue('# --- Post-hoc analysis: Games-Howell test ---\n\n',
+                    'posthoc_results <- posthoc_anova({formula}, \n',
+                    '                                 method = "Games-Howell") \n')
+
+
+               glue('# --- Post-hoc analysis: Pairwise median test ---\n\n',
+                    'posthoc_results <- pairwiseMedianTest({formula}, \n',
+                    '                                      method = "{p_adj}") \n')
+
+               Library("PMCMR")
+               glue('# --- Post-hoc analysis: Conover-Iman test ---\n\n',
+                    'posthoc_results <- ',
+                    '    posthoc.kruskal.conover.test({formula}, \n',
+                    '                                 p.adjust.method = "{p_adj}")')
+
+               Library("PMCMR")
+               glue('# --- Post-hoc analysis: Dunn test ---\n\n',
+                    'posthoc_results <- ',
+                    '    posthoc.kruskal.dunn.test({formula}, \n',
+                    '                              p.adjust.method = "{p_adj}")')
+
+               Library("PMCMR")
+               glue('# --- Post-hoc analysis: Nemenyi test ---\n\n',
+                    'posthoc_results <- ',
+                    '    posthoc.kruskal.nemenyi.test({formula}, \n',
+                    '                                 dist = "Chisquare")')
+
+
+
+               # Non-formula based
+               # Pairwise Student t test
+                glue('# --- Post-hoc analysis: Pairwise Student t test ---\n\n',
+                     'with({.activeDataSet}, \n',
+                    '     pairwise.t.test({y_var}, {gr_var}, \n',
+                    '                     p.adjust.method = "{p_adj}", \n',
+                    '                     pool.sd = TRUE))')
+               # Pairwise Welch t test
+                glue('# --- Post-hoc analysis: Pairwise Welch t test ---\n\n',
+                     'with({.activeDataSet}, \n',
+                    '     pairwise.t.test({y_var}, {gr_var}, \n',
+                    '                     p.adjust.method = "{p_adj}", \n',
+                    '                     pool.sd = FALSE))')
+
+               # Pairwise Wilcoxon t test
+                glue('# --- Post-hoc analysis: Pairwise Mann-Whitney-Wilcoxon test ---\n\n',
+                     'with({.activeDataSet}, \n',
+                    '     pairwise.wilcox.test({y_var}, {gr_var}, \n',
+                    '                          p.adjust.method = "{p_adj}"))')
+           }
+
+     )
+
+    glue('cld_results <- make_cld(posthoc_results)',
+         "\n\n",
+         '{print_fun}(posthoc_results) \n',
+         '{print_fun}(cld_results) \n')
+
+
+    # Grafikas su cld žymėjimais
+    plot_parameters <- ""
+    glue('gg_boxplot_plus({formula},\n',
+         '{spaces(16)}cld = cld_results{plot_parameters})\n')
+
+
+
+
 }
 
-# # 1. Homogeneity of variances
-#
-# The residuals versus fits plot can be used to check the homogeneity of variances.
-#
-# In the plot below, there is no evident relationships between residuals and fitted values (the mean of each groups), which is good. So, we can assume the homogeneity of variances.
-
-# ----------------------------------------------------------------------------
-...Welch_ANOVA... <- function() {
-
-    model_wanova <- oneway.test(weight ~ group, data = PlantGrowth)
-    pander::pander(model_wanova)
-    print(model_wanova)
-}
-# ----------------------------------------------------------------------------
-...Kruskal_Wallis_test... <- function() {
-
-    model_kw_test <- kruskal.test(weight ~ group, data = PlantGrowth)
-
-    pander::pander(model_kw_test)
-    print(model_kw_test)
-}
-
-# ============================================================================
-
-# ----------------------------------------------------------------------------
-...ANOVA_post_hoc__tukey... <- function() {
-    model_tukey <- posthoc_anova_tukey(weight ~ group, data = PlantGrowth)
-
-    model_tukey
-
-    cld_result <- make_cld(model_tukey)
-    cld_result
-    pander::pander(cld_result)
-
-
-    library(tidyverse)
-
-    # cld_max <- with(PlantGrowth, tapply(weight, group, function(x) 1.05 * max(x)))
-    cld_y <- max(-PlantGrowth$weight * 0.95)
-    cld_y <- min(-PlantGrowth$weight * 1.05)
-
-    cld_y <- min(PlantGrowth$weight * 0.95)
-    cld_y <- max(PlantGrowth$weight * 1.05)
-
-
-    DATA <- mutate(PlantGrowth, group = fct_reorder(group, weight, fun = mean))
-
-    ggplot(DATA, aes(x = group, y = weight, fill = group)) +
-        geom_boxplot(width = .2) +
-        geom_jitter(
-            aes(x = as.numeric(group) + .3),
-            alpha = 0.3,
-            width = .1,
-            shape = 21
-        ) +
-        geom_text(data = cld_result,
-                  aes(x = Group, label = cld, y = cld_y),
-                  fontface = "bold",
-                  inherit.aes = FALSE) +
-        ggtitle("Pair-wise comparisons")
-
-        # +
-        # ylim(56, 74)  # don't cut off the text I just added
-
-
-}
-# ----------------------------------------------------------------------------
-...ANOVA_post_hoc__tukey_2... <- function() {
-
-    library(multcomp)
-
-    model_anova <- aov(weight ~ group, data = PlantGrowth)
-    summary(model_anova)
-    model_post_hoc <- glht(model_anova, linfct = mcp(group = "Tukey"))
-    summary(model_post_hoc)
-    cld(model_post_hoc) # kompaktiškas raidinis žymėjimas letter display
-
-    summary(model_post_hoc) # poriniai testai
-    confint(post_hoc_modelis) # skirtumų pasikliauties intervalai
-
-}
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-...ANOVA_post_hoc__gh... <- function() {
-    model_gh <- posthoc_anova_games_howell(weight ~ group, data = PlantGrowth)
-
-   model_gh
-
-   make_cld(model_gh)
-}
-# ----------------------------------------------------------------------------
-...KW_post_hoc__Conover_Iman... <- function() {
-    library(PMCMR)
-    model_conover_iman <- posthoc.kruskal.conover.test(weight ~ group, data = PlantGrowth)
-
-    model_conover_iman
-
-    make_cld(model_conover_iman)
-}
-# ----------------------------------------------------------------------------
-...fun... <- function(variables) {
-    library("ggpubr")
-    ggboxplot(PlantGrowth,
-              x = "group",
-              y = "weight",
-              color = "group",
-              palette = c("#00AFBB", "#E7B800", "#FC4E07"),
-              order = c("ctrl", "trt1", "trt2"),
-              ylab = "Weight",
-              xlab = "Treatment")
-}
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-...Mood_median_test... <- function(variables) {
-    library(RVAideMemoire)
-
-    model_mood <- mood.medtest(weight ~ group, data = PlantGrowth)
-    model_mood
-
-    pander::pander(model_mood)
-    class(model_mood)
-}
-
-...Mood_median_test__post_hoc... <- function(variables) {
-
-        library(rcompanion)
-
-    model_pw_mood = pairwiseMedianTest(weight ~ group, data = PlantGrowth,
-                              method = "fdr")
-
-    pander::pander(model_pw_mood)
-    BioStat::make_cld(p.adjust ~ Comparison, model_pw_mood)
-
-
-}
-
-# RVAideMemoire::bootstrap()
-# rcompanion::plotNormalHistogram()

@@ -46,19 +46,23 @@ item	Variable_menu   command             "Z transformation (standardization)"  	
 
 item	BioStat_menu  cascade	   "Summaries"   Summary_bs	""	""
 menu	Summary_bs	  BioStat_menu	    ""	""	""	""
-item	Summary_bs    command      "Glimpse at variables"	                  summary_glimpse	        "activeDataSetP()"	""
+item	Summary_bs    command      "Structure of data set (glimpse)"	      summary_glimpse	        "activeDataSetP()"	""
+item	Summary_bs    command      "Top and bottom rows of data set"	      summary_head_tail	        "activeDataSetP()"	""
+item	Summary_bs    separator    "" "" "" ""
 item	Summary_bs    command      "Describe all variables [Hmisc]"	          summary_Hmisc_describe	"activeDataSetP()"	""
 item	Summary_bs    command      "Describe numerical variables [psych]"     summary_psych_describe	"activeDataSetP()"	""
+item	Summary_bs    command      "Summarize numerical variables by group"   window_do_summary	        "activeDataSetP()"	""
+
 
 # =============================================================================
 # ---- Main plots -------------------------------------------------------------
 
-item	BioStat_menu    cascade	"Plots"	            plots_menu	""	""
-menu	plots_menu	    BioStat_menu	""	""	""	""
-item	plots_menu	    command "Open a new window for plots"	  open_new_plots_window	        ""	""
+item	BioStat_menu    cascade	     "Plots"	            plots_menu	""	""
+menu	plots_menu	    BioStat_menu ""	""	""	""
+item	plots_menu	    command      "New window for plots"	  open_new_plots_window	        ""	""
 
 # item	plots_menu	    separator	""	""	""	""
-# item	plots_menu	    command	    "Normal Q-Q plot (by groups)"	function_not_implemented('window_qqplot_biostat')	"numericP()"	""
+# item	plots_menu	    command	    "Normal Q-Q plot (by groups)"	"function_not_implemented('window_qqplot_biostat')"	"numericP()"	""
 #
 # item	plots_menu	    separator	""	""	""	""
 # item	plots_menu	    command "[!] Histogram"	        window_histogram       "nonFactorsP()"	""
@@ -73,10 +77,16 @@ item	plots_menu	    command "Open a new window for plots"	  open_new_plots_windo
 
 item	BioStat_menu    cascade	        "Tests"   Tests_menu	""	""
 menu	Tests_menu	    BioStat_menu    ""	""	""	""
-item	Tests_menu      command         "Normality tests & normal QQ plots"	window_normality_test	"numericP()"	""
+item	Tests_menu      command         "Normality tests"	window_normality_test	"numericP()"	""
 # item	Tests_menu	    separator   	""	""	""	""
 # item	Tests_menu      command         "[!] ANOVA, Kruskal-Wallis, Median tests" window_anova_kw_mood_tests	"numericP() & factorsP()"	""
-# item	Tests_menu      command         "[!] ANOVA [tmp]" window_tmp	"numericP() & factorsP()"	""
+
+# item	Tests_menu       cascade	     "Central tendency tests"   ceners_menu	""	""
+# menu	ceners_menu	     Tests_menu      ""	""	""	""
+# item	ceners_menu      command         "[!] Independent samples (eactly 2)"  function_not_implemented  	"numericP() & twoLevelFactorsP()"	""
+# item	ceners_menu      command         "[!] Independent samples (2 or more)" window_anova_kw_mood_tests	"numericP() & factorsP()"	""
+# item	ceners_menu      command         "[!] Independent samples (2 or more) [tmp]" window_tmp	            "numericP() & factorsP()"	""
+# item	Tests_menu      command         "[!] "t tests, Wilcoxon, Mann-Whitney tests, Wald-Wolfowitz" function_not_implemented	"numericP() & factorsP()"	""
 
 
 # ==============================================================================
@@ -96,6 +106,7 @@ item	Tests_menu      command         "Normality tests & normal QQ plots"	window_
 item	BioStat_menu  cascade	   "Models"   models_menu	""	""
 menu	models_menu   BioStat_menu	    ""	""	""	""
 item	models_menu   command      "Show model's class"	                     command_get_model_class  "activeModelP()"	   ""
+item	models_menu   command      "Print model (basic results)"             command_model_print      "activeModelP()"	   ""
 item	models_menu   command      "Standardized regression coefficients"	 command_std_lm_coeffs    "modelClassP('lm')"  ""
 
 
@@ -107,8 +118,8 @@ menu	settings_menu   BioStat_menu	    ""	""	""	""
 item	settings_menu   command      "Show working directory"	 command_getwd          ""	""
 item	settings_menu	separator    ""	""	""	""
 item	settings_menu   command      "Show current locale"	     command_get_locale     ""	""
-item	settings_menu   command      "Set locale to Lithuanian"	 command_set_locale_lt  ""	""
-item	settings_menu   command      "Set locale to English"	 command_set_locale_en 	""	""
+item	settings_menu   command      "Set locale to Lithuanian (Windows only)"	 command_set_locale_lt  ""	""
+item	settings_menu   command      "Set locale to English (Windows only)"	 command_set_locale_en 	""	""
 
 
 # =============================================================================
