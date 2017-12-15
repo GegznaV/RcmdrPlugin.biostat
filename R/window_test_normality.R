@@ -241,7 +241,6 @@ window_normality_test <- function() {
         closeDialog()
 
         # Do analysis --------------------------------------------------------
-
         Library("tidyverse")
         Library("BioStat")
         Library("nortest")

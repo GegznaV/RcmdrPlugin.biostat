@@ -15,3 +15,10 @@ command_get_model_class <- function() {
     doItAndPrint(glue::glue("class({ActiveModel()})"))
 }
 
+#' @rdname Menu-winow-functions
+#' @export
+#' @keywords internal
+command_model_print <- function() {
+    doItAndPrint(glue::glue("print({ActiveModel()})"))
+}
+

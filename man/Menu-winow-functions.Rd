@@ -19,6 +19,7 @@
 \alias{dataset_import_excel}
 \alias{command_std_lm_coeffs}
 \alias{command_get_model_class}
+\alias{command_model_print}
 \alias{open_new_plots_window}
 \alias{window_histogram}
 \alias{window_density_plot}
@@ -67,6 +68,8 @@ dataset_import_excel()
 command_std_lm_coeffs()
 
 command_get_model_class()
+
+command_model_print()
 
 open_new_plots_window()
 

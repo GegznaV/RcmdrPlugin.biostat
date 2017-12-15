@@ -1,7 +1,7 @@
 Package: RcmdrPlugin.BioStat
 Type: Package
-Version: 0.0.5.9000
-Date: 2017-11-28
+Version: 0.0.6
+Date: 2017-12-14
 Title: An R Commander Plug-in for Package "BioStat"
 Description: An Rcmdr plug-in for functions in package "BioStat" and various 
              other common data analysis tasks: 
@@ -18,11 +18,12 @@ Remotes:
     GegznaV/BioStat
 Depends:
     R (>= 3.3.0),
-    BioStat (>= 0.0.11.9003),
+    BioStat (>= 0.0.12),
     tcltk,
     tcltk2 (>= 1.2-11),
     Rcmdr
 Imports:
+    styler,
     tidyverse,
     stringr,
     stats,

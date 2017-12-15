@@ -7,10 +7,44 @@
 # devtools::install_github("GegznaV/BioStat")
 # devtools::install_github("GegznaV/RcmdrPlugin.BioStat")
 
+packages <- c("devtools",
+              "rlang",
+              "tidyverse",
+              "tidyselect",
+              "checkmate",
+              "RcmdrPlugin.KMggplot2",
+              "RcmdrPlugin.EZR",
+              "BioStat",
+              "RcmdrPlugin.BioStat"
+              )
+
+missing_packages <- packages[!packages %in% utils::installed.packages()]
+
+# Jei bent vieno paketo nėra, tada įdiegiam, ko trūksta
+if (length(missing_packages) > 0) {
+    utils::install.packages(missing_packages,
+                            dependencies = c("Depends", "Imports", "Suggests"))
+}
+
+
+
+
+    # devtools::install_github("GegznaV/RcmdrPlugin.EZR@unmodified_Rcmdr_menu",
+    #                          dependencies = c("Depends", "Imports", "Suggests"))
+    #
+    # devtools::install_github("GegznaV/BioStat",
+    #                          dependencies = c("Depends", "Imports", "Suggests"))
+    #
+    # devtools::install_github("GegznaV/RcmdrPlugin.BioStat",
+    #                          dependencies = c("Depends", "Imports", "Suggests"))
+
+
+
 if (!"RcmdrPlugin.BioStat" %in% utils::installed.packages()) {
     utils::install.packages("BioStat")
     utils::install.packages("RcmdrPlugin.BioStat")
 }
+
 
 rmd_template_filenamename <- paste0(
     dir(.libPaths(), pattern = "RcmdrPlugin.BioStat", full.names = TRUE),

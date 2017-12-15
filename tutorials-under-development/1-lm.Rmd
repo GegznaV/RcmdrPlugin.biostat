@@ -1,0 +1,60 @@
+```{r}
+head(trees)
+```
+
+```{r}
+lm(Girth ~ Height, data = trees)
+```
+```{r}
+# modelio formulės: Y ~ X1 + X2, data = duomenys
+# lm(formula, data = ___)
+lm_modelis <- lm(Girth ~ Height + Volume, data = trees)
+# Rezultatai
+print(lm_modelis)
+# Modelio tinkamumo duomenims diagnostika
+summary(lm_modelis)
+
+broom::glance(lm_modelis)
+broom::augment(lm_modelis)
+broom::tidy(lm_modelis)
+BioStat::coef_standardized(lm_modelis)
+sigr::wrapFTest(lm_modelis)
+predict(lm_modelis)
+trees$prediction <- predict(lm_modelis)
+
+# lm(formula, data = ___)
+# lm_modelis <- lm(formula, data = dframe)
+# print(lm_modelis)
+# broom::glance(lm_modelis)
+# broom::augment(lm_modelis)
+# broom::tidy(lm_modelis)
+# BioStat::coef_standardized(lm_modelis)
+# sigr::wrapFTest(lm_modelis)
+# predict(lm_modelis)
+# dframe$pred <- predict(lm_modelis)
+# 
+# ggplot(dframe, aes(x = pred, y = outcome)) + 
+       # geom_point() +  
+       # geom_abline(color = "blue")
+       # 
+# predict(model, newdata)
+# WVPlots::GainCurvePlot(frame, xvar, truthvar, title)
+WVPlots::GainCurvePlot()
+# In the plot: A relative gini coefficient close to one shows that the model correctly sorts high unemployment situations from lower ones. 
+
+# RMSE  # galima interpretuoti: tipinė prognozės klaida.
+# sd(Y) # Y mūsų modeliuojamo kintamojo reikšmė
+#       # sd - tipinis skirtumas tar konkrečios ir vidutinės kainos.
+#       Jei RMSE < sd(Y), tai mūsų modelis geriau nuspėja kainas nei 
+#       modelis, kuris spėtų, kad kaina = vidutinė kaina.
+#       
+# R^2   - galioja tik mokymo duomenim      
+```
+
+```{r}
+# Cross-validation only evaluates modeling process, not future prediction.
+# Remember, cross-validation validates the modeling process, not an actual model. 
+library(vtreat)
+splitPlan <- kWayCrossValidation(nRows, nSplits, NULL, NULL)
+```
+

@@ -475,7 +475,7 @@ do_anova <- function(variables) {
            },
 
            mood_test = {
-               library(RVAideMemoire)
+               Library(RVAideMemoire)
                glue('#  --- Mood Median test --- \n\n',
                     '{model_name} <- mood.medtest({formula}) \n',
                     '{print_fun}({model_name}) \n')
@@ -493,7 +493,7 @@ do_anova <- function(variables) {
     p_adj <- "holm"
     switch(posthoc_test,
            "tukey" = {
-               library(BioStat)
+               Library(BioStat)
 
                # Formula based results
                glue('# --- Post-hoc analysis: Tukey HSD test ---\n\n',

@@ -11,7 +11,8 @@ window_do_summary <- function() {
     defaults <- list(
         initial.y_var = NULL,
         initial.gr_var = NULL,
-        initial.digits = "NA"
+        initial.digits = "NA",
+        initial.keep_model = FALSE
     )
 
     dialog.values <- getDialog("window_do_summary", defaults)
@@ -72,11 +73,26 @@ window_do_summary <- function() {
     model_boxlFrame <- tkframe(main_top_frame)
     model <- ttkentry(model_boxlFrame, width = "20", textvariable = modelName)
 
+
+    checkBoxes_cmd(model_boxlFrame,
+                   # ttk = TRUE,
+                   frame = "keep_model_Frame",
+                   # title = "Plot options",
+                   boxes = c("keep_model"),
+                   initialValues = c(defaults$initial.keep_model),
+                   labels = gettextRcmdr(
+                       c("Keep model")
+                   ),
+                   commands = list("keep_model" = function(){})
+    )
+
+
     tkgrid(labelRcmdr(model_boxlFrame,
                       text = gettextRcmdr("Enter name for summary: "),
                       fg = Rcmdr::getRcmdr("title.color")),   sticky = "w")
 
     tkgrid(model, sticky = "ew")
+    tkgrid(keep_model_Frame, sticky = "ew")
 
     tkgrid(model_boxlFrame, sticky = "nw")
 
@@ -104,18 +120,20 @@ window_do_summary <- function() {
         gr_var <- getSelection(groupBox)
         y_var  <- getSelection(yBox)
         digits <- suppressWarnings(tclvalue_int(digitsVar))
-        modelValue <- trim.blanks(tclvalue(modelName))
+        model_name_Value <- trim.blanks(tclvalue(modelName))
+        keep_model <- tclvalue_lgl(keep_modelVariable)
 
-        if (!is.valid.name(modelValue)) {
+
+        if (!is.valid.name(model_name_Value)) {
             UpdateModelNumber(-1)
             errorCondition(recall = window_do_summary,
                            message = sprintf(gettextRcmdr("\"%s\" is not a valid name."),
-                                             modelValue))
+                                             model_name_Value))
             return()
         }
 
-        if (is.element(modelValue, list_summaries_Models())) {
-            if ("no" == tclvalue(checkReplace(modelValue,
+        if (is.element(model_name_Value, list_summaries_Models())) {
+            if ("no" == tclvalue(checkReplace(model_name_Value,
                                               type = gettextRcmdr("Model")))) {
                 UpdateModelNumber(-1)
                 tkdestroy(top)
@@ -140,7 +158,8 @@ window_do_summary <- function() {
         putDialog("window_do_summary",
                   list(initial.y_var  = y_var,
                        initial.gr_var = gr_var,
-                       initial.digits = NA
+                       initial.digits = NA,
+                       initial.keep_model = keep_model
                   )
         )
 
@@ -164,13 +183,23 @@ window_do_summary <- function() {
 
         }
 
-        command <- glue("{modelValue} <- do_summary({formula}, data = {.activeDataSet})\n",
-                        "print({modelValue}, digits = {digits})")
+
+        if (keep_model) {
+            keep_model_command <- ""
+
+        } else {
+            UpdateModelNumber(-1)
+            keep_model_command <- glue("remove({model_name_Value})")
+        }
+
+        command <- glue("{model_name_Value} <- do_summary({formula}, data = {.activeDataSet})\n",
+                        "print({model_name_Value}, digits = {digits})\n",
+                        keep_model_command)
 
         doItAndPrint(command)
 
         # Post calculations --------------------------------------------------
-        # activeModel(modelValue)
+        # activeModel(model_name_Value)
         # putRcmdr("modelWithSubset", FALSE)
 
         tkfocus(CommanderWindow())
