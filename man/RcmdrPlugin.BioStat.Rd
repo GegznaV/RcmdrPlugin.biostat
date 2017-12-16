@@ -4,8 +4,8 @@
 \name{RcmdrPlugin.BioStat}
 \alias{RcmdrPlugin.BioStat}
 \alias{RcmdrPlugin.BioStat-package}
-\title{A Set of RStudio Addins}
+\title{An R Commander Plugin for Basic (Bio)Statistical Routines}
 \description{
-\code{RcmdrPlugin.BioStat} is an \code{Rcmdr} plugin for package
-\code{BioStat}.
+\code{RcmdrPlugin.BioStat} is an \code{Rcmdr} plugin for functions in package
+\code{BioStat} and other common (bio)statistical routines.
 }
