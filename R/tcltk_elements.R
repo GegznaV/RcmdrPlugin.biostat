@@ -1,3 +1,10 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Label for R Commander
+# see also: labelRcmdr
+label_rcmdr <- function(..., fg = NULL) {
+    if (is.null(fg)) ttklabel(...) else ttklabel(..., foreground = fg)
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 labeled_frame <- function(parent, label = NULL, ...) {
     ttklabelframe(parent = parent,
                   labelwidget = tklabel(parent,
@@ -204,7 +211,7 @@ radioButtons_horizontal <-
              initialValue = ..values[1],
              labels,
              title = "",
-             title.color = getRcmdr("title.color"),
+             title.color = NULL,
              right.buttons = FALSE,
              command = function() {},
              sticky_title = "w",
@@ -219,6 +226,7 @@ radioButtons_horizontal <-
     ..variable <- paste0(name, "Variable")
     assign(..variable, tclVar(initialValue))
 
+
     # if (title != "") {
     #     tkgrid(labelRcmdr(eval_(..frame),
     #                       text = title,
@@ -228,7 +236,7 @@ radioButtons_horizontal <-
     #            sticky = "w")
     # }
 
-    title_label <- labelRcmdr(eval_(..frame), text = title)
+    title_label <- label_rcmdr(eval_(..frame), text = title, fg = title.color)
     tkgrid(title_label, sticky = sticky_title)
 
     buttons_pan_Frame <- tkframe(eval_(..frame))
