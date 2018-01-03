@@ -1,3 +1,10 @@
+# ------------------------------------------------------------------------------
+# Formatat code in a `tidyverse` style
+style_cmd <- function(command, indent_by = 4, ...) {
+    cmd <- styler::style_text(command, indent_by = indent_by, ...)
+    paste0(as.character(cmd), collapse = "\n")
+}
+# ------------------------------------------------------------------------------
 list_summaries_Models <- function(envir = .GlobalEnv, ...) {
     objects <- ls(envir = envir, ...)
     if (length(objects) == 0)
