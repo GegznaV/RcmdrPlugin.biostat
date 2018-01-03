@@ -55,4 +55,14 @@ command_set_locale_en <- function() {
 }
 
 
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-winow-functions
+#' @export
+#' @keywords internal
+command_set_locale_default <- function() {
+    Rcmdr::doItAndPrint(paste(
+        '# Set locale to system default \n',
+        'locale_info <- Sys.setlocale(locale = "")',
+        'writeLines(gsub(";", "\\n", locale_info))',
+        sep = " \n"))
+}

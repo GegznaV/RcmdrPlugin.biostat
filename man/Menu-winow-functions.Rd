@@ -30,6 +30,7 @@
 \alias{command_get_locale}
 \alias{command_set_locale_lt}
 \alias{command_set_locale_en}
+\alias{command_set_locale_default}
 \alias{summary_glimpse}
 \alias{summary_head_tail}
 \alias{summary_Hmisc_describe}
@@ -90,6 +91,8 @@ command_get_locale()
 command_set_locale_lt()
 
 command_set_locale_en()
+
+command_set_locale_default()
 
 summary_glimpse()
 
