@@ -86,15 +86,16 @@ item	Tests_menu      command         "Normality tests"	window_normality_test	"nu
 # item	ceners_menu      command         "[!] Independent samples (eactly 2)"  function_not_implemented  	"numericP() & twoLevelFactorsP()"	""
 # item	ceners_menu      command         "[!] Independent samples (2 or more)" window_anova_kw_mood_tests	"numericP() & factorsP()"	""
 # item	ceners_menu      command         "[!] Independent samples (2 or more) [tmp]" window_tmp	            "numericP() & factorsP()"	""
-# item	Tests_menu      command         "[!] "t tests, Wilcoxon, Mann-Whitney tests, Wald-Wolfowitz" function_not_implemented	"numericP() & factorsP()"	""
+# item	Tests_menu       command         "[!] "t tests, Wilcoxon, Mann-Whitney tests, Wald-Wolfowitz" function_not_implemented	"numericP() & factorsP()"	""
 
 
 # ==============================================================================
 # ---- Confidence intervals ---------------------------------------------------
 
-# item	BioStat_menu    cascade	        "Confidence intervals"   ci_menu	""	""
+# item	BioStat_menu    cascade	        "Confidence intervals (CI)"   ci_menu	""	""
 # menu	ci_menu	        BioStat_menu    ""	""	""	""
 # item	ci_menu         command         "[!] Confidence interval for mean"	     window_ci_mean	""	""
+# item	ci_menu         command         "[!] Confidence interval for median"	 window_ci_mean	""	""
 # item	ci_menu         command         "[!] Confidence interval for proportion" window_ci_prop	""	""
 # item	ci_menu         command         "[!] Bootstrap confidence intervals"     window_ci_boot	""	""
 # item	ci_menu	        separator   	""	""	""	""
