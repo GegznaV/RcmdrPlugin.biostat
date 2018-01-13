@@ -3,7 +3,7 @@
 
 ------------------------------------------------------------------------
 
-[![CRAN version](http://www.r-pkg.org/badges/version/RcmdrPlugin.BioStat)](https://cran.rstudio.com/web/packages/RcmdrPlugin.BioStat/index.html) [![GitHub version](https://img.shields.io/badge/GitHub-v0.0.6-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.BioStat) [![Travis-CI Build Status](https://travis-ci.org/GegznaV/RcmdrPlugin.BioStat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.BioStat) [![Last-update](https://img.shields.io/badge/Updated%20on-2017--12--16-yellowgreen.svg)](/commits/master)
+[![CRAN version](http://www.r-pkg.org/badges/version/RcmdrPlugin.BioStat)](https://cran.rstudio.com/web/packages/RcmdrPlugin.BioStat/index.html) [![GitHub version](https://img.shields.io/badge/GitHub-v0.0.6-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.BioStat) [![Travis-CI Build Status](https://travis-ci.org/GegznaV/RcmdrPlugin.BioStat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.BioStat) [![Updated-on](https://img.shields.io/badge/Updated%20on-2017--12--19-yellowgreen.svg)](/commits/master)
 
 ------------------------------------------------------------------------
 
