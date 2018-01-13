@@ -4,8 +4,8 @@
 # if (!"devtools" %in% installed.packages())  install.packages("devtools")
 #
 # devtools::install_github("GegznaV/RcmdrPlugin.EZR@unmodified_Rcmdr_menu")
-# devtools::install_github("GegznaV/BioStat")
-# devtools::install_github("GegznaV/RcmdrPlugin.BioStat")
+# devtools::install_github("GegznaV/biostat")
+# devtools::install_github("GegznaV/RcmdrPlugin.biostat")
 
 # packages <- c("devtools",
 #               "rlang",
@@ -14,8 +14,8 @@
 #               "checkmate",
 #               "RcmdrPlugin.KMggplot2",
 #               "RcmdrPlugin.EZR",
-#               "BioStat",
-#               "RcmdrPlugin.BioStat"
+#               "biostat",
+#               "RcmdrPlugin.biostat"
 #               )
 #
 # missing_packages <- packages[!packages %in% utils::installed.packages()]
@@ -32,29 +32,29 @@
     # devtools::install_github("GegznaV/RcmdrPlugin.EZR@unmodified_Rcmdr_menu",
     #                          dependencies = c("Depends", "Imports", "Suggests"))
     #
-    # devtools::install_github("GegznaV/BioStat",
+    # devtools::install_github("GegznaV/biostat",
     #                          dependencies = c("Depends", "Imports", "Suggests"))
     #
-    # devtools::install_github("GegznaV/RcmdrPlugin.BioStat",
+    # devtools::install_github("GegznaV/RcmdrPlugin.biostat",
     #                          dependencies = c("Depends", "Imports", "Suggests"))
 
 
 
-# if (!"RcmdrPlugin.BioStat" %in% utils::installed.packages()) {
-#     utils::install.packages("BioStat")
-#     utils::install.packages("RcmdrPlugin.BioStat")
+# if (!"RcmdrPlugin.biostat" %in% utils::installed.packages()) {
+#     utils::install.packages("biostat")
+#     utils::install.packages("RcmdrPlugin.biostat")
 # }
 
 
 rmd_template_filenamename <- paste0(
-    dir(.libPaths(), pattern = "RcmdrPlugin.BioStat", full.names = TRUE),
-    "/etc/BioStat-RMarkdown-Template.Rmd"
+    dir(.libPaths(), pattern = "RcmdrPlugin.biostat", full.names = TRUE),
+    "/etc/biostat-RMarkdown-Template.Rmd"
 )
 
 ###! Rcmdr Options Begin !###
 options(Rcmdr = list(plugins = c("RcmdrPlugin.KMggplot2",
                                  "RcmdrPlugin.EZR.2",
-                                 "RcmdrPlugin.BioStat",
+                                 "RcmdrPlugin.biostat",
                                  NULL),
                      console.output = FALSE,
                      use.rgl = FALSE,
@@ -63,7 +63,7 @@ options(Rcmdr = list(plugins = c("RcmdrPlugin.KMggplot2",
 
 Sys.setlocale(locale = "Lithuanian")
 
-# library(BioStat)
+# library(biostat)
 
 # library(magrittr)
 # library(pander)
@@ -83,4 +83,4 @@ Sys.setlocale(locale = "Lithuanian")
 ###! Rcmdr Options End !###
 
 
-message("--- Papildinys uzkrautas: RcmdrPlugin.BioStat ---")
+message("--- Papildinys uzkrautas: RcmdrPlugin.biostat ---")

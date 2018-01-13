@@ -2,7 +2,7 @@
 ^\.Rproj\.user$
 data-raw.*
 .gitignore
-^D:\Dokumentai\R\RcmdrPlugin\.BioStat\docs$
+^D:\Dokumentai\R\RcmdrPlugin\.biostat\docs$
 README.Rmd
 _pkgdown.yaml
 ^docs.*
