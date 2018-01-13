@@ -4,7 +4,7 @@
 #' @export
 #' @keywords internal
 command_std_lm_coeffs <- function() {
-    Library("BioStat")
+    Library("biostat")
     doItAndPrint(glue::glue("summary(coef_standardized({ActiveModel()}))"))
 }
 

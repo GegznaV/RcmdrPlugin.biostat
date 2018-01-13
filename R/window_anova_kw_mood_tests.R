@@ -7,7 +7,7 @@ window_anova_kw_mood_tests <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Library("multcomp")
     Library("abind")
-    Library("BioStat")
+    Library("biostat")
 
     cur_env <- environment()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -493,7 +493,7 @@ do_anova <- function(variables) {
     p_adj <- "holm"
     switch(posthoc_test,
            "tukey" = {
-               Library(BioStat)
+               Library(biostat)
 
                # Formula based results
                glue('# --- Post-hoc analysis: Tukey HSD test ---\n\n',

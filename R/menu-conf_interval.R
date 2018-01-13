@@ -8,7 +8,7 @@ window_ci_mean <- function() {
     return()
 
     Library("tidyverse")
-    Library("BioStat")
+    Library("biostat")
 
     conf_level = 0.95
     R = 2000
@@ -34,9 +34,9 @@ window_ci_mean <- function() {
 
 
 
-    doItAndPrint(glue::glue("BioStat::ci_mean_boot({ActiveDataSet()}${Numeric()[1]}, conf_level = {conf_level})"))
+    doItAndPrint(glue::glue("biostat::ci_mean_boot({ActiveDataSet()}${Numeric()[1]}, conf_level = {conf_level})"))
 
-    doItAndPrint(glue::glue("BioStat::ci_mean_t({ActiveDataSet()}${Numeric()[1]}, conf_level = {conf_level})"))
+    doItAndPrint(glue::glue("biostat::ci_mean_t({ActiveDataSet()}${Numeric()[1]}, conf_level = {conf_level})"))
 
 
     function_not_implemented()

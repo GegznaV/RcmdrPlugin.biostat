@@ -99,7 +99,7 @@ window_qqplot_biostat <- function() {
 
         closeDialog()
 
-        Library("BioStat")
+        Library("biostat")
 
         # For many groups ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (length(.groups) > 1) {
@@ -109,11 +109,11 @@ window_qqplot_biostat <- function() {
         # plot ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (.groups == FALSE) {
             command2 <- glue::glue(
-                'BioStat::qq_plot(~{var}, ',
+                'biostat::qq_plot(~{var}, ',
                 'data = {ActiveDataSet()}, use_colors = TRUE)')
         } else{
             command2 <- glue::glue(
-                'BioStat::qq_plot({var}~{.groups}, ',
+                'biostat::qq_plot({var}~{.groups}, ',
                 'data = {ActiveDataSet()}, use_colors = TRUE)')
         }
 
@@ -122,11 +122,11 @@ window_qqplot_biostat <- function() {
         # Test results ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # if (.groups == FALSE) {
         #     command <- glue::glue(
-        #         'BioStat::test_normality(~{var}, ',
+        #         'biostat::test_normality(~{var}, ',
         #         'data = {ActiveDataSet()}, test = {test}{n.classes})')
         # } else{
         #     command <- glue::glue(
-        #         'BioStat::test_normality({var}~{.groups}, ',
+        #         'biostat::test_normality({var}~{.groups}, ',
         #         'data = {ActiveDataSet()}, test = {test}{n.classes})')
         # }
         #

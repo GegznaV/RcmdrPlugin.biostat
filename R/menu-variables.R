@@ -8,9 +8,9 @@
 #' @export
 #' @keywords internal
 command_all_chr_to_fctr <- function() {
-    Library("BioStat")
+    Library("biostat")
 
     doItAndPrint(glue::glue(
-        "{ ActiveDataSet()} <- BioStat::all_chr_to_factor({ActiveDataSet()})"))
+        "{ ActiveDataSet()} <- biostat::all_chr_to_factor({ActiveDataSet()})"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

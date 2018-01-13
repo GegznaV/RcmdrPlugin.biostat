@@ -19,7 +19,7 @@ window_normality_test <- function() {
 
     dialog_values <- getDialog("window_normality_test", defaults)
 
-    initializeDialog(title = gettextRcmdr("Test of Normality (BioStat)"))
+    initializeDialog(title = gettextRcmdr("Test of Normality (biostat)"))
 
     # Callback  functions-----------------------------------------------------
 
@@ -242,7 +242,7 @@ window_normality_test <- function() {
 
         # Do analysis --------------------------------------------------------
         Library("tidyverse")
-        Library("BioStat")
+        Library("biostat")
         Library("nortest")
 
         # NA means no rounding
@@ -266,14 +266,14 @@ window_normality_test <- function() {
 
         if (length(gr_var) == 0) {
             command <- glue(
-                'BioStat::test_normality(~{y_var}, ',
+                'biostat::test_normality(~{y_var}, ',
                 'data = {ActiveDataSet()},\n',
                 '{spaces(24)}test = {test}{chi_sq_params})',
                 print_as_report)
 
         } else {
             command <- glue(
-                'BioStat::test_normality({y_var} ~ {gr_var}, ',
+                'biostat::test_normality({y_var} ~ {gr_var}, ',
                 'data = {ActiveDataSet()},\n',
                 '{spaces(24)}test = {test}{chi_sq_params})',
                 print_as_report)
@@ -289,12 +289,12 @@ window_normality_test <- function() {
 
             if (length(gr_var) == 0) {
                 command2 <- glue(
-                    'BioStat::qq_plot(~{y_var}, ',
+                    'biostat::qq_plot(~{y_var}, ',
                     'data = {ActiveDataSet()}, use_colors = {plot_in_colors})')
 
             } else {
                 command2 <- glue(
-                    'BioStat::qq_plot({y_var} ~ {gr_var}, ',
+                    'biostat::qq_plot({y_var} ~ {gr_var}, ',
                     'data = {ActiveDataSet()}, use_colors = {plot_in_colors})')
             }
 

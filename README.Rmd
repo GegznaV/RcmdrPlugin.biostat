@@ -14,15 +14,15 @@ knitr::opts_chunk$set(
 
 ***
 
-[![CRAN version](http://www.r-pkg.org/badges/version/RcmdrPlugin.BioStat)](https://cran.rstudio.com/web/packages/RcmdrPlugin.BioStat/index.html)
-[![GitHub version](https://img.shields.io/badge/GitHub-v`r packageVersion("RcmdrPlugin.BioStat")`-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.BioStat)
-[![Travis-CI Build Status](https://travis-ci.org/GegznaV/RcmdrPlugin.BioStat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.BioStat)
+[![CRAN version](http://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.rstudio.com/web/packages/RcmdrPlugin.biostat/index.html)
+[![GitHub version](https://img.shields.io/badge/GitHub-v`r packageVersion("RcmdrPlugin.biostat")`-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
+[![Travis-CI Build Status](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat)
 [![Updated-on](https://img.shields.io/badge/Updated%20on-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](/commits/master)
 
 ***
 
 ```{r logo-local, fig.align='center', out.height='30%', out.width='30%',echo=FALSE} 
- knitr::include_graphics("https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.BioStat/master/docs/logo.png") 
+ knitr::include_graphics("https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/docs/logo.png") 
 ``` 
  
 
@@ -31,9 +31,9 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 ==============================================================================
 
 
-The package `RcmdrPlugin.BioStat` is still in its development sate and some functions and menus are not fully functional yet. 
+The package `RcmdrPlugin.biostat` is still in its development sate and some functions and menus are not fully functional yet. 
 
-Documentation and more information available at http://gegznav.github.io/RcmdrPlugin.BioStat/
+Documentation and more information available at http://gegznav.github.io/RcmdrPlugin.biostat/
 
 
 ## Install the package
@@ -44,7 +44,7 @@ To install a developement version of the package from `GitHub`:
 if (!"devtools" %in% installed.packages())
         install.packages("devtools")
 
-devtools::install_github("GegznaV/RcmdrPlugin.BioStat")
+devtools::install_github("GegznaV/RcmdrPlugin.biostat")
 ```
 
 
@@ -55,9 +55,9 @@ devtools::install_github("GegznaV/RcmdrPlugin.BioStat")
 
 Other related packages:
 
-a. **BioStat** is an `R` package that contains a collection of functions that 
+a. **biostat** is an `R` package that contains a collection of functions that 
 do some common statistical routines without writing to much code 
-([homepage](https://gegznav.github.io/BioStat/));
+([homepage](https://gegznav.github.io/biostat/));
 b. **RcmdrPlugin.EZR.2** -- an *R Commander* plugin for the most common statistical analyses (the same as *RcmdrPlugin.EZR*, except that *RcmdrPlugin.EZR.2* does not modify original *Rcmdr* menu so dramatically);
 c. **RcmdrPlugin.KMggplot2** -- an *R Commander* plugin for *ggplot2* graphics.
 
@@ -66,8 +66,8 @@ To install these packages, use the following code:
 
 
 ```{r Install other packages, eval=FALSE}
-# BioStat
-devtools::install_github("GegznaV/BioStat")
+# biostat
+devtools::install_github("GegznaV/biostat")
 
 # RcmdrPlugin.EZR.2
 devtools::install_github("GegznaV/RcmdrPlugin.EZR@unmodified_Rcmdr_menu")
@@ -85,11 +85,11 @@ those packages are under either GPL-2 or GPL-3 license.
 ***
 
 <!-- [![Travis-CI Build Status]
-(https://travis-ci.org/GegznaV/RcmdrPlugin.BioStat.png?branch=master)]
-(https://travis-ci.org/GegznaV/RcmdrPlugin.BioStat) -->
+(https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)]
+(https://travis-ci.org/GegznaV/RcmdrPlugin.biostat) -->
 <!-- [![codecov.io]
-(https://codecov.io/github/GegznaV/RcmdrPlugin.BioStat/coverage.svg?branch=master)]
-(https://codecov.io/github/GegznaV/RcmdrPlugin.BioStat?branch=master) -->
+(https://codecov.io/github/GegznaV/RcmdrPlugin.biostat/coverage.svg?branch=master)]
+(https://codecov.io/github/GegznaV/RcmdrPlugin.biostat?branch=master) -->
 
 <!-- * * * -->
 

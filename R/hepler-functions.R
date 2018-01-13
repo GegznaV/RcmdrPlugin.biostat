@@ -26,10 +26,10 @@ function_not_implemented <- function(x = NULL) {
     }
 
     text <- glue("# ~~~ {x} will be implemented  \n ",
-                 "# ~~~ in the future versions of package `RcmdrPlugin.BioStat`! ")
+                 "# ~~~ in the future versions of package `RcmdrPlugin.biostat`! ")
 
     msg <- glue("{x} will be implemented in the future versions of package",
-                " `RcmdrPlugin.BioStat`! ")
+                " `RcmdrPlugin.biostat`! ")
 
     doItAndPrint(text)
     Message(msg, type = "warning")
@@ -58,7 +58,7 @@ eval_ <- function(x, envir = parent.frame(), ...) {
 }
 # ------------------------------------------------------------------------------
 gettext_Bio <- function(...) {
-    gettext(..., domain = "R-RcmdrPlugin.BioStat")
+    gettext(..., domain = "R-RcmdrPlugin.biostat")
 }
 # ------------------------------------------------------------------------------
 #' Does data contain characters?
