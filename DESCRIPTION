@@ -33,6 +33,7 @@ Imports:
     boot,
     glue,
     dplyr,
+    data.table,
     magrittr,
     grDevices,
     graphics,
@@ -40,7 +41,11 @@ Imports:
     plyr,
     scales,
     pander,
-    binom
+    binom,
+    ggedit,
+    colourpicker,
+    ggplotgui,
+    easyPlot
 Suggests:
     extrafont,
     knitr,

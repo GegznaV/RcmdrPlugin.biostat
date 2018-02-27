@@ -29,8 +29,68 @@ command_dataset_class <- function() {
 #' @rdname Menu-winow-functions
 #' @export
 #' @keywords internal
+command_colnames <- function() {
+    doItAndPrint(glue::glue("colnames({ActiveDataSet()})"))
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#' @rdname Menu-winow-functions
+#' @export
+#' @keywords internal
+command_rownames <- function() {
+    doItAndPrint(glue::glue("rownames({ActiveDataSet()})"))
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#' @rdname Menu-winow-functions
+#' @export
+#' @keywords internal
+command_dataset_print <- function() {
+    doItAndPrint(glue::glue("print({ActiveDataSet()})"))
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#' @rdname Menu-winow-functions
+#' @export
+#' @keywords internal
+command_dataset_view <- function() {
+    doItAndPrint(glue::glue("View({ActiveDataSet()})"))
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#' @rdname Menu-winow-functions
+#' @export
+#' @keywords internal
+command_dataset_dim <- function() {
+    doItAndPrint(glue::glue("dim({ActiveDataSet()})"))
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#' @rdname Menu-winow-functions
+#' @export
+#' @keywords internal
 command_dataset_as_df <- function() {
     doItAndPrint(glue::glue("{ActiveDataSet()} <- as.data.frame({ActiveDataSet()})"))
+    command_dataset_refresh()
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-winow-functions
+#' @export
+#' @keywords internal
+command_dataset_as_tibble <- function() {
+    Library("tibble")
+    doItAndPrint(glue::glue("{ActiveDataSet()} <- as_tibble({ActiveDataSet()})"))
+    command_dataset_refresh()
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-winow-functions
+#' @export
+#' @keywords internal
+command_dataset_as_dt <- function() {
+    Library("data.table")
+    doItAndPrint(glue::glue("{ActiveDataSet()} <- data.table({ActiveDataSet()})"))
+    command_dataset_refresh()
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

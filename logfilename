@@ -1,0 +1,6 @@
+
+# Current locale:  
+ 
+locale_info <- Sys.getlocale() 
+writeLines(gsub(";", "\n", locale_info))
+

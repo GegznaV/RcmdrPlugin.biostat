@@ -17,6 +17,21 @@ summary_head_tail <- function() {
     doItAndPrint(glue::glue("biostat::head_tail({ActiveDataSet()}, 4)"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-winow-functions
+#' @export
+#' @keywords internal
+summary_head <- function() {
+    doItAndPrint(glue::glue("head({ActiveDataSet()}, 4)"))
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-winow-functions
+#' @export
+#' @keywords internal
+summary_tail <- function() {
+    Library("biostat")
+    doItAndPrint(glue::glue("tail({ActiveDataSet()}, 4)"))
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #' @rdname Menu-winow-functions
 #' @export

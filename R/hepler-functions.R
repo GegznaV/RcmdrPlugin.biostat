@@ -1,3 +1,4 @@
+
 # ------------------------------------------------------------------------------
 # Formatat code in a `tidyverse` style
 style_cmd <- function(command, indent_by = 4, ...) {
@@ -44,6 +45,14 @@ nonFactorsP <- function(n = 1) {
     activeDataSetP() && length(setdiff(listVariables(), listFactors())) >= n
 }
 # ------------------------------------------------------------------------------
+#' @rdname Menu-winow-functions
+#' @export
+#' @keywords internal
+class_gglot_P <- function(n = 1) {
+    #  n - number of non-factors.
+    length(ls_class("ggplot", envir = .GlobalEnv)) >= n
+}
+# ------------------------------------------------------------------------------
 glue <- glue::glue
 # ------------------------------------------------------------------------------
 eval_glue <- function(..., envir = parent.frame(),
@@ -61,7 +70,7 @@ gettext_Bio <- function(...) {
     gettext(..., domain = "R-RcmdrPlugin.biostat")
 }
 # ------------------------------------------------------------------------------
-#' Does data contain characters?
+#' Does dataset contain characters?
 #'
 #' Return TRUE, if at least n character variables exist in the active dataset.
 #'
@@ -74,6 +83,20 @@ characterP <- function(n = 1) {
         (sum(eval_glue("mapply(is.character, {activeDataSet()})")) >= n)
 }
 # ------------------------------------------------------------------------------
+#' Does dataset contain certain number of variables?
+#'
+#' Return TRUE, if at least n variables exist in the active dataset.
+#'
+#' @param n Minimum number of character variables
+#'
+#' @keywords internal
+#' @export
+variablesP <- function(n = 1) {
+    activeDataSetP() && length(listVariables()) >= n
+}
+# ------------------------------------------------------------------------------
+
+#
 # ------------------------------------------------------------------------------
 #' Is the first class "data.frame"
 #'
@@ -83,6 +106,15 @@ characterP <- function(n = 1) {
 first_class_is_dataframeP <- function() {
     activeDataSetP() &&
         (eval_glue("class({activeDataSet()})[1]") == "data.frame")
+}
+#' [!] Is the first class the same as in brackets?
+#'
+#' Check if the first class of active Rcmdr dataset is the same as determined.
+#' @keywords internal
+#' @export
+first_class_isP <- function(df_class) {
+    activeDataSetP() &&
+        (eval_glue("class({activeDataSet()})[1]") == df_class)
 }
 # ------------------------------------------------------------------------------
 #' Chech the class of the active model in Rcmdr

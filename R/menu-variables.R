@@ -12,5 +12,7 @@ command_all_chr_to_fctr <- function() {
 
     doItAndPrint(glue::glue(
         "{ ActiveDataSet()} <- biostat::all_chr_to_factor({ActiveDataSet()})"))
+
+    command_dataset_refresh()
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
