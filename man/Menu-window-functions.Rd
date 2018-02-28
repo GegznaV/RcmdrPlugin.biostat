@@ -8,9 +8,12 @@
 \alias{function_not_implemented}
 \alias{class_gglot_P}
 \alias{window_ci_mean}
-\alias{window_ci_prop}
+\alias{window_ci_mean_diff}
+\alias{window_ci_median}
+\alias{window_ci_prop_multi}
+\alias{window_ci_prop_binom}
 \alias{window_ci_boot}
-\alias{Menu-winow-functions}
+\alias{Menu-window-functions}
 \alias{command_dataset_refresh}
 \alias{command_dataset_class}
 \alias{command_colnames}
@@ -42,7 +45,10 @@
 \alias{command_get_locale}
 \alias{command_set_locale_lt}
 \alias{command_set_locale_en}
+\alias{command_set_locale_ru}
 \alias{command_set_locale_default}
+\alias{command_session_info_devtools}
+\alias{command_session_info_utils}
 \alias{summary_glimpse}
 \alias{summary_head_tail}
 \alias{summary_head}
@@ -64,7 +70,13 @@ class_gglot_P(n = 1)
 
 window_ci_mean()
 
-window_ci_prop()
+window_ci_mean_diff()
+
+window_ci_median()
+
+window_ci_prop_multi()
+
+window_ci_prop_binom()
 
 window_ci_boot()
 
@@ -130,7 +142,13 @@ command_set_locale_lt()
 
 command_set_locale_en()
 
+command_set_locale_ru()
+
 command_set_locale_default()
+
+command_session_info_devtools()
+
+command_session_info_utils()
 
 summary_glimpse()
 

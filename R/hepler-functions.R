@@ -15,7 +15,7 @@ list_summaries_Models <- function(envir = .GlobalEnv, ...) {
 }
 
 # ------------------------------------------------------------------------------
-#' @rdname Menu-winow-functions
+#' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 function_not_implemented <- function(x = NULL) {
@@ -45,12 +45,12 @@ nonFactorsP <- function(n = 1) {
     activeDataSetP() && length(setdiff(listVariables(), listFactors())) >= n
 }
 # ------------------------------------------------------------------------------
-#' @rdname Menu-winow-functions
+#' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 class_gglot_P <- function(n = 1) {
     #  n - number of non-factors.
-    length(ls_class("ggplot", envir = .GlobalEnv)) >= n
+    length(objects_of_class("ggplot", envir = .GlobalEnv)) >= n
 }
 # ------------------------------------------------------------------------------
 glue <- glue::glue

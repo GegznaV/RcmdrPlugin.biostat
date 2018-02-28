@@ -1,7 +1,7 @@
 Package: RcmdrPlugin.biostat
 Type: Package
-Version: 0.0.6
-Date: 2017-12-14
+Version: 0.0.7
+Date: 2018-02-29
 Title: An R Commander Plug-in for Package "biostat"
 Description: An Rcmdr plug-in for functions in package "biostat" and various 
              other common data analysis tasks: 
@@ -45,6 +45,7 @@ Imports:
     ggedit,
     colourpicker,
     ggplotgui,
+    DescTools,
     easyPlot
 Suggests:
     extrafont,

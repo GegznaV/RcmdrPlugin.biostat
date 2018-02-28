@@ -1,4 +1,4 @@
-#' @rdname Menu-winow-functions
+#' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 window_qqplot_biostat <- function() {

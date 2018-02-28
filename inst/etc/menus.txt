@@ -28,14 +28,16 @@ item	data_menu   command      "Convert to `data.table`"	command_dataset_as_dt	  
 item    data_menu    separator    "" ""                          ""          ""
 
 
-# ---- Manage dataset (continues) ---------------------------------------------
+# ---- Create data -----------------------------------------------------------
 
-
+menu	create_menu  data_menu	  ""	""	""	""
+item	data_menu    cascade	  "Create a new dataset"       create_menu	""	""
+item	create_menu  command      "Create a dataset [Rcmdr]"   window_new_dataset_rcmdr	        ""	""
 
 
 # ~~~~ Data Import Menu ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-menu	import_menu     data_menu	  ""	""	""	""
+menu	import_menu  data_menu	  ""	""	""	""
 item	data_menu    cascade	  "Import / Load data"   import_menu	""	""
 
 item	import_menu  command      "Import R data object (.Rds)"	window_import_rds	        ""	""
@@ -82,27 +84,28 @@ item	Summary_bs    command      "Row names"	    command_rownames  "activeDataSet
 item	Summary_bs    command      "Column names"	command_colnames  "activeDataSetP()"	""
 
 item	Summary_bs    separator    "" "" "" ""
-item	Summary_bs    command      "Describe all variables [Hmisc]"	          summary_Hmisc_describe	"activeDataSetP()"	""
+item	Summary_bs    command      "Describe all variables [Hmisc]"	         summary_Hmisc_describe	"activeDataSetP()"	""
 item	Summary_bs    command      "Describe (numerical) variables [psych]"  summary_psych_describe	"activeDataSetP()"	""
-item	Summary_bs    command      "Summarize numerical variables by group"   window_do_summary	        "activeDataSetP()"	""
+item	Summary_bs    command      "Summarize numerical variables by group"  window_do_summary	    "activeDataSetP()"	""
 
 
 # =============================================================================
 # ---- Main plots -------------------------------------------------------------
 
 menu	plots_menu	    BioStat_menu ""	""	""	""
-item	BioStat_menu    cascade	   "Plots"	                  plots_menu	    ""	""
+item	BioStat_menu    cascade	    "Plots"	                  plots_menu	    ""	""
 
-item	plots_menu	    command      "New window for plots"	  open_new_plots_window	        ""	""
+item	plots_menu	    command     "New window for plots"	  open_new_plots_window	        ""	""
 
 item	plots_menu	    separator	""	""	""	""
 item	plots_menu	    command     "Interactive tool: easyPlot"   window_easyPlot       "variablesP(n = 2)"	""
 item	plots_menu	    command     "Interactive tool: ggplot GUI" window_ggplotgui      "variablesP()"	""
 item	plots_menu	    command     "Interactive tool: ggedit"     window_ggedit         "class_gglot_P()"	""
+item	plots_menu	    command     "Interactive tool: ggThemeAssist (example)"     window_ggThemeAssist         "class_gglot_P()"	""
 
 item	plots_menu	    separator	""	""	""	""
-item	plots_menu	    command     "Create a color palette"        window_colourPicker      ""	""
-item	plots_menu	    command     "Visualize color codes/names"   window_show_colors       ""	""
+item	plots_menu	    command     "Create a color palette"                  window_colourPicker      ""	""
+item	plots_menu	    command     "Visualize color codes/names (example)"   window_show_colors       ""	""
 
 # item	plots_menu	    separator	""	""	""	""
 # item	plots_menu	    command	    "Normal Q-Q plot (by groups)"	"function_not_implemented('window_qqplot_biostat')"	"numericP()"	""
@@ -114,6 +117,20 @@ item	plots_menu	    command     "Visualize color codes/names"   window_show_colo
 # item	plots_menu	    separator	""	""	""	""
 # item	plots_menu	    command "[!] Dots (with error bars)"    window_plot_dot_err   "nonFactorsP()"	""
 # item	plots_menu	    command "[!] Columns (with error bars)" window_plot_bar_err	  "nonFactorsP()"	""
+
+# ==============================================================================
+# ---- Confidence intervals ---------------------------------------------------
+
+menu	ci_menu	        BioStat_menu    ""	""	""	""
+item	BioStat_menu    cascade	   "Confidence intervals (CI)"   ci_menu	    ""	""
+
+item	ci_menu         command         "Mean CI (example)"	      window_ci_mean	""	""
+item	ci_menu         command         "Median CI (example)"	              window_ci_median	""	""
+item	ci_menu         command         "Binomial proportion CI (example)"    window_ci_prop_binom	""	""
+item	ci_menu         command         "Multinomial proportion CI (example) " window_ci_prop_multi	""	""
+item	ci_menu         command         "CI for difference in means (example)"	      window_ci_mean_diff	""	""
+item	ci_menu	        separator   	""	""	""	""
+item	ci_menu         command         "Bootstrap confidence intervals (example)"  window_ci_boot	""	""
 
 # ==============================================================================
 # ---- Statistical tests ------------------------------------------------------
@@ -133,19 +150,6 @@ item	Tests_menu      command         "Test normality"	window_normality_test	"num
 # item	Tests_menu       command         "[!] "t tests, Wilcoxon, Mann-Whitney tests, Wald-Wolfowitz" function_not_implemented	"numericP() & factorsP()"	""
 
 
-# ==============================================================================
-# ---- Confidence intervals ---------------------------------------------------
-
-menu	ci_menu	        BioStat_menu    ""	""	""	""
-item	BioStat_menu    cascade	   "Confidence intervals (CI)"   ci_menu	    ""	""
-
-# item	ci_menu         command         "[!] Mean CIs"	                  window_ci_mean	""	""
-# item	ci_menu         command         "[!] Mean difference CIs"	      window_ci_mean	""	""
-# item	ci_menu         command         "[!] Median CIs"	              window_ci_mean	""	""
-# item	ci_menu         command         "[!] Binomial proportion CIs "    window_ci_prop_binom	""	""
-# item	ci_menu         command         "[!] Multinomial proportion CIs " window_ci_prop_multi	""	""
-# item	ci_menu         command         "[!] Bootstrap confidence intervals"     window_ci_boot	""	""
-# item	ci_menu	        separator   	""	""	""	""
 
 
 # ==============================================================================
@@ -167,9 +171,19 @@ item	BioStat_menu    cascade	   "Settings"                    settings_menu	""	"
 
 item	settings_menu   command      "Show working directory"	 command_getwd          ""	""
 item	settings_menu	separator    ""	""	""	""
-item	settings_menu   command      "Show current locale"	     command_get_locale     ""	""
-item	settings_menu   command      "Set locale to Lithuanian (Windows only)"	 command_set_locale_lt  ""	""
-item	settings_menu   command      "Set locale to English (Windows only)"	 command_set_locale_en 	""	""
 
+
+item	settings_menu   command      "Session information [devtools]"	 command_session_info_devtools 	""	""
+item	settings_menu   command      "Session information [utils]"	     command_session_info_utils 	""	""
+
+item	settings_menu	separator    ""	""	""	""
+menu	locale_menu     settings_menu	    ""	""	""	""
+item	settings_menu   cascade	   "Locale"                      locale_menu	""	""
+
+item	locale_menu   command      "Show current locale"	         command_get_locale     ""	""
+item	locale_menu   command      "Set locale to Lithuanian"	     command_set_locale_lt  ""	""
+item	locale_menu   command      "Set locale to English"	         command_set_locale_en 	""	""
+item	locale_menu   command      "Set locale to Russian"	         command_set_locale_ru 	""	""
+item	locale_menu   command      "Set locale to system's default"	 command_set_locale_default  ""	""
 
 # =============================================================================

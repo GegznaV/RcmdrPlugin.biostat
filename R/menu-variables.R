@@ -4,7 +4,7 @@
 # Manage variables -----------------------------------------------------------
 
 
-#' @rdname Menu-winow-functions
+#' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 command_all_chr_to_fctr <- function() {
