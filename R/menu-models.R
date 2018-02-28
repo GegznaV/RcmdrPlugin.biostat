@@ -1,21 +1,21 @@
 # "Models" menu related functions ===========================================
 
-#' @rdname Menu-winow-functions
+#' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 command_std_lm_coeffs <- function() {
-    Library("BioStat")
+    Library("biostat")
     doItAndPrint(glue::glue("summary(coef_standardized({ActiveModel()}))"))
 }
 
-#' @rdname Menu-winow-functions
+#' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 command_get_model_class <- function() {
     doItAndPrint(glue::glue("class({ActiveModel()})"))
 }
 
-#' @rdname Menu-winow-functions
+#' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 command_model_print <- function() {

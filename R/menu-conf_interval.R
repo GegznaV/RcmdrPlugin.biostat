@@ -1,14 +1,29 @@
 # "Confidence interval" menu functions ============================================
 
-#' @rdname Menu-winow-functions
+#' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 window_ci_mean <- function() {
+
+    # Example ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    logger(paste0(
+        "# # An example of code for confidence intervals of mean:\n",
+        "# \n",
+        '# x <- 1:10\n',
+        '# DescTools::MeanCI(x, method = "boot", type = "bca")\n',
+        "\n"
+    ))
+
+    return()
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
     function_not_implemented("Function for confidence intervals of mean")
     return()
 
     Library("tidyverse")
-    Library("BioStat")
+    Library("biostat")
 
     conf_level = 0.95
     R = 2000
@@ -34,24 +49,108 @@ window_ci_mean <- function() {
 
 
 
-    doItAndPrint(glue::glue("BioStat::ci_mean_boot({ActiveDataSet()}${Numeric()[1]}, conf_level = {conf_level})"))
+    doItAndPrint(glue::glue("biostat::ci_mean_boot({ActiveDataSet()}${Numeric()[1]}, conf_level = {conf_level})"))
 
-    doItAndPrint(glue::glue("BioStat::ci_mean_t({ActiveDataSet()}${Numeric()[1]}, conf_level = {conf_level})"))
+    doItAndPrint(glue::glue("biostat::ci_mean_t({ActiveDataSet()}${Numeric()[1]}, conf_level = {conf_level})"))
 
 
     function_not_implemented()
 
 }
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-#' @rdname Menu-winow-functions
+#' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_ci_prop <- function() {
-    function_not_implemented("Function for proportion confidence intervals")
+window_ci_mean_diff <- function() {
+
+    # Example ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    logger(paste0(
+        "# # An example of code for confidence intervals of\n",
+        "# # difference in means of two groups:\n",
+        "# \n",
+        "# set.seed(123456)\n",
+        '# x <- 1:10\n',
+        "# y <- rnorm(10)\n",
+        '# DescTools::MeanDiffCI(x, y, method = "bca")\n',
+        "\n"
+    ))
+
     return()
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_ci_median <- function() {
+
+    # Example ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    logger(paste0(
+        "# # An example of code for confidence intervals of median:\n",
+        "# \n",
+        '# x <- 1:10\n',
+        '# DescTools::MedianCI(x, method = "boot", type = "bca")\n',
+        "\n"
+    ))
+
+    return()
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_ci_prop_multi <- function() {
+    # Example ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    logger(paste0(
+        "# # An example of code for confidence intervals\n",
+        "# # of multinomial proportion:\n",
+        "# \n",
+        '# x <- c(35, 74, 22, 69)\n',
+        '# DescTools::MultinomCI(x, method = "goodman")\n',
+        "# \n",
+        '# x <- c(35, 39, 32, 34, 40, 38)\n',
+        '# DescTools::MultinomCI(x, method = "sisonglaz")\n',
+        "\n"
+    ))
+
+    return()
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_ci_prop_binom <- function() {
+
+    # Example ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    logger(paste0(
+        "# # An example of code for confidence intervals\n",
+        "# # of binomial proportion:\n",
+        "# \n",
+        '# DescTools::BinomCI(x = 16, n = 200, method = "modified wilson")\n',
+        "\n"
+
+
+    ))
+
+    return()
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    function_not_implemented("Function for proportion confidence intervals")
 
 
     Library("tidyverse")
@@ -75,12 +174,29 @@ window_ci_prop <- function() {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Menu-winow-functions
+#' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 window_ci_boot <- function() {
-    function_not_implemented("Function for bootstrap confidence intervals")
+
+    # Example ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    logger(paste0(
+        "# # An example of code for bootstrap confidence intervals\n",
+        "# # (in the example, CI of Pearson correlation coefficient):\n",
+        "# \n",
+        "# set.seed(123456)\n",
+        "# x <- 1:10\n",
+        "# y <- rnorm(10)\n",
+        '# DescTools::BootCI(x, y, FUN = cor, bci.method = "bca")\n',
+        "\n"
+
+    ))
+
     return()
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    function_not_implemented("Function for bootstrap confidence intervals")
 
 
     Library("tidyverse")

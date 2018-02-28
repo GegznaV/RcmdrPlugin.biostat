@@ -68,7 +68,7 @@ window_z_transform <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         command <- paste0(c("\n",
                             glue("{.activeDataSet} <- within({.activeDataSet}, {{ "),
-                            glue("   {new_names} <- BioStat::scale_vector({variables}) "),
+                            glue("   {new_names} <- biostat::scale_vector({variables}) "),
                             "})\n"
         ),
         collapse = "\n")

@@ -1,6 +1,6 @@
 
 # Export dataset =============================================================
-#' @rdname Menu-winow-functions
+#' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 window_export_as_textfile <- function() {
@@ -8,7 +8,7 @@ window_export_as_textfile <- function() {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Menu-winow-functions
+#' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 window_export_as_rds <- function() {

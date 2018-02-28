@@ -1,4 +1,4 @@
-#' @rdname Menu-winow-functions
+#' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 window_do_summary <- function() {
@@ -7,7 +7,6 @@ window_do_summary <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Default values ---------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     defaults <- list(
         initial.y_var = NULL,
         initial.gr_var = NULL,
@@ -154,18 +153,17 @@ window_do_summary <- function() {
             return()
         }
 
-
         putDialog("window_do_summary",
                   list(initial.y_var  = y_var,
                        initial.gr_var = gr_var,
-                       initial.digits = NA,
+                       initial.digits = digits,
                        initial.keep_model = keep_model
                   )
         )
 
         # calculations -------------------------------------------------------
         .activeDataSet <- ActiveDataSet()
-        Library("BioStat")
+        Library("biostat")
 
         if (length(y_var) > 1) {
             y_var <- paste0(y_var, collapse = " + ")

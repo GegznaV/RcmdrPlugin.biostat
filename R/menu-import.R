@@ -1,6 +1,6 @@
 
 # Import dataset =============================================================
-#' @rdname Menu-winow-functions
+#' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 window_import_rds <- function() {
@@ -77,7 +77,7 @@ window_import_rds <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Menu-winow-functions
+#' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 dataset_import_excel <- function() {

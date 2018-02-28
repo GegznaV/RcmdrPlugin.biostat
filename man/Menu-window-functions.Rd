@@ -6,13 +6,24 @@
 %   R/window_qqplot_biostat.R, R/window_test_normality.R, R/window_tmp.R
 \name{function_not_implemented}
 \alias{function_not_implemented}
+\alias{class_gglot_P}
 \alias{window_ci_mean}
-\alias{window_ci_prop}
+\alias{window_ci_mean_diff}
+\alias{window_ci_median}
+\alias{window_ci_prop_multi}
+\alias{window_ci_prop_binom}
 \alias{window_ci_boot}
-\alias{Menu-winow-functions}
+\alias{Menu-window-functions}
 \alias{command_dataset_refresh}
 \alias{command_dataset_class}
+\alias{command_colnames}
+\alias{command_rownames}
+\alias{command_dataset_print}
+\alias{command_dataset_view}
+\alias{command_dataset_dim}
 \alias{command_dataset_as_df}
+\alias{command_dataset_as_tibble}
+\alias{command_dataset_as_dt}
 \alias{window_export_as_textfile}
 \alias{window_export_as_rds}
 \alias{window_import_rds}
@@ -21,6 +32,10 @@
 \alias{command_get_model_class}
 \alias{command_model_print}
 \alias{open_new_plots_window}
+\alias{window_easyPlot}
+\alias{window_ggplotgui}
+\alias{window_show_colors}
+\alias{window_colourPicker}
 \alias{window_histogram}
 \alias{window_density_plot}
 \alias{window_plot_dot_err}
@@ -30,8 +45,14 @@
 \alias{command_get_locale}
 \alias{command_set_locale_lt}
 \alias{command_set_locale_en}
+\alias{command_set_locale_ru}
+\alias{command_set_locale_default}
+\alias{command_session_info_devtools}
+\alias{command_session_info_utils}
 \alias{summary_glimpse}
 \alias{summary_head_tail}
+\alias{summary_head}
+\alias{summary_tail}
 \alias{summary_Hmisc_describe}
 \alias{summary_psych_describe}
 \alias{summary_psych_describeBy}
@@ -41,13 +62,21 @@
 \alias{window_qqplot_biostat}
 \alias{window_normality_test}
 \alias{window_tmp}
-\title{RcmdrPlugin.BioStat functions for menus and windows}
+\title{RcmdrPlugin.biostat functions for menus and windows}
 \usage{
 function_not_implemented(x = NULL)
 
+class_gglot_P(n = 1)
+
 window_ci_mean()
 
-window_ci_prop()
+window_ci_mean_diff()
+
+window_ci_median()
+
+window_ci_prop_multi()
+
+window_ci_prop_binom()
 
 window_ci_boot()
 
@@ -55,7 +84,21 @@ command_dataset_refresh()
 
 command_dataset_class()
 
+command_colnames()
+
+command_rownames()
+
+command_dataset_print()
+
+command_dataset_view()
+
+command_dataset_dim()
+
 command_dataset_as_df()
+
+command_dataset_as_tibble()
+
+command_dataset_as_dt()
 
 window_export_as_textfile()
 
@@ -72,6 +115,14 @@ command_get_model_class()
 command_model_print()
 
 open_new_plots_window()
+
+window_easyPlot()
+
+window_ggplotgui()
+
+window_show_colors()
+
+window_colourPicker()
 
 window_histogram()
 
@@ -91,9 +142,21 @@ command_set_locale_lt()
 
 command_set_locale_en()
 
+command_set_locale_ru()
+
+command_set_locale_default()
+
+command_session_info_devtools()
+
+command_session_info_utils()
+
 summary_glimpse()
 
 summary_head_tail()
+
+summary_head()
+
+summary_tail()
 
 summary_Hmisc_describe()
 

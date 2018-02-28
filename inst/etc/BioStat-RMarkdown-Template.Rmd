@@ -1,12 +1,12 @@
 ---
-title:    "Replace with Main Title"
-subtitle: "Replace with Subtitle Title"
-author:   "Your Name"
+title:    "Replace_with_Main_Title"
+subtitle: "Replace_with_Subtitle_Title"
+author:   "Your_Name"
 date:     "`r Sys.Date()`"
 ---
 
 ```{r setup, include=FALSE}
-# Code chunk called "setup" contains the default options
+# Code chunk called "setup" contains default options
 knitr::opts_chunk$set(
     echo    = TRUE,   # (TRUE|FALSE) Show program code in the report.
     prompt  = FALSE,  # (TRUE|FALSE) Show prompt symbol before R code.
@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 library(Rcmdr)
 library(car)
 library(RcmdrMisc)
-library(BioStat)
+library(biostat)
 library(tidyverse)
 ```
 

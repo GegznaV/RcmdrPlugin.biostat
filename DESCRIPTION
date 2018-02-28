@@ -1,9 +1,9 @@
-Package: RcmdrPlugin.BioStat
+Package: RcmdrPlugin.biostat
 Type: Package
-Version: 0.0.6
-Date: 2017-12-14
-Title: An R Commander Plug-in for Package "BioStat"
-Description: An Rcmdr plug-in for functions in package "BioStat" and various 
+Version: 0.0.7
+Date: 2018-02-29
+Title: An R Commander Plug-in for Package "biostat"
+Description: An Rcmdr plug-in for functions in package "biostat" and various 
              other common data analysis tasks: 
              making plots, summarizing and describing data, etc.
 Authors@R: c(
@@ -15,10 +15,10 @@ Encoding: UTF-8
 LazyData: true
 ByteCompile: false
 Remotes:
-    GegznaV/BioStat
+    GegznaV/biostat
 Depends:
     R (>= 3.3.0),
-    BioStat (>= 0.0.12),
+    biostat (>= 0.0.13),
     tcltk,
     tcltk2 (>= 1.2-11),
     Rcmdr
@@ -33,6 +33,7 @@ Imports:
     boot,
     glue,
     dplyr,
+    data.table,
     magrittr,
     grDevices,
     graphics,
@@ -40,7 +41,12 @@ Imports:
     plyr,
     scales,
     pander,
-    binom
+    binom,
+    ggedit,
+    colourpicker,
+    ggplotgui,
+    DescTools,
+    easyPlot
 Suggests:
     extrafont,
     knitr,
