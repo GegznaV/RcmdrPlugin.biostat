@@ -87,6 +87,7 @@ command_set_locale_ru <- function() {
 #' @export
 #' @keywords internal
 command_set_locale_default <- function() {
+    # [!!!] works only in Windows
     Rcmdr::doItAndPrint(paste(
         '# Set locale to system default \n',
         'locale_info <- Sys.setlocale(locale = "")',
