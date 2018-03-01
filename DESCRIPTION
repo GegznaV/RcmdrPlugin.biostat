@@ -15,7 +15,7 @@ Encoding: UTF-8
 LazyData: true
 ByteCompile: false
 Remotes:
-    GegznaV/biostat
+    GegznaV/biostat,
     majkamichal/easyPlot
 Depends:
     R (>= 3.3.0),
