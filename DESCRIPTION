@@ -1,6 +1,6 @@
 Package: RcmdrPlugin.biostat
 Type: Package
-Version: 0.0.7.9000
+Version: 0.0.7
 Date: 2018-03-01
 Title: An R Commander Plug-in for Package "biostat"
 Description: An Rcmdr plug-in for functions in package "biostat" and various 

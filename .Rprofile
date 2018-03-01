@@ -61,7 +61,8 @@ options(Rcmdr = list(plugins = c("RcmdrPlugin.KMggplot2",
                      rmd.template = rmd_template_filenamename)
         )
 
-Sys.setlocale(locale = "Lithuanian")
+if (.Platform$OS.type == "Windows")
+    Sys.setlocale(locale = "Lithuanian")
 
 # library(biostat)
 
