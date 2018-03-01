@@ -16,6 +16,7 @@ LazyData: true
 ByteCompile: false
 Remotes:
     GegznaV/biostat
+    majkamichal/easyPlot
 Depends:
     R (>= 3.3.0),
     biostat (>= 0.0.13),
