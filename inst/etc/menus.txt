@@ -17,17 +17,15 @@ item    data_menu    separator    "" ""                          ""          ""
 
 # ---- Manage dataset's class -------------------------------------------------
 
-#<del> menu	class_menu   data_menu	  ""	""	""	""
-#<del> item	data_menu    cascade	  "Dataset's class..."      class_menu	""	""
-
 item	data_menu   command      "Show class"	command_dataset_class    "activeDataSetP()"	""
 item	data_menu   command      "Convert to `data.frame`"	command_dataset_as_df	  "activeDataSetP() && !first_class_is_dataframeP()"	""
 item	data_menu   command      "Convert to tibble (`tbl_df`)"	    command_dataset_as_tibble "activeDataSetP() && !first_class_isP('tbl_df')"	"packageAvailable('tibble')"
 item	data_menu   command      "Convert to `data.table`"	command_dataset_as_dt	  "activeDataSetP() && !first_class_isP('data.table')"	"packageAvailable('data.table')"
 
 item    data_menu    separator    "" ""                          ""          ""
-
-
+item	data_menu    command      "Join datasets"			window_dataset_join	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	data_menu    command      "Bind datasets by row/column"	window_dataset_bind	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item    data_menu    separator    "" ""                          ""          ""
 # ---- Create data -----------------------------------------------------------
 
 menu	create_menu  data_menu	  ""	""	""	""
