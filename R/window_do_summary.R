@@ -21,7 +21,7 @@ window_do_summary <- function() {
     tabs =      c("dataTab", "optionsTab")
     tab_names = c(" Data ",  " Options ")
 
-    initializeDialog(title = gettextRcmdr("Summarize variables"),
+    initializeDialog(title = gettextRcmdr("Do numerical summaries"),
                      use.tabs = TRUE, tabs = tabs)
 
     # posthocFrame <- tkframe(posthocTab)
@@ -47,7 +47,6 @@ window_do_summary <- function() {
         listHeight = 6,
         title = gettextRcmdr("Group variable \n(pick one, several or none)"),
         initialSelection = varPosn(dialog.values$initial.gr_var, "factor"))
-
 
     tkgrid(
         getFrame(yBox),
@@ -78,9 +77,9 @@ window_do_summary <- function() {
                    frame = "keep_model_Frame",
                    # title = "Plot options",
                    boxes = c("keep_model"),
-                   initialValues = c(defaults$initial.keep_model),
+                   initialValues = c(dialog.values$initial.keep_model),
                    labels = gettextRcmdr(
-                       c("Keep model")
+                       c("Keep summary as dataset")
                    ),
                    commands = list("keep_model" = function(){})
     )
@@ -98,7 +97,7 @@ window_do_summary <- function() {
 
 
 
-    digitsVar <- tclVar(defaults$initial.digits)
+    digitsVar <- tclVar(dialog.values$initial.digits)
 
     digitsVarFrame <- tkframe(main_top_frame)
     digitsBox      <- ttkentry(digitsVarFrame, width = "20", textvariable = digitsVar)
