@@ -3,7 +3,7 @@
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-summary_glimpse <- function() {
+command_glimpse <- function() {
     Library("tidyverse")
     # doItAndPrint('library("tidyverse")')
     doItAndPrint(glue::glue("dplyr::glimpse({ActiveDataSet()})"))

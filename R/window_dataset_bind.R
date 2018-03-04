@@ -4,6 +4,8 @@
 window_dataset_bind <- function() {
     dataSets <- listDataSets()
     .activeDataSet <- ActiveDataSet()
+
+    # [!!!] functions to get and put diaglog are needed.
     initializeDialog(title = gettextRcmdr("Bind Datasets"))
     dsname <- tclVar("new_dataset")
     idname <- tclVar(".old_dataset_id")
@@ -108,6 +110,14 @@ window_dataset_bind <- function() {
 
                },
                "columns" =  {
+                   if (nrow(eval_glue("{name1}")) != nrow(eval_glue("{name2}"))) {
+                       errorCondition(
+                           recall = window_dataset_bind,
+                           message = gettextRcmdr("To bind by columns, number of rows in each dataset must match.")
+                       )
+                       return()
+                   }
+
                    # command <- glue::glue('{dsnameValue} <- merge({name1}, {name2}, all = {!common}, by="row.names")')},
                    command <- glue::glue('{dsnameValue} <- dplyr::bind_cols({name1}, {name2})')
                    },

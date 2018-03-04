@@ -2,9 +2,9 @@
 % Please edit documentation in R/hepler-functions.R, R/menu-conf_interval.R,
 %   R/menu-data.R, R/menu-export.R, R/menu-import.R, R/menu-models.R,
 %   R/menu-plots.R, R/menu-settings.R, R/menu-summary.R, R/menu-variables.R,
-%   R/window_anova_kw_mood_tests.R, R/window_dataset_bind.R,
-%   R/window_dataset_join.R, R/window_do_summary.R, R/window_qqplot_biostat.R,
-%   R/window_test_normality.R, R/window_tmp.R
+%   R/window_anova_kw_mood_tests.R, R/window_col_compute.R,
+%   R/window_dataset_bind.R, R/window_dataset_join.R, R/window_do_summary.R,
+%   R/window_qqplot_biostat.R, R/window_test_normality.R, R/window_tmp.R
 \name{function_not_implemented}
 \alias{function_not_implemented}
 \alias{class_gglot_P}
@@ -19,6 +19,11 @@
 \alias{command_dataset_class}
 \alias{command_colnames}
 \alias{command_rownames}
+\alias{command_rowid_to_col}
+\alias{command_rownames_to_col}
+\alias{command_col_to_rownames}
+\alias{window_rows_filter}
+\alias{window_rows_slice}
 \alias{command_dataset_print}
 \alias{command_dataset_view}
 \alias{command_dataset_dim}
@@ -50,7 +55,7 @@
 \alias{command_set_locale_default}
 \alias{command_session_info_devtools}
 \alias{command_session_info_utils}
-\alias{summary_glimpse}
+\alias{command_glimpse}
 \alias{summary_head_tail}
 \alias{summary_head}
 \alias{summary_tail}
@@ -59,6 +64,7 @@
 \alias{summary_psych_describeBy}
 \alias{command_all_chr_to_fctr}
 \alias{window_anova_kw_mood_tests}
+\alias{window_col_compute}
 \alias{window_dataset_bind}
 \alias{window_dataset_join}
 \alias{window_do_summary}
@@ -90,6 +96,16 @@ command_dataset_class()
 command_colnames()
 
 command_rownames()
+
+command_rowid_to_col()
+
+command_rownames_to_col()
+
+command_col_to_rownames()
+
+window_rows_filter()
+
+window_rows_slice()
 
 command_dataset_print()
 
@@ -153,7 +169,7 @@ command_session_info_devtools()
 
 command_session_info_utils()
 
-summary_glimpse()
+command_glimpse()
 
 summary_head_tail()
 
@@ -170,6 +186,8 @@ summary_psych_describeBy()
 command_all_chr_to_fctr()
 
 window_anova_kw_mood_tests()
+
+window_col_compute()
 
 window_dataset_bind()
 
