@@ -1,7 +1,7 @@
 Package: RcmdrPlugin.biostat
 Type: Package
-Version: 0.0.7
-Date: 2018-02-29
+Version: 0.0.8
+Date: 2018-03-06
 Title: An R Commander Plug-in for Package "biostat"
 Description: An Rcmdr plug-in for functions in package "biostat" and various 
              other common data analysis tasks: 
@@ -19,7 +19,7 @@ Remotes:
     majkamichal/easyPlot
 Depends:
     R (>= 3.3.0),
-    biostat (>= 0.0.13),
+    biostat (>= 0.0.15),
     tcltk,
     tcltk2 (>= 1.2-11),
     Rcmdr
@@ -47,7 +47,9 @@ Imports:
     colourpicker,
     ggplotgui,
     DescTools,
-    easyPlot
+    descriptr,
+    easyPlot,
+    RcmdrPlugin.EZR
 Suggests:
     extrafont,
     knitr,

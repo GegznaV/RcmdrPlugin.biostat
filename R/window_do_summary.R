@@ -2,7 +2,6 @@
 #' @export
 #' @keywords internal
 window_do_summary <- function() {
-
     cur_env <- environment()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Default values ---------------------------------------------------------
@@ -21,7 +20,7 @@ window_do_summary <- function() {
     tabs =      c("dataTab", "optionsTab")
     tab_names = c(" Data ",  " Options ")
 
-    initializeDialog(title = gettextRcmdr("Summarize variables"),
+    initializeDialog(title = gettextRcmdr("Do numerical summaries"),
                      use.tabs = TRUE, tabs = tabs)
 
     # posthocFrame <- tkframe(posthocTab)
@@ -47,7 +46,6 @@ window_do_summary <- function() {
         listHeight = 6,
         title = gettextRcmdr("Group variable \n(pick one, several or none)"),
         initialSelection = varPosn(dialog.values$initial.gr_var, "factor"))
-
 
     tkgrid(
         getFrame(yBox),
@@ -78,9 +76,9 @@ window_do_summary <- function() {
                    frame = "keep_model_Frame",
                    # title = "Plot options",
                    boxes = c("keep_model"),
-                   initialValues = c(defaults$initial.keep_model),
+                   initialValues = c(dialog.values$initial.keep_model),
                    labels = gettextRcmdr(
-                       c("Keep model")
+                       c("Keep summary as dataset")
                    ),
                    commands = list("keep_model" = function(){})
     )
@@ -98,7 +96,7 @@ window_do_summary <- function() {
 
 
 
-    digitsVar <- tclVar(defaults$initial.digits)
+    digitsVar <- tclVar(dialog.values$initial.digits)
 
     digitsVarFrame <- tkframe(main_top_frame)
     digitsBox      <- ttkentry(digitsVarFrame, width = "20", textvariable = digitsVar)
@@ -119,6 +117,7 @@ window_do_summary <- function() {
         gr_var <- getSelection(groupBox)
         y_var  <- getSelection(yBox)
         digits <- suppressWarnings(tclvalue_int(digitsVar))
+        names(digits) <- NULL
         model_name_Value <- trim.blanks(tclvalue(modelName))
         keep_model <- tclvalue_lgl(keep_modelVariable)
 
@@ -143,8 +142,6 @@ window_do_summary <- function() {
 
         closeDialog()
 
-
-
         if (length(y_var) == 0) {
             errorCondition(
                 recall = window_do_summary,
@@ -156,7 +153,7 @@ window_do_summary <- function() {
         putDialog("window_do_summary",
                   list(initial.y_var  = y_var,
                        initial.gr_var = gr_var,
-                       initial.digits = digits,
+                       initial.digits = as.character(digits),
                        initial.keep_model = keep_model
                   )
         )
@@ -216,8 +213,5 @@ window_do_summary <- function() {
                  tabs = tabs,
                  tab.names = tab_names)
 }
-
-
-
 # ==============================================================================
 

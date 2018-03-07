@@ -32,14 +32,10 @@ command_dataset_class <- function() {
 command_colnames <- function() {
     doItAndPrint(glue::glue("colnames({ActiveDataSet()})"))
 }
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-command_rownames <- function() {
-    doItAndPrint(glue::glue("rownames({ActiveDataSet()})"))
-}
+
+# ============================================================================
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #' @rdname Menu-window-functions
