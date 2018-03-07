@@ -17,7 +17,7 @@ open_new_plots_window <- function() {
 #' @export
 #' @keywords internal
 window_easyPlot <- function() {
-    library("easyPlot")
+    Library("easyPlot")
 
     command <- glue::glue('easyPlot::easyPlot("{ActiveDataSet()}")')
     logger(paste("#", command))
@@ -29,7 +29,7 @@ window_easyPlot <- function() {
 #' @export
 #' @keywords internal
 window_ggplotgui <- function() {
-    library("ggplotgui")
+    Library("ggplotgui")
 
     command <- glue::glue("ggplotgui::ggplot_shiny({ActiveDataSet()})")
     logger(paste("#", command))
@@ -70,7 +70,7 @@ window_show_colors <- function() {
 #' @export
 #' @keywords internal
 window_colourPicker <- function() {
-    library("colourpicker")
+    Library("colourpicker")
 
     color_names <- NULL
     color_names <- colourpicker::colourPicker()

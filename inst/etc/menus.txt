@@ -15,8 +15,11 @@ item	bs_data_menu     command      "Create a new dataset"   window_new_dataset_r
 
 # ---- Join/Bind datasets ---------------------------------------------------------
 item    bs_data_menu    separator    "" "" "" ""
-item	bs_data_menu    command      "Join/Merge two datasets"			window_dataset_join	"dataSetsP(2)"	"packageAvailable('dplyr')"
-item	bs_data_menu    command      "Bind rows/columns of two datasets"	window_dataset_bind	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	bs_data_menu    command      "Join/Merge two datasets"		window_dataset_join	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	bs_data_menu    command      "Bind rows of two datasets"	window_dataset_bind_rows	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	bs_data_menu    command      "Bind columns of two datasets"	window_dataset_bind_cols	"dataSetsP(2)"	"packageAvailable('dplyr')"
+
+# item	bs_data_menu    command      "Bind rows/columns of two datasets"	window_dataset_bind	"dataSetsP(2)"	"packageAvailable('dplyr')"
 
 
 # ~~~~ Data Import Menu ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -39,14 +42,12 @@ item	bs_active_ds_menu   command    "Refresh active dataset"	command_dataset_ref
 
 item	bs_active_ds_menu    separator    "" "" "" ""
 item	bs_active_ds_menu    command      "Glimpse: structure of dataset"    command_glimpse        "activeDataSetP()"	""
-item	bs_active_ds_menu    command      "View dataset in a separate window" command_dataset_view   "activeDataSetP()"	""
+item	bs_active_ds_menu    command      "View: show dataset in a separate window" command_dataset_view   "activeDataSetP()"	""
 item	bs_active_ds_menu    command      "Number of rows and columns"        command_dataset_dim    "activeDataSetP()"	""
 item	bs_active_ds_menu    command      "Print top and bottom rows"         summary_head_tail      "activeDataSetP()"	""
 # item	bs_active_ds_menu    command      "Print top rows only"	              summary_head	          "activeDataSetP()"	""
 # item	bs_active_ds_menu    command      "Print bottom rows only"            summary_tail	          "activeDataSetP()"	""
 item	bs_active_ds_menu    command      "Print whole dataset"               command_dataset_print  "activeDataSetP()"	""
-item	bs_active_ds_menu    command      "Print row names"                   command_rownames       "activeDataSetP()"	""
-item	bs_active_ds_menu    command      "Print column names"                command_colnames       "activeDataSetP()"	""
 
 # ---- Manage dataset's class -------------------------------------------------
 
@@ -75,7 +76,7 @@ item	bs_export_menu  command      "Save as R data file (.Rds)"   window_export_a
 menu	bs_rows_menu	BioStat_menu	    ""	""	""	""
 item	BioStat_menu    cascade	    "Rows"          bs_rows_menu	""	""
 
-# item	bs_rows_menu   command      "Arrange: sort rows (example)"                         window_rows_arrange          "activeDataSetP()"	""
+item	bs_rows_menu   command      "Arrange: sort rows (example)"                         window_rows_arrange          "activeDataSetP()"	""
 item	bs_rows_menu   command      "Filter: select rows that match conditions (example)"  window_rows_filter    "activeDataSetP()"	""
 item	bs_rows_menu   command      "Slice: select rows by position (example)"             window_rows_slice     "activeDataSetP()"	""
 
@@ -94,19 +95,15 @@ item	bs_rows_menu   command      "Move column values to row names (example)"  co
 # ---- Manage variables / columns ---------------------------------------------
 
 menu	bs_varible_menu	BioStat_menu	    ""	""	""	""
-item	BioStat_menu    cascade	       "Variables (columns) "             bs_varible_menu	""	""
+item	BioStat_menu     cascade	 "Variables (columns) "             bs_varible_menu	""	""
 
-item	bs_varible_menu   command      "Print variable (column) names"    command_colnames        "activeDataSetP()"	""
-item	bs_varible_menu    command     "List and preview variables (glimpse)"    command_glimpse        "activeDataSetP()"	""
+item	bs_varible_menu  command     "Print variable (column) names"    command_colnames        "activeDataSetP()"	""
+item	bs_varible_menu  command     "Glimpse: list and preview variables"    command_glimpse  "activeDataSetP()"	""
 
-# item	bs_varible_menu   command      "Change variable (column) names"   window_change_colnames  "activeDataSetP()"	""
-item	bs_varible_menu   separator    "" "" "" ""
-item	bs_varible_menu   command      "Compute a new variable"           window_col_compute     "activeDataSetP()"	""
+# item	bs_varible_menu  command      "Change variable (column) names"   window_change_colnames  "activeDataSetP()"	""
+item	bs_varible_menu  separator    "" "" "" ""
+item	bs_varible_menu  command      "Compute a new variable"           window_col_compute      "activeDataSetP()"	""
 
-menu	bs_var_text_menu   bs_active_ds_menu	  ""	""	""	""
-item	bs_varible_menu    cascade	  "Text variables (character)"   bs_var_text_menu	 "activeDataSetP()"	""
-
-item	bs_var_text_menu   command    "Convert all strings (chr) to factors"	command_all_chr_to_fctr "characterP()"	""
 
 menu	bs_var_num_menu   bs_active_ds_menu	  ""	""	""	""
 item	bs_varible_menu   cascade	  "Numeric variables"   bs_var_num_menu	 "activeDataSetP()"	""
@@ -117,6 +114,13 @@ item	bs_var_num_menu   command      "Z transformation / Standardization"  	windo
 menu	bs_var_fct_menu   bs_active_ds_menu	  ""	""	""	""
 item	bs_varible_menu   cascade	  "Categorical variables (factors)"   bs_var_fct_menu	 "activeDataSetP()"	""
 
+menu	bs_var_text_menu  bs_active_ds_menu	  ""	""	""	""
+item	bs_varible_menu   cascade	  "Text variables (character)"   bs_var_text_menu	 "activeDataSetP()"	""
+
+item	bs_var_text_menu  command    "Convert all strings (chr) to factors"	command_all_chr_to_fctr "characterP()"	""
+
+
+
 # item	bs_var_fct_menu   command      "Log transformation"	                    window_log_transform 	"numericP()"	""
 # item	bs_var_fct_menu   command      "Z transformation / Standardization"  	window_z_transform	    "numericP()"	""
 
@@ -126,10 +130,13 @@ item	bs_varible_menu   cascade	  "Categorical variables (factors)"   bs_var_fct_
 menu	bs_summary_menu	  BioStat_menu	    ""	""	""	""
 item	BioStat_menu  cascade	   "Summaries"                   bs_summary_menu  	""	""
 
-item	bs_summary_menu    separator    "" "" "" ""
-item	bs_summary_menu    command      "Describe all variables [Hmisc]"	         summary_Hmisc_describe	"activeDataSetP()"	""
-item	bs_summary_menu    command      "Describe (numerical) variables [psych]"  summary_psych_describe	"activeDataSetP()"	""
-item	bs_summary_menu    command      "Summarize numerical variables by group"  window_do_summary	    "activeDataSetP()"	""
+# item	bs_summary_menu    separator    "" "" "" ""
+
+item	bs_summary_menu    command      "Screen dataset"	      summary_ds_screener	        "activeDataSetP()"	""
+item	bs_summary_menu    command      "Summarize all variables [stats]"	      command_summary	        "activeDataSetP()"	""
+item	bs_summary_menu    command      "Describe all variables [Hmisc]"	      summary_Hmisc_describe	"activeDataSetP()"	""
+item	bs_summary_menu    command      "Describe numerical variables [psych]"    summary_psych_describe	"activeDataSetP()"	""
+item	bs_summary_menu    command      "Summarize numerical variables by group"  window_do_summary	        "activeDataSetP()"	""
 
 
 # =============================================================================

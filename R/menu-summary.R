@@ -9,6 +9,15 @@ command_glimpse <- function() {
     doItAndPrint(glue::glue("dplyr::glimpse({ActiveDataSet()})"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+command_summary <- function() {
+    # doItAndPrint('library("tidyverse")')
+    doItAndPrint(glue::glue("summary({ActiveDataSet()})"))
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
@@ -43,6 +52,18 @@ summary_Hmisc_describe <- function() {
     doItAndPrint(glue::glue("# Summary of all variables\n",
 
                             "Hmisc::describe({ActiveDataSet()})"))
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+summary_ds_screener <- function() {
+    Library("descriptr")
+
+    doItAndPrint(glue::glue("# Screen the dataset\n",
+
+                            "descriptr::ds_screener({ActiveDataSet()})"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

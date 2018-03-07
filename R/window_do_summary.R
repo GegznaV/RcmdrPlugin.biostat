@@ -2,7 +2,6 @@
 #' @export
 #' @keywords internal
 window_do_summary <- function() {
-
     cur_env <- environment()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Default values ---------------------------------------------------------
@@ -118,6 +117,7 @@ window_do_summary <- function() {
         gr_var <- getSelection(groupBox)
         y_var  <- getSelection(yBox)
         digits <- suppressWarnings(tclvalue_int(digitsVar))
+        names(digits) <- NULL
         model_name_Value <- trim.blanks(tclvalue(modelName))
         keep_model <- tclvalue_lgl(keep_modelVariable)
 
@@ -142,8 +142,6 @@ window_do_summary <- function() {
 
         closeDialog()
 
-
-
         if (length(y_var) == 0) {
             errorCondition(
                 recall = window_do_summary,
@@ -155,7 +153,7 @@ window_do_summary <- function() {
         putDialog("window_do_summary",
                   list(initial.y_var  = y_var,
                        initial.gr_var = gr_var,
-                       initial.digits = digits,
+                       initial.digits = as.character(digits),
                        initial.keep_model = keep_model
                   )
         )
@@ -215,8 +213,5 @@ window_do_summary <- function() {
                  tabs = tabs,
                  tab.names = tab_names)
 }
-
-
-
 # ==============================================================================
 
