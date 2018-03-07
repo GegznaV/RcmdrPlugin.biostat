@@ -12,6 +12,7 @@ version](https://img.shields.io/badge/GitHub-v0.0.8-brightgreen.svg)](https://gi
 Status](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat)
 [![Updated-on](https://img.shields.io/badge/Updated%20on-2018--03--07-yellowgreen.svg)](/commits/master)
 
+
 -----
 
 <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/docs/logo.png" width="30%" height="30%" style="display: block; margin: auto;" />
@@ -22,6 +23,7 @@ Status](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)](ht
 **development stage** and some functions are for demonstration and test
 purposes only as they may change in the future. Some menus are not fully
 functional yet. </font>
+
 
 Documentation and more information available at
 <http://gegznav.github.io/RcmdrPlugin.biostat/>
