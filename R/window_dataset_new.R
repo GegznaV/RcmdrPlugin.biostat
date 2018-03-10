@@ -4,7 +4,7 @@
 #'
 #' @export
 #' @keywords internal
-window_new_dataset_rcmdr <- function() {
+window_dataset_new_rcmdr <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Window to choose dataset's name
 
