@@ -32,6 +32,12 @@ window_ggplotgui <- function() {
     Library("ggplotgui")
 
     command <- glue::glue("ggplotgui::ggplot_shiny({ActiveDataSet()})")
+
+
+    # system.file(package = "ggplotgui") %>% dir()
+    # system.file(package = "descriptr", "application")
+    # shiny::runApp(, launch.browser = TRUE)
+
     logger(paste("#", command))
     justDoIt(command)
 }
