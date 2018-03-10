@@ -19,7 +19,7 @@ window_dataset_new_rcmdr <- function() {
         if (dsnameValue == "") {
             errorCondition(
                 recall = window_new_dataset_rcmdr,
-                message = gettextRcmdr("You must enter the name of a dataset."))
+                message = gettextRcmdr("You must enter the name of the dataset."))
             return()
         }
 
@@ -74,7 +74,7 @@ window_dataset_new_rcmdr <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     OKCancelHelp(helpSubject = "editDataset")
     tkgrid(labelRcmdr(top,
-                      text = gettextRcmdr("Enter name for dataset:   ")),
+                      text = gettextRcmdr("Enter dataset's name:   ")),
            entryDsname,
            sticky = "e")
 
