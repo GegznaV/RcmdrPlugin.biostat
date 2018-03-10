@@ -15,7 +15,8 @@ command_glimpse <- function() {
 #' @keywords internal
 command_summary <- function() {
     # doItAndPrint('library("tidyverse")')
-    doItAndPrint(glue::glue("summary({ActiveDataSet()})"))
+    doItAndPrint(glue::glue("# Quick summary of whole dataset\n",
+                            "summary({ActiveDataSet()})"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
@@ -23,14 +24,16 @@ command_summary <- function() {
 #' @keywords internal
 summary_head_tail <- function() {
     Library("biostat")
-    doItAndPrint(glue::glue("biostat::head_tail({ActiveDataSet()}, 4)"))
+    doItAndPrint(glue::glue("# Top and bottom rows\n",
+        "biostat::head_tail({ActiveDataSet()}, 4)"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 summary_head <- function() {
-    doItAndPrint(glue::glue("head({ActiveDataSet()}, 4)"))
+    doItAndPrint(glue::glue("# Top rows\n",
+                            "head({ActiveDataSet()}, 4)"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
@@ -38,7 +41,8 @@ summary_head <- function() {
 #' @keywords internal
 summary_tail <- function() {
     Library("biostat")
-    doItAndPrint(glue::glue("tail({ActiveDataSet()}, 4)"))
+    doItAndPrint(glue::glue("# Bottom rows\n",
+                            "tail({ActiveDataSet()}, 4)"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -80,7 +84,7 @@ summary_psych_describe <- function() {
 
                             "{ActiveDataSet()} %>% \n",
                             "  dplyr::select_if(is.numeric) %>% \n",
-                            "  psych::describe() \n"))
+                            "  psych::describe(quant = c(.05, .25, .75, .95),  IQR = TRUE, trim = .10)) \n"))
     # logger(glue::glue("# * - Statistics of variables marked with  * should be interpreted\n",
     #                   "#     cautiously (if at all) as they are either categorical or logical. \n\n"))
 }
