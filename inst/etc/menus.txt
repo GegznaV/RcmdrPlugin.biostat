@@ -1,203 +1,286 @@
-#type	menu/item	    operation/parent	label	    command/menu	activation	    install?
+#type	menu/item	operation/parent	label	command/menu	activation	install?
 
 # =============================================================================
-menu	BioStat_menu    topMenu "" "" "" ""
-item	topMenu	        cascade             "BioStat"	        BioStat_menu	    ""	    ""
+menu	BioStat_menu	topMenu	 ""	""	""	""
+item	topMenu	cascade	"BioStat'18"	BioStat_menu	""	""
 
 # ==============================================================================
-# ---- Data manu -------------------------------------------------------------
+# ---- Data menu -------------------------------------------------------------
 
-menu	bs_data_menu     BioStat_menu "" "" "" ""
-item	BioStat_menu  cascade	  "Data"                        bs_data_menu	    ""	""
+menu	bs_data_menu	BioStat_menu	""	""	""	""
+item	BioStat_menu	cascade	"Data"	bs_data_menu	""	""
 
 # ---- Create data -----------------------------------------------------------
-item	bs_data_menu     command      "Create a new dataset"   window_new_dataset_rcmdr ""	"" # from Rcmdr
+item	bs_data_menu	command	"Create a new dataset"	window_dataset_new_rcmdr	""	"" # from Rcmdr
 
 # ---- Join/Bind datasets ---------------------------------------------------------
-item    bs_data_menu    separator    "" "" "" ""
-item	bs_data_menu    command      "Join/Merge two datasets"		window_dataset_join	"dataSetsP(2)"	"packageAvailable('dplyr')"
-item	bs_data_menu    command      "Bind rows of two datasets"	window_dataset_bind_rows	"dataSetsP(2)"	"packageAvailable('dplyr')"
-item	bs_data_menu    command      "Bind columns of two datasets"	window_dataset_bind_cols	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	bs_data_menu	separator	""	""	""	""
+item	bs_data_menu	command	"Join two datasets"	window_dataset_join	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	bs_data_menu	command	"Bind rows of two datasets"	window_dataset_bind_rows	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	bs_data_menu	command	"Bind columns of two datasets"	window_dataset_bind_cols	"dataSetsP(2)"	"packageAvailable('dplyr')"
 
-# item	bs_data_menu    command      "Bind rows/columns of two datasets"	window_dataset_bind	"dataSetsP(2)"	"packageAvailable('dplyr')"
+# item	bs_data_menu	command	"Bind rows/columns of two datasets"	window_dataset_bind	"dataSetsP(2)"	"packageAvailable('dplyr')"
 
 
 # ~~~~ Data Import Menu ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-item    bs_data_menu   separator    "" "" "" ""
-item	bs_data_menu   command      "Import R data file (.Rds)"	window_import_rds	        ""	""
+item	bs_data_menu	separator	""	""	""	""
+item	bs_data_menu	command	"Import R data file (.Rds)"	window_import_rds	""	""
 
-# menu	import_menu    bs_data_menu	  ""	""	""	""
-# item	bs_data_menu   cascade	    "Import / Load data"   import_menu	""	""
+# menu	import_menu	bs_data_menu	""	""	""	""
+# item	bs_data_menu	cascade	"Import / Load data"	import_menu	""	""
 
 
 # ==============================================================================
 # ---- Active dataset ---------------------------------------------------------
 
-menu	bs_active_ds_menu   BioStat_menu  ""	""	""	""
-item	BioStat_menu     cascade	   "Active dataset"                        bs_active_ds_menu	    ""	""
+menu	bs_active_ds_menu	BioStat_menu	""	""	""	""
+item	BioStat_menu	cascade	"Active dataset"	bs_active_ds_menu	""	""
 
-item	bs_active_ds_menu   command    "Refresh active dataset"	command_dataset_refresh  "activeDataSetP()"	""
+item	bs_active_ds_menu	command	"Refresh active dataset"	command_dataset_refresh	"activeDataSetP()"	""
+
+item	bs_active_ds_menu	separator ""	""	""	""
+item	bs_active_ds_menu	command	"[!] Rename active dataset"	function_not_implemented	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"[!] Make a copy of active dataset"	function_not_implemented	"activeDataSetP()"	""
 
 # ---- Overview dataset's class -------------------------------------------------
 
-item	bs_active_ds_menu    separator    "" "" "" ""
-item	bs_active_ds_menu    command      "Glimpse: structure of dataset"    command_glimpse        "activeDataSetP()"	""
-item	bs_active_ds_menu    command      "View: show dataset in a separate window" command_dataset_view   "activeDataSetP()"	""
-item	bs_active_ds_menu    command      "Number of rows and columns"        command_dataset_dim    "activeDataSetP()"	""
-item	bs_active_ds_menu    command      "Print top and bottom rows"         summary_head_tail      "activeDataSetP()"	""
-# item	bs_active_ds_menu    command      "Print top rows only"	              summary_head	          "activeDataSetP()"	""
-# item	bs_active_ds_menu    command      "Print bottom rows only"            summary_tail	          "activeDataSetP()"	""
-item	bs_active_ds_menu    command      "Print whole dataset"               command_dataset_print  "activeDataSetP()"	""
+item	bs_active_ds_menu	separator	""	""	""	""
+item	bs_active_ds_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"View: show dataset in a separate window"	command_dataset_view	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"Number of rows and columns"	command_dataset_dim	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"Print top and bottom rows"	summary_head_tail	"activeDataSetP()"	""
+# item	bs_active_ds_menu	command	"Print top rows only"	summary_head	"activeDataSetP()"	""
+# item	bs_active_ds_menu	command	"Print bottom rows only"	summary_tail	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"Print whole dataset"	command_dataset_print	"activeDataSetP()"	""
 
 # ---- Manage dataset's class -------------------------------------------------
 
-item    bs_active_ds_menu   separator "" "" "" ""
+item	bs_active_ds_menu	separator ""	""	""	""
 
-item	bs_active_ds_menu   command      "Show class"                   command_dataset_class     "activeDataSetP()"	""
-item	bs_active_ds_menu   command      "Convert to `data.frame`"      command_dataset_as_df	   "activeDataSetP() && !first_class_is_dataframeP()"	""
-item	bs_active_ds_menu   command      "Convert to tibble (`tbl_df`)" command_dataset_as_tibble "activeDataSetP() && !first_class_isP('tbl_df')"	"packageAvailable('tibble')"
-item	bs_active_ds_menu   command      "Convert to `data.table`"     command_dataset_as_dt	   "activeDataSetP() && !first_class_isP('data.table')"	"packageAvailable('data.table')"
+item	bs_active_ds_menu	command	"Show class"	command_dataset_class	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"Convert to `data.frame`"	command_dataset_as_df	"activeDataSetP() && !first_class_is_dataframeP()"	""
+item	bs_active_ds_menu	command	"Convert to tibble (`tbl_df`)"	command_dataset_as_tibble	"activeDataSetP() && !first_class_isP('tbl_df')"	"packageAvailable('tibble')"
+item	bs_active_ds_menu	command	"Convert to `data.table`"	command_dataset_as_dt	"activeDataSetP() && !first_class_isP('data.table')"	"packageAvailable('data.table')"
 
 
 # ~~~~ Data Export Menu ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-item    bs_active_ds_menu    separator    "" "" "" ""
+item	bs_active_ds_menu	separator	""	""	""	""
 
-menu	bs_export_menu       bs_active_ds_menu	  ""	""	""	""
-item	bs_active_ds_menu    cascade	  "Export / Save"   bs_export_menu	 "activeDataSetP()"	""
+menu	bs_export_menu	bs_active_ds_menu	""	""	""	""
+item	bs_active_ds_menu	cascade	"Export / Save"	bs_export_menu	"activeDataSetP()"	""
 
-# item	bs_export_menu  command      "Save as text file"	        window_export_as_textfile	"activeDataSetP()"	""
-item	bs_export_menu  command      "Save as R data file (.Rds)"   window_export_as_rds	    "activeDataSetP()"	""
-# item	bs_export_menu  command      "Save as Excel file (.xlsx)"	window_export_as_excel	    "activeDataSetP()"	""
+# item	bs_export_menu	command	"Save as text file"	window_export_as_textfile	"activeDataSetP()"	""
+item	bs_export_menu	command	"Save as R data file (.Rds)"	window_export_as_rds	"activeDataSetP()"	""
+# item	bs_export_menu	command	"Save as Excel file (.xlsx)"	window_export_as_excel	"activeDataSetP()"	""
 
 # ==============================================================================
 # ---- Manage observations / rows ---------------------------------------------
 
-menu	bs_rows_menu	BioStat_menu	    ""	""	""	""
-item	BioStat_menu    cascade	    "Rows"          bs_rows_menu	""	""
+menu	bs_rows_menu	BioStat_menu	""	""	""	""
+item	BioStat_menu	cascade	"Rows"	bs_rows_menu	""	""
 
-item	bs_rows_menu   command      "Arrange: sort rows (example)"                         window_rows_arrange          "activeDataSetP()"	""
-item	bs_rows_menu   command      "Filter: select rows that match conditions (example)"  window_rows_filter    "activeDataSetP()"	""
-item	bs_rows_menu   command      "Slice: select rows by position (example)"             window_rows_slice     "activeDataSetP()"	""
+item	bs_rows_menu	command	"Arrange: sort rows (example)"	window_rows_arrange	"activeDataSetP()"	""
+item	bs_rows_menu	command	"Filter: select rows that match conditions (example)"	window_rows_filter	"activeDataSetP()"	""
+item	bs_rows_menu	command	"Slice: select rows by position (example)"	window_rows_slice	"activeDataSetP()"	""
+item	bs_rows_menu	command	"[!] Remove empty rows"	window_rows_slice	"activeDataSetP()"	""
 
-item	bs_rows_menu   separator    "" "" "" ""
-item	bs_rows_menu   command      "Print row names"                            command_rownames        "activeDataSetP()"	""
-item	bs_rows_menu   command      "Move row names to column (example)"         command_rownames_to_col "activeDataSetP()"	""
-item	bs_rows_menu   command      "Move row numbers to column (example)"       command_rowid_to_col    "activeDataSetP()"	""
-item	bs_rows_menu   command      "Move column values to row names (example)"  command_col_to_rownames "activeDataSetP()"	""
+item	bs_rows_menu	separator	""	""	""	""
+item	bs_rows_menu	command	"Print row names"	command_rownames	"activeDataSetP()"	""
+item	bs_rows_menu	command	"Move row names to column (example)"	command_rownames_to_col	"activeDataSetP()"	""
+item	bs_rows_menu	command	"Move row numbers to column (example)"	command_rowid_to_col	"activeDataSetP()"	""
+item	bs_rows_menu	command	"Move column values to row names (example)"	command_col_to_rownames	"activeDataSetP()"	""
 
-#item	bs_rows_menu   separator    "" "" "" ""
-# item	bs_rows_menu   command      "Random subset of rows"       window_rows_...     "activeDataSetP()"	""
-#item	bs_rows_menu   separator    "" "" "" ""
+#item	bs_rows_menu	separator	""	""	""	""
+#item	bs_rows_menu	command	"Make random subset of rows"	window_rows_...	"activeDataSetP()"	""
+#item	bs_rows_menu	separator	""	""	""	""
 
 
 # ==============================================================================
 # ---- Manage variables / columns ---------------------------------------------
 
-menu	bs_varible_menu	BioStat_menu	    ""	""	""	""
-item	BioStat_menu     cascade	 "Variables (columns) "             bs_varible_menu	""	""
+menu	bs_varible_menu	BioStat_menu	""	""	""	""
+item	BioStat_menu	cascade	"Variables (columns)"	bs_varible_menu	""	""
 
-item	bs_varible_menu  command     "Print variable (column) names"    command_colnames        "activeDataSetP()"	""
-item	bs_varible_menu  command     "Glimpse: list and preview variables"    command_glimpse  "activeDataSetP()"	""
+item	bs_varible_menu	command	"Print variable (column) names"	command_colnames	"activeDataSetP()"	""
 
-# item	bs_varible_menu  command      "Change variable (column) names"   window_change_colnames  "activeDataSetP()"	""
-item	bs_varible_menu  separator    "" "" "" ""
-item	bs_varible_menu  command      "Compute a new variable"           window_col_compute      "activeDataSetP()"	""
-
-
-menu	bs_var_num_menu   bs_active_ds_menu	  ""	""	""	""
-item	bs_varible_menu   cascade	  "Numeric variables"   bs_var_num_menu	 "activeDataSetP()"	""
-
-item	bs_var_num_menu   command      "Log transformation"	                    window_log_transform 	"numericP()"	""
-item	bs_var_num_menu   command      "Z transformation / Standardization"  	window_z_transform	    "numericP()"	""
-
-menu	bs_var_fct_menu   bs_active_ds_menu	  ""	""	""	""
-item	bs_varible_menu   cascade	  "Categorical variables (factors)"   bs_var_fct_menu	 "activeDataSetP()"	""
-
-menu	bs_var_text_menu  bs_active_ds_menu	  ""	""	""	""
-item	bs_varible_menu   cascade	  "Text variables (character)"   bs_var_text_menu	 "activeDataSetP()"	""
-
-item	bs_var_text_menu  command    "Convert all strings (chr) to factors"	command_all_chr_to_fctr "characterP()"	""
+# item	bs_varible_menu	command	"Change variable (column) names"	window_change_colnames	"activeDataSetP()"	""
+item	bs_varible_menu	separator	""	""	""	""
+item	bs_varible_menu	command	"Compute a new variable"	window_col_compute	"activeDataSetP()"	""
 
 
+item	bs_varible_menu	separator	""	""	""	""
 
-# item	bs_var_fct_menu   command      "Log transformation"	                    window_log_transform 	"numericP()"	""
-# item	bs_var_fct_menu   command      "Z transformation / Standardization"  	window_z_transform	    "numericP()"	""
+item	bs_varible_menu	command	"[!] Gather: ... "	function_not_implemented	"activeDataSetP()"	""
+item	bs_varible_menu	command	"[!] Spread: ... "	function_not_implemented	"activeDataSetP()"	""
+item	bs_varible_menu	command	"[!] Separate: ... "	function_not_implemented	"activeDataSetP()"	""
+item	bs_varible_menu	command	"[!] Unite: ... "	function_not_implemented	"activeDataSetP()"	""
+
+item	bs_varible_menu	separator	""	""	""	""
+
+# # Numeric variables --------------------------------------------------
+menu	bs_var_num_menu	bs_varible_menu	""	""	""	""
+
+item	bs_varible_menu	cascade	"Numeric variables"	bs_var_num_menu	"activeDataSetP()"	""
+
+item	bs_var_num_menu	command	"Log transformation"	window_log_transform	"numericP()"	""
+item	bs_var_num_menu	command	"Z transformation / Standardization"	window_z_transform	"numericP()"	""
+item	bs_var_num_menu	separator	""	""	""	""
+item	bs_var_num_menu	command	"[!] Format and convert to text"	function_not_implemented	"numericP()"	""
+item	bs_var_num_menu	command	"[!] Convert to text"	function_not_implemented	"numericP()"	""
+item	bs_var_num_menu	command	"[!] Convert to logical variable"	function_not_implemented	"numericP()"	""
+
+# Factor variables --------------------------------------------------
+menu	bs_var_fct_menu	bs_varible_menu	""	""	""	""
+item	bs_varible_menu	cascade	"Factors (Categorical variables)"	bs_var_fct_menu	"activeDataSetP()"	""
+
+item	bs_var_fct_menu	command	"[!] Add levels"	function_not_implemented	"factorsP()" ""
+item	bs_var_fct_menu	command	"[!] Colapse least common lovels into \"other\""	function_not_implemented	"factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Colapse levels manually"	function_not_implemented	"factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Drop unused levels"	function_not_implemented	"factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Remove levels"	function_not_implemented	"factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Rename factor levels by hand"	function_not_implemented	"factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Reorder levels in first appearance"	function_not_implemented	"factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Reorder levels in frequency"	function_not_implemented	"factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Reorder levels manually"	function_not_implemented	"factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Reverse factor levels"	function_not_implemented	"factorsP()"	""
+
+
+item	bs_var_fct_menu	separator	""	""	""	""
+item	bs_var_fct_menu	command	"[!] Make missing values explicit"	function_not_implemented	"factorsP()"	""
+item	bs_var_fct_menu	separator	""	""	""	""
+
+item	bs_var_fct_menu	command	"[!] Convert to text"	function_not_implemented	"factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Convert to numeric variable"	function_not_implemented	"factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Switch between nominal and ordinal"	function_not_implemented	"factorsP()"	""
+
+
+# Text variables --------------------------------------------------
+menu	bs_var_text_menu	bs_varible_menu	""	""	""	""
+item	bs_varible_menu	cascade	"Text variables (character, strings)"	bs_var_text_menu	"activeDataSetP()"	""
+
+item	bs_var_text_menu	command	"Convert all strings to factors"	command_all_chr_to_fctr	"characterP()"	""
+item	bs_var_text_menu	command	"[!] Convert string to factor"	function_not_implemented	"characterP()"	""
+item	bs_var_text_menu	command	"[!] Convert string to number"	function_not_implemented	"characterP()"	""
+item	bs_var_text_menu	command	"[!] Convert string to integer"	function_not_implemented	"characterP()"	""
+item	bs_var_text_menu	command	"[!] Convert string to logical"	function_not_implemented	"characterP()"	""
+item	bs_var_text_menu	command	"[!] Convert string to date"	function_not_implemented	"characterP()"	""
+item	bs_var_text_menu	command	"[!] Convert string to time"	function_not_implemented	"characterP()"	""
+item	bs_var_text_menu	command	"[!] Convert string to date-time"	function_not_implemented	"characterP()"	""
+# Vėliau pasirinks, į kurią
+
+# Logical variables --------------------------------------------------
+menu	bs_var_lgl_menu	bs_varible_menu	""	""	""	""
+item	bs_varible_menu	cascade	"Logical variables"	bs_var_lgl_menu	"activeDataSetP()"	""
+
+#
+
+
+# item	bs_var_lgl_menu	command	"Log transformation"	window_log_transform	"numericP()"	""
+# item	bs_var_lgl_menu	command	"Z transformation / Standardization"	window_z_transform	"numericP()"	""
 
 # ==============================================================================
 # ---- Statistical summaries --------------------------------------------------
 
-menu	bs_summary_menu	  BioStat_menu	    ""	""	""	""
-item	BioStat_menu  cascade	   "Summaries"                   bs_summary_menu  	""	""
+menu	bs_summary_menu	BioStat_menu	""	""	""	""
+item	BioStat_menu	cascade	"Summaries"	bs_summary_menu	""	""
 
-# item	bs_summary_menu    separator    "" "" "" ""
 
-item	bs_summary_menu    command      "Screen dataset"	      summary_ds_screener	        "activeDataSetP()"	""
-item	bs_summary_menu    command      "Summarize all variables [stats]"	      command_summary	        "activeDataSetP()"	""
-item	bs_summary_menu    command      "Describe all variables [Hmisc]"	      summary_Hmisc_describe	"activeDataSetP()"	""
-item	bs_summary_menu    command      "Describe numerical variables [psych]"    summary_psych_describe	"activeDataSetP()"	""
-item	bs_summary_menu    command      "Summarize numerical variables by group"  window_do_summary	        "activeDataSetP()"	""
+item	bs_summary_menu	command	"Screen dataset for missing values"	summary_ds_screener	"activeDataSetP()"	""
+item	bs_summary_menu	command	"Summarize all variables [stats::summary]"	command_summary	"activeDataSetP()"	""
+item	bs_summary_menu	command	"Summarize all variables [Hmisc::describe]"	summary_Hmisc_describe	"activeDataSetP()"	""
+
+
+item	bs_summary_menu	separator	""	""	""	""
+item	bs_summary_menu	command	"Summarize numerical variables [psych::describe]"	summary_psych_describe	"activeDataSetP()"	""
+item	bs_summary_menu	command	"Summarize numerical variables by group"	window_do_summary	"activeDataSetP()"	""
+
+item	bs_summary_menu	command	"[!] Frequency table for continuous variables"	function_not_implemented	"activeDataSetP()"	""
+# descriptr::ds_freq_cont()
+
+
+item	bs_summary_menu	separator	""	""	""	""
+item	bs_summary_menu	command	"[!] Frequency table for categorical variables"	function_not_implemented	"activeDataSetP()"	""
+# df %>% dplyr::count(..., ...);
+# df %>% with(table(..., ...)) %>% as.data.frame()
+
+item	bs_summary_menu	command	"[!] One-way table for one variale)"	function_not_implemented	"activeDataSetP()"	""
+# descriptr::ds_freq_table
+
+item	bs_summary_menu	command	"[!] One-way tables for all categorical variables"	function_not_implemented	"activeDataSetP()"	""
+# descriptr::ds_oway_tables()
+
+item	bs_summary_menu	command	"[!] Two-way table (for one variale)"	function_not_implemented	"activeDataSetP()"	""
+# descriptr::ds_cross_table()
+
+
+item	bs_summary_menu	command	"[!] Two-way tables for all pairs of categorical variables"	function_not_implemented	"activeDataSetP()"	""
+# descriptr::ds_tway_tables()
+
+
+# item	bs_summary_menu	separator	""	""	""	""
+
 
 
 # =============================================================================
 # ---- Main plots -------------------------------------------------------------
 
-menu	bs_plots_menu	    BioStat_menu ""	""	""	""
-item	BioStat_menu    cascade	    "Plots"	                  bs_plots_menu	    ""	""
+menu	bs_plots_menu	BioStat_menu ""	""	""	""
+item	BioStat_menu	cascade	"Plots"	bs_plots_menu	""	""
 
-item	bs_plots_menu	    command     "New window for plots"	  open_new_plots_window	        ""	""
+item	bs_plots_menu	command	"New window for plots"	open_new_plots_window	""	""
 
-item	bs_plots_menu	    separator	""	""	""	""
-item	bs_plots_menu	    command     "Interactive tool: easyPlot"   window_easyPlot       "variablesP(n = 2)"	""
-item	bs_plots_menu	    command     "Interactive tool: ggplot GUI" window_ggplotgui      "variablesP()"	""
-item	bs_plots_menu	    command     "Interactive tool: ggedit"     window_ggedit         "class_gglot_P()"	""
-item	bs_plots_menu	    command     "Interactive tool: ggThemeAssist (example)"     window_ggThemeAssist         "class_gglot_P()"	""
+item	bs_plots_menu	separator	""	""	""	""
+item	bs_plots_menu	command	"Interactive tool: easyPlot"	window_easyPlot	"variablesP(n = 2)"	""
+item	bs_plots_menu	command	"Interactive tool: ggplot GUI"	window_ggplotgui	"variablesP()"	""
+item	bs_plots_menu	command	"Interactive tool: ggedit"	window_ggedit	"class_gglot_P()"	""
+item	bs_plots_menu	command	"Interactive tool: ggThemeAssist (example)"	window_ggThemeAssist	"class_gglot_P()"	""
 
-item	bs_plots_menu	    separator	""	""	""	""
-item	bs_plots_menu	    command     "Create a color palette"                  window_colourPicker      ""	""
-item	bs_plots_menu	    command     "Visualize color codes/names (example)"   window_show_colors       ""	""
+item	bs_plots_menu	separator	""	""	""	""
+item	bs_plots_menu	command	"Create a color palette"	window_colourPicker	""	""
+item	bs_plots_menu	command	"Visualize color codes/names (example)"	window_show_colors	""	""
 
-# item	bs_plots_menu	    separator	""	""	""	""
-# item	bs_plots_menu	    command	    "Normal Q-Q plot (by groups)"	"function_not_implemented('window_qqplot_biostat')"	"numericP()"	""
+# item	bs_plots_menu	separator	""	""	""	""
+# item	bs_plots_menu	command	"[!] Normal Q-Q plot (by groups)"	"function_not_implemented('window_qqplot_biostat')"	"numericP()"	""
 #
-# item	bs_plots_menu	    separator	""	""	""	""
-# item	bs_plots_menu	    command "[!] Histogram"	        window_histogram       "nonFactorsP()"	""
-# item	bs_plots_menu	    command "[!] Density plot"   	window_density_plot	   "nonFactorsP()"	""
+# item	bs_plots_menu	separator	""	""	""	""
+# item	bs_plots_menu	command	"[!] Histogram"	window_histogram	"nonFactorsP()"	""
+# item	bs_plots_menu	command	"[!] Density plot"	window_density_plot	"nonFactorsP()"	""
 #
-# item	bs_plots_menu	    separator	""	""	""	""
-# item	bs_plots_menu	    command "[!] Dots (with error bars)"    window_plot_dot_err   "nonFactorsP()"	""
-# item	bs_plots_menu	    command "[!] Columns (with error bars)" window_plot_bar_err	  "nonFactorsP()"	""
+# item	bs_plots_menu	separator	""	""	""	""
+# item	bs_plots_menu	command	"[!] Dots (with error bars)"	window_plot_dot_err	"nonFactorsP()"	""
+# item	bs_plots_menu	command	"[!] Columns (with error bars)"	window_plot_bar_err	"nonFactorsP()"	""
 
 # ==============================================================================
 # ---- Confidence intervals ---------------------------------------------------
 
-menu	bs_ci_menu	        BioStat_menu    ""	""	""	""
-item	BioStat_menu    cascade	   "Confidence intervals (CI)"   bs_ci_menu	    ""	""
+menu	bs_ci_menu	BioStat_menu	""	""	""	""
+item	BioStat_menu	cascade	"Confidence intervals (CI)"	bs_ci_menu	""	""
 
-item	bs_ci_menu         command         "Mean CI (example)"	      window_ci_mean	""	""
-item	bs_ci_menu         command         "Median CI (example)"	              window_ci_median	""	""
-item	bs_ci_menu         command         "Binomial proportion CI (example)"    window_ci_prop_binom	""	""
-item	bs_ci_menu         command         "Multinomial proportion CI (example) " window_ci_prop_multi	""	""
-item	bs_ci_menu         command         "CI for difference in means (example)"	      window_ci_mean_diff	""	""
-item	bs_ci_menu	        separator   	""	""	""	""
-item	bs_ci_menu         command         "Bootstrap confidence intervals (example)"  window_ci_boot	""	""
+item	bs_ci_menu	command	"Mean CI (example)"	window_ci_mean	""	""
+item	bs_ci_menu	command	"Median CI (example)"	window_ci_median	""	""
+item	bs_ci_menu	command	"Binomial proportion CI (example)"	window_ci_prop_binom	""	""
+item	bs_ci_menu	command	"Multinomial proportion CI (example) "	window_ci_prop_multi	""	""
+item	bs_ci_menu	command	"CI for difference in means (example)"	window_ci_mean_diff	""	""
+item	bs_ci_menu	separator	""	""	""	""
+item	bs_ci_menu	command	"Bootstrap confidence intervals (example)"	window_ci_boot	""	""
 
 # ==============================================================================
 # ---- Statistical tests ------------------------------------------------------
 
-menu	bs_tests_menu	    BioStat_menu    ""	""	""	""
-item	BioStat_menu    cascade	   "Tests"                       bs_tests_menu	    ""	""
+menu	bs_tests_menu	BioStat_menu	""	""	""	""
+item	BioStat_menu	cascade	"Tests"	bs_tests_menu	""	""
 
-item	bs_tests_menu      command         "Test normality"	window_normality_test	"numericP()"	""
-# item	bs_tests_menu	    separator   	""	""	""	""
-# item	bs_tests_menu      command         "[!] ANOVA, Kruskal-Wallis, Median tests" window_anova_kw_mood_tests	"numericP() & factorsP()"	""
+item	bs_tests_menu	command	"Test normality"	window_normality_test	"numericP()"	""
+# item	bs_tests_menu	separator	""	""	""	""
+# item	bs_tests_menu	command	"[!] ANOVA, Kruskal-Wallis, Median tests"	window_anova_kw_mood_tests	"numericP() & factorsP()"	""
 
-# item	bs_tests_menu       cascade	     "Central tendency tests"   bs_ceners_menu	""	""
-# menu	bs_ceners_menu	     bs_tests_menu      ""	""	""	""
-# item	bs_ceners_menu      command         "[!] Independent samples (eactly 2)"  function_not_implemented  	"numericP() & twoLevelFactorsP()"	""
-# item	bs_ceners_menu      command         "[!] Independent samples (2 or more)" window_anova_kw_mood_tests	"numericP() & factorsP()"	""
-# item	bs_ceners_menu      command         "[!] Independent samples (2 or more) [tmp]" window_tmp	            "numericP() & factorsP()"	""
-# item	bs_tests_menu       command         "[!] "t tests, Wilcoxon, Mann-Whitney tests, Wald-Wolfowitz" function_not_implemented	"numericP() & factorsP()"	""
+# item	bs_tests_menu	cascade	"Central tendency tests"	bs_ceners_menu	""	""
+# menu	bs_ceners_menu	bs_tests_menu	""	""	""	""
+# item	bs_ceners_menu	command	"[!] Independent samples (eactly 2)"	function_not_implemented	"numericP() & twoLevelFactorsP()"	""
+# item	bs_ceners_menu	command	"[!] Independent samples (2 or more)"	window_anova_kw_mood_tests	"numericP() & factorsP()"	""
+# item	bs_ceners_menu	command	"[!] Independent samples (2 or more) [tmp]"	window_tmp	"numericP() & factorsP()"	""
+# item	bs_tests_menu	command	"[!] "t tests, Wilcoxon, Mann-Whitney tests, Wald-Wolfowitz"	function_not_implemented	"numericP() & factorsP()"	""
 
 
 
@@ -205,35 +288,35 @@ item	bs_tests_menu      command         "Test normality"	window_normality_test	"
 # ==============================================================================
 # ---- Models -----------------------------------------------------------------
 
-menu	bs_models_menu   BioStat_menu	    ""	""	""	""
-item	BioStat_menu    cascade	   "Models"                      bs_models_menu	""	""
+menu	bs_models_menu	BioStat_menu	""	""	""	""
+item	BioStat_menu	cascade	"Models"	bs_models_menu	""	""
 
-item	bs_models_menu   command      "Show model's class"	                     command_get_model_class  "activeModelP()"	   ""
-item	bs_models_menu   command      "Print model (basic results)"             command_model_print      "activeModelP()"	   ""
-item	bs_models_menu   command      "Standardized regression coefficients"	 command_std_lm_coeffs    "modelClassP('lm')"  ""
+item	bs_models_menu	command	"Show model's class"	command_get_model_class	"activeModelP()"	""
+item	bs_models_menu	command	"Print model (basic results)"	command_model_print	"activeModelP()"	""
+item	bs_models_menu	command	"Standardized regression coefficients"	command_std_lm_coeffs	"modelClassP('lm')"	""
 
 
 # ==============================================================================
 # ---- Settings ---------------------------------------------------------------
 
-menu	bs_settings_menu   BioStat_menu "" "" "" ""
-item	BioStat_menu       cascade	    "Settings"                bs_settings_menu	""	""
+menu	bs_settings_menu	BioStat_menu ""	""	""	""
+item	BioStat_menu	cascade	"Settings"	bs_settings_menu	""	""
 
-item	bs_settings_menu   command      "Show working directory" command_getwd ""	""
-item	bs_settings_menu   separator    ""	""	""	""
+item	bs_settings_menu	command	"Show working directory" command_getwd ""	""
+item	bs_settings_menu	separator	""	""	""	""
 
 
-item	bs_settings_menu   command      "Session information [devtools]"	 command_session_info_devtools 	""	""
-item	bs_settings_menu   command      "Session information [utils]"	     command_session_info_utils 	""	""
+item	bs_settings_menu	command	"Session information [devtools]"	command_session_info_devtools	""	""
+item	bs_settings_menu	command	"Session information [utils]"	command_session_info_utils	""	""
 
-item	bs_settings_menu   separator    ""	""	""	""
-menu	bs_locale_menu     bs_settings_menu	    ""	""	""	""
-item	bs_settings_menu   cascade	   "Locale"                          bs_locale_menu	""	""
+item	bs_settings_menu	separator	""	""	""	""
+menu	bs_locale_menu	bs_settings_menu	""	""	""	""
+item	bs_settings_menu	cascade	"Locale"	bs_locale_menu	""	""
 
-item	bs_locale_menu   command      "Show current locale"	             command_get_locale     ""	""
-item	bs_locale_menu   command      "Set locale to Lithuanian"	     command_set_locale_lt  ""	""
-item	bs_locale_menu   command      "Set locale to English"	         command_set_locale_en 	""	""
-item	bs_locale_menu   command      "Set locale to Russian"	         command_set_locale_ru 	""	""
-item	bs_locale_menu   command      "Set locale to system's default"	 command_set_locale_default  ""	""
+item	bs_locale_menu	command	"Show current locale"	command_get_locale	""	""
+item	bs_locale_menu	command	"Set locale to Lithuanian"	command_set_locale_lt	""	""
+item	bs_locale_menu	command	"Set locale to English"	command_set_locale_en	""	""
+item	bs_locale_menu	command	"Set locale to Russian"	command_set_locale_ru	""	""
+item	bs_locale_menu	command	"Set locale to system's default"	command_set_locale_default	""	""
 
 # =============================================================================
