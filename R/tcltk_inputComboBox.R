@@ -5,7 +5,12 @@ inputComboBox <- function(parentWindow,
                           # default_text = "<no variable selected>",
                           # initialSelection = gettextRcmdr(default_text),
                           initialSelection = NULL,
-                          title = "")
+                          title = NULL,
+                          title_sticky = "w",
+                          combobox_sticky = "nw",
+                          onClick_fun = function(){},
+                          onRelease_fun = function(){}
+                          )
 {
         # variableList <- c(gettextRcmdr(default_text), variableList)
         frame <- tkframe(parentWindow)
@@ -59,13 +64,31 @@ inputComboBox <- function(parentWindow,
                    get(paste("on", toupper(letter), sep = "")))
         }
 
-        tkgrid(labelRcmdr(frame,
-                          text = title,
-                          fg = getRcmdr("title.color"),
-                          font = "RcmdrTitleFont"),
-               sticky = "w")
 
-        tkgrid(combobox, sticky = "nw")
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        onClick <- function() {
+            tkfocus(listbox)
+            onClick_fun()
+        }
+
+        onRelease <- function() {
+            onRelease_fun()
+        }
+
+        tkbind(combobox, "<ButtonPress-1>",   onClick)
+        tkbind(combobox, "<ButtonRelease-1>", onRelease)
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+        if (!is.null(title)) {
+            tkgrid(labelRcmdr(frame,
+                              text = title,
+                              fg = getRcmdr("title.color"),
+                              font = "RcmdrTitleFont"),
+                   sticky = title_sticky)
+        }
+
+        tkgrid(combobox, sticky = combobox_sticky)
 
         result <- list(frame = frame,
                        combobox = combobox,
@@ -74,4 +97,13 @@ inputComboBox <- function(parentWindow,
 
         class(result) <- "combobox"
         result
-    }
+}
+
+
+# set_selection <- function(object, val) {
+#     tclvalue(object$combovar) <- val
+# }
+#
+# getSelection.combobox <- function(object){
+#     tclvalue(object$combovar)
+# }
