@@ -38,11 +38,7 @@ item	BioStat_menu	cascade	"Active dataset"	bs_active_ds_menu	""	""
 
 item	bs_active_ds_menu	command	"Refresh active dataset"	command_dataset_refresh	"activeDataSetP()"	""
 
-item	bs_active_ds_menu	separator ""	""	""	""
-item	bs_active_ds_menu	command	"[!] Rename active dataset"	function_not_implemented	"activeDataSetP()"	""
-item	bs_active_ds_menu	command	"[!] Make a copy of active dataset"	function_not_implemented	"activeDataSetP()"	""
-
-# ---- Overview dataset's class -------------------------------------------------
+# ---- Overview of the dataset's -------------------------------------------------
 
 item	bs_active_ds_menu	separator	""	""	""	""
 item	bs_active_ds_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
@@ -61,6 +57,12 @@ item	bs_active_ds_menu	command	"Show class"	command_dataset_class	"activeDataSet
 item	bs_active_ds_menu	command	"Convert to `data.frame`"	command_dataset_as_df	"activeDataSetP() && !first_class_is_dataframeP()"	""
 item	bs_active_ds_menu	command	"Convert to tibble (`tbl_df`)"	command_dataset_as_tibble	"activeDataSetP() && !first_class_isP('tbl_df')"	"packageAvailable('tibble')"
 item	bs_active_ds_menu	command	"Convert to `data.table`"	command_dataset_as_dt	"activeDataSetP() && !first_class_isP('data.table')"	"packageAvailable('data.table')"
+
+
+# ~~~ Rename, copy ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+item	bs_active_ds_menu	separator ""	""	""	""
+item	bs_active_ds_menu	command	"Rename active dataset"	window_dataset_rename	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"Make a copy of active dataset"	window_dataset_copy	"activeDataSetP()"	""
 
 
 # ~~~~ Data Export Menu ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

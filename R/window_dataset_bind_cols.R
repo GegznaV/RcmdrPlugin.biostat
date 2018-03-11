@@ -9,16 +9,17 @@ window_dataset_bind_cols <- function() {
     # [!!!] Show number of rows in each dataset beneeth the dataset selection box.
 
     initializeDialog(title = gettextRcmdr("Bind Columns of Datasets"))
-    dsname <- tclVar("new_dataset")
+    dsname <- tclVar("new_dataset_binded_by_cols")
 
     names_Frame <- tkframe(top)
-    entry_dsname <- ttkentry(names_Frame, width = "20", textvariable = dsname)
+    entry_dsname <- ttkentry(names_Frame, width = "30", textvariable = dsname)
 
 
     dataSet1Box <-
-        variableListBox(
+        variableListBox2(
             top,
             dataSets,
+            listHeight = 7,
             title = gettextRcmdr("First dataset (left) \n(pick one)"),
             initialSelection = if (is.null(.activeDataSet)) {
                 NULL
@@ -27,8 +28,9 @@ window_dataset_bind_cols <- function() {
             }
         )
     dataSet2Box <-
-        variableListBox(top,
+        variableListBox2(top,
                         dataSets,
+                        listHeight = 7,
                         title = gettextRcmdr("Second dataset (right) \n(pick one)"))
     # commonVar <- tclVar("0")
     # commonFrame <- tkframe(top)
@@ -40,7 +42,7 @@ window_dataset_bind_cols <- function() {
         if (dsnameValue == "") {
             errorCondition(
                 recall = window_dataset_bind_cols,
-                message = gettextRcmdr("You must enter the name of a new dataset.")
+                message = gettextRcmdr("You must enter the name of the new dataset.")
             )
             return()
         }
@@ -91,7 +93,9 @@ window_dataset_bind_cols <- function() {
         }
 
 
-        command <- glue::glue('{dsnameValue} <- dplyr::bind_cols({name1}, {name2})')
+        command <- style_cmd(glue::glue(
+            '{dsnameValue} <- dplyr::bind_cols({name1}, {name2})'
+        ))
 
         doItAndPrint(command)
 
@@ -104,7 +108,7 @@ window_dataset_bind_cols <- function() {
     OKCancelHelp(helpSubject = "bind_cols")
 
 
-    tkgrid(labelRcmdr(names_Frame, text = gettextRcmdr("Name for resulting dataset:  ")),
+    tkgrid(labelRcmdr(names_Frame, text = gettextRcmdr("Name for the resulting dataset:  ")),
            entry_dsname)
 
     tkgrid(names_Frame, pady = c(0, 10), columnspan = 3, sticky = "sew")

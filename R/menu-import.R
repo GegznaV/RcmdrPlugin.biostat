@@ -9,7 +9,7 @@ window_import_rds <- function() {
 
         # Choose file name
         file_name <- tclvalue(tkgetOpenFile(
-            title = "Choose an R data object file",
+            title = "Choose Rds file to import",
             multiple = FALSE,
             filetypes = "{ {R data object} {.RDS .Rds .rds} } { {All Files} * }"))
 
