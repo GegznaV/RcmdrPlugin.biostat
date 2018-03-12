@@ -1,7 +1,7 @@
 Package: RcmdrPlugin.biostat
 Type: Package
-Version: 0.0.8.9001
-Date: 2018-03-10
+Version: 0.0.8.9002
+Date: 2018-03-12
 Title: An R Commander Plug-in for Package "biostat"
 Description: An Rcmdr plug-in for functions in package "biostat" and various 
              other common data analysis tasks: 
@@ -24,32 +24,32 @@ Depends:
     tcltk2 (>= 1.2-11),
     Rcmdr
 Imports:
+    binom,
+    boot,
+    colourpicker,
+    data.table,
+    descriptr,
+    DescTools,
+    dplyr,
+    easyPlot,
+    ggedit,
+    ggplotgui,
+    ggthemes,
+    glue,
+    graphics,
+    grDevices,
+    magrittr,
+    methods,
+    nortest,
+    pander,
+    plyr,
+    RcmdrPlugin.EZR,
+    scales,
+    stats,
+    stringr,
     styler,
     tidyverse,
-    stringr,
-    stats,
-    nortest,
-    methods,
-    utils,
-    boot,
-    glue,
-    dplyr,
-    data.table,
-    magrittr,
-    grDevices,
-    graphics,
-    ggthemes,
-    plyr,
-    scales,
-    pander,
-    binom,
-    ggedit,
-    colourpicker,
-    ggplotgui,
-    DescTools,
-    descriptr,
-    easyPlot,
-    RcmdrPlugin.EZR
+    utils
 Suggests:
     extrafont,
     knitr,
