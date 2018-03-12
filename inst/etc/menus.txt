@@ -21,6 +21,8 @@ item	bs_data_menu	command	"Bind columns of two datasets"	window_dataset_bind_col
 
 # item	bs_data_menu	command	"Bind rows/columns of two datasets"	window_dataset_bind	"dataSetsP(2)"	"packageAvailable('dplyr')"
 
+item	bs_data_menu	separator	""	""	""	""
+item	bs_data_menu	command	"[!] Pander: print object for report"	window_pander	"activeDataSetP() && objects_in_env_P(n = 1)"	"packageAvailable('pander')"
 
 # ~~~~ Data Import Menu ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 item	bs_data_menu	separator	""	""	""	""
@@ -48,6 +50,9 @@ item	bs_active_ds_menu	command	"Print top and bottom rows"	summary_head_tail	"ac
 # item	bs_active_ds_menu	command	"Print top rows only"	summary_head	"activeDataSetP()"	""
 # item	bs_active_ds_menu	command	"Print bottom rows only"	summary_tail	"activeDataSetP()"	""
 item	bs_active_ds_menu	command	"Print whole dataset"	command_dataset_print	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"Pander: print dataset for report"	command_dataset_pander	"activeDataSetP()"	"packageAvailable('pander')"
+
+
 
 # ---- Manage dataset's class -------------------------------------------------
 
