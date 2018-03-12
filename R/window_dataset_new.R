@@ -10,7 +10,7 @@ window_dataset_new_rcmdr <- function() {
 
     initializeDialog(title = gettextRcmdr("Create a New Dataset"))
     dsname <- tclVar("new_dataset")
-    entryDsname <- ttkentry(top, width = "25", textvariable = dsname)
+    entryDsname <- ttkentry(top, width = "30", textvariable = dsname)
 
     onOK <- function() {
         dsnameValue <- trim.blanks(tclvalue(dsname))
@@ -76,6 +76,7 @@ window_dataset_new_rcmdr <- function() {
     tkgrid(labelRcmdr(top,
                       text = gettextRcmdr("Enter dataset's name:   ")),
            entryDsname,
+           pady = c(5, 5),
            sticky = "e")
 
     tkgrid(buttonsFrame, columnspan = "2", sticky = "ew")

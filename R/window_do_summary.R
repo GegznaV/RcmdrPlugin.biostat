@@ -187,9 +187,11 @@ window_do_summary <- function() {
             keep_model_command <- glue("remove({model_name_Value})")
         }
 
-        command <- glue("{model_name_Value} <- do_summary({formula}, data = {.activeDataSet})\n",
-                        "print({model_name_Value}, digits = {digits})\n",
-                        keep_model_command)
+        command <- style_cmd(glue(
+            "{model_name_Value} <- do_summary({formula}, ",
+            "data = {.activeDataSet})\n",
+            "print({model_name_Value}, digits = {digits})\n",
+            keep_model_command))
 
         doItAndPrint(command)
 
