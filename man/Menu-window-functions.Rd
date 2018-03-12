@@ -5,16 +5,18 @@
 %   R/menu-summary.R, R/menu-variables.R, R/window_anova_kw_mood_tests.R,
 %   R/window_col_compute.R, R/window_dataset_bind.R,
 %   R/window_dataset_bind_cols.R, R/window_dataset_bind_rows.R,
-%   R/window_dataset_join.R, R/window_do_summary.R, R/window_qqplot_biostat.R,
-%   R/window_test_normality.R, R/window_tmp.R
+%   R/window_dataset_join.R, R/window_do_summary.R, R/window_pander.R,
+%   R/window_qqplot_biostat.R, R/window_test_normality.R, R/window_tmp.R
 \name{function_not_implemented}
 \alias{function_not_implemented}
 \alias{class_gglot_P}
+\alias{objects_in_env_P}
 \alias{Menu-window-functions}
 \alias{command_dataset_refresh}
 \alias{command_dataset_class}
 \alias{command_colnames}
 \alias{command_dataset_print}
+\alias{command_dataset_pander}
 \alias{command_dataset_view}
 \alias{command_dataset_dim}
 \alias{command_dataset_as_df}
@@ -76,6 +78,7 @@
 \alias{window_dataset_bind_rows}
 \alias{window_dataset_join}
 \alias{window_do_summary}
+\alias{window_pander}
 \alias{window_qqplot_biostat}
 \alias{window_normality_test}
 \alias{window_tmp}
@@ -85,6 +88,8 @@ function_not_implemented(x = NULL)
 
 class_gglot_P(n = 1)
 
+objects_in_env_P(n = 1, ...)
+
 command_dataset_refresh()
 
 command_dataset_class()
@@ -92,6 +97,8 @@ command_dataset_class()
 command_colnames()
 
 command_dataset_print()
+
+command_dataset_pander()
 
 command_dataset_view()
 
@@ -212,6 +219,8 @@ window_dataset_bind_rows()
 window_dataset_join()
 
 window_do_summary()
+
+window_pander()
 
 window_qqplot_biostat()
 

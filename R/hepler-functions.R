@@ -52,6 +52,15 @@ class_gglot_P <- function(n = 1) {
     #  n - number of non-factors.
     length(objects_of_class("ggplot", envir = .GlobalEnv)) >= n
 }
+
+# ------------------------------------------------------------------------------
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+objects_in_env_P <- function(n = 1, ...) {
+    #  n - number of non-factors.
+    isTRUE(length(objects(envir = .GlobalEnv, ...)) >= n)
+}
 # ------------------------------------------------------------------------------
 glue <- glue::glue
 # ------------------------------------------------------------------------------

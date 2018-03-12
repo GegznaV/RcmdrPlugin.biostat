@@ -44,6 +44,18 @@ command_colnames <- function() {
 command_dataset_print <- function() {
     doItAndPrint(glue::glue("print({ActiveDataSet()})"))
 }
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+command_dataset_pander <- function() {
+    Library("pander")
+    doItAndPrint(style_cmd(glue::glue(
+        '# Dataset as an R Markdown report compatible table)\n',
+        'pander::pander({ActiveDataSet()}, ',
+        'caption = "Dataset `{ActiveDataSet()}`")')))
+}
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #' @rdname Menu-window-functions
