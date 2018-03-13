@@ -40,7 +40,7 @@ item	bs_active_ds_menu	command	"Convert to `data.table`"	command_dataset_as_dt	"
 item	bs_active_ds_menu	separator ""	""	""	""
 item	bs_active_ds_menu	command	"Rename active dataset"	window_dataset_rename	"activeDataSetP()"	""
 item	bs_active_ds_menu	command	"Make a copy of active dataset"	window_dataset_copy	"activeDataSetP()"	""
-item	bs_active_ds_menu	command	"[!] Delete active dataset"	window_dataset_delete	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"Delete active dataset"	window_dataset_delete	"activeDataSetP()"	""
 
 
 # ~~~~ Data Export Menu ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -60,16 +60,18 @@ item	bs_export_menu	command	"Save as R data file (.Rds)"	window_export_as_rds	"a
 menu	bs_rows_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"Rows"	bs_rows_menu	""	""
 
-item	bs_rows_menu	command	"[!] Arrange: sort rows (example)"	window_rows_arrange	"activeDataSetP()"	""
-item	bs_rows_menu	command	"[!] Filter: select rows that match conditions (example)"	window_rows_filter	"activeDataSetP()"	""
-item	bs_rows_menu	command	"[!] Slice: select/remove rows by position (example)"	window_rows_slice	"activeDataSetP()"	""
-item	bs_rows_menu	command	"[!] Remove empty rows"	window_rows_slice	"activeDataSetP()"	""
+item	bs_rows_menu	command	"[!] Arrange: sort rows (example)"	window_rows_arrange	"FALSE"	""
+item	bs_rows_menu	command	"[!] Filter: select rows that match conditions (example)"	window_rows_filter	"FALSE"	""
+item	bs_rows_menu	command	"[!] Slice: select/remove rows by position (example)"	window_rows_slice	"FALSE"	""
+item	bs_rows_menu	separator	""	""	""	""
+item	bs_rows_menu	command	"[!] Remove empty rows"	function_not_implemented	"FALSE"	""
+item	bs_rows_menu	command	"[!] Remove rows with missing values"	function_not_implemented	"FALSE"	""
 
 item	bs_rows_menu	separator	""	""	""	""
 item	bs_rows_menu	command	"Print row names"	command_rownames	"activeDataSetP()"	""
 item	bs_rows_menu	command	"[!] Move row names to column (example)"	command_rownames_to_col	"activeDataSetP()"	""
-item	bs_rows_menu	command	"[!] Move row numbers to column (example)"	command_rowid_to_col	"activeDataSetP()"	""
 item	bs_rows_menu	command	"[!] Move column values to row names (example)"	command_col_to_rownames	"activeDataSetP()"	""
+item	bs_rows_menu	command	"[!] Remove row names and add row numbers to column (example)"	command_rowid_to_col	"activeDataSetP()"	""
 
 #item	bs_rows_menu	separator	""	""	""	""
 #item	bs_rows_menu	command	"Make random subset of rows"	window_rows_...	"activeDataSetP()"	""
@@ -83,24 +85,24 @@ menu	bs_varible_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"Variables (columns)"	bs_varible_menu	""	""
 
 item	bs_varible_menu	command	"Print variable (column) names"	command_colnames	"activeDataSetP()"	""
-item	bs_varible_menu	command	"[!] Rename variables"	function_not_implemented	"activeDataSetP()"	"packageAvailable('dplyr')"
+item	bs_varible_menu	command	"[!] Rename variables"	function_not_implemented	"FALSE"	"packageAvailable('dplyr')"
 # item	bs_varible_menu	command	"Change variable (column) names"	window_change_colnames	"activeDataSetP()"	""
 
 
 item	bs_varible_menu	separator	""	""	""	""
-item	bs_varible_menu	command	"[!] Select, remove, reorder variables"	function_not_implemented	"activeDataSetP()"	"packageAvailable('dplyr')"
+item	bs_varible_menu	command	"[!] Select, remove, reorder variables"	function_not_implemented	"FALSE"	"packageAvailable('dplyr')"
 item	bs_varible_menu	command	"Mutate: compute a variable"	window_variable_mutate0	"activeDataSetP()"	"packageAvailable('dplyr')"
-item	bs_varible_menu	command	"[!] Recode variable values"	window_variable_recode	"activeDataSetP()"	"packageAvailable('dplyr')"
+item	bs_varible_menu	command	"[!] Recode variable values"	window_variable_recode	"FALSE"	"packageAvailable('dplyr')"
 
 # item	bs_varible_menu	separator	""	""	""	""
 
 
 item	bs_varible_menu	separator	""	""	""	""
 
-item	bs_varible_menu	command	"[!] Gather columns into key-value pairs"	function_not_implemented	"activeDataSetP()"	"packageAvailable('tidyr')"
-item	bs_varible_menu	command	"[!] Spread a key-value pair across multiple columns"	function_not_implemented	"activeDataSetP()"	"packageAvailable('tidyr')"
-item	bs_varible_menu	command	"[!] Separate one column into multiple columns"	function_not_implemented	"activeDataSetP()"	"packageAvailable('tidyr')"
-item	bs_varible_menu	command	"[!] Unite multiple columns into one"	function_not_implemented	"activeDataSetP()"	"packageAvailable('tidyr')"
+item	bs_varible_menu	command	"[!] Gather columns into key-value pairs"	function_not_implemented	"FALSE"	"packageAvailable('tidyr')"
+item	bs_varible_menu	command	"[!] Spread a key-value pair across multiple columns"	function_not_implemented	"FALSE"	"packageAvailable('tidyr')"
+item	bs_varible_menu	command	"[!] Separate one column into multiple columns"	function_not_implemented	"FALSE"	"packageAvailable('tidyr')"
+item	bs_varible_menu	command	"[!] Unite multiple columns into one"	function_not_implemented	"FALSE"	"packageAvailable('tidyr')"
 
 item	bs_varible_menu	separator	""	""	""	""
 
@@ -113,33 +115,33 @@ item	bs_var_num_menu	command	"Log transformation"	window_log_transform	"numericP
 item	bs_var_num_menu	command	"Z transformation / Standardization"	window_z_transform	"numericP()"	""
 
 item	bs_var_num_menu	separator	""	""	""	""
-item	bs_var_num_menu	command	"[!] Format and convert to text"	function_not_implemented	"numericP()"	""
-item	bs_var_num_menu	command	"[!] Convert to text"	function_not_implemented	"numericP()"	""
-item	bs_var_num_menu	command	"[!] Convert to logical variable"	function_not_implemented	"numericP()"	""
+item	bs_var_num_menu	command	"[!] Format and convert to text"	function_not_implemented	"FALSE & numericP()"	""
+item	bs_var_num_menu	command	"[!] Convert to text"	function_not_implemented	"FALSE & numericP()"	""
+item	bs_var_num_menu	command	"[!] Convert to logical variable"	function_not_implemented	"FALSE & numericP()"	""
 
 # Factor variables --------------------------------------------------
 menu	bs_var_fct_menu	bs_varible_menu	""	""	""	""
 item	bs_varible_menu	cascade	"Factors (categorical variables)"	bs_var_fct_menu	"activeDataSetP()"	""
 
-item	bs_var_fct_menu	command	"[!] Add levels"	function_not_implemented	"factorsP()" ""
-item	bs_var_fct_menu	command	"[!] Colapse least common lovels into \"other\""	function_not_implemented	"factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Colapse levels manually"	function_not_implemented	"factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Drop unused levels"	function_not_implemented	"factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Remove levels"	function_not_implemented	"factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Rename factor levels by hand"	function_not_implemented	"factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Reorder levels in first appearance"	function_not_implemented	"factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Reorder levels in frequency"	function_not_implemented	"factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Reorder levels manually"	function_not_implemented	"factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Reverse factor levels"	function_not_implemented	"factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Add levels"	function_not_implemented	"FALSE & factorsP()" ""
+item	bs_var_fct_menu	command	"[!] Colapse least common lovels into \"other\""	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Colapse levels manually"	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Drop unused levels"	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Remove levels"	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Rename factor levels by hand"	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Reorder levels in first appearance"	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Reorder levels in frequency"	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Reorder levels manually"	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Reverse factor levels"	function_not_implemented	"FALSE & factorsP()"	""
 
 
 item	bs_var_fct_menu	separator	""	""	""	""
-item	bs_var_fct_menu	command	"[!] Missing values into explicit level"	function_not_implemented	"factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Missing values into explicit level"	function_not_implemented	"FALSE & factorsP()"	""
 item	bs_var_fct_menu	separator	""	""	""	""
 
-item	bs_var_fct_menu	command	"[!] Convert to text"	function_not_implemented	"factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Convert to numeric variable"	function_not_implemented	"factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Switch between nominal and ordinal"	function_not_implemented	"factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Convert to text"	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Convert to numeric variable"	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Switch between nominal and ordinal"	function_not_implemented	"FALSE & factorsP()"	""
 
 
 # Text variables --------------------------------------------------
@@ -191,29 +193,29 @@ item	bs_summary_menu	separator	""	""	""	""
 item	bs_summary_menu	command	"Summarize numerical variables [psych::describe]"	summary_psych_describe	"activeDataSetP()"	""
 item	bs_summary_menu	command	"Summarize numerical variables by group"	window_do_summary	"activeDataSetP()"	""
 
-item	bs_summary_menu	command	"[!] Frequency table for continuous variables"	function_not_implemented	"activeDataSetP()"	""
+item	bs_summary_menu	command	"[!] Frequency table for continuous variables"	function_not_implemented	"FALSE & activeDataSetP()"	""
 # descriptr::ds_freq_cont()
 
 
 item	bs_summary_menu	separator	""	""	""	""
-item	bs_summary_menu	command	"[!] Frequency table for categorical variables"	function_not_implemented	"activeDataSetP()"	""
+item	bs_summary_menu	command	"[!] Frequency table for categorical variables"	function_not_implemented	"FALSE & activeDataSetP()"	""
 # df %>% dplyr::count(..., ...);
 # df %>% with(table(..., ...)) %>% as.data.frame()
 
-item	bs_summary_menu	command	"[!] One-way table (for one variable)"	function_not_implemented	"activeDataSetP()"	""
+item	bs_summary_menu	command	"[!] One-way tables"	function_not_implemented	"FALSE & activeDataSetP()"	""
 
-
-item	bs_summary_menu	command	"[!] One-way table (for one variable)"	function_not_implemented	"activeDataSetP()"	""
+# item	bs_summary_menu	command	"[!] One-way table (for one variable)"	function_not_implemented	"FALSE & activeDataSetP()"	""
 # descriptr::ds_freq_table
 
-item	bs_summary_menu	command	"[!] One-way tables for all categorical variables"	function_not_implemented	"activeDataSetP()"	""
+# item	bs_summary_menu	command	"[!] One-way tables for all categorical variables"	function_not_implemented	"FALSE & activeDataSetP()"	""
 # descriptr::ds_oway_tables()
 
-item	bs_summary_menu	command	"[!] Two-way table (for one variable)"	function_not_implemented	"activeDataSetP()"	""
+item	bs_summary_menu	command	"[!] Two-way tables"	function_not_implemented	"FALSE & activeDataSetP()"	""
+# item	bs_summary_menu	command	"[!] Two-way table (for one variable)"	function_not_implemented	"FALSE & activeDataSetP()"	""
 # descriptr::ds_cross_table()
 
 
-item	bs_summary_menu	command	"[!] Two-way tables for all pairs of categorical variables"	function_not_implemented	"activeDataSetP()"	""
+# item	bs_summary_menu	command	"[!] Two-way tables for all pairs of categorical variables"	function_not_implemented	"FALSE & activeDataSetP()"	""
 # descriptr::ds_tway_tables()
 
 
@@ -346,6 +348,7 @@ menu	bs_locale_menu	bs_settings_menu	""	""	""	""
 item	bs_settings_menu	cascade	"Locale"	bs_locale_menu	""	""
 
 item	bs_locale_menu	command	"Show current locale"	command_get_locale	""	""
+item	bs_locale_menu	separator	""	""	""	""
 item	bs_locale_menu	command	"Set locale to Lithuanian"	command_set_locale_lt	""	""
 item	bs_locale_menu	command	"Set locale to English"	command_set_locale_en	""	""
 item	bs_locale_menu	command	"Set locale to Russian"	command_set_locale_ru	""	""

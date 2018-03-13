@@ -9,12 +9,14 @@ window_about_package <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     OKCancelHelp()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    descr_file <- system.file("DESCRIPTION", package = "RcmdrPlugin.biostat")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # The main title is taken from the description file
     main_title_frame <-
         labelRcmdr(top,
                    fg = "darkblue",
                    font = tkfont.create(family = "Times New Roman", size = 12),
-                   text = desc::desc_get("Title"))
+                   text = desc::desc_get("Title", descr_file))
 
     tkgrid(main_title_frame,
            sticky = "w", pady = c(2, 15), padx = 25, columnspan = 4)
@@ -42,7 +44,7 @@ window_about_package <- function() {
     tkgrid(
         labelRcmdr(info_frame, fg = getRcmdr("title.color"),
                       text = gettextRcmdr("Date: ")),
-        labelRcmdr(info_frame, text = desc::desc_get("Date")),
+        labelRcmdr(info_frame, text = desc::desc_get("Date", descr_file)),
            sticky = "w", pady = c(0, 10), padx = 25)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
