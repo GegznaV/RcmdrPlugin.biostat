@@ -19,9 +19,13 @@ open_new_plots_window <- function() {
 window_easyPlot <- function() {
     Library("easyPlot")
 
-    command <- glue::glue('easyPlot::easyPlot("{ActiveDataSet()}")')
-    logger(paste("#", command))
-    justDoIt(command)
+    command <- glue::glue(
+        '## To call tool "easyPlot" for making plots (the app),  \n',
+        "## run the following code in either R or \n",
+        "## RStudio console (and NOT in Rcmdr windows):\n\n",
+        "# ", 'easyPlot::easyPlot("{ActiveDataSet()}")')
+    logger(command)
+    # justDoIt(command)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Create new window for plots
@@ -31,17 +35,22 @@ window_easyPlot <- function() {
 window_ggplotgui <- function() {
     Library("ggplotgui")
 
-    command <- glue::glue("ggplotgui::ggplot_shiny({ActiveDataSet()})")
-
-
     # system.file(package = "ggplotgui") %>% dir()
     # system.file(package = "descriptr", "application")
-    # shiny::runApp(, launch.browser = TRUE)
+    # shiny::runApp(system.file(package = "descriptr", "application"),
+    #               launch.browser = TRUE)
 
-    logger(paste("#", command))
-    justDoIt(command)
+    command <- glue::glue(
+    '## To call tool "ggplotgui" for making plots (the app),  \n',
+    "## run the following code in either R or RStudio console\n",
+    "## (and NOT in Rcmdr windows).\n",
+    '## In the code you copy form the app, change `ds`\n',
+    '## into the name of your dataset (e.g., `{ActiveDataSet()}`)"\n\n',
+    "# ", 'ggplotgui::ggplot_shiny({ActiveDataSet()})')
+
+    logger(command)
+    # justDoIt(command)
 }
-
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Visualize color names/codes as colors
@@ -49,8 +58,8 @@ window_ggplotgui <- function() {
 #' @export
 #' @keywords internal
 window_show_colors <- function() {
+    # [!!!] This function should be updated for more interactive use.
     Library("scales")
-
 
     if (exists("my_palette") && is.character(my_palette)) {
         color_names <- my_palette
@@ -60,15 +69,13 @@ window_show_colors <- function() {
 
     # Code:
     color_names <- paste0('"', color_names, '"', collapse = ", ")
-    command <- style_cmd(glue::glue('scales::show_col(c({color_names}))'))
 
-    # logger("# This is just an example of code")
-    # logger(command)
-    logger(paste("# This is just an example of code:",
-                 command,
-                 sep = "\n"))
+    command <- style_cmd(glue::glue(
+        "## This is just an example of code to show colors. \n",
+        "## Please write either color names or color codes of inerest: \n\n",
+        'scales::show_col(c({color_names}))'))
 
-    justDoIt(command)
+    doItAndPrint(command)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Create color palette
@@ -76,6 +83,7 @@ window_show_colors <- function() {
 #' @export
 #' @keywords internal
 window_colourPicker <- function() {
+    # [!!!] This function should be updated for more interactive use.
     Library("colourpicker")
 
     color_names <- NULL
@@ -92,13 +100,12 @@ window_colourPicker <- function() {
     # [!!!] Name should be changeable:
     palette_name <- "my_palette"
 
-    command <- style_cmd(glue::glue('{palette_name} <- c({color_names2})'))
+    command <- style_cmd(glue::glue(
+        "## The color palette you created:\n",
+        '{palette_name} <- c({color_names2})'
+        ))
 
-    logger(paste("# Your color palette:",
-                 command,
-                 sep = "\n"))
-
-    justDoIt(command)
+    doItAndPrint(command)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
