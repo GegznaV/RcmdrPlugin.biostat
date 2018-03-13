@@ -7,7 +7,7 @@ Description: An Rcmdr plug-in for basic data wrangling, visualisation and
              analysis using "tidyverse" family functions as well as 
              functions from package "biostat" and other packages.
 Authors@R: c(
-    person("Vilmantas", "Gegnza", role = c("aut","cre"), 
+    person("Vilmantas", "Gegzna", role = c("aut","cre"), 
            comment = c(ORCID = "0000-0002-9500-5167"),
            email = "GegznaV@gmail.com")
     )
