@@ -281,9 +281,6 @@ item	bs_tests_menu	command	"Test normality"	window_normality_test	"numericP()"	"
 # item	bs_ceners_menu	command	"[!] Independent samples (2 or more) [tmp]"	window_tmp	"numericP() & factorsP()"	""
 # item	bs_tests_menu	command	"[!] "t tests, Wilcoxon, Mann-Whitney tests, Wald-Wolfowitz"	function_not_implemented	"numericP() & factorsP()"	""
 
-
-
-
 # ==============================================================================
 # ---- Models -----------------------------------------------------------------
 
