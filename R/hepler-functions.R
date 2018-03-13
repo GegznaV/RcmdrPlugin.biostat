@@ -48,9 +48,18 @@ nonFactorsP <- function(n = 1) {
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-class_gglot_P <- function(n = 1) {
+class_ggplot_P <- function(n = 1) {
     #  n - number of non-factors.
     length(objects_of_class("ggplot", envir = .GlobalEnv)) >= n
+}
+
+# ------------------------------------------------------------------------------
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+objects_in_env_P <- function(n = 1, envir = .GlobalEnv, ...) {
+    #  n - number of non-factors.
+    isTRUE(length(objects(envir = envir, ...)) >= n)
 }
 # ------------------------------------------------------------------------------
 glue <- glue::glue
@@ -70,7 +79,7 @@ gettext_Bio <- function(...) {
     gettext(..., domain = "R-RcmdrPlugin.biostat")
 }
 # ------------------------------------------------------------------------------
-#' Does dataset contain characters?
+#' Does active dataset contain characters?
 #'
 #' Return TRUE, if at least n character variables exist in the active dataset.
 #'
@@ -82,6 +91,69 @@ characterP <- function(n = 1) {
     activeDataSetP() &&
         (sum(eval_glue("mapply(is.character, {activeDataSet()})")) >= n)
 }
+# ------------------------------------------------------------------------------
+#' Does active dataset contain logicals?
+#'
+#' Return TRUE, if at least n locical variables exist in the active dataset.
+#'
+#' @param n Minimum number of logical variables
+#'
+#' @keywords internal
+#' @export
+logicalP <- function(n = 1) {
+    activeDataSetP() &&
+        (sum(eval_glue("mapply(is.logical, {activeDataSet()})")) >= n)
+}
+#' Character variable names in active dataset
+#'
+#' @keywords internal
+#' @export
+variables_chr <- function() {
+    objects_of_class("character",
+                     envir = as.environment(globalenv()[[activeDataSet()]]))
+}
+#' Logical variable names in active dataset
+#'
+#' @keywords internal
+#' @export
+variables_lgl <- function() {
+    objects_of_class("logical",
+                     envir = as.environment(globalenv()[[activeDataSet()]]))
+}
+
+#' ...
+#'
+#' @keywords internal
+#' @export
+var_pos_n <- function(variables,
+                      type = c("all",
+                               "factor",
+                               "numeric",
+                               "nonfactor",
+                               "twoLevelFactor",
+                               "character",
+                               "logical"
+                               ), vars = NULL)
+{
+    if (is.null(variables))
+        return(NULL)
+    type <- match.arg(type)
+    if (is.null(vars))
+        vars <- switch(
+            type,
+            all = Variables(),
+            character = variables_chr(),
+            logical = variables_lgl(),
+            factor = Factors(),
+            numeric = Numeric(),
+            nonfactor = setdiff(Variables(),
+                                Factors()), twoLevelFactor = TwoLevelFactors())
+    if (any(!variables %in% vars))
+        NULL
+    else apply(outer(variables, vars, "=="), 1, which) - 1
+}
+
+
 # ------------------------------------------------------------------------------
 #' Does dataset contain certain number of variables?
 #'
