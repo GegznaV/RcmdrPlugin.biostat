@@ -25,7 +25,7 @@ window_log_transform <- function() {
                          selectmode = "multiple",
                          title = gettext_Bio("Variables (pick one or more)"),
                          initialSelection = varPosn(dialog_values$variables, "numeric"),
-                         listHeight = 4
+                         listHeight = 7
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     log_txt_outter_Frame <- tkframe(upper_Frame)

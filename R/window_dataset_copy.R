@@ -12,6 +12,7 @@ window_dataset_copy <- function() {
     dsname <- tclVar(glue::glue("{activeDataSet()}_copy"))
     entryDsname <- ttkentry(top, width = "40", textvariable = dsname)
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         dsnameValue <- trim.blanks(tclvalue(dsname))
 

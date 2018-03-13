@@ -3,13 +3,14 @@
 %   R/menu-conf_interval.R, R/menu-data.R, R/menu-export.R, R/menu-import.R,
 %   R/menu-models.R, R/menu-plots.R, R/menu-rows.R, R/menu-settings.R,
 %   R/menu-summary.R, R/menu-variables.R, R/window_anova_kw_mood_tests.R,
-%   R/window_col_compute.R, R/window_dataset_bind.R,
-%   R/window_dataset_bind_cols.R, R/window_dataset_bind_rows.R,
-%   R/window_dataset_join.R, R/window_do_summary.R, R/window_pander.R,
-%   R/window_qqplot_biostat.R, R/window_test_normality.R, R/window_tmp.R
+%   R/window_dataset_bind.R, R/window_dataset_bind_cols.R,
+%   R/window_dataset_bind_rows.R, R/window_dataset_join.R,
+%   R/window_do_summary.R, R/window_pander.R, R/window_qqplot_biostat.R,
+%   R/window_test_normality.R, R/window_tmp.R, R/window_variable_mutate.R,
+%   R/x_window_variable_recode.R
 \name{function_not_implemented}
 \alias{function_not_implemented}
-\alias{class_gglot_P}
+\alias{class_ggplot_P}
 \alias{objects_in_env_P}
 \alias{Menu-window-functions}
 \alias{command_dataset_refresh}
@@ -72,7 +73,6 @@
 \alias{summary_psych_describeBy}
 \alias{command_all_chr_to_fctr}
 \alias{window_anova_kw_mood_tests}
-\alias{window_col_compute}
 \alias{window_dataset_bind}
 \alias{window_dataset_bind_cols}
 \alias{window_dataset_bind_rows}
@@ -82,13 +82,17 @@
 \alias{window_qqplot_biostat}
 \alias{window_normality_test}
 \alias{window_tmp}
+\alias{window_variable_mutate0}
+\alias{window_variable_mutate}
+\alias{gettext_EZR}
+\alias{window_variable_recode}
 \title{RcmdrPlugin.biostat functions for menus and windows.}
 \usage{
 function_not_implemented(x = NULL)
 
-class_gglot_P(n = 1)
+class_ggplot_P(n = 1)
 
-objects_in_env_P(n = 1, ...)
+objects_in_env_P(n = 1, envir = .GlobalEnv, ...)
 
 command_dataset_refresh()
 
@@ -208,8 +212,6 @@ command_all_chr_to_fctr()
 
 window_anova_kw_mood_tests()
 
-window_col_compute()
-
 window_dataset_bind()
 
 window_dataset_bind_cols()
@@ -227,6 +229,15 @@ window_qqplot_biostat()
 window_normality_test()
 
 window_tmp()
+
+window_variable_mutate0(variables)
+
+window_variable_mutate(var_name = NULL, init_express = NULL,
+  incorrect_expr_msg = NULL)
+
+gettext_EZR(...)
+
+window_variable_recode()
 }
 \description{
 Functions that open Rcmdr menus and windows windows.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/hepler-functions.R
 \name{characterP}
 \alias{characterP}
-\title{Does dataset contain characters?}
+\title{Does active dataset contain characters?}
 \usage{
 characterP(n = 1)
 }
