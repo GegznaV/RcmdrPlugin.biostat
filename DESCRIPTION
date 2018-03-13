@@ -1,14 +1,15 @@
 Package: RcmdrPlugin.biostat
 Type: Package
-Version: 0.0.8.9002
-Date: 2018-03-12
+Version: 0.0.8.9003
+Date: 2018-03-13
 Title: An R Commander Plug-in for Package "biostat"
 Description: An Rcmdr plug-in for functions in package "biostat" and various 
              other common data analysis tasks: 
              making plots, summarizing and describing data, etc.
 Authors@R: c(
-    person("Vilmantas", "Gegna", role = c("aut","cre"),
-    email = "GegznaV@gmail.com")
+    person("Vilmantas", "Gegnza", role = c("aut","cre"), 
+           comment = c(ORCID = "0000-0002-9500-5167"),
+           email = "GegznaV@gmail.com")
     )
 License: GPL (>= 3)
 Encoding: UTF-8
