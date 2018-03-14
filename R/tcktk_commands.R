@@ -16,11 +16,15 @@ tclvalue_lgl <- function(x) {
 }
 
 tclvalue_int <- function(x) {
-    sapply(unlist(strsplit(tclvalue(x), " ")), as.integer)
+    x <- sapply(unlist(strsplit(tclvalue(x), " ")), as.integer)
+    names(x) <- NULL
+    x
 }
 
 tclvalue_chr <- function(x) {
     sapply(unlist(strsplit(tclvalue(x), " ")), as.character)
+    names(x) <- NULL
+    x
 }
 
 s2u <- function(str) {
