@@ -29,6 +29,7 @@ Imports:
     boot,
     colourpicker,
     data.table,
+    datasets,
     desc,
     descriptr,
     DescTools,
