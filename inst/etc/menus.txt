@@ -92,7 +92,7 @@ item	bs_varible_menu	command	"[!] Rename variables"	function_not_implemented	"FA
 item	bs_varible_menu	separator	""	""	""	""
 item	bs_varible_menu	command	"[!] Select, remove, reorder variables"	function_not_implemented	"FALSE"	"packageAvailable('dplyr')"
 item	bs_varible_menu	command	"Mutate: compute a variable"	window_variable_mutate0	"activeDataSetP()"	"packageAvailable('dplyr')"
-item	bs_varible_menu	command	"[!] Recode variable values"	window_variable_recode	"FALSE"	"packageAvailable('dplyr')"
+item	bs_varible_menu	command	"Recode variable values"	window_variable_recode	"activeDataSetP()"	"packageAvailable('dplyr')"
 
 # item	bs_varible_menu	separator	""	""	""	""
 
