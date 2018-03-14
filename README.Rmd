@@ -61,7 +61,7 @@ devtools::install_github("GegznaV/RcmdrPlugin.biostat")
 Other related packages:
 
 a. **biostat** is an `R` package that contains a collection of functions that 
-do some common statistical routines without writing to much code 
+do some common statistical routines without writing too much code 
 ([homepage](https://gegznav.github.io/biostat/));
 b. **RcmdrPlugin.EZR.2** -- an *R Commander* plugin for the most common statistical analyses (the same as *RcmdrPlugin.EZR*, except that *RcmdrPlugin.EZR.2* does not modify original *Rcmdr* menu so dramatically);
 c. **RcmdrPlugin.KMggplot2** -- an *R Commander* plugin for *ggplot2* graphics.

@@ -7,8 +7,9 @@
 %   R/window_dataset_bind_cols.R, R/window_dataset_bind_rows.R,
 %   R/window_dataset_join.R, R/window_do_summary.R, R/window_pander.R,
 %   R/window_qqplot_biostat.R, R/window_test_normality.R, R/window_tmp.R,
-%   R/window_variable_mutate.R, R/x_window_variable_recode.R
-\name{function_not_implemented}
+%   R/window_variable_mutate.R, R/window_variable_recode.R
+\name{gettext_EZR}
+\alias{gettext_EZR}
 \alias{function_not_implemented}
 \alias{class_ggplot_P}
 \alias{objects_in_env_P}
@@ -85,10 +86,11 @@
 \alias{window_tmp}
 \alias{window_variable_mutate0}
 \alias{window_variable_mutate}
-\alias{gettext_EZR}
 \alias{window_variable_recode}
 \title{RcmdrPlugin.biostat functions for menus and windows.}
 \usage{
+gettext_EZR(...)
+
 function_not_implemented(x = NULL)
 
 class_ggplot_P(n = 1)
@@ -237,8 +239,6 @@ window_variable_mutate0(variables)
 
 window_variable_mutate(var_name = NULL, init_express = NULL,
   incorrect_expr_msg = NULL)
-
-gettext_EZR(...)
 
 window_variable_recode()
 }
