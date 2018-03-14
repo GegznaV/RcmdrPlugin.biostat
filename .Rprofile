@@ -65,7 +65,7 @@ if (.Platform$OS.type == "windows") {
     Sys.setlocale(locale = "Lithuanian")
 } else {
     # Turėtumėte patikslinti pagal operacinę sistemą
-    Sys.setlocale(locale = "lt_LT")
+    # Sys.setlocale(locale = "lt_LT")
 }
 
 
