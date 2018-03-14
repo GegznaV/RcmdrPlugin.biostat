@@ -18,7 +18,10 @@
 #' @import nortest
 #' @importFrom Rcmdr activeDataSet
 #' @importFrom graphics plot
-#' @importFrom stats p.adjust.methods
+#' @importFrom stats p.adjust.methods C
+#' @importFrom utils browseURL packageVersion
+#'
+
 NULL
 
 # .onLoad <- function(...){
