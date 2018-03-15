@@ -52,7 +52,8 @@ command_dataset_print <- function() {
 command_dataset_pander <- function() {
     Library("pander")
     doItAndPrint(style_cmd(glue::glue(
-        '# Dataset as an R Markdown report compatible table)\n',
+        '## The dataset in a from that will be converted \n',
+        '## to a table in an R Markdown report. \n\n',
         'pander::pander({ActiveDataSet()}, ',
         'caption = "Dataset `{ActiveDataSet()}`")')))
 }

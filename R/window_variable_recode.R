@@ -9,16 +9,15 @@
 #        "old_val_3" = ""
 #        ...
 #
-#        # Change if explicit level is needed:
-#        .default = NULL
-#        .missing = NULL
-#
 #    b. Change variable name to the name of selected variable +
 #       tkfocus to variable name window.
 #
 # 2. Add menu for arguments .missing and .default.
+#        # Add options if explicit level is needed:
+#        .default = NULL
+#        .missing = NULL
 #
-# 3. Add examples.
+# 3. Add examples in the free area of the window.
 #
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

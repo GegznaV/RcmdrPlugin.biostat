@@ -3,7 +3,7 @@
 #' @export
 #' @keywords internal
 window_about_package <- function() {
-    initializeDialog(title = gettextRcmdr("Information About Package"))
+    initializeDialog(title = gettextRcmdr("Information About The Package"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {closeDialog(); tkfocus(CommanderWindow())}
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

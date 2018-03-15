@@ -1,4 +1,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# TODO:
+# Change interface for name input and prefix/suffix input:
+# make separate options.
+
 
 #' Rcmdr window for log transformation
 #'
