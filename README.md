@@ -16,12 +16,20 @@ Status](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)](ht
 
 <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/docs/logo.png" width="30%" height="30%" style="display: block; margin: auto;" />
 
-# An *R Commander* Plugin for Basic (Bio)Statistical Routines
+<!-- 
+An *R Commander* Plugin for Basic (Bio)Statistical Routines  
+-->
+
+# An R Commander Plug-in for Basic Data Analysis Tasks
+
+<center>
 
 <font color="red"> The package ***RcmdrPlugin.biostat*** is still in its
 **development stage** and some functions are for demonstration and test
 purposes only as they may change in the future. Some menus are not fully
 functional yet. </font>
+
+</center>
 
 Documentation and more information available at
 <http://gegznav.github.io/RcmdrPlugin.biostat/>
@@ -70,8 +78,8 @@ install.packages("RcmdrPlugin.KMggplot2")
 
 Some of the functions in the package are based on and modified from
 functions in packages *Rcmdr*, *RcmdrPlugin.EZR* and
-*RcmdrPlugin.KMggplot2*. All of those packages are under either GPL-2 or
-GPL-3 license.
+*RcmdrPlugin.KMggplot2*. All of those packages are under GPL-2/GPL-3
+license.
 
 -----
 

@@ -22,7 +22,9 @@ item	bs_active_ds_menu	command	"Print top and bottom rows"	summary_head_tail	"ac
 # item	bs_active_ds_menu	command	"Print top rows only"	summary_head	"activeDataSetP()"	""
 # item	bs_active_ds_menu	command	"Print bottom rows only"	summary_tail	"activeDataSetP()"	""
 item	bs_active_ds_menu	command	"Print whole dataset"	command_dataset_print	"activeDataSetP()"	""
-item	bs_active_ds_menu	command	"Pander: print dataset for report"	command_dataset_pander	"activeDataSetP()"	"packageAvailable('pander')"
+
+item	bs_active_ds_menu	separator	""	""	""	""
+item	bs_active_ds_menu	command	"Pander: print dataset as Markdown table"	command_dataset_pander	"activeDataSetP()"	"packageAvailable('pander')"
 
 
 
