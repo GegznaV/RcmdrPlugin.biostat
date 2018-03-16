@@ -8,8 +8,10 @@ inputComboBox <- function(parentWindow,
                           title = NULL,
                           title_sticky = "w",
                           combobox_sticky = "nw",
+                          onSelect_fun = function(){},
                           onClick_fun = function(){},
-                          onRelease_fun = function(){}
+                          onRelease_fun = function(){},
+                          width = 20
                           )
 {
         # variableList <- c(gettextRcmdr(default_text), variableList)
@@ -20,7 +22,8 @@ inputComboBox <- function(parentWindow,
                                 values = variableList,
                                 textvariable = combovar,
                                 state = state,
-                                export = export)
+                                export = export,
+                                width = width)
 
         firstChar <- tolower(substr(variableList, 1, 1))
 
@@ -32,6 +35,7 @@ inputComboBox <- function(parentWindow,
             if (is.na(mat)) return()
             tcl(combobox, "current", current + mat - 1)
         }
+
         onA <- function() onLetter("a")
         onB <- function() onLetter("b")
         onC <- function() onLetter("c")
@@ -60,25 +64,30 @@ inputComboBox <- function(parentWindow,
         onZ <- function() onLetter("z")
 
         for (letter in c(letters, LETTERS)) {
-            tkbind(combobox, paste("<", letter, ">", sep = ""),
-                   get(paste("on", toupper(letter), sep = "")))
+            tkbind(combobox, glue("<{letter}>"), get(glue("on{toupper(letter)}")))
         }
 
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         onClick <- function() {
-            tkfocus(listbox)
+            tkfocus(combobox)
             onClick_fun()
         }
 
         onRelease <- function() {
+            tkfocus(combobox)
             onRelease_fun()
+        }
+
+        onSelect <- function() {
+            tkfocus(combobox)
+            onSelect_fun()
         }
 
         tkbind(combobox, "<ButtonPress-1>",   onClick)
         tkbind(combobox, "<ButtonRelease-1>", onRelease)
+        tkbind(combobox, "<<ComboboxSelected>>", onSelect) # on change of selected value
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
         if (!is.null(title)) {
             tkgrid(labelRcmdr(frame,
