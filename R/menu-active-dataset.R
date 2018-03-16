@@ -50,12 +50,12 @@ command_dataset_print <- function() {
 #' @export
 #' @keywords internal
 command_dataset_pander <- function() {
-    Library("pander")
+    Library(c("tidyverse", "pander"))
     doItAndPrint(style_cmd(glue::glue(
         '## The dataset in a from that will be converted \n',
         '## to a table in an R Markdown report. \n\n',
-        'pander::pander({ActiveDataSet()}, ',
-        'caption = "Dataset `{ActiveDataSet()}`")')))
+        '{ActiveDataSet()} %>% \n',
+        'pander::pander(caption = "Dataset `{ActiveDataSet()}`", missing = "")')))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
