@@ -108,52 +108,16 @@ item	bs_varible_menu	command	"[!] Unite multiple columns into one"	function_not_
 
 item	bs_varible_menu	separator	""	""	""	""
 
-# # Numeric variables --------------------------------------------------
-menu	bs_var_num_menu	bs_varible_menu	""	""	""	""
-
-item	bs_varible_menu	cascade	"Numeric variables"	bs_var_num_menu	"activeDataSetP()"	""
-
-item	bs_var_num_menu	command	"Log transformation"	window_log_transform	"numericP()"	""
-item	bs_var_num_menu	command	"Z transformation / Standardization"	window_z_transform	"numericP()"	""
-
-item	bs_var_num_menu	separator	""	""	""	""
-item	bs_var_num_menu	command	"[!] Format and convert to text"	function_not_implemented	"FALSE & numericP()"	""
-item	bs_var_num_menu	command	"[!] Convert to text"	function_not_implemented	"FALSE & numericP()"	""
-item	bs_var_num_menu	command	"[!] Convert to logical variable"	function_not_implemented	"FALSE & numericP()"	""
-
-# Factor variables --------------------------------------------------
-menu	bs_var_fct_menu	bs_varible_menu	""	""	""	""
-item	bs_varible_menu	cascade	"Factors (categorical variables)"	bs_var_fct_menu	"activeDataSetP()"	""
-
-item	bs_var_fct_menu	command	"[!] Add levels"	function_not_implemented	"FALSE & factorsP()" ""
-item	bs_var_fct_menu	command	"[!] Colapse least common lovels into \"other\""	function_not_implemented	"FALSE & factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Colapse levels manually"	function_not_implemented	"FALSE & factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Drop unused levels"	function_not_implemented	"FALSE & factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Remove levels"	function_not_implemented	"FALSE & factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Rename factor levels by hand"	function_not_implemented	"FALSE & factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Reorder levels in first appearance"	function_not_implemented	"FALSE & factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Reorder levels in frequency"	function_not_implemented	"FALSE & factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Reorder levels manually"	function_not_implemented	"FALSE & factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Reverse factor levels"	function_not_implemented	"FALSE & factorsP()"	""
-
-
-item	bs_var_fct_menu	separator	""	""	""	""
-item	bs_var_fct_menu	command	"[!] Missing values into explicit level"	function_not_implemented	"FALSE & factorsP()"	""
-item	bs_var_fct_menu	separator	""	""	""	""
-
-item	bs_var_fct_menu	command	"[!] Convert to text"	function_not_implemented	"FALSE & factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Convert to numeric variable"	function_not_implemented	"FALSE & factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Switch between nominal and ordinal"	function_not_implemented	"FALSE & factorsP()"	""
-
 
 # Text variables --------------------------------------------------
 
-item	bs_varible_menu	command	"Convert all text variables (strings) into factors"	command_all_chr_to_fctr	"characterP()"	"packageAvailable('tidyverse')"
-item	bs_varible_menu	command	"Convert text variables (strings) into ..."	window_chr_convert	"characterP()"	"packageAvailable('tidyverse')"
+menu	bs_var_text_menu	bs_varible_menu	""	""	""	""
+item	bs_varible_menu	cascade	"Text variables (character, strings)"	bs_var_text_menu	"activeDataSetP()"	""
+item	bs_var_text_menu	command	"Convert all text variables into factors"	command_all_chr_to_fctr	"characterP()"	"packageAvailable('tidyverse')"
+item	bs_var_text_menu	command	"Convert text variables into ..."	window_chr_convert	"characterP()"	"packageAvailable('tidyverse')"
 
 
-# menu	bs_var_text_menu	bs_varible_menu	""	""	""	""
-# item	bs_varible_menu	cascade	"Text variables (character, strings)"	bs_var_text_menu	"activeDataSetP()"	""
+
 #
 # item	bs_var_text_menu	command	"Convert strings into numeric, factor, logical, etc. "	window_chr_convert	"characterP()"	"packageAvailable('tidyverse')"
 # item	bs_var_text_menu	command	"Convert all strings into factors"	command_all_chr_to_fctr	"characterP()"	"packageAvailable('tidyverse')"
@@ -164,7 +128,47 @@ item	bs_varible_menu	command	"Convert text variables (strings) into ..."	window_
 # item	bs_var_text_menu	command	"[!] Convert string to date"	function_not_implemented	"characterP()"	""
 # item	bs_var_text_menu	command	"[!] Convert string to time"	function_not_implemented	"characterP()"	""
 # item	bs_var_text_menu	command	"[!] Convert string to date-time"	function_not_implemented	"characterP()"	""
-# Vėliau pasirinks, į kurią
+
+
+
+
+# # Numeric variables --------------------------------------------------
+menu	bs_var_num_menu	bs_varible_menu	""	""	""	""
+
+item	bs_varible_menu	cascade	"Numeric variables"	bs_var_num_menu	"activeDataSetP()"	""
+
+item	bs_var_num_menu	command	"Log transformation"	window_log_transform	"numericP()"	""
+item	bs_var_num_menu	command	"Z transformation / Standardization"	window_z_transform	"numericP()"	""
+
+item	bs_var_num_menu	separator	""	""	""	""
+item	bs_var_num_menu	command	"[!] Format and convert to text"	function_not_implemented	"FALSE & numericP()"	""
+item	bs_var_num_menu	command	"[!] Convert to text variable"	function_not_implemented	"FALSE & numericP()"	""
+item	bs_var_num_menu	command	"[!] Convert to logical variable"	function_not_implemented	"FALSE & numericP()"	""
+
+# Factor variables --------------------------------------------------
+menu	bs_var_fct_menu	bs_varible_menu	""	""	""	""
+item	bs_varible_menu	cascade	"Factors (categorical variables)"	bs_var_fct_menu	"activeDataSetP()"	""
+
+item	bs_var_fct_menu	command	"[!] Add levels"	function_not_implemented	"FALSE & factorsP()" ""
+item	bs_var_fct_menu	command	'[!] Collapse least common levels into \"other\"'	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Collapse levels manually"	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Drop unused levels"	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Remove levels"	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Rename factor levels"	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"Reorder levels by hand"	window_fct_reorder	"factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Reorder levels in first appearance"	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Reorder levels in frequency"	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Reverse factor levels"	function_not_implemented	"FALSE & factorsP()"	""
+
+
+item	bs_var_fct_menu	separator	""	""	""	""
+item	bs_var_fct_menu	command	"[!] Missing values into explicit level"	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	separator	""	""	""	""
+
+item	bs_var_fct_menu	command	"[!] Convert to text variable"	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Convert to numeric variable"	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Switch between nominal and ordinal"	function_not_implemented	"FALSE & factorsP()"	""
+
 
 # Logical variables --------------------------------------------------
 # menu	bs_var_lgl_menu	bs_varible_menu	""	""	""	""
