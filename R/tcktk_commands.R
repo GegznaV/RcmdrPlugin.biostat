@@ -1,3 +1,32 @@
+#' Activate/Disable TK Objects
+#'
+#' Modify state of tk objects.
+#'
+#' @param tk_obj TK object.
+#' @param ... other options to be passed to \code{tkconfigure}.
+#' @keywords internal
+#'
+#' @export
+#'
+#' @examples
+#' # tk_activate(tk_obj)
+#' # tk_disable(tk_obj)
+#'
+tk_activate <- function(tk_obj, ...) {
+    tkconfigure(tk_obj, state = "active", ...)
+}
+
+#' @name tk_activate
+#' @export
+tk_disable <- function(tk_obj, ...) {
+    tkconfigure(tk_obj, state = "disabled", ...)
+}
+#' @name tk_activate
+#' @export
+tk_normalize <- function(tk_obj, ...) {
+    tkconfigure(tk_obj, state = "normal", ...)
+}
+
 # state_disabled <- function(widget) {
 #     tkconfigure(widget, state = "disabled")
 # }
