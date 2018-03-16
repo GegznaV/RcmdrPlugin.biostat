@@ -39,6 +39,7 @@ item	bs_active_ds_menu	command	"Convert to `data.table`"	command_dataset_as_dt	"
 
 
 # ~~~ Rename, copy ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 item	bs_active_ds_menu	separator ""	""	""	""
 item	bs_active_ds_menu	command	"Rename active dataset"	window_dataset_rename	"activeDataSetP()"	""
 item	bs_active_ds_menu	command	"Make a copy of active dataset"	window_dataset_copy	"activeDataSetP()"	""
@@ -109,7 +110,7 @@ item	bs_varible_menu	command	"[!] Unite multiple columns into one"	function_not_
 item	bs_varible_menu	separator	""	""	""	""
 
 
-# Text variables --------------------------------------------------
+# Text variables -------------------------------------------------------------
 
 menu	bs_var_text_menu	bs_varible_menu	""	""	""	""
 item	bs_varible_menu	cascade	"Text variables (character, strings)"	bs_var_text_menu	"activeDataSetP()"	""
@@ -162,7 +163,7 @@ item	bs_var_fct_menu	command	"[!] Reverse factor levels"	function_not_implemente
 
 
 item	bs_var_fct_menu	separator	""	""	""	""
-item	bs_var_fct_menu	command	"[!] Missing values into explicit level"	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Convert missing values into explicit level"	function_not_implemented	"FALSE & factorsP()"	""
 item	bs_var_fct_menu	separator	""	""	""	""
 
 item	bs_var_fct_menu	command	"[!] Convert to text variable"	function_not_implemented	"FALSE & factorsP()"	""
@@ -327,6 +328,10 @@ item	bs_data_menu	command	"Bind columns of two datasets"	window_dataset_bind_col
 
 # item	bs_data_menu	separator	""	""	""	""
 # item	bs_data_menu	command	"[!] Pander: print object for report"	window_pander	"activeDataSetP() && objects_in_env_P(n = 1)"	"packageAvailable('pander')"
+
+# ~~~~ Convert to data.freme ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+item	bs_data_menu	separator	""	""	""	""
+item	bs_data_menu	command	"[!] Convert `table` to `data.frame`"	window_table_to_df	"FALSE"	""
 
 # ~~~~ Data Import Menu ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 item	bs_data_menu	separator	""	""	""	""
