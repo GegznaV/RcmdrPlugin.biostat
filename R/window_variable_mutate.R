@@ -19,7 +19,7 @@ window_variable_mutate <- function(var_name = NULL,
     # Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onDoubleClick <- function() {
         var <- trim.blanks(getSelection(variablesBox))
-        word <- paste("\\[", gettext_EZR("factor"), "\\]", sep = "")
+        word <- paste0("\\[", gettext_EZR("factor"), "\\]")
         if (length(grep(word, var)) == 1)
             var <- trim.blanks(sub(word, "",  var))
         tkfocus(compute)
@@ -80,7 +80,7 @@ window_variable_mutate <- function(var_name = NULL,
         ttkentry(
             expression_Frame,
             font = getRcmdr("logFont"),
-            width = "60",
+            width = "50",
             textvariable = computeVar
         )
     computeXscroll <- ttkscrollbar(
@@ -172,7 +172,9 @@ window_variable_mutate <- function(var_name = NULL,
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "mutate")
+    OKCancelHelp(helpSubject = "mutate",
+                 reset = "window_variable_mutate",
+                 apply = "window_variable_mutate")
 
     tkgrid(var_box_Frame, sticky = "nw")
 
