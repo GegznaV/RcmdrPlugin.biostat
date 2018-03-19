@@ -74,6 +74,11 @@ inputComboBox <- function(parentWindow,
             onClick_fun()
         }
 
+        onDoubleClick <- function() {
+            tkfocus(combobox)
+            onDoubleClick_fun()
+        }
+
         onRelease <- function() {
             tkfocus(combobox)
             onRelease_fun()
@@ -85,6 +90,7 @@ inputComboBox <- function(parentWindow,
         }
 
         tkbind(combobox, "<ButtonPress-1>",   onClick)
+        tkbind(combobox, "<DoubleButtonPress-1>",   onDoubleClick)
         tkbind(combobox, "<ButtonRelease-1>", onRelease)
         tkbind(combobox, "<<ComboboxSelected>>", onSelect) # on change of selected value
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
