@@ -100,7 +100,7 @@ window_normality_test <- function() {
                                        gettextRcmdr("Normality test"))
 
     choose_test_inner_Frame <- tkframe(choose_test_Frame)
-    radioButtons(choose_test_inner_Frame,
+    Rcmdr::radioButtons(choose_test_inner_Frame,
                  name = "test",
                  buttons = c(if (nrows <= 5000) "shapiro.test",
                              "ad.test",

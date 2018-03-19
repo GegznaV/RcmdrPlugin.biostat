@@ -1,3 +1,6 @@
+# TODO:
+# Add checkboxes to choose/deselect summaries.
+
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal

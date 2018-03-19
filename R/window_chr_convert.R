@@ -47,7 +47,7 @@ window_chr_convert <- function() {
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     into_outter_Frame <- tkframe(upper_Frame)
-    radioButtons(into_outter_Frame,
+    Rcmdr::radioButtons(into_outter_Frame,
                  name = "into",
                  title = gettext_Bio("Convert into"),
                  buttons = c("factor", "number", "integer", "logical"),

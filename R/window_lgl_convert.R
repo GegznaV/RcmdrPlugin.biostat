@@ -49,7 +49,7 @@ window_lgl_convert <- function() {
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     into_outter_Frame <- tkframe(upper_Frame)
-    radioButtons(into_outter_Frame,
+    Rcmdr::radioButtons(into_outter_Frame,
                  name = "into",
                  title = gettext_Bio("\nConvert into:"),
                  buttons = c("integer", "factor",  "text"),

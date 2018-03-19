@@ -197,32 +197,32 @@ item	bs_summary_menu	command	"Summarize all variables [Hmisc::describe]"	summary
 
 
 item	bs_summary_menu	separator	""	""	""	""
-item	bs_summary_menu	command	"Summarize numerical variables [psych::describe]"	summary_psych_describe	"activeDataSetP()"	""
-item	bs_summary_menu	command	"Summarize numerical variables by group"	window_do_summary	"activeDataSetP()"	""
+item	bs_summary_menu	command	"Summarize numerical variables [psych::describe]"	summary_psych_describe	"numericP()"	""
+item	bs_summary_menu	command	"Summarize numerical variables by group"	window_do_summary	"numericP()"	""
 
 item	bs_summary_menu	command	"[!] Frequency table for continuous variables"	function_not_implemented	"FALSE & activeDataSetP()"	""
 # descriptr::ds_freq_cont()
 
 
 item	bs_summary_menu	separator	""	""	""	""
-item	bs_summary_menu	command	"[!] Frequency table for categorical variables"	function_not_implemented	"FALSE & activeDataSetP()"	""
+item	bs_summary_menu	command	"Frequency table for categorical variables"	window_summary_count	"factorsP()"	""
 # df %>% dplyr::count(..., ...);
 # df %>% with(table(..., ...)) %>% as.data.frame()
 
-item	bs_summary_menu	command	"[!] One-way tables"	function_not_implemented	"FALSE & activeDataSetP()"	""
+item	bs_summary_menu	command	"[!] One-way tables"	function_not_implemented	"FALSE & factorsP()"	""
 
-# item	bs_summary_menu	command	"[!] One-way table (for one variable)"	function_not_implemented	"FALSE & activeDataSetP()"	""
+# item	bs_summary_menu	command	"[!] One-way table (for one variable)"	function_not_implemented	"FALSE & factorsP()"	""
 # descriptr::ds_freq_table
 
-# item	bs_summary_menu	command	"[!] One-way tables for all categorical variables"	function_not_implemented	"FALSE & activeDataSetP()"	""
+# item	bs_summary_menu	command	"[!] One-way tables for all categorical variables"	function_not_implemented	"FALSE & factorsP()"	""
 # descriptr::ds_oway_tables()
 
-item	bs_summary_menu	command	"[!] Two-way tables"	function_not_implemented	"FALSE & activeDataSetP()"	""
-# item	bs_summary_menu	command	"[!] Two-way table (for one variable)"	function_not_implemented	"FALSE & activeDataSetP()"	""
+item	bs_summary_menu	command	"[!] Two-way tables"	function_not_implemented	"FALSE & factorsP()"	""
+# item	bs_summary_menu	command	"[!] Two-way table (for one variable)"	function_not_implemented	"FALSE & factorsP()"	""
 # descriptr::ds_cross_table()
 
 
-# item	bs_summary_menu	command	"[!] Two-way tables for all pairs of categorical variables"	function_not_implemented	"FALSE & activeDataSetP()"	""
+# item	bs_summary_menu	command	"[!] Two-way tables for all pairs of categorical variables"	function_not_implemented	"FALSE & factorsP()"	""
 # descriptr::ds_tway_tables()
 
 

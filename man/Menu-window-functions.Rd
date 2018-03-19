@@ -6,9 +6,9 @@
 %   R/window_anova_kw_mood_tests.R, R/window_dataset_bind.R,
 %   R/window_dataset_bind_cols.R, R/window_dataset_bind_rows.R,
 %   R/window_dataset_join.R, R/window_do_summary.R, R/window_fct_reorder.R,
-%   R/window_pander.R, R/window_qqplot_biostat.R, R/window_table_to_dataframe.R,
-%   R/window_test_normality.R, R/window_tmp.R, R/window_variable_mutate.R,
-%   R/window_variable_recode.R
+%   R/window_pander.R, R/window_qqplot_biostat.R, R/window_summary_count.R,
+%   R/window_table_to_df.R, R/window_test_normality.R, R/window_tmp.R,
+%   R/window_variable_mutate.R, R/window_variable_recode.R
 \name{gettext_EZR}
 \alias{gettext_EZR}
 \alias{function_not_implemented}
@@ -84,6 +84,7 @@
 \alias{window_fct_reorder}
 \alias{window_pander}
 \alias{window_qqplot_biostat}
+\alias{window_summary_count}
 \alias{window_table_to_df}
 \alias{window_normality_test}
 \alias{window_tmp}
@@ -235,6 +236,8 @@ window_fct_reorder()
 window_pander()
 
 window_qqplot_biostat()
+
+window_summary_count()
 
 window_table_to_df()
 

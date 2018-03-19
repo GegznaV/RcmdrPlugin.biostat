@@ -83,7 +83,7 @@ window_dataset_join <- function() {
     entry_ds_name <- ttkentry(ds_name_Frame, width = "37", textvariable = ds_name)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     middle_Frame <- tkframe(top)
-    radioButtons(
+    Rcmdr::radioButtons(
         middle_Frame,
         "join_type",
         title = gettextRcmdr("Join type: "),

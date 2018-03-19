@@ -1,6 +1,6 @@
 
-# Current locale:  
- 
-locale_info <- Sys.getlocale() 
-writeLines(gsub(";", "\n", locale_info))
+## Recode variable values
+
+cabbages <- cabbages %>% 
+   dplyr::mutate(variable = dplyr::recode_factor(Date,  "1" = "B"))
 

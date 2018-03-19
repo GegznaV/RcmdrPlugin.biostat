@@ -21,7 +21,7 @@ window_qqplot_biostat <- function() {
     )
 
     optionsFrame <- tkframe(top)
-    radioButtons(optionsFrame,
+    Rcmdr::radioButtons(optionsFrame,
                  name = "test",
                  buttons = c(if (nrows <= 5000) "shapiro.test",
                              "ad.test",

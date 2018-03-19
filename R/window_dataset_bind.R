@@ -15,7 +15,7 @@ window_dataset_bind <- function() {
     entry_dsname <- ttkentry(names_Frame, width = "20", textvariable = dsname)
     entry_idname <- ttkentry(names_Frame, width = "20", textvariable = idname)
 
-    radioButtons(
+    Rcmdr::radioButtons(
         top,
         "direction",
         title = gettextRcmdr("Direction:"),
