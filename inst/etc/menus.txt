@@ -27,7 +27,6 @@ item	bs_active_ds_menu	separator	""	""	""	""
 item	bs_active_ds_menu	command	"Pander: print dataset as Markdown table"	command_dataset_pander	"activeDataSetP()"	"packageAvailable('pander')"
 
 
-
 # ---- Manage dataset's class -------------------------------------------------
 
 item	bs_active_ds_menu	separator ""	""	""	""
@@ -69,13 +68,16 @@ item	bs_rows_menu	command	"[!] Slice: select/remove rows by position (example)"	
 item	bs_rows_menu	separator	""	""	""	""
 item	bs_rows_menu	command	"[!] Remove empty rows"	function_not_implemented	"FALSE"	""
 item	bs_rows_menu	command	"[!] Remove rows with missing values"	function_not_implemented	"FALSE"	""
+item	bs_rows_menu	command	"[!] Remove rows with duplicated values"	function_not_implemented	"FALSE"	""
 
 item	bs_rows_menu	separator	""	""	""	""
 item	bs_rows_menu	command	"Print row names"	command_rownames	"activeDataSetP()"	""
 item	bs_rows_menu	command	"[!] Move row names to column (example)"	command_rownames_to_col	"activeDataSetP()"	""
 item	bs_rows_menu	command	"[!] Move column values to row names (example)"	command_col_to_rownames	"activeDataSetP()"	""
-item	bs_rows_menu	command	"[!] Remove row names and add row numbers to column (example)"	command_rowid_to_col	"activeDataSetP()"	""
-
+item	bs_rows_menu	command	"[!] Add row numbers to column (example)"	command_rowid_to_col	"activeDataSetP()"	""
+# Remove row names and Add row numbers to column
+#
+#
 #item	bs_rows_menu	separator	""	""	""	""
 #item	bs_rows_menu	command	"Make random subset of rows"	window_rows_...	"activeDataSetP()"	""
 #item	bs_rows_menu	separator	""	""	""	""
@@ -184,6 +186,7 @@ item	bs_varible_menu	command	"Convert logical variables into ..."	window_lgl_con
 # item	bs_var_lgl_menu	command	"Log transformation"	window_log_transform	"numericP()"	""
 # item	bs_var_lgl_menu	command	"Z transformation / Standardization"	window_z_transform	"numericP()"	""
 
+
 # ==============================================================================
 # ---- Statistical summaries --------------------------------------------------
 
@@ -227,7 +230,6 @@ item	bs_summary_menu	command	"[!] Two-way tables"	function_not_implemented	"FALS
 
 
 # item	bs_summary_menu	separator	""	""	""	""
-
 
 
 # =============================================================================
