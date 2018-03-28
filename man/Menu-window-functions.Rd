@@ -35,6 +35,7 @@
 \alias{window_distributions_descriptr}
 \alias{window_export_as_textfile}
 \alias{window_export_as_rds}
+\alias{window_export_as_excel}
 \alias{window_import_rds}
 \alias{dataset_import_excel}
 \alias{command_std_lm_coeffs}
@@ -138,6 +139,8 @@ window_distributions_descriptr()
 window_export_as_textfile()
 
 window_export_as_rds()
+
+window_export_as_excel()
 
 window_import_rds()
 

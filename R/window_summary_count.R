@@ -1,12 +1,26 @@
 # TODO:
 # 1. Add radiobuttons instead of "Summary as data frame" checkbox:
-#   values: Show summary as
+#   values: Print summary as
+#     - "n-way table"
+#     - "n-way table (flat)"     (ftable)
+#     - "n-way table for report" (pander)
 #     - "data frame"
-#     - "table"
+#     - "data frame for report" (pander)
 # 2. Create count variable/environment for each type of summary separately.
-# 3. Inactivate name field if "Keep summary" is unchecked.
-# 4. Add counts variable name entrance field.
+# 3. Add counts variable name entrance field.
 #    Default to "n", "nn", "nnn", etc. Now default is "Freq"
+# 4. Radiobuttons:
+#    Keep summary object as:
+#        1. data frame;
+#        2. n-way table;
+#        3. print results and remove the object
+# 5. Inactivate name field if "Keep summary" is unchecked.
+# 6. Create separate window to plot the results. There may be a separate
+#    checkbox that automatically opens necessary plotting window:
+#    - plot as bar plot;
+#    - plot as mosaic plot;
+# 7. Possibility to sort variables.
+# 8. Add "vcd::assocstats()"
 
 #' @rdname Menu-window-functions
 #' @export

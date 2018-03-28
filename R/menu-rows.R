@@ -16,8 +16,36 @@ command_rownames <- function() {
 command_rowid_to_col <- function() {
     Library("tidyverse")
 
-    doItAndPrint(glue::glue(
-        '# new_df <- tibble::rowid_to_column({ActiveDataSet()}, var = "rows_id")'))
+    # This row deletes row names:
+    # '# new_df <- tibble::rowid_to_column({ActiveDataSet()}, var = "rows_id")'
+
+
+    # cabbages %>%
+    #     mutate(row_number = 1:n()) %>%
+    #     select(row_number, everything())
+
+    new_var <- "row_number"
+
+    which_position <- "first"
+
+    # Do commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    cmd_position <-
+        switch(which_position,
+            "first" = glue("%>% \n",
+                           "dplyr::select({new_var}, everything())"),
+            "last" = "")
+
+    cmd_ungroup <- if (is_grouped_df(ActiveDataSet())) "ungroup() %>% \n" else ""
+
+    command <- style_cmd(glue::glue(
+        '## Add row numbers \n',
+        "{ActiveDataSet()} <- {ActiveDataSet()} %>% \n",
+        "{cmd_ungroup}",
+        "dplyr::mutate({new_var} = 1:n())",
+        "{cmd_position}"))
+
+    doItAndPrint(command)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
