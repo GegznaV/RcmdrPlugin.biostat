@@ -21,6 +21,7 @@ window_normality_test <- function() {
 
     initializeDialog(title = gettextRcmdr("Test of Normality (biostat)"))
 
+
     # Callback  functions-----------------------------------------------------
 
     cmd_onClick_by_groups_checkbox <- function(){
@@ -83,12 +84,12 @@ window_normality_test <- function() {
         onRelease_fun = cmd_onRelease_gr_var_Box)
 
     checkBoxes_cmd(gr_var_Frame,
-               frame = "by_groups_Frame",
-               boxes = c("by_groups"),
-               commands = list("by_groups" = cmd_onClick_by_groups_checkbox),
-               # initialValues = c(dialog_values$initial_by_groups),
-               initialValues = (length(getSelection(gr_var_Box)) != 0),
-               labels = gettextRcmdr(c("Test by groups"))
+                   frame = "by_groups_Frame",
+                   boxes = c("by_groups"),
+                   commands = list("by_groups" = cmd_onClick_by_groups_checkbox),
+                   initialValues = c(dialog_values$initial_by_groups),
+                   # initialValues = (length(getSelection(gr_var_Box)) != 0),
+                   labels = gettextRcmdr(c("Test by groups"))
     )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -101,23 +102,23 @@ window_normality_test <- function() {
 
     choose_test_inner_Frame <- tkframe(choose_test_Frame)
     Rcmdr::radioButtons(choose_test_inner_Frame,
-                 name = "test",
-                 buttons = c(if (nrows <= 5000) "shapiro.test",
-                             "ad.test",
-                             "cvm.test",
-                             "lillie.test",
-                             if (nrows <= 5000) "sf.test",
-                             "pearson.test"
-                 ),
-                 labels = c(
-                     if (nrows <= 5000) gettextRcmdr("Shapiro-Wilk"),
-                     gettextRcmdr("Anderson-Darling"),
-                     gettextRcmdr("Cramer-von Mises"),
-                     gettextRcmdr("Lilliefors (Kolmogorov-Smirnov)"),
-                     if (nrows <= 5000) gettextRcmdr("Shapiro-Francia"),
-                     gettextRcmdr("Pearson chi-square")
-                 ),
-                 initialValue = dialog_values$initial_test
+                        name = "test",
+                        buttons = c(if (nrows <= 5000) "shapiro.test",
+                                    "ad.test",
+                                    "cvm.test",
+                                    "lillie.test",
+                                    if (nrows <= 5000) "sf.test",
+                                    "pearson.test"
+                        ),
+                        labels = c(
+                            if (nrows <= 5000) gettextRcmdr("Shapiro-Wilk"),
+                            gettextRcmdr("Anderson-Darling"),
+                            gettextRcmdr("Cramer-von Mises"),
+                            gettextRcmdr("Lilliefors (Kolmogorov-Smirnov)"),
+                            if (nrows <= 5000) gettextRcmdr("Shapiro-Francia"),
+                            gettextRcmdr("Pearson chi-square")
+                        ),
+                        initialValue = dialog_values$initial_test
     )
 
     binsVariable <- tclVar(dialog_values$initial_bins)
@@ -128,49 +129,49 @@ window_normality_test <- function() {
     options_right_Frame <- tkframe(options_Frame)
 
     checkBoxes_cmd(options_right_Frame,
-               ttk = TRUE,
-        frame = "plot_options_Frame",
-        title = "Plot options",
-        boxes = c("add_plot", "plot_in_colors", "new_plots_window"),
-        initialValues = c(
-            dialog_values$initial_add_plot,
-            dialog_values$initial_plot_in_colors,
-            dialog_values$initial_new_plots_window
-        ),
-        labels = gettextRcmdr(
-            c(  "Draw a normal qq-plot",
-                "Plot groups in colors",
-                "Make a new window for the plot")
-        ),
-        commands = list("add_plot" = cmd_onClick_add_plot_checkbox)
+                   ttk = TRUE,
+                   frame = "plot_options_Frame",
+                   title = "Plot options",
+                   boxes = c("add_plot", "plot_in_colors", "new_plots_window"),
+                   initialValues = c(
+                       dialog_values$initial_add_plot,
+                       dialog_values$initial_plot_in_colors,
+                       dialog_values$initial_new_plots_window
+                   ),
+                   labels = gettextRcmdr(
+                       c(  "Draw a normal qq-plot",
+                           "Plot groups in colors",
+                           "Make a new window for the plot")
+                   ),
+                   commands = list("add_plot" = cmd_onClick_add_plot_checkbox)
     )
 
     checkBoxes(options_right_Frame,
                ttk = TRUE,
-        frame = "numerical_options_Frame",
-        title = "Numerical output options",
-        boxes = c("use_pander",
-                  "pval_legend"),
-        initialValues = c(
-            dialog_values$initial_use_pander,
-            dialog_values$initial_pval_legend
-        ),
-        labels = gettextRcmdr(
-            c("R Markdown compatible results",
-              "Legend for significance stars")
-        )
+               frame = "numerical_options_Frame",
+               title = "Numerical output options",
+               boxes = c("use_pander",
+                         "pval_legend"),
+               initialValues = c(
+                   dialog_values$initial_use_pander,
+                   dialog_values$initial_pval_legend
+               ),
+               labels = gettextRcmdr(
+                   c("R Markdown compatible results",
+                     "Legend for significance stars")
+               )
     )
 
     radioButtons_horizontal(numerical_options_Frame,
-                 # title = "Decimal digits to round p-values to: ",
-                 title = "Round p-values to decimal digits: ",
-                 # right.buttons = FALSE,
-                 name = "digits_p",
-                 # sticky_buttons = "w",
-                 buttons = c("d2", "d3", "d4",  "d5", "dmore"),
-                 values =  c("2",  "3",  "4",   "5", "0"),
-                 labels =  c("2  ","3  ","4  ", "5 ", "more"),
-                 initialValue = dialog_values$initial_digits_p
+                            # title = "Decimal digits to round p-values to: ",
+                            title = "Round p-values to decimal digits: ",
+                            # right.buttons = FALSE,
+                            name = "digits_p",
+                            # sticky_buttons = "w",
+                            buttons = c("d2", "d3", "d4",  "d5", "dmore"),
+                            values =  c("2",  "3",  "4",   "5", "0"),
+                            labels =  c("2  ","3  ","4  ", "5 ", "more"),
+                            initialValue = dialog_values$initial_digits_p
     )
 
     tkgrid(
@@ -184,17 +185,17 @@ window_normality_test <- function() {
     # Functions --------------------------------------------------------------
     onOK <- function() {
         # Get values ---------------------------------------------------------
-               by_groups <- tclvalue(by_groupsVariable)
-                  gr_var <- getSelection(gr_var_Box)
-                   y_var <- getSelection(y_var_Box)
-                    test <- tclvalue(testVariable)
-                pval_leg <- tclvalue_lgl(pval_legendVariable)
-                digits_p <- tclvalue_int(digits_pVariable)
-                add_plot <- tclvalue_lgl(add_plotVariable)
-         plot_in_colors  <- tclvalue_lgl(plot_in_colorsVariable)
-              use_pander <- tclvalue_lgl(use_panderVariable)
+        by_groups        <- tclvalue(by_groupsVariable)
+        gr_var           <- getSelection(gr_var_Box)
+        y_var            <- getSelection(y_var_Box)
+        test             <- tclvalue(testVariable)
+        pval_leg         <- tclvalue_lgl(pval_legendVariable)
+        digits_p         <- tclvalue_int(digits_pVariable)
+        add_plot         <- tclvalue_lgl(add_plotVariable)
+        plot_in_colors   <- tclvalue_lgl(plot_in_colorsVariable)
+        use_pander       <- tclvalue_lgl(use_panderVariable)
         new_plots_window <- tclvalue_lgl(new_plots_windowVariable)
-                    bins <- tclvalue(binsVariable)
+        bins             <- tclvalue(binsVariable)
 
         # Chi-square bins ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         warn <- options(warn = -1)
@@ -241,8 +242,7 @@ window_normality_test <- function() {
         closeDialog()
 
         # Do analysis --------------------------------------------------------
-        Library("tidyverse")
-        Library("biostat")
+        Library(c("tidyverse", "biostat", "nortest"))
         Library("nortest")
 
         # NA means no rounding
@@ -252,7 +252,8 @@ window_normality_test <- function() {
         print_as_report <-
             if (use_pander == TRUE) {
                 Library("pander")
-                " %>% \n    pander({print_opt})\n"
+                " %>% \n    pander::pander({print_opt})\n"
+
             } else {
                 " %>% \n    print({print_opt})\n"
             }
