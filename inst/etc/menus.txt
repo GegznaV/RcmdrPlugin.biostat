@@ -24,7 +24,7 @@ item	bs_active_ds_menu	command	"Print top and bottom rows"	summary_head_tail	"ac
 item	bs_active_ds_menu	command	"Print whole dataset"	command_dataset_print	"activeDataSetP()"	""
 
 item	bs_active_ds_menu	separator	""	""	""	""
-item	bs_active_ds_menu	command	"Pander: print dataset as Markdown table"	command_dataset_pander	"activeDataSetP()"	"packageAvailable('pander')"
+item	bs_active_ds_menu	command	"Pander: print dataset as Markdown table"	window_dataset_pander	"activeDataSetP()"	"packageAvailable('pander')"
 
 
 # ---- Manage dataset's class -------------------------------------------------
@@ -172,7 +172,7 @@ item	bs_var_fct_menu	command	"[!] Rename levels"	function_not_implemented	"FALSE
 #     [checkbox:] Reverse the result
 #
 item	bs_var_fct_menu	command	"[!] Reorder levels automatically"	function_not_implemented	"FALSE & factorsP()"	""
-item	bs_var_fct_menu	command	"Reorder levels by hand"	window_fct_reorder	"factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Reorder levels by hand"	window_fct_reorder	"factorsP() & FALSE"	""
 
 # item	bs_var_fct_menu	command	"[!] Reorder levels in frequency"	function_not_implemented	"FALSE & factorsP()"	""
 # item	bs_var_fct_menu	command	"[!] Reverse levels"	function_not_implemented	"FALSE & factorsP()"	""
@@ -216,7 +216,7 @@ item	bs_summary_menu	separator	""	""	""	""
 item	bs_summary_menu	command	"Summarize numerical variables [psych::describe]"	summary_psych_describe	"numericP()"	""
 item	bs_summary_menu	command	"Summarize numerical variables by group"	window_do_summary	"numericP()"	""
 
-item	bs_summary_menu	command	"[!] Frequency table for continuous variables"	function_not_implemented	"FALSE & activeDataSetP()"	""
+# item	bs_summary_menu	command	"[!] Frequency table for continuous variables"	function_not_implemented	"FALSE & activeDataSetP()"	""
 # descriptr::ds_freq_cont()
 
 
@@ -225,7 +225,7 @@ item	bs_summary_menu	command	"Frequency table for categorical variables"	window_
 # df %>% dplyr::count(..., ...);
 # df %>% with(table(..., ...)) %>% as.data.frame()
 
-item	bs_summary_menu	command	"[!] One-way tables"	function_not_implemented	"FALSE & factorsP()"	""
+# item	bs_summary_menu	command	"[!] One-way tables"	function_not_implemented	"FALSE & factorsP()"	""
 
 # item	bs_summary_menu	command	"[!] One-way table (for one variable)"	function_not_implemented	"FALSE & factorsP()"	""
 # descriptr::ds_freq_table
@@ -233,7 +233,7 @@ item	bs_summary_menu	command	"[!] One-way tables"	function_not_implemented	"FALS
 # item	bs_summary_menu	command	"[!] One-way tables for all categorical variables"	function_not_implemented	"FALSE & factorsP()"	""
 # descriptr::ds_oway_tables()
 
-item	bs_summary_menu	command	"[!] Two-way tables"	function_not_implemented	"FALSE & factorsP()"	""
+# item	bs_summary_menu	command	"[!] Two-way tables"	function_not_implemented	"FALSE & factorsP()"	""
 # item	bs_summary_menu	command	"[!] Two-way table (for one variable)"	function_not_implemented	"FALSE & factorsP()"	""
 # descriptr::ds_cross_table()
 
