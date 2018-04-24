@@ -83,7 +83,7 @@ window_normality_test <- function() {
         initialSelection =  varPosn(dialog_values$initial_gr_var, "factor"),
         onRelease_fun = cmd_onRelease_gr_var_Box)
 
-    checkBoxes_cmd(gr_var_Frame,
+    bs_check_boxes(gr_var_Frame,
                    frame = "by_groups_Frame",
                    boxes = c("by_groups"),
                    commands = list("by_groups" = cmd_onClick_by_groups_checkbox),
@@ -128,7 +128,7 @@ window_normality_test <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     options_right_Frame <- tkframe(options_Frame)
 
-    checkBoxes_cmd(options_right_Frame,
+    bs_check_boxes(options_right_Frame,
                    ttk = TRUE,
                    frame = "plot_options_Frame",
                    title = "Plot options",
