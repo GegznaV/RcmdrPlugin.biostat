@@ -194,7 +194,9 @@ window_summary_count <- function() {
 
         # calculations -------------------------------------------------------
         .activeDataSet <- ActiveDataSet()
-        Library(c("tidyverse", "biostat"))
+        # Library(c("tidyverse", "biostat"))
+        Library("tidyverse")
+        Library("biostat")
 
         if (length(y_var) > 1) {
             y_var <- paste0(y_var, collapse = ", ")

@@ -168,7 +168,9 @@ window_lgl_convert <- function() {
             })
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        Library(c("tidyverse", "rlang"))
+        # Library(c("tidyverse", "rlang"))
+        Library("tidyverse")
+        Library("rlang")
 
 
         into_fun <- switch(into,

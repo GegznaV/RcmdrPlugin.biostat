@@ -146,7 +146,7 @@ window_normality_test <- function() {
                    commands = list("add_plot" = cmd_onClick_add_plot_checkbox)
     )
 
-    checkBoxes(options_right_Frame,
+    Rcmdr::checkBoxes(options_right_Frame,
                ttk = TRUE,
                frame = "numerical_options_Frame",
                title = "Numerical output options",
@@ -198,7 +198,7 @@ window_normality_test <- function() {
         bins             <- tclvalue(binsVariable)
 
         # Chi-square bins ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        warn <- options(warn = -1)
+        warn  <- options(warn = -1)
         nbins <- as.numeric(bins)
         options(warn)
         if (bins != gettextRcmdr("<auto>") &&
@@ -242,7 +242,9 @@ window_normality_test <- function() {
         closeDialog()
 
         # Do analysis --------------------------------------------------------
-        Library(c("tidyverse", "biostat", "nortest"))
+        # Library(c("tidyverse", "biostat", "nortest"))
+        Library("tidyverse")
+        Library("biostat")
         Library("nortest")
 
         # NA means no rounding

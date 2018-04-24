@@ -13,7 +13,10 @@ command_all_chr_to_fctr <- function() {
     # doItAndPrint(glue::glue(
     #     "{ActiveDataSet()} <- biostat::all_chr_to_factor({ActiveDataSet()})"))
 
-    Library(c("tidyverse", "forcats", "dplyr"))
+    # Library(c("tidyverse", "forcats", "dplyr"))
+    Library("tidyverse")
+    Library("forcats")
+    Library("dplyr")
 
     doItAndPrint(style_cmd(glue::glue(
         "{ActiveDataSet()} <- {ActiveDataSet()} %>% \n",
