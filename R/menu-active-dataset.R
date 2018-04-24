@@ -56,7 +56,9 @@ command_dataset_print <- function() {
 #' @export
 #' @keywords internal
 window_dataset_pander <- function() {
-    Library(c("tidyverse", "pander"))
+    # Library(c("tidyverse", "pander"))
+    Library("tidyverse")
+    Library("pander")
     doItAndPrint(style_cmd(glue::glue(
         '## The dataset in a from that will be converted \n',
         '## to a table in an R Markdown report. \n\n',
