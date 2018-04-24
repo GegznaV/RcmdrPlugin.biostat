@@ -19,7 +19,7 @@
 \alias{command_dataset_class}
 \alias{command_colnames}
 \alias{command_dataset_print}
-\alias{command_dataset_pander}
+\alias{window_dataset_pander}
 \alias{command_dataset_view}
 \alias{command_dataset_dim}
 \alias{command_dataset_as_df}
@@ -110,7 +110,7 @@ command_colnames()
 
 command_dataset_print()
 
-command_dataset_pander()
+window_dataset_pander()
 
 command_dataset_view()
 

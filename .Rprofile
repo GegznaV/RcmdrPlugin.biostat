@@ -46,7 +46,7 @@
 # }
 
 
-rmd_template_filenamename <- paste0(
+rmd_template_filename <- paste0(
     dir(.libPaths(), pattern = "RcmdrPlugin.biostat", full.names = TRUE),
     "/etc/biostat-RMarkdown-Template.Rmd"
 )
@@ -58,7 +58,7 @@ options(Rcmdr = list(plugins = c("RcmdrPlugin.KMggplot2",
                                  NULL),
                      console.output = FALSE,
                      use.rgl = FALSE,
-                     rmd.template = rmd_template_filenamename)
+                     rmd.template = rmd_template_filename)
         )
 
 if (.Platform$OS.type == "windows") {
