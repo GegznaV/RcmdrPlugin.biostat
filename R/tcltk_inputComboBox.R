@@ -1,17 +1,17 @@
 inputComboBox <- function(parentWindow,
-                          variableList = Variables(),
-                          export = "FALSE",
-                          state = "readonly",
-                          # default_text = "<no variable selected>",
+                          variableList       = Variables(),
+                          export             = "FALSE",
+                          state              = "readonly",
+                          # default_text     = "<no variable selected>",
                           # initialSelection = gettextRcmdr(default_text),
-                          initialSelection = NULL,
-                          title = NULL,
-                          title_sticky = "w",
-                          combobox_sticky = "nw",
-                          onSelect_fun = function(){},
-                          onClick_fun = function(){},
-                          onRelease_fun = function(){},
-                          width = 20
+                          initialSelection   = NULL,
+                          title              = NULL,
+                          title_sticky       = "w",
+                          combobox_sticky    = "nw",
+                          onSelect_fun       = function(){},
+                          onClick_fun        = function(){},
+                          onRelease_fun      = function(){},
+                          width              = 20
                           )
 {
         # variableList <- c(gettextRcmdr(default_text), variableList)
@@ -28,10 +28,10 @@ inputComboBox <- function(parentWindow,
         firstChar <- tolower(substr(variableList, 1, 1))
 
         onLetter <- function(letter) {
-            letter <- tolower(letter)
+            letter  <- tolower(letter)
             current <- as.numeric(tcl(combobox, "current"))
             current <- if (current == -1) 1 else current + 1
-            mat <- match(letter, firstChar[-(1:current)])
+            mat     <- match(letter, firstChar[-(1:current)])
             if (is.na(mat)) return()
             tcl(combobox, "current", current + mat - 1)
         }
@@ -89,9 +89,9 @@ inputComboBox <- function(parentWindow,
             onSelect_fun()
         }
 
-        tkbind(combobox, "<ButtonPress-1>",   onClick)
-        tkbind(combobox, "<DoubleButtonPress-1>",   onDoubleClick)
-        tkbind(combobox, "<ButtonRelease-1>", onRelease)
+        tkbind(combobox, "<ButtonPress-1>",      onClick)
+        tkbind(combobox, "<Double-Button-1>",    onDoubleClick)
+        tkbind(combobox, "<ButtonRelease-1>",    onRelease)
         tkbind(combobox, "<<ComboboxSelected>>", onSelect) # on change of selected value
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

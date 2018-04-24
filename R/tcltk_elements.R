@@ -144,7 +144,7 @@ variableListBox2 <-
 # Checkboxes with command functions
 # commands - a named list of commands (functions) for checkbox.
 #            The names are the same as in "boxes"
-checkBoxes_cmd <- defmacro(
+bs_check_boxes <- defmacro(
     window = top,
     frame,
     boxes,

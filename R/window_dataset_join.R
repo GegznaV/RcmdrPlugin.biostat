@@ -161,7 +161,7 @@ window_dataset_join <- function() {
                          dataSets,
                          listHeight = 7,
                          initialSelection = 0,
-                         onRelease_fun = cmd_onRelease_ds_y(),
+                         onRelease_fun = cmd_onRelease_ds_y,
                          title = gettextRcmdr("Second dataset (right, y) \n(pick one)"))
 
     cmd_onRelease_ds_x()

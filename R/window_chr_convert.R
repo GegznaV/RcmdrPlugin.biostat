@@ -4,7 +4,7 @@
 #
 # Change interface for name input:
 #        + add separate window for name input
-#        + add boxes fe prefix/suffix inputs.
+#        + add boxes for prefix/suffix inputs.
 
 # parse_logical(x, na = c("", "NA"), locale = default_locale(),
 #               trim_ws = TRUE)

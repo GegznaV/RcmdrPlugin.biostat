@@ -1,3 +1,11 @@
+# TODO:
+# 1. Add dadiobuttons with values: "Use numeric ID" "Use named ID"
+# 2. If "Use named ID" is selected, then values of `ds_x_as_name` and `ds_y_as_name`
+#    and appropriate textbox values should change if name of a dataset is
+#    double-clicked (or mouse released) in appropriate variable box
+#    (dataset `ds_x` and `ds_y`).
+#
+
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
@@ -160,8 +168,10 @@ window_dataset_bind_rows <- function() {
     tkgrid(getFrame(dataSet1Box),  getFrame(dataSet2Box), sticky = "nwe")
 
     tkgrid(
-        labelRcmdr(top, fg = getRcmdr("title.color"), text = gettextRcmdr("Name in ID column:")),
-        labelRcmdr(top, fg = getRcmdr("title.color"), text = gettextRcmdr("Name in ID column:")),
+        labelRcmdr(top, fg = getRcmdr("title.color"),
+                   text = gettextRcmdr("Name in ID column\n(optional):")),
+        labelRcmdr(top, fg = getRcmdr("title.color"),
+                   text = gettextRcmdr("Name in ID column\n(optional):")),
         sticky = "w")
 
     tkgrid(ds_x_as, ds_y_as, sticky = "w")
@@ -180,7 +190,8 @@ window_dataset_bind_rows <- function() {
 
     # tkgrid(
     #     commonButton,
-    #     labelRcmdr(commonFrame, text = gettextRcmdr("Merge only common\nrows or columns")),
+    #     labelRcmdr(commonFrame,
+    #                text = gettextRcmdr("Merge only common\nrows or columns")),
     #     sticky = "nw"
     # )
 

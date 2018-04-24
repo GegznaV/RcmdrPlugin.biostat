@@ -1,5 +1,15 @@
 # TODO:
-# Add checkboxes to choose/deselect summaries.
+# 1. Add checkboxes to choose/deselect summaries.
+#
+# 2. Include these summaries:
+# n missing unique
+# mean trimmed_mean sd variance cv
+# median mad IQR range
+# min q.05 q.25 q.75 q.95 max
+# skewness kurtosis se
+#
+# 3. Add posibibity to use parameter to trim mean (percentage of trimmed points),
+#  choose skewness (type of skewness), etc.
 
 #' @rdname Menu-window-functions
 #' @export
@@ -74,14 +84,14 @@ window_do_summary <- function() {
     model <- ttkentry(model_boxlFrame, width = "20", textvariable = modelName)
 
 
-    checkBoxes_cmd(model_boxlFrame,
+    bs_check_boxes(model_boxlFrame,
                    # ttk = TRUE,
                    frame = "keep_model_Frame",
                    # title = "Plot options",
                    boxes = c("keep_model"),
                    initialValues = c(dialog.values$initial.keep_model),
                    labels = gettextRcmdr(
-                       c("Keep summary as dataset")
+                       c("Keep summary for further analysis")
                    ),
                    commands = list("keep_model" = function(){})
     )

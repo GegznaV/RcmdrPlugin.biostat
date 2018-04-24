@@ -46,10 +46,16 @@ command_dataset_print <- function() {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# TODO:
+# 1. Convert into window.
+# 2. Add ability to add custom caption;
+# 3. Add ability to choose style of pander table ;
+# 4. Add other parameters (???)
+#
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-command_dataset_pander <- function() {
+window_dataset_pander <- function() {
     Library(c("tidyverse", "pander"))
     doItAndPrint(style_cmd(glue::glue(
         '## The dataset in a from that will be converted \n',

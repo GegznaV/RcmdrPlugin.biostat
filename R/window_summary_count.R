@@ -38,7 +38,7 @@ window_summary_count <- function() {
         initial_keep_model = FALSE
     )
 
-    dialog.values <- getDialog("window_summary_count", defaults)
+    dialog_values <- getDialog("window_summary_count", defaults)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Dialog elements --------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -48,7 +48,7 @@ window_summary_count <- function() {
     initializeDialog(title = gettextRcmdr("Frequency table (for categorical data)"))
 
     # posthocFrame <- tkframe(posthocTab)
-    # plotsFrame <- tkframe(plotsTab)
+    # plotsFrame   <- tkframe(plotsTab)
 
     main_frame <- tkframe(top)
 
@@ -63,7 +63,7 @@ window_summary_count <- function() {
         selectmode = "multiple",
         listHeight = 7,
         title = gettextRcmdr("Variables\n(pick one or several)"),
-        initialSelection = varPosn(dialog.values$initial_y_var, "numeric")
+        initialSelection = varPosn(dialog_values$initial_y_var, "numeric")
     )
 
     # groupBox <- variableListBox2(
@@ -72,7 +72,7 @@ window_summary_count <- function() {
     #     Factors(),
     #     listHeight = 6,
     #     title = gettextRcmdr("Group variable \n(pick one, several or none)"),
-    #     initialSelection = varPosn(dialog.values$initial_gr_var, "factor"))
+    #     initialSelection = varPosn(dialog_values$initial_gr_var, "factor"))
     #
     # tkgrid(
     #     getFrame(yBox),
@@ -95,18 +95,18 @@ window_summary_count <- function() {
     # Choose model name ------------------------------------------------------
     UpdateModelNumber()
 
-    modelName  <- tclVar(paste0(activeDataSet(),"_freq_table_", getRcmdr("modelNumber")))
+    modelName <- tclVar(paste0(activeDataSet(),"_freq_table_", getRcmdr("modelNumber")))
     model_boxlFrame <- tkframe(main_top_frame)
     model <- ttkentry(model_boxlFrame, width = "20", textvariable = modelName)
 
 
-    checkBoxes_cmd(model_boxlFrame,
+    bs_check_boxes(model_boxlFrame,
                    # ttk = TRUE,
                    frame = "keep_model_Frame",
                    # title = "Plot options",
                    boxes = c("as_df", "keep_model"),
-                   initialValues = c(dialog.values$initial_as_df,
-                                     dialog.values$initial_keep_model),
+                   initialValues = c(dialog_values$initial_as_df,
+                                     dialog_values$initial_keep_model),
                    labels = gettextRcmdr(
                        c("Summary as data frame", "Keep summary")
                    ),
@@ -126,7 +126,7 @@ window_summary_count <- function() {
     tkgrid(model_boxlFrame, sticky = "nw")
 
 
-    # digitsVar <- tclVar(dialog.values$initial_digits)
+    # digitsVar <- tclVar(dialog_values$initial_digits)
     #
     # digitsVarFrame <- tkframe(main_top_frame)
     # digitsBox      <- ttkentry(digitsVarFrame, width = "20", textvariable = digitsVar)
@@ -146,13 +146,13 @@ window_summary_count <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
 
-        # gr_var <- getSelection(groupBox)
-        y_var  <- getSelection(yBox)
-        # digits <- suppressWarnings(tclvalue_int(digitsVar))
+        # gr_var         <- getSelection(groupBox)
+        y_var            <- getSelection(yBox)
+        # digits         <- suppressWarnings(tclvalue_int(digitsVar))
 
         model_name_Value <- trim.blanks(tclvalue(modelName))
-        keep_model <- tclvalue_lgl(keep_modelVariable)
-        as_df      <- tclvalue_lgl(as_dfVariable)
+        keep_model       <- tclvalue_lgl(keep_modelVariable)
+        as_df            <- tclvalue_lgl(as_dfVariable)
 
         if (!is.valid.name(model_name_Value)) {
             UpdateModelNumber(-1)

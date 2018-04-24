@@ -1,3 +1,6 @@
+# TODO:
+# 1. The window is not functional. Fix it.
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export
@@ -50,8 +53,8 @@ window_fct_reorder <- function() {
         new_name_frame,
         "which_name",
         labels = gettextRcmdr(c(
-            "Updates the selected variable", #  (overwrites)
-            "Is created as a new variable:")),
+            "Update selected variable", #  (overwrites)
+            "Create a new variable:")),
         buttons = c("overwrite", "create_new"),
         command = cmd_onClick_name
     )
@@ -212,7 +215,7 @@ window_fct_reorder <- function() {
 
     tkgrid(labelRcmdr(new_name_frame,
                       fg = getRcmdr("title.color"),
-                      text = gettextRcmdr("New factor with reordered levels:")),
+                      text = gettextRcmdr("Method")), # New factor with reordered levels:
            sticky = "nsw",
            pady = c(0, 5))
 

@@ -1,3 +1,8 @@
+# TODO:
+#
+# [!!!] functions to get and put diaglog are needed.
+
+
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal

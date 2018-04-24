@@ -38,6 +38,8 @@ command_rowid_to_col <- function() {
     cmd_ungroup <- if (is_grouped_df(ActiveDataSet())) "ungroup() %>% \n" else ""
 
     command <- style_cmd(glue::glue(
+        '## An example of code: \n\n',
+
         '## Add row numbers \n',
         "{ActiveDataSet()} <- {ActiveDataSet()} %>% \n",
         "{cmd_ungroup}",
@@ -55,6 +57,7 @@ command_rownames_to_col <- function() {
     Library("tidyverse")
 
     doItAndPrint(glue::glue(
+        '## An example of code: \n\n',
         '# new_df <- tibble::rownames_to_column({ActiveDataSet()}, var = "row_names")'))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -65,6 +68,7 @@ command_col_to_rownames <- function() {
     Library("tidyverse")
 
     doItAndPrint(glue::glue(
+        '## An example of code: \n\n',
         '# new_df <- tibble::column_to_rownames({ActiveDataSet()}, var = "row_names")'))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -75,9 +79,12 @@ window_rows_arrange <- function() {
     Library("tidyverse")
 
     doItAndPrint(glue::glue(
+        '## Examples of code \n\n',
+
         '# Sort rows ascending: \n',
-        '# new_df <- dplyr::arrange({ActiveDataSet()}, {listVariables()[1]}) \n',
-        '\n# Sort rows descending:: \n',
+        '# new_df <- dplyr::arrange({ActiveDataSet()}, {listVariables()[1]}) \n\n',
+
+        '# Sort rows descending:: \n',
         '# new_df <- dplyr::arrange({ActiveDataSet()}, desc({listVariables()[1]})) \n'))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
