@@ -86,7 +86,7 @@ window_tmp <- function() {
     }
 
     # Main test --------------------------------------------------------------
-    radioButtons(window = main_top_frame,
+    Rcmdr::radioButtons(window = main_top_frame,
                  name = "main_test",
                  buttons = c("anova", "welch_anova", "kw_test", "mood_test"),
                  values =  c("anova", "welch_anova", "kw_test", "mood_test"),
@@ -148,7 +148,7 @@ window_tmp <- function() {
         posthoc_test_panel <- labeled_frame(posthocTab, "Post-hoc test options")
         tmpFRAME <- tkframe(posthoc_test_panel)
 
-        radioButtons(window = tmpFRAME,
+        Rcmdr::radioButtons(window = tmpFRAME,
                      name = "posthoc_test",
                      buttons = tclvalue_chr(ph_buttons),
                      values  = tclvalue_chr(ph_values),

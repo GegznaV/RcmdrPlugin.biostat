@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Authors • RcmdrPlugin.biostat</title>
+<title>Activate/Disable TK Objects — tk_activate • RcmdrPlugin.biostat</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -22,13 +22,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="jquery.sticky-kit.min.js"></script>
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../jquery.sticky-kit.min.js"></script>
+<script src="../pkgdown.js"></script>
 
 
 
-<meta property="og:title" content="Authors" />
+<meta property="og:title" content="Activate/Disable TK Objects — tk_activate" />
+
+<meta property="og:description" content="Modify state of tk objects." />
+<meta name="twitter:card" content="summary" />
 
 
 <!-- mathjax -->
@@ -40,11 +43,11 @@
 <![endif]-->
 
 
-  	<link rel="icon" href="favicon.png" />
+  	<link rel="icon" href="../favicon.png" />
 </head>
 
   <body>
-    <div class="container template-authors">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -55,7 +58,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">RcmdrPlugin.biostat</a>
+        <a class="navbar-link" href="../index.html">RcmdrPlugin.biostat</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.10</span>
       </span>
     </div>
@@ -63,16 +66,16 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="/index.html">
+  <a href="..//index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="reference/index.html">Functions</a>
+  <a href="../reference/index.html">Functions</a>
 </li>
 <li>
-  <a href="articles/index.html">Turorials and Examples</a>
+  <a href="../articles/index.html">Turorials and Examples</a>
 </li>
       </ul>
       
@@ -93,22 +96,55 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Authors</h1>
+    <h1>Activate/Disable TK Objects</h1>
+    
+    <div class="hidden name"><code>tk_activate.Rd</code></div>
     </div>
 
-    <ul class="list-unstyled">
-      <li>
-        <p><strong>Vilmantas Gegzna</strong>. Author, maintainer. <a href='https://orcid.org/0000-0002-9500-5167' target='orcid.widget'><img src='https://members.orcid.org/sites/default/files/vector_iD_icon.svg' class='orcid' height='16'></a>
-        </p>
-      </li>
+    <div class="ref-description">
+    
+    <p>Modify state of tk objects.</p>
+    
+    </div>
+
+    <pre class="usage"><span class='fu'>tk_activate</span>(<span class='no'>tk_obj</span>, <span class='no'>...</span>)
+
+<span class='fu'>tk_disable</span>(<span class='no'>tk_obj</span>, <span class='no'>...</span>)
+
+<span class='fu'>tk_normalize</span>(<span class='no'>tk_obj</span>, <span class='no'>...</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>tk_obj</th>
+      <td><p>TK object.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>other options to be passed to <code>tkconfigure</code>.</p></td>
+    </tr>
+    </table>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'># tk_activate(tk_obj)
+# tk_disable(tk_obj)
+
+</div></pre>
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+            
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
-
 </div>
-
 
       <footer>
       <div class="copyright">

@@ -114,7 +114,7 @@ window_anova_kw_mood_tests <- function() {
     }
 
     # Main test --------------------------------------------------------------
-    radioButtons(window = main_top_frame,
+    Rcmdr::radioButtons(window = main_top_frame,
                  name = "main_test",
                  buttons = c("anova", "welch_anova", "kw_test", "mood_test"),
                  values  = c("anova", "welch_anova", "kw_test", "mood_test"),
@@ -214,7 +214,7 @@ window_anova_kw_mood_tests <- function() {
     create_posthoc_tab <- function(env = parent.frame()) {
         posthoc_test_panel <- labeled_frame(posthocTab, "Post-hoc test options")
 
-        radioButtons(window = posthoc_test_panel,
+        Rcmdr::radioButtons(window = posthoc_test_panel,
                      name = "posthoc_test",
                      buttons = tclvalue_chr(ph_buttons),
                      values  = tclvalue_chr(ph_values),

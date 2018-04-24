@@ -1,7 +1,7 @@
 #' @name RcmdrPlugin.biostat
 #' @docType package
 #'
-#' @title An R Commander Plugin for Basic (Bio)Statistical Routines
+#' @title An R Commander Plug-in for Basic Data Analysis Tasks
 #'
 #'
 #' @description

@@ -84,7 +84,7 @@ summary_psych_describe <- function() {
 
                             "{ActiveDataSet()} %>% \n",
                             "  dplyr::select_if(is.numeric) %>% \n",
-                            "  psych::describe(quant = c(.05, .25, .75, .95),  IQR = TRUE, trim = .10)) \n"))
+                            "  psych::describe(quant = c(.05, .25, .75, .95),  IQR = TRUE, trim = .10) \n"))
     # logger(glue::glue("# * - Statistics of variables marked with  * should be interpreted\n",
     #                   "#     cautiously (if at all) as they are either categorical or logical. \n\n"))
 }

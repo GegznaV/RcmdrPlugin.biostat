@@ -1,5 +1,11 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+# TODO:
+#
+# Change interface for name input:
+#        + add separate window for name input
+#        + add boxes for prefix/suffix inputs.
+
 # parse_logical(x, na = c("", "NA"), locale = default_locale(),
 #               trim_ws = TRUE)
 #
@@ -41,7 +47,7 @@ window_chr_convert <- function() {
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     into_outter_Frame <- tkframe(upper_Frame)
-    radioButtons(into_outter_Frame,
+    Rcmdr::radioButtons(into_outter_Frame,
                  name = "into",
                  title = gettext_Bio("Convert into"),
                  buttons = c("factor", "number", "integer", "logical"),
@@ -66,10 +72,10 @@ window_chr_convert <- function() {
     radioButtons_horizontal(name = "which_names",
                             title = gettext_Bio("Variables: "),
                             title.color = getRcmdr("title.color"),
-                            buttons = c("new_names", "overwrite"),
-                            values  = c("new_names", "overwrite"),
+                            buttons = c("overwrite", "new_names"),
+                            values  = c("overwrite", "new_names"),
                             initialValue = dialog_values$which_names,
-                            labels =  gettext_Bio(c("Create new", "Overwrite")))
+                            labels =  gettext_Bio(c("Overwrite", "Create new")))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         suffix      <- trim.blanks(tclvalue(suffix))

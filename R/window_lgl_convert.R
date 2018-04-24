@@ -12,6 +12,14 @@
 # parse_factor(x, levels, ordered = FALSE, na = c("", "NA"),
 #              locale = default_locale(), include_na = TRUE, trim_ws = TRUE)
 
+
+# TODO:
+#
+# 1. Implement window for new variable names.
+# 2. Enable this option to chose names.
+# 3. Activate-inactivate suffix window. Plot/hide suffix window.
+
+
 #' Rcmdr windows for variable class conversion
 #'
 #' @export
@@ -33,15 +41,15 @@ window_lgl_convert <- function() {
 
     variableBox <-
         variableListBox2(upper_Frame,
-                         variables_lgl(),                                                     # [!!!] "lgl" is neaded
+                         variables_lgl(),                              # "lgl"
                          selectmode = "multiple",
                          title = gettext_Bio("Logical variables \n(pick one or more)"),
-                         initialSelection = var_pos_n(dialog_values$variables, "logical"), # [!!!] "lgl" is neaded
+                         initialSelection = var_pos_n(dialog_values$variables, "logical"), # "lgl"
                          listHeight = 7
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     into_outter_Frame <- tkframe(upper_Frame)
-    radioButtons(into_outter_Frame,
+    Rcmdr::radioButtons(into_outter_Frame,
                  name = "into",
                  title = gettext_Bio("\nConvert into:"),
                  buttons = c("integer", "factor",  "text"),
@@ -66,9 +74,18 @@ window_lgl_convert <- function() {
                             title = gettext_Bio("Names for converted variable: "),
                             title.color = getRcmdr("title.color"),
                             initialValue = dialog_values$which_names,
-                            buttons = c("overwrite", "add_suffix", "new_names"),
-                            values  = c("overwrite", "add_suffix", "new_names"),
-                            labels =  gettext_Bio(c("Overwrite", "Add suffixes", "Create new names")))
+                            buttons = c("overwrite"
+                                        , "add_suffix"
+                                        # , "new_names"
+                                        ),
+                            values  = c("overwrite"
+                                        , "add_suffix"
+                                        # , "new_names"
+                                        ),
+                            labels =  gettext_Bio(c("Overwrite"
+                                                    , "Add suffixes"
+                                                    # , "Create new names"
+                                                    )))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         suffix      <- trim.blanks(tclvalue(suffix))
@@ -155,9 +172,9 @@ window_lgl_convert <- function() {
 
 
         into_fun <- switch(into,
-                           "integer" = "rlang::as_integer" ,
-                           "factor"  = "forcats::as_factor"   ,
-                           "text"    = "rlang::as_character"   ,
+                           "integer" = "as.integer" ,
+                           "factor"  = "factor",
+                           "text"    = "as.character"   ,
                            stop("Unexpected choice"))
 
         tans_txt <- glue("{new_names} = {into_fun}({variables})")

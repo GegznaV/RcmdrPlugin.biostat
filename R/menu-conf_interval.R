@@ -11,7 +11,7 @@ window_ci_mean <- function() {
         "# # An example of code for confidence intervals of mean:\n",
         "# \n",
         '# x <- 1:10\n',
-        '# DescTools::MeanCI(x, method = "boot", type = "bca")\n',
+        '# DescTools::MeanCI(x, method = "boot", type = "bca", na.rm = TRUE)\n',
         "\n"
     ))
 
@@ -49,9 +49,9 @@ window_ci_mean <- function() {
 
 
 
-    doItAndPrint(glue::glue("biostat::ci_mean_boot({ActiveDataSet()}${Numeric()[1]}, conf_level = {conf_level})"))
+    doItAndPrint(glue::glue("biostat::ci_mean_boot({ActiveDataSet()}${Numeric()[1]}, conf_level = {conf_level}, na.rm = TRUE)"))
 
-    doItAndPrint(glue::glue("biostat::ci_mean_t({ActiveDataSet()}${Numeric()[1]}, conf_level = {conf_level})"))
+    doItAndPrint(glue::glue("biostat::ci_mean_t({ActiveDataSet()}${Numeric()[1]}, conf_level = {conf_level}, na.rm = TRUE)"))
 
 
     function_not_implemented()
@@ -73,7 +73,7 @@ window_ci_mean_diff <- function() {
         "# set.seed(123456)\n",
         '# x <- 1:10\n',
         "# y <- rnorm(10)\n",
-        '# DescTools::MeanDiffCI(x, y, method = "bca")\n',
+        '# DescTools::MeanDiffCI(x, y, method = "bca", na.rm = TRUE)\n',
         "\n"
     ))
 
@@ -95,7 +95,7 @@ window_ci_median <- function() {
         "# # An example of code for confidence intervals of median:\n",
         "# \n",
         '# x <- 1:10\n',
-        '# DescTools::MedianCI(x, method = "boot", type = "bca")\n',
+        '# DescTools::MedianCI(x, method = "boot", type = "bca",  na.rm = TRUE)\n',
         "\n"
     ))
 
@@ -233,7 +233,6 @@ window_ci_boot <- function() {
     boot_ci_type <- c("bca", "basic", "perc", "norm")[1]
 
     boot.ci(boot_obj, conf = conf_level, type = boot_ci_type)
-
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

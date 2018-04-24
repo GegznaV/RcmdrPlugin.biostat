@@ -5,10 +5,12 @@
 %   R/menu-rows.R, R/menu-settings.R, R/menu-summary.R, R/menu-variables.R,
 %   R/window_anova_kw_mood_tests.R, R/window_dataset_bind.R,
 %   R/window_dataset_bind_cols.R, R/window_dataset_bind_rows.R,
-%   R/window_dataset_join.R, R/window_do_summary.R, R/window_pander.R,
-%   R/window_qqplot_biostat.R, R/window_test_normality.R, R/window_tmp.R,
-%   R/window_variable_mutate.R, R/x_window_variable_recode.R
-\name{function_not_implemented}
+%   R/window_dataset_join.R, R/window_do_summary.R, R/window_fct_reorder.R,
+%   R/window_pander.R, R/window_qqplot_biostat.R, R/window_summary_count.R,
+%   R/window_table_to_df.R, R/window_test_normality.R, R/window_tmp.R,
+%   R/window_variable_mutate.R, R/window_variable_recode.R
+\name{gettext_EZR}
+\alias{gettext_EZR}
 \alias{function_not_implemented}
 \alias{class_ggplot_P}
 \alias{objects_in_env_P}
@@ -17,7 +19,7 @@
 \alias{command_dataset_class}
 \alias{command_colnames}
 \alias{command_dataset_print}
-\alias{command_dataset_pander}
+\alias{window_dataset_pander}
 \alias{command_dataset_view}
 \alias{command_dataset_dim}
 \alias{command_dataset_as_df}
@@ -33,6 +35,7 @@
 \alias{window_distributions_descriptr}
 \alias{window_export_as_textfile}
 \alias{window_export_as_rds}
+\alias{window_export_as_excel}
 \alias{window_import_rds}
 \alias{dataset_import_excel}
 \alias{command_std_lm_coeffs}
@@ -79,16 +82,20 @@
 \alias{window_dataset_bind_rows}
 \alias{window_dataset_join}
 \alias{window_do_summary}
+\alias{window_fct_reorder}
 \alias{window_pander}
 \alias{window_qqplot_biostat}
+\alias{window_summary_count}
+\alias{window_table_to_df}
 \alias{window_normality_test}
 \alias{window_tmp}
 \alias{window_variable_mutate0}
 \alias{window_variable_mutate}
-\alias{gettext_EZR}
 \alias{window_variable_recode}
 \title{RcmdrPlugin.biostat functions for menus and windows.}
 \usage{
+gettext_EZR(...)
+
 function_not_implemented(x = NULL)
 
 class_ggplot_P(n = 1)
@@ -103,7 +110,7 @@ command_colnames()
 
 command_dataset_print()
 
-command_dataset_pander()
+window_dataset_pander()
 
 command_dataset_view()
 
@@ -132,6 +139,8 @@ window_distributions_descriptr()
 window_export_as_textfile()
 
 window_export_as_rds()
+
+window_export_as_excel()
 
 window_import_rds()
 
@@ -225,9 +234,15 @@ window_dataset_join()
 
 window_do_summary()
 
+window_fct_reorder()
+
 window_pander()
 
 window_qqplot_biostat()
+
+window_summary_count()
+
+window_table_to_df()
 
 window_normality_test()
 
@@ -237,8 +252,6 @@ window_variable_mutate0(variables)
 
 window_variable_mutate(var_name = NULL, init_express = NULL,
   incorrect_expr_msg = NULL)
-
-gettext_EZR(...)
 
 window_variable_recode()
 }

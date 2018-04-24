@@ -40,8 +40,7 @@ window_ggedit <- function() {
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Code to call `ggedit` ==============================================
-        library("ggedit")
-        library("biostat")
+        Library(c("biostat", "ggedit"))
 
         command1 <- style_cmd(glue::glue(
             "tidy_ggedit_code({{",

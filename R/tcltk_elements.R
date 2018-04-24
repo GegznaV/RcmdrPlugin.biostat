@@ -28,6 +28,7 @@ variableListBox2 <-
              initialSelection = NULL,
              listHeight = getRcmdr("variable.list.height"),
              onClick_fun = function(){},
+             onDoubleClick_fun = function(){},
              onRelease_fun = function(){},
              title)
     {
@@ -104,10 +105,17 @@ variableListBox2 <-
         tkfocus(listbox)
         onClick_fun()
     }
+    tkbind(listbox, "<ButtonPress-1>",   onClick)
 
     onRelease <- function() {
         onRelease_fun()
     }
+    tkbind(listbox, "<ButtonRelease-1>", onRelease)
+
+    onRelease <- function() {
+        onRelease_fun()
+    }
+    tkbind(listbox, "<ButtonRelease-1>", onRelease)
 
 
     toggleSelection <- function() {
@@ -117,8 +125,6 @@ variableListBox2 <-
             tkselection.clear(listbox, "active")
         else tkselection.set(listbox, "active")
     }
-    tkbind(listbox, "<ButtonPress-1>",   onClick)
-    tkbind(listbox, "<ButtonRelease-1>", onRelease)
 
     if (selectmode == "single")
         tkbind(listbox, "<Control-ButtonPress-1>", toggleSelection)
@@ -138,7 +144,7 @@ variableListBox2 <-
 # Checkboxes with command functions
 # commands - a named list of commands (functions) for checkbox.
 #            The names are the same as in "boxes"
-checkBoxes_cmd <- defmacro(
+bs_check_boxes <- defmacro(
     window = top,
     frame,
     boxes,
@@ -210,7 +216,7 @@ radioButtons_horizontal <-
              values = NULL,
              initialValue = ..values[1],
              labels,
-             title = "",
+             title = NULL,
              title.color = NULL,
              right.buttons = FALSE,
              command = function() {},
@@ -236,8 +242,10 @@ radioButtons_horizontal <-
     #            sticky = "w")
     # }
 
-    title_label <- label_rcmdr(eval_(..frame), text = title, fg = title.color)
-    tkgrid(title_label, sticky = sticky_title)
+    if (!is.null(title)) {
+        title_label <- label_rcmdr(eval_(..frame), text = title, fg = title.color)
+        tkgrid(title_label, sticky = sticky_title)
+    }
 
     buttons_pan_Frame <- tkframe(eval_(..frame))
 
@@ -295,11 +303,19 @@ radioButtons_horizontal <-
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-radiobuttons_env <- function(window = top, name = stop("name not supplied"), buttons = stop("buttons not supplied"),
-          values = NULL, initialValue = ..values[1], labels = stop("labels not supplied"),
-          title = "", title.color = getRcmdr("title.color"), right.buttons = FALSE,
-          command = function() {}, env = parent.frame())
+radiobuttons_env <- function(window = top,
+                             name = stop("name not supplied"),
+                             buttons = stop("buttons not supplied"),
+                             values = NULL,
+                             initialValue = ..values[1],
+                             labels = stop("labels not supplied"),
+                             title = "",
+                             title.color = getRcmdr("title.color"),
+                             right.buttons = FALSE,
+                             command = function() {},
+                             env = parent.frame())
 {
+
     tmp <- substitute({
         on.exit(remove(list = objects(pattern = "^\\.\\.", all.names = TRUE)))
         ..values <- if (is.null(values)) buttons else values
@@ -308,23 +324,47 @@ radiobuttons_env <- function(window = top, name = stop("name not supplied"), but
         ..variable <- paste(name, "Variable", sep = "")
         assign(..variable, tclVar(initialValue))
         if (title != "") {
-            tkgrid(labelRcmdr(eval(parse(text = ..frame)), text = title,
-                              foreground = title.color, font = "RcmdrTitleFont"),
-                   columnspan = 2, sticky = "w")
+            tkgrid(
+                labelRcmdr(
+                    eval(parse(text = ..frame)),
+                    text = title,
+                    foreground = title.color,
+                    font = "RcmdrTitleFont"
+                ),
+                columnspan = 2,
+                sticky = "w"
+            )
         }
         for (i in 1:length(buttons)) {
             ..button <- paste(buttons[i], "Button", sep = "")
             if (right.buttons) {
-                assign(..button, ttkradiobutton(eval(parse(text = ..frame)),
-                                                variable = eval(parse(text = ..variable)),
-                                                value = ..values[i], command = command))
-                tkgrid(labelRcmdr(eval(parse(text = ..frame)),
-                                  text = labels[i], justify = "left"), eval(parse(text = ..button)),
-                       sticky = "w")
+                assign(
+                    ..button,
+                    ttkradiobutton(
+                        eval(parse(text = ..frame)),
+                        variable = eval(parse(text = ..variable)),
+                        value = ..values[i],
+                        command = command
+                    )
+                )
+                tkgrid(labelRcmdr(
+                    eval(parse(text = ..frame)),
+                    text = labels[i],
+                    justify = "left"
+                ),
+                eval(parse(text = ..button)),
+                sticky = "w")
             } else {
-                assign(..button, ttkradiobutton(eval(parse(text = ..frame)),
-                                                variable = eval(parse(text = ..variable)),
-                                                value = ..values[i], text = labels[i], command = command))
+                assign(
+                    ..button,
+                    ttkradiobutton(
+                        eval(parse(text = ..frame)),
+                        variable = eval(parse(text = ..variable)),
+                        value = ..values[i],
+                        text = labels[i],
+                        command = command
+                    )
+                )
                 tkgrid(eval(parse(text = ..button)), sticky = "w")
             }
         }

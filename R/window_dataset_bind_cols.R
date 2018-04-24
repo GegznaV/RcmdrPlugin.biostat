@@ -1,3 +1,10 @@
+# TODO:
+# 1. Add suggestion in the window:
+#   'If appropriate, concider using "join_*" functions instead of "bind_cols".'
+# 2. Functions to get and put dialog are needed.
+# 3. Show number of rows in each dataset beneeth the dataset selection box.
+#
+#
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
@@ -5,7 +12,7 @@ window_dataset_bind_cols <- function() {
     dataSets <- listDataSets()
     .activeDataSet <- ActiveDataSet()
 
-    # [!!!] functions to get and put diaglog are needed.
+    # [!!!] functions to get and put dialog are needed.
     # [!!!] Show number of rows in each dataset beneeth the dataset selection box.
 
     initializeDialog(title = gettextRcmdr("Bind Columns of Datasets"))

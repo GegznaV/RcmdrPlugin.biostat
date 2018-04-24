@@ -46,15 +46,22 @@ command_dataset_print <- function() {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# TODO:
+# 1. Convert into window.
+# 2. Add ability to add custom caption;
+# 3. Add ability to choose style of pander table ;
+# 4. Add other parameters (???)
+#
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-command_dataset_pander <- function() {
-    Library("pander")
+window_dataset_pander <- function() {
+    Library(c("tidyverse", "pander"))
     doItAndPrint(style_cmd(glue::glue(
-        '# Dataset as an R Markdown report compatible table)\n',
-        'pander::pander({ActiveDataSet()}, ',
-        'caption = "Dataset `{ActiveDataSet()}`")')))
+        '## The dataset in a from that will be converted \n',
+        '## to a table in an R Markdown report. \n\n',
+        '{ActiveDataSet()} %>% \n',
+        'pander::pander(caption = "Dataset `{ActiveDataSet()}`", missing = "")')))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

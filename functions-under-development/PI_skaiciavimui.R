@@ -13,7 +13,7 @@ library(DescTools)
 # DescTools::MeanCI(x, method = "boot", type = "bca")
 #
 # x <- 1:10
-# DescTools::MedianCI(x, method = "boot", type = "bca")
+# DescTools::MedianCI(x, method = "boot")
 #
 #
 # set.seed(123456)

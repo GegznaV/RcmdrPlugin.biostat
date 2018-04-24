@@ -1,3 +1,10 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+gettext_EZR <- function(...) {
+    gettext(domain = "R-RcmdrPlugin.EZR", ...)
+}
 
 # ------------------------------------------------------------------------------
 # Formatat code in a `tidyverse` style

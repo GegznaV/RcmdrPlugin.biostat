@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RcmdrPlugin.biostat functions for menus and windows. — function_not_implemented • RcmdrPlugin.biostat</title>
+<title>RcmdrPlugin.biostat functions for menus and windows. — gettext_EZR • RcmdrPlugin.biostat</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -25,13 +25,16 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
-<meta property="og:title" content="RcmdrPlugin.biostat functions for menus and windows. — function_not_implemented" />
+
+
+
+<meta property="og:title" content="RcmdrPlugin.biostat functions for menus and windows. — gettext_EZR" />
 
 <meta property="og:description" content="Functions that open Rcmdr menus and windows windows.
 Functions that open Rcmdr menus and windows windows." />
 <meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -55,8 +58,12 @@ Functions that open Rcmdr menus and windows windows." />
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">RcmdrPlugin.biostat | R package</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">RcmdrPlugin.biostat</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.10</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -81,6 +88,7 @@ Functions that open Rcmdr menus and windows windows." />
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -88,18 +96,24 @@ Functions that open Rcmdr menus and windows windows." />
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>RcmdrPlugin.biostat functions for menus and windows.</h1>
+    
+    <div class="hidden name"><code>Menu-window-functions.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Functions that open Rcmdr menus and windows windows.</p>
 <p>Functions that open Rcmdr menus and windows windows.</p>
     
+    </div>
 
-    <pre class="usage"><span class='fu'>function_not_implemented</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>gettext_EZR</span>(<span class='no'>...</span>)
+
+<span class='fu'>function_not_implemented</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='fu'>class_ggplot_P</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 
@@ -113,7 +127,7 @@ Functions that open Rcmdr menus and windows windows." />
 
 <span class='fu'>command_dataset_print</span>()
 
-<span class='fu'>command_dataset_pander</span>()
+<span class='fu'>window_dataset_pander</span>()
 
 <span class='fu'>command_dataset_view</span>()
 
@@ -142,6 +156,8 @@ Functions that open Rcmdr menus and windows windows." />
 <span class='fu'>window_export_as_textfile</span>()
 
 <span class='fu'>window_export_as_rds</span>()
+
+<span class='fu'>window_export_as_excel</span>()
 
 <span class='fu'>window_import_rds</span>()
 
@@ -235,9 +251,15 @@ Functions that open Rcmdr menus and windows windows." />
 
 <span class='fu'>window_do_summary</span>()
 
+<span class='fu'>window_fct_reorder</span>()
+
 <span class='fu'>window_pander</span>()
 
 <span class='fu'>window_qqplot_biostat</span>()
+
+<span class='fu'>window_summary_count</span>()
+
+<span class='fu'>window_table_to_df</span>()
 
 <span class='fu'>window_normality_test</span>()
 
@@ -247,8 +269,6 @@ Functions that open Rcmdr menus and windows windows." />
 
 <span class='fu'>window_variable_mutate</span>(<span class='kw'>var_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>init_express</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>incorrect_expr_msg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
-
-<span class='fu'>gettext_EZR</span>(<span class='no'>...</span>)
 
 <span class='fu'>window_variable_recode</span>()</pre>
         
@@ -273,6 +293,8 @@ Functions that open Rcmdr menus and windows windows." />
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

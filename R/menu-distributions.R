@@ -10,13 +10,14 @@ window_distributions_descriptr <- function() {
 
     command <- style_cmd(glue::glue(
         '## The application (app) will open in your default Internet browser.\n',
-        '## You will not be able to use R and R Commander\n',
+        '## You will not be able to use R and R Commander correctly\n',
         '## until you close the app in the browser.\n\n',
 
-        '## In the app, go to "Analyze" -> "Distributions".\n',
+        '## In the app, go to "Analyze" -> "Distributions".\n\n',
 
-        'shiny::runApp(system.file(package = "descriptr", "application"),\n',
-        '               launch.browser = TRUE)'
+        'shiny::runApp(\n',
+        '    system.file(package = "descriptr", "application"),\n',
+        '    launch.browser = TRUE)'
     ))
     doItAndPrint(command)
 }

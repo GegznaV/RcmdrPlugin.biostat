@@ -1,4 +1,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# TODO:
+# Change interface for name input and prefix/suffix input:
+# make separate options either to write names or to add preffix and suffix.
+
 
 #' Rcmdr window for log transformation
 #'
@@ -29,17 +33,17 @@ window_log_transform <- function() {
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     log_txt_outter_Frame <- tkframe(upper_Frame)
-    radioButtons(log_txt_outter_Frame,
-                 name = "log_txt",
-                 title = gettext_Bio("Choose of logarithmic transformation"),
-                 buttons = c("common", "binary", "natural", "natural_1p"),
-                 values = c("log10", "log2", "log", "log1p"),
-                 initialValue = dialog_values$log_txt,
-                 labels =  gettext_Bio(
-                     c("Common, log(x, base = 10)",
-                       "Binary, log(x, base = 2)",
-                       "Natural, log(x, base = e)",
-                       "Natural, log(x + 1, base = e)"))
+    Rcmdr::radioButtons(log_txt_outter_Frame,
+                        name = "log_txt",
+                        title = gettext_Bio("Choose of logarithmic transformation"),
+                        buttons = c("common", "binary", "natural", "natural_1p"),
+                        values = c("log10", "log2", "log", "log1p"),
+                        initialValue = dialog_values$log_txt,
+                        labels =  gettext_Bio(
+                            c("Common, log(x, base = 10)",
+                              "Binary, log(x, base = 2)",
+                              "Natural, log(x, base = e)",
+                              "Natural, log(x + 1, base = e)"))
     )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
