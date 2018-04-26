@@ -101,7 +101,7 @@ window_variable_mutate <- function(var_name = NULL,
         closeDialog()
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        newVar <- trim.blanks(tclvalue(newVariableName))
+        newVar  <- trim.blanks(tclvalue(newVariableName))
         express <- tclvalue(computeVar)
 
         # Check validity of var name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -121,11 +121,11 @@ window_variable_mutate <- function(var_name = NULL,
         check.empty <- gsub(";", "", gsub(" ", "", express))
 
         if ("" == check.empty) {
-            Message(message = gettext_EZR("No expression specified!"),
+            Message(message = gettext_EZR("No expression was specified!"),
                     type = "error")
             window_variable_mutate(var_name = newVar,
                                     init_express = express,
-                                    incorrect_expr_msg = "No expression specified!")
+                                    incorrect_expr_msg = "No expression was specified!")
             return()
         }
 

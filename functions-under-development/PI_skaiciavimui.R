@@ -1,4 +1,4 @@
-library(DescTools)
+# library(DescTools)
 
 # DescTools::BinomCI(x = 16, n = 200, method = "modified wilson")
 
@@ -26,4 +26,4 @@ library(DescTools)
 # y <- rnorm(10)
 # DescTools::BootCI(x, y, FUN = cor, bci.method = "bca")
 
-SignTest()
+# SignTest()
