@@ -4,6 +4,40 @@
 menu	BioStat_menu	topMenu	 ""	""	""	""
 item	topMenu	cascade	"BioStat'18"	BioStat_menu	""	""
 
+
+# ==============================================================================
+# ---- Data menu -------------------------------------------------------------
+
+menu	bs_data_menu	BioStat_menu	""	""	""	""
+item	BioStat_menu	cascade	"Data"	bs_data_menu	""	""
+
+# ---- Create data -----------------------------------------------------------
+item	bs_data_menu	command	"Create a new dataset"	window_dataset_new_rcmdr	""	"" # from Rcmdr
+
+# ---- Join/Bind datasets ---------------------------------------------------------
+item	bs_data_menu	separator	""	""	""	""
+item	bs_data_menu	command	"Join two datasets"	window_dataset_join	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	bs_data_menu	command	"Bind rows of two datasets"	window_dataset_bind_rows	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	bs_data_menu	command	"Bind columns of two datasets"	window_dataset_bind_cols	"dataSetsP(2)"	"packageAvailable('dplyr')"
+
+# item	bs_data_menu	command	"Bind rows/columns of two datasets"	window_dataset_bind	"dataSetsP(2)"	"packageAvailable('dplyr')"
+
+# item	bs_data_menu	separator	""	""	""	""
+# item	bs_data_menu	command	"[!] Pander: print object for report"	window_pander	"activeDataSetP() && objects_in_env_P(n = 1)"	"packageAvailable('pander')"
+
+# ~~~~ Convert to data.freme ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+item	bs_data_menu	separator	""	""	""	""
+item	bs_data_menu	command	"[!] Convert `table` to `data.frame`"	window_table_to_df	"FALSE"	""
+
+# ~~~~ Data Import Menu ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+item	bs_data_menu	separator	""	""	""	""
+item	bs_data_menu	command	"Import R data file (.Rds)"	window_import_rds	""	""
+
+# menu	import_menu	bs_data_menu	""	""	""	""
+# item	bs_data_menu	cascade	"Import / Load data"	import_menu	""	""
+
+
+
 # ==============================================================================
 # ---- Active dataset ---------------------------------------------------------
 
@@ -16,12 +50,12 @@ item	bs_active_ds_menu	command	"Refresh active dataset"	command_dataset_refresh	
 
 item	bs_active_ds_menu	separator	""	""	""	""
 item	bs_active_ds_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
-item	bs_active_ds_menu	command	"View: show dataset in a separate window"	command_dataset_view	"activeDataSetP()"	""
 item	bs_active_ds_menu	command	"Number of rows and columns"	command_dataset_dim	"activeDataSetP()"	""
 item	bs_active_ds_menu	command	"Print top and bottom rows"	summary_head_tail	"activeDataSetP()"	""
 # item	bs_active_ds_menu	command	"Print top rows only"	summary_head	"activeDataSetP()"	""
 # item	bs_active_ds_menu	command	"Print bottom rows only"	summary_tail	"activeDataSetP()"	""
 item	bs_active_ds_menu	command	"Print whole dataset"	command_dataset_print	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"View: show dataset in a separate window"	command_dataset_view	"activeDataSetP()"	""
 
 item	bs_active_ds_menu	separator	""	""	""	""
 item	bs_active_ds_menu	command	"Pander: print dataset as Markdown table"	window_dataset_pander	"activeDataSetP()"	"packageAvailable('pander')"
@@ -205,6 +239,11 @@ menu	bs_summary_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"Summaries"	bs_summary_menu	""	""
 
 
+item	bs_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
+item	bs_summary_menu	command	"Number of rows and columns"	command_dataset_dim	"activeDataSetP()"	""
+item	bs_summary_menu	command	"Print top and bottom rows"	summary_head_tail	"activeDataSetP()"	""
+
+item	bs_summary_menu	separator	""	""	""	""
 item	bs_summary_menu	command	"Screen dataset for missing values"	summary_ds_screener	"activeDataSetP()"	""
 
 item	bs_summary_menu	separator	""	""	""	""
@@ -319,41 +358,11 @@ item	bs_models_menu	command	"Standardized regression coefficients"	command_std_l
 # ==============================================================================
 # ---- Distributions menu -------------------------------------------------------------
 
-menu	bs_distr_menu	BioStat_menu	""	""	""	""
-item	BioStat_menu	cascade	"Distributions"	bs_distr_menu	""	""
-
-item	bs_distr_menu	command	"Interactive tool to explore distributions"	window_distributions_descriptr	""	"packageAvailable('descriptr')" # from Rcmdr
-
-# ==============================================================================
-# ---- Data menu -------------------------------------------------------------
-
-menu	bs_data_menu	BioStat_menu	""	""	""	""
-item	BioStat_menu	cascade	"Data"	bs_data_menu	""	""
-
-# ---- Create data -----------------------------------------------------------
-item	bs_data_menu	command	"Create a new dataset"	window_dataset_new_rcmdr	""	"" # from Rcmdr
-
-# ---- Join/Bind datasets ---------------------------------------------------------
-item	bs_data_menu	separator	""	""	""	""
-item	bs_data_menu	command	"Join two datasets"	window_dataset_join	"dataSetsP(2)"	"packageAvailable('dplyr')"
-item	bs_data_menu	command	"Bind rows of two datasets"	window_dataset_bind_rows	"dataSetsP(2)"	"packageAvailable('dplyr')"
-item	bs_data_menu	command	"Bind columns of two datasets"	window_dataset_bind_cols	"dataSetsP(2)"	"packageAvailable('dplyr')"
-
-# item	bs_data_menu	command	"Bind rows/columns of two datasets"	window_dataset_bind	"dataSetsP(2)"	"packageAvailable('dplyr')"
-
-# item	bs_data_menu	separator	""	""	""	""
-# item	bs_data_menu	command	"[!] Pander: print object for report"	window_pander	"activeDataSetP() && objects_in_env_P(n = 1)"	"packageAvailable('pander')"
-
-# ~~~~ Convert to data.freme ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-item	bs_data_menu	separator	""	""	""	""
-item	bs_data_menu	command	"[!] Convert `table` to `data.frame`"	window_table_to_df	"FALSE"	""
-
-# ~~~~ Data Import Menu ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-item	bs_data_menu	separator	""	""	""	""
-item	bs_data_menu	command	"Import R data file (.Rds)"	window_import_rds	""	""
-
-# menu	import_menu	bs_data_menu	""	""	""	""
-# item	bs_data_menu	cascade	"Import / Load data"	import_menu	""	""
+# menu	bs_distr_menu	BioStat_menu	""	""	""	""
+# item	BioStat_menu	cascade	"Distributions"	bs_distr_menu	""	""
+#
+# item	bs_distr_menu	command	"Interactive tool to explore distributions"	window_distributions_descriptr	""	"packageAvailable('descriptr')" # from Rcmdr
+#
 
 # ==============================================================================
 # ---- Settings ---------------------------------------------------------------
