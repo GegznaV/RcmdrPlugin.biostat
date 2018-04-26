@@ -252,7 +252,7 @@ item	bs_summary_menu	command	"Summarize all variables [Hmisc::describe]"	summary
 
 
 item	bs_summary_menu	separator	""	""	""	""
-item	bs_summary_menu	command	"Summarize numerical variables [psych::describe]"	summary_psych_describe	"numericP()"	""
+# item	bs_summary_menu	command	"Summarize numerical variables [psych::describe]"	summary_psych_describe	"numericP()"	""
 item	bs_summary_menu	command	"Summarize numerical variables by group"	window_do_summary	"numericP()"	""
 
 # item	bs_summary_menu	command	"[!] Frequency table for continuous variables"	function_not_implemented	"FALSE & activeDataSetP()"	""
