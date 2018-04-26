@@ -319,13 +319,13 @@ item	bs_plots_menu	command	"Visualize color names & codes (example)"	window_show
 menu	bs_ci_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"Confidence intervals (CI)"	bs_ci_menu	""	""
 
-item	bs_ci_menu	command	"Mean CI (example)"	window_ci_mean	""	""
-item	bs_ci_menu	command	"Median CI (example)"	window_ci_median	""	""
-item	bs_ci_menu	command	"Binomial proportion CI (example)"	window_ci_prop_binom	""	""
-item	bs_ci_menu	command	"Multinomial proportion CI (example) "	window_ci_prop_multi	""	""
-item	bs_ci_menu	command	"CI for difference in means (example)"	window_ci_mean_diff	""	""
+item	bs_ci_menu	command	"[!] Mean CI (example)"	window_ci_mean	""	""
+item	bs_ci_menu	command	"[!] Median CI (example)"	window_ci_median	""	""
+item	bs_ci_menu	command	"[!] Binomial proportion CI (example)"	window_ci_prop_binom	""	""
+item	bs_ci_menu	command	"[!] Multinomial proportion CI (example) "	window_ci_prop_multi	""	""
+item	bs_ci_menu	command	"[!] CI for difference in means (example)"	window_ci_mean_diff	""	""
 item	bs_ci_menu	separator	""	""	""	""
-item	bs_ci_menu	command	"Bootstrap confidence intervals (example)"	window_ci_boot	""	""
+item	bs_ci_menu	command	"[!] Bootstrap confidence intervals (example)"	window_ci_boot	""	""
 
 # ==============================================================================
 # ---- Statistical tests ------------------------------------------------------

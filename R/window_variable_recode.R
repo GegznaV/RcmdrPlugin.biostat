@@ -2,6 +2,12 @@
 
 # TODO:
 #
+# 1. Change new variable name and add _1, _2, _3, etc. if variable with that
+#    name exists in active dataframe
+#
+#
+# DONE:
+#
 # 1. Add interactivity for double click.
 #    a.  It should add all unique values to recodes window as
 #        "old_val_1" = ""
@@ -59,10 +65,10 @@ window_variable_recode <- function() {
     dataSet <- activeDataSet()
     defaults <-
         list(
-            initial_make_factor = 1,
-            initial_factor_type = "nominal",
+            # initial_make_factor = 1,
+            initial_recode_into = "nominal",
             initial_variables = NULL,
-            initial_name = "variable",
+            initial_name = "recoded_variable",
             initial_recode_directives = ""
         )
 
@@ -140,29 +146,31 @@ window_variable_recode <- function() {
                  width = "23",
                  textvariable = newVariableName)
     # ------------------------------------------------------------------------
-    factor_frame <- tkframe(lower_options_frame)
+    variable_type_frame <- tkframe(lower_options_frame)
 
-    factor_checkbox_frame <- tkframe(factor_frame)
+    # factor_checkbox_frame <- tkframe(variable_type_frame)
 
-    make_factorVariable   <- tclVar(dialog_values$initial_make_factor)
-    make_factorCheckBox   <- ttkcheckbutton(factor_checkbox_frame,
-                                            variable = make_factorVariable)
+    # make_factorVariable   <- tclVar(dialog_values$initial_make_factor)
+    # make_factorCheckBox   <- ttkcheckbutton(factor_checkbox_frame,
+    #                                         variable = make_factorVariable)
 
-    radioButtons_horizontal(factor_frame,
-                            name          = "factor_type",
+    Rcmdr::radioButtons(variable_type_frame,
+                            name          = "recode_into",
                             # title       = gettext_Bio("Use functions: "),
                             # title.color = getRcmdr("title.color"),
-                            buttons       = c("nominal", "ordinal"),
-                            values        = c("nominal", "ordinal"),
-                            initialValue  = dialog_values$initial_factor_type,
-                            labels        = gettext_Bio(c("Nominal", "Ordinal")))
+                            buttons       = c("nominal", "ordinal", "other"),
+                            values        = c("nominal", "ordinal", "other"),
+                            initialValue  = dialog_values$initial_recode_into,
+                            labels        = gettext_Bio(c("Nominal factor",
+                                                          "Ordinal factor",
+                                                          "Do not convert")))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         # make_factor <- tclvalue(make_factorVariable) == "1"
-        make_factor <- tclvalue_lgl(make_factorVariable)
-        factor_type <- tclvalue(factor_typeVariable)
+        # make_factor <- tclvalue_lgl(make_factorVariable)
+        recode_into <- tclvalue(recode_intoVariable)
         variables   <- getSelection(variablesBox)
         name        <- trim.blanks(tclvalue(newVariableName))
 
@@ -172,17 +180,25 @@ window_variable_recode <- function() {
 
         # Format code into one row
         recode_directives <-
-            stringr::str_replace_all(save_recodes,  c('".*" = ""' = "",
-                                                      '\\.default = (NULL|"")' = "",
-                                                      '\\.missing = (NULL|"")' = "",
-                                                      ",+(\n)"    = "\\1",
-                                                      "(\n){2,}"  = "\n",
-                                                      "\n$"       = "",
-                                                      "\n( )*"    = ", ",
-                                                      "^[, ]*"    = "",
-                   # Remove tailing commas and spaces
-                                                      "[, ]*$"    = ""))
-
+            stringr::str_replace_all(save_recodes,
+                                     # Remove intact rows
+                                     c('".*" = ""' = "",
+                                       '\\.default = (NULL|"")' = "",
+                                       '\\.missing = (NULL|"")' = "",
+                                       # Remove leading commas and spaces
+                                       "[, ]+(\n)"    = "\\1",
+                                       # Remove emplty lines
+                                       "(\n){2,}"  = "\n",
+                                       # Remove tailing new line
+                                       "\n$"       = "",
+                                       # Remove leading spaces in each non-first row
+                                       "\n( )*"    = ", ",
+                                       # Remove leading spaces and commas in
+                                       # the first row
+                                       "^[, ]*"    = "",
+                                       # Remove tailing commas and spaces
+                                       "[, ]*$"    = "")
+                   )
         # str_detect(recode_directives,
         #            "[\\p{Alphabetic}\\p{Mark}\\p{Decimal_Number}]")
 
@@ -245,26 +261,28 @@ window_variable_recode <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         putDialog("window_variable_recode",
                   list(
-                      initial_make_factor       = make_factor,
+                      # initial_make_factor       = make_factor,
                       initial_variables         = variables,
                       initial_name              = name,
                       initial_recode_directives = save_recodes,
-                      initial_factor_type       = factor_type
+                      initial_recode_into       = recode_into
                   )
         )
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        if (make_factor) {
-            # Is a factor
-            recode_fun <- "dplyr::recode_factor"
-            ordered_factor <- switch(factor_type,
-                                     "nominal" = "",
-                                     "ordinal" = ", .ordered = TRUE") # .ordered = FALSE ???
-        } else {
-            # Not a factor
-            recode_fun <- "dplyr::recode"
-            ordered_factor <- ""
-        }
+        switch(recode_into,
+               "nominal" = {
+                   recode_fun     <- "dplyr::recode_factor"
+                   ordered_factor <- ""
+               },
+               "ordinal" = {
+                   recode_fun     <- "dplyr::recode_factor"
+                   ordered_factor <- ", .ordered = TRUE" # .ordered = FALSE ???
+               },
+               "other" = {
+                   recode_fun     <- "dplyr::recode"
+                   ordered_factor <- ""
+               })
 
         command <- glue::glue(
             "## ", gettext_EZR("Recode variable values"), "\n\n",
@@ -306,16 +324,23 @@ window_variable_recode <- function() {
         pady = c(2, 0))
     tkgrid(newVariable, sticky = "w")
 
-    tkgrid(factor_checkbox_frame, pady = c(10, 0))
+    # tkgrid(factor_checkbox_frame, pady = c(10, 0))
 
-    tkgrid(make_factorCheckBox,
-           labelRcmdr(factor_checkbox_frame,
-                      text = gettext_EZR("Convert to factor:  ")),
-           sticky = "w",
-           pady = c(5, 0),
-           columnspan = 2)
+    # tkgrid(make_factorCheckBox,
+    #        labelRcmdr(factor_checkbox_frame,
+    #                   text = gettext_EZR("Convert to:  ")),
+    #        sticky = "w",
+    #        pady = c(5, 0),
+    #        columnspan = 2)
+    tkgrid(
+        labelRcmdr(variable_type_frame,
+                   text = gettext_EZR("Convert variable into:  "),
+                   fg = getRcmdr("title.color")),
+        sticky = "w",
+        pady = c(5, 0)
+    )
 
-    tkgrid(factor_typeFrame, sticky = "w")
+    tkgrid(recode_intoFrame, sticky = "w")
 
     tkgrid(
         labelRcmdr(
@@ -331,9 +356,9 @@ window_variable_recode <- function() {
     tkgrid(recodes, recodesYscroll, sticky = "nw")
     tkgrid(recodesXscroll)
 
-    tkgrid(lower_frame,    sticky = "w")
-    tkgrid(variablesFrame, sticky = "w")
-    tkgrid(factor_frame,   sticky = "w")
+    tkgrid(lower_frame,         sticky = "w")
+    tkgrid(variablesFrame,      sticky = "w")
+    tkgrid(variable_type_frame, sticky = "w")
 
     # ==========================================================================
     examples_frame <- tkframe(lower_frame)
@@ -348,10 +373,12 @@ window_variable_recode <- function() {
     tkgrid_text("Examples of recode directives:", fg = getRcmdr("title.color"))
     tkgrid_text(paste(
         '      Example 1:       "old value 1" = "new value 1"\n',
-                           '\t\t"old value 2" = "new value 2"\n',
-                           '\t\t"old value 3" = "new value 3"\n'))
+                           # '\t\t"old value 3" = "new value 3"\n',
+                           '\t\t"old value 2" = "new value 2"'))
 
-    tkgrid_text('      Example 2:       "old 1" = "new 1", "old 2" = "new 2"')
+    tkgrid_text('      Example 2:       "old 1" = "new 1", "old 2" = "new 2"\n')
+    tkgrid_text('      .default - a default value for all non-specified values.')
+    tkgrid_text('      .missing - a new explicit value for missing (NA) values.')
     # if (!is.null(incorrect_expr_msg)) {
     #     tkgrid_text(incorrect_expr_msg, fg = "darkred", sticky = "e",
     #                 pady = c(5, 0))
