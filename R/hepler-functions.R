@@ -18,10 +18,10 @@ unique_obj_name <- function(name = ActiveDataSet(),
     initial_name <- glue("{preffix}{name}{suffix}")
 
     list_to_check <- if (all_numbered) {
-        c(list_of_choices, initial_name)
+        c(list_of_choices, initial_name, initial_name)
 
     } else {
-        c(list_of_choices, initial_name, initial_name)
+        c(list_of_choices, initial_name)
     }
 
     list_to_check %>%
