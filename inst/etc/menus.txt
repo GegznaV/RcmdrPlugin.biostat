@@ -26,8 +26,8 @@ item	bs_data_menu	command	"Bind columns of two datasets"	window_dataset_bind_col
 # item	bs_data_menu	command	"[!] Pander: print object for report"	window_pander	"activeDataSetP() && objects_in_env_P(n = 1)"	"packageAvailable('pander')"
 
 # ~~~~ Convert to data.freme ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-item	bs_data_menu	separator	""	""	""	""
-item	bs_data_menu	command	"[!] Convert `table` to `data.frame`"	window_table_to_df	"FALSE"	""
+# item	bs_data_menu	separator	""	""	""	""
+# item	bs_data_menu	command	"[!] Convert `table` to `data.frame`"	window_table_to_df	"FALSE"	""
 
 # ~~~~ Data Import Menu ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 item	bs_data_menu	separator	""	""	""	""
@@ -139,10 +139,10 @@ item	bs_varible_menu	command	"Recode variable values"	window_variable_recode	"ac
 
 item	bs_varible_menu	separator	""	""	""	""
 
-item	bs_varible_menu	command	"[!] Gather columns into key-value pairs"	function_not_implemented	"FALSE"	"packageAvailable('tidyr')"
-item	bs_varible_menu	command	"[!] Spread a key-value pair across multiple columns"	function_not_implemented	"FALSE"	"packageAvailable('tidyr')"
-item	bs_varible_menu	command	"[!] Separate one column into multiple columns"	function_not_implemented	"FALSE"	"packageAvailable('tidyr')"
-item	bs_varible_menu	command	"[!] Unite multiple columns into one column"	function_not_implemented	"FALSE"	"packageAvailable('tidyr')"
+item	bs_varible_menu	command	"Gather columns into long format dataset"	window_variable_gather	"activeDataSetP()"	"packageAvailable('tidyr')"
+item	bs_varible_menu	command	"[!] Spread columns into wide format dataset"	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"#Spread a key-value pair across multiple columns
+item	bs_varible_menu	command	"[!] Separate one column into multiple columns"	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
+item	bs_varible_menu	command	"[!] Unite multiple columns into one column"	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
 
 item	bs_varible_menu	separator	""	""	""	""
 

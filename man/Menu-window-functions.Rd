@@ -8,7 +8,8 @@
 %   R/window_dataset_join.R, R/window_do_summary.R, R/window_fct_reorder.R,
 %   R/window_pander.R, R/window_qqplot_biostat.R, R/window_summary_count.R,
 %   R/window_table_to_df.R, R/window_test_normality.R, R/window_tmp.R,
-%   R/window_variable_mutate.R, R/window_variable_recode.R
+%   R/window_variable_gather.R, R/window_variable_mutate.R,
+%   R/window_variable_recode.R
 \name{gettext_EZR}
 \alias{gettext_EZR}
 \alias{function_not_implemented}
@@ -89,6 +90,7 @@
 \alias{window_table_to_df}
 \alias{window_normality_test}
 \alias{window_tmp}
+\alias{window_variable_gather}
 \alias{window_variable_mutate0}
 \alias{window_variable_mutate}
 \alias{window_variable_recode}
@@ -247,6 +249,8 @@ window_table_to_df()
 window_normality_test()
 
 window_tmp()
+
+window_variable_gather()
 
 window_variable_mutate0(variables)
 

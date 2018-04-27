@@ -7,6 +7,30 @@ gettext_EZR <- function(...) {
 }
 
 # ------------------------------------------------------------------------------
+# Make a unique name for an object (e.g., data frame) by adding numbers
+#
+# @param name - name of dataset before suffix and preffix are added.
+unique_obj_name <- function(name = ActiveDataSet(),
+                            preffix = "",
+                            suffix = "",
+                            list_of_choices = listDataSets()) {
+    initial_name <- glue("{preffix}{name}{suffix}")
+    c(list_of_choices, initial_name, initial_name) %>%
+        make.unique(sep = "_") %>%
+        rev() %>% .[1]   # select the last element
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+unique_df_name <- function(name = ActiveDataSet(),
+                          preffix = "",
+                          suffix = "",
+                          list_of_choices = listDataSets()) {
+    initial_name <- glue("{preffix}{name}{suffix}")
+    c(list_of_choices, initial_name, initial_name) %>%
+        make.unique(sep = "_") %>%
+        rev() %>% .[1]   # select the last element
+}
+
+# ------------------------------------------------------------------------------
 # Formatat code in a `tidyverse` style
 style_cmd <- function(command, indent_by = 4, ...) {
     cmd <- styler::style_text(command, indent_by = indent_by, ...)
