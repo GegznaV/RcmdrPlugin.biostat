@@ -36,16 +36,19 @@ window_about_package <- function() {
 
     tkgrid(
         labelRcmdr(info_frame,
-                   fg = getRcmdr("title.color"),
+                   fg   = getRcmdr("title.color"),
                    text = gettextRcmdr("Version: ")),
-        labelRcmdr(info_frame, text = as.character(packageVersion("RcmdrPlugin.biostat"))),
+        labelRcmdr(info_frame,
+                   text = as.character(packageVersion("RcmdrPlugin.biostat"))),
            sticky = "w", pady = c(2, 0), padx = 25)
 
     tkgrid(
-        labelRcmdr(info_frame, fg = getRcmdr("title.color"),
-                      text = gettextRcmdr("Date: ")),
+        labelRcmdr(info_frame,
+                   fg   = getRcmdr("title.color"),
+                   text = gettextRcmdr("Date: ")),
         labelRcmdr(info_frame, text = desc::desc_get("Date", descr_file)),
-           sticky = "w", pady = c(0, 10), padx = 25)
+        sticky = "w", pady = c(0, 10), padx = 25
+        )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     homepage_link <- "https://gegznav.github.io/RcmdrPlugin.biostat/"
