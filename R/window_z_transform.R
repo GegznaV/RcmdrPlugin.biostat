@@ -8,45 +8,48 @@
 window_z_transform <- function() {
     initializeDialog(title = gettext_Bio("Z transformation (standardization)"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Title ------------------------------------------------------------------
+    fg_col <- Rcmdr::getRcmdr("title.color")
+    tkgrid(label_rcmdr(
+        top,
+        text = gettextRcmdr("Standardize variables"),
+        font = tkfont.create(weight = "bold", size = 9),
+        fg = fg_col),
+        pady = c(5, 9), columnspan = 2)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     variableBox <-
-        variableListBox(top,
+        variableListBox2(top,
                         Numeric(),
                         selectmode = "multiple",
                         title = gettext_Bio("Variables (pick one or more)"),
-                        listHeight = 5
+                        listHeight = 6
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    prefix      <- tclVar(gettext_Bio('<automatic prefix>'))
+    prefix_var  <- tclVar("z_")
     prefixField <- ttkentry(top,
                             width = "25",
-                            textvariable = prefix)
+                            textvariable = prefix_var)
+    suffix_var  <- tclVar("")
+    suffixField <- ttkentry(top,
+                            width = "25",
+                            textvariable = suffix_var)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         variables <- getSelection(variableBox)
-
+        prefix    <- trim.blanks(tclvalue(prefix_var))
+        suffix    <- trim.blanks(tclvalue(suffix_var))
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         closeDialog()
-
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Check conditions
         if (length(variables) == 0) {
             errorCondition(recall = window_log_transform,
                            message = gettext_Bio("You must select a variable."))
             return()
         }
 
-        prefix <- trim.blanks(tclvalue(prefix))
-        # base   <- as.character(tclvalue(baseVariable))
-
-        .activeDataSet <- ActiveDataSet()
-
-        new_names <-
-            if (prefix == gettext_Bio('<automatic prefix>')) {
-                paste0("z_", variables)
-
-            } else if (length(variables) == 1) {
-                prefix
-
-            } else {
-                paste0(make.names(prefix), variables)
-            }
+       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        new_names <- paste0(prefix, variables, suffix) %>% make.names()
 
         # Chech for errors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         for (i in seq_along(variables)) {
@@ -66,12 +69,30 @@ window_z_transform <- function() {
             }
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        command <- paste0(c("\n",
-                            glue("{.activeDataSet} <- within({.activeDataSet}, {{ "),
-                            glue("   {new_names} <- biostat::scale_vector({variables}) "),
-                            "})\n"
-        ),
-        collapse = "\n")
+        .activeDataSet <- ActiveDataSet()
+
+        # # Base way
+        # command <- paste0(c("\n",
+        #                     glue("{.activeDataSet} <- within({.activeDataSet}, {{ "),
+        #                     glue("   {new_names} <- biostat::scale_vector({variables}) "),
+        #                     "})\n"
+        # ),
+        # collapse = "\n")
+
+        # Tidyverse way
+        Library("tidyverse")
+        Library("biostat")
+        command <- paste0(
+            c("\n",
+              glue("{.activeDataSet} <- {.activeDataSet} %>% \n",
+                   "dplyr::mutate(\n"),
+              paste(
+                  glue("   {new_names} = biostat::scale_vector({variables}) "),
+                  collapse = ",\n"),
+              ")\n"
+            ),
+            collapse = "\n") %>%
+            style_cmd()
 
         result <- justDoIt(command)
 
@@ -90,15 +111,24 @@ window_z_transform <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     OKCancelHelp(helpSubject = "scale_vector")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(getFrame(variableBox), sticky = "nw")
-
+    tkgrid(getFrame(variableBox), sticky = "n", columnspan = 2)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(labelRcmdr(top,
-                      text = gettext_Bio("New variable name or prefix for multiple variables:"),
+                      text = gettext_Bio("Prefix for variable names:"),
                       fg = getRcmdr("title.color")),
            sticky = "w",
-           pady = c(10, 0))
+           pady = c(10, 0), columnspan = 2)
 
-    tkgrid(prefixField, sticky = "ew")
+    tkgrid(prefixField, sticky = "ew", columnspan = 2)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(labelRcmdr(top,
+                      text = gettext_Bio("Suffix for variable names:"),
+                      fg = getRcmdr("title.color")),
+           sticky = "w",
+           pady = c(10, 0), columnspan = 2)
+
+    tkgrid(suffixField, sticky = "ew", columnspan = 2)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(buttonsFrame, sticky = "w", columnspan = 2)
 
     dialogSuffix(rows = 4,
