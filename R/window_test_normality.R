@@ -1,7 +1,7 @@
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_normality_test <- function() {
+window_test_normality <- function() {
     # Initialize -------------------------------------------------------------
     nrows <- getRcmdr("nrow") # nrows in active dataset
     defaults <- list(initial_y_var  = NULL,
@@ -17,9 +17,9 @@ window_normality_test <- function() {
                      initial_digits_p = "3"
     )
 
-    dialog_values <- getDialog("window_normality_test", defaults)
+    dialog_values <- getDialog("window_test_normality", defaults)
 
-    initializeDialog(title = gettextRcmdr("Test of Normality (biostat)"))
+    initializeDialog(title = gettextRcmdr("Tests of Normality for Groups"))
 
 
     # Callback  functions-----------------------------------------------------
@@ -204,7 +204,7 @@ window_normality_test <- function() {
         if (bins != gettextRcmdr("<auto>") &&
             (is.na(nbins) || nbins < 4)) {
             errorCondition(
-                recall = window_normality_test,
+                recall = window_test_normality,
                 message = gettextRcmdr("Number of bins must be a number >= 4")
             )
             return()
@@ -218,7 +218,7 @@ window_normality_test <- function() {
             }
 
         # putDialog ----------------------------------------------------------
-        putDialog("window_normality_test",
+        putDialog("window_test_normality",
                   list(initial_y_var  = y_var,
                        initial_gr_var = gr_var,
                        initial_by_groups = by_groups,
@@ -234,7 +234,7 @@ window_normality_test <- function() {
         )
 
         if (length(y_var) == 0) {
-            errorCondition(recall = window_normality_test,
+            errorCondition(recall = window_test_normality,
                            message = gettextRcmdr("You must select a variable."))
             return()
         }
@@ -309,6 +309,15 @@ window_normality_test <- function() {
         # onOK [end] ---------------------------------------------------------
     }
 
+    # Title ------------------------------------------------------------------
+    fg_col <- Rcmdr::getRcmdr("title.color")
+    tkgrid(label_rcmdr(
+        top,
+        text = gettextRcmdr("Normality tests and normal QQ plots for groups"),
+        font = tkfont.create(weight = "bold", size = 9),
+        fg = fg_col),
+        pady = c(5, 9))
+
     # Layout -----------------------------------------------------------------
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -332,8 +341,8 @@ window_normality_test <- function() {
     tkgrid(digits_pFrame, sticky = "swe")
     # Buttons ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     OKCancelHelp(helpSubject = "normalityTest",
-                 reset = "window_normality_test",
-                 apply = "window_normality_test")
+                 reset = "window_test_normality",
+                 apply = "window_test_normality")
 
     tkgrid(buttonsFrame, sticky = "w")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

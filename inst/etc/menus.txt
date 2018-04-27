@@ -333,7 +333,7 @@ item	bs_ci_menu	command	"[!] Bootstrap confidence intervals (example)"	window_ci
 menu	bs_tests_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"Tests"	bs_tests_menu	""	""
 
-item	bs_tests_menu	command	"Test normality"	window_normality_test	"numericP()"	""
+item	bs_tests_menu	command	"Test normality"	window_test_normality	"numericP()"	""
 # item	bs_tests_menu	separator	""	""	""	""
 # item	bs_tests_menu	command	"[!] ANOVA, Kruskal-Wallis, Median tests"	window_anova_kw_mood_tests	"numericP() & factorsP()"	""
 

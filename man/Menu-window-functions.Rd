@@ -89,7 +89,7 @@
 \alias{window_rows_slice}
 \alias{window_summary_count}
 \alias{window_table_to_df}
-\alias{window_normality_test}
+\alias{window_test_normality}
 \alias{window_tmp}
 \alias{window_variable_gather}
 \alias{window_variable_mutate0}
@@ -250,7 +250,7 @@ window_summary_count()
 
 window_table_to_df()
 
-window_normality_test()
+window_test_normality()
 
 window_tmp()
 
