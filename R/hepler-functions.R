@@ -13,21 +13,46 @@ gettext_EZR <- function(...) {
 unique_obj_name <- function(name = ActiveDataSet(),
                             preffix = "",
                             suffix = "",
-                            list_of_choices = listDataSets()) {
+                            list_of_choices = listDataSets(),
+                            all_numbered = FALSE) {
     initial_name <- glue("{preffix}{name}{suffix}")
-    c(list_of_choices, initial_name, initial_name) %>%
+
+    list_to_check <- if (all_numbered) {
+        c(list_of_choices, initial_name)
+
+    } else {
+        c(list_of_choices, initial_name, initial_name)
+    }
+
+    list_to_check %>%
         make.unique(sep = "_") %>%
         rev() %>% .[1]   # select the last element
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 unique_df_name <- function(name = ActiveDataSet(),
-                          preffix = "",
-                          suffix = "",
-                          list_of_choices = listDataSets()) {
-    initial_name <- glue("{preffix}{name}{suffix}")
-    c(list_of_choices, initial_name, initial_name) %>%
-        make.unique(sep = "_") %>%
-        rev() %>% .[1]   # select the last element
+                           preffix = "",
+                           suffix = "",
+                           list_of_choices = listDataSets(),
+                           all_numbered = FALSE) {
+
+    unique_obj_name(name, preffix, suffix, list_of_choices, all_numbered)
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+unique_colname <- function(name = "",
+                           preffix = "",
+                           suffix = "",
+                           list_of_choices = listVariables(),
+                           all_numbered = FALSE) {
+
+    unique_obj_name(name, preffix, suffix, list_of_choices, all_numbered)
+}
+unique_colname_2 <- function(name = "",
+                             preffix = "",
+                             suffix = "",
+                             list_of_choices = listVariables(),
+                             all_numbered = TRUE) {
+
+    unique_obj_name(name, preffix, suffix, list_of_choices, all_numbered)
 }
 
 # ------------------------------------------------------------------------------

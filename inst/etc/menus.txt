@@ -25,7 +25,7 @@ item	bs_data_menu	command	"Bind columns of two datasets"	window_dataset_bind_col
 # item	bs_data_menu	separator	""	""	""	""
 # item	bs_data_menu	command	"[!] Pander: print object for report"	window_pander	"activeDataSetP() && objects_in_env_P(n = 1)"	"packageAvailable('pander')"
 
-# ~~~~ Convert to data.freme ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~ Convert to data.frame ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # item	bs_data_menu	separator	""	""	""	""
 # item	bs_data_menu	command	"[!] Convert `table` to `data.frame`"	window_table_to_df	"FALSE"	""
 
@@ -97,7 +97,7 @@ menu	bs_rows_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"Rows"	bs_rows_menu	""	""
 
 item	bs_rows_menu	command	"[!] Arrange: sort rows"	window_rows_arrange	"FALSE"	""
-item	bs_rows_menu	command	"[!] Filter: select rows that match conditions"	window_rows_filter	"FALSE"	""
+item	bs_rows_menu	command	"Filter: select rows that match conditions"	window_rows_filter	"activeDataSetP()"	""
 item	bs_rows_menu	command	"[!] Slice: select/remove rows by position"	window_rows_slice	"FALSE"	""
 item	bs_rows_menu	separator	""	""	""	""
 item	bs_rows_menu	command	"[!] Remove empty rows"	function_not_implemented	"FALSE"	""

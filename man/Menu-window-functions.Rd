@@ -6,9 +6,9 @@
 %   R/window_anova_kw_mood_tests.R, R/window_dataset_bind.R,
 %   R/window_dataset_bind_cols.R, R/window_dataset_bind_rows.R,
 %   R/window_dataset_join.R, R/window_do_summary.R, R/window_fct_reorder.R,
-%   R/window_pander.R, R/window_qqplot_biostat.R, R/window_summary_count.R,
-%   R/window_table_to_df.R, R/window_test_normality.R, R/window_tmp.R,
-%   R/window_variable_gather.R, R/window_variable_mutate.R,
+%   R/window_pander.R, R/window_qqplot_biostat.R, R/window_rows_filter.R,
+%   R/window_summary_count.R, R/window_table_to_df.R, R/window_test_normality.R,
+%   R/window_tmp.R, R/window_variable_gather.R, R/window_variable_mutate.R,
 %   R/window_variable_recode.R
 \name{gettext_EZR}
 \alias{gettext_EZR}
@@ -56,8 +56,6 @@
 \alias{command_rownames_to_col}
 \alias{command_col_to_rownames}
 \alias{window_rows_arrange}
-\alias{window_rows_filter}
-\alias{window_rows_slice}
 \alias{command_load_packages}
 \alias{command_getwd}
 \alias{command_get_locale}
@@ -86,6 +84,8 @@
 \alias{window_fct_reorder}
 \alias{window_pander}
 \alias{window_qqplot_biostat}
+\alias{window_rows_filter0}
+\alias{window_rows_filter}
 \alias{window_summary_count}
 \alias{window_table_to_df}
 \alias{window_normality_test}
@@ -182,10 +182,6 @@ command_col_to_rownames()
 
 window_rows_arrange()
 
-window_rows_filter()
-
-window_rows_slice()
-
 command_load_packages()
 
 command_getwd()
@@ -241,6 +237,11 @@ window_fct_reorder()
 window_pander()
 
 window_qqplot_biostat()
+
+window_rows_filter0(variables)
+
+window_rows_filter(new_dsname = NULL, init_conditions = NULL,
+  incorrect_cond_msg = NULL)
 
 window_summary_count()
 
