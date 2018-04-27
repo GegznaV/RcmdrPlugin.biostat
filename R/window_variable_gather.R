@@ -232,8 +232,8 @@ window_variable_gather <- function() {
     # ========================================================================
     OKCancelHelp(helpSubject = "gather")
 
+    # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
-
     tkgrid(label_rcmdr(
         top,
         text = gettextRcmdr("Gather columns into key-value pairs: convert dataset into long format"),

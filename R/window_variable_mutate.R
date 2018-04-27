@@ -1,7 +1,7 @@
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-# Correctli initializes window `window_variable_mutate()`
+# Correctly initializes window `window_variable_mutate()`
 window_variable_mutate0  <- function(variables) {
     window_variable_mutate()
 }
@@ -16,33 +16,39 @@ window_variable_mutate <- function(var_name = NULL,
                                    init_express = NULL,
                                    incorrect_expr_msg = NULL) {
 
-    # Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    onDoubleClick <- function() {
+    # Functions --------------------------------------------------------------
+    onDoubleClick_variable <- function() {
         var <- trim.blanks(getSelection(variablesBox))
-        word <- paste0("\\[", gettext_EZR("factor"), "\\]")
+
+        word <- glue('\\[{gettext_EZR("factor")}\\]')
+
         if (length(grep(word, var)) == 1)
-            var <- trim.blanks(sub(word, "",  var))
+            var <- trim.blanks(sub(word, "", var))
         tkfocus(compute)
-        expr <- tclvalue(computeVar)
+        expr <- trim.blanks(tclvalue(computeVar))
         tclvalue(computeVar) <-
-            if (expr == "") {var
+            if (expr == "") {
+                var
             } else {
-                paste(expr, var,
-                      sep = if (rev(strsplit(expr, "")[[1]])[1] == "(") "" else " ")}
+                last_chr <- stringr::str_sub(expr, -1)
+                expr_sep <- if (last_chr %in% c("(", "[")) "" else " "
+                paste(expr, var, sep = expr_sep)
+            }
         tkicursor(compute, "end")
         tkxview.moveto(compute, "1")
     }
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Dialog -----------------------------------------------------------------
     dataSet <- activeDataSet()
-    initializeDialog(title = gettext_EZR("Mutate: create new or replace existing variable"))
+    initializeDialog(
+        title = gettext_EZR("Mutate: create new or replace existing variable"))
 
     .variables <- Variables()
     variables <-
         paste(.variables,
-              ifelse(is.element(.variables, Factors()),
-                     gettext_EZR("[factor]"),
-                     ""
+              ifelse(.variables %in% Factors(),
+                     yes = gettext_EZR("[factor]"),
+                     no  = ""
               ))
 
     var_box_Frame <- tkframe(top)
@@ -52,17 +58,19 @@ window_variable_mutate <- function(var_name = NULL,
             var_box_Frame,
             variables,
             title = gettext_EZR("Current variables \n(double-click to add to expression)"),
-            listHeight = 7
+            listHeight = 7,
+            onDoubleClick_fun = onDoubleClick_variable
         )
 
-    tkbind(variablesBox$listbox, "<Double-ButtonPress-1>", onDoubleClick)
+    # tkbind(variablesBox$listbox, "<Double-ButtonPress-1>", onDoubleClick_variable)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     computeFrame <- tkframe(top)
 
+    if (is.null(var_name))
+        var_name <- unique_colname_2(gettext_EZR("new_variable"))
 
-    if (is.null(var_name)) var_name <- "new_variable"
-    newVariableName <- tclVar(gettext_EZR(var_name))
+    newVariableName <- tclVar(var_name)
 
     newVariable <-
         ttkentry(computeFrame,
@@ -70,8 +78,6 @@ window_variable_mutate <- function(var_name = NULL,
                  textvariable = newVariableName)
 
     expression_Frame <- tkframe(computeFrame)
-
-
 
     if (is.null(init_express)) init_express <- ""
 
