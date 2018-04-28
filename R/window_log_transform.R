@@ -1,7 +1,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # TODO:
-# Change interface for name input and prefix/suffix input:
-# make separate options either to write names or to add preffix and suffix.
+# [v] 1. Change interface for name input and prefix/suffix input:
+#        make separate options either to write names or to add preffix and suffix.
 
 
 #' Rcmdr window for log transformation
@@ -14,17 +14,31 @@ window_log_transform <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = gettext_Bio("Logarithmic transformation"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    defaults <- list(prefix = gettext_Bio("<automatic prefix>"),
-                     log_txt = "log10",
-                     fun_type = "Tidyverse",
+    # Title ------------------------------------------------------------------
+    fg_col <- Rcmdr::getRcmdr("title.color")
+    tkgrid(label_rcmdr(
+        top,
+        text = gettextRcmdr("Logarithmic transformation"),
+        font = tkfont.create(weight = "bold", size = 9),
+        fg = fg_col),
+        pady = c(5, 9), columnspan = 2)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    change_prefix <- function() {
+        tclvalue(prefix_variable) <- glue("{tclvalue(log_txtVariable)}_")
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    defaults <- list(prefix    = "log_",
+                     suffix    = "",
+                     log_txt   = "log10",
+                     fun_type  = "Tidyverse",
                      variables = NULL)
 
     dialog_values <- getDialog("window_log_transform", defaults)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    upper_Frame <- tkframe(top)
+    upper_frame <- tkframe(top)
 
     variableBox <-
-        variableListBox2(upper_Frame,
+        variableListBox2(upper_frame,
                          Numeric(),
                          selectmode = "multiple",
                          title = gettext_Bio("Variables (pick one or more)"),
@@ -32,42 +46,54 @@ window_log_transform <- function() {
                          listHeight = 7
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    log_txt_outter_Frame <- tkframe(upper_Frame)
-    Rcmdr::radioButtons(log_txt_outter_Frame,
-                        name = "log_txt",
-                        title = gettext_Bio("Choose of logarithmic transformation"),
-                        buttons = c("common", "binary", "natural", "natural_1p"),
-                        values = c("log10", "log2", "log", "log1p"),
-                        initialValue = dialog_values$log_txt,
-                        labels =  gettext_Bio(
-                            c("Common, log(x, base = 10)",
-                              "Binary, log(x, base = 2)",
-                              "Natural, log(x, base = e)",
-                              "Natural, log(x + 1, base = e)"))
-    )
+    middle_frame <- tkframe(top)
 
+    prefix_variable <- tclVar(dialog_values$prefix)
+    prefix_field    <- ttkentry(middle_frame,
+                                width = "29",
+                                textvariable = prefix_variable)
+    change_prefix()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    prefix      <- tclVar(dialog_values$prefix)
-    prefixField <- ttkentry(top, width = "20", textvariable = prefix)
+    suffix_variable <- tclVar(dialog_values$suffix)
+    suffix_field    <- ttkentry(middle_frame,
+                                width = "29",
+                                textvariable = suffix_variable)
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    log_txt_outter_Frame <- tkframe(upper_frame)
+    Rcmdr::radioButtons(log_txt_outter_Frame,
+                        name         = "log_txt",
+                        title        = gettext_Bio("Choose of logarithmic transformation"),
+                        buttons      = c("common", "binary", "natural", "natural_1p"),
+                        values       = c("log10", "log2", "log", "log1p"),
+                        initialValue = dialog_values$log_txt,
+                        labels       =  gettext_Bio(
+                            c("Common,  log(x, base = 10)",
+                              "Binary,  log(x, base = 2)",
+                              "Natural, log(x, base = e)",
+                              "Natural, log(x + 1, base = e)")),
+                        command      = change_prefix
+    )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    radioButtons_horizontal(name = "fun_type",
-                            title = gettext_Bio("Use functions: "),
-                            title.color = getRcmdr("title.color"),
-                            buttons = c("tidyverse", "base"),
-                            values = c("Tidyverse", "Base_R"),
+    radioButtons_horizontal(name         = "fun_type",
+                            title        = gettext_Bio("Use functions: "),
+                            title.color  = getRcmdr("title.color"),
+                            buttons      = c("tidyverse", "base"),
+                            values       = c("Tidyverse", "Base_R"),
                             initialValue = dialog_values$fun_type,
-                            labels =  gettext_Bio(c("Tidyverse", "Base R")))
+                            labels       =  gettext_Bio(c("Tidyverse", "Base R")))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
-        prefix    <- trim.blanks(tclvalue(prefix))
-        log_txt   <- tclvalue_chr(log_txtVariable)
-        fun_type  <- tclvalue_chr(fun_typeVariable)
+        prefix    <- trim.blanks(tclvalue(prefix_variable))
+        suffix    <- trim.blanks(tclvalue(suffix_variable))
+        log_txt   <- tclvalue(log_txtVariable)
+        fun_type  <- tclvalue(fun_typeVariable)
         variables <- getSelection(variableBox)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         putDialog("window_log_transform",
-                  list(prefix = {if (nchar(prefix) == 0) gettext_Bio("<automatic prefix>") else prefix},
-                       log_txt = log_txt,
-                       fun_type = fun_type,
+                  list(prefix    = prefix,
+                       suffix    = suffix,
+                       log_txt   = log_txt,
+                       fun_type  = fun_type,
                        variables = variables
                   )
         )
@@ -75,30 +101,21 @@ window_log_transform <- function() {
         closeDialog()
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (length(variables) == 0) {
-            errorCondition(recall = window_log_transform,
+            errorCondition(recall  = window_log_transform,
                            message = gettext_Bio("You must select a variable."))
             return()
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         .activeDataSet <- ActiveDataSet()
 
-        new_names <-
-            if (prefix == gettext_Bio("<automatic prefix>")) {
-                paste0(log_txt, "_", variables)
-
-            } else if (length(variables) == 1) {
-                prefix
-
-            } else {
-                paste0(prefix, variables)
-            }
+        new_names <- paste0(prefix, variables, suffix) %>% make.names()
 
         # Check if new variable names are not duplicated ~~~~~~~~~~~~~~~~~~~~~~
         for (i in seq_along(variables)) {
 
             if (!is.valid.name(new_names[i])) {
                 errorCondition(
-                    recall = window_log_transform,
+                    recall  = window_log_transform,
                     message = paste(new_names[i], gettext_Bio("is not a valid name."))
                 )
                 return()
@@ -162,23 +179,29 @@ window_log_transform <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     OKCancelHelp(helpSubject = "log")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(upper_frame)
     tkgrid(log_txtFrame, padx = c(15, 5))
     tkgrid(getFrame(variableBox), log_txt_outter_Frame, sticky = "nw")
-
-    tkgrid(upper_Frame)
-    tkgrid(labelRcmdr(top,
-                      text = gettext_Bio("New variable name or prefix for multiple variables:"),
-                      fg = getRcmdr("title.color")),
-           sticky = "w",
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(middle_frame, sticky = "ew")
+    tkgrid(labelRcmdr(middle_frame,
+                      text = gettext_Bio("Prefix for variable names:"),
+                      fg = fg_col),
+           labelRcmdr(middle_frame, text = gettext_Bio("     ")),
+           labelRcmdr(middle_frame,
+                      text = gettext_Bio("Suffix for variable names:"),
+                      fg = fg_col),
+           sticky = "ew",
            pady = c(10, 0))
+    tkgrid(prefix_field,
+           labelRcmdr(middle_frame, text = gettext_Bio("     ")),
+           suffix_field, sticky = "ew")
 
-
-    tkgrid(prefixField, sticky = "ew", columnspan = 2)
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(fun_typeFrame,
            sticky = "w",
            pady = c(10, 0))
-
+    #
     tkgrid(buttonsFrame, sticky = "ew", columnspan = 2)
 
     dialogSuffix(rows = 4,

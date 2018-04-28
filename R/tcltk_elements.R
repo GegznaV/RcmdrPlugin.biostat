@@ -107,10 +107,10 @@ variableListBox2 <-
     }
     tkbind(listbox, "<ButtonPress-1>",   onClick)
 
-    onRelease <- function() {
-        onRelease_fun()
+    onDoubleClick <- function() {
+        onDoubleClick_fun()
     }
-    tkbind(listbox, "<ButtonRelease-1>", onRelease)
+    tkbind(listbox, "<Double-Button-1>", onDoubleClick)
 
     onRelease <- function() {
         onRelease_fun()

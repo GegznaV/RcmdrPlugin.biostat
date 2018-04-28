@@ -18,9 +18,14 @@ command_all_chr_to_fctr <- function() {
     Library("forcats")
     Library("dplyr")
 
-    doItAndPrint(style_cmd(glue::glue(
-        "{ActiveDataSet()} <- {ActiveDataSet()} %>% \n",
-        "dplyr::mutate_if(is.character, as_factor)")))
+    command <-
+        glue::glue(
+            "{ActiveDataSet()} <- {ActiveDataSet()} %>% \n",
+            "dplyr::mutate_if(is.character, as_factor)"
+            ) %>%
+        style_cmd()
+
+    doItAndPrint(command)
 
     command_dataset_refresh()
 }

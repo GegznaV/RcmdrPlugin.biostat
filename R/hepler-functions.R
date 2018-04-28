@@ -7,6 +7,55 @@ gettext_EZR <- function(...) {
 }
 
 # ------------------------------------------------------------------------------
+# Make a unique name for an object (e.g., data frame) by adding numbers
+#
+# @param name - name of dataset before suffix and preffix are added.
+unique_obj_name <- function(name = ActiveDataSet(),
+                            preffix = "",
+                            suffix = "",
+                            list_of_choices = objects(all.names = TRUE, envir = .GlobalEnv),
+                            all_numbered = FALSE) {
+    initial_name <- glue("{preffix}{name}{suffix}")
+
+    list_to_check <- if (all_numbered) {
+        c(list_of_choices, initial_name, initial_name)
+
+    } else {
+        c(list_of_choices, initial_name)
+    }
+
+    list_to_check %>%
+        make.unique(sep = "_") %>%
+        rev() %>% .[1]   # select the last element
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+unique_df_name <- function(name = ActiveDataSet(),
+                           preffix = "",
+                           suffix = "",
+                           list_of_choices = objects(all.names = TRUE, envir = .GlobalEnv),
+                           all_numbered = FALSE) {
+
+    unique_obj_name(name, preffix, suffix, list_of_choices, all_numbered)
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+unique_colname <- function(name = "",
+                           preffix = "",
+                           suffix = "",
+                           list_of_choices = listVariables(),
+                           all_numbered = FALSE) {
+
+    unique_obj_name(name, preffix, suffix, list_of_choices, all_numbered)
+}
+unique_colname_2 <- function(name = "",
+                             preffix = "",
+                             suffix = "",
+                             list_of_choices = listVariables(),
+                             all_numbered = TRUE) {
+
+    unique_obj_name(name, preffix, suffix, list_of_choices, all_numbered)
+}
+
+# ------------------------------------------------------------------------------
 # Formatat code in a `tidyverse` style
 style_cmd <- function(command, indent_by = 4, ...) {
     cmd <- styler::style_text(command, indent_by = indent_by, ...)

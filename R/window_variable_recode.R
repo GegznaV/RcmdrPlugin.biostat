@@ -1,6 +1,6 @@
-# Based on function from EZR
-
 # TODO:
+#
+# [+] DONE:
 #
 # 1. Add interactivity for double click.
 #    a.  It should add all unique values to recodes window as
@@ -19,6 +19,36 @@
 #
 # 3. Add examples in the free area of the window.
 #
+# 4. Change new variable name and add _1, _2, _3, etc. if variable with that
+#    name exists in active dataframe
+#
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Helper functions
+
+recode_values_template <- function(x) {
+
+    if (is.character(x)) {
+        x <- forcats::as_factor(x)
+    }
+
+    unique_values <-
+        if (is.factor(x)) {
+            levels(x)
+
+        } else {
+            sort(unique(x))
+        }
+
+    rez <-
+        glue::glue('"{unique_values}" = ""') %>%
+        paste(collapse = "\n") %>%
+        paste('\n',
+              '\n.default = ""',
+              '\n.missing = ""')
+    rez
+    # writeLines(rez)
+}
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
@@ -27,19 +57,38 @@
 window_variable_recode <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_EZR("Recode Variable Values"))
+    initializeDialog(title = gettext_Bio("Recode Variable Values"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    dataSet <- activeDataSet()
     defaults <-
         list(
-            initial_make_factor = 1,
-            initial_factor_type = "nominal",
-            initial_variables = NULL,
-            initial_name = "variable",
-            initial_recode_directives = ""
+            # initial_make_factor     = 1,
+            initial_recode_into       = "nominal",
+            initial_variables         = NULL,
+            initial_name              = "recoded_variable",
+            initial_recode_directives = "",
+            initial_selected_variable = "{none}"
         )
 
     dialog_values <- getDialog("window_variable_recode", defaults)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    selected_var_frame <- tkframe(top)
+    selected_variable  <- tclVar(dialog_values$initial_selected_variable)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    variable_doubleclick <- function() {
+        active_variable  <- getSelection(variablesBox)
+        var_val          <- eval_glue("{activeDataSet()}${active_variable}")
+
+        tclvalue(selected_variable) <- active_variable
+
+        # Change contents of "recodes" box
+        tkdelete(recodes, "1.0", "end")
+        tkinsert(recodes, "1.0", recode_values_template(var_val))
+
+        # Change new variable name
+        tclvalue(newVariableName) <-
+            unique_colname(active_variable, suffix = "_recoded")
+    }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
@@ -49,27 +98,26 @@ window_variable_recode <- function() {
             listHeight = 7,
             upper_frame,
             Variables(),
+            onDoubleClick_fun = variable_doubleclick,
             # selectmode = "multiple",
-            title = gettext_EZR("Variable to recode \n(pick one, double-click)"),
+            title = gettext_Bio("Variable to recode \n(double-click to pick one)"),
             initialSelection = varPosn(dialog_values$initial_variables, "all")
         )
-
-
-    # ------------------------------------------------------------------------
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     recodesFrame <- tkframe(upper_frame)
     recodes <-
         tktext(
             recodesFrame,
-            bg = "white",
-            font = getRcmdr("logFont"),
+            bg     = "white",
+            font   = getRcmdr("logFont"),
             height = "7",
-            width = "40",
-            wrap = "none")
+            width  = "40",
+            wrap   = "none")
 
     recodesXscroll <-
         ttkscrollbar(
             recodesFrame,
-            orient = "horizontal",
+            orient  = "horizontal",
             command = function(...) tkxview(recodes, ...)
         )
     recodesYscroll <-
@@ -88,100 +136,104 @@ window_variable_recode <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkinsert(recodes, "1.0", dialog_values$initial_recode_directives)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    variablesFrame <- tkframe(top)
+    lower_frame <- tkframe(top)
+    lower_options_frame <- tkframe(lower_frame)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    variablesFrame  <- tkframe(lower_options_frame)
     newVariableName <- tclVar(dialog_values$initial_name)
     newVariable <-
         ttkentry(variablesFrame,
                  width = "23",
                  textvariable = newVariableName)
-
-
     # ------------------------------------------------------------------------
-    factor_frame <- tkframe(top)
+    variable_type_frame <- tkframe(lower_options_frame)
 
-    factor_checkbox_frame <- tkframe(factor_frame)
+    # factor_checkbox_frame <- tkframe(variable_type_frame)
 
-    make_factorVariable <- tclVar(dialog_values$initial_make_factor)
-    make_factorCheckBox <- ttkcheckbutton(factor_checkbox_frame,
-                                          variable = make_factorVariable)
+    # make_factorVariable   <- tclVar(dialog_values$initial_make_factor)
+    # make_factorCheckBox   <- ttkcheckbutton(factor_checkbox_frame,
+    #                                         variable = make_factorVariable)
 
-    radioButtons_horizontal(factor_frame,
-                            name = "factor_type",
-                            # title = gettext_Bio("Use functions: "),
+    Rcmdr::radioButtons(variable_type_frame,
+                            name          = "recode_into",
+                            # title       = gettext_Bio("Use functions: "),
                             # title.color = getRcmdr("title.color"),
-                            buttons = c("nominal", "ordinal"),
-                            values  = c("nominal", "ordinal"),
-                            initialValue = dialog_values$initial_factor_type,
-                            labels =  gettext_Bio(c("Nominal", "Ordinal")))
+                            buttons       = c("nominal", "ordinal", "other"),
+                            values        = c("nominal", "ordinal", "other"),
+                            initialValue  = dialog_values$initial_recode_into,
+                            labels        = gettext_Bio(c("Nominal factor",
+                                                          "Ordinal factor",
+                                                          "Do not convert")))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         # make_factor <- tclvalue(make_factorVariable) == "1"
-        make_factor <- tclvalue_lgl(make_factorVariable)
-        factor_type <- tclvalue(factor_typeVariable)
+        # make_factor <- tclvalue_lgl(make_factorVariable)
+        recode_into       <- tclvalue(recode_intoVariable)
+        variables         <- getSelection(variablesBox)
+        selected_variable <- tclvalue(selected_variable)
+        name              <- trim.blanks(tclvalue(newVariableName))
 
         # Read recode directives
         save_recodes <- trim.blanks(tclvalue(tkget(recodes, "1.0", "end")))
-
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        closeDialog()
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Format code into one row
         recode_directives <-
-            stringr::str_replace_all(save_recodes,  c("(\n){2,}" = "\n",
-                                                      "\n$"      = "",
-                                                      "\n( )*"   = ", ",
-                   # Remove tailing commas and spaces
-                                                      "[, ]*$"   = ""))
-
+            stringr::str_replace_all(save_recodes,
+                                     # Remove intact rows
+                                     c('".*" = ""' = "",
+                                       '\\.default = (NULL|"")' = "",
+                                       '\\.missing = (NULL|"")' = "",
+                                       # Remove leading commas and spaces
+                                       "[, ]+(\n)"    = "\\1",
+                                       # Remove emplty lines
+                                       "(\n){2,}"  = "\n",
+                                       # Remove tailing new line
+                                       "\n$"       = "",
+                                       # Remove leading spaces in each non-first row
+                                       "\n( )*"    = ", ",
+                                       # Remove leading spaces and commas in
+                                       # the first row
+                                       "^[, ]*"    = "",
+                                       # Remove tailing commas and spaces
+                                       "[, ]*$"    = "")
+                   )
         # str_detect(recode_directives,
         #            "[\\p{Alphabetic}\\p{Mark}\\p{Decimal_Number}]")
 
         # Is empty? ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (recode_directives == "") {
             errorCondition(
-                recall = window_variable_recode,
-                message = gettext_EZR("No recode directives specified.")
+                recall  = window_variable_recode,
+                message = gettext_Bio("No recode directives specified.")
             )
             return()
         }
-        # Has single quotes `'`? ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # if (0 != length(grep("'", recode_directives))) {
-        #     errorCondition(
-        #         recall = window_variable_recode,
-        #         message = gettext_EZR("Use only double-quotes (\" \") in recode directives"))
-        #     return()
-        # }
+
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # recode_directives <- strsplit(recode_directives, ",")[[1]]
-        # recode_directives <- paste(sapply(recode_directives, process_recode),
-        #                            collapse = ",")
-        #
-        # recode_directives <- sub(" *; *$", "", recode_directives)
-
-
-        closeDialog()
-
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        variables <- getSelection(variablesBox)
-
+        # variables
         # If no variable is selected
-        if (length(variables) == 0) {
+        if (length(variables) == 0 || selected_variable == "{none}") {
             errorCondition(
-                recall = window_variable_recode,
-                message = gettext_EZR("You must select a variable.")
+                recall  = window_variable_recode,
+                message = gettext_Bio("You must select a variable.")
             )
             return()
         }
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        name <- trim.blanks(tclvalue(newVariableName))
+        # name
 
         # check variable name for validity
         if (!is.valid.name(name)) {
             errorCondition(
-                recall = window_variable_recode,
+                recall  = window_variable_recode,
                 message = glue::glue('"{name}"',
-                                     gettext_EZR("is not a valid name."))
+                                     gettext_Bio("is not a valid name."))
             )
             return()
         }
@@ -195,31 +247,36 @@ window_variable_recode <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         putDialog("window_variable_recode",
                   list(
-                      initial_make_factor = make_factor,
-                      initial_variables = variables,
-                      initial_name = name,
+                      # initial_make_factor       = make_factor,
+                      initial_variables         = variables,
+                      initial_name              = name,
                       initial_recode_directives = save_recodes,
-                      initial_factor_type = factor_type
+                      initial_recode_into       = recode_into,
+                      initial_selected_variable = selected_variable
                   )
         )
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        if (make_factor) {
-            # Is a factor
-            recode_fun <- "dplyr::recode_factor"
-            ordered_factor <- switch(factor_type,
-                                     "nominal" = "",
-                                     "ordinal" = ".ordered = FALSE")
-        } else {
-            # Not a factor
-            recode_fun <- "dplyr::recode"
-            ordered_factor <- ""
-        }
+        switch(recode_into,
+               "nominal" = {
+                   recode_fun     <- "dplyr::recode_factor"
+                   ordered_factor <- ""
+               },
+               "ordinal" = {
+                   recode_fun     <- "dplyr::recode_factor"
+                   ordered_factor <- ", .ordered = TRUE" # .ordered = FALSE ???
+               },
+               "other" = {
+                   recode_fun     <- "dplyr::recode"
+                   ordered_factor <- ""
+               })
+
+        dataSet <- activeDataSet()
 
         command <- glue::glue(
-            "## ", gettext_EZR("Recode variable values"), "\n\n",
+            "## ", gettext_Bio("Recode variable values"), "\n\n",
             "{dataSet} <- {dataSet} %>% \n",
-            "   dplyr::mutate({name} = {recode_fun}({variables}, ",
+            "   dplyr::mutate({name} = {recode_fun}({selected_variable}, ",
             " {recode_directives}{ordered_factor}))"
         ) %>%
             style_cmd()
@@ -231,48 +288,65 @@ window_variable_recode <- function() {
             activeDataSet(dataSet,
                           flushModel = FALSE,
                           flushDialogMemory = FALSE)
-
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkfocus(CommanderWindow())
     }
-    # ========================================================================
-    OKCancelHelp(helpSubject = "dplyr::recode",
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Title ------------------------------------------------------------------
+    fg_col <- Rcmdr::getRcmdr("title.color")
+    tkgrid(label_rcmdr(
+        top,
+        text = gettextRcmdr("Recode variable values"),
+        font = tkfont.create(weight = "bold", size = 9),
+        fg = fg_col),
+        pady = c(5, 9))
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(selected_var_frame) # selected_variable
+    tkgrid(
+        label_rcmdr(selected_var_frame, text = "Selected variable: "),
+        label_rcmdr(selected_var_frame,
+                    textvariable = selected_variable,
+                    font = tkfont.create(weight = "bold", size = 8),
+                    fg = "darkred"),
+        pady = c(0, 9)
+    )
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     OKCancelHelp(helpSubject = "recode_factor",
                  reset = "window_variable_recode",
                  apply = "window_variable_recode")
 
-
     tkgrid(upper_frame, sticky = "nw")
     tkgrid(getFrame(variablesBox),
-           labelRcmdr(upper_frame, text = "  "),
+           label_rcmdr(upper_frame, text = "  "),
            recodesFrame, sticky = "nw")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # tkgrid()
 
-    tkgrid(labelRcmdr(
+    tkgrid(label_rcmdr(
         variablesFrame,
         fg = getRcmdr("title.color"),
-        text = gettext_EZR("Name for recoded variable: ")),
+        text = gettext_Bio("Name for recoded variable: ")),
         sticky = "w",
         pady = c(2, 0))
     tkgrid(newVariable, sticky = "w")
 
-    tkgrid(factor_checkbox_frame, pady = c(10, 0))
+    tkgrid(
+        label_rcmdr(variable_type_frame,
+                   text = gettext_Bio("Convert variable into: "),
+                   fg = getRcmdr("title.color")),
+        sticky = "w",
+        pady = c(10, 0)
+    )
 
-    tkgrid(make_factorCheckBox,
-           labelRcmdr(factor_checkbox_frame,
-                      text = gettext_EZR("Convert to factor:  ")),
-           sticky = "w",
-           pady = c(5, 0),
-           columnspan = 2)
-
-    tkgrid(factor_typeFrame, sticky = "w")
+    tkgrid(recode_intoFrame, sticky = "w")
 
     tkgrid(
-        labelRcmdr(
+        label_rcmdr(
             recodesFrame,
-            text = gettext_EZR(
-                "Enter recode directives\n(one directive per row or comma separated)"),
+            text = gettext_Bio(
+                "Enter recode directives\n(one directive per row; change order of rows, if needed)"),
+                # "Enter recode directives\n(one directive per row or comma separated)"),
             fg = getRcmdr("title.color"),
             font = "RcmdrTitleFont"
         ),
@@ -282,8 +356,43 @@ window_variable_recode <- function() {
     tkgrid(recodes, recodesYscroll, sticky = "nw")
     tkgrid(recodesXscroll)
 
-    tkgrid(variablesFrame, sticky = "w")
-    tkgrid(factor_frame, sticky = "w")
+    tkgrid(lower_frame,         sticky = "w")
+    tkgrid(variablesFrame,      sticky = "w")
+    tkgrid(variable_type_frame, sticky = "w")
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    examples_frame <- tkframe(lower_frame)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid_text <- function(text = "", frame = examples_frame, fg = "black",
+                            sticky = "w", padx = 10, pady = 0, ...) {
+        tkgrid(label_rcmdr(frame, text = gettext_Bio(text), fg = fg),
+               sticky = sticky, padx = padx, pady = pady, ...)
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid_text("Examples of recode directives:", fg = fg_col, pady = c(2, 0))
+    tkgrid_text(paste(
+        '      Example 1:       "old value 1" = "new value 1"\n',
+                           '\t\t"old value 3" = "new value 3"\n',
+                           '\t\t"old value 2" = "new value 2"\n'))
+
+    # tkgrid_text('      Example 2:       "old 1" = "new 1", "old 2" = "new 2"\n')
+    tkgrid_text('      .default - a default value for all non-specified values.')
+    tkgrid_text('      .missing - a new explicit value for missing (NA) values.')
+    # tkgrid_text('      Unmodified recode directives will be removed automatically.')
+
+    # if (!is.null(incorrect_expr_msg)) {
+    #     tkgrid_text(incorrect_expr_msg, fg = "darkred", sticky = "e",
+    #                 pady = c(5, 0))
+    # }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    tkgrid(lower_options_frame, examples_frame,
+           sticky = "nw",
+           columnspan = 2)
+    # ==========================================================================
+
+
     tkgrid(buttonsFrame, sticky = "w", columnspan = 2)
     tkgrid.configure(recodesXscroll, sticky = "ew")
     tkgrid.configure(recodesYscroll, sticky = "ns")

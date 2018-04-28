@@ -33,7 +33,7 @@ window_do_summary <- function() {
     tabs =      c("dataTab", "optionsTab")
     tab_names = c(" Data ",  " Options ")
 
-    initializeDialog(title = gettextRcmdr("Do numerical summaries"),
+    initializeDialog(title = gettextRcmdr("Summarize numerical variables"),
                      use.tabs = TRUE, tabs = tabs)
 
     # posthocFrame <- tkframe(posthocTab)
@@ -79,7 +79,7 @@ window_do_summary <- function() {
     # Choose model name ------------------------------------------------------
     UpdateModelNumber()
 
-    modelName  <- tclVar(paste0(activeDataSet(),"_summary_", getRcmdr("modelNumber")))
+    modelName  <- tclVar(unique_obj_name(suffix = "_summary", all_numbered = TRUE))
     model_boxlFrame <- tkframe(main_top_frame)
     model <- ttkentry(model_boxlFrame, width = "20", textvariable = modelName)
 

@@ -4,6 +4,40 @@
 menu	BioStat_menu	topMenu	 ""	""	""	""
 item	topMenu	cascade	"BioStat'18"	BioStat_menu	""	""
 
+
+# ==============================================================================
+# ---- Data menu -------------------------------------------------------------
+
+menu	bs_data_menu	BioStat_menu	""	""	""	""
+item	BioStat_menu	cascade	"Data"	bs_data_menu	""	""
+
+# ---- Create data -----------------------------------------------------------
+item	bs_data_menu	command	"Create a new dataset"	window_dataset_new_rcmdr	""	"" # from Rcmdr
+
+# ---- Join/Bind datasets ---------------------------------------------------------
+item	bs_data_menu	separator	""	""	""	""
+item	bs_data_menu	command	"Join two datasets"	window_dataset_join	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	bs_data_menu	command	"Bind rows of two datasets"	window_dataset_bind_rows	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	bs_data_menu	command	"Bind columns of two datasets"	window_dataset_bind_cols	"dataSetsP(2)"	"packageAvailable('dplyr')"
+
+# item	bs_data_menu	command	"Bind rows/columns of two datasets"	window_dataset_bind	"dataSetsP(2)"	"packageAvailable('dplyr')"
+
+# item	bs_data_menu	separator	""	""	""	""
+# item	bs_data_menu	command	"[!] Pander: print object for report"	window_pander	"activeDataSetP() && objects_in_env_P(n = 1)"	"packageAvailable('pander')"
+
+# ~~~~ Convert to data.frame ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# item	bs_data_menu	separator	""	""	""	""
+# item	bs_data_menu	command	"[!] Convert `table` to `data.frame`"	window_table_to_df	"FALSE"	""
+
+# ~~~~ Data Import Menu ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+item	bs_data_menu	separator	""	""	""	""
+item	bs_data_menu	command	"Import R data file (.Rds)"	window_import_rds	""	""
+
+# menu	import_menu	bs_data_menu	""	""	""	""
+# item	bs_data_menu	cascade	"Import / Load data"	import_menu	""	""
+
+
+
 # ==============================================================================
 # ---- Active dataset ---------------------------------------------------------
 
@@ -16,12 +50,12 @@ item	bs_active_ds_menu	command	"Refresh active dataset"	command_dataset_refresh	
 
 item	bs_active_ds_menu	separator	""	""	""	""
 item	bs_active_ds_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
-item	bs_active_ds_menu	command	"View: show dataset in a separate window"	command_dataset_view	"activeDataSetP()"	""
 item	bs_active_ds_menu	command	"Number of rows and columns"	command_dataset_dim	"activeDataSetP()"	""
 item	bs_active_ds_menu	command	"Print top and bottom rows"	summary_head_tail	"activeDataSetP()"	""
 # item	bs_active_ds_menu	command	"Print top rows only"	summary_head	"activeDataSetP()"	""
 # item	bs_active_ds_menu	command	"Print bottom rows only"	summary_tail	"activeDataSetP()"	""
 item	bs_active_ds_menu	command	"Print whole dataset"	command_dataset_print	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"View: show dataset in a separate window"	command_dataset_view	"activeDataSetP()"	""
 
 item	bs_active_ds_menu	separator	""	""	""	""
 item	bs_active_ds_menu	command	"Pander: print dataset as Markdown table"	window_dataset_pander	"activeDataSetP()"	"packageAvailable('pander')"
@@ -63,19 +97,19 @@ menu	bs_rows_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"Rows"	bs_rows_menu	""	""
 
 item	bs_rows_menu	command	"[!] Arrange: sort rows"	window_rows_arrange	"FALSE"	""
-item	bs_rows_menu	command	"[!] Filter: select rows that match conditions"	window_rows_filter	"FALSE"	""
-item	bs_rows_menu	command	"[!] Slice: select/remove rows by position"	window_rows_slice	"FALSE"	""
+item	bs_rows_menu	command	"Filter: select rows that match conditions"	window_rows_filter0	"activeDataSetP()"	"packageAvailable('dplyr')"
+item	bs_rows_menu	command	"Slice: select/remove rows by row index"	window_rows_slice	"activeDataSetP()"	"packageAvailable('dplyr')"
 item	bs_rows_menu	separator	""	""	""	""
-item	bs_rows_menu	command	"[!] Remove empty rows"	function_not_implemented	"FALSE"	""
-item	bs_rows_menu	command	"[!] Remove rows with duplicated values"	function_not_implemented	"FALSE"	""
-item	bs_rows_menu	command	"[!] Remove rows with missing values"	function_not_implemented	"FALSE"	""
-item	bs_rows_menu	command	"[!] Fill missing values with..."	function_not_implemented	"FALSE"	""
+item	bs_rows_menu	command	"[!] Remove empty rows"	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
+item	bs_rows_menu	command	"[!] Remove rows with duplicated values"	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
+item	bs_rows_menu	command	"[!] Remove rows with missing values"	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
+item	bs_rows_menu	command	"[!] Fill missing values with..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
 
 item	bs_rows_menu	separator	""	""	""	""
 item	bs_rows_menu	command	"Print row names"	command_rownames	"activeDataSetP()"	""
-item	bs_rows_menu	command	"[!] Move row names to column"	command_rownames_to_col	"activeDataSetP()"	""
-item	bs_rows_menu	command	"[!] Move column values to row names"	command_col_to_rownames	"activeDataSetP()"	""
-item	bs_rows_menu	command	"[!] Add column with row numbers"	command_rowid_to_col	"activeDataSetP()"	""
+item	bs_rows_menu	command	"Move row names to column"	window_rownames_to_col	"activeDataSetP()"	"packageAvailable('tibble')"
+item	bs_rows_menu	command	"[!] Move column values to row names"	command_col_to_rownames	"activeDataSetP()"	"packageAvailable('tibble')"
+item	bs_rows_menu	command	"[!] Add column with row numbers"	command_rowid_to_col	"activeDataSetP()"	"packageAvailable('tidyverse')"
 # Remove row names and Add row numbers to column
 #
 #
@@ -91,7 +125,7 @@ menu	bs_varible_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"Variables (columns)"	bs_varible_menu	""	""
 
 item	bs_varible_menu	command	"Print variable (column) names"	command_colnames	"activeDataSetP()"	""
-item	bs_varible_menu	command	"[!] Rename variables"	function_not_implemented	"FALSE"	"packageAvailable('dplyr')"
+item	bs_varible_menu	command	"Rename variables"	window_variable_rename	"activeDataSetP()"	"packageAvailable('dplyr')"
 # item	bs_varible_menu	command	"Change variable (column) names"	window_change_colnames	"activeDataSetP()"	""
 
 
@@ -105,10 +139,10 @@ item	bs_varible_menu	command	"Recode variable values"	window_variable_recode	"ac
 
 item	bs_varible_menu	separator	""	""	""	""
 
-item	bs_varible_menu	command	"[!] Gather columns into key-value pairs"	function_not_implemented	"FALSE"	"packageAvailable('tidyr')"
-item	bs_varible_menu	command	"[!] Spread a key-value pair across multiple columns"	function_not_implemented	"FALSE"	"packageAvailable('tidyr')"
-item	bs_varible_menu	command	"[!] Separate one column into multiple columns"	function_not_implemented	"FALSE"	"packageAvailable('tidyr')"
-item	bs_varible_menu	command	"[!] Unite multiple columns into one column"	function_not_implemented	"FALSE"	"packageAvailable('tidyr')"
+item	bs_varible_menu	command	"Gather columns into long format dataset"	window_variable_gather	"activeDataSetP()"	"packageAvailable('tidyr')"
+item	bs_varible_menu	command	"[!] Spread columns into wide format dataset"	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"#Spread a key-value pair across multiple columns
+item	bs_varible_menu	command	"[!] Separate one column into multiple columns"	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
+item	bs_varible_menu	command	"[!] Unite multiple columns into one column"	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
 
 item	bs_varible_menu	separator	""	""	""	""
 
@@ -158,7 +192,7 @@ item	bs_var_fct_menu	command	"[!] Add levels"	function_not_implemented	"FALSE & 
 #    Collapse least/most common levels into "other"
 #    Replace levels with "other"
 item	bs_var_fct_menu	command	'[!] Collapse/Merge levels'	function_not_implemented	"FALSE & factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Drop unused levels"	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"Drop unused levels"	window_factor_lvls_drop	"factorsP()"	""
 # item	bs_var_fct_menu	command	"[!] Remove levels"	function_not_implemented	"FALSE & factorsP()"	""
 item	bs_var_fct_menu	command	"[!] Rename levels"	function_not_implemented	"FALSE & factorsP()"	""
 # Reorder factor levels automatically:
@@ -172,7 +206,7 @@ item	bs_var_fct_menu	command	"[!] Rename levels"	function_not_implemented	"FALSE
 #     [checkbox:] Reverse the result
 #
 item	bs_var_fct_menu	command	"[!] Reorder levels automatically"	function_not_implemented	"FALSE & factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Reorder levels by hand"	window_fct_reorder	"factorsP() & FALSE"	""
+item	bs_var_fct_menu	command	"Reorder levels by hand"	window_factor_lvls_reorder	"factorsP()"	""
 
 # item	bs_var_fct_menu	command	"[!] Reorder levels in frequency"	function_not_implemented	"FALSE & factorsP()"	""
 # item	bs_var_fct_menu	command	"[!] Reverse levels"	function_not_implemented	"FALSE & factorsP()"	""
@@ -205,6 +239,11 @@ menu	bs_summary_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"Summaries"	bs_summary_menu	""	""
 
 
+item	bs_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
+item	bs_summary_menu	command	"Number of rows and columns"	command_dataset_dim	"activeDataSetP()"	""
+item	bs_summary_menu	command	"Print top and bottom rows"	summary_head_tail	"activeDataSetP()"	""
+
+item	bs_summary_menu	separator	""	""	""	""
 item	bs_summary_menu	command	"Screen dataset for missing values"	summary_ds_screener	"activeDataSetP()"	""
 
 item	bs_summary_menu	separator	""	""	""	""
@@ -213,7 +252,7 @@ item	bs_summary_menu	command	"Summarize all variables [Hmisc::describe]"	summary
 
 
 item	bs_summary_menu	separator	""	""	""	""
-item	bs_summary_menu	command	"Summarize numerical variables [psych::describe]"	summary_psych_describe	"numericP()"	""
+# item	bs_summary_menu	command	"Summarize numerical variables [psych::describe]"	summary_psych_describe	"numericP()"	""
 item	bs_summary_menu	command	"Summarize numerical variables by group"	window_do_summary	"numericP()"	""
 
 # item	bs_summary_menu	command	"[!] Frequency table for continuous variables"	function_not_implemented	"FALSE & activeDataSetP()"	""
@@ -280,13 +319,13 @@ item	bs_plots_menu	command	"Visualize color names & codes (example)"	window_show
 menu	bs_ci_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"Confidence intervals (CI)"	bs_ci_menu	""	""
 
-item	bs_ci_menu	command	"Mean CI (example)"	window_ci_mean	""	""
-item	bs_ci_menu	command	"Median CI (example)"	window_ci_median	""	""
-item	bs_ci_menu	command	"Binomial proportion CI (example)"	window_ci_prop_binom	""	""
-item	bs_ci_menu	command	"Multinomial proportion CI (example) "	window_ci_prop_multi	""	""
-item	bs_ci_menu	command	"CI for difference in means (example)"	window_ci_mean_diff	""	""
+item	bs_ci_menu	command	"[!] Mean CI (example)"	window_ci_mean	""	""
+item	bs_ci_menu	command	"[!] Median CI (example)"	window_ci_median	""	""
+item	bs_ci_menu	command	"[!] Binomial proportion CI (example)"	window_ci_prop_binom	""	""
+item	bs_ci_menu	command	"[!] Multinomial proportion CI (example) "	window_ci_prop_multi	""	""
+item	bs_ci_menu	command	"[!] CI for difference in means (example)"	window_ci_mean_diff	""	""
 item	bs_ci_menu	separator	""	""	""	""
-item	bs_ci_menu	command	"Bootstrap confidence intervals (example)"	window_ci_boot	""	""
+item	bs_ci_menu	command	"[!] Bootstrap confidence intervals (example)"	window_ci_boot	""	""
 
 # ==============================================================================
 # ---- Statistical tests ------------------------------------------------------
@@ -294,7 +333,7 @@ item	bs_ci_menu	command	"Bootstrap confidence intervals (example)"	window_ci_boo
 menu	bs_tests_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"Tests"	bs_tests_menu	""	""
 
-item	bs_tests_menu	command	"Test normality"	window_normality_test	"numericP()"	""
+item	bs_tests_menu	command	"Test normality"	window_test_normality	"numericP()"	""
 # item	bs_tests_menu	separator	""	""	""	""
 # item	bs_tests_menu	command	"[!] ANOVA, Kruskal-Wallis, Median tests"	window_anova_kw_mood_tests	"numericP() & factorsP()"	""
 
@@ -319,41 +358,11 @@ item	bs_models_menu	command	"Standardized regression coefficients"	command_std_l
 # ==============================================================================
 # ---- Distributions menu -------------------------------------------------------------
 
-menu	bs_distr_menu	BioStat_menu	""	""	""	""
-item	BioStat_menu	cascade	"Distributions"	bs_distr_menu	""	""
-
-item	bs_distr_menu	command	"Interactive tool to explore distributions"	window_distributions_descriptr	""	"packageAvailable('descriptr')" # from Rcmdr
-
-# ==============================================================================
-# ---- Data menu -------------------------------------------------------------
-
-menu	bs_data_menu	BioStat_menu	""	""	""	""
-item	BioStat_menu	cascade	"Data"	bs_data_menu	""	""
-
-# ---- Create data -----------------------------------------------------------
-item	bs_data_menu	command	"Create a new dataset"	window_dataset_new_rcmdr	""	"" # from Rcmdr
-
-# ---- Join/Bind datasets ---------------------------------------------------------
-item	bs_data_menu	separator	""	""	""	""
-item	bs_data_menu	command	"Join two datasets"	window_dataset_join	"dataSetsP(2)"	"packageAvailable('dplyr')"
-item	bs_data_menu	command	"Bind rows of two datasets"	window_dataset_bind_rows	"dataSetsP(2)"	"packageAvailable('dplyr')"
-item	bs_data_menu	command	"Bind columns of two datasets"	window_dataset_bind_cols	"dataSetsP(2)"	"packageAvailable('dplyr')"
-
-# item	bs_data_menu	command	"Bind rows/columns of two datasets"	window_dataset_bind	"dataSetsP(2)"	"packageAvailable('dplyr')"
-
-# item	bs_data_menu	separator	""	""	""	""
-# item	bs_data_menu	command	"[!] Pander: print object for report"	window_pander	"activeDataSetP() && objects_in_env_P(n = 1)"	"packageAvailable('pander')"
-
-# ~~~~ Convert to data.freme ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-item	bs_data_menu	separator	""	""	""	""
-item	bs_data_menu	command	"[!] Convert `table` to `data.frame`"	window_table_to_df	"FALSE"	""
-
-# ~~~~ Data Import Menu ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-item	bs_data_menu	separator	""	""	""	""
-item	bs_data_menu	command	"Import R data file (.Rds)"	window_import_rds	""	""
-
-# menu	import_menu	bs_data_menu	""	""	""	""
-# item	bs_data_menu	cascade	"Import / Load data"	import_menu	""	""
+# menu	bs_distr_menu	BioStat_menu	""	""	""	""
+# item	BioStat_menu	cascade	"Distributions"	bs_distr_menu	""	""
+#
+# item	bs_distr_menu	command	"Interactive tool to explore distributions"	window_distributions_descriptr	""	"packageAvailable('descriptr')" # from Rcmdr
+#
 
 # ==============================================================================
 # ---- Settings ---------------------------------------------------------------
