@@ -5,7 +5,7 @@ menu	BioStat_menu	topMenu	 ""	""	""	""
 item	topMenu	cascade	"BioStat'18"	BioStat_menu	""	""
 
 
-# ==============================================================================
+# =============================================================================
 # ---- Data menu -------------------------------------------------------------
 
 menu	bs_data_menu	BioStat_menu	""	""	""	""
@@ -173,8 +173,8 @@ menu	bs_var_num_menu	bs_varible_menu	""	""	""	""
 
 item	bs_varible_menu	cascade	"Numeric variables"	bs_var_num_menu	"activeDataSetP()"	""
 
-item	bs_var_num_menu	command	"Log transformation"	window_log_transform	"numericP()"	""
-item	bs_var_num_menu	command	"Z transformation / Standardization"	window_z_transform	"numericP()"	""
+item	bs_var_num_menu	command	"Log transformation"	window_transform_log	"numericP()"	""
+item	bs_var_num_menu	command	"Z transformation / Standardization"	window_transform_z	"numericP()"	""
 
 item	bs_var_num_menu	separator	""	""	""	""
 item	bs_var_num_menu	command	"[!] Bin/Categorize numeric variable"	function_not_implemented	"FALSE & numericP()"	"" # including `cut`, `ifelse`,

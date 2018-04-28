@@ -5,7 +5,7 @@
 #' @keywords internal
 #' @family transformations
 #'
-window_z_transform <- function() {
+window_transform_z <- function() {
     initializeDialog(title = gettext_Bio("Z transformation (standardization)"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Title ------------------------------------------------------------------
@@ -43,7 +43,7 @@ window_z_transform <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Check conditions
         if (length(variables) == 0) {
-            errorCondition(recall = window_log_transform,
+            errorCondition(recall = window_transform_z,
                            message = gettext_Bio("You must select a variable."))
             return()
         }
@@ -56,14 +56,14 @@ window_z_transform <- function() {
 
             if (!is.valid.name(new_names[i])) {
                 errorCondition(
-                    recall = window_log_transform,
+                    recall = window_transform_z,
                     message = paste(new_names[i], gettext_Bio("is not a valid name."))
                 )
                 return()
             }
             if (is.element(new_names[i], Variables())) {
                 if ("no" == tclvalue(checkReplace(new_names[i]))) {
-                    window_log_transform()
+                    window_transform_z()
                     return()
                 }
             }
@@ -114,7 +114,7 @@ window_z_transform <- function() {
     tkgrid(getFrame(variableBox), sticky = "n", columnspan = 2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(labelRcmdr(top,
-                      text = gettext_Bio("Prefix for variable names:"),
+                      text = gettext_Bio("Prefix for variable names (optional):"),
                       fg = getRcmdr("title.color")),
            sticky = "w",
            pady = c(10, 0), columnspan = 2)
@@ -122,7 +122,7 @@ window_z_transform <- function() {
     tkgrid(prefixField, sticky = "ew", columnspan = 2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(labelRcmdr(top,
-                      text = gettext_Bio("Suffix for variable names:"),
+                      text = gettext_Bio("Suffix for variable names (optional):"),
                       fg = getRcmdr("title.color")),
            sticky = "w",
            pady = c(10, 0), columnspan = 2)
