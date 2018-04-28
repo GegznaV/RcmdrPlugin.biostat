@@ -150,8 +150,7 @@ window_rows_slice <- function(){
                 gettextRcmdr(" - comma separated;\n"),
                 gettextRcmdr(" - either positive integers to select rows;\n"),
                 gettextRcmdr(" - or negative integers to remove rows.\n"),
-                gettextRcmdr(" - Use colon to select ranges from:to;\n"),
-                gettextRcmdr(" - n() is the last row.")
+                gettextRcmdr("Use colon to select ranges from:to, n() is the last row. \n")
             ),
             foreground = getRcmdr("title.color"),
             font = "RcmdrTitleFont"
@@ -171,7 +170,7 @@ window_rows_slice <- function(){
         sticky = "nw"
     )
 
-    tkgrid(buttonsFrame, sticky = "w")
+    tkgrid(buttonsFrame, sticky = "ew")
     dialogSuffix()
 }
 
