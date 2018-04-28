@@ -107,9 +107,9 @@ item	bs_rows_menu	command	"[!] Fill missing values with..."	function_not_impleme
 
 item	bs_rows_menu	separator	""	""	""	""
 item	bs_rows_menu	command	"Print row names"	command_rownames	"activeDataSetP()"	""
-item	bs_rows_menu	command	"[!] Move row names to column"	command_rownames_to_col	"activeDataSetP()"	""
-item	bs_rows_menu	command	"[!] Move column values to row names"	command_col_to_rownames	"activeDataSetP()"	""
-item	bs_rows_menu	command	"[!] Add column with row numbers"	command_rowid_to_col	"activeDataSetP()"	""
+item	bs_rows_menu	command	"Move row names to column"	window_rownames_to_col	"activeDataSetP()"	"packageAvailable('tibble')"
+item	bs_rows_menu	command	"[!] Move column values to row names"	command_col_to_rownames	"activeDataSetP()"	"packageAvailable('tibble')"
+item	bs_rows_menu	command	"[!] Add column with row numbers"	command_rowid_to_col	"activeDataSetP()"	"packageAvailable('tidyverse')"
 # Remove row names and Add row numbers to column
 #
 #

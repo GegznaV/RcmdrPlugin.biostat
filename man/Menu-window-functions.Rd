@@ -54,9 +54,9 @@
 \alias{window_plot_bar_err}
 \alias{command_rownames}
 \alias{command_rowid_to_col}
-\alias{command_rownames_to_col}
 \alias{command_col_to_rownames}
 \alias{window_rows_arrange}
+\alias{window_rownames_to_col}
 \alias{command_load_packages}
 \alias{command_getwd}
 \alias{command_get_locale}
@@ -179,11 +179,11 @@ command_rownames()
 
 command_rowid_to_col()
 
-command_rownames_to_col()
-
 command_col_to_rownames()
 
 window_rows_arrange()
+
+window_rownames_to_col()
 
 command_load_packages()
 

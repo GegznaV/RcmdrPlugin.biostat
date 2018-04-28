@@ -13,7 +13,7 @@ gettext_EZR <- function(...) {
 unique_obj_name <- function(name = ActiveDataSet(),
                             preffix = "",
                             suffix = "",
-                            list_of_choices = listDataSets(),
+                            list_of_choices = objects(all.names = TRUE, envir = .GlobalEnv),
                             all_numbered = FALSE) {
     initial_name <- glue("{preffix}{name}{suffix}")
 
@@ -32,7 +32,7 @@ unique_obj_name <- function(name = ActiveDataSet(),
 unique_df_name <- function(name = ActiveDataSet(),
                            preffix = "",
                            suffix = "",
-                           list_of_choices = listDataSets(),
+                           list_of_choices = objects(all.names = TRUE, envir = .GlobalEnv),
                            all_numbered = FALSE) {
 
     unique_obj_name(name, preffix, suffix, list_of_choices, all_numbered)
