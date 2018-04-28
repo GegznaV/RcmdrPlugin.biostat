@@ -50,16 +50,16 @@ command_rowid_to_col <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' #' @rdname Menu-window-functions
-#' #' @export
-#' #' @keywords internal
-#' command_rownames_to_col <- function() {
-#'     Library("tidyverse")
-#'
-#'     doItAndPrint(glue::glue(
-#'         '## An example of code: \n\n',
-#'         '# new_df <- tibble::rownames_to_column({ActiveDataSet()}, var = "row_names")'))
-#' }
+# #' @rdname Menu-window-functions
+# #' @export
+# #' @keywords internal
+# command_rownames_to_col <- function() {
+#     Library("tidyverse")
+#
+#     doItAndPrint(glue::glue(
+#         '## An example of code: \n\n',
+#         '# new_df <- tibble::rownames_to_column({ActiveDataSet()}, var = "row_names")'))
+# }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export

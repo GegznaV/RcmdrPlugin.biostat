@@ -192,7 +192,7 @@ item	bs_var_fct_menu	command	"[!] Add levels"	function_not_implemented	"FALSE & 
 #    Collapse least/most common levels into "other"
 #    Replace levels with "other"
 item	bs_var_fct_menu	command	'[!] Collapse/Merge levels'	function_not_implemented	"FALSE & factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Drop unused levels"	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"Drop unused levels"	window_factor_lvls_drop	"factorsP()"	""
 # item	bs_var_fct_menu	command	"[!] Remove levels"	function_not_implemented	"FALSE & factorsP()"	""
 item	bs_var_fct_menu	command	"[!] Rename levels"	function_not_implemented	"FALSE & factorsP()"	""
 # Reorder factor levels automatically:
@@ -206,7 +206,7 @@ item	bs_var_fct_menu	command	"[!] Rename levels"	function_not_implemented	"FALSE
 #     [checkbox:] Reverse the result
 #
 item	bs_var_fct_menu	command	"[!] Reorder levels automatically"	function_not_implemented	"FALSE & factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Reorder levels by hand"	window_fct_reorder	"factorsP() & FALSE"	""
+item	bs_var_fct_menu	command	"Reorder levels by hand"	window_factor_lvls_reorder	"factorsP()"	""
 
 # item	bs_var_fct_menu	command	"[!] Reorder levels in frequency"	function_not_implemented	"FALSE & factorsP()"	""
 # item	bs_var_fct_menu	command	"[!] Reverse levels"	function_not_implemented	"FALSE & factorsP()"	""
