@@ -201,7 +201,7 @@ window_do_summary <- function() {
         }
 
         command <- style_cmd(glue(
-            "{model_name_Value} <- do_summary({formula}, ",
+            "{model_name_Value} <- biostat::do_summary({formula}, ",
             "data = {.activeDataSet})\n",
             "print({model_name_Value}, digits = {digits})\n",
             keep_model_command))

@@ -10,7 +10,7 @@
 #' @keywords internal
 #' @family transformations
 #'
-window_log_transform <- function() {
+window_transform_log <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = gettext_Bio("Logarithmic transformation"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -33,7 +33,7 @@ window_log_transform <- function() {
                      fun_type  = "Tidyverse",
                      variables = NULL)
 
-    dialog_values <- getDialog("window_log_transform", defaults)
+    dialog_values <- getDialog("window_transform_log", defaults)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
 
@@ -52,13 +52,12 @@ window_log_transform <- function() {
     prefix_field    <- ttkentry(middle_frame,
                                 width = "29",
                                 textvariable = prefix_variable)
-    change_prefix()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     suffix_variable <- tclVar(dialog_values$suffix)
     suffix_field    <- ttkentry(middle_frame,
                                 width = "29",
                                 textvariable = suffix_variable)
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     log_txt_outter_Frame <- tkframe(upper_frame)
     Rcmdr::radioButtons(log_txt_outter_Frame,
                         name         = "log_txt",
@@ -73,6 +72,7 @@ window_log_transform <- function() {
                               "Natural, log(x + 1, base = e)")),
                         command      = change_prefix
     )
+    change_prefix()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     radioButtons_horizontal(name         = "fun_type",
                             title        = gettext_Bio("Use functions: "),
@@ -80,7 +80,7 @@ window_log_transform <- function() {
                             buttons      = c("tidyverse", "base"),
                             values       = c("Tidyverse", "Base_R"),
                             initialValue = dialog_values$fun_type,
-                            labels       =  gettext_Bio(c("Tidyverse", "Base R")))
+                            labels       = gettext_Bio(c("Tidyverse", "Base R")))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         prefix    <- trim.blanks(tclvalue(prefix_variable))
@@ -89,7 +89,7 @@ window_log_transform <- function() {
         fun_type  <- tclvalue(fun_typeVariable)
         variables <- getSelection(variableBox)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        putDialog("window_log_transform",
+        putDialog("window_transform_log",
                   list(prefix    = prefix,
                        suffix    = suffix,
                        log_txt   = log_txt,
@@ -101,7 +101,7 @@ window_log_transform <- function() {
         closeDialog()
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (length(variables) == 0) {
-            errorCondition(recall  = window_log_transform,
+            errorCondition(recall  = window_transform_log,
                            message = gettext_Bio("You must select a variable."))
             return()
         }
@@ -115,14 +115,14 @@ window_log_transform <- function() {
 
             if (!is.valid.name(new_names[i])) {
                 errorCondition(
-                    recall  = window_log_transform,
+                    recall  = window_transform_log,
                     message = paste(new_names[i], gettext_Bio("is not a valid name."))
                 )
                 return()
             }
             if (is.element(new_names[i], Variables())) {
                 if ("no" == tclvalue(checkReplace(new_names[i]))) {
-                    window_log_transform()
+                    window_transform_log()
                     return()
                 }
             }
@@ -185,11 +185,11 @@ window_log_transform <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(middle_frame, sticky = "ew")
     tkgrid(labelRcmdr(middle_frame,
-                      text = gettext_Bio("Prefix for variable names:"),
+                      text = gettext_Bio("Prefix for variable names (optional):"),
                       fg = fg_col),
            labelRcmdr(middle_frame, text = gettext_Bio("     ")),
            labelRcmdr(middle_frame,
-                      text = gettext_Bio("Suffix for variable names:"),
+                      text = gettext_Bio("Suffix for variable names (optional):"),
                       fg = fg_col),
            sticky = "ew",
            pady = c(10, 0))

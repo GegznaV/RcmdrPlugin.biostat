@@ -7,7 +7,7 @@
 [![CRAN
 version](http://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.rstudio.com/web/packages/RcmdrPlugin.biostat/index.html)
 [![GitHub
-version](https://img.shields.io/badge/GitHub-v0.0.11-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
+version](https://img.shields.io/badge/GitHub-v0.0.12-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
 [![Travis-CI Build
 Status](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat)
 [![Updated-on](https://img.shields.io/badge/Updated%20on-2018--04--28-yellowgreen.svg)](/commits/master)
