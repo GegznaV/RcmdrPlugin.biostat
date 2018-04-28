@@ -97,13 +97,13 @@ menu	bs_rows_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"Rows"	bs_rows_menu	""	""
 
 item	bs_rows_menu	command	"[!] Arrange: sort rows"	window_rows_arrange	"FALSE"	""
-item	bs_rows_menu	command	"Filter: select rows that match conditions"	window_rows_filter0	"activeDataSetP()"	""
-item	bs_rows_menu	command	"[!] Slice: select/remove rows by position"	window_rows_slice	"FALSE"	""
+item	bs_rows_menu	command	"Filter: select rows that match conditions"	window_rows_filter0	"activeDataSetP()"	"packageAvailable('dplyr')"
+item	bs_rows_menu	command	"Slice: select/remove rows by row index"	window_rows_slice	"activeDataSetP()"	"packageAvailable('dplyr')"
 item	bs_rows_menu	separator	""	""	""	""
-item	bs_rows_menu	command	"[!] Remove empty rows"	function_not_implemented	"FALSE"	""
-item	bs_rows_menu	command	"[!] Remove rows with duplicated values"	function_not_implemented	"FALSE"	""
-item	bs_rows_menu	command	"[!] Remove rows with missing values"	function_not_implemented	"FALSE"	""
-item	bs_rows_menu	command	"[!] Fill missing values with..."	function_not_implemented	"FALSE"	""
+item	bs_rows_menu	command	"[!] Remove empty rows"	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
+item	bs_rows_menu	command	"[!] Remove rows with duplicated values"	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
+item	bs_rows_menu	command	"[!] Remove rows with missing values"	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
+item	bs_rows_menu	command	"[!] Fill missing values with..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
 
 item	bs_rows_menu	separator	""	""	""	""
 item	bs_rows_menu	command	"Print row names"	command_rownames	"activeDataSetP()"	""
@@ -125,7 +125,7 @@ menu	bs_varible_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"Variables (columns)"	bs_varible_menu	""	""
 
 item	bs_varible_menu	command	"Print variable (column) names"	command_colnames	"activeDataSetP()"	""
-item	bs_varible_menu	command	"[!] Rename variables"	function_not_implemented	"FALSE"	"packageAvailable('dplyr')"
+item	bs_varible_menu	command	"Rename variables"	window_variable_rename	"activeDataSetP()"	"packageAvailable('dplyr')"
 # item	bs_varible_menu	command	"Change variable (column) names"	window_change_colnames	"activeDataSetP()"	""
 
 
