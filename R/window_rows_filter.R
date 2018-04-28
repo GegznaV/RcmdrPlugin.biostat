@@ -135,9 +135,10 @@ window_rows_filter <- function(new_dsname = NULL,
             }
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        Library("tidyverse")
+        Library("dplyr")
         command <- glue("{new_dsname} <- {activeDataSet()} %>% \n",
-                        "dplyr::filter({conditions})")
+                        "dplyr::filter({conditions})") %>%
+            style_cmd()
 
         result <- justDoIt(command)
 
