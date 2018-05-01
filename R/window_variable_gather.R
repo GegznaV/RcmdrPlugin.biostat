@@ -2,6 +2,16 @@
 # 1. Add possibility to select columns, that must not be gathered,
 #    e.g. "-Species" vs. "Species".
 #
+# 2. Quote variable names with ticks where needed:
+# (if include space or special symbol or if make.names(x) != x):
+#
+# # > ## Convert to long-format data frame
+# Piestilgiai_long <- Piestilgiai %>%
+#         tidyr::gather(
+#                  key = "key", value = "values",
+#                  Nr.1, `Nr 2`, Nr.3, Nr.4, Nr.5,
+#                  factor_key = TRUE
+#              )
 #
 
 #' @rdname Menu-window-functions
@@ -175,7 +185,7 @@ window_variable_gather <- function() {
             if (gather_all == TRUE) {
                 ""
             } else {
-                stringr::str_c(",\n", stringr::str_c(variables, collapse = ", "))
+                stringr::str_c(",\n", stringr::str_c("`", variables, "`", collapse = ", "))
             }
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
