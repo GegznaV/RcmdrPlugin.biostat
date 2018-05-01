@@ -126,6 +126,7 @@ item	BioStat_menu	cascade	"Variables (columns)"	bs_varible_menu	""	""
 
 item	bs_varible_menu	command	"Print variable (column) names"	command_colnames	"activeDataSetP()"	""
 item	bs_varible_menu	command	"Rename variables"	window_variable_rename	"activeDataSetP()"	"packageAvailable('dplyr')"
+# item	bs_varible_menu	command	"Copy variables"	window_variable_copy	"activeDataSetP()"	"packageAvailable('dplyr')"
 # item	bs_varible_menu	command	"Change variable (column) names"	window_change_colnames	"activeDataSetP()"	""
 
 
@@ -191,10 +192,10 @@ item	bs_var_fct_menu	command	"[!] Add levels"	function_not_implemented	"FALSE & 
 #    Collapse levels manually
 #    Collapse least/most common levels into "other"
 #    Replace levels with "other"
-item	bs_var_fct_menu	command	'[!] Collapse/Merge levels'	function_not_implemented	"FALSE & factorsP()"	""
-item	bs_var_fct_menu	command	"Drop unused levels"	window_factor_lvls_drop	"factorsP()"	""
+item	bs_var_fct_menu	command	'[!] Collapse/Merge levels'	function_not_implemented	"FALSE & factors_true_P()"	""
+item	bs_var_fct_menu	command	"Drop unused levels"	window_factor_lvls_drop	"factors_true_P()"	""
 # item	bs_var_fct_menu	command	"[!] Remove levels"	function_not_implemented	"FALSE & factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Rename levels"	function_not_implemented	"FALSE & factorsP()"	""
+item	bs_var_fct_menu	command	"[!] Rename levels"	function_not_implemented	"FALSE & factors_true_P()"	""
 # Reorder factor levels automatically:
 #     Reorder by sorting along another variable: variable name; summary function, .desc = FALSE
 #     Reorder in frequency         : ordered = NA, TRUE, FALSE
