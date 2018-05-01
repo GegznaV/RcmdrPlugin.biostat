@@ -2,17 +2,21 @@
 #
 # 1. Simplify code.
 # 2. Use "forcats" functions where possible.
+# 3. Restrict method to factors only and not variables, that are not factors but
+#   are treated as factors by  R Commander (i.e., characters and logicals):
+#           [3] ERROR: no applicable method for 'droplevels' applied to
+#                      an object of class "character".
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_factor_lvls_reorder <- function() {
+window_fct_reorder_lvls <- function() {
     initializeDialog(title = gettext_Bio("Reorder factor levels"))
     variableBox <-
         variableListBox2(
             top,
-            Factors(),
+            variables_fct(),
             title = gettext_Bio("Factor (pick one)"),
             listHeight = 7
         )
@@ -35,7 +39,7 @@ window_factor_lvls_reorder <- function() {
         closeDialog()
         if (length(variable) == 0) {
             errorCondition(
-                recall = window_factor_lvls_reorder,
+                recall = window_fct_reorder_lvls,
                 message = gettext_Bio("You must select a variable.")
             )
             return()
@@ -44,7 +48,7 @@ window_factor_lvls_reorder <- function() {
         if (name == gettext_Bio("<same as original>"))
             name <- variable
         if (!is.valid.name(name)) {
-            errorCondition(recall = window_factor_lvls_reorder,
+            errorCondition(recall = window_fct_reorder_lvls,
                            message = paste(
                                '"',
                                name,
@@ -56,7 +60,7 @@ window_factor_lvls_reorder <- function() {
         }
         if (is.element(name, Variables())) {
             if ("no" == tclvalue(checkReplace(name))) {
-                reorderFactor()
+                window_fct_reorder_lvls()
                 return()
             }
         }
@@ -69,7 +73,7 @@ window_factor_lvls_reorder <- function() {
         nvalues <- length(old.levels)
         ordered <- tclvalue(orderedVariable)
         if (nvalues > 30) {
-            errorCondition(recall = window_factor_lvls_reorder,
+            errorCondition(recall = window_fct_reorder_lvls,
                            message = sprintf(
                                gettext_Bio("Number of levels (%d) too large."),
                                nvalues
@@ -90,7 +94,7 @@ window_factor_lvls_reorder <- function() {
             }
             options(opt)
             if (any(sort(order) != 1:nvalues) || any(is.na(order))) {
-                errorCondition(recall = window_factor_lvls_reorder,
+                errorCondition(recall = window_fct_reorder_lvls,
                                message = paste(
                                    gettext_Bio("Order of levels must include all integers from 1 to "
                                    ),
@@ -104,23 +108,21 @@ window_factor_lvls_reorder <- function() {
                 ", ordered = TRUE"
             else
                 ""
+
+
+            levels_ok <- stringr::str_c('"',{levels},'"', collapse = ", ")
+
+            Library("forcats")
             command <-
-                paste(
-                    "factor(",
-                    .activeDataSet,
-                    "$",
-                    variable,
-                    ", levels = c(",
-                    paste(paste("'", levels, "'", sep = ""), collapse = ","),
-                    ")",
-                    ordered,
-                    ")",
-                    sep = ""
-                )
-            result <-
-                justDoIt(paste(.activeDataSet, "$", name, " <- ", command, sep = ""))
-            logger(paste(.activeDataSet, "$", name, " <- ", command, sep =
-                             ""))
+                glue(
+                    "{.activeDataSet} <- within({.activeDataSet}, {{",
+                    "{name} <- factor({variable}, levels = c({levels_ok}){ordered})",
+                    "}})"
+                ) %>% style_cmd()
+
+            result <- justDoIt(command)
+            logger(command)
+
             if (class(result)[1] !=  "try-error")
                 activeDataSet(.activeDataSet, flushModel = FALSE)
         }
