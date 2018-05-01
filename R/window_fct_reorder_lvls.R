@@ -2,6 +2,10 @@
 #
 # 1. Simplify code.
 # 2. Use "forcats" functions where possible.
+# 3. Restrict method to factors only and not variables, that are not factors but
+#   are treated as factors by  R Commander (i.e., characters and logicals):
+#           [3] ERROR: no applicable method for 'droplevels' applied to
+#                      an object of class "character".
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
@@ -12,7 +16,7 @@ window_fct_reorder_lvls <- function() {
     variableBox <-
         variableListBox2(
             top,
-            Factors(),
+            variables_fct(),
             title = gettext_Bio("Factor (pick one)"),
             listHeight = 7
         )
@@ -111,17 +115,14 @@ window_fct_reorder_lvls <- function() {
             Library("forcats")
             command <-
                 glue(
-                    "within({.activeDataSet}, {{",
+                    "{.activeDataSet} <- within({.activeDataSet}, {{",
                     "{name} <- factor({variable}, levels = c({levels_ok}){ordered})",
                     "}})"
                 ) %>% style_cmd()
 
+            result <- justDoIt(command)
+            logger(command)
 
-            result <-
-                justDoIt(paste(.activeDataSet, "$", name, " <- ", command, sep = ""))
-
-            logger(paste(.activeDataSet, "$", name, " <- ", command, sep =
-                             ""))
             if (class(result)[1] !=  "try-error")
                 activeDataSet(.activeDataSet, flushModel = FALSE)
         }

@@ -105,7 +105,7 @@ nonFactorsP <- function(n = 1) {
 #' @export
 #' @keywords internal
 class_ggplot_P <- function(n = 1) {
-    #  n - number of non-factors.
+    #  n - number of ggplot objects.
     length(objects_of_class("ggplot", envir = .GlobalEnv)) >= n
 }
 
@@ -114,7 +114,7 @@ class_ggplot_P <- function(n = 1) {
 #' @export
 #' @keywords internal
 objects_in_env_P <- function(n = 1, envir = .GlobalEnv, ...) {
-    #  n - number of non-factors.
+    #  n - number of objects.
     isTRUE(length(objects(envir = envir, ...)) >= n)
 }
 # ------------------------------------------------------------------------------
@@ -148,6 +148,20 @@ characterP <- function(n = 1) {
         (sum(eval_glue("mapply(is.character, {activeDataSet()})")) >= n)
 }
 # ------------------------------------------------------------------------------
+#' Does active dataset contain true factors?
+#'
+#' Return TRUE, if at least n factor variables exist in the active dataset.
+#' Function `Factors()` list factor-like data including characters and logicals.
+#'
+#' @param n Minimum number of logical variables
+#'
+#' @keywords internal
+#' @export
+factors_true_P <- function(n = 1) {
+    activeDataSetP() &&
+        (sum(eval_glue("mapply(is.factor, {activeDataSet()})")) >= n)
+}
+# ------------------------------------------------------------------------------
 #' Does active dataset contain logicals?
 #'
 #' Return TRUE, if at least n locical variables exist in the active dataset.
@@ -176,7 +190,14 @@ variables_lgl <- function() {
     objects_of_class("logical",
                      envir = as.environment(globalenv()[[activeDataSet()]]))
 }
-
+#' True factor variables names in active dataset
+#'
+#' @keywords internal
+#' @export
+variables_fct <- function() {
+    objects_of_class("factor",
+                     envir = as.environment(globalenv()[[activeDataSet()]]))
+}
 #' ...
 #'
 #' @keywords internal

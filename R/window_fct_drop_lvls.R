@@ -16,7 +16,7 @@ window_factor_lvls_drop <- function() {
         ttkcheckbutton(allFrame, variable = allfactorsVariable)
     variablesBox <- variableListBox2(
         top,
-        Factors(),
+        variables_fct(),
         title = gettext_Bio("Factors(s) to drop levels \n(pick one or more)"),
         selectmode = "multiple",
         initialSelection = NULL,
