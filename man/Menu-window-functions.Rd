@@ -98,7 +98,7 @@
 \alias{window_variable_gather}
 \alias{window_variable_mutate0}
 \alias{window_variable_mutate}
-\alias{window_variable_recode}
+\alias{window_variable_recode0}
 \alias{window_variable_rename}
 \title{RcmdrPlugin.biostat functions for menus and windows.}
 \usage{
@@ -270,7 +270,7 @@ window_variable_mutate0(variables)
 window_variable_mutate(var_name = NULL, init_express = NULL,
   incorrect_expr_msg = NULL)
 
-window_variable_recode()
+window_variable_recode0()
 
 window_variable_rename()
 }

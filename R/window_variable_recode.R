@@ -54,7 +54,7 @@ recode_values_template <- function(x) {
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_variable_recode <- function() {
+window_variable_recode0 <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = gettext_Bio("Recode Variable Values"))
@@ -69,7 +69,7 @@ window_variable_recode <- function() {
             initial_selected_variable = "{none}"
         )
 
-    dialog_values <- getDialog("window_variable_recode", defaults)
+    dialog_values <- getDialog("window_variable_recode0", defaults)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     selected_var_frame <- tkframe(top)
     selected_variable  <- tclVar(dialog_values$initial_selected_variable)
@@ -207,7 +207,7 @@ window_variable_recode <- function() {
         # Is empty? ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (recode_directives == "") {
             errorCondition(
-                recall  = window_variable_recode,
+                recall  = window_variable_recode0,
                 message = gettext_Bio("No recode directives specified.")
             )
             return()
@@ -219,7 +219,7 @@ window_variable_recode <- function() {
         # If no variable is selected
         if (length(variables) == 0 || selected_variable == "{none}") {
             errorCondition(
-                recall  = window_variable_recode,
+                recall  = window_variable_recode0,
                 message = gettext_Bio("You must select a variable.")
             )
             return()
@@ -231,7 +231,7 @@ window_variable_recode <- function() {
         # check variable name for validity
         if (!is.valid.name(name)) {
             errorCondition(
-                recall  = window_variable_recode,
+                recall  = window_variable_recode0,
                 message = glue::glue('"{name}"',
                                      gettext_Bio("is not a valid name."))
             )
@@ -240,12 +240,12 @@ window_variable_recode <- function() {
 
         if (name %in% Variables()) {
             if ("no" == tclvalue(checkReplace(name))) {
-                window_variable_recode()
+                window_variable_recode0()
                 return()
             }
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        putDialog("window_variable_recode",
+        putDialog("window_variable_recode0",
                   list(
                       # initial_make_factor       = make_factor,
                       initial_variables         = variables,
@@ -312,8 +312,8 @@ window_variable_recode <- function() {
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      OKCancelHelp(helpSubject = "recode_factor",
-                 reset = "window_variable_recode",
-                 apply = "window_variable_recode")
+                 reset = "window_variable_recode0",
+                 apply = "window_variable_recode0")
 
     tkgrid(upper_frame, sticky = "nw")
     tkgrid(getFrame(variablesBox),
