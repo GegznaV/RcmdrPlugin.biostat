@@ -209,7 +209,7 @@ window_lgl_convert <- function() {
         tkfocus(CommanderWindow())
     } # [end: onOK] ----------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "vector-coercion")
+    OKCancelHelp(helpSubject = "factor")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(intoFrame, padx = c(15, 5))
     tkgrid(getFrame(variableBox), into_outter_Frame, sticky = "nw")

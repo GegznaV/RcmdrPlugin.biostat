@@ -479,7 +479,7 @@ window_variable_recode0 <- function() {
         pady = c(0, 9)
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     OKCancelHelp(helpSubject = "recode_factor",
+     OKCancelHelp(helpSubject = "recode_factor", helpPackage = "dplyr",
                  reset = "window_variable_recode0",
                  apply = "window_variable_recode0")
 

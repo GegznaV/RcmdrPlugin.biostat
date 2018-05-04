@@ -90,7 +90,7 @@ window_ggedit <- function() {
         tkfocus(CommanderWindow())
     } # [end: onOK] ----------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "ggedit")
+    OKCancelHelp(helpSubject = "ggedit", helpPackage = "ggedit")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # tkgrid(labelRcmdr(top,
     #                   text = gettext_Bio("Select a `ggplot` object to modify:"),

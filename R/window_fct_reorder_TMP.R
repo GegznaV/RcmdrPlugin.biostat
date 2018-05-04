@@ -209,7 +209,7 @@ window_fct_reorder <- function() {
     } #END: onOK
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "fct_relevel")
+    OKCancelHelp(helpSubject = "fct_relevel", helpPackage = "forcats")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(getFrame(variableBox), new_name_frame,  sticky = "nsw")
 

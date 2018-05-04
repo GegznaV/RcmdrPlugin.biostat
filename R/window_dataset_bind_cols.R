@@ -112,7 +112,7 @@ window_dataset_bind_cols <- function() {
         tkfocus(CommanderWindow())
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "bind_cols")
+    OKCancelHelp(helpSubject = "bind_cols", helpPackage = "dplyr")
 
 
     tkgrid(labelRcmdr(names_Frame, text = gettextRcmdr("Name for the resulting dataset:  ")),

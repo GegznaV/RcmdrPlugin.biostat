@@ -218,6 +218,7 @@ window_do_summary <- function() {
     # ** Footer ------------------------------------------------------------------
     OKCancelHelp(
         helpSubject = "do_summary",
+        helpPackage = "biostat",
         model = TRUE,
         reset = "window_do_summary",
         apply = "window_do_summary"

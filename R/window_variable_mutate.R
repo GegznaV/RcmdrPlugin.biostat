@@ -178,7 +178,7 @@ window_variable_mutate <- function(var_name = NULL,
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "mutate",
+    OKCancelHelp(helpSubject = "mutate", helpPackage = "dplyr",
                  reset = "window_variable_mutate",
                  apply = "window_variable_mutate")
 

@@ -152,7 +152,7 @@ window_variable_rename <- function() {
         fg = fg_col),
         pady = c(5, 9))
 
-    OKCancelHelp(helpSubject = "rename")
+    OKCancelHelp(helpSubject = "rename", helpPackage = "dplyr")
     tkgrid(variables_frame, sticky = "w", columnspan = 2)
     tkgrid(getFrame(variableBox), sticky = "nwe")
     tkgrid(buttonsFrame, sticky = "we")

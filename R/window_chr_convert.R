@@ -189,7 +189,7 @@ window_chr_convert <- function() {
         tkfocus(CommanderWindow())
     } # [end: onOK] ----------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "parse_atomic")
+    OKCancelHelp(helpSubject = "parse_double", helpPackage = "readr")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(intoFrame, padx = c(15, 5))
     tkgrid(getFrame(variableBox), into_outter_Frame, sticky = "nw")

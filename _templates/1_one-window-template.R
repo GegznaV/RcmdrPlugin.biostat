@@ -243,6 +243,7 @@ window_... <- function() {
     # OKCancelHelp()
     OKCancelHelp(
         helpSubject = "do_summary",
+        helpPackage = "...",
         model = TRUE,
         reset = "window_...",
         apply = "window_..."

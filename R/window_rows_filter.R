@@ -165,7 +165,7 @@ window_rows_filter <- function(new_dsname = NULL,
     }
 
     # ========================================================================
-    OKCancelHelp(helpSubject = "filter",
+    OKCancelHelp(helpSubject = "filter", helpPackage = "dplyr",
                  reset = "window_rows_filter",
                  apply = "window_rows_filter")
     # Title ------------------------------------------------------------------

@@ -340,7 +340,7 @@ window_test_normality <- function() {
     tkgrid(numerical_options_Frame, padx = c(5, 0), sticky = "swe")
     tkgrid(digits_pFrame, sticky = "swe")
     # Buttons ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "normalityTest",
+    OKCancelHelp(helpSubject = "test_normality", helpPackage = "biostat",
                  reset = "window_test_normality",
                  apply = "window_test_normality")
 

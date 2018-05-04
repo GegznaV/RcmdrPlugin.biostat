@@ -52,7 +52,7 @@ window_rownames_to_col <- function(){
         tkfocus(CommanderWindow())
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "rownames_to_column")
+    OKCancelHelp(helpSubject = "rownames_to_column", helpPackage = "tibble")
 
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
