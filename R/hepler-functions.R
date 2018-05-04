@@ -176,7 +176,7 @@ characterP <- function(n = 1) {
 #'
 #' @keywords internal
 #' @export
-factors_true_P <- function(n = 1) {
+factors_strict_P <- function(n = 1) {
     activeDataSetP() &&
         (sum(eval_glue("mapply(is.factor, {activeDataSet()})")) >= n)
 }
@@ -223,10 +223,11 @@ variables_fct <- function() {
 #' @export
 var_pos_n <- function(variables,
                       type = c("all",
-                               "factor",
                                "numeric",
-                               "nonfactor",
+                               "factor",
+                               "factor_strict",
                                "twoLevelFactor",
+                               "nonfactor",
                                "character",
                                "logical"
                                ), vars = NULL)
@@ -240,6 +241,7 @@ var_pos_n <- function(variables,
             all = Variables(),
             character = variables_chr(),
             logical = variables_lgl(),
+            factor_strict = variables_fct(),
             factor = Factors(),
             numeric = Numeric(),
             nonfactor = setdiff(Variables(),

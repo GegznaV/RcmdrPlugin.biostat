@@ -9,7 +9,7 @@ window_dataset_new_rcmdr <- function() {
     # Window to choose dataset's name
 
     initializeDialog(title = gettextRcmdr("Create a New Dataset"))
-    dsname <- tclVar("new_dataset")
+    dsname <- tclVar(unique_df_name("new_dataset"))
     entryDsname <- ttkentry(top, width = "30", textvariable = dsname)
 
     onOK <- function() {

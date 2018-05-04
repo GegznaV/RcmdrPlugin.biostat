@@ -12,7 +12,7 @@ window_dataset_bind <- function() {
 
     # [!!!] functions to get and put diaglog are needed.
     initializeDialog(title = gettextRcmdr("Bind Datasets"))
-    dsname <- tclVar("new_dataset")
+    dsname <- tclVar(unique_df_name("new_dataset"))
     idname <- tclVar(".old_dataset_id")
 
 

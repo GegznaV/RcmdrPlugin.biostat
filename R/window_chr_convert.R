@@ -6,18 +6,6 @@
 #        + add separate window for name input
 #        + add boxes for prefix/suffix inputs.
 
-# parse_logical(x, na = c("", "NA"), locale = default_locale(),
-#               trim_ws = TRUE)
-#
-# parse_integer(x, na = c("", "NA"), locale = default_locale(),
-#               trim_ws = TRUE)
-#
-# parse_double(x, na = c("", "NA"), locale = default_locale(),
-#              trim_ws = TRUE)
-#
-# parse_factor(x, levels, ordered = FALSE, na = c("", "NA"),
-#              locale = default_locale(), include_na = TRUE, trim_ws = TRUE)
-
 #' Rcmdr windows for variable class conversion
 #'
 #' @export

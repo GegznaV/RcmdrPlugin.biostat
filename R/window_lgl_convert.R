@@ -1,25 +1,11 @@
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-# parse_logical(x, na = c("", "NA"), locale = default_locale(),
-#               trim_ws = TRUE)
-#
-# parse_integer(x, na = c("", "NA"), locale = default_locale(),
-#               trim_ws = TRUE)
-#
-# parse_double(x, na = c("", "NA"), locale = default_locale(),
-#              trim_ws = TRUE)
-#
-# parse_factor(x, levels, ordered = FALSE, na = c("", "NA"),
-#              locale = default_locale(), include_na = TRUE, trim_ws = TRUE)
-
-
 # TODO:
 #
 # 1. Implement window for new variable names.
 # 2. Enable this option to chose names.
 # 3. Activate-inactivate suffix window. Plot/hide suffix window.
+# 4. Automatically update suffix in suffix entry (as is done in log transform window).
 
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Rcmdr windows for variable class conversion
 #'
 #' @export

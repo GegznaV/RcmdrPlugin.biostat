@@ -192,10 +192,10 @@ item	bs_var_fct_menu	command	"[!] Add levels..."	function_not_implemented	"FALSE
 #    Collapse levels manually
 #    Collapse least/most common levels into "other"
 #    Replace levels with "other"
-item	bs_var_fct_menu	command	'[!] Collapse/Merge levels...'	function_not_implemented	"FALSE & factors_true_P()"	""
-item	bs_var_fct_menu	command	"Drop unused levels..."	window_factor_lvls_drop	"factors_true_P()"	""
+item	bs_var_fct_menu	command	'[!] Collapse/Merge levels...'	function_not_implemented	"FALSE & factors_strict_P()"	""
+item	bs_var_fct_menu	command	"Drop unused levels..."	window_factor_lvls_drop	"factors_strict_P()"	""
 # item	bs_var_fct_menu	command	"[!] Remove levels"	function_not_implemented	"FALSE & factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Rename levels..."	function_not_implemented	"FALSE & factors_true_P()"	""
+item	bs_var_fct_menu	command	"[!] Rename levels..."	function_not_implemented	"FALSE & factors_strict_P()"	""
 # Reorder factor levels automatically:
 #     Reorder by sorting along another variable: variable name; summary function, .desc = FALSE
 #     Reorder in frequency         : ordered = NA, TRUE, FALSE
@@ -206,17 +206,17 @@ item	bs_var_fct_menu	command	"[!] Rename levels..."	function_not_implemented	"FA
 #
 #     [checkbox:] Reverse the result
 #
-item	bs_var_fct_menu	command	"[!] Reorder levels automatically..."	function_not_implemented	"FALSE & factors_true_P()"	""
-item	bs_var_fct_menu	command	"Reorder levels by hand..."	window_fct_reorder_lvls	"factors_true_P()"	""
+item	bs_var_fct_menu	command	"[!] Reorder levels automatically..."	function_not_implemented	"FALSE & factors_strict_P()"	""
+item	bs_var_fct_menu	command	"Reorder levels by hand..."	window_fct_reorder_lvls	"factors_strict_P()"	""
 
-# item	bs_var_fct_menu	command	"[!] Reorder levels in frequency"	function_not_implemented	"FALSE & factors_true_P()"	""
-# item	bs_var_fct_menu	command	"[!] Reverse levels"	function_not_implemented	"FALSE & factors_true_P()"	""
+# item	bs_var_fct_menu	command	"[!] Reorder levels in frequency"	function_not_implemented	"FALSE & factors_strict_P()"	""
+# item	bs_var_fct_menu	command	"[!] Reverse levels"	function_not_implemented	"FALSE & factors_strict_P()"	""
 
 item	bs_var_fct_menu	separator	""	""	""	""
-item	bs_var_fct_menu	command	"[!] Convert missing values into explicit level..."	function_not_implemented	"FALSE & factors_true_P()"	""
+item	bs_var_fct_menu	command	"[!] Convert missing values into explicit level..."	function_not_implemented	"FALSE & factors_strict_P()"	""
 item	bs_var_fct_menu	separator	""	""	""	""
-item	bs_var_fct_menu	command	"[!] Convert factor into..."	function_not_implemented	"FALSE & factors_true_P()"	""
-item	bs_var_fct_menu	command	"[!] Switch between nominal and ordinal..."	function_not_implemented	"FALSE & factors_true_P()"	""
+item	bs_var_fct_menu	command	"[!] Convert factor into..."	function_not_implemented	"FALSE & factors_strict_P()"	""
+item	bs_var_fct_menu	command	"[!] Switch between nominal and ordinal..."	function_not_implemented	"FALSE & factors_strict_P()"	""
 item	bs_var_fct_menu	separator	""	""	""	""
 
 # Logical variables --------------------------------------------------

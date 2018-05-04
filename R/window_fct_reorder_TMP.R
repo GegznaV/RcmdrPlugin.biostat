@@ -5,7 +5,7 @@
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_fct_reorder <- function() {
+window_fct_reorder_TMP <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initial_new_name_variable <- tclVar(gettextRcmdr("New variable name goes here..."))
