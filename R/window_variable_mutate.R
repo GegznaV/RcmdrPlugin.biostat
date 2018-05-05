@@ -68,7 +68,7 @@ window_variable_mutate <- function(var_name = NULL,
     computeFrame <- tkframe(top)
 
     if (is.null(var_name))
-        var_name <- unique_colname_2(gettext_EZR("new_variable"))
+        var_name <- unique_colnames_2(gettext_EZR("new_variable"))
 
     newVariableName <- tclVar(var_name)
 

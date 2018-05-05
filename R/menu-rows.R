@@ -46,7 +46,7 @@ command_rowid_to_col <- function() {
     #     mutate(row_number = 1:n()) %>%
     #     select(row_number, everything())
 
-    new_var <- unique_colname("row_number")
+    new_var <- unique_colnames("row_number")
 
     which_position <- "first"
 
