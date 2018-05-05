@@ -1,3 +1,7 @@
+# TODO:
+#
+# 1. Check code for possible inconsisnencies and bugs.
+
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
@@ -136,7 +140,9 @@ window_rows_filter <- function(new_dsname = NULL,
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Library("dplyr")
-        command <- glue("{new_dsname} <- {activeDataSet()} %>% \n",
+        command <- glue(
+            "## Select rows that match conditions \n",
+            "{new_dsname} <- {activeDataSet()} %>% \n",
                         "dplyr::filter({conditions})") %>%
             style_cmd()
 
@@ -156,11 +162,7 @@ window_rows_filter <- function(new_dsname = NULL,
             return()
         }
 
-        command <-
-            glue("# ", gettext_EZR("Create/Replace a data frame:"), " {new_dsname}\n",
-                 style_cmd(command))
         logger(command)
-
         tkfocus(CommanderWindow())
     }
 
