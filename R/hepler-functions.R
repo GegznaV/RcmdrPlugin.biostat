@@ -91,8 +91,9 @@ list_summaries_Models <- function(envir = .GlobalEnv, ...) {
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-function_not_implemented <- function(x = NULL) {
+function_not_implemented <- function() {
 
+    x = NULL
     doItAndPrint("# ~~~ Not implemented yet! ~~~\n")
 
     if (is.null(x)) {

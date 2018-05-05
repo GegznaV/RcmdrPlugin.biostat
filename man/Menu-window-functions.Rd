@@ -102,8 +102,8 @@
 \alias{window_table_to_df}
 \alias{window_test_normality}
 \alias{window_tmp}
-\alias{window_variable_delete0}
-\alias{window_variable_delete}
+\alias{window_variable_select0}
+\alias{window_variable_select}
 \alias{window_variable_gather}
 \alias{window_variable_mutate0}
 \alias{window_variable_mutate}
@@ -115,7 +115,7 @@ gettext_EZR(...)
 
 variables_with_unique_values_P(n = 1)
 
-function_not_implemented(x = NULL)
+function_not_implemented()
 
 class_ggplot_P(n = 1)
 
@@ -284,9 +284,9 @@ window_test_normality()
 
 window_tmp()
 
-window_variable_delete0(variables)
+window_variable_select0(variables)
 
-window_variable_delete(new_dsname = NULL, incorrect_cond_msg = NULL)
+window_variable_select(new_dsname = NULL, incorrect_cond_msg = NULL)
 
 window_variable_gather()
 
