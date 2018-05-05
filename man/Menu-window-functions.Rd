@@ -11,9 +11,9 @@
 %   R/window_rows_arrange.R, R/window_rows_filter.R, R/window_rows_slice.R,
 %   R/window_summary_count.R, R/window_summary_numeric_by_gr.R,
 %   R/window_table_to_df.R, R/window_test_normality.R, R/window_tmp.R,
-%   R/window_variable_delete.R, R/window_variable_gather.R,
-%   R/window_variable_mutate.R, R/window_variable_recode.R,
-%   R/window_variable_rename.R
+%   R/window_variable_gather.R, R/window_variable_mutate.R,
+%   R/window_variable_recode.R, R/window_variable_rename.R,
+%   R/window_variable_select.R
 \name{gettext_EZR}
 \alias{gettext_EZR}
 \alias{variables_with_unique_values_P}
@@ -102,13 +102,13 @@
 \alias{window_table_to_df}
 \alias{window_test_normality}
 \alias{window_tmp}
-\alias{window_variable_select0}
-\alias{window_variable_select}
 \alias{window_variable_gather}
 \alias{window_variable_mutate0}
 \alias{window_variable_mutate}
 \alias{window_variable_recode0}
 \alias{window_variable_rename}
+\alias{window_variable_select0}
+\alias{window_variable_select}
 \title{RcmdrPlugin.biostat functions for menus and windows.}
 \usage{
 gettext_EZR(...)
@@ -284,10 +284,6 @@ window_test_normality()
 
 window_tmp()
 
-window_variable_select0(variables)
-
-window_variable_select(new_dsname = NULL, incorrect_cond_msg = NULL)
-
 window_variable_gather()
 
 window_variable_mutate0(variables)
@@ -298,6 +294,10 @@ window_variable_mutate(var_name = NULL, init_express = NULL,
 window_variable_recode0()
 
 window_variable_rename()
+
+window_variable_select0(variables)
+
+window_variable_select(new_dsname = NULL, incorrect_cond_msg = NULL)
 }
 \description{
 Functions that open Rcmdr menus and windows windows.
