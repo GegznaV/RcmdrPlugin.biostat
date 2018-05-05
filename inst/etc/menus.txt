@@ -125,13 +125,14 @@ menu	bs_varible_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"Variables (columns)"	bs_varible_menu	""	""
 
 item	bs_varible_menu	command	"Print variable (column) names"	command_colnames	"activeDataSetP()"	""
+item	bs_varible_menu	separator	""	""	""	""
 item	bs_varible_menu	command	"Rename variables..."	window_variable_rename	"activeDataSetP()"	"packageAvailable('dplyr')"
+item	bs_varible_menu	command	"Select/Delete variables..."	window_variable_delete0	"activeDataSetP()"	"packageAvailable('dplyr')"
 # item	bs_varible_menu	command	"Copy variables"	window_variable_copy	"activeDataSetP()"	"packageAvailable('dplyr')"
 # item	bs_varible_menu	command	"Change variable (column) names"	window_change_colnames	"activeDataSetP()"	""
 
 
 item	bs_varible_menu	separator	""	""	""	""
-item	bs_varible_menu	command	"Delete/Select variables..."	window_variable_delete0	"activeDataSetP()"	"packageAvailable('dplyr')"
 item	bs_varible_menu	command	"Mutate: compute a variable..."	window_variable_mutate0	"activeDataSetP()"	"packageAvailable('dplyr')"
 item	bs_varible_menu	command	"Recode variable values..."	window_variable_recode0	"activeDataSetP()"	"packageAvailable('dplyr')"
 
