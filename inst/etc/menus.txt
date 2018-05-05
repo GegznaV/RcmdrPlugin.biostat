@@ -302,13 +302,18 @@ menu	bs_tests_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"Tests"	bs_tests_menu	""	""
 
 item	bs_tests_menu	command	"Test normality..."	window_test_normality	"numericP()"	""
-# item	bs_tests_menu	separator	""	""	""	""
-# item	bs_tests_menu	command	"[!] ANOVA, Kruskal-Wallis, Median tests"	window_anova_kw_mood_tests	"numericP() & factorsP()"	""
 
+
+# menu	bs_ceners_menu	bs_tests_menu	""	""	""	""
 # item	bs_tests_menu	cascade	"Central tendency"	bs_ceners_menu	""	""
+#
 # item	bs_ceners_menu	command	"One-way ANOVA"	function_not_implemented	"numericP() & factors_strict_P()"	""
 # item	bs_ceners_menu	command	"Welch F test"	function_not_implemented	"numericP() & factors_strict_P()"	""
 # item	bs_ceners_menu	command	"Kruskal-Wallis test"	function_not_implemented	"numericP() & factors_strict_P()"	""
+
+
+# item	bs_tests_menu	separator	""	""	""	""
+# item	bs_tests_menu	command	"[!] ANOVA, Kruskal-Wallis, Median tests"	window_anova_kw_mood_tests	"numericP() & factorsP()"	""
 # menu	bs_ceners_menu	bs_tests_menu	""	""	""	""
 # item	bs_ceners_menu	command	"[!] Independent samples (eactly 2)"	function_not_implemented	"numericP() & twoLevelFactorsP()"	""
 # item	bs_ceners_menu	command	"[!] Independent samples (2 or more)"	window_anova_kw_mood_tests	"numericP() & factorsP()"	""
