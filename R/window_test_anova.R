@@ -1,7 +1,12 @@
+
+
+
+
+
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_anova_kw_mood_tests <- function() {
+window_test_anova <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Required packages ------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -15,12 +20,12 @@ window_anova_kw_mood_tests <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     defaults <- list(
-            initial.response = NULL,
-            initial.group    = NULL,
-            initial.alpha    = 0.05,
-            initial.pairwise = 0,
-            initial.welch    = 0
-        )
+        initial.response = NULL,
+        initial.group    = NULL,
+        initial.alpha    = 0.05,
+        initial.pairwise = 0,
+        initial.welch    = 0
+    )
 
     dialog.values <- getDialog("window_anova_kw_mood_tests", defaults)
 
@@ -29,7 +34,7 @@ window_anova_kw_mood_tests <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Dialog elements --------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         tabs = c("dataTab", "mainTab",    "posthocTab",          "outputTab",        "plotsTab")
+    tabs = c("dataTab", "mainTab",    "posthocTab",          "outputTab",        "plotsTab")
     tab_names = c(" Data ", " Main test ", " Post-hoc analysis ", "Numerical output", "Plots ")
 
     initializeDialog(title = gettextRcmdr("Compare centers of independent samples"),
@@ -65,44 +70,21 @@ window_anova_kw_mood_tests <- function() {
                    tclvalue(ph_buttons) = c("none", "tukey_test", "gh_test", "pw_stud_t_test", "pw_welch_t_test")
                    tclvalue(ph_values)  = c("none", "tukey_test", "gh_test", "pw_stud_t_test", "pw_welch_t_test" )
                    tclvalue(ph_labels)  = s2u(c("none", "Tukey HSD test", "Games-Howell test", "Pairwise Student t test", "Pairwise Welch t test"))
-               },
-
-               "welch_anova" = {
-                   logger("Welch ANOVA")
-                   tclvalue(ph_buttons) = c("none", "gh_test", "pw_welch_t_test")
-                   tclvalue(ph_values)  = c("none", "gh_test", "pw_welch_t_test")
-                   tclvalue(ph_labels)  = s2u(c("none", "Games-Howell test", "Pairwise Welch t"))
-               },
-
-               "kw_test" = {
-                   logger("Kruskal-Wallis ANOVA")
-
-                   tclvalue(ph_buttons) = c("none", "con_im_test", "dunn_test", "nemenyi", "pw_wicoxon_test")
-                   tclvalue(ph_values)  = c("none", "con_im_test", "dunn_test", "nemenyi", "pw_wicoxon_test")
-                   tclvalue(ph_labels)  = s2u(c("none", "Conover-Iman test", "Dunn test", "Nemenyi test", "Pairwise Wilcoxon test"))
-               },
-
-               "mood_test" = {
-                   logger("Mood test")
-
-                   tclvalue(ph_buttons) = c("none", "pw_median_test")
-                   tclvalue(ph_values)  = c("none", "pw_median_test")
-                   tclvalue(ph_labels)  = s2u(c("none", "Pairwise median test", "Dunn test", "Nemenyi test"))
                }
 
         )
-               logger(paste(tclvalue_chr(ph_labels), collapse = ", "))
+        logger(paste(tclvalue_chr(ph_labels), collapse = ", "))
 
-               tkdestroy(posthoc_test_panel)
+        tkdestroy(posthoc_test_panel)
 
         radiobuttons_env(window = posthoc_test_panel,
-                            name = "posthoc_test",
-                            buttons = tclvalue_chr(ph_buttons),
-                            values  = tclvalue_chr(ph_values),
+                         name = "posthoc_test",
+                         buttons = tclvalue_chr(ph_buttons),
+                         values  = tclvalue_chr(ph_values),
 
-                            labels = gettext_Bio(u2s(tclvalue_chr(ph_labels))),
-                            title = gettext_Bio("Post-hoc test"), env = parent.frame()
-               )
+                         labels = gettext_Bio(u2s(tclvalue_chr(ph_labels))),
+                         title = gettext_Bio("Post-hoc test"), env = parent.frame()
+        )
 
         tkgrid(posthoc_testFrame,         pady = c(0, 5), padx = c(5, 5), sticky = "nw")
         tkgrid(getFrame(pval_adjustment), pady = c(5, 5), padx = c(5, 5), sticky = "nw")
@@ -112,24 +94,24 @@ window_anova_kw_mood_tests <- function() {
 
     # Main test --------------------------------------------------------------
     Rcmdr::radioButtons(window = main_top_frame,
-                 name = "main_test",
-                 buttons = c("anova", "welch_anova", "kw_test", "mood_test"),
-                 values  = c("anova", "welch_anova", "kw_test", "mood_test"),
-                 # initialValue = NULL,
+                        name = "main_test",
+                        buttons = c("anova", "welch_anova", "kw_test", "mood_test"),
+                        values  = c("anova", "welch_anova", "kw_test", "mood_test"),
+                        # initialValue = NULL,
 
-                 labels =  gettext_Bio(c("ANOVA",
-                                         "Welch ANOVA",
-                                         "Kruskal-Wallis test",
-                                         "Mood's median test")),
-                 title = gettext_Bio("Test"),
-                 command = function() {
-                     logger("ok")
-                     update_test_name()
-                     update_posthoc_choices()
-                     if (!missing("posthoc_test_panel"))
-                         tkdestroy(posthoc_test_panel)
-                     create_posthoc_tab(env = cur_env)
-                 }
+                        labels =  gettext_Bio(c("ANOVA",
+                                                "Welch ANOVA",
+                                                "Kruskal-Wallis test",
+                                                "Mood's median test")),
+                        title = gettext_Bio("Test"),
+                        command = function() {
+                            logger("ok")
+                            update_test_name()
+                            update_posthoc_choices()
+                            if (!missing("posthoc_test_panel"))
+                                tkdestroy(posthoc_test_panel)
+                            create_posthoc_tab(env = cur_env)
+                        }
 
     )
 
@@ -155,8 +137,8 @@ window_anova_kw_mood_tests <- function() {
                            textvariable = textEntryVarTcl)
 
     tkgrid(labelRcmdr(model_boxlFrame,
-               text = gettextRcmdr("Significance level (0-1):"),
-               fg = Rcmdr::getRcmdr("title.color")),
+                      text = gettextRcmdr("Significance level (0-1):"),
+                      fg = Rcmdr::getRcmdr("title.color")),
            pady = c(5, 0),
            sticky = "nw")
 
@@ -212,12 +194,12 @@ window_anova_kw_mood_tests <- function() {
         posthoc_test_panel <- labeled_frame(posthocTab, "Post-hoc test options")
 
         Rcmdr::radioButtons(window = posthoc_test_panel,
-                     name = "posthoc_test",
-                     buttons = tclvalue_chr(ph_buttons),
-                     values  = tclvalue_chr(ph_values),
+                            name = "posthoc_test",
+                            buttons = tclvalue_chr(ph_buttons),
+                            values  = tclvalue_chr(ph_values),
 
-                     labels = gettext_Bio(u2s(tclvalue_chr(ph_labels))),
-                     title = gettext_Bio("Post-hoc test")
+                            labels = gettext_Bio(u2s(tclvalue_chr(ph_labels))),
+                            title = gettext_Bio("Post-hoc test")
         )
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         pval_adjustment <- inputComboBox(
@@ -378,7 +360,7 @@ window_anova_kw_mood_tests <- function() {
     # tkgrid(optionsFrame, sticky = "w")
 
 
-   # ** Footer ------------------------------------------------------------------
+    # ** Footer ------------------------------------------------------------------
 
 
     OKCancelHelp(
@@ -458,7 +440,7 @@ do_anova <- function(variables) {
                }
 
 
-             },
+           },
            wanova = {
                glue('#  --- Welch ANOVA --- \n\n',
                     '{model_name} <- oneway.test({formula}) \n',
@@ -480,7 +462,7 @@ do_anova <- function(variables) {
 
            stop("Unrecognized test")
 
-           )
+    )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Patikrinti, ar pagrindinio testo rezultatas statistiškai reikšmingas
@@ -529,26 +511,26 @@ do_anova <- function(variables) {
 
                # Non-formula based
                # Pairwise Student t test
-                glue('# --- Post-hoc analysis: Pairwise Student t test ---\n\n',
-                     'with({.activeDataSet}, \n',
+               glue('# --- Post-hoc analysis: Pairwise Student t test ---\n\n',
+                    'with({.activeDataSet}, \n',
                     '     pairwise.t.test({y_var}, {gr_var}, \n',
                     '                     p.adjust.method = "{p_adj}", \n',
                     '                     pool.sd = TRUE))')
                # Pairwise Welch t test
-                glue('# --- Post-hoc analysis: Pairwise Welch t test ---\n\n',
-                     'with({.activeDataSet}, \n',
+               glue('# --- Post-hoc analysis: Pairwise Welch t test ---\n\n',
+                    'with({.activeDataSet}, \n',
                     '     pairwise.t.test({y_var}, {gr_var}, \n',
                     '                     p.adjust.method = "{p_adj}", \n',
                     '                     pool.sd = FALSE))')
 
                # Pairwise Wilcoxon t test
-                glue('# --- Post-hoc analysis: Pairwise Mann-Whitney-Wilcoxon test ---\n\n',
-                     'with({.activeDataSet}, \n',
+               glue('# --- Post-hoc analysis: Pairwise Mann-Whitney-Wilcoxon test ---\n\n',
+                    'with({.activeDataSet}, \n',
                     '     pairwise.wilcox.test({y_var}, {gr_var}, \n',
                     '                          p.adjust.method = "{p_adj}"))')
            }
 
-     )
+    )
 
     glue('cld_results <- make_cld(posthoc_results)',
          "\n\n",
@@ -565,4 +547,224 @@ do_anova <- function(variables) {
 
 
 }
+
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_test_anova2 <- function() {
+    cur_env <- environment()
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Default values ---------------------------------------------------------
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    defaults <- list(
+        initial.y_var      = NULL,
+        initial.gr_var     = NULL,
+        initial.digits     = "NA",
+        initial.keep_model = FALSE
+    )
+
+    dialog.values <- getDialog("window_test_anova2", defaults)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Dialog elements --------------------------------------------------------
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tabs =      c("dataTab", "optionsTab")
+    tab_names = c(" Data ",  " Options ")
+
+    initializeDialog(title = gettextRcmdr("One-way ANOVA"),
+                     use.tabs = TRUE, tabs = tabs)
+
+    # posthocFrame <- tkframe(posthocTab)
+    # plotsFrame <- tkframe(plotsTab)
+
+    # ** Data tab ------------------------------------------------------------
+    # . Variable selection -----------------------------------------------------
+
+    dataFrame <- tkframe(dataTab)
+    yBox <- variableListBox2(
+        dataFrame,
+        Numeric(),
+        selectmode = "single",
+        listHeight = 6,
+        title = gettextRcmdr("Response variable \n(pick one)"),
+        initialSelection = varPosn(dialog.values$initial.y_var, "numeric")
+    )
+
+    groupBox <- variableListBox2(
+        dataFrame,
+        selectmode = "single",
+        variables_fct(),
+        listHeight = 6,
+        title = gettextRcmdr("Group variable \n(pick one)"),
+        initialSelection = var_pos_n(dialog.values$initial.gr_var, "factor_strict"))
+
+    tkgrid(
+        getFrame(yBox),
+        labelRcmdr(dataFrame, text = "        "), # Vertical space
+        getFrame(groupBox),
+        sticky = "nw", pady = c(5, 5)
+    )
+    tkgrid(dataFrame, sticky = "w")
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ** Main tab ------------------------------------------------------------
+    # . Main test & model name textbox ---------------------------------------
+
+    main_top_frame <- tkframe(optionsTab)
+
+    labelText <- tclVar("Select the test") ### [!!!] Initial value
+
+    # Choose model name ------------------------------------------------------
+    modelName  <- tclVar(unique_obj_names(suffix = "_anova", all_numbered = TRUE))
+    model_boxlFrame <- tkframe(main_top_frame)
+    model <- ttkentry(model_boxlFrame, width = "20", textvariable = modelName)
+
+    bs_check_boxes(model_boxlFrame,
+                   # ttk = TRUE,
+                   frame = "keep_model_Frame",
+                   # title = "Plot options",
+                   boxes = c("keep_model"),
+                   initialValues = c(dialog.values$initial.keep_model),
+                   labels = gettextRcmdr(
+                       c("Keep summary for further analysis")
+                   ),
+                   commands = list("keep_model" = function(){})
+    )
+
+
+    tkgrid(labelRcmdr(model_boxlFrame,
+                      text = gettextRcmdr("Enter name for summary: "),
+                      fg = Rcmdr::getRcmdr("title.color")),   sticky = "w")
+
+    tkgrid(model, sticky = "ew")
+    tkgrid(keep_model_Frame, sticky = "ew")
+
+    tkgrid(model_boxlFrame, sticky = "nw")
+
+
+
+
+    digitsVar <- tclVar(dialog.values$initial.digits)
+
+    digitsVarFrame <- tkframe(main_top_frame)
+    digitsBox      <- ttkentry(digitsVarFrame, width = "20", textvariable = digitsVar)
+
+    tkgrid(labelRcmdr(digitsVarFrame,
+                      text = gettextRcmdr("Decimal digits to round to:\n(either integer or NA)"),
+                      fg = Rcmdr::getRcmdr("title.color")),   sticky = "w")
+
+    tkgrid(digitsBox, sticky = "ew")
+    tkgrid(digitsVarFrame, sticky = "nw")
+
+
+    tkgrid(main_top_frame, sticky = "nw")
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    onOK <- function() {
+
+        gr_var <- getSelection(groupBox)
+        y_var  <- getSelection(yBox)
+        digits <- suppressWarnings(tclvalue_int(digitsVar))
+        names(digits) <- NULL
+        model_name_Value <- trim.blanks(tclvalue(modelName))
+        keep_model <- tclvalue_lgl(keep_modelVariable)
+
+
+        if (!is.valid.name(model_name_Value)) {
+            UpdateModelNumber(-1)
+            errorCondition(recall = window_test_anova2,
+                           message = sprintf(gettextRcmdr("\"%s\" is not a valid name."),
+                                             model_name_Value))
+            return()
+        }
+
+        if (is.element(model_name_Value, list_summaries_Models())) {
+            if ("no" == tclvalue(checkReplace(model_name_Value,
+                                              type = gettextRcmdr("Model")))) {
+                UpdateModelNumber(-1)
+                tkdestroy(top)
+                window_test_anova2()
+                return()
+            }
+        }
+
+        closeDialog()
+
+        if (length(y_var) == 0) {
+            errorCondition(
+                recall = window_test_anova2,
+                message = gettextRcmdr("You must select a variable to summarize.")
+            )
+            return()
+        }
+
+        putDialog("window_test_anova2",
+                  list(initial.y_var  = y_var,
+                       initial.gr_var = gr_var,
+                       initial.digits = as.character(digits),
+                       initial.keep_model = keep_model
+                  )
+        )
+
+        # calculations -------------------------------------------------------
+        .activeDataSet <- ActiveDataSet()
+        Library("biostat")
+
+        if (length(y_var) > 1) {
+            y_var <- paste0(y_var, collapse = " + ")
+        }
+        # For many groups ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (length(gr_var) > 1) {
+            gr_var <- paste0(gr_var, collapse = " + ")
+        }
+
+        if (length(gr_var) == 0) {
+            formula = glue("~{y_var}")
+
+        } else {
+            formula = glue("{y_var} ~ {gr_var}")
+
+        }
+
+
+        if (keep_model) {
+            keep_model_command <- ""
+
+        } else {
+            UpdateModelNumber(-1)
+            keep_model_command <- glue("remove({model_name_Value})")
+        }
+
+        command <- style_cmd(glue(
+            "{model_name_Value} <- biostat::do_summary({formula}, ",
+            "data = {.activeDataSet})\n",
+            "print({model_name_Value}, digits = {digits})\n",
+            keep_model_command))
+
+        doItAndPrint(command)
+
+        # Post calculations --------------------------------------------------
+        # activeModel(model_name_Value)
+        # putRcmdr("modelWithSubset", FALSE)
+
+        tkfocus(CommanderWindow())
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ** Footer ------------------------------------------------------------------
+    OKCancelHelp(
+        helpSubject = "do_summary",
+        helpPackage = "biostat",
+        model = TRUE,
+        reset = "window_test_anova2",
+        apply = "window_test_anova2"
+    )
+    # tkgrid(buttonsFrame, sticky = "w")
+
+    dialogSuffix(use.tabs = TRUE, grid.buttons = TRUE,
+                 tabs = tabs,
+                 tab.names = tab_names)
+}
+# ==============================================================================
+
+
 

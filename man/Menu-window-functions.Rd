@@ -10,8 +10,8 @@
 %   R/window_pander.R, R/window_qqplot_biostat.R, R/window_row_names_to_col.R,
 %   R/window_rows_arrange.R, R/window_rows_filter.R, R/window_rows_slice.R,
 %   R/window_summary_count.R, R/window_summary_numeric_by_gr.R,
-%   R/window_table_to_df.R, R/window_test_normality.R, R/window_tmp.R,
-%   R/window_variable_gather.R, R/window_variable_mutate.R,
+%   R/window_table_to_df.R, R/window_test_anova.R, R/window_test_normality.R,
+%   R/window_tmp.R, R/window_variable_gather.R, R/window_variable_mutate.R,
 %   R/window_variable_recode.R, R/window_variable_rename.R,
 %   R/window_variable_select.R
 \name{gettext_EZR}
@@ -100,6 +100,8 @@
 \alias{window_summary_count}
 \alias{window_do_summary}
 \alias{window_table_to_df}
+\alias{window_test_anova}
+\alias{window_test_anova2}
 \alias{window_test_normality}
 \alias{window_tmp}
 \alias{window_variable_gather}
@@ -279,6 +281,10 @@ window_summary_count()
 window_do_summary()
 
 window_table_to_df()
+
+window_test_anova()
+
+window_test_anova2()
 
 window_test_normality()
 
