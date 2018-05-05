@@ -5,6 +5,8 @@
 # Change interface for name input:
 #        + add separate window for name input
 #        + add boxes for prefix/suffix inputs.
+# Add possibility to convert to time, date, datetime, etc.
+# Add possibility to automalically identify column class.
 
 #' Rcmdr windows for variable class conversion
 #'
@@ -58,7 +60,7 @@ window_chr_convert <- function() {
     suffixField <- ttkentry(top, width = "20", textvariable = suffix)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     radioButtons_horizontal(name = "which_names",
-                            title = gettext_Bio("Variables: "),
+                            title = gettext_Bio("Variable names: "),
                             title.color = getRcmdr("title.color"),
                             buttons = c("overwrite", "new_names"),
                             values  = c("overwrite", "new_names"),
@@ -161,8 +163,7 @@ window_chr_convert <- function() {
             }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         command <- style_cmd(command)
-
-        result <- justDoIt(command)
+        result  <- justDoIt(command)
 
         if (class(result)[1] != "try-error")
             activeDataSet(.activeDataSet, flushModel = FALSE)

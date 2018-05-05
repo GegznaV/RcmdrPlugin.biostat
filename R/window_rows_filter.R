@@ -1,6 +1,8 @@
 # TODO:
 #
 # 1. Check code for possible inconsisnencies and bugs.
+# 2. When push "Apply" and error occurs, two windows open. Apply is now disabled.
+#    It should be fixed.
 
 #' @rdname Menu-window-functions
 #' @export
@@ -44,9 +46,9 @@ window_rows_filter <- function(new_dsname = NULL,
     }
 
     # Dialog -----------------------------------------------------------------
-
     initializeDialog(
         title = gettext_EZR("Filter: create a subset of rows that match conditions"))
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
 
@@ -61,7 +63,7 @@ window_rows_filter <- function(new_dsname = NULL,
             upper_frame,
             title = gettext_EZR("Current variables \n(double-click to add to conditions)"),
             variableList = variable_labels,
-            listHeight = 7,
+            listHeight = 8,
             onDoubleClick_fun = onDoubleClick_variable
         )
 
@@ -168,8 +170,9 @@ window_rows_filter <- function(new_dsname = NULL,
 
     # ========================================================================
     OKCancelHelp(helpSubject = "filter", helpPackage = "dplyr",
-                 reset = "window_rows_filter",
-                 apply = "window_rows_filter")
+                 reset = "window_rows_filter"
+                 # , apply = "window_rows_filter"
+                 )
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
     tkgrid(label_rcmdr(
@@ -190,6 +193,7 @@ window_rows_filter <- function(new_dsname = NULL,
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid_text("\nExamples of logical conditions", fg = getRcmdr("title.color"))
+    tkgrid_text('Polular operations:   ==   !=   <   <=   >   >=    %in%   |   &   !   between()', fg = "darkgreen")
     tkgrid_text("Example 1: age < 10")
     tkgrid_text('Example 2: color %in% c("red", "yellow")')
     tkgrid_text('Example 3: !is.na(color)')

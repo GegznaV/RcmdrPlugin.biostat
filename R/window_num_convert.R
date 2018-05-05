@@ -1,4 +1,3 @@
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # TODO:
 #
@@ -11,7 +10,8 @@
 #' @export
 #' @keywords internal
 #' @family conversion
-#'
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 window_num_convert <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = gettext_Bio("Convert numeric variables into other classes"))
@@ -27,10 +27,10 @@ window_num_convert <- function() {
 
     variableBox <-
         variableListBox2(upper_Frame,
-                         variables_fct(),                                                     # [!!!] "character" is neaded
+                         Numeric(),
                          selectmode       = "multiple",
                          title            = gettext_Bio("Variables (pick one or more)"),
-                         initialSelection = var_pos_n(dialog_values$variables, "factor_strict"), # [!!!] "character" is neaded
+                         initialSelection = var_pos_n(dialog_values$variables, "numeric"),
                          listHeight       = 7
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -57,7 +57,7 @@ window_num_convert <- function() {
     suffixField <- ttkentry(top, width = "20", textvariable = suffix_var)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     radioButtons_horizontal(name = "which_names",
-                            title = gettext_Bio("Variables: "),
+                            title = gettext_Bio("Variable names: "),
                             title.color = getRcmdr("title.color"),
                             buttons = c("overwrite", "new_names"),
                             values  = c("overwrite", "new_names"),
@@ -101,12 +101,13 @@ window_num_convert <- function() {
                 new_names <-
                     if (suffix == gettext_Bio("<automatic suffix>")) {
                         suffix <- switch(into,
-                                         "factor"  = "fct",
-                                         "nominal" = "fct",
-                                         "ordinal" = "ord",
-                                         "number"  = "num",
-                                         "integer" = "int",
-                                         "logical" = "lgl",
+                                         "character" = "chr",
+                                         "factor"    = "fct",
+                                         "nominal"   = "fct",
+                                         "ordinal"   = "ord",
+                                         "number"    = "num",
+                                         "integer"   = "int",
+                                         "logical"   = "lgl",
                                          into)
                         paste0(variables, "_", suffix)
 
@@ -140,12 +141,11 @@ window_num_convert <- function() {
 
         Library("tidyverse")
 
-
         into_fun <- switch(into,
                            "character"  = "as.character" ,
-                           "ordinal"    = "factor" ,
-                           "nominal"    = "factor" ,
                            "factor"     = "as.factor" ,
+                           "nominal"    = "factor" ,
+                           "ordinal"    = "factor" ,
                            "number"     = "as.numeric"  ,
                            "integer"    = "as.integer" ,
                            "logical"    = "as.logical" ,

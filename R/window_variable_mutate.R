@@ -1,3 +1,11 @@
+# TODO:
+#
+# 1. When push "Apply" button and an error occurs, two windows open.
+#    Apply is now disabled and this should be fixed.
+#
+# 2. In variable box text [factor] should be differentiated
+#    to [character], [logical], [factor]
+
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
@@ -58,7 +66,7 @@ window_variable_mutate <- function(var_name = NULL,
             var_box_Frame,
             variables,
             title = gettext_EZR("Current variables \n(double-click to add to expression)"),
-            listHeight = 7,
+            listHeight = 8,
             onDoubleClick_fun = onDoubleClick_variable
         )
 
@@ -68,7 +76,7 @@ window_variable_mutate <- function(var_name = NULL,
     computeFrame <- tkframe(top)
 
     if (is.null(var_name))
-        var_name <- unique_colname_2(gettext_EZR("new_variable"))
+        var_name <- unique_colnames_2(gettext_EZR("new_variable"))
 
     newVariableName <- tclVar(var_name)
 
@@ -149,7 +157,6 @@ window_variable_mutate <- function(var_name = NULL,
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
         Library("tidyverse")
         # command <- glue("{dataSet}${newVar} <- with({ActiveDataSet()}, {express})")
         command <- glue("{dataSet} <- {dataSet} %>% \n",
@@ -179,8 +186,9 @@ window_variable_mutate <- function(var_name = NULL,
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     OKCancelHelp(helpSubject = "mutate", helpPackage = "dplyr",
-                 reset = "window_variable_mutate",
-                 apply = "window_variable_mutate")
+                 reset = "window_variable_mutate"
+                 # , apply = "window_variable_mutate"
+                 )
 
     tkgrid(var_box_Frame, sticky = "nw")
 
@@ -194,6 +202,8 @@ window_variable_mutate <- function(var_name = NULL,
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid_text("\nExamples of expressions", fg = getRcmdr("title.color"))
+    tkgrid_text('Polular operations:   +   -   *   /   ^   sqrt()    log()   rank()', fg = "darkgreen")
+
     tkgrid_text("Example 1: log(age)")
     tkgrid_text("Example 2: a + b")
     tkgrid_text("Example 3: as.factor(color)")

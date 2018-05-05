@@ -7,7 +7,7 @@ window_rownames_to_col <- function(){
 
     initializeDialog(title = gettextRcmdr("Move row names to column"))
 
-    name_variable <- tclVar(unique_colname("row_name"))
+    name_variable <- tclVar(unique_colnames("row_name"))
     name_frame <- tkframe(top)
     name_entry <- ttkentry(name_frame, width = "47", textvariable = name_variable)
 
@@ -38,7 +38,7 @@ window_rownames_to_col <- function(){
         Library("tibble")
 
         command <- glue(
-            "## ", gettext_Bio("Move row names to column"), "\n\n",
+            "## ", gettext_Bio("Move row names to column"), "\n",
             "{activeDataSet()} <- {activeDataSet()} %>% \n",
             'tibble::rownames_to_column("{new_name}")') %>%
             style_cmd()

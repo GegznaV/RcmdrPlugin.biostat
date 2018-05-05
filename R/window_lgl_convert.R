@@ -80,10 +80,10 @@ window_lgl_convert <- function() {
         variables   <- getSelection(variableBox)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         putDialog("window_lgl_convert",
-                  list(suffix = {if (nchar(suffix) == 0) gettext_Bio("<automatic suffix>") else suffix},
-                       into = into,
+                  list(suffix      = {if (nchar(suffix) == 0) gettext_Bio("<automatic suffix>") else suffix},
+                       into        = into,
                        which_names = which_names,
-                       variables = variables
+                       variables   = variables
                   )
         )
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -116,11 +116,13 @@ window_lgl_convert <- function() {
                 new_names <-
                     if (suffix == gettext_Bio("<automatic suffix>")) {
                         suffix <- switch(into,
-                                         "factor"  = "fct",
-                                         "number"  = "num",
-                                         "integer" = "int",
-                                         "logical" = "lgl",
-                                         "text"    = "chr",
+                                         "character" = "chr",
+                                         "factor"    = "fct",
+                                         "nominal"   = "fct",
+                                         "ordinal"   = "ord",
+                                         "number"    = "num",
+                                         "integer"   = "int",
+                                         "logical"   = "lgl",
                                          into)
                         paste0(variables, "_", suffix)
 

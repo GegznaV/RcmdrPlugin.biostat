@@ -79,7 +79,7 @@ window_do_summary <- function() {
     # Choose model name ------------------------------------------------------
     UpdateModelNumber()
 
-    modelName  <- tclVar(unique_obj_name(suffix = "_summary", all_numbered = TRUE))
+    modelName  <- tclVar(unique_obj_names(suffix = "_summary", all_numbered = TRUE))
     model_boxlFrame <- tkframe(main_top_frame)
     model <- ttkentry(model_boxlFrame, width = "20", textvariable = modelName)
 

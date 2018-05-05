@@ -252,7 +252,7 @@ window_variable_recode0 <- function() {
 
         # Change new variable name
         tclvalue(newVariableName) <-
-            unique_colname(active_variable, suffix = "_recoded")
+            unique_colnames(active_variable, suffix = "_recoded")
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

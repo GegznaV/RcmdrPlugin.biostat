@@ -10,49 +10,54 @@ gettext_EZR <- function(...) {
 # Make a unique name for an object (e.g., data frame) by adding numbers
 #
 # @param name - name of dataset before suffix and preffix are added.
-unique_obj_name <- function(name = ActiveDataSet(),
+unique_obj_names <- function(names = ActiveDataSet(),
                             preffix = "",
                             suffix = "",
                             list_of_choices = objects(all.names = TRUE, envir = .GlobalEnv),
                             all_numbered = FALSE) {
-    initial_name <- glue("{preffix}{name}{suffix}")
+    initial_names <- glue("{preffix}{names}{suffix}")
 
-    list_to_check <- if (all_numbered) {
-        c(list_of_choices, initial_name, initial_name)
+    n_names <- length(names)
 
-    } else {
-        c(list_of_choices, initial_name)
-    }
+    list_to_check <-
+        if (all_numbered) {
+            c(list_of_choices, initial_names, initial_names)
+
+        } else {
+            c(list_of_choices, initial_names)
+        }
 
     list_to_check %>%
         make.unique(sep = "_") %>%
-        rev() %>% .[1]   # select the last element
+        rev() %>%
+        .[1:n_names] %>%    # select the last elements
+        rev()
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-unique_df_name <- function(name = ActiveDataSet(),
+unique_df_name <- function(names = ActiveDataSet(),
                            preffix = "",
                            suffix = "",
                            list_of_choices = objects(all.names = TRUE, envir = .GlobalEnv),
                            all_numbered = FALSE) {
 
-    unique_obj_name(name, preffix, suffix, list_of_choices, all_numbered)
+    unique_obj_names(names, preffix, suffix, list_of_choices, all_numbered)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-unique_colname <- function(name = "",
-                           preffix = "",
-                           suffix = "",
-                           list_of_choices = listVariables(),
-                           all_numbered = FALSE) {
+unique_colnames <- function(names = "",
+                            preffix = "",
+                            suffix = "",
+                            list_of_choices = listVariables(),
+                            all_numbered = FALSE) {
 
-    unique_obj_name(name, preffix, suffix, list_of_choices, all_numbered)
+    unique_obj_names(names, preffix, suffix, list_of_choices, all_numbered)
 }
-unique_colname_2 <- function(name = "",
-                             preffix = "",
-                             suffix = "",
-                             list_of_choices = listVariables(),
-                             all_numbered = TRUE) {
+unique_colnames_2 <- function(names = "",
+                              preffix = "",
+                              suffix = "",
+                              list_of_choices = listVariables(),
+                              all_numbered = TRUE) {
 
-    unique_obj_name(name, preffix, suffix, list_of_choices, all_numbered)
+    unique_obj_names(names, preffix, suffix, list_of_choices, all_numbered)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 variables_with_unique_values <- function() {
@@ -231,7 +236,7 @@ var_pos_n <- function(variables,
                                "nonfactor",
                                "character",
                                "logical"
-                               ), vars = NULL)
+                      ), vars = NULL)
 {
     if (is.null(variables))
         return(NULL)
