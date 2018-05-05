@@ -152,81 +152,49 @@ item	bs_var_text_menu	command	"Convert all text variables into factors"	command_
 item	bs_var_text_menu	command	"Convert text variables into ..."	window_chr_convert	"characterP()"	"packageAvailable('tidyverse')"
 
 
-
-#
-# item	bs_var_text_menu	command	"Convert strings into numeric, factor, logical, etc. "	window_chr_convert	"characterP()"	"packageAvailable('tidyverse')"
-# item	bs_var_text_menu	command	"Convert all strings into factors"	command_all_chr_to_fctr	"characterP()"	"packageAvailable('tidyverse')"
-# item	bs_var_text_menu	command	"[!] Convert string to factor"	function_not_implemented	"characterP()"	""
-# item	bs_var_text_menu	command	"[!] Convert string to number"	function_not_implemented	"characterP()"	""
-# item	bs_var_text_menu	command	"[!] Convert string to integer"	function_not_implemented	"characterP()"	""
-# item	bs_var_text_menu	command	"[!] Convert string to logical"	function_not_implemented	"characterP()"	""
-# item	bs_var_text_menu	command	"[!] Convert string to date"	function_not_implemented	"characterP()"	""
-# item	bs_var_text_menu	command	"[!] Convert string to time"	function_not_implemented	"characterP()"	""
-# item	bs_var_text_menu	command	"[!] Convert string to date-time"	function_not_implemented	"characterP()"	""
-
-
 # # Numeric variables --------------------------------------------------
 menu	bs_var_num_menu	bs_varible_menu	""	""	""	""
-
 item	bs_varible_menu	cascade	"Numeric variables"	bs_var_num_menu	"activeDataSetP()"	""
+
+
+item	bs_var_num_menu	command	"Convert numeric variables into..."	window_num_convert	"numericP()"	"" # Character, factors, logical
+# item	bs_var_num_menu	command	"[!] Format numeric values for report..."	function_not_implemented	"FALSE & numericP()"	"" # Format and convert to text
+item	bs_var_num_menu	separator	""	""	""	""
 
 item	bs_var_num_menu	command	"Log transformation..."	window_transform_log	"numericP()"	""
 item	bs_var_num_menu	command	"Z transformation / Standardization..."	window_transform_z	"numericP()"	""
 
-item	bs_var_num_menu	separator	""	""	""	""
-item	bs_var_num_menu	command	"[!] Bin/Categorize numeric variable..."	function_not_implemented	"FALSE & numericP()"	"" # including `cut`, `ifelse`,
-item	bs_var_num_menu	command	"Convert numeric variable into..."	window_num_convert	"numericP()"	"" # Character, factors, logical
-item	bs_var_num_menu	command	"[!] Format numeric values for report..."	function_not_implemented	"FALSE & numericP()"	"" # Format and convert to text
+# item	bs_var_num_menu	separator	""	""	""	""
+# item	bs_var_num_menu	command	"[!] Bin/Categorize numeric values..."	function_not_implemented	"FALSE & numericP()"	"" # including `cut`, `ifelse`,
 
 
 # Factor variables --------------------------------------------------
 menu	bs_var_fct_menu	bs_varible_menu	""	""	""	""
 item	bs_varible_menu	cascade	"Factors (categorical variables)"	bs_var_fct_menu	"activeDataSetP()"	""
 
-item	bs_var_fct_menu	command	"[!] Add levels..."	function_not_implemented	"FALSE & factorsP()" ""
+item	bs_var_fct_menu	command	"Convert factors into nominal, ordinal, text..."	window_fct_convert	"factors_strict_P()"	""
+item	bs_var_fct_menu	separator	""	""	""	""
+# item	bs_var_fct_menu	command	"[!] Add levels..."	function_not_implemented	"FALSE & factorsP()" ""
 # Collapse levels:
 #    Collapse levels manually
 #    Collapse least/most common levels into "other"
 #    Replace levels with "other"
-item	bs_var_fct_menu	command	'[!] Collapse/Merge levels...'	function_not_implemented	"FALSE & factors_strict_P()"	""
+# item	bs_var_fct_menu	command	'[!] Collapse/Merge levels...'	function_not_implemented	"FALSE & factors_strict_P()"	""
 item	bs_var_fct_menu	command	"Drop unused levels..."	window_factor_lvls_drop	"factors_strict_P()"	""
-# item	bs_var_fct_menu	command	"[!] Remove levels"	function_not_implemented	"FALSE & factorsP()"	""
-item	bs_var_fct_menu	command	"[!] Rename levels..."	function_not_implemented	"FALSE & factors_strict_P()"	""
-# Reorder factor levels automatically:
-#     Reorder by sorting along another variable: variable name; summary function, .desc = FALSE
-#     Reorder in frequency         : ordered = NA, TRUE, FALSE
-#     Reorder in first appearance  : ordered = NA, TRUE, FALSE
-#     Reverse levels
-#     Shift levels to left wrapping around at end
-#     Shift levels to right wrapping around at end
-#
-#     [checkbox:] Reverse the result
-#
-item	bs_var_fct_menu	command	"[!] Reorder levels automatically..."	function_not_implemented	"FALSE & factors_strict_P()"	""
-item	bs_var_fct_menu	command	"Reorder levels by hand..."	window_fct_reorder_lvls	"factors_strict_P()"	""
-
-# item	bs_var_fct_menu	command	"[!] Reorder levels in frequency"	function_not_implemented	"FALSE & factors_strict_P()"	""
-# item	bs_var_fct_menu	command	"[!] Reverse levels"	function_not_implemented	"FALSE & factors_strict_P()"	""
-
-item	bs_var_fct_menu	separator	""	""	""	""
-item	bs_var_fct_menu	command	"[!] Convert missing values into explicit level..."	function_not_implemented	"FALSE & factors_strict_P()"	""
-item	bs_var_fct_menu	separator	""	""	""	""
-item	bs_var_fct_menu	command	"Convert factors into nominal, ordinal, text..."	window_fct_convert	"factors_strict_P()"	""
-# item	bs_var_fct_menu	command	"[!] Switch between nominal and ordinal..."	function_not_implemented	"FALSE & factors_strict_P()"	""
+# item	bs_var_fct_menu	command	"[!] Remove levels"	window_fct_lvls_rm	"FALSE & factorsP()"	""
+# item	bs_var_fct_menu	command	"[!] Rename levels..."	window_fct_lvls_rename "FALSE & factors_strict_P()"	""
+# item	bs_var_fct_menu	command	"[!] Reorder levels automatically..."	window_fct_reorder_lvls_auto	"FALSE & factors_strict_P()"	""
+item	bs_var_fct_menu	command	"Reorder levels by hand..."	window_fct_lvls_reorder_manual	"factors_strict_P()"	""
 # item	bs_var_fct_menu	separator	""	""	""	""
+# item	bs_var_fct_menu	command	"[!] Convert missing values into explicit level..."	function_not_implemented	"FALSE & factors_strict_P()"	""
 
 # Logical variables --------------------------------------------------
 # menu	bs_var_lgl_menu	bs_varible_menu	""	""	""	""
 # item	bs_varible_menu	cascade	"Logical variables"	bs_var_lgl_menu	"logicalP()"	""
 
-
 item	bs_varible_menu	command	"Convert logical variables into ..."	window_lgl_convert	"logicalP()"	"packageAvailable('rlang') && packageAvailable('forcats')"
-
-#
-
-
-# item	bs_var_lgl_menu	command	"Log transformation"	window_log_transform	"numericP()"	""
-# item	bs_var_lgl_menu	command	"Z transformation / Standardization"	window_z_transform	"numericP()"	""
+# menu	bs_var_lgl_menu	bs_varible_menu	""	""	""	""
+# item	bs_varible_menu	cascade	"Logical variables"	bs_var_lgl_menu	"logicalP()"	""
 
 
 # ==============================================================================
@@ -237,15 +205,18 @@ item	BioStat_menu	cascade	"Summaries"	bs_summary_menu	""	""
 
 
 item	bs_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
+# item	bs_summary_menu	command	"Screen dataset for missing values"	summary_ds_screener	"activeDataSetP()"	""
 item	bs_summary_menu	command	"Number of rows and columns"	command_dataset_dim	"activeDataSetP()"	""
 item	bs_summary_menu	command	"Print top and bottom rows"	summary_head_tail	"activeDataSetP()"	""
 
 item	bs_summary_menu	separator	""	""	""	""
-item	bs_summary_menu	command	"Screen dataset for missing values"	summary_ds_screener	"activeDataSetP()"	""
+item	bs_summary_menu	command	"Screen dataset for missing values"	summary_ds_screener	"activeDataSetP()"	"packageAvailable('descriptr')"
 
 item	bs_summary_menu	separator	""	""	""	""
-item	bs_summary_menu	command	"Summarize all variables [stats::summary]"	command_summary	"activeDataSetP()"	""
-item	bs_summary_menu	command	"Summarize all variables [Hmisc::describe]"	summary_Hmisc_describe	"activeDataSetP()"	""
+item	bs_summary_menu	command	"Summarize all variables: summary"	command_summary	"activeDataSetP()"	""
+item	bs_summary_menu	command	"Summarize all variables: describe"	summary_Hmisc_describe	"activeDataSetP()"	"packageAvailable('Hmisc')"
+# item	bs_summary_menu	command	"Summarize all variables [stats::summary]"	command_summary	"activeDataSetP()"	""
+# item	bs_summary_menu	command	"Summarize all variables [Hmisc::describe]"	summary_Hmisc_describe	"activeDataSetP()"	""
 
 
 item	bs_summary_menu	separator	""	""	""	""

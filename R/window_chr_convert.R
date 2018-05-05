@@ -5,6 +5,8 @@
 # Change interface for name input:
 #        + add separate window for name input
 #        + add boxes for prefix/suffix inputs.
+# Add possibility to convert to time, date, datetime, etc.
+# Add possibility to automalically identify column class.
 
 #' Rcmdr windows for variable class conversion
 #'

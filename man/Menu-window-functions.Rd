@@ -6,7 +6,7 @@
 %   R/window_anova_kw_mood_tests.R, R/window_dataset_bind.R,
 %   R/window_dataset_bind_cols.R, R/window_dataset_bind_rows.R,
 %   R/window_dataset_join.R, R/window_fct_drop_lvls.R,
-%   R/window_fct_reorder_TMP.R, R/window_fct_reorder_lvls.R,
+%   R/window_fct_lvls_reorder_manual.R, R/window_fct_reorder_TMP.R,
 %   R/window_pander.R, R/window_qqplot_biostat.R, R/window_row_names_to_col.R,
 %   R/window_rows_arrange.R, R/window_rows_filter.R, R/window_rows_slice.R,
 %   R/window_summary_count.R, R/window_summary_numeric_by_gr.R,
@@ -87,8 +87,8 @@
 \alias{window_dataset_bind_rows}
 \alias{window_dataset_join}
 \alias{window_factor_lvls_drop}
+\alias{window_fct_lvls_reorder_manual}
 \alias{window_fct_reorder_TMP}
-\alias{window_fct_reorder_lvls}
 \alias{window_pander}
 \alias{window_qqplot_biostat}
 \alias{window_rownames_to_col}
@@ -253,9 +253,9 @@ window_dataset_join()
 
 window_factor_lvls_drop()
 
-window_fct_reorder_TMP()
+window_fct_lvls_reorder_manual()
 
-window_fct_reorder_lvls()
+window_fct_reorder_TMP()
 
 window_pander()
 
