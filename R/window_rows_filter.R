@@ -127,8 +127,8 @@ window_rows_filter <- function(new_dsname = NULL,
         if (is.element(new_dsname, listDataSets())) {
             if ("no" == tclvalue(checkReplace(new_dsname,
                                               gettext_EZR("Data set")))) {
-                window_rows_filter(new_dsname = new_dsname,
-                                   init_conditions = conditions,
+                window_rows_filter(new_dsname         = new_dsname,
+                                   init_conditions    = conditions,
                                    incorrect_cond_msg =
                                        glue('Chose other name than "{new_dsname}".'))
                 return()

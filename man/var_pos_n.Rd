@@ -4,8 +4,8 @@
 \alias{var_pos_n}
 \title{...}
 \usage{
-var_pos_n(variables, type = c("all", "factor", "numeric", "nonfactor",
-  "twoLevelFactor", "character", "logical"), vars = NULL)
+var_pos_n(variables, type = c("all", "numeric", "factor", "factor_strict",
+  "twoLevelFactor", "nonfactor", "character", "logical"), vars = NULL)
 }
 \description{
 ...

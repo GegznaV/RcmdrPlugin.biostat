@@ -131,7 +131,7 @@ item	bs_varible_menu	command	"Rename variables..."	window_variable_rename	"activ
 
 
 item	bs_varible_menu	separator	""	""	""	""
-item	bs_varible_menu	command	"[!] Select, remove, reorder variables..."	function_not_implemented	"FALSE"	"packageAvailable('dplyr')"
+item	bs_varible_menu	command	"Delete/Select variables..."	window_variable_delete0	"activeDataSetP()"	"packageAvailable('dplyr')"
 item	bs_varible_menu	command	"Mutate: compute a variable..."	window_variable_mutate0	"activeDataSetP()"	"packageAvailable('dplyr')"
 item	bs_varible_menu	command	"Recode variable values..."	window_variable_recode0	"activeDataSetP()"	"packageAvailable('dplyr')"
 
@@ -179,7 +179,7 @@ item	bs_var_num_menu	command	"Z transformation / Standardization..."	window_tran
 
 item	bs_var_num_menu	separator	""	""	""	""
 item	bs_var_num_menu	command	"[!] Bin/Categorize numeric variable..."	function_not_implemented	"FALSE & numericP()"	"" # including `cut`, `ifelse`,
-item	bs_var_num_menu	command	"[!] Convert numeric variable into..."	function_not_implemented	"FALSE & numericP()"	"" # Character, factors, logical
+item	bs_var_num_menu	command	"Convert numeric variable into..."	window_num_convert	"numericP()"	"" # Character, factors, logical
 item	bs_var_num_menu	command	"[!] Format numeric values for report..."	function_not_implemented	"FALSE & numericP()"	"" # Format and convert to text
 
 
@@ -215,9 +215,9 @@ item	bs_var_fct_menu	command	"Reorder levels by hand..."	window_fct_reorder_lvls
 item	bs_var_fct_menu	separator	""	""	""	""
 item	bs_var_fct_menu	command	"[!] Convert missing values into explicit level..."	function_not_implemented	"FALSE & factors_strict_P()"	""
 item	bs_var_fct_menu	separator	""	""	""	""
-item	bs_var_fct_menu	command	"[!] Convert factor into..."	function_not_implemented	"FALSE & factors_strict_P()"	""
-item	bs_var_fct_menu	command	"[!] Switch between nominal and ordinal..."	function_not_implemented	"FALSE & factors_strict_P()"	""
-item	bs_var_fct_menu	separator	""	""	""	""
+item	bs_var_fct_menu	command	"Convert factors into nominal, ordinal, text..."	window_fct_convert	"factors_strict_P()"	""
+# item	bs_var_fct_menu	command	"[!] Switch between nominal and ordinal..."	function_not_implemented	"FALSE & factors_strict_P()"	""
+# item	bs_var_fct_menu	separator	""	""	""	""
 
 # Logical variables --------------------------------------------------
 # menu	bs_var_lgl_menu	bs_varible_menu	""	""	""	""
@@ -297,7 +297,7 @@ item	bs_plots_menu	separator	""	""	""	""
 item	bs_plots_menu	command	"Interactive tool: easyPlot..."	window_easyPlot	"variablesP(n = 2)"	""
 item	bs_plots_menu	command	"Interactive tool: ggplot GUI..."	window_ggplotgui	"variablesP()"	""
 item	bs_plots_menu	command	"Interactive tool: ggedit..."	window_ggedit	"class_ggplot_P()"	""
-item	bs_plots_menu	command	"Interactive tool: ggThemeAssist (example)"	window_ggThemeAssist	"class_ggplot_P()"	""
+item	bs_plots_menu	command	"Interactive tool: ggThemeAssist (example)..."	window_ggThemeAssist	"class_ggplot_P()"	""
 
 item	bs_plots_menu	separator	""	""	""	""
 item	bs_plots_menu	command	"Create a color palette..."	window_colourPicker	""	""

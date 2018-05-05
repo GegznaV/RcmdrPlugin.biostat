@@ -23,13 +23,16 @@ command_getwd <- function() {
 #' @export
 #' @keywords internal
 command_get_locale <- function() {
-    Rcmdr::doItAndPrint(paste(
-        '# Current locale:  \n',
-        'locale_info <- Sys.getlocale()',
-        'writeLines(gsub(";", "\\n", locale_info))',
-        sep = " \n"))
+    paste0(
+        '## Show current locale  \n',
+        'Sys.getlocale()') %>%
+        Rcmdr::doItAndPrint()
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# TODO:
+# 1. Chaeck if it works in UBUNTU
+#
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
@@ -43,9 +46,11 @@ command_set_locale_lt <- function() {
     }
 
     Rcmdr::doItAndPrint(glue::glue(
-        '# Set locale to Lithuanian \n',
-        'locale_info <- Sys.setlocale(locale = "{locale}")\n',
-        'writeLines(gsub(";", "\\n", locale_info))\n'))
+        '## Set locale to Lithuanian \n',
+        'Sys.setlocale(locale = "{locale}")'
+        # 'locale_info <- Sys.setlocale(locale = "{locale}")\n',
+        # 'writeLines(gsub(";", "\\n", locale_info))\n'
+        ))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
@@ -60,9 +65,11 @@ command_set_locale_en <- function() {
     }
 
     Rcmdr::doItAndPrint(glue::glue(
-        '# Set locale to English \n',
-        'locale_info <- Sys.setlocale(locale = "{locale}")\n',
-        'writeLines(gsub(";", "\\n", locale_info))\n'))
+        '## Set locale to English \n',
+        'Sys.setlocale(locale = "{locale}")'
+        # 'locale_info <- Sys.setlocale(locale = "{locale}")\n',
+        # 'writeLines(gsub(";", "\\n", locale_info))\n'
+        ))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
@@ -77,22 +84,29 @@ command_set_locale_ru <- function() {
     }
 
     Rcmdr::doItAndPrint(glue::glue(
-        '# Set locale to Russian \n',
-        'locale_info <- Sys.setlocale(locale = "{locale}")\n',
-        'writeLines(gsub(";", "\\n", locale_info))\n'))
+        '## Set locale to Russian \n',
+        'Sys.setlocale(locale = "{locale}")'
+        # 'locale_info <- Sys.setlocale(locale = "{locale}")\n',
+        # 'writeLines(gsub(";", "\\n", locale_info))\n'
+        ))
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# TODO:
+# 1. make code more robust in non-windows
+#
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 command_set_locale_default <- function() {
     # [!!!] works only in Windows
-    Rcmdr::doItAndPrint(paste(
-        '# Set locale to system default \n',
-        'locale_info <- Sys.setlocale(locale = "")',
-        'writeLines(gsub(";", "\\n", locale_info))',
-        sep = " \n"))
+
+    paste0(
+        "## Set locale to system's default \n",
+        'Sys.setlocale(locale = "")') %>%
+
+        Rcmdr::doItAndPrint()
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

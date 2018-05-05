@@ -11,8 +11,9 @@
 %   R/window_rows_arrange.R, R/window_rows_filter.R, R/window_rows_slice.R,
 %   R/window_summary_count.R, R/window_summary_numeric_by_gr.R,
 %   R/window_table_to_df.R, R/window_test_normality.R, R/window_tmp.R,
-%   R/window_variable_gather.R, R/window_variable_mutate.R,
-%   R/window_variable_recode.R, R/window_variable_rename.R
+%   R/window_variable_delete.R, R/window_variable_gather.R,
+%   R/window_variable_mutate.R, R/window_variable_recode.R,
+%   R/window_variable_rename.R
 \name{gettext_EZR}
 \alias{gettext_EZR}
 \alias{variables_with_unique_values_P}
@@ -59,6 +60,8 @@
 \alias{command_row_rm_empty_rows}
 \alias{command_rowid_to_col}
 \alias{window_col_to_rownames}
+\alias{window_col_to_rownames0}
+\alias{window_col_to_rownames}
 \alias{command_load_packages}
 \alias{command_getwd}
 \alias{command_get_locale}
@@ -84,7 +87,7 @@
 \alias{window_dataset_bind_rows}
 \alias{window_dataset_join}
 \alias{window_factor_lvls_drop}
-\alias{window_fct_reorder}
+\alias{window_fct_reorder_TMP}
 \alias{window_fct_reorder_lvls}
 \alias{window_pander}
 \alias{window_qqplot_biostat}
@@ -98,6 +101,8 @@
 \alias{window_table_to_df}
 \alias{window_test_normality}
 \alias{window_tmp}
+\alias{window_variable_delete0}
+\alias{window_variable_delete}
 \alias{window_variable_gather}
 \alias{window_variable_mutate0}
 \alias{window_variable_mutate}
@@ -189,7 +194,13 @@ command_row_rm_empty_rows()
 
 command_rowid_to_col()
 
-window_col_to_rownames()
+window_col_to_rownames(new_dsname = NULL, init_conditions = NULL,
+  incorrect_cond_msg = NULL)
+
+window_col_to_rownames0(variables)
+
+window_col_to_rownames(new_dsname = NULL, init_conditions = NULL,
+  incorrect_cond_msg = NULL)
 
 command_load_packages()
 
@@ -241,7 +252,7 @@ window_dataset_join()
 
 window_factor_lvls_drop()
 
-window_fct_reorder()
+window_fct_reorder_TMP()
 
 window_fct_reorder_lvls()
 
@@ -269,6 +280,10 @@ window_table_to_df()
 window_test_normality()
 
 window_tmp()
+
+window_variable_delete0(variables)
+
+window_variable_delete(new_dsname = NULL, incorrect_cond_msg = NULL)
 
 window_variable_gather()
 
