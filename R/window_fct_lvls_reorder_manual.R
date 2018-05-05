@@ -11,7 +11,7 @@
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_fct_reorder_lvls <- function() {
+window_fct_lvls_reorder_manual <- function() {
     initializeDialog(title = gettext_Bio("Reorder factor levels"))
     variableBox <-
         variableListBox2(
@@ -39,7 +39,7 @@ window_fct_reorder_lvls <- function() {
         closeDialog()
         if (length(variable) == 0) {
             errorCondition(
-                recall = window_fct_reorder_lvls,
+                recall = window_fct_lvls_reorder_manual,
                 message = gettext_Bio("You must select a variable.")
             )
             return()
@@ -48,7 +48,7 @@ window_fct_reorder_lvls <- function() {
         if (name == gettext_Bio("<same as original>"))
             name <- variable
         if (!is.valid.name(name)) {
-            errorCondition(recall = window_fct_reorder_lvls,
+            errorCondition(recall = window_fct_lvls_reorder_manual,
                            message = paste(
                                '"',
                                name,
@@ -60,7 +60,7 @@ window_fct_reorder_lvls <- function() {
         }
         if (is.element(name, Variables())) {
             if ("no" == tclvalue(checkReplace(name))) {
-                window_fct_reorder_lvls()
+                window_fct_lvls_reorder_manual()
                 return()
             }
         }
@@ -73,7 +73,7 @@ window_fct_reorder_lvls <- function() {
         nvalues <- length(old.levels)
         ordered <- tclvalue(orderedVariable)
         if (nvalues > 30) {
-            errorCondition(recall = window_fct_reorder_lvls,
+            errorCondition(recall = window_fct_lvls_reorder_manual,
                            message = sprintf(
                                gettext_Bio("Number of levels (%d) too large."),
                                nvalues
@@ -94,7 +94,7 @@ window_fct_reorder_lvls <- function() {
             }
             options(opt)
             if (any(sort(order) != 1:nvalues) || any(is.na(order))) {
-                errorCondition(recall = window_fct_reorder_lvls,
+                errorCondition(recall = window_fct_lvls_reorder_manual,
                                message = paste(
                                    gettext_Bio("Order of levels must include all integers from 1 to "
                                    ),
