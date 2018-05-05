@@ -163,8 +163,7 @@ window_chr_convert <- function() {
             }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         command <- style_cmd(command)
-
-        result <- justDoIt(command)
+        result  <- justDoIt(command)
 
         if (class(result)[1] != "try-error")
             activeDataSet(.activeDataSet, flushModel = FALSE)

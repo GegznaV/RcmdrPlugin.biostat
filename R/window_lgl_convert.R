@@ -116,11 +116,13 @@ window_lgl_convert <- function() {
                 new_names <-
                     if (suffix == gettext_Bio("<automatic suffix>")) {
                         suffix <- switch(into,
-                                         "factor"  = "fct",
-                                         "number"  = "num",
-                                         "integer" = "int",
-                                         "logical" = "lgl",
-                                         "text"    = "chr",
+                                         "character" = "chr",
+                                         "factor"    = "fct",
+                                         "nominal"   = "fct",
+                                         "ordinal"   = "ord",
+                                         "number"    = "num",
+                                         "integer"   = "int",
+                                         "logical"   = "lgl",
                                          into)
                         paste0(variables, "_", suffix)
 

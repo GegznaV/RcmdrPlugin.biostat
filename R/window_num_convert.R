@@ -101,12 +101,13 @@ window_num_convert <- function() {
                 new_names <-
                     if (suffix == gettext_Bio("<automatic suffix>")) {
                         suffix <- switch(into,
-                                         "factor"  = "fct",
-                                         "nominal" = "fct",
-                                         "ordinal" = "ord",
-                                         "number"  = "num",
-                                         "integer" = "int",
-                                         "logical" = "lgl",
+                                         "character" = "chr",
+                                         "factor"    = "fct",
+                                         "nominal"   = "fct",
+                                         "ordinal"   = "ord",
+                                         "number"    = "num",
+                                         "integer"   = "int",
+                                         "logical"   = "lgl",
                                          into)
                         paste0(variables, "_", suffix)
 
@@ -140,12 +141,11 @@ window_num_convert <- function() {
 
         Library("tidyverse")
 
-
         into_fun <- switch(into,
                            "character"  = "as.character" ,
-                           "ordinal"    = "factor" ,
-                           "nominal"    = "factor" ,
                            "factor"     = "as.factor" ,
+                           "nominal"    = "factor" ,
+                           "ordinal"    = "factor" ,
                            "number"     = "as.numeric"  ,
                            "integer"    = "as.integer" ,
                            "logical"    = "as.logical" ,
