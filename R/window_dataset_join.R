@@ -58,7 +58,7 @@ window_dataset_join <- function() {
         # On mouse relese
         ds <- getSelection(dataset_x_box)
         # Names of variables plus blank:
-        vars_in_ds <- c("", eval_glue("colnames({ds})"))
+        vars_in_ds <- c("", eval_glue("colnames({ds})", envir_eval = .GlobalEnv))
 
         reset_combobox(v_x1, values = vars_in_ds)
         reset_combobox(v_x2, values = vars_in_ds)
@@ -69,7 +69,7 @@ window_dataset_join <- function() {
         # On mouse relese
         ds <- getSelection(dataset_y_box)
         # Names of variables plus blank:
-        vars_in_ds <- c("", eval_glue("colnames({ds})"))
+        vars_in_ds <- c("", eval_glue("colnames({ds})", envir_eval = .GlobalEnv))
 
         reset_combobox(v_y1, values = vars_in_ds)
         reset_combobox(v_y2, values = vars_in_ds)
@@ -308,7 +308,7 @@ window_dataset_join <- function() {
         tkfocus(CommanderWindow())
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "join")
+    OKCancelHelp(helpSubject = "join", helpPackage = "dplyr")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(middle_Frame, sticky = "sw", columnspan = 3)
 

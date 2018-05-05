@@ -44,23 +44,20 @@ window_dataset_rename <- function() {
         closeDialog()
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Edit window
-
         ds_to_rename <- activeDataSet()
 
-
+        # Two commands are used to avoid error message in R Commander
         command1 <- glue::glue(
             "# Rename the dataset \n",
             "{dsnameValue} <- {ds_to_rename}")
         justDoIt(command1)
         activeDataSet(dsnameValue)
 
-        command2 <- glue::glue("\nremove({ds_to_rename})")
+        command2 <- glue::glue("remove({ds_to_rename})")
         justDoIt(command2)
 
-
-
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        logger(paste(command1, command2, sep = "; "))
+        logger(paste(command1, command2, sep = "\n"))
         tkfocus(CommanderWindow())
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

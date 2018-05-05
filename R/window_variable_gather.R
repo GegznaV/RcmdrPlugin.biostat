@@ -240,7 +240,7 @@ window_variable_gather <- function() {
         tkfocus(CommanderWindow())
     }
     # ========================================================================
-    OKCancelHelp(helpSubject = "gather")
+    OKCancelHelp(helpSubject = "gather", helpPackage = "dplyr")
 
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")

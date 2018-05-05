@@ -5,7 +5,7 @@
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_fct_reorder <- function() {
+window_fct_reorder_TMP <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initial_new_name_variable <- tclVar(gettextRcmdr("New variable name goes here..."))
@@ -209,7 +209,7 @@ window_fct_reorder <- function() {
     } #END: onOK
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "fct_relevel")
+    OKCancelHelp(helpSubject = "fct_relevel", helpPackage = "forcats")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(getFrame(variableBox), new_name_frame,  sticky = "nsw")
 

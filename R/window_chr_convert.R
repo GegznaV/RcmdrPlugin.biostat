@@ -6,18 +6,6 @@
 #        + add separate window for name input
 #        + add boxes for prefix/suffix inputs.
 
-# parse_logical(x, na = c("", "NA"), locale = default_locale(),
-#               trim_ws = TRUE)
-#
-# parse_integer(x, na = c("", "NA"), locale = default_locale(),
-#               trim_ws = TRUE)
-#
-# parse_double(x, na = c("", "NA"), locale = default_locale(),
-#              trim_ws = TRUE)
-#
-# parse_factor(x, levels, ordered = FALSE, na = c("", "NA"),
-#              locale = default_locale(), include_na = TRUE, trim_ws = TRUE)
-
 #' Rcmdr windows for variable class conversion
 #'
 #' @export
@@ -189,7 +177,7 @@ window_chr_convert <- function() {
         tkfocus(CommanderWindow())
     } # [end: onOK] ----------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "parse_atomic")
+    OKCancelHelp(helpSubject = "parse_double", helpPackage = "readr")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(intoFrame, padx = c(15, 5))
     tkgrid(getFrame(variableBox), into_outter_Frame, sticky = "nw")

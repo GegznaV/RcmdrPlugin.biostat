@@ -54,6 +54,23 @@ unique_colname_2 <- function(name = "",
 
     unique_obj_name(name, preffix, suffix, list_of_choices, all_numbered)
 }
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+variables_with_unique_values <- function() {
+
+    ds <- get(activeDataSet(), envir = .GlobalEnv)
+    not_duplicated_cols <- purrr::map_lgl(ds, ~!any(duplicated(.)))
+    (not_duplicated_cols[not_duplicated_cols == TRUE]) %>%
+        names() %>%
+        sort()
+}
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+variables_with_unique_values_P <- function(n = 1) {
+
+    activeDataSetP() && length(variables_with_unique_values() >= n)
+}
+
 
 # ------------------------------------------------------------------------------
 # Formatat code in a `tidyverse` style
@@ -121,10 +138,12 @@ objects_in_env_P <- function(n = 1, envir = .GlobalEnv, ...) {
 glue <- glue::glue
 # ------------------------------------------------------------------------------
 eval_glue <- function(..., envir = parent.frame(),
-                      .sep = "", .open = "{", .close = "}") {
+                      .sep = "", .open = "{", .close = "}",
+                      envir_eval = envir,
+                      envir_glue = envir) {
 
-    x2 <- glue::glue(..., .envir = envir, .open = .open, .close = .close)
-    eval(parse(text = x2), envir = envir)
+    x2 <- glue::glue(..., .envir = envir_glue, .open = .open, .close = .close)
+    eval(parse(text = x2), envir = envir_eval)
 }
 # ------------------------------------------------------------------------------
 eval_ <- function(x, envir = parent.frame(), ...) {
@@ -157,7 +176,7 @@ characterP <- function(n = 1) {
 #'
 #' @keywords internal
 #' @export
-factors_true_P <- function(n = 1) {
+factors_strict_P <- function(n = 1) {
     activeDataSetP() &&
         (sum(eval_glue("mapply(is.factor, {activeDataSet()})")) >= n)
 }
@@ -204,10 +223,11 @@ variables_fct <- function() {
 #' @export
 var_pos_n <- function(variables,
                       type = c("all",
-                               "factor",
                                "numeric",
-                               "nonfactor",
+                               "factor",
+                               "factor_strict",
                                "twoLevelFactor",
+                               "nonfactor",
                                "character",
                                "logical"
                                ), vars = NULL)
@@ -221,6 +241,7 @@ var_pos_n <- function(variables,
             all = Variables(),
             character = variables_chr(),
             logical = variables_lgl(),
+            factor_strict = variables_fct(),
             factor = Factors(),
             numeric = Numeric(),
             nonfactor = setdiff(Variables(),

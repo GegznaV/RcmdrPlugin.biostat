@@ -1,5 +1,7 @@
 # TODO:
 #
+# 1. Add popup menu for right-click, that enables quick change of row position, deletion, etc.
+#
 # [+] DONE:
 #
 # 1. Add interactivity for double click.
@@ -22,6 +24,169 @@
 # 4. Change new variable name and add _1, _2, _3, etc. if variable with that
 #    name exists in active dataframe
 #
+
+
+# right-click context menus
+right_click_menu <- function(tcl_widget) {
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    onCopy <- function() {
+        # focused <- tkfocus()
+        selection <- strsplit(tclvalue(tktag.ranges(tcl_widget, "sel")), " ")[[1]]
+        if (is.na(selection[1])) return()
+        text <- tclvalue(tkget(tcl_widget, selection[1], selection[2]))
+        tkclipboard.clear()
+        tkclipboard.append(text)
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    onDelete <- function(){
+        # focused <- tkfocus()
+        selection <- strsplit(tclvalue(tktag.ranges(tcl_widget, "sel")), " ")[[1]]
+        if (is.na(selection[1])) return()
+        tkdelete(tcl_widget, selection[1], selection[2])
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    onCut <- function(){
+        onCopy()
+        onDelete()
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    onPaste <- function(){
+        onDelete()
+        # focused <- tkfocus()
+        text <- tclvalue(.Tcl("selection get -selection CLIPBOARD"))
+        if (length(text) == 0) return()
+        tkinsert(tcl_widget, "insert", text)
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    onFind <- function() {
+        # focused <- tkfocus()
+        focused <- tcl_widget
+
+        initializeDialog(title=gettextRcmdr("Find"))
+        textFrame <- tkframe(top)
+        textVar <- tclVar(getRcmdr("last.search"))
+        textEntry <- ttkentry(textFrame, width="20", textvariable=textVar)
+        checkBoxes(frame="optionsFrame", boxes=c("regexpr", "case"), initialValues=c("0", "1"),
+                   labels=gettextRcmdr(c("Regular-expression search", "Case sensitive")))
+        radioButtons(name="direction", buttons=c("foward", "backward"), labels=gettextRcmdr(c("Forward", "Backward")),
+                     values=c("-forward", "-backward"), title=gettextRcmdr("Search Direction"))
+        onOK <- function() {
+            text <- tclvalue(textVar)
+            putRcmdr("last.search", text)
+            if (text == ""){
+                errorCondition(recall=onFind, message=gettextRcmdr("No search text specified."))
+                return()
+            }
+            type <- if (tclvalue(regexprVariable) == 1) "-regexp" else "-exact"
+            case <- tclvalue(caseVariable) == 1
+            direction <- tclvalue(directionVariable)
+            stop <- if (direction == "-forward") "end" else "1.0"
+            where.txt <- if (case) tksearch(focused, type, direction, "--", text, "insert", stop)
+            else tksearch(focused, type, direction, "-nocase", "--", text, "insert", stop)
+            where.txt <- tclvalue(where.txt)
+            if (where.txt == "") {
+                Message(message=gettextRcmdr("Text not found."),
+                        type="note")
+                if (GrabFocus()) tkgrab.release(top)
+                tkdestroy(top)
+                tkfocus(CommanderWindow())
+                return()
+            }
+            if (GrabFocus()) tkgrab.release(top)
+            tkfocus(focused)
+            tkmark.set(focused, "insert", where.txt)
+            tksee(focused, where.txt)
+            tkdestroy(top)
+        }
+        .exit <- function(){
+            text <- tclvalue(textVar)
+            putRcmdr("last.search", text)
+            return("")
+        }
+        OKCancelHelp()
+        tkgrid(labelRcmdr(textFrame, text=gettextRcmdr("Search for:")), textEntry, sticky="w")
+        tkgrid(textFrame, sticky="w")
+        tkgrid(optionsFrame, sticky="w")
+        tkgrid(directionFrame, sticky="w")
+        tkgrid(buttonsFrame, sticky="w")
+        dialogSuffix(focus=textEntry)
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    onSelectAll <- function() {
+        # focused <- tkfocus()
+        tktag.add(tcl_widget, "sel", "1.0", "end")
+        tkfocus(tcl_widget)
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    onSelectRow <- function() {
+        # focused <- tkfocus()
+        tktag.add(tcl_widget, "sel", "current linestart", "current lineend + 1 chars")
+        tkfocus(tcl_widget)
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    onDeleteRow <- function(){
+        onSelectRow()
+        onDelete()
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    onClear <- function(){
+        onSelectAll()
+        onDelete()
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    onUndo <- function(){
+        # focused <- tkfocus()
+        tcl(tcl_widget, "edit", "undo")
+    }
+    #
+    # # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    onRedo <- function(){
+        # focused <- tkfocus()
+        tcl(tcl_widget, "edit", "redo")
+    }
+    # # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+    # ========================================================================
+    crete_context_menu <- function() {
+
+        # if (tclvalue(tkfocus()) != tcl_widget$ID) return()
+
+        contextMenu <- tkmenu(tkmenu(tcl_widget), tearoff = FALSE)
+
+        # tkadd(contextMenu, "command", label = gettextRcmdr("Submit"), command = onSubmit)
+
+        # tkadd(contextMenu, "separator")
+        tkadd(contextMenu, "command", label = gettextRcmdr("Cut"),        command = onCut)
+        tkadd(contextMenu, "command", label = gettextRcmdr("Copy"),       command = onCopy)
+        tkadd(contextMenu, "command", label = gettextRcmdr("Paste"),      command = onPaste)
+        tkadd(contextMenu, "command", label = gettextRcmdr("Delete"),     command = onDelete)
+
+        tkadd(contextMenu, "separator")
+        # tkadd(contextMenu, "command", label = gettextRcmdr("Find..."),    command = onFind)
+        # tkadd(contextMenu, "command", label = gettextRcmdr("Select all"), command = onSelectAll)
+        tkadd(contextMenu, "command", label = gettextRcmdr("Select row"), command = onSelectRow)
+        tkadd(contextMenu, "command", label = gettextRcmdr("Delete row"), command = onDeleteRow)
+
+        # tkadd(contextMenu, "separator")
+        # tkadd(contextMenu, "command", label = gettextRcmdr("Undo"),       command = onUndo)
+        # tkadd(contextMenu, "command", label = gettextRcmdr("Redo"),       command = onRedo)
+
+        # tkadd(contextMenu, "separator")
+        # tkadd(contextMenu, "command", label = gettextRcmdr("Clear directives"), command = onClear)
+        # tkadd(contextMenu, "command", label = gettextRcmdr("Reset directives"), command = variable_doubleclick)
+
+        tkpopup(contextMenu, tkwinfo("pointerx", tcl_widget), tkwinfo("pointery", tcl_widget))
+    }
+
+
+    tkbind(tcl_widget, "<ButtonPress-3>", crete_context_menu)
+
+}
+
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Helper functions
@@ -112,7 +277,10 @@ window_variable_recode0 <- function() {
             font   = getRcmdr("logFont"),
             height = "7",
             width  = "40",
-            wrap   = "none")
+            wrap   = "none",
+            undo   = TRUE)
+
+    right_click_menu(recodes)
 
     recodesXscroll <-
         ttkscrollbar(
@@ -311,7 +479,7 @@ window_variable_recode0 <- function() {
         pady = c(0, 9)
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     OKCancelHelp(helpSubject = "recode_factor",
+     OKCancelHelp(helpSubject = "recode_factor", helpPackage = "dplyr",
                  reset = "window_variable_recode0",
                  apply = "window_variable_recode0")
 

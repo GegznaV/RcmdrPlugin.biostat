@@ -109,7 +109,7 @@ window_transform_z <- function() {
         tkfocus(CommanderWindow())
     } # [end: onOK]
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "scale_vector")
+    OKCancelHelp(helpSubject = "scale_vector", helpPackage = "biostat")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(getFrame(variableBox), sticky = "n", columnspan = 2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

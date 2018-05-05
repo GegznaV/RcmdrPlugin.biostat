@@ -60,7 +60,7 @@ Functions that open Rcmdr menus and windows windows." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RcmdrPlugin.biostat</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.13</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.14</span>
       </span>
     </div>
 
@@ -112,6 +112,8 @@ Functions that open Rcmdr menus and windows windows." />
     </div>
 
     <pre class="usage"><span class='fu'>gettext_EZR</span>(<span class='no'>...</span>)
+
+<span class='fu'>variables_with_unique_values_P</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 
 <span class='fu'>function_not_implemented</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
@@ -189,13 +191,17 @@ Functions that open Rcmdr menus and windows windows." />
 
 <span class='fu'>command_rownames</span>()
 
+<span class='fu'>command_row_rm_empty_rows</span>()
+
 <span class='fu'>command_rowid_to_col</span>()
 
-<span class='fu'>command_col_to_rownames</span>()
+<span class='fu'>window_col_to_rownames</span>(<span class='kw'>new_dsname</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>init_conditions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>incorrect_cond_msg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>window_rows_arrange</span>()
+<span class='fu'>window_col_to_rownames0</span>(<span class='no'>variables</span>)
 
-<span class='fu'>window_rownames_to_col</span>()
+<span class='fu'>window_col_to_rownames</span>(<span class='kw'>new_dsname</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>init_conditions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>incorrect_cond_msg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='fu'>command_load_packages</span>()
 
@@ -247,13 +253,17 @@ Functions that open Rcmdr menus and windows windows." />
 
 <span class='fu'>window_factor_lvls_drop</span>()
 
-<span class='fu'>window_fct_reorder</span>()
+<span class='fu'>window_fct_reorder_TMP</span>()
 
 <span class='fu'>window_fct_reorder_lvls</span>()
 
 <span class='fu'>window_pander</span>()
 
 <span class='fu'>window_qqplot_biostat</span>()
+
+<span class='fu'>window_rownames_to_col</span>()
+
+<span class='fu'>window_rows_arrange_tmp</span>()
 
 <span class='fu'>window_rows_filter0</span>(<span class='no'>variables</span>)
 
@@ -272,6 +282,10 @@ Functions that open Rcmdr menus and windows windows." />
 
 <span class='fu'>window_tmp</span>()
 
+<span class='fu'>window_variable_delete0</span>(<span class='no'>variables</span>)
+
+<span class='fu'>window_variable_delete</span>(<span class='kw'>new_dsname</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>incorrect_cond_msg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
 <span class='fu'>window_variable_gather</span>()
 
 <span class='fu'>window_variable_mutate0</span>(<span class='no'>variables</span>)
@@ -279,7 +293,7 @@ Functions that open Rcmdr menus and windows windows." />
 <span class='fu'>window_variable_mutate</span>(<span class='kw'>var_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>init_express</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>incorrect_expr_msg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>window_variable_recode</span>()
+<span class='fu'>window_variable_recode0</span>()
 
 <span class='fu'>window_variable_rename</span>()</pre>
         

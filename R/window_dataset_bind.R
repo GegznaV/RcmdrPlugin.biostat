@@ -12,7 +12,7 @@ window_dataset_bind <- function() {
 
     # [!!!] functions to get and put diaglog are needed.
     initializeDialog(title = gettextRcmdr("Bind Datasets"))
-    dsname <- tclVar("new_dataset")
+    dsname <- tclVar(unique_df_name("new_dataset"))
     idname <- tclVar(".old_dataset_id")
 
 
@@ -143,7 +143,7 @@ window_dataset_bind <- function() {
         tkfocus(CommanderWindow())
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "bind_rows")
+    OKCancelHelp(helpSubject = "bind_rows", helpPackage = "dplyr")
 
 
     tkgrid(labelRcmdr(names_Frame, text = gettextRcmdr("Name for resulting dataset:  ")),

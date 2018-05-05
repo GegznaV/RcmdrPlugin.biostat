@@ -16,7 +16,7 @@ window_dataset_bind_cols <- function() {
     # [!!!] Show number of rows in each dataset beneeth the dataset selection box.
 
     initializeDialog(title = gettextRcmdr("Bind Columns of Datasets"))
-    dsname <- tclVar("new_dataset_binded_by_cols")
+    dsname <- tclVar(unique_df_name("new_dataset_binded_by_cols"))
 
     names_Frame <- tkframe(top)
     entry_dsname <- ttkentry(names_Frame, width = "30", textvariable = dsname)
@@ -112,7 +112,7 @@ window_dataset_bind_cols <- function() {
         tkfocus(CommanderWindow())
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "bind_cols")
+    OKCancelHelp(helpSubject = "bind_cols", helpPackage = "dplyr")
 
 
     tkgrid(labelRcmdr(names_Frame, text = gettextRcmdr("Name for the resulting dataset:  ")),

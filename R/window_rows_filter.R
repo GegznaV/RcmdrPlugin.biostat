@@ -1,3 +1,7 @@
+# TODO:
+#
+# 1. Check code for possible inconsisnencies and bugs.
+
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
@@ -127,8 +131,8 @@ window_rows_filter <- function(new_dsname = NULL,
         if (is.element(new_dsname, listDataSets())) {
             if ("no" == tclvalue(checkReplace(new_dsname,
                                               gettext_EZR("Data set")))) {
-                window_rows_filter(new_dsname = new_dsname,
-                                   init_conditions = conditions,
+                window_rows_filter(new_dsname         = new_dsname,
+                                   init_conditions    = conditions,
                                    incorrect_cond_msg =
                                        glue('Chose other name than "{new_dsname}".'))
                 return()
@@ -136,7 +140,9 @@ window_rows_filter <- function(new_dsname = NULL,
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Library("dplyr")
-        command <- glue("{new_dsname} <- {activeDataSet()} %>% \n",
+        command <- glue(
+            "## Select rows that match conditions \n",
+            "{new_dsname} <- {activeDataSet()} %>% \n",
                         "dplyr::filter({conditions})") %>%
             style_cmd()
 
@@ -156,16 +162,12 @@ window_rows_filter <- function(new_dsname = NULL,
             return()
         }
 
-        command <-
-            glue("# ", gettext_EZR("Create/Replace a data frame:"), " {new_dsname}\n",
-                 style_cmd(command))
         logger(command)
-
         tkfocus(CommanderWindow())
     }
 
     # ========================================================================
-    OKCancelHelp(helpSubject = "filter",
+    OKCancelHelp(helpSubject = "filter", helpPackage = "dplyr",
                  reset = "window_rows_filter",
                  apply = "window_rows_filter")
     # Title ------------------------------------------------------------------

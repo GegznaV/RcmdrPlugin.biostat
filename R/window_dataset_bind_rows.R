@@ -15,7 +15,7 @@ window_dataset_bind_rows <- function() {
 
     # [!!!] functions to get and put diaglog are needed.
     initializeDialog(title = gettextRcmdr("Bind Rows of Datasets"))
-    dsname <- tclVar("new_dataset_binded_by_rows")
+    dsname <- tclVar(unique_df_name("new_dataset_binded_by_rows"))
     idname <- tclVar(".id")
 
     # [!!!] Check id name does not have duplicated names in any of datasets in : idname
@@ -156,7 +156,7 @@ window_dataset_bind_rows <- function() {
         tkfocus(CommanderWindow())
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "bind_rows")
+    OKCancelHelp(helpSubject = "bind_rows", helpPackage = "dplyr")
 
     tkgrid(labelRcmdr(names_Frame,
                       text = gettextRcmdr("Name for the resulting dataset:  ")),

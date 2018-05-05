@@ -6,14 +6,17 @@
 %   R/window_anova_kw_mood_tests.R, R/window_dataset_bind.R,
 %   R/window_dataset_bind_cols.R, R/window_dataset_bind_rows.R,
 %   R/window_dataset_join.R, R/window_fct_drop_lvls.R,
-%   R/window_fct_reorder_TMP.R, R/window_fct_reorder_lvls.R, R/window_pander.R,
-%   R/window_qqplot_biostat.R, R/window_rows_filter.R, R/window_rows_slice.R,
+%   R/window_fct_reorder_TMP.R, R/window_fct_reorder_lvls.R,
+%   R/window_pander.R, R/window_qqplot_biostat.R, R/window_row_names_to_col.R,
+%   R/window_rows_arrange.R, R/window_rows_filter.R, R/window_rows_slice.R,
 %   R/window_summary_count.R, R/window_summary_numeric_by_gr.R,
 %   R/window_table_to_df.R, R/window_test_normality.R, R/window_tmp.R,
-%   R/window_variable_gather.R, R/window_variable_mutate.R,
-%   R/window_variable_recode.R, R/window_variable_rename.R
+%   R/window_variable_delete.R, R/window_variable_gather.R,
+%   R/window_variable_mutate.R, R/window_variable_recode.R,
+%   R/window_variable_rename.R
 \name{gettext_EZR}
 \alias{gettext_EZR}
+\alias{variables_with_unique_values_P}
 \alias{function_not_implemented}
 \alias{class_ggplot_P}
 \alias{objects_in_env_P}
@@ -54,10 +57,11 @@
 \alias{window_plot_dot_err}
 \alias{window_plot_bar_err}
 \alias{command_rownames}
+\alias{command_row_rm_empty_rows}
 \alias{command_rowid_to_col}
-\alias{command_col_to_rownames}
-\alias{window_rows_arrange}
-\alias{window_rownames_to_col}
+\alias{window_col_to_rownames}
+\alias{window_col_to_rownames0}
+\alias{window_col_to_rownames}
 \alias{command_load_packages}
 \alias{command_getwd}
 \alias{command_get_locale}
@@ -83,10 +87,13 @@
 \alias{window_dataset_bind_rows}
 \alias{window_dataset_join}
 \alias{window_factor_lvls_drop}
-\alias{window_fct_reorder}
+\alias{window_fct_reorder_TMP}
 \alias{window_fct_reorder_lvls}
 \alias{window_pander}
 \alias{window_qqplot_biostat}
+\alias{window_rownames_to_col}
+\alias{window_rows_arrange}
+\alias{window_rows_arrange_tmp}
 \alias{window_rows_filter0}
 \alias{window_rows_filter}
 \alias{window_rows_slice}
@@ -95,6 +102,8 @@
 \alias{window_table_to_df}
 \alias{window_test_normality}
 \alias{window_tmp}
+\alias{window_variable_delete0}
+\alias{window_variable_delete}
 \alias{window_variable_gather}
 \alias{window_variable_mutate0}
 \alias{window_variable_mutate}
@@ -103,6 +112,8 @@
 \title{RcmdrPlugin.biostat functions for menus and windows.}
 \usage{
 gettext_EZR(...)
+
+variables_with_unique_values_P(n = 1)
 
 function_not_implemented(x = NULL)
 
@@ -180,13 +191,17 @@ window_plot_bar_err()
 
 command_rownames()
 
+command_row_rm_empty_rows()
+
 command_rowid_to_col()
 
-command_col_to_rownames()
+window_col_to_rownames(new_dsname = NULL, init_conditions = NULL,
+  incorrect_cond_msg = NULL)
 
-window_rows_arrange()
+window_col_to_rownames0(variables)
 
-window_rownames_to_col()
+window_col_to_rownames(new_dsname = NULL, init_conditions = NULL,
+  incorrect_cond_msg = NULL)
 
 command_load_packages()
 
@@ -238,13 +253,19 @@ window_dataset_join()
 
 window_factor_lvls_drop()
 
-window_fct_reorder()
+window_fct_reorder_TMP()
 
 window_fct_reorder_lvls()
 
 window_pander()
 
 window_qqplot_biostat()
+
+window_rownames_to_col()
+
+window_rows_arrange()
+
+window_rows_arrange_tmp()
 
 window_rows_filter0(variables)
 
@@ -262,6 +283,10 @@ window_table_to_df()
 window_test_normality()
 
 window_tmp()
+
+window_variable_delete0(variables)
+
+window_variable_delete(new_dsname = NULL, incorrect_cond_msg = NULL)
 
 window_variable_gather()
 

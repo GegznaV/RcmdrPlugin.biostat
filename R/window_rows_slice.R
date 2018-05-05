@@ -100,7 +100,7 @@ window_rows_slice <- function(){
         tkfocus(CommanderWindow())
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "slice")
+    OKCancelHelp(helpSubject = "slice", helpPackage = "dplyr")
 
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")

@@ -21,6 +21,7 @@
 #    - plot as mosaic plot;
 # 7. Possibility to sort variables.
 # 8. Add "vcd::assocstats()"
+# 9. Correct help topic.
 
 #' @rdname Menu-window-functions
 #' @export
@@ -249,7 +250,8 @@ window_summary_count <- function() {
     # ** Footer ------------------------------------------------------------------
     # OKCancelHelp()
     OKCancelHelp(
-        helpSubject = "do_summary",
+        helpSubject = "table",
+        # helpPackage = "biostat",
         model = TRUE,
         reset = "window_summary_count",
         apply = "window_summary_count"
