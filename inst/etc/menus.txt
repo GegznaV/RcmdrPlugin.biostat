@@ -87,8 +87,8 @@ menu	bs_export_menu	bs_active_ds_menu	""	""	""	""
 item	bs_active_ds_menu	cascade	"Export / Save"	bs_export_menu	"activeDataSetP()"	""
 
 item	bs_export_menu	command	"Save as R data file (.Rds)..."	window_export_as_rds	"activeDataSetP()"	""
-item	bs_export_menu	command	"[!] Save as text file (.txt, .csv, .dat)..."	window_export_as_textfile	"FALSE & activeDataSetP()"	""
-item	bs_export_menu	command	"[!] Save as Excel file (.xls, .xlsx)..."	window_export_as_excel	"FALSE & activeDataSetP()"	""
+# item	bs_export_menu	command	"[!] Save as text file (.txt, .csv, .dat)..."	window_export_as_textfile	"FALSE & activeDataSetP()"	""
+# item	bs_export_menu	command	"[!] Save as Excel file (.xls, .xlsx)..."	window_export_as_excel	"FALSE & activeDataSetP()"	""
 
 # ==============================================================================
 # ---- Manage observations / rows ---------------------------------------------
@@ -96,6 +96,9 @@ item	bs_export_menu	command	"[!] Save as Excel file (.xls, .xlsx)..."	window_exp
 menu	bs_rows_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"Rows"	bs_rows_menu	""	""
 
+item	bs_rows_menu	command	"Print row names"	command_rownames	"activeDataSetP()"	""
+
+item	bs_rows_menu	separator	""	""	""	""
 item	bs_rows_menu	command	"Arrange: sort rows..."	window_rows_arrange	"activeDataSetP()"	""
 item	bs_rows_menu	command	"Filter: select rows that match conditions..."	window_rows_filter0	"activeDataSetP()"	"packageAvailable('dplyr')"
 item	bs_rows_menu	command	"Slice: select/remove rows by row index..."	window_rows_slice	"activeDataSetP()"	"packageAvailable('dplyr')"
@@ -103,19 +106,17 @@ item	bs_rows_menu	separator	""	""	""	""
 item	bs_rows_menu	command	"Remove empty rows"	command_row_rm_empty_rows	"activeDataSetP()"	""
 item	bs_rows_menu	command	"[!] Remove rows with duplicated values..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
 item	bs_rows_menu	command	"[!] Remove rows with missing values..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
-item	bs_rows_menu	command	"[!] Fill missing values with..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
+# item	bs_rows_menu	command	"[!] Fill missing values with..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
 
 item	bs_rows_menu	separator	""	""	""	""
-item	bs_rows_menu	command	"Print row names"	command_rownames	"activeDataSetP()"	""
-item	bs_rows_menu	command	"Move row names to column..."	window_rownames_to_col	"activeDataSetP()"	"packageAvailable('tibble')"
-item	bs_rows_menu	command	"Move column values to row names..."	window_col_to_rownames	"variables_with_unique_values_P()"	"packageAvailable('tibble')"
 item	bs_rows_menu	command	"Add column with row numbers"	command_rowid_to_col	"activeDataSetP()"	"packageAvailable('tidyverse')"
+item	bs_rows_menu	command	"Move column values to row names..."	window_col_to_rownames	"variables_with_unique_values_P()"	"packageAvailable('tibble')"
+item	bs_rows_menu	command	"Move row names to column..."	window_rownames_to_col	"activeDataSetP()"	"packageAvailable('tibble')"
 # Remove row names and Add row numbers to column
 #
 #
 #item	bs_rows_menu	separator	""	""	""	""
 #item	bs_rows_menu	command	"Make random subset of rows"	window_rows_...	"activeDataSetP()"	""
-#item	bs_rows_menu	separator	""	""	""	""
 
 
 # ==============================================================================
@@ -125,22 +126,16 @@ menu	bs_varible_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"Variables (columns)"	bs_varible_menu	""	""
 
 item	bs_varible_menu	command	"Print variable (column) names"	command_colnames	"activeDataSetP()"	""
-item	bs_varible_menu	separator	""	""	""	""
-item	bs_varible_menu	command	"Rename variables..."	window_variable_rename	"activeDataSetP()"	"packageAvailable('dplyr')"
-item	bs_varible_menu	command	"Select/Delete variables..."	window_variable_delete0	"activeDataSetP()"	"packageAvailable('dplyr')"
-# item	bs_varible_menu	command	"Copy variables"	window_variable_copy	"activeDataSetP()"	"packageAvailable('dplyr')"
-# item	bs_varible_menu	command	"Change variable (column) names"	window_change_colnames	"activeDataSetP()"	""
-
 
 item	bs_varible_menu	separator	""	""	""	""
+
 item	bs_varible_menu	command	"Mutate: compute a variable..."	window_variable_mutate0	"activeDataSetP()"	"packageAvailable('dplyr')"
 item	bs_varible_menu	command	"Recode variable values..."	window_variable_recode0	"activeDataSetP()"	"packageAvailable('dplyr')"
-
-# item	bs_varible_menu	separator	""	""	""	""
-
+item	bs_varible_menu	command	"Rename variables..."	window_variable_rename	"activeDataSetP()"	"packageAvailable('dplyr')"
+item	bs_varible_menu	command	"Select/Remove variables..."	window_variable_select0	"activeDataSetP()"	"packageAvailable('dplyr')"
+# item	bs_varible_menu	command	"Copy variables"	window_variable_copy	"activeDataSetP()"	"packageAvailable('dplyr')"
 
 item	bs_varible_menu	separator	""	""	""	""
-
 item	bs_varible_menu	command	"Gather columns into long format dataset..."	window_variable_gather	"activeDataSetP()"	"packageAvailable('tidyr')"
 item	bs_varible_menu	command	"[!] Spread columns into wide format dataset..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"#Spread a key-value pair across multiple columns
 item	bs_varible_menu	command	"[!] Separate one column into multiple columns..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
@@ -339,7 +334,10 @@ item	bs_tests_menu	command	"Test normality..."	window_test_normality	"numericP()
 # item	bs_tests_menu	separator	""	""	""	""
 # item	bs_tests_menu	command	"[!] ANOVA, Kruskal-Wallis, Median tests"	window_anova_kw_mood_tests	"numericP() & factorsP()"	""
 
-# item	bs_tests_menu	cascade	"Central tendency tests"	bs_ceners_menu	""	""
+# item	bs_tests_menu	cascade	"Central tendency"	bs_ceners_menu	""	""
+# item	bs_ceners_menu	command	"One-way ANOVA"	function_not_implemented	"numericP() & factors_strict_P()"	""
+# item	bs_ceners_menu	command	"Welch F test"	function_not_implemented	"numericP() & factors_strict_P()"	""
+# item	bs_ceners_menu	command	"Kruskal-Wallis test"	function_not_implemented	"numericP() & factors_strict_P()"	""
 # menu	bs_ceners_menu	bs_tests_menu	""	""	""	""
 # item	bs_ceners_menu	command	"[!] Independent samples (eactly 2)"	function_not_implemented	"numericP() & twoLevelFactorsP()"	""
 # item	bs_ceners_menu	command	"[!] Independent samples (2 or more)"	window_anova_kw_mood_tests	"numericP() & factorsP()"	""

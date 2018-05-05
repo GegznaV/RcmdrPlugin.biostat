@@ -10,7 +10,7 @@ window_ci_mean <- function() {
     logger(paste0(
         "# # An example of code for confidence intervals of mean:\n",
         "# \n",
-        '# x <- 1:10\n',
+        '# x <- 1:50\n',
         '# DescTools::MeanCI(x, method = "boot", type = "bca", na.rm = TRUE)\n',
         "\n"
     ))
@@ -71,7 +71,7 @@ window_ci_mean_diff <- function() {
         "# # difference in means of two groups:\n",
         "# \n",
         "# set.seed(123456)\n",
-        '# x <- 1:10\n',
+        '# x <- 1:50\n',
         "# y <- rnorm(10)\n",
         '# DescTools::MeanDiffCI(x, y, method = "bca", na.rm = TRUE)\n',
         "\n"
@@ -94,7 +94,7 @@ window_ci_median <- function() {
     logger(paste0(
         "# # An example of code for confidence intervals of median:\n",
         "# \n",
-        '# x <- 1:10\n',
+        '# x <- 1:50\n',
         '# DescTools::MedianCI(x, method = "boot", type = "bca",  na.rm = TRUE)\n',
         "\n"
     ))
@@ -186,7 +186,7 @@ window_ci_boot <- function() {
         "# # (in the example, CI of Pearson correlation coefficient):\n",
         "# \n",
         "# set.seed(123456)\n",
-        "# x <- 1:10\n",
+        "# x <- 1:50\n",
         "# y <- rnorm(10)\n",
         '# DescTools::BootCI(x, y, FUN = cor, bci.method = "bca")\n',
         "\n"

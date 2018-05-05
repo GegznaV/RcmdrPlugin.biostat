@@ -2,13 +2,14 @@
 # 1. Add possibility to reorder variables
 # 2. Check if `incorrect_cond_msg` argument is needed.
 # 3. Create blue title for the window.
+# 4. Buttons with options for dataset name: the asme name as original; new name
 
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-# Correctly initializes window `window_variable_delete()`
-window_variable_delete0  <- function(variables) {
-    window_variable_delete()
+# Correctly initializes window `window_variable_select()`
+window_variable_select0  <- function(variables) {
+    window_variable_select()
 }
 
 #' @rdname Menu-window-functions
@@ -16,27 +17,26 @@ window_variable_delete0  <- function(variables) {
 #' @keywords internal
 # new_dsname (character) - data frame name
 # incorrect_cond_msg (character) - Message for incorrect expression.
-window_variable_delete <- function(new_dsname = NULL,
+window_variable_select <- function(new_dsname = NULL,
                                    incorrect_cond_msg = NULL) {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_Bio("Select/Delete variables from data set"))
+    initializeDialog(title = gettext_Bio("Select/Remove variables from data set"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
 
     var_select_box <- variableListBox2(
         upper_frame,
         Variables(),
-        title = gettext_Bio("Select (include) \n(pick one or more)"),
+        title = gettext_Bio("Select / Include \n(pick one or more)"),
         selectmode = "multiple",
         initialSelection = NA,
         listHeight = 8
     )
 
-
     var_delete_box <- variableListBox2(
         upper_frame,
         Variables(),
-        title = gettext_Bio("Delete \n(pick one or more)"),
+        title = gettext_Bio("Remove \n(pick one or more)"),
         selectmode = "multiple",
         initialSelection = NA,
         listHeight = 8
@@ -49,7 +49,7 @@ window_variable_delete <- function(new_dsname = NULL,
 
     new_dsname_variable <- tclVar(new_dsname)
     new_dsname_field    <- ttkentry(lower_frame,
-                                    width = "46",
+                                    width = "50",
                                     textvariable = new_dsname_variable)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -62,7 +62,7 @@ window_variable_delete <- function(new_dsname = NULL,
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if ((length(var_select) + length(var_delete)) == 0) {
             errorCondition(
-                recall = window_variable_delete,
+                recall = window_variable_select,
                 message = gettext_Bio("You must select one or more variables.")
             )
             return()
@@ -75,9 +75,9 @@ window_variable_delete <- function(new_dsname = NULL,
             if (new_dsname %in% listDataSets()) {
                 if ("no" == tclvalue(checkReplace(new_dsname,
                                                   gettext_EZR("Data set")))) {
-                    window_variable_delete(new_dsname     = new_dsname,
-                                       incorrect_cond_msg =
-                                           glue('Chose other name than "{new_dsname}".'))
+                    window_variable_select(new_dsname     = new_dsname,
+                                           incorrect_cond_msg =
+                                               glue('Chose other name than "{new_dsname}".'))
                     return()
                 }
             }
@@ -87,7 +87,7 @@ window_variable_delete <- function(new_dsname = NULL,
                 RcmdrTkmessageBox(
                     message =
                         sprintf(
-                            gettext_Bio("Variable(s):\nExplicitly selected to include: %d\nExplicitly selected to delete: %d\nPlease confirm."),
+                            gettext_Bio("Variable(s):\nExplicitly selected to include: %d\nExplicitly selected to remove: %d\nPlease confirm."),
                             length(var_select), length(var_delete)
                         ),
                     icon    = "warning",
@@ -104,7 +104,6 @@ window_variable_delete <- function(new_dsname = NULL,
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Library("dplyr")
-
 
         to_select <-
             if (length(var_select) > 0) {
@@ -132,7 +131,7 @@ window_variable_delete <- function(new_dsname = NULL,
 
         variables <- stringr::str_c(to_select, to_reorder, to_delete, sep = ", ")
 
-        command <- glue("## Delete, select, reorder variables \n",
+        command <- glue("## Select, reorder, remove variables \n",
                         "{new_dsname} <- {activeDataSet()} %>% \n",
                         "dplyr::select({variables})") %>%
             style_cmd()
@@ -152,21 +151,24 @@ window_variable_delete <- function(new_dsname = NULL,
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     OKCancelHelp(helpSubject = "select", helpPackage = "dplyr")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(
-        labelRcmdr(top,
-                   # fg = getRcmdr("title.color"),
-                   text = gettext_EZR("Choose either variables to delete, \nor variables to include. ")),
+        label_rcmdr(top,
+                    # fg = getRcmdr("title.color"),
+                    text = gettext_EZR("Choose either variables to include, or variables to remove. ")),
         pady = c(0, 10))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(upper_frame, sticky = "new", columnspan = 2)
-    tkgrid(getFrame(var_select_box), getFrame(var_delete_box), sticky = "nw")
+    tkgrid(upper_frame, columnspan = 3, sticky = "n")
+    tkgrid(getFrame(var_select_box),
+           label_rcmdr(upper_frame, text = "       "),
+           getFrame(var_delete_box))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(lower_frame, sticky = "new", columnspan = 2)
+    tkgrid(lower_frame, sticky = "n", columnspan = 3)
 
     tkgrid(
-        labelRcmdr(lower_frame,
-                   fg = getRcmdr("title.color"),
-                   text = gettext_EZR("Name for dataset with selected/deleted variables: ")),
+        label_rcmdr(lower_frame,
+                    fg = getRcmdr("title.color"),
+                    text = gettext_EZR("Name for modified dataset \n(with selected and without removed variables) ")),
         pady = c(15, 0),
         sticky = "nw")
 
@@ -175,6 +177,6 @@ window_variable_delete <- function(new_dsname = NULL,
         pady = c(0, 0),
         sticky = "nw")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(buttonsFrame, sticky = "w")
+    tkgrid(buttonsFrame, sticky = "ew")
     dialogSuffix(rows = 2, columns = 1)
 }
