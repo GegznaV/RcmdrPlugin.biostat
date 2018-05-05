@@ -18,13 +18,18 @@ command_rownames <- function() {
 #' @keywords internal
 command_row_rm_empty_rows <- function() {
     Library("tidyverse")
+    ds      <- ActiveDataSet()
 
-    ds <- ActiveDataSet()
+    dim_before <- eval_glue("dim({ds})", envir_eval = .GlobalEnv)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    command <- glue::glue("## Remove empty rows\n",
+                          "{ds} <- {ds}[rowSums(is.na({ds})) == 0, ]")
+    doItAndPrint(command)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    dim_after <- eval_glue("dim({ds})", envir_eval = .GlobalEnv)
 
-    glue::glue("## Remove empty rows\n",
-               "{ds} <- {ds}[rowSums(is.na({ds})) == 0, ]")
-
-    doItAndPrint()
+    if (!identical(dim_before, dim_after))
+        command_dataset_refresh()
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
