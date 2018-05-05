@@ -92,7 +92,7 @@
 \alias{window_pander}
 \alias{window_qqplot_biostat}
 \alias{window_rownames_to_col}
-\alias{window_rows_arrange}
+\alias{window_rows_arrange_tmp}
 \alias{window_rows_filter0}
 \alias{window_rows_filter}
 \alias{window_rows_slice}
@@ -262,7 +262,7 @@ window_qqplot_biostat()
 
 window_rownames_to_col()
 
-window_rows_arrange()
+window_rows_arrange_tmp()
 
 window_rows_filter0(variables)
 
