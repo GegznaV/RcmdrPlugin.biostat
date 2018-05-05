@@ -74,24 +74,13 @@ window_rows_slice <- function(){
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         closeDialog()
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-        # indexRows <- if (is.numeric(index))
-        #     paste("-", indexRows, sep = "")
-        # else
-        #     paste("!(rownames(", ActiveDataSet(), ") %in% ", indexRows, ")", sep =
-        #               "")
-        # command <-
-        #     paste(new_dsname, " <- ", ActiveDataSet(), "[", indexRows, ",]", sep = "")
-
         Library("dplyr")
+
         command <- glue(
             "## ", gettext_Bio("Select/Remove rows by index"), "\n\n",
             "{new_dsname} <- {activeDataSet()} %>% \n",
             "dplyr::slice({index})") %>%
             style_cmd()
-
-
 
         logger(command)
         result <- justDoIt(command)
@@ -150,7 +139,7 @@ window_rows_slice <- function(){
                 gettextRcmdr(" - comma separated;\n"),
                 gettextRcmdr(" - either positive integers to select rows;\n"),
                 gettextRcmdr(" - or negative integers to remove rows.\n"),
-                gettextRcmdr("Use colon to select ranges from:to, n() is the last row. \n")
+                gettextRcmdr("Use colon to select ranges from:to. Function n() denotes the last row.\n")
             ),
             foreground = getRcmdr("title.color"),
             font = "RcmdrTitleFont"

@@ -1,7 +1,10 @@
 # TODO:
 #
-# # 1. When push "Apply" button and an error occurs, two windows open.
+# 1. When push "Apply" button and an error occurs, two windows open.
 #    Apply is now disabled and this should be fixed.
+#
+# 2. In variable box text [factor] should be differentiated
+#    to [character], [logical], [factor]
 
 #' @rdname Menu-window-functions
 #' @export
