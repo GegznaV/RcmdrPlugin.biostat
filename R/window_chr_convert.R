@@ -60,7 +60,7 @@ window_chr_convert <- function() {
     suffixField <- ttkentry(top, width = "20", textvariable = suffix)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     radioButtons_horizontal(name = "which_names",
-                            title = gettext_Bio("Variables: "),
+                            title = gettext_Bio("Variable names: "),
                             title.color = getRcmdr("title.color"),
                             buttons = c("overwrite", "new_names"),
                             values  = c("overwrite", "new_names"),
