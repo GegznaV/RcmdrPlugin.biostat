@@ -15,7 +15,9 @@ enter_info_window <-
              text_choose = "Choose file...",
              returnValOnCancel = NULL,
              returnValOnChose = NA) {
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         dlg <- tktoplevel()
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkwm.deiconify(dlg)
         tkgrab.set(dlg)
         tkfocus(dlg)
@@ -61,20 +63,24 @@ enter_info_window <-
             # tkfocus(parent)
         }
 
-        butCHOOSE <- tk2button(dlg,
+        buttons_frame <- tkframe(dlg)
+
+        butCHOOSE <- tk2button(buttons_frame,
                                text = text_choose,
                                width = -6,
                                command = onCHOOSE)
 
-        butOK <- tk2button(dlg,
+        butOK <- tk2button(buttons_frame,
                            text = "OK",
                            width = -6,
                            command = onOK)
 
-        butCancel <- tk2button(dlg,
+        butCancel <- tk2button(buttons_frame,
                                text = "Cancel",
                                width = -6,
                                command = onCancel)
+
+        tkgrid(buttons_frame, columnspan = 2, sticky = "e")
 
         tkgrid(butCancel, butCHOOSE, butOK,
                padx = 10, pady = c(0, 15))

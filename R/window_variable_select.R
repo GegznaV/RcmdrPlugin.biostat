@@ -45,7 +45,7 @@ window_variable_select <- function(new_dsname = NULL,
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     lower_frame <- tkframe(top)
 
-    if (is.null(new_dsname))  new_dsname <- activeDataSet()
+    if (is.null(new_dsname))  new_dsname <- unique_df_name(activeDataSet())
 
     new_dsname_variable <- tclVar(new_dsname)
     new_dsname_field    <- ttkentry(lower_frame,
@@ -87,7 +87,7 @@ window_variable_select <- function(new_dsname = NULL,
                 RcmdrTkmessageBox(
                     message =
                         sprintf(
-                            gettext_Bio("Variable(s):\nExplicitly selected to include: %d\nExplicitly selected to remove: %d\nPlease confirm."),
+                            gettext_Bio("Variable(s):\nExplicitly selected to include: %d\nExplicitly selected to remove: %d\nPlease confirm to modify your dataset."),
                             length(var_select), length(var_delete)
                         ),
                     icon    = "warning",

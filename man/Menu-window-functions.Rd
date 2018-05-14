@@ -7,11 +7,12 @@
 %   R/window_dataset_bind_cols.R, R/window_dataset_bind_rows.R,
 %   R/window_dataset_join.R, R/window_fct_drop_lvls.R,
 %   R/window_fct_lvls_reorder_manual.R, R/window_fct_reorder_TMP.R,
-%   R/window_pander.R, R/window_qqplot_biostat.R, R/window_row_names_to_col.R,
-%   R/window_rows_arrange.R, R/window_rows_filter.R, R/window_rows_slice.R,
-%   R/window_summary_count.R, R/window_summary_numeric_by_gr.R,
-%   R/window_table_to_df.R, R/window_test_anova.R, R/window_test_normality.R,
-%   R/window_tmp.R, R/window_variable_gather.R, R/window_variable_mutate.R,
+%   R/window_import_rds.R, R/window_pander.R, R/window_qqplot_biostat.R,
+%   R/window_row_names_to_col.R, R/window_rows_arrange.R,
+%   R/window_rows_filter.R, R/window_rows_slice.R, R/window_summary_count.R,
+%   R/window_summary_numeric_by_gr.R, R/window_table_to_df.R,
+%   R/window_test_anova.R, R/window_test_normality.R, R/window_tmp.R,
+%   R/window_variable_gather.R, R/window_variable_mutate.R,
 %   R/window_variable_recode.R, R/window_variable_rename.R,
 %   R/window_variable_select.R
 \name{gettext_EZR}
@@ -39,10 +40,10 @@
 \alias{window_ci_boot}
 \alias{Menu-window-functions}
 \alias{window_distributions_descriptr}
-\alias{window_export_as_textfile}
-\alias{window_export_as_rds}
-\alias{window_export_as_excel}
-\alias{window_import_rds}
+\alias{window_export_to_rds}
+\alias{window_export_to_rdata}
+\alias{window_export_to_excel}
+\alias{window_export_to_textfile}
 \alias{dataset_import_excel}
 \alias{command_std_lm_coeffs}
 \alias{command_get_model_class}
@@ -89,6 +90,7 @@
 \alias{window_factor_lvls_drop}
 \alias{window_fct_lvls_reorder_manual}
 \alias{window_fct_reorder_TMP}
+\alias{window_import_rds}
 \alias{window_pander}
 \alias{window_qqplot_biostat}
 \alias{window_rownames_to_col}
@@ -157,13 +159,13 @@ window_ci_boot()
 
 window_distributions_descriptr()
 
-window_export_as_textfile()
+window_export_to_rds()
 
-window_export_as_rds()
+window_export_to_rdata()
 
-window_export_as_excel()
+window_export_to_excel()
 
-window_import_rds()
+window_export_to_textfile()
 
 dataset_import_excel()
 
@@ -258,6 +260,8 @@ window_factor_lvls_drop()
 window_fct_lvls_reorder_manual()
 
 window_fct_reorder_TMP()
+
+window_import_rds()
 
 window_pander()
 
