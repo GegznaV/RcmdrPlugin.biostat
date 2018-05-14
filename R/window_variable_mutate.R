@@ -1,10 +1,10 @@
 # TODO:
 #
 # 1. When push "Apply" button and an error occurs, two windows open.
-#    Apply is now disabled and this should be fixed.
+#    "Apply" is now disabled and this should be fixed.
 #
-# 2. In variable box text [factor] should be differentiated
-#    to [character], [logical], [factor]
+# 2. In variable box text "[factor]" should be differentiated
+#    to "[character]", "[logical]", "[factor]"
 
 #' @rdname Menu-window-functions
 #' @export
@@ -176,8 +176,10 @@ window_variable_mutate <- function(var_name = NULL,
             return()
         }
 
+
         command <-
-            glue("# ", gettext_EZR("Create/Replace a variable:"), " {newVar}\n",
+            # glue("## ", gettext_EZR("Create/Replace a variable:"), " {newVar}\n",
+            glue("## ", gettext_EZR("Compute a variable:"), " {newVar}\n",
                                    style_cmd(command))
         logger(command)
 

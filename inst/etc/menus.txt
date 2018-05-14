@@ -86,9 +86,11 @@ item	bs_active_ds_menu	separator	""	""	""	""
 menu	bs_export_menu	bs_active_ds_menu	""	""	""	""
 item	bs_active_ds_menu	cascade	"Export / Save"	bs_export_menu	"activeDataSetP()"	""
 
-item	bs_export_menu	command	"Save as R data file (.Rds)..."	window_export_as_rds	"activeDataSetP()"	""
-# item	bs_export_menu	command	"[!] Save as text file (.txt, .csv, .dat)..."	window_export_as_textfile	"FALSE & activeDataSetP()"	""
-# item	bs_export_menu	command	"[!] Save as Excel file (.xls, .xlsx)..."	window_export_as_excel	"FALSE & activeDataSetP()"	""
+item	bs_export_menu	command	"Save data to Excel file (.xlsx)..."	window_export_to_excel	"activeDataSetP()"	""
+item	bs_export_menu	command	"Save data to R data file (.Rds)..."	window_export_to_rds	"activeDataSetP()"	""
+item	bs_export_menu	command	"Save data to R data file (.RData)..."	window_export_to_rdata	"activeDataSetP()"	""
+item	bs_export_menu	command	"Save data to text file (.txt, .csv)..."	window_export_to_textfile	"activeDataSetP()"	""
+
 
 # ==============================================================================
 # ---- Manage observations / rows ---------------------------------------------
@@ -104,9 +106,9 @@ item	bs_rows_menu	command	"Filter: select rows that match conditions..."	window_
 item	bs_rows_menu	command	"Slice: select/remove rows by row index..."	window_rows_slice	"activeDataSetP()"	"packageAvailable('dplyr')"
 item	bs_rows_menu	separator	""	""	""	""
 item	bs_rows_menu	command	"Remove empty rows"	command_row_rm_empty_rows	"activeDataSetP()"	""
-item	bs_rows_menu	command	"[!] Remove rows with duplicated values..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
-item	bs_rows_menu	command	"[!] Remove rows with missing values..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
-# item	bs_rows_menu	command	"[!] Fill missing values with..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
+# item	bs_rows_menu	command	"[!] Remove rows with duplicated values..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
+# item	bs_rows_menu	command	"[!] Remove rows with missing values..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
+# # item	bs_rows_menu	command	"[!] Fill missing values with..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
 
 item	bs_rows_menu	separator	""	""	""	""
 item	bs_rows_menu	command	"Add column with row numbers"	command_rowid_to_col	"activeDataSetP()"	"packageAvailable('tidyverse')"
@@ -137,9 +139,9 @@ item	bs_varible_menu	command	"Select/Remove variables..."	window_variable_select
 
 item	bs_varible_menu	separator	""	""	""	""
 item	bs_varible_menu	command	"Gather columns into long format dataset..."	window_variable_gather	"activeDataSetP()"	"packageAvailable('tidyr')"
-item	bs_varible_menu	command	"[!] Spread columns into wide format dataset..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"#Spread a key-value pair across multiple columns
-item	bs_varible_menu	command	"[!] Separate one column into multiple columns..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
-item	bs_varible_menu	command	"[!] Unite multiple columns into one column..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
+# item	bs_varible_menu	command	"[!] Spread columns into wide format dataset..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"#Spread a key-value pair across multiple columns
+# item	bs_varible_menu	command	"[!] Separate one column into multiple columns..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
+# item	bs_varible_menu	command	"[!] Unite multiple columns into one column..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
 
 item	bs_varible_menu	separator	""	""	""	""
 
@@ -348,7 +350,6 @@ item	BioStat_menu	cascade	"Settings"	bs_settings_menu	""	""
 
 item	bs_settings_menu	command	"Show working directory" command_getwd ""	""
 item	bs_settings_menu	separator	""	""	""	""
-
 
 item	bs_settings_menu	command	"Session information [devtools]"	command_session_info_devtools	""	""
 item	bs_settings_menu	command	"Session information [utils]"	command_session_info_utils	""	""
