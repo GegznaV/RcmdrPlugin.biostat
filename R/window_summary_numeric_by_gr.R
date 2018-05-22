@@ -10,6 +10,9 @@
 #
 # 3. Add posibibity to use parameter to trim mean (percentage of trimmed points),
 #  choose skewness (type of skewness), etc.
+#
+# 4. Add checkbox "hide numeric variables" under grouping variable box, which
+#     allows to oselect between all and non-numeric variables
 
 #' @rdname Menu-window-functions
 #' @export
@@ -20,9 +23,9 @@ window_do_summary <- function() {
     # Default values ---------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     defaults <- list(
-        initial.y_var = NULL,
-        initial.gr_var = NULL,
-        initial.digits = "NA",
+        initial.y_var      = NULL,
+        initial.gr_var     = NULL,
+        initial.digits     = "NA",
         initial.keep_model = FALSE
     )
 
@@ -47,18 +50,19 @@ window_do_summary <- function() {
         dataFrame,
         Numeric(),
         selectmode = "multiple",
-        listHeight = 6,
-        title = gettextRcmdr("Variable to summarize \n(pick one or several)"),
+        listHeight = 8,
+        title = gettextRcmdr("Variable(s) to summarize \n(pick one or several)"),
         initialSelection = varPosn(dialog.values$initial.y_var, "numeric")
     )
 
     groupBox <- variableListBox2(
         dataFrame,
         selectmode = "multiple",
-        Factors(),
-        listHeight = 6,
-        title = gettextRcmdr("Group variable \n(pick one, several or none)"),
-        initialSelection = varPosn(dialog.values$initial.gr_var, "factor"))
+        Variables(), # Factors(),
+        listHeight = 8,
+        title = gettextRcmdr("Grouping variable(s) \n(pick one, several or none)"),
+        initialSelection = dialog.values$initial.gr_var)
+        # initialSelection = varPosn(dialog.values$initial.gr_var, "factor"))
 
     tkgrid(
         getFrame(yBox),
