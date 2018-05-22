@@ -55,7 +55,10 @@ Imports:
     styler,
     tidyverse,
     utils,
-    vcd
+    vcd,
+    forcats,
+    purrr,
+    tibble
 Suggests:
     extrafont,
     knitr,
