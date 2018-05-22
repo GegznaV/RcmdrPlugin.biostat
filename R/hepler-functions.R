@@ -244,14 +244,14 @@ var_pos_n <- function(variables,
     if (is.null(vars))
         vars <- switch(
             type,
-            all = Variables(),
-            character = variables_chr(),
-            logical = variables_lgl(),
+            all           = Variables(),
+            character     = variables_chr(),
+            logical       = variables_lgl(),
             factor_strict = variables_fct(),
-            factor = Factors(),
-            numeric = Numeric(),
-            nonfactor = setdiff(Variables(),
-                                Factors()), twoLevelFactor = TwoLevelFactors())
+            factor        = Factors(),
+            numeric       = Numeric(),
+            nonfactor     = setdiff(Variables(),
+                                    Factors()), twoLevelFactor = TwoLevelFactors())
     if (any(!variables %in% vars))
         NULL
     else apply(outer(variables, vars, "=="), 1, which) - 1
