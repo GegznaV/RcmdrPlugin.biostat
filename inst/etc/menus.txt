@@ -230,7 +230,7 @@ item	bs_summary_menu	command	"Summarize numerical variables by group..."	window_
 
 
 item	bs_summary_menu	separator	""	""	""	""
-item	bs_summary_menu	command	"Frequency table for categorical variables..."	window_summary_count	"factorsP()"	""
+item	bs_summary_menu	command	"Frequency table / Multi-way table..."	window_summary_count	"factorsP()"	""
 # df %>% dplyr::count(..., ...);
 # df %>% with(table(..., ...)) %>% as.data.frame()
 

@@ -303,23 +303,23 @@ radioButtons_horizontal <-
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-radiobuttons_env <- function(window = top,
-                             name = stop("name not supplied"),
-                             buttons = stop("buttons not supplied"),
-                             values = NULL,
-                             initialValue = ..values[1],
-                             labels = stop("labels not supplied"),
-                             title = "",
-                             title.color = getRcmdr("title.color"),
+radiobuttons_env <- function(window        = top,
+                             name          = stop("name not supplied"),
+                             buttons       = stop("buttons not supplied"),
+                             values        = NULL,
+                             initialValue  = ..values[1],
+                             labels        = stop("labels not supplied"),
+                             title         = "",
+                             title.color   = getRcmdr("title.color"),
                              right.buttons = FALSE,
-                             command = function() {},
-                             env = parent.frame())
+                             command       = function() {},
+                             env           = parent.frame())
 {
 
     tmp <- substitute({
         on.exit(remove(list = objects(pattern = "^\\.\\.", all.names = TRUE)))
-        ..values <- if (is.null(values)) buttons else values
-        ..frame <- paste(name, "Frame", sep = "")
+        ..values   <- if (is.null(values)) buttons else values
+        ..frame    <- paste(name, "Frame", sep = "")
         assign(..frame, tkframe(window))
         ..variable <- paste(name, "Variable", sep = "")
         assign(..variable, tclVar(initialValue))
@@ -370,4 +370,41 @@ radiobuttons_env <- function(window = top,
         }
     })
     eval(tmp, env)
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+#' Message box, which asks if object should be replaced
+#' @name box_ask_to_replace
+#' @param name The name of the object.
+#' @param type The type of the object.
+#' @keywords internal
+#' @return Logical value: TRUE -- to replace or FALSE -- not to replace.
+# @export
+#
+# @examples
+box_ask_to_replace <- function(name, type = gettextRcmdr("Object")) {
+    rez <- RcmdrTkmessageBox(
+        message = sprintf(
+            gettextRcmdr('%s "%s" already exists.\nOverwrite the %s?'),
+            type,
+            name,
+            tolower(type)
+        ),
+        icon = "warning",
+        type = "yesno",
+        default = "no"
+    )
+    tclvalue(rez) == "yes"
+}
+
+#' @rdname box_ask_to_replace
+replace_object <- function(name, type = gettextRcmdr("Object")) {
+    box_ask_to_replace(name, type)
+}
+
+#' @rdname box_ask_to_replace
+replace_variable <- function(name, type = gettextRcmdr("Variable")) {
+    box_ask_to_replace(name, type)
 }

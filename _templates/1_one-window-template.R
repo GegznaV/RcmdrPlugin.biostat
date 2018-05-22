@@ -52,7 +52,7 @@ window_... <- function() {
     #     selectmode = "multiple",
     #     Factors(),
     #     listHeight = 6,
-    #     title = gettextRcmdr("Group variable \n(pick one, several or none)"),
+    #     title = gettextRcmdr("Grouping variable(s) \n(pick one, several or none)"),
     #     initialSelection = varPosn(dialog_values$initial_gr_var, "factor"))
     #
     # tkgrid(

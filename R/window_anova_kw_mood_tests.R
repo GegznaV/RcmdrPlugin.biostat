@@ -187,7 +187,7 @@ window_anova_kw_mood_tests <- function() {
         dataFrame,
         Factors(),
         listHeight = 10,
-        title = gettextRcmdr("Group variable \n(pick one)"),
+        title = gettextRcmdr("Grouping variable \n(pick one)"),
         initialSelection = varPosn(dialog.values$initial.group, "factor"))
 
     responseBox <- variableListBox2(

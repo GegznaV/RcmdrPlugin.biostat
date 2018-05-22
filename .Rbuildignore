@@ -8,3 +8,7 @@ _pkgdown.yaml
 ^docs.*
 logfilename
 .travis.yml
+Rplots.pdf
+_templates.*
+functions-under-development.*
+tutorials-under-development'.*

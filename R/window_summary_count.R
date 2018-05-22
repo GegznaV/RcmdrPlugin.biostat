@@ -20,23 +20,58 @@
 #    - plot as bar plot;
 #    - plot as mosaic plot;
 # 7. Possibility to sort variables.
-# 8. Add "vcd::assocstats()"
+# 8. Add "vcd::assoc_stats()"
 # 9. Correct help topic.
+# 10. Add three boxes for variables as in "multi-way table.." in original Rcommander menu.
+# 11. Acticate/Deactivate approptiate checkboxes if exactly 2 variables are selected.
 
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 window_summary_count <- function() {
     # cur_env <- environment()
+
+    # Functions --------------------------------------------------------------
+    activate_checkboxes <- function() {
+        x_var            <- getSelection(xBox)
+        y_var            <- getSelection(yBox)
+        z_var            <- getSelection(zBox)
+
+        n_vars <- length(c(x_var, y_var, z_var))
+
+        if (n_vars == 2) {
+            tk_activate(chisq_testCheckBox)
+            tk_activate(fisher_testCheckBox)
+        } else {
+            tk_disable(chisq_testCheckBox)
+            tk_disable(fisher_testCheckBox)
+            tclvalue(chisq_testVariable) <- "0"
+            tclvalue(fisher_testVariable) <- "0"
+
+        }
+        if (n_vars >= 2) {
+            tk_activate(assoc_statsCheckBox)
+        } else {
+            tk_disable(assoc_statsCheckBox)
+            tclvalue(assoc_statsVariable) <- "0"
+        }
+
+    }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Default values ---------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     defaults <- list(
-        initial_y_var = NULL,
-        # initial_gr_var = NULL,
-        # initial_digits = "NA",
-        initial_as_df = TRUE,
-        initial_keep_model = FALSE
+        # initial_digits     = "NA",
+        # initial_gr_var     = NULL,
+        initial_x_var        = NULL,
+        initial_y_var        = NULL,
+        initial_z_var        = NULL,
+        initial_table_type   = "df",
+
+        initial_chisq_test   = FALSE,
+        initial_fisher_test  = FALSE,
+        initial_assoc_stats  = FALSE,
+        initial_keep_model   = FALSE
     )
 
     dialog_values <- getDialog("window_summary_count", defaults)
@@ -46,7 +81,7 @@ window_summary_count <- function() {
     # tabs =      c("dataTab", "optionsTab")
     # tab_names = c(" Data ",  " Options ")
 
-    initializeDialog(title = gettextRcmdr("Frequency table (for categorical data)"))
+    initializeDialog(title = gettextRcmdr("Frequency / Multi-way table"))
 
     # posthocFrame <- tkframe(posthocTab)
     # plotsFrame   <- tkframe(plotsTab)
@@ -57,196 +92,267 @@ window_summary_count <- function() {
     # . Variable selection -----------------------------------------------------
 
 
-    dataFrame <- tkframe(main_frame)
+    main_data_frame <- tkframe(main_frame)
+
+    xBox <- variableListBox2(
+        main_data_frame,
+        Variables(),
+        selectmode = "single",
+        listHeight = 7,
+        title = gettextRcmdr("First/Row variable \n(select one)"),
+        initialSelection = var_pos_n(dialog_values$initial_x_var),
+        onRelease_fun = activate_checkboxes
+    )
+
     yBox <- variableListBox2(
-        dataFrame,
-        Factors(),
+        main_data_frame,
+        Variables(),
+        selectmode = "single",
+        # selectmode = "multiple",
+        listHeight = 7,
+        title = gettextRcmdr("Second/Column variable \n(select one or none)"),
+        initialSelection = var_pos_n(dialog_values$initial_y_var),
+        onRelease_fun = activate_checkboxes
+    )
+
+    zBox <- variableListBox2(
+        main_data_frame,
+        Variables(),
         selectmode = "multiple",
         listHeight = 7,
-        title = gettextRcmdr("Variables\n(pick one or several)"),
-        initialSelection = varPosn(dialog_values$initial_y_var, "numeric")
+        title = gettextRcmdr("Other/Control variables \n(select one, several or none)"),
+        initialSelection = var_pos_n(dialog_values$initial_z_var),
+        onRelease_fun = activate_checkboxes
     )
 
-    # groupBox <- variableListBox2(
-    #     dataFrame,
-    #     selectmode = "multiple",
-    #     Factors(),
-    #     listHeight = 6,
-    #     title = gettextRcmdr("Group variable \n(pick one, several or none)"),
-    #     initialSelection = varPosn(dialog_values$initial_gr_var, "factor"))
-    #
-    # tkgrid(
-    #     getFrame(yBox),
-    #     labelRcmdr(dataFrame, text = "        "), # Vertical space
-    #     getFrame(groupBox),
-    #     sticky = "nw", pady = c(5, 5)
-    # )
-    tkgrid(
-        getFrame(yBox),
-        sticky = "nw", pady = c(5, 5), padx = c(0, 10)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ** Options tab ---------------------------------------------------------
+
+    # Middle frame ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    main_middle_frame <- tkframe(main_frame)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Rcmdr::radioButtons(
+        main_middle_frame,
+        name         = "table_type",
+        buttons      = c("df", "multiway"),
+        labels       = gettextRcmdr(c("Frequency table\n(data frame)", "Multi-way table")),
+        initialValue = dialog_values$initial_table_type,
+        title        = gettextRcmdr("Type of table:")
     )
 
+    # Middle right frame ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    main_middle_right_frame <- tkframe(main_middle_frame)
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # ** Main tab ------------------------------------------------------------
-    # . Main test & model name textbox ---------------------------------------
-
-    main_top_frame <- tkframe(main_frame)
+    bs_check_boxes(main_middle_right_frame,
+                   title = "Options: \n(enabled when exactly 2 variables are selected)",
+                   # ttk = TRUE,
+                   frame = "checkboxes_frame",
+                   boxes = c("chisq_test",
+                             "fisher_test",
+                             "assoc_stats"
+                   ),
+                   initialValues = c(
+                       dialog_values$initial_chisq_test ,
+                       dialog_values$initial_fisher_test,
+                       dialog_values$initial_assoc_stats),
+                   labels = gettextRcmdr(
+                       c("Pearson's chi-square test",
+                         "Fisher's exact test",
+                         "Measures of association for categorical variables")
+                   ),
+                   commands = list("chisq_test"  = function(){},
+                                   "fisher_test" = function(){},
+                                   "assoc_stats" = function(){})
+    )
 
     # Choose model name ------------------------------------------------------
-    UpdateModelNumber()
+    main_frame_b <- tkframe(main_frame)
 
-    modelName <- tclVar(paste0(activeDataSet(),"_freq_table_", getRcmdr("modelNumber")))
-    model_boxlFrame <- tkframe(main_top_frame)
-    model <- ttkentry(model_boxlFrame, width = "20", textvariable = modelName)
+    initial_model_name      <- unique_obj_names(activeDataSet(),
+                                                suffix       = "_freq_table",
+                                                all_numbered = TRUE)
+    model_name_var          <- tclVar(initial_model_name)
+    model_name_box          <- ttkentry(main_frame_b,
+                                        width        = "20",
+                                        textvariable = model_name_var)
 
-
-    bs_check_boxes(model_boxlFrame,
-                   # ttk = TRUE,
-                   frame = "keep_model_Frame",
-                   # title = "Plot options",
-                   boxes = c("as_df", "keep_model"),
-                   initialValues = c(dialog_values$initial_as_df,
-                                     dialog_values$initial_keep_model),
+    keep_model_frame <- tkframe(main_frame_b)
+    bs_check_boxes(keep_model_frame,
+                   frame = "keep_model_inner_frame",
+                   boxes = c("keep_model"),
+                   initialValues = c(
+                       dialog_values$initial_keep_model),
                    labels = gettextRcmdr(
-                       c("Summary as data frame", "Keep summary")
+                       c("Keep summary in R memory")
                    ),
-                   commands = list("as_df" = function(){},
-                                   "keep_model" = function(){})
+                   commands = list("keep_model"  = function(){})
     )
 
-    tkgrid(keep_model_Frame, sticky = "ew")
-    tkgrid(labelRcmdr(model_boxlFrame,
-                      text = gettextRcmdr("Enter name for summary: "),
-                      fg = Rcmdr::getRcmdr("title.color")),   sticky = "w")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    tkgrid(model, sticky = "ew")
-
-    # tkgrid(as_df_Frame, sticky = "ew")
-
-    tkgrid(model_boxlFrame, sticky = "nw")
-
-
-    # digitsVar <- tclVar(dialog_values$initial_digits)
-    #
-    # digitsVarFrame <- tkframe(main_top_frame)
-    # digitsBox      <- ttkentry(digitsVarFrame, width = "20", textvariable = digitsVar)
-    #
-    # tkgrid(labelRcmdr(digitsVarFrame,
-    #                   text = gettextRcmdr("Decimal digits to round to:\n(either integer or NA)"),
-    #                   fg = Rcmdr::getRcmdr("title.color")),   sticky = "w")
-    #
-    # tkgrid(digitsBox, sticky = "ew")
-    # tkgrid(digitsVarFrame, sticky = "nw")
-
-
-    # tkgrid(main_top_frame, sticky = "nw")
-
-    tkgrid(dataFrame, main_top_frame, columnspan = 2, sticky = "sw")
-    tkgrid(main_frame, sticky = "w")
+    activate_checkboxes()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
-
         # gr_var         <- getSelection(groupBox)
+        x_var            <- getSelection(xBox)
         y_var            <- getSelection(yBox)
+        z_var            <- getSelection(zBox)
         # digits         <- suppressWarnings(tclvalue_int(digitsVar))
 
-        model_name_Value <- trim.blanks(tclvalue(modelName))
-        keep_model       <- tclvalue_lgl(keep_modelVariable)
-        as_df            <- tclvalue_lgl(as_dfVariable)
+        table_type       <- tclvalue(table_typeVariable)
+        # as_df          <- tclvalue_lgl(as_dfVariable)
 
-        if (!is.valid.name(model_name_Value)) {
-            UpdateModelNumber(-1)
+        model_name       <- trim.blanks(tclvalue(model_name_var))
+        keep_model       <- tclvalue_lgl(keep_modelVariable)
+        chisq_test       <- tclvalue_lgl(chisq_testVariable)
+        fisher_test      <- tclvalue_lgl(fisher_testVariable)
+        assoc_stats      <- tclvalue_lgl(assoc_statsVariable)
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        closeDialog()
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        if (!is.valid.name(model_name)) {
             errorCondition(recall = window_summary_count,
                            message = sprintf(gettextRcmdr("\"%s\" is not a valid name."),
-                                             model_name_Value))
+                                             model_name))
             return()
         }
-
-        if (is.element(model_name_Value, list_summaries_Models())) {
-            if ("no" == tclvalue(checkReplace(model_name_Value,
-                                              type = gettextRcmdr("Model")))) {
-                UpdateModelNumber(-1)
-                tkdestroy(top)
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (model_name %in% objects()) {
+            if (replace_object(model_name) == FALSE) {
                 window_summary_count()
                 return()
             }
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        closeDialog()
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-        if (length(y_var) == 0) {
+        if (length(c(x_var, y_var, z_var)) == 0) {
             errorCondition(
-                recall = window_summary_count,
+                recall  = window_summary_count,
                 message = gettextRcmdr("You must select a variable to summarize.")
             )
             return()
         }
-
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         putDialog("window_summary_count",
-                  list(initial_y_var  = y_var,
+                  list(
                        # initial_gr_var = gr_var,
                        # initial_digits = as.character(digits),
-                       initial_as_df = as_df,
-                       initial_keep_model = keep_model
+                       # initial_as_df = as_df,
+
+                       initial_x_var        = x_var,
+                       initial_y_var        = y_var,
+                       initial_z_var        = z_var,
+                       initial_table_type   = table_type,
+
+                       initial_chisq_test   = chisq_test,
+                       initial_fisher_test  = fisher_test,
+                       initial_assoc_stats  = assoc_stats,
+                       initial_keep_model   = keep_model
+
                   )
         )
 
         # calculations -------------------------------------------------------
         .activeDataSet <- ActiveDataSet()
-        # Library(c("tidyverse", "biostat"))
+
         Library("tidyverse")
         Library("biostat")
 
-        if (length(y_var) > 1) {
-            y_var <- paste0(y_var, collapse = ", ")
-        }
-        # For many groups ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # if (length(gr_var) > 1) {
-        #     gr_var <- paste0(gr_var, collapse = " + ")
-        # }
+        vars_select <- c(x_var, y_var, z_var)
+        all_vars <- stringr::str_c("`", vars_select, "`", collapse = ", ")
 
-        # if (length(gr_var) == 0) {
-        #     formula = glue("~{y_var}")
-        #
-        # } else {
-        #     formula = glue("{y_var} ~ {gr_var}")
-        #
-        # }
+        n_vars <- length(vars_select)
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        chisq_cmd  <-
+            if (chisq_test & (n_vars == 2))  {
+                "chisq.test({my_table})\n"
+            }  else {
+                ""
+            }
 
+        fisher_cmd <-
+            if (fisher_test & (n_vars == 2)) {
+                "fisher.test({my_table})\n"
+            } else {
+                ""
+            }
+
+        assoc_cmd <-
+            # More than 2 variables are possible
+            if (assoc_stats & (n_vars >= 2)) {
+                Library("vcd")
+                "vcd::assocstats({my_table})\n"
+            } else  {
+                ""
+            }
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        freq_name <- unique_colnames("n")
+        as_df_command <-
+            switch(table_type,
+                   "df"       = '{model_name} <- as.data.frame({my_table}, responseName = "{freq_name}")\n',
+                   "multiway" = "{model_name} <- {my_table}\n"
+               )
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (keep_model) {
             keep_model_command <- ""
-
         } else {
-            UpdateModelNumber(-1)
-            keep_model_command <- glue("remove({model_name_Value})")
+            keep_model_command <- glue("remove({model_name})")
         }
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        my_table <- unique_obj_names("table", all_numbered = TRUE)
+        command1 <-
+            glue('## Frequency table / Multi-way table\n\n',
+                "{my_table} <- {.activeDataSet} %>% \n",
+                'with(table({all_vars}, useNA = "ifany"))\n',
+                as_df_command,
+                "print({model_name})\n",
+                keep_model_command) %>%
+            style_cmd()
 
-        if (as_df == TRUE) {
-            as_df_command <- ' %>% \n as.data.frame(responseName = "Freq")\n'
+        command2 <-
+            glue(chisq_cmd,
+                 fisher_cmd,
+                 assoc_cmd,
+                 'remove({my_table})') %>%
+            style_cmd()
 
-        } else {
-            as_df_command <- "\n"
-        }
-
-        command <- style_cmd(glue(
-            "{model_name_Value} <- {.activeDataSet} %>% \n",
-            'with(table({y_var}, useNA = "ifany"))',
-            as_df_command,
-            "print({model_name_Value})\n",
-            keep_model_command))
-
-        doItAndPrint(command)
+        doItAndPrint(command1)
+        doItAndPrint(command2)
 
         # Post calculations --------------------------------------------------
-        # activeModel(model_name_Value)
+        # activeModel(model_name)
         # putRcmdr("modelWithSubset", FALSE)
 
         tkfocus(CommanderWindow())
     }
+    # ========================================================================
+    tkgrid(main_frame, sticky = "w")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(main_data_frame, columnspan = 2, sticky = "sw")
+    tkgrid(
+        getFrame(xBox), getFrame(yBox), getFrame(zBox),
+        sticky = "nw",
+        pady = c(5, 5)
+    )
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(main_frame_b, columnspan = 2, sticky = "sw", pady = c(10, 10))
+    tkgrid(labelRcmdr(main_frame_b,
+                      text = gettextRcmdr("Enter name for summary table: "),
+                      fg = Rcmdr::getRcmdr("title.color")),
+           sticky = "w")
+
+    tkgrid(keep_model_inner_frame, padx = c(10, 0))
+    tkgrid(model_name_box, keep_model_frame, sticky = "ew")
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(main_middle_frame, columnspan = 2, sticky = "sw")
+    tkgrid(table_typeFrame, main_middle_right_frame, sticky = "new")
+
+    tkgrid(checkboxes_frame, sticky = "nw", padx = c(20, 0))
+
     # ** Footer ------------------------------------------------------------------
     # OKCancelHelp()
     OKCancelHelp(
