@@ -36,14 +36,17 @@ window_do_summary <- function() {
     tabs =      c("dataTab", "optionsTab")
     tab_names = c(" Data ",  " Options ")
 
-    initializeDialog(title = gettextRcmdr("Summarize numerical variables"),
-                     use.tabs = TRUE, tabs = tabs)
+    initializeDialog(title = gettextRcmdr("Summarize numerical variables")
+                     # , use.tabs = TRUE, tabs = tabs
+                     )
 
     # posthocFrame <- tkframe(posthocTab)
     # plotsFrame <- tkframe(plotsTab)
 
     # ** Data tab ------------------------------------------------------------
     # . Variable selection -----------------------------------------------------
+
+    dataTab <- tkframe(top)
 
     dataFrame <- tkframe(dataTab)
     yBox <- variableListBox2(
@@ -77,55 +80,56 @@ window_do_summary <- function() {
     # ** Main tab ------------------------------------------------------------
     # . Main test & model name textbox ---------------------------------------
 
+    optionsTab <- tkframe(top)
+
     main_top_frame <- tkframe(optionsTab)
 
     labelText <- tclVar("Select the test") ### [!!!] Initial value
 
     # Choose model name ------------------------------------------------------
-    UpdateModelNumber()
+    # UpdateModelNumber()
 
     modelName  <- tclVar(unique_obj_names(suffix = "_summary", all_numbered = TRUE))
-    model_boxlFrame <- tkframe(main_top_frame)
-    model <- ttkentry(model_boxlFrame, width = "20", textvariable = modelName)
+    model_box_frame <- tkframe(main_top_frame)
+    model_name_box <- ttkentry(model_box_frame, width = "30", textvariable = modelName)
 
-
-    bs_check_boxes(model_boxlFrame,
+    keep_model_frame <- tkframe(model_box_frame)
+    bs_check_boxes(keep_model_frame,
                    # ttk = TRUE,
-                   frame = "keep_model_Frame",
+                   frame = "keep_model_inner_frame",
                    # title = "Plot options",
                    boxes = c("keep_model"),
                    initialValues = c(dialog_values$initial.keep_model),
                    labels = gettextRcmdr(
-                       c("Keep summary for further analysis")
+                       c("Keep summary in R memory")
                    ),
                    commands = list("keep_model" = function(){})
     )
-
-
-    tkgrid(labelRcmdr(model_boxlFrame,
-                      text = gettextRcmdr("Enter name for summary: "),
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(dataTab, sticky = "w")
+    tkgrid(optionsTab, pady = c(10, 0), sticky = "w")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(labelRcmdr(model_box_frame,
+                      text = gettextRcmdr("Enter name for summary table: "),
                       fg = Rcmdr::getRcmdr("title.color")),   sticky = "w")
 
-    tkgrid(model, sticky = "ew")
-    tkgrid(keep_model_Frame, sticky = "ew")
-
-    tkgrid(model_boxlFrame, sticky = "nw")
-
-
-
+    tkgrid(model_name_box, keep_model_frame, sticky = "ew")
+    tkgrid(keep_model_inner_frame, padx = c(10, 0))
+    tkgrid(model_box_frame, sticky = "nw")
 
     digitsVar <- tclVar(dialog_values$initial.digits)
 
     digitsVarFrame <- tkframe(main_top_frame)
-    digitsBox      <- ttkentry(digitsVarFrame, width = "20", textvariable = digitsVar)
+    digitsBox      <- ttkentry(digitsVarFrame, width = "30", textvariable = digitsVar)
 
     tkgrid(labelRcmdr(digitsVarFrame,
-                      text = gettextRcmdr("Decimal digits to round to:\n(either integer or NA)"),
-                      fg = Rcmdr::getRcmdr("title.color")),   sticky = "w")
+                      text = gettextRcmdr("Number of decimal digits to print:\n(either integer or NA)"),
+                      fg = Rcmdr::getRcmdr("title.color")),
+           sticky = "w",
+           pady = c(10, 0))
 
     tkgrid(digitsBox, sticky = "ew")
     tkgrid(digitsVarFrame, sticky = "nw")
-
 
     tkgrid(main_top_frame, sticky = "nw")
 
@@ -141,7 +145,7 @@ window_do_summary <- function() {
 
 
         if (!is.valid.name(model_name_Value)) {
-            UpdateModelNumber(-1)
+            # UpdateModelNumber(-1)
             errorCondition(recall = window_do_summary,
                            message = sprintf(gettextRcmdr("\"%s\" is not a valid name."),
                                              model_name_Value))
@@ -151,7 +155,7 @@ window_do_summary <- function() {
         if (is.element(model_name_Value, list_summaries_Models())) {
             if ("no" == tclvalue(checkReplace(model_name_Value,
                                               type = gettextRcmdr("Model")))) {
-                UpdateModelNumber(-1)
+                # UpdateModelNumber(-1)
                 tkdestroy(top)
                 window_do_summary()
                 return()
@@ -201,7 +205,7 @@ window_do_summary <- function() {
             keep_model_command <- ""
 
         } else {
-            UpdateModelNumber(-1)
+            # UpdateModelNumber(-1)
             keep_model_command <- glue("remove({model_name_Value})")
         }
 
@@ -228,11 +232,13 @@ window_do_summary <- function() {
         reset = "window_do_summary",
         apply = "window_do_summary"
     )
-    # tkgrid(buttonsFrame, sticky = "w")
+    tkgrid(buttonsFrame, sticky = "w")
 
-    dialogSuffix(use.tabs = TRUE, grid.buttons = TRUE,
-                 tabs = tabs,
-                 tab.names = tab_names)
+    dialogSuffix(
+        # use.tabs = TRUE, grid.buttons = TRUE
+        # , tabs = tabs,
+        # tab.names = tab_names
+                 )
 }
 # ==============================================================================
 

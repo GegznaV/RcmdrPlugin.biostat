@@ -626,7 +626,7 @@ window_test_anova2 <- function() {
                    boxes = c("keep_model"),
                    initialValues = c(dialog.values$initial.keep_model),
                    labels = gettextRcmdr(
-                       c("Keep summary for further analysis")
+                       c("Keep summary in R memory")
                    ),
                    commands = list("keep_model" = function(){})
     )
