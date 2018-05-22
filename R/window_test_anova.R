@@ -169,7 +169,7 @@ window_test_anova <- function() {
         dataFrame,
         Factors(),
         listHeight = 10,
-        title = gettextRcmdr("Group variable \n(pick one)"),
+        title = gettextRcmdr("Grouping variable \n(pick one)"),
         initialSelection = varPosn(dialog.values$initial.group, "factor"))
 
     responseBox <- variableListBox2(
@@ -595,7 +595,7 @@ window_test_anova2 <- function() {
         selectmode = "single",
         variables_fct(),
         listHeight = 6,
-        title = gettextRcmdr("Group variable \n(pick one)"),
+        title = gettextRcmdr("Grouping variable \n(pick one)"),
         initialSelection = var_pos_n(dialog.values$initial.gr_var, "factor_strict"))
 
     tkgrid(
