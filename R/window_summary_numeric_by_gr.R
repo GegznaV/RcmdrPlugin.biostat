@@ -29,7 +29,7 @@ window_do_summary <- function() {
         initial.keep_model = FALSE
     )
 
-    dialog.values <- getDialog("window_do_summary", defaults)
+    dialog_values <- getDialog("window_do_summary", defaults)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Dialog elements --------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -52,7 +52,8 @@ window_do_summary <- function() {
         selectmode = "multiple",
         listHeight = 8,
         title = gettextRcmdr("Variable(s) to summarize \n(pick one or several)"),
-        initialSelection = varPosn(dialog.values$initial.y_var, "numeric")
+        # initialSelection = varPosn(dialog_values$initial.y_var, "numeric")
+        initialSelection = var_pos_n(dialog_values$initial.y_var, "numeric")
     )
 
     groupBox <- variableListBox2(
@@ -61,8 +62,8 @@ window_do_summary <- function() {
         Variables(), # Factors(),
         listHeight = 8,
         title = gettextRcmdr("Grouping variable(s) \n(pick one, several or none)"),
-        initialSelection = dialog.values$initial.gr_var)
-        # initialSelection = varPosn(dialog.values$initial.gr_var, "factor"))
+        initialSelection = var_pos_n(dialog_values$initial.gr_var))
+        # initialSelection = varPosn(dialog_values$initial.gr_var, "factor"))
 
     tkgrid(
         getFrame(yBox),
@@ -93,7 +94,7 @@ window_do_summary <- function() {
                    frame = "keep_model_Frame",
                    # title = "Plot options",
                    boxes = c("keep_model"),
-                   initialValues = c(dialog.values$initial.keep_model),
+                   initialValues = c(dialog_values$initial.keep_model),
                    labels = gettextRcmdr(
                        c("Keep summary for further analysis")
                    ),
@@ -113,7 +114,7 @@ window_do_summary <- function() {
 
 
 
-    digitsVar <- tclVar(dialog.values$initial.digits)
+    digitsVar <- tclVar(dialog_values$initial.digits)
 
     digitsVarFrame <- tkframe(main_top_frame)
     digitsBox      <- ttkentry(digitsVarFrame, width = "20", textvariable = digitsVar)
