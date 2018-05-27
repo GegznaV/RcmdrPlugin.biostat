@@ -25,23 +25,33 @@ window_dataset_bind_cols <- function() {
         fg = fg_col),
         pady = c(5, 15), columnspan = 3)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Functions --------------------------------------------------------------
+    set_ds_name <- function() {
+        ds_1             <- getSelection(ds_1_box)
+        base_name        <- paste(ds_1, "with_cols_added", sep = "_")
+        unique_base_name <- unique_df_name(base_name, all_numbered = TRUE)
+        tclvalue(new_ds_name_variable) <- unique_base_name
+    }
+
+    # Widgets ----------------------------------------------------------------
     new_ds_name_variable <- tclVar(
-        unique_df_name("new_dataset_binded_by_cols", all_numbered = TRUE))
+        unique_df_name("bound_by_cols", all_numbered = TRUE))
 
     names_Frame  <- tkframe(top)
     entry_new_ds_name <- ttkentry(names_Frame,
                              width = "68",
                              textvariable = new_ds_name_variable)
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     dataSets       <- listDataSets()
     .activeDataSet <- ActiveDataSet()
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
-    ds_1 <-
+    ds_1_box <-
         variableListBox2(
             upper_frame,
             dataSets,
             listHeight = 7,
+            onRelease_fun = set_ds_name,
             title = gettextRcmdr("First dataset (left) \n(pick one)"),
             initialSelection = if (is.null(.activeDataSet)) {
                 NULL
@@ -50,25 +60,27 @@ window_dataset_bind_cols <- function() {
             }
         )
 
-    ds_2 <-
+    ds_2_box <-
         variableListBox2(upper_frame,
                          dataSets,
                          listHeight = 7,
                          title = gettextRcmdr("Second dataset \n(pick one)"))
 
-    ds_3 <-
+    ds_3_box <-
         variableListBox2(upper_frame,
                          dataSets,
                          listHeight = 7,
                          title = gettextRcmdr("Third dataset \n(pick none or one)"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    set_ds_name()
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         new_ds_name <- trim.blanks(tclvalue(new_ds_name_variable))
         # idnameValue <- trim.blanks(tclvalue(idname))
 
-        name_ds_1 <- getSelection(ds_1)
-        name_ds_2 <- getSelection(ds_2)
-        name_ds_3 <- getSelection(ds_3)
+        name_ds_1 <- getSelection(ds_1_box)
+        name_ds_2 <- getSelection(ds_2_box)
+        name_ds_3 <- getSelection(ds_3_box)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         closeDialog()
@@ -160,15 +172,16 @@ window_dataset_bind_cols <- function() {
         activeDataSet(new_ds_name)
         tkfocus(CommanderWindow())
     }
+    # Layout -----------------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     OKCancelHelp(helpSubject = "bind_cols", helpPackage = "dplyr")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(upper_frame)
-    tkgrid(getFrame(ds_1), getFrame(ds_2), getFrame(ds_3),
+    tkgrid(getFrame(ds_1_box), getFrame(ds_2_box), getFrame(ds_3_box),
            sticky = "new")
 
     tkgrid(labelRcmdr(names_Frame,
-                      text = gettextRcmdr("Name for the resulting dataset:  "),
+                      text = gettextRcmdr("Name for resulting dataset:  "),
                       fg = fg_col),
            sticky = "w",
            columnspan = 3)
