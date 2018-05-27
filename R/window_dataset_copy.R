@@ -15,7 +15,9 @@ window_dataset_copy <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         dsnameValue <- trim.blanks(tclvalue(dsname))
-
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        closeDialog()
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Checks if no name is entered
         if (dsnameValue == "") {
             errorCondition(
@@ -41,7 +43,6 @@ window_dataset_copy <- function() {
                 return()
             }
         }
-        closeDialog()
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Edit window
 
@@ -49,7 +50,7 @@ window_dataset_copy <- function() {
 
 
         command1 <- glue::glue(
-            "# Make a copy of the dataset \n",
+            "## Make a copy of the dataset \n",
             "{dsnameValue} <- {ds_to_copy}")
         doItAndPrint(command1)
         activeDataSet(dsnameValue)
@@ -58,6 +59,16 @@ window_dataset_copy <- function() {
         tkfocus(CommanderWindow())
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Title ------------------------------------------------------------------
+    fg_col <- Rcmdr::getRcmdr("title.color")
+    tkgrid(label_rcmdr(
+        top,
+        text = gettextRcmdr("Make a copy of the dataset"),
+        font = tkfont.create(weight = "bold", size = 9),
+        fg = fg_col),
+        pady = c(5, 9), columnspan = 2)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     OKCancelHelp()
 
     tkgrid(labelRcmdr(top,

@@ -22,7 +22,8 @@ command_dataset_refresh <- function() {
 #' @export
 #' @keywords internal
 command_dataset_class <- function() {
-    doItAndPrint(glue::glue("class({ActiveDataSet()})"))
+    doItAndPrint(glue::glue("## The `R` class of the dataset\n",
+                            "class({ActiveDataSet()})"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -60,8 +61,9 @@ window_dataset_pander <- function() {
     Library("tidyverse")
     Library("pander")
     doItAndPrint(style_cmd(glue::glue(
-        '## The dataset in a from that will be converted \n',
-        '## to a table in an R Markdown report. \n\n',
+        '## The dataset \n',
+        '# The dataset printed in a from that will be converted \n',
+        '# to a table in an R Markdown report. \n',
         '{ActiveDataSet()} %>% \n',
         'pander::pander(caption = "Dataset `{ActiveDataSet()}`", missing = "")')))
 }
@@ -79,7 +81,8 @@ command_dataset_view <- function() {
 #' @export
 #' @keywords internal
 command_dataset_dim <- function() {
-    doItAndPrint(glue::glue("dim({ActiveDataSet()})"))
+    doItAndPrint(glue::glue("## Number of rows and columns\n",
+                            "dim({ActiveDataSet()})"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -87,7 +90,9 @@ command_dataset_dim <- function() {
 #' @export
 #' @keywords internal
 command_dataset_as_df <- function() {
-    doItAndPrint(glue::glue("{ActiveDataSet()} <- as.data.frame({ActiveDataSet()})"))
+    doItAndPrint(glue::glue(
+        "## Change class of the dataset to `data.frame`\n",
+        "{ActiveDataSet()} <- as.data.frame({ActiveDataSet()})"))
     command_dataset_refresh()
 }
 
@@ -97,7 +102,9 @@ command_dataset_as_df <- function() {
 #' @keywords internal
 command_dataset_as_tibble <- function() {
     Library("tibble")
-    doItAndPrint(glue::glue("{ActiveDataSet()} <- as_tibble({ActiveDataSet()})"))
+    doItAndPrint(glue::glue(
+        "## Change class of the dataset to `tibble`\n",
+        "{ActiveDataSet()} <- as_tibble({ActiveDataSet()})"))
     command_dataset_refresh()
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -106,7 +113,9 @@ command_dataset_as_tibble <- function() {
 #' @keywords internal
 command_dataset_as_dt <- function() {
     Library("data.table")
-    doItAndPrint(glue::glue("{ActiveDataSet()} <- data.table({ActiveDataSet()})"))
+    doItAndPrint(glue::glue(
+        "## Change class of the dataset to `data.table`\n",
+        "{ActiveDataSet()} <- data.table({ActiveDataSet()})"))
     command_dataset_refresh()
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

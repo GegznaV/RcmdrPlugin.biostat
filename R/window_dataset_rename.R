@@ -8,14 +8,25 @@ window_dataset_rename <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Window to choose dataset's name
 
-    initializeDialog(title = gettextRcmdr("Rename The Active Dataset"))
-    dsname <- tclVar(glue::glue("{activeDataSet()}_renamed"))
+    initializeDialog(title = gettextRcmdr("Rename the active dataset"))
+    # Title ------------------------------------------------------------------
+    fg_col <- Rcmdr::getRcmdr("title.color")
+    tkgrid(label_rcmdr(
+        top,
+        text = gettextRcmdr("Rename the dataset"),
+        font = tkfont.create(weight = "bold", size = 9),
+        fg = fg_col),
+        pady = c(5, 9), columnspan = 2)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    dsname <- tclVar(unique_df_name(glue::glue(
+        "{activeDataSet()}_renamed")))
     entryDsname <- ttkentry(top, width = "40", textvariable = dsname)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         dsnameValue <- trim.blanks(tclvalue(dsname))
-
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        closeDialog()
         # Checks if no name is entered
         if (dsnameValue == "") {
             errorCondition(
@@ -41,7 +52,6 @@ window_dataset_rename <- function() {
                 return()
             }
         }
-        closeDialog()
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Edit window
         ds_to_rename <- activeDataSet()
@@ -61,6 +71,7 @@ window_dataset_rename <- function() {
         tkfocus(CommanderWindow())
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     OKCancelHelp()
 
     tkgrid(labelRcmdr(top,
