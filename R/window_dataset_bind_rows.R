@@ -1,192 +1,314 @@
 # TODO:
-# 1. Add dadiobuttons with values: "Use numeric ID" "Use named ID"
-# 2. If "Use named ID" is selected, then values of `ds_x_as_name` and `ds_y_as_name`
-#    and appropriate textbox values should change if name of a dataset is
-#    double-clicked (or mouse released) in appropriate variable box
-#    (dataset `ds_x` and `ds_y`).
+# 1. Add radiobuttons with values:
+#          "Use numeric ID", "Use named ID", "Do not use ID"
 #
+# 2. [!!!] functions to get and put diaglog are needed.
+# 3. [!!!] Check if id name does not have duplicated names in any of datasets
+#          in: id_name_variable
 
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 window_dataset_bind_rows <- function() {
-    dataSets <- listDataSets()
+    # Functions --------------------------------------------------------------
+    set_id_name1 <- function() {
+        if (tclvalue(which_idVariable) == "id_names") {
+            tclvalue(ds_1_id_var) <- getSelection(ds_1_box)
+        }
+    }
+    set_id_name2 <- function() {
+        if (tclvalue(which_idVariable) == "id_names") {
+            tclvalue(ds_2_id_var) <- getSelection(ds_2_box)
+        }
+    }
+    set_id_name3 <- function() {
+        if (tclvalue(which_idVariable) == "id_names") {
+            tclvalue(ds_3_id_var) <- getSelection(ds_3_box)
+        }
+    }
+
+    set_ds_name <- function() {
+        base_name        <- paste0(getSelection(ds_1_box), "_with_rows_added")
+        unique_base_name <- unique_df_name(base_name, all_numbered = TRUE)
+        tclvalue(new_ds_name_variable) <- unique_base_name
+    }
+
+    id_names_fun <- function(variables) {
+        tk_activate(entry_id_name)
+        tk_activate(ds_1_id_entry)
+        tk_activate(ds_2_id_entry)
+        tk_activate(ds_3_id_entry)
+
+        tclvalue(id_name_variable) <- ".from_dataset"
+        set_id_name1()
+        set_id_name2()
+        set_id_name3()
+    }
+    id_numeric_fun <- function(variables) {
+        tk_activate(entry_id_name)
+        tk_disable(ds_1_id_entry)
+        tk_disable(ds_2_id_entry)
+        tk_disable(ds_3_id_entry)
+
+        tclvalue(id_name_variable) <- ".from_dataset"
+        tclvalue(ds_1_id_var) <- ""
+        tclvalue(ds_2_id_var) <- ""
+        tclvalue(ds_3_id_var) <- ""
+    }
+    id_none_fun <- function(variables) {
+        tk_disable(entry_id_name)
+        tk_disable(ds_1_id_entry)
+        tk_disable(ds_2_id_entry)
+        tk_disable(ds_3_id_entry)
+
+        tclvalue(id_name_variable) <- ""
+        tclvalue(ds_1_id_var) <- ""
+        tclvalue(ds_2_id_var) <- ""
+        tclvalue(ds_3_id_var) <- ""
+
+    }
+    choose_id_fun <- function(variables) {
+        switch(tclvalue(which_idVariable),
+             id_names   = id_names_fun(),
+             id_numeric = id_numeric_fun(),
+             id_none    = id_none_fun()
+             )
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    initializeDialog(title = gettextRcmdr("Bind rows of datasets"))
+    # Title ------------------------------------------------------------------
+    fg_col <- Rcmdr::getRcmdr("title.color")
+    tkgrid(label_rcmdr(
+        top,
+        text = gettextRcmdr("Bind rows of datasets"),
+        font = tkfont.create(weight = "bold", size = 9),
+        fg = fg_col),
+        pady = c(5, 15), columnspan = 3)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Widgets ----------------------------------------------------------------
+    new_ds_name_variable <- tclVar(
+        unique_df_name("rows_added", all_numbered = TRUE))
+
+    id_name_variable <- tclVar(".from_dataset")
+
+    # new_df_name_frame  <- tkframe(top)
+    enter_names_frame  <- tkframe(top)
+    entry_dsname       <- ttkentry(enter_names_frame, width = "42",
+                                   textvariable = new_ds_name_variable)
+
+    # id_var_name  <- tkframe(top)
+    entry_id_name   <- ttkentry(enter_names_frame, width = "42",
+                                textvariable = id_name_variable)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Boxes for dataset ID
+    ds_1_id_var <- tclVar("")
+    ds_2_id_var <- tclVar("")
+    ds_3_id_var <- tclVar("")
+    ds_1_id_entry <- ttkentry(top, width = "21", textvariable = ds_1_id_var)
+    ds_2_id_entry <- ttkentry(top, width = "21", textvariable = ds_2_id_var)
+    ds_3_id_entry <- ttkentry(top, width = "21", textvariable = ds_3_id_var)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    radiobuttons_frame <- tkframe(top)
+    radioButtons_horizontal(radiobuttons_frame,
+                            name = "which_id",
+                            buttons = c("id_names", "id_numeric","id_none"),
+                            values  = c("id_names", "id_numeric","id_none"),
+                            labels  =  gettext_Bio(c("Names  ",
+                                                     "Numeric (1, 2, ...) ",
+                                                     "Do not use ID")),
+                            command = choose_id_fun
+                            # initialValue = dialog_values$which_names,
+                            )
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    dataSets       <- listDataSets()
     .activeDataSet <- ActiveDataSet()
 
-    # [!!!] functions to get and put diaglog are needed.
-    initializeDialog(title = gettextRcmdr("Bind Rows of Datasets"))
-    dsname <- tclVar(unique_df_name("new_dataset_binded_by_rows"))
-    idname <- tclVar(".id")
-
-    # [!!!] Check id name does not have duplicated names in any of datasets in : idname
-
-
-    names_Frame <- tkframe(top)
-    entry_dsname <- ttkentry(names_Frame, width = "32", textvariable = dsname)
-
-    var_name_Frame <- tkframe(top)
-    entry_idname <- ttkentry(var_name_Frame, width = "62", textvariable = idname)
-
-    dataSet1Box <-
+    ds_1_box <-
         variableListBox2(
             top,
             dataSets,
             listHeight = 7,
-            title = gettextRcmdr("First dataset (left) \n(pick one)"),
+            title = gettextRcmdr("First dataset \n(pick one)"),
+            onRelease_fun = function() {
+                set_id_name1()
+                set_ds_name()
+                },
             initialSelection = if (is.null(.activeDataSet)) {
                 NULL
             } else {
                 which(.activeDataSet == dataSets) - 1
             }
         )
-    dataSet2Box <-
+
+    ds_2_box <-
         variableListBox2(top,
-                        dataSets,
-                        listHeight = 7,
-                        title = gettextRcmdr("Second dataset (right)\n(pick one)"))
-    # commonVar <- tclVar("0")
-    # commonFrame <- tkframe(top)
-    # commonButton <- ttkcheckbutton(commonFrame, variable = commonVar)
+                         dataSets,
+                         listHeight = 7,
+                         onRelease_fun = set_id_name2,
+                         title = gettextRcmdr("Second dataset \n(pick one)"))
 
+    ds_3_box <-
+        variableListBox2(top,
+                         dataSets,
+                         listHeight = 7,
+                         onRelease_fun = set_id_name3,
+                         title = gettextRcmdr("Third dataset \n(pick one or none)"))
 
-    ds_x_as_name <- tclVar("")
-    ds_y_as_name <- tclVar("")
-    ds_x_as <- ttkentry(top, width = "20", textvariable = ds_x_as_name)
-    ds_y_as <- ttkentry(top, width = "20", textvariable = ds_y_as_name)
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    set_id_name1()
+    set_id_name2()
+    set_id_name3()
+    set_ds_name()
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
-        dsnameValue <- trim.blanks(tclvalue(dsname))
-        idnameValue <- trim.blanks(tclvalue(idname))
-        ds_x_as_name_Value <- trim.blanks(tclvalue(ds_x_as_name))
-        ds_y_as_name_Value <- trim.blanks(tclvalue(ds_y_as_name))
+        new_ds_name <- trim.blanks(tclvalue(new_ds_name_variable))
+        id_name     <- trim.blanks(tclvalue(id_name_variable))
 
-        if (dsnameValue == "") {
+        name_ds_1 <- getSelection(ds_1_box)
+        name_ds_2 <- getSelection(ds_2_box)
+        name_ds_3 <- getSelection(ds_3_box)
+
+        ds_1_id <- trim.blanks(tclvalue(ds_1_id_var))
+        ds_2_id <- trim.blanks(tclvalue(ds_2_id_var))
+        ds_3_id <- trim.blanks(tclvalue(ds_3_id_var))
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        closeDialog()
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (new_ds_name == "") {
             errorCondition(
                 recall = window_dataset_bind_rows,
                 message = gettextRcmdr("You must enter the name of the new dataset.")
             )
             return()
         }
-        if (!is.valid.name(dsnameValue)) {
+
+        if (!is.valid.name(new_ds_name)) {
             errorCondition(
                 recall = window_dataset_bind_rows,
-                message = glue::glue('"{dsnameValue}" ', gettextRcmdr("is not a valid name."))
+                message = glue::glue('"{new_ds_name}" ',
+                                     gettextRcmdr("is not a valid name."))
             )
             return()
         }
-        if (is.element(dsnameValue, listDataSets())) {
-            if ("no" == tclvalue(checkReplace(dsnameValue, gettextRcmdr("Dataset")))) {
+
+        if (is.element(new_ds_name, listDataSets())) {
+            if ("no" == tclvalue(checkReplace(new_ds_name,
+                                              gettextRcmdr("Dataset")))) {
                 closeDialog()
                 window_dataset_bind_rows()
                 return()
             }
         }
-        name1 <- getSelection(dataSet1Box)
-        name2 <- getSelection(dataSet2Box)
-        if (length(name1) == 0) {
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (length(name_ds_1) == 0) {
             errorCondition(
                 recall = window_dataset_bind_rows,
-                message = gettextRcmdr("You must select a dataset (left).")
+                message = gettextRcmdr("You must select the first dataset.")
             )
             return()
         }
-        if (length(name2) == 0) {
+        if (length(c(name_ds_1, name_ds_2, name_ds_3)) < 2) {
             errorCondition(
                 recall = window_dataset_bind_rows,
-                message = gettextRcmdr("You must select a dataset (right).")
+                message = gettextRcmdr("You must select at least two datasets.")
             )
             return()
         }
-        # if (name1 == name2) {
-        #     errorCondition(
-        #         recall = window_dataset_bind_rows,
-        #         message = gettextRcmdr("You cannot bind a dataset with itself.")
-        #     )
-        #     return()
-        # }
 
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        ds_names <- c(name_ds_1, name_ds_2, name_ds_3)
 
-        rename1 <- if (ds_x_as_name_Value %in% c("")) {
-            ""
-        } else {
-            glue::glue("`{ds_x_as_name_Value}` = ")
-        }
+        switch(tclvalue(which_idVariable),
+               id_names   = {
+                   if (ds_1_id == "") ds_1_id <- name_ds_1
+                   if (ds_2_id == "") ds_2_id <- name_ds_2
+                   if (ds_3_id == "") ds_3_id <- name_ds_3
+                   ds_ids <- c(ds_1_id, ds_2_id, ds_3_id)
 
-        rename2 <- if (ds_y_as_name_Value %in% c("")) {
-            ""
-        } else {
-            glue::glue("`{ds_y_as_name_Value}` = ")
-        }
+                   ds_names_cmd <-
+                       stringr::str_c("`", ds_ids, "` = `", ds_names, "`",
+                                      collapse = ", \n")
+                   use_ids <- TRUE
+               },
+               id_numeric = {
+                   ds_names_cmd <-
+                       stringr::str_c("`", ds_names, "`", collapse = ", ")
+                   use_ids <- TRUE
 
-        # If only one is set,
-        # the problem is that `dplyr` resets both names to numbers
-        if (xor(rename1 != "", rename2 != "")) {
-            if (rename1 == "") {
-                rename1 <- glue::glue("`{name1}` = ")
-            }
-            if (rename2 == "") {
-                rename2 <- glue::glue("`{name2}` = ")
-            }
+               },
+               id_none    = {
+                   ds_names_cmd <-
+                       stringr::str_c("`", ds_names, "`", collapse = ", ")
+                   use_ids <- FALSE
+               }
+        )
 
-        }
-
-
-        if (idnameValue %in% c("")) {
-            # No .id variable
-            command <- style_cmd(glue::glue(
-                "{dsnameValue} <- dplyr::bind_rows(\n{rename1}{name1}, {rename2}{name2})"))
-
-        } else {
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        annotation <- "## Bind rows of datasets \n"
+        if (use_ids) {
             # Use .id variable
             command <- style_cmd(glue::glue(
-                "{dsnameValue} <- dplyr::bind_rows(\n{rename1}{name1}, {rename2}{name2}, ",
-                ".id = '{idnameValue}')"))
+                annotation,
+                "{new_ds_name} <- ",
+                "dplyr::bind_rows(\n{ds_names_cmd}, \n",
+                '.id = "{id_name}")'))
+
+        } else {
+            # No .id variable
+            command <- style_cmd(glue::glue(
+                annotation,
+                "{new_ds_name} <- ",
+                "dplyr::bind_rows(\n{ds_names_cmd})"))
         }
 
         doItAndPrint(command)
-
-        # doItAndPrint(command)
-        # command <- glue::glue("rownames({dsnameValue}) <- {dsnameValue}$Row.names")
-        # doItAndPrint(command)
-        # command <- glue::glue("{dsnameValue}$Row.names <- NULL")
-        # doItAndPrint(command)
-
-        activeDataSet(dsnameValue)
-        closeDialog()
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        activeDataSet(new_ds_name)
         tkfocus(CommanderWindow())
     }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Layout -----------------------------------------------------------------
     OKCancelHelp(helpSubject = "bind_rows", helpPackage = "dplyr")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(getFrame(ds_1_box), getFrame(ds_2_box), getFrame(ds_3_box),
+           sticky = "nwe")
 
-    tkgrid(labelRcmdr(names_Frame,
-                      text = gettextRcmdr("Name for the resulting dataset:  ")),
-           entry_dsname)
-
-    # tkgrid(names_Frame, sticky = "w", pady = c(15, 5))
-    tkgrid(names_Frame, pady = c(0, 10), columnspan = 3, sticky = "sw")
-
-    tkgrid(getFrame(dataSet1Box),  getFrame(dataSet2Box), sticky = "nwe")
-
+    # text_id <- gettextRcmdr("Name in ID column\n(optional):")
     tkgrid(
         labelRcmdr(top, fg = getRcmdr("title.color"),
-                   text = gettextRcmdr("Name in ID column\n(optional):")),
+                   text = gettextRcmdr("First dataset's ID:")),
         labelRcmdr(top, fg = getRcmdr("title.color"),
-                   text = gettextRcmdr("Name in ID column\n(optional):")),
+                   text = gettextRcmdr("Second dataset's ID:")),
+        labelRcmdr(top, fg = getRcmdr("title.color"),
+                   text = gettextRcmdr("Third dataset's ID:")),
         sticky = "w")
 
-    tkgrid(ds_x_as, ds_y_as, sticky = "w")
+    tkgrid(ds_1_id_entry, ds_2_id_entry, ds_3_id_entry, sticky = "w")
 
-    tkgrid(var_name_Frame, pady = c(0, 10), columnspan = 3, sticky = "sw")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(radiobuttons_frame, sticky = "w", pady = c(10, 0), columnspan = 3)
+    tkgrid(labelRcmdr(radiobuttons_frame,
+                      text = gettext_Bio("Type of datasets' ID:   "),
+                      fg = fg_col),
 
-    tkgrid(labelRcmdr(var_name_Frame,
-                      fg = getRcmdr("title.color"),
-                      text = gettextRcmdr(
-                          paste0("ID variable name\n",
-                                 "(stores names of original datasets; ",
-                                 "leave blank to exclude the variable)"))),
-           pady = c(15, 0), sticky = "w")
+           which_idFrame)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(enter_names_frame, pady = c(5, 5), columnspan = 3, sticky = "sw")
+    # tkgrid(id_var_name, pady = c(15, 5), columnspan = 3, sticky = "ew")
+    tkgrid(labelRcmdr(enter_names_frame,
+                      fg = fg_col,
+                      text = gettextRcmdr(paste0("Name for ID column:    "))),
+           entry_id_name,
+           sticky = "w")
 
-    tkgrid(entry_idname, sticky = "w")
+    # tkgrid(entry_id_name, sticky = "w")
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # tkgrid(new_df_name_frame, pady = c(0, 0), columnspan = 3, sticky = "sw")
+    tkgrid(labelRcmdr(enter_names_frame,
+                      text = gettextRcmdr("Name for resulting dataset:  "),
+                      fg = fg_col),
+           entry_dsname, pady = c(5, 0), sticky = "w")
 
     # tkgrid(
     #     commonButton,
