@@ -16,8 +16,8 @@ item	bs_data_menu	command	"Create a new dataset..."	window_dataset_new_rcmdr	""	
 # ---- Join/Bind datasets ---------------------------------------------------------
 item	bs_data_menu	separator	""	""	""	""
 item	bs_data_menu	command	"Join two datasets..."	window_dataset_join	"dataSetsP(2)"	"packageAvailable('dplyr')"
-item	bs_data_menu	command	"Bind rows of a few datasets..."	window_dataset_bind_rows	"dataSetsP(2)"	"packageAvailable('dplyr')"
-item	bs_data_menu	command	"Bind columns of a few datasets..."	window_dataset_bind_cols	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	bs_data_menu	command	"Bind rows of several datasets..."	window_dataset_bind_rows	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	bs_data_menu	command	"Bind columns of several datasets..."	window_dataset_bind_cols	"dataSetsP(2)"	"packageAvailable('dplyr')"
 
 # item	bs_data_menu	command	"Bind rows/columns of two datasets"	window_dataset_bind	"dataSetsP(2)"	"packageAvailable('dplyr')"
 
