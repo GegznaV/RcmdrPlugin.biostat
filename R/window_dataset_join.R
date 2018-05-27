@@ -311,6 +311,7 @@ window_dataset_join <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Code to join the datasets ------------------------------------------
         command <- glue::glue(
+            "## Join two datasets\n",
             "{ds_name} <- dplyr::{join_type}({ds_name_x}, {ds_name_y}{by_})") %>%
             style_cmd()
 
