@@ -7,7 +7,6 @@ item	topMenu	cascade	"BioStat'18"	BioStat_menu	""	""
 
 # =============================================================================
 # ---- Data menu -------------------------------------------------------------
-
 menu	bs_data_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"Data"	bs_data_menu	""	""
 
@@ -17,8 +16,8 @@ item	bs_data_menu	command	"Create a new dataset..."	window_dataset_new_rcmdr	""	
 # ---- Join/Bind datasets ---------------------------------------------------------
 item	bs_data_menu	separator	""	""	""	""
 item	bs_data_menu	command	"Join two datasets..."	window_dataset_join	"dataSetsP(2)"	"packageAvailable('dplyr')"
-item	bs_data_menu	command	"Bind rows of two datasets..."	window_dataset_bind_rows	"dataSetsP(2)"	"packageAvailable('dplyr')"
-item	bs_data_menu	command	"Bind columns of two datasets..."	window_dataset_bind_cols	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	bs_data_menu	command	"Bind rows of a few datasets..."	window_dataset_bind_rows	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	bs_data_menu	command	"Bind columns of a few datasets..."	window_dataset_bind_cols	"dataSetsP(2)"	"packageAvailable('dplyr')"
 
 # item	bs_data_menu	command	"Bind rows/columns of two datasets"	window_dataset_bind	"dataSetsP(2)"	"packageAvailable('dplyr')"
 
@@ -230,7 +229,7 @@ item	bs_summary_menu	command	"Summarize numerical variables by group..."	window_
 
 
 item	bs_summary_menu	separator	""	""	""	""
-item	bs_summary_menu	command	"Frequency table / Multi-way table..."	window_summary_count	"factorsP()"	""
+item	bs_summary_menu	command	"Frequency table / Multi-way table..."	window_summary_count	"activeDataSetP()"	""
 # df %>% dplyr::count(..., ...);
 # df %>% with(table(..., ...)) %>% as.data.frame()
 

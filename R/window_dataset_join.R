@@ -6,7 +6,15 @@ window_dataset_join <- function() {
     dataSets <- listDataSets()
     .activeDataSet <- ActiveDataSet()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettextRcmdr("Join Two Datasets"))
+    initializeDialog(title = gettextRcmdr("Join two datasets"))
+    # Title ------------------------------------------------------------------
+    fg_col <- Rcmdr::getRcmdr("title.color")
+    tkgrid(label_rcmdr(
+        top,
+        text = gettextRcmdr("Join two datasets"),
+        font = tkfont.create(weight = "bold", size = 9),
+        fg = fg_col),
+        pady = c(5, 9), columnspan = 3)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Functions
 
@@ -78,7 +86,7 @@ window_dataset_join <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Widgets
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    ds_name <- tclVar("new_joint_dataset")
+    ds_name <- tclVar(unique_df_name("new_joint_dataset", all_numbered = TRUE))
     ds_name_Frame <- tkframe(top)
     entry_ds_name <- ttkentry(ds_name_Frame, width = "37", textvariable = ds_name)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -174,13 +182,27 @@ window_dataset_join <- function() {
     # commonButton <- ttkcheckbutton(commonFrame, variable = commonVar)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
+        ds_name_x <- getSelection(dataset_x_box)
+        ds_name_y <- getSelection(dataset_y_box)
+
         ds_nameValue <- trim.blanks(tclvalue(ds_name))
 
+        by_x_name_1_Value <- getSelection(v_x1)
+        by_y_name_1_Value <- getSelection(v_y1)
+
+        by_x_name_2_Value <- getSelection(v_x2)
+        by_y_name_2_Value <- getSelection(v_y2)
+
+        by_x_name_3_Value <- getSelection(v_x3)
+        by_y_name_3_Value <- getSelection(v_y3)
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        closeDialog()
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Check if the new name is not missing
         if (ds_nameValue == "") {
             errorCondition(
                 recall = window_dataset_join,
-                message = gettextRcmdr("You must enter the name of the new joint dataset.")
+                message = gettextRcmdr("You must enter a name of the new joint dataset.")
             )
             return()
         }
@@ -205,16 +227,6 @@ window_dataset_join <- function() {
             }
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        by_x_name_1_Value <- getSelection(v_x1)
-        by_y_name_1_Value <- getSelection(v_y1)
-
-        by_x_name_2_Value <- getSelection(v_x2)
-        by_y_name_2_Value <- getSelection(v_y2)
-
-        by_x_name_3_Value <- getSelection(v_x3)
-        by_y_name_3_Value <- getSelection(v_y3)
-
-
         # If only one pair of names is entered
         if (by_x_name_2_Value == "" & by_y_name_2_Value == "" &
             by_x_name_3_Value == "" & by_y_name_3_Value == ""   ) {
@@ -267,11 +279,7 @@ window_dataset_join <- function() {
                 by_ <- paste0(", \nby = c(", stringr::str_c(a, b, c, sep = ", "), ")")
             }
         }
-
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        ds_name_x <- getSelection(dataset_x_box)
-        ds_name_y <- getSelection(dataset_y_box)
-
         # Check if datasets are selected
         if (length(ds_name_x) == 0) {
             errorCondition(
@@ -295,16 +303,16 @@ window_dataset_join <- function() {
             )
             return()
         }
-
-        # Code to join the datasets
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Code to join the datasets ------------------------------------------
         join_type <- tclvalue(join_typeVariable)
-        command <- style_cmd(glue::glue(
-            "{ds_nameValue} <- dplyr::{join_type}({ds_name_x}, {ds_name_y}{by_})"))
+        command <- glue::glue(
+            "{ds_nameValue} <- dplyr::{join_type}({ds_name_x}, {ds_name_y}{by_})") %>%
+            style_cmd()
 
         rez <- doItAndPrint(command)
-
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         activeDataSet(ds_nameValue)
-        closeDialog()
         tkfocus(CommanderWindow())
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
