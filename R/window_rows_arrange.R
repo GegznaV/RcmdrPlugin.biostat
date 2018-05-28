@@ -1,6 +1,8 @@
 # TODO:
 #
 # 1. Check code for bugs.
+# 2. Add ability to choose to either update dataset or to create new.
+# 3. Add ability to use several variables for sorting.
 #
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

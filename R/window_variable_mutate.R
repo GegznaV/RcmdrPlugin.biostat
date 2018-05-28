@@ -5,6 +5,9 @@
 #
 # 2. In variable box text "[factor]" should be differentiated
 #    to "[character]", "[logical]", "[factor]"
+#
+# 3. Add buttons "+", "-", "*", etc. in style as used in "fit linear model" window
+
 
 #' @rdname Menu-window-functions
 #' @export

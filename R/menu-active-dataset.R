@@ -31,7 +31,8 @@ command_dataset_class <- function() {
 #' @export
 #' @keywords internal
 command_colnames <- function() {
-    doItAndPrint(glue::glue("colnames({ActiveDataSet()})"))
+    doItAndPrint(glue::glue("## Column names\n",
+                            "colnames({ActiveDataSet()})"))
 }
 
 

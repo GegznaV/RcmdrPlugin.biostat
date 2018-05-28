@@ -3,6 +3,7 @@
 # 1. Check code for possible inconsisnencies and bugs.
 # 2. When push "Apply" and error occurs, two windows open. Apply is now disabled.
 #    It should be fixed.
+# 3. Add buttons "==", "!=", "<" etc. in style as used in "fit linear model" window
 
 #' @rdname Menu-window-functions
 #' @export
