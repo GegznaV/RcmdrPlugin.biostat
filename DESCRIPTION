@@ -1,7 +1,7 @@
 Package: RcmdrPlugin.biostat
 Type: Package
-Version: 0.0.19.9004
-Date: 2018-05-29
+Version: 0.0.20
+Date: 2018-05-31
 Title: An R Commander Plug-in for Basic Data Analysis Tasks
 Description: An Rcmdr plug-in for basic data wrangling, visualisation and
              analysis using "tidyverse" family functions as well as 
@@ -21,7 +21,7 @@ Remotes:
     majkamichal/easyPlot
 Depends:
     R (>= 3.3.0),
-    biostat (>= 0.0.17),
+    biostat (>= 0.0.18),
     tcltk,
     tcltk2 (>= 1.2-11),
     Rcmdr
