@@ -35,7 +35,11 @@ window_rows_slice <- function(){
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         new_dsname <- trim.blanks(tclvalue(newDataSetName))
+        index      <- tclvalue(indexVariable)
 
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        closeDialog()
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (!is.valid.name(new_dsname)) {
             errorCondition(
                 recall = window_rows_slice,
@@ -43,7 +47,7 @@ window_rows_slice <- function(){
             )
             return()
         }
-
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (is.element(new_dsname, listDataSets())) {
             if ("no" == tclvalue(checkReplace(new_dsname,
                                               type = gettextRcmdr("Data set")))) {
@@ -53,8 +57,6 @@ window_rows_slice <- function(){
             }
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        index <- tclvalue(indexVariable)
-
         if (index == "") {
             errorCondition(recall = window_rows_slice,
                            message = "No rows to select/remove")
@@ -71,10 +73,14 @@ window_rows_slice <- function(){
             closeDialog()
             return()
         }
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        closeDialog()
+
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Library("dplyr")
+
+        # If multiple comma separated conditions are selected
+        if (stringr::str_detect(index, ",")) {
+           index <-  glue("c({index})")
+        }
 
         command <- glue(
             "## ", gettext_Bio("Select/Remove rows by index"), "\n\n",
@@ -82,10 +88,13 @@ window_rows_slice <- function(){
             "dplyr::slice({index})") %>%
             style_cmd()
 
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         logger(command)
         result <- justDoIt(command)
+
         if (class(result)[1] !=  "try-error")
             activeDataSet(new_dsname)
+
         tkfocus(CommanderWindow())
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -119,9 +128,9 @@ window_rows_slice <- function(){
         sticky = "w"
     )
 
-    tkgrid(indexEntry, sticky = "w")
+    tkgrid(indexEntry,  sticky = "w")
     tkgrid(indexScroll, sticky = "ew")
-    tkgrid(indexFrame, sticky = "w")
+    tkgrid(indexFrame,  sticky = "w")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(labelRcmdr(dataSetNameFrame,
                       text = gettextRcmdr("Name for sliced dataset:   ")),

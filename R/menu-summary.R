@@ -24,7 +24,7 @@ command_summary <- function() {
 #' @keywords internal
 summary_head_tail <- function() {
     Library("biostat")
-    doItAndPrint(glue::glue("# Top and bottom rows\n",
+    doItAndPrint(glue::glue("## Top and bottom rows of the dataset\n",
         "biostat::head_tail({ActiveDataSet()}, 4)"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

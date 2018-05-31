@@ -5,9 +5,8 @@
 #' @export
 #' @keywords internal
 command_rownames <- function() {
-    Library("tidyverse")
-
-    doItAndPrint(glue::glue("rownames({ActiveDataSet()})"))
+    doItAndPrint(glue::glue("## Row names\n",
+                            "rownames({ActiveDataSet()})"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # TODO:

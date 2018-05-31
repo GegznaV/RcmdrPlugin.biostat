@@ -1,32 +1,57 @@
 # TODO:
 # 1. Add suggestion in the window:
-#   'If appropriate, concider using "join_*" functions instead of "bind_cols".'
-# 2. Functions to get and put dialog are needed.
-# 3. Show number of rows in each dataset beneeth the dataset selection box.
+#   'If appropriate, consider using "join_*" functions instead of "bind_cols".'
+# 2. In dataframe selection boxes 2 and 3 show only those dataframes, that
+#    are compatible with data frame in box 1 (have the same number of rows)
+# 3. Functions to get and put dialog are needed.
+# 4. Show number of rows in each dataset beneeth the dataset selection box.
+#
+# [!!!] functions to get and put dialog are needed.
+# [!!!] Show number of rows in each dataset beneeth the dataset selection box.
 #
 #
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 window_dataset_bind_cols <- function() {
-    dataSets <- listDataSets()
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    initializeDialog(title = gettextRcmdr("Bind columns of datasets"))
+    # Title ------------------------------------------------------------------
+    fg_col <- Rcmdr::getRcmdr("title.color")
+    tkgrid(label_rcmdr(
+        top,
+        text = gettextRcmdr("Bind columns of datasets"),
+        font = tkfont.create(weight = "bold", size = 9),
+        fg = fg_col),
+        pady = c(5, 15), columnspan = 3)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Functions --------------------------------------------------------------
+    set_ds_name <- function() {
+        ds_1             <- getSelection(ds_1_box)
+        base_name        <- paste(ds_1, "with_cols_added", sep = "_")
+        unique_base_name <- unique_df_name(base_name, all_numbered = TRUE)
+        tclvalue(new_ds_name_variable) <- unique_base_name
+    }
+
+    # Widgets ----------------------------------------------------------------
+    new_ds_name_variable <- tclVar(
+        unique_df_name("bound_by_cols", all_numbered = TRUE))
+
+    names_Frame  <- tkframe(top)
+    entry_new_ds_name <- ttkentry(names_Frame,
+                             width = "68",
+                             textvariable = new_ds_name_variable)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    dataSets       <- listDataSets()
     .activeDataSet <- ActiveDataSet()
-
-    # [!!!] functions to get and put dialog are needed.
-    # [!!!] Show number of rows in each dataset beneeth the dataset selection box.
-
-    initializeDialog(title = gettextRcmdr("Bind Columns of Datasets"))
-    dsname <- tclVar(unique_df_name("new_dataset_binded_by_cols"))
-
-    names_Frame <- tkframe(top)
-    entry_dsname <- ttkentry(names_Frame, width = "30", textvariable = dsname)
-
-
-    dataSet1Box <-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    upper_frame <- tkframe(top)
+    ds_1_box <-
         variableListBox2(
-            top,
+            upper_frame,
             dataSets,
             listHeight = 7,
+            onRelease_fun = set_ds_name,
             title = gettextRcmdr("First dataset (left) \n(pick one)"),
             initialSelection = if (is.null(.activeDataSet)) {
                 NULL
@@ -34,100 +59,136 @@ window_dataset_bind_cols <- function() {
                 which(.activeDataSet == dataSets) - 1
             }
         )
-    dataSet2Box <-
-        variableListBox2(top,
-                        dataSets,
-                        listHeight = 7,
-                        title = gettextRcmdr("Second dataset (right) \n(pick one)"))
-    # commonVar <- tclVar("0")
-    # commonFrame <- tkframe(top)
-    # commonButton <- ttkcheckbutton(commonFrame, variable = commonVar)
 
+    ds_2_box <-
+        variableListBox2(upper_frame,
+                         dataSets,
+                         listHeight = 7,
+                         title = gettextRcmdr("Second dataset \n(pick one)"))
+
+    ds_3_box <-
+        variableListBox2(upper_frame,
+                         dataSets,
+                         listHeight = 7,
+                         title = gettextRcmdr("Third dataset \n(pick none or one)"))
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    set_ds_name()
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
-        dsnameValue <- trim.blanks(tclvalue(dsname))
-        idnameValue <- trim.blanks(tclvalue(idname))
-        if (dsnameValue == "") {
+        new_ds_name <- trim.blanks(tclvalue(new_ds_name_variable))
+        # idnameValue <- trim.blanks(tclvalue(idname))
+
+        name_ds_1 <- getSelection(ds_1_box)
+        name_ds_2 <- getSelection(ds_2_box)
+        name_ds_3 <- getSelection(ds_3_box)
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        closeDialog()
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (new_ds_name == "") {
             errorCondition(
                 recall = window_dataset_bind_cols,
                 message = gettextRcmdr("You must enter the name of the new dataset.")
             )
             return()
         }
-        if (!is.valid.name(dsnameValue)) {
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (!is.valid.name(new_ds_name)) {
             errorCondition(
                 recall = window_dataset_bind_cols,
-                message = glue::glue('"{dsnameValue}" ', gettextRcmdr("is not a valid name."))
+                message = glue::glue('"{new_ds_name}" ', gettextRcmdr("is not a valid name."))
             )
             return()
         }
-        if (is.element(dsnameValue, listDataSets())) {
-            if ("no" == tclvalue(checkReplace(dsnameValue, gettextRcmdr("Dataset")))) {
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (is.element(new_ds_name, listDataSets())) {
+            if ("no" == tclvalue(checkReplace(new_ds_name, gettextRcmdr("Dataset")))) {
                 closeDialog()
                 window_dataset_bind_cols()
                 return()
             }
         }
-        name1 <- getSelection(dataSet1Box)
-        name2 <- getSelection(dataSet2Box)
-        if (length(name1) == 0) {
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (length(name_ds_1) == 0) {
             errorCondition(
                 recall = window_dataset_bind_cols,
-                message = gettextRcmdr("You must select a dataset (left).")
+                message = gettextRcmdr("You must select the first dataset.")
             )
             return()
         }
-        if (length(name2) == 0) {
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (length(c(name_ds_1, name_ds_2, name_ds_3)) < 2) {
             errorCondition(
                 recall = window_dataset_bind_cols,
-                message = gettextRcmdr("You must select a dataset (right).")
+                message = gettextRcmdr("You must select at least two datasets.")
             )
             return()
         }
-        # if (name1 == name2) {
+        # if (name_ds_1 == name_ds_2) {
         #     errorCondition(
         #         recall = window_dataset_bind_cols,
         #         message = gettextRcmdr("You cannot bind a dataset with itself.")
         #     )
         #     return()
         # }
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (length(name_ds_2) == 1) {
+            nrow_1 <- eval_glue("nrow({name_ds_1})", envir = .GlobalEnv)
+            nrow_2 <- eval_glue("nrow({name_ds_2})", envir = .GlobalEnv)
 
-        if (nrow(eval_glue("{name1}")) != nrow(eval_glue("{name2}"))) {
-            errorCondition(
-                recall = window_dataset_bind_cols,
-                message = gettextRcmdr("To bind by columns, number of rows in each dataset must match.")
-            )
-            return()
+            if (nrow_1 != nrow_2) {
+                errorCondition(
+                    recall = window_dataset_bind_cols,
+                    message = gettextRcmdr("To bind columns, number of rows in each dataset must match.\nThe first and the second datasets differ in number of rows.")
+                )
+                return()
+            }
         }
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (length(name_ds_3) == 1) {
+            nrow_1 <- eval_glue("nrow({name_ds_1})", envir = .GlobalEnv)
+            nrow_3 <- eval_glue("nrow({name_ds_3})", envir = .GlobalEnv)
 
+            if (nrow_1 != nrow_3) {
+                errorCondition(
+                    recall = window_dataset_bind_cols,
+                    message = gettextRcmdr("To bind columns, number of rows in each dataset must match.\nThe first and the third datasets differ in number of rows.")
+                )
+                return()
+            }
+        }
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        all_new_ds_names <- stringr::str_c(name_ds_1, name_ds_2, name_ds_3,
+                                          sep = ", ")
 
         command <- style_cmd(glue::glue(
-            '{dsnameValue} <- dplyr::bind_cols({name1}, {name2})'
+            '## Bind columns of datasets\n',
+            '{new_ds_name} <- \n',
+            'dplyr::bind_cols({all_new_ds_names})'
         ))
 
         doItAndPrint(command)
-
-
-        activeDataSet(dsnameValue)
-        closeDialog()
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        activeDataSet(new_ds_name)
         tkfocus(CommanderWindow())
     }
+    # Layout -----------------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     OKCancelHelp(helpSubject = "bind_cols", helpPackage = "dplyr")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(upper_frame)
+    tkgrid(getFrame(ds_1_box), getFrame(ds_2_box), getFrame(ds_3_box),
+           sticky = "new")
 
+    tkgrid(labelRcmdr(names_Frame,
+                      text = gettextRcmdr("Name for resulting dataset:  "),
+                      fg = fg_col),
+           sticky = "w",
+           columnspan = 3)
+    tkgrid(entry_new_ds_name, sticky = "ew")
 
-    tkgrid(labelRcmdr(names_Frame, text = gettextRcmdr("Name for the resulting dataset:  ")),
-           entry_dsname)
-
-    tkgrid(names_Frame, pady = c(0, 10), columnspan = 3, sticky = "sew")
-
-    tkgrid(getFrame(dataSet1Box), getFrame(dataSet2Box), sticky = "new")
-
-    # tkgrid(
-    #     commonButton,
-    #     labelRcmdr(commonFrame, text = gettextRcmdr("Merge only common\nrows or columns")),
-    #     sticky = "nw"
-    # )
-
+    tkgrid(names_Frame, pady = c(10, 5), columnspan = 3, sticky = "sew")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(buttonsFrame, sticky = "we", columnspan = 3)
     dialogSuffix()
 }
