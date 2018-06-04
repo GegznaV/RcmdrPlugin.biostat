@@ -16,6 +16,7 @@
 #' @import tcltk2
 #' @import biostat
 #' @import nortest
+#' @import RcmdrPlugin.EZR
 #' @importFrom Rcmdr activeDataSet
 #' @importFrom graphics plot
 #' @importFrom stats p.adjust.methods C
