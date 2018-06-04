@@ -24,7 +24,8 @@ Depends:
     biostat (>= 0.0.18),
     tcltk,
     tcltk2 (>= 1.2-11),
-    Rcmdr
+    Rcmdr,
+    RcmdrPlugin.EZR
 Imports:
     binom,
     boot,
@@ -48,7 +49,6 @@ Imports:
     openxlsx,
     pander,
     plyr,
-    RcmdrPlugin.EZR,
     scales,
     shiny,
     stats,
