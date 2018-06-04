@@ -1,7 +1,7 @@
 #type	menu/item	operation/parent	label	command/menu	activation	install?
 
 # =============================================================================
-menu	BioStat_menu	topMenu	 ""	""	""	""
+menu	BioStat_menu	topMenu	""	""	""	""
 item	topMenu	cascade	"BioStat'18"	BioStat_menu	""	""
 
 
@@ -62,7 +62,7 @@ item	bs_active_ds_menu	command	"Pander: print dataset as Markdown table"	window_
 
 # ---- Manage dataset's class -------------------------------------------------
 
-item	bs_active_ds_menu	separator ""	""	""	""
+item	bs_active_ds_menu	separator	""	""	""	""
 
 item	bs_active_ds_menu	command	"Show class"	command_dataset_class	"activeDataSetP()"	""
 item	bs_active_ds_menu	command	"Convert to `data.frame`"	command_dataset_as_df	"activeDataSetP() && !first_class_is_dataframeP()"	""
@@ -72,7 +72,7 @@ item	bs_active_ds_menu	command	"Convert to `data.table`"	command_dataset_as_dt	"
 
 # ~~~ Rename, copy ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-item	bs_active_ds_menu	separator ""	""	""	""
+item	bs_active_ds_menu	separator	""	""	""	""
 item	bs_active_ds_menu	command	"Rename active dataset..."	window_dataset_rename	"activeDataSetP()"	""
 item	bs_active_ds_menu	command	"Make a copy of active dataset..."	window_dataset_copy	"activeDataSetP()"	""
 item	bs_active_ds_menu	command	"Delete active dataset..."	window_dataset_delete	"activeDataSetP()"	""
@@ -175,11 +175,11 @@ item	bs_varible_menu	cascade	"Factors (categorical variables)"	bs_var_fct_menu	"
 
 item	bs_var_fct_menu	command	"Convert factors into nominal, ordinal, text..."	window_fct_convert	"factors_strict_P()"	""
 item	bs_var_fct_menu	separator	""	""	""	""
-# item	bs_var_fct_menu	command	"[!] Add levels..."	function_not_implemented	"FALSE & factorsP()" ""
+# item	bs_var_fct_menu	command	"[!] Add levels..."	function_not_implemented	"FALSE & factorsP()"	""
 # Collapse levels:
-#    Collapse levels manually
-#    Collapse least/most common levels into "other"
-#    Replace levels with "other"
+#	Collapse levels manually
+#	Collapse least/most common levels into "other"
+#	Replace levels with "other"
 # item	bs_var_fct_menu	command	'[!] Collapse/Merge levels...'	function_not_implemented	"FALSE & factors_strict_P()"	""
 item	bs_var_fct_menu	command	"Drop unused levels..."	window_factor_lvls_drop	"factors_strict_P()"	""
 # item	bs_var_fct_menu	command	"[!] Remove levels"	window_fct_lvls_rm	"FALSE & factorsP()"	""
@@ -256,7 +256,7 @@ item	bs_summary_menu	command	"Frequency table / Multi-way table..."	window_summa
 # =============================================================================
 # ---- Main plots -------------------------------------------------------------
 
-menu	bs_plots_menu	BioStat_menu ""	""	""	""
+menu	bs_plots_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"Plots"	bs_plots_menu	""	""
 
 item	bs_plots_menu	command	"New window for plots"	open_new_plots_window	""	""
@@ -302,23 +302,72 @@ item	bs_ci_menu	command	"[!] Bootstrap confidence intervals (example)"	window_ci
 menu	bs_tests_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"Tests"	bs_tests_menu	""	""
 
-item	bs_tests_menu	command	"Test normality..."	window_test_normality	"numericP()"	""
+item	bs_tests_menu	command	"Normality tests..."	window_test_normality	"numericP()"	""
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+menu	bs_centers_menu	bs_tests_menu	""	""	""	""
+item	bs_tests_menu	cascade	"Central tendency tests"	bs_centers_menu	""	""
+
+# item	bs_centers_menu command	"Single-sample t-test... [Rcmdr]"	singleSampleTTest	"numericP()"	""
+item	bs_centers_menu	command	"Single-sample t-test... [EZR]"	StatMedSingleSampleTTest	"activeDataSetP()"	""
+# item	bs_centers_menu command	"Single-sample Wilcoxon's signed rank test... [Rcmdr]"	onesampleWilcoxonTest	"numericP()"	""
+item	bs_centers_menu	command	"Single-sample Wilcoxon's signed rank test... [EZR]"	StatMedWilSign	"activeDataSetP()"	""
+item	bs_centers_menu	separator	""	""	""	""
 
 
-# menu	bs_ceners_menu	bs_tests_menu	""	""	""	""
-# item	bs_tests_menu	cascade	"Central tendency"	bs_ceners_menu	""	""
-#
-# item	bs_ceners_menu	command	"One-way ANOVA"	function_not_implemented	"numericP() & factors_strict_P()"	""
-# item	bs_ceners_menu	command	"Welch F test"	function_not_implemented	"numericP() & factors_strict_P()"	""
-# item	bs_ceners_menu	command	"Kruskal-Wallis test"	function_not_implemented	"numericP() & factors_strict_P()"	""
+# item	bs_centers_menu command	"Paired-samples t-test... [Rcmdr]"	pairedTTest	"numericP(2)"	""
+item	bs_centers_menu	command	"Paired-samples t-test... [EZR]"	StatMedPairedTtest	"activeDataSetP()"	""
+item	bs_centers_menu command	"Paired-samples Wilcoxon test... [Rcmdr]"	pairedWilcoxonTest	"numericP(2)"	""
+
+item	bs_centers_menu	command	"Repeated-measures ANOVA... [EZR]"	StatMedRepANOVA	"activeDataSetP()"	"packageAvailable('multcomp') && packageAvailable('abind')"
+# item	bs_centers_menu command	"Friedman's rank-sum test... [Rcmdr]"	FriedmanTest	"numericP(2)"	""
+item	bs_centers_menu	command	"Friedman's rank-sum test... [EZR]"	StatMedFriedman	"activeDataSetP()"	""
+item	bs_centers_menu	separator	""	""	""	""
+
+
+# item	bs_centers_menu command	"Independent samples t-test... [Rcmdr]"	independentSamplesTTest	"numericP() && twoLevelFactorsP()"	""
+item	bs_centers_menu	command	"Independent samples t-test... [EZR]"	StatMedTtest	"activeDataSetP()"	""
+# item	bs_centers_menu command	"Independent samples Wilcoxon/Mann-Whitney U test... [Rcmdr]"	twoSampleWilcoxonTest	"numericP() && twoLevelFactorsP()"	""
+item	bs_centers_menu	command	"Independent samples Wilcoxon/Mann-Whitney U test... [EZR]"	StatMedMannW	"activeDataSetP()"	""
+
+# item	bs_centers_menu	command	"One-way ANOVA... [Rcmdr]"	oneWayAnova	"numericP() && factorsP()"	""
+item	bs_centers_menu	command	"One-way ANOVA... [EZR]"	StatMedANOVA	"activeDataSetP()"	"packageAvailable('multcomp') && packageAvailable('abind')"
+# item	bs_centers_menu command	"Kruskal-Wallis test... [Rcmdr]"	KruskalWallisTest	"numericP() && factorsP()"	""
+item	bs_centers_menu	command	"Kruskal-Wallis test... [EZR]"	StatMedKruWalli	"activeDataSetP()"	""
+item	bs_centers_menu	command	"Jonckheere-Terpstra test... [EZR]"	StatMedJT	"activeDataSetP()"	"packageAvailable('clinfun')"
+item	bs_centers_menu	separator	""	""	""	""
+
+# item	bs_centers_menu	command	"Multi-way ANOVA... [Rcmdr]"	multiWayAnova	"numericP() && factorsP()"	""
+item	bs_centers_menu	command	"Multi-way ANOVA... [EZR]"	StatMedMultiANOVA	"activeDataSetP()"	"packageAvailable('multcomp') && packageAvailable('abind')"
+item	bs_centers_menu	command	"ANCOVA... [EZR]"	StatMedANCOVA	"activeDataSetP()"	"packageAvailable('multcomp') && packageAvailable('abind')"
+
+
+
+
+
+
+# item	bs_centers_menu	command	"Welch F test"	function_not_implemented	"numericP() & factors_strict_P()"	""
+# item	bs_centers_menu	command	"Kruskal-Wallis test"	function_not_implemented	"numericP() & factors_strict_P()"	""
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+menu	bs_variances_menu	bs_tests_menu	""	""	""	""
+item	bs_tests_menu	cascade	"Variances tests"	bs_variances_menu	""	""
+
+# item	bs_variances_menu	command	"Two-variences F test... [Rcmdr]"	twoVariancesFTest	"numericP() && twoLevelFactorsP()"	""
+item	bs_variances_menu	command	"Two-variances F-test [EZR]"	StatMedFTest	"activeDataSetP()"	""
+
+# item	bs_variances_menu	command	"Bartlett's test... [Rcmdr]"	BartlettTest	"numericP() && factorsP()"	""
+item	bs_variances_menu	command	"Bartlett's test... [EZR]"	StatMedBartlett	"activeDataSetP()"	""
+
+item	bs_variances_menu	command	"Levene's / Brown-Forsythe's test... [Rcmdr]"	LeveneTest	"numericP() && factorsP()"	""
 
 
 # item	bs_tests_menu	separator	""	""	""	""
 # item	bs_tests_menu	command	"[!] ANOVA, Kruskal-Wallis, Median tests"	window_anova_kw_mood_tests	"numericP() & factorsP()"	""
-# menu	bs_ceners_menu	bs_tests_menu	""	""	""	""
-# item	bs_ceners_menu	command	"[!] Independent samples (eactly 2)"	function_not_implemented	"numericP() & twoLevelFactorsP()"	""
-# item	bs_ceners_menu	command	"[!] Independent samples (2 or more)"	window_anova_kw_mood_tests	"numericP() & factorsP()"	""
-# item	bs_ceners_menu	command	"[!] Independent samples (2 or more) [tmp]"	window_tmp	"numericP() & factorsP()"	""
+# menu	bs_centers_menu	bs_tests_menu	""	""	""	""
+# item	bs_centers_menu	command	"[!] Independent samples (eactly 2)"	function_not_implemented	"numericP() & twoLevelFactorsP()"	""
+# item	bs_centers_menu	command	"[!] Independent samples (2 or more)"	window_anova_kw_mood_tests	"numericP() & factorsP()"	""
+# item	bs_centers_menu	command	"[!] Independent samples (2 or more) [tmp]"	window_tmp	"numericP() & factorsP()"	""
 # item	bs_tests_menu	command	"[!] "t tests, Wilcoxon, Mann-Whitney tests, Wald-Wolfowitz"	function_not_implemented	"numericP() & factorsP()"	""
 
 # ==============================================================================
@@ -326,6 +375,10 @@ item	bs_tests_menu	command	"Test normality..."	window_test_normality	"numericP()
 
 menu	bs_models_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"Models"	bs_models_menu	""	""
+
+item	bs_models_menu	command	"Linear regression [EZR]"	StatMedLinearRegression	"activeDataSetP()"	""
+# item	bs_models_menu	command	"Linear regression for calibration"	function_not_implemented	"activeDataSetP() && FALSE"	""
+item	bs_models_menu	separator	""	""	""	""
 
 item	bs_models_menu	command	"Show model's class"	command_get_model_class	"activeModelP()"	""
 item	bs_models_menu	command	"Print model (basic results)"	command_model_print	"activeModelP()"	""
@@ -342,12 +395,22 @@ item	bs_models_menu	command	"Standardized regression coefficients"	command_std_l
 #
 
 # ==============================================================================
+# ---- Analysis ---------------------------------------------------------------
+
+menu	bs_analysis_menu	BioStat_menu	""	""	""	""
+item	BioStat_menu	cascade	"Correlation"	bs_analysis_menu	""	""
+
+item	bs_analysis_menu	command "Correlation... [Rcmdr]"	correlationTest	"numericP(2)"	"packageAvailable('RcmdrMisc')"
+item	bs_analysis_menu	command "Correlation matrix... [Rcmdr]"	correlationMatrix	"numericP(2)"	"packageAvailable('RcmdrMisc')"
+item	bs_analysis_menu	command	"Pearson's correlation... [EZR]"	StatMedCorrelation	"activeDataSetP()"	""
+item	bs_analysis_menu	command	"Spearman's/Kendall's rank correlation... [EZR]"	StatMedSpearman	"activeDataSetP()"	""
+# ==============================================================================
 # ---- Settings ---------------------------------------------------------------
 
-menu	bs_settings_menu	BioStat_menu ""	""	""	""
+menu	bs_settings_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"Settings"	bs_settings_menu	""	""
 
-item	bs_settings_menu	command	"Show working directory" command_getwd ""	""
+item	bs_settings_menu	command	"Show working directory"  command_getwd	""	""
 item	bs_settings_menu	separator	""	""	""	""
 
 item	bs_settings_menu	command	"Session information [devtools]"	command_session_info_devtools	""	""
@@ -369,7 +432,7 @@ item	bs_locale_menu	command	"Set locale to system's default"	command_set_locale_
 # ==============================================================================
 # ---- Settings ---------------------------------------------------------------
 
-menu	bs_about_menu	BioStat_menu ""	""	""	""
+menu	bs_about_menu	BioStat_menu	""	""	""	""
 item	BioStat_menu	cascade	"About"	bs_about_menu	""	""
 
 item	bs_about_menu	command 'About package "RcmdrPlugin.biostat"'	window_about_package	""	""
