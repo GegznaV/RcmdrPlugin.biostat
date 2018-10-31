@@ -11,10 +11,11 @@ gettext_EZR <- function(...) {
 #
 # @param name - name of dataset before suffix and preffix are added.
 unique_obj_names <- function(names = ActiveDataSet(),
-                            preffix = "",
-                            suffix = "",
-                            list_of_choices = objects(all.names = TRUE, envir = .GlobalEnv),
-                            all_numbered = FALSE) {
+                             preffix = "",
+                             suffix = "",
+                             list_of_choices = objects(all.names = TRUE,
+                                                       envir = .GlobalEnv),
+                             all_numbered = FALSE) {
     initial_names <- glue("{preffix}{names}{suffix}")
 
     n_names <- length(names)
