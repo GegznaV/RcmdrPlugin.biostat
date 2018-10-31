@@ -22,6 +22,17 @@ command_getwd <- function() {
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
+command_setwd <- function() {
+    new_wd <- tclvalue(tkchooseDirectory(initialdir = getwd(),
+                                         parent = CommanderWindow()))
+    if (new_wd != "") {
+        Rcmdr::doItAndPrint(glue::glue('setwd("{new_wd}")'))
+    }
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
 command_get_locale <- function() {
     paste0(
         '## Show current locale  \n',
