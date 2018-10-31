@@ -9,4 +9,5 @@ window_ggedit()
 \description{
 Rcmdr window for tool "ggedit"
 }
+\concept{plots}
 \keyword{internal}

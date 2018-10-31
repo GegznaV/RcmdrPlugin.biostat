@@ -2,9 +2,7 @@
 % Please edit documentation in R/tcktk_commands.R
 \name{tk_activate}
 \alias{tk_activate}
-\alias{tk_activate}
 \alias{tk_disable}
-\alias{tk_activate}
 \alias{tk_normalize}
 \title{Activate/Disable TK Objects}
 \usage{

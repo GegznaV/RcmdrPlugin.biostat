@@ -37,7 +37,6 @@
 \alias{window_ci_prop_multi}
 \alias{window_ci_prop_binom}
 \alias{window_ci_boot}
-\alias{Menu-window-functions}
 \alias{window_distributions_descriptr}
 \alias{window_export_to_rds}
 \alias{window_export_to_rdata}
@@ -61,9 +60,9 @@
 \alias{command_rowid_to_col}
 \alias{window_col_to_rownames}
 \alias{window_col_to_rownames0}
-\alias{window_col_to_rownames}
 \alias{command_load_packages}
 \alias{command_getwd}
+\alias{command_setwd}
 \alias{command_get_locale}
 \alias{command_set_locale_lt}
 \alias{command_set_locale_en}
@@ -81,6 +80,7 @@
 \alias{summary_psych_describe}
 \alias{summary_psych_describeBy}
 \alias{command_all_chr_to_fctr}
+\alias{command_clean_names}
 \alias{window_anova_kw_mood_tests}
 \alias{window_dataset_bind_cols}
 \alias{window_dataset_bind_rows}
@@ -209,6 +209,8 @@ command_load_packages()
 
 command_getwd()
 
+command_setwd()
+
 command_get_locale()
 
 command_set_locale_lt()
@@ -242,6 +244,8 @@ summary_psych_describe()
 summary_psych_describeBy()
 
 command_all_chr_to_fctr()
+
+command_clean_names()
 
 window_anova_kw_mood_tests()
 
