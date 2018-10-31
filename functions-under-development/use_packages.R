@@ -2,7 +2,6 @@
 
 use_packages <- function(package, pos = length(search()), rmd = TRUE) {
 
-
     # pattern <- "^package:"
     #
     # loaded <- search() %>%
