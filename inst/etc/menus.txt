@@ -1,14 +1,14 @@
 #type	menu/item	operation/parent	label	command/menu	activation	install?
 
 # =============================================================================
-menu	BioStat_menu	topMenu	""	""	""	""
-item	topMenu	cascade	"BioStat'18"	BioStat_menu	""	""
+menu	biostat_menu	topMenu	""	""	""	""
+item	topMenu	cascade	"BioStat'18"	biostat_menu	""	""
 
 
 # =============================================================================
 # ---- Data menu -------------------------------------------------------------
-menu	bs_data_menu	BioStat_menu	""	""	""	""
-item	BioStat_menu	cascade	"Data"	bs_data_menu	""	""
+menu	bs_data_menu	biostat_menu	""	""	""	""
+item	biostat_menu	cascade	"Data"	bs_data_menu	""	""
 
 # ---- Create data -----------------------------------------------------------
 item	bs_data_menu	command	"Create a new dataset..."	window_dataset_new_rcmdr	""	"" # from Rcmdr
@@ -30,7 +30,7 @@ item	bs_data_menu	command	"Bind columns of several datasets..."	window_dataset_b
 
 # ~~~~ Data Import Menu ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 item	bs_data_menu	separator	""	""	""	""
-item	bs_data_menu	command	"Import R data file (.Rds)..."	window_import_rds	""	""
+item	bs_data_menu	command	"Import Rds data file (.Rds)..."	window_import_rds	""	""
 
 # menu	import_menu	bs_data_menu	""	""	""	""
 # item	bs_data_menu	cascade	"Import / Load data"	import_menu	""	""
@@ -40,8 +40,8 @@ item	bs_data_menu	command	"Import R data file (.Rds)..."	window_import_rds	""	""
 # ==============================================================================
 # ---- Active dataset ---------------------------------------------------------
 
-menu	bs_active_ds_menu	BioStat_menu	""	""	""	""
-item	BioStat_menu	cascade	"Active dataset"	bs_active_ds_menu	""	""
+menu	bs_active_ds_menu	biostat_menu	""	""	""	""
+item	biostat_menu	cascade	"Active dataset"	bs_active_ds_menu	""	""
 
 item	bs_active_ds_menu	command	"Refresh active dataset"	command_dataset_refresh	"activeDataSetP()"	""
 
@@ -86,7 +86,7 @@ menu	bs_export_menu	bs_active_ds_menu	""	""	""	""
 item	bs_active_ds_menu	cascade	"Export / Save"	bs_export_menu	"activeDataSetP()"	""
 
 item	bs_export_menu	command	"Save data to Excel file (.xlsx)..."	window_export_to_excel	"activeDataSetP()"	""
-item	bs_export_menu	command	"Save data to R data file (.Rds)..."	window_export_to_rds	"activeDataSetP()"	""
+item	bs_export_menu	command	"Save data to Rds data file (.Rds)..."	window_export_to_rds	"activeDataSetP()"	""
 item	bs_export_menu	command	"Save data to R data file (.RData)..."	window_export_to_rdata	"activeDataSetP()"	""
 item	bs_export_menu	command	"Save data to text file (.txt, .csv)..."	window_export_to_textfile	"activeDataSetP()"	""
 
@@ -94,8 +94,8 @@ item	bs_export_menu	command	"Save data to text file (.txt, .csv)..."	window_expo
 # ==============================================================================
 # ---- Manage observations / rows ---------------------------------------------
 
-menu	bs_rows_menu	BioStat_menu	""	""	""	""
-item	BioStat_menu	cascade	"Rows"	bs_rows_menu	""	""
+menu	bs_rows_menu	biostat_menu	""	""	""	""
+item	biostat_menu	cascade	"Rows (observations)"	bs_rows_menu	""	""
 
 item	bs_rows_menu	command	"Print row names"	command_rownames	"activeDataSetP()"	""
 
@@ -112,7 +112,7 @@ item	bs_rows_menu	command	"Remove empty rows"	command_row_rm_empty_rows	"activeD
 item	bs_rows_menu	separator	""	""	""	""
 item	bs_rows_menu	command	"Add column with row numbers"	command_rowid_to_col	"activeDataSetP()"	"packageAvailable('tidyverse')"
 item	bs_rows_menu	command	"Move column values to row names..."	window_col_to_rownames	"variables_with_unique_values_P()"	"packageAvailable('tibble')"
-item	bs_rows_menu	command	"Move row names to column..."	window_rownames_to_col	"activeDataSetP()"	"packageAvailable('tibble')"
+item	bs_rows_menu	command	"Move row names to column values..."	window_rownames_to_col	"activeDataSetP()"	"packageAvailable('tibble')"
 # Remove row names and Add row numbers to column
 #
 #
@@ -123,8 +123,8 @@ item	bs_rows_menu	command	"Move row names to column..."	window_rownames_to_col	"
 # ==============================================================================
 # ---- Manage variables / columns ---------------------------------------------
 
-menu	bs_varible_menu	BioStat_menu	""	""	""	""
-item	BioStat_menu	cascade	"Variables (columns)"	bs_varible_menu	""	""
+menu	bs_varible_menu	biostat_menu	""	""	""	""
+item	biostat_menu	cascade	"Variables (columns)"	bs_varible_menu	""	""
 
 item	bs_varible_menu	command	"Print variable (column) names"	command_colnames	"activeDataSetP()"	""
 
@@ -132,8 +132,9 @@ item	bs_varible_menu	separator	""	""	""	""
 
 item	bs_varible_menu	command	"Mutate: compute a variable..."	window_variable_mutate0	"activeDataSetP()"	"packageAvailable('dplyr')"
 item	bs_varible_menu	command	"Recode variable values..."	window_variable_recode0	"activeDataSetP()"	"packageAvailable('dplyr')"
-item	bs_varible_menu	command	"Rename variables..."	window_variable_rename	"activeDataSetP()"	"packageAvailable('dplyr')"
 item	bs_varible_menu	command	"Select/Remove variables..."	window_variable_select0	"activeDataSetP()"	"packageAvailable('dplyr')"
+item	bs_varible_menu	command	"Clean names into snake case"	command_clean_names	"activeDataSetP()"	"packageAvailable('dplyr') && packageAvailable('janitor')"
+item	bs_varible_menu	command	"Rename variables..."	window_variable_rename	"activeDataSetP()"	"packageAvailable('dplyr')"
 # item	bs_varible_menu	command	"Copy variables"	window_variable_copy	"activeDataSetP()"	"packageAvailable('dplyr')"
 
 item	bs_varible_menu	separator	""	""	""	""
@@ -201,8 +202,8 @@ item	bs_varible_menu	command	"Convert logical variables into ..."	window_lgl_con
 # ==============================================================================
 # ---- Statistical summaries --------------------------------------------------
 
-menu	bs_summary_menu	BioStat_menu	""	""	""	""
-item	BioStat_menu	cascade	"Summaries"	bs_summary_menu	""	""
+menu	bs_summary_menu	biostat_menu	""	""	""	""
+item	biostat_menu	cascade	"Summaries"	bs_summary_menu	""	""
 
 
 item	bs_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
@@ -256,8 +257,8 @@ item	bs_summary_menu	command	"Frequency table / Multi-way table..."	window_summa
 # =============================================================================
 # ---- Main plots -------------------------------------------------------------
 
-menu	bs_plots_menu	BioStat_menu	""	""	""	""
-item	BioStat_menu	cascade	"Plots"	bs_plots_menu	""	""
+menu	bs_plots_menu	biostat_menu	""	""	""	""
+item	biostat_menu	cascade	"Plots"	bs_plots_menu	""	""
 
 item	bs_plots_menu	command	"New window for plots"	open_new_plots_window	""	""
 
@@ -285,8 +286,8 @@ item	bs_plots_menu	command	"Visualize color names & codes (example)"	window_show
 # ==============================================================================
 # ---- Confidence intervals ---------------------------------------------------
 
-menu	bs_ci_menu	BioStat_menu	""	""	""	""
-item	BioStat_menu	cascade	"Confidence intervals (CI)"	bs_ci_menu	""	""
+menu	bs_ci_menu	biostat_menu	""	""	""	""
+item	biostat_menu	cascade	"Confidence intervals (CI)"	bs_ci_menu	""	""
 
 item	bs_ci_menu	command	"[!] Mean CI (example)"	window_ci_mean	""	""
 item	bs_ci_menu	command	"[!] Median CI (example)"	window_ci_median	""	""
@@ -299,8 +300,8 @@ item	bs_ci_menu	command	"[!] Bootstrap confidence intervals (example)"	window_ci
 # ==============================================================================
 # ---- Statistical tests ------------------------------------------------------
 
-menu	bs_tests_menu	BioStat_menu	""	""	""	""
-item	BioStat_menu	cascade	"Tests"	bs_tests_menu	""	""
+menu	bs_tests_menu	biostat_menu	""	""	""	""
+item	biostat_menu	cascade	"Tests"	bs_tests_menu	""	""
 
 item	bs_tests_menu	command	"Normality tests..."	window_test_normality	"numericP()"	""
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -309,7 +310,6 @@ item	bs_tests_menu	cascade	"Central tendency tests"	bs_centers_menu	""	""
 
 # item	bs_centers_menu command	"Single-sample t-test... [Rcmdr]"	singleSampleTTest	"numericP()"	""
 item	bs_centers_menu	command	"Single-sample t-test... [EZR]"	StatMedSingleSampleTTest	"activeDataSetP()"	""
-# item	bs_centers_menu command	"Single-sample Wilcoxon's signed rank test... [Rcmdr]"	onesampleWilcoxonTest	"numericP()"	""
 item	bs_centers_menu	command	"Single-sample Wilcoxon's signed rank test... [EZR]"	StatMedWilSign	"activeDataSetP()"	""
 item	bs_centers_menu	separator	""	""	""	""
 
@@ -373,8 +373,8 @@ item	bs_variances_menu	command	"Levene's / Brown-Forsythe's test... [Rcmdr]"	Lev
 # ==============================================================================
 # ---- Models -----------------------------------------------------------------
 
-menu	bs_models_menu	BioStat_menu	""	""	""	""
-item	BioStat_menu	cascade	"Models"	bs_models_menu	""	""
+menu	bs_models_menu	biostat_menu	""	""	""	""
+item	biostat_menu	cascade	"Models"	bs_models_menu	""	""
 
 item	bs_models_menu	command	"Linear regression [EZR]"	StatMedLinearRegression	"activeDataSetP()"	""
 # item	bs_models_menu	command	"Linear regression for calibration"	function_not_implemented	"activeDataSetP() && FALSE"	""
@@ -388,8 +388,8 @@ item	bs_models_menu	command	"Standardized regression coefficients"	command_std_l
 # ==============================================================================
 # ---- Distributions menu -------------------------------------------------------------
 
-# menu	bs_distr_menu	BioStat_menu	""	""	""	""
-# item	BioStat_menu	cascade	"Distributions"	bs_distr_menu	""	""
+# menu	bs_distr_menu	biostat_menu	""	""	""	""
+# item	biostat_menu	cascade	"Distributions"	bs_distr_menu	""	""
 #
 # item	bs_distr_menu	command	"Interactive tool to explore distributions"	window_distributions_descriptr	""	"packageAvailable('descriptr')" # from Rcmdr
 #
@@ -397,8 +397,8 @@ item	bs_models_menu	command	"Standardized regression coefficients"	command_std_l
 # ==============================================================================
 # ---- Analysis ---------------------------------------------------------------
 
-menu	bs_analysis_menu	BioStat_menu	""	""	""	""
-item	BioStat_menu	cascade	"Correlation"	bs_analysis_menu	""	""
+menu	bs_analysis_menu	biostat_menu	""	""	""	""
+item	biostat_menu	cascade	"Correlation"	bs_analysis_menu	""	""
 
 item	bs_analysis_menu	command "Correlation... [Rcmdr]"	correlationTest	"numericP(2)"	"packageAvailable('RcmdrMisc')"
 item	bs_analysis_menu	command "Correlation matrix... [Rcmdr]"	correlationMatrix	"numericP(2)"	"packageAvailable('RcmdrMisc')"
@@ -407,10 +407,11 @@ item	bs_analysis_menu	command	"Spearman's/Kendall's rank correlation... [EZR]"	S
 # ==============================================================================
 # ---- Settings ---------------------------------------------------------------
 
-menu	bs_settings_menu	BioStat_menu	""	""	""	""
-item	BioStat_menu	cascade	"Settings"	bs_settings_menu	""	""
+menu	bs_settings_menu	biostat_menu	""	""	""	""
+item	biostat_menu	cascade	"Settings"	bs_settings_menu	""	""
 
 item	bs_settings_menu	command	"Show working directory"  command_getwd	""	""
+item	bs_settings_menu	command	"Change working directory"  command_setwd	""	""
 item	bs_settings_menu	separator	""	""	""	""
 
 item	bs_settings_menu	command	"Session information [devtools]"	command_session_info_devtools	""	""
@@ -430,11 +431,8 @@ item	bs_locale_menu	command	"Set locale to system's default"	command_set_locale_
 
 
 # ==============================================================================
-# ---- Settings ---------------------------------------------------------------
-
-menu	bs_about_menu	BioStat_menu	""	""	""	""
-item	BioStat_menu	cascade	"About"	bs_about_menu	""	""
+# ---- About ---------------------------------------------------------------
+menu	bs_about_menu	biostat_menu	""	""	""	""
+item	biostat_menu	cascade	"About"	bs_about_menu	""	""
 
 item	bs_about_menu	command 'About package "RcmdrPlugin.biostat"'	window_about_package	""	""
-
-# =============================================================================
