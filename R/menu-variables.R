@@ -21,7 +21,7 @@ command_all_chr_to_fctr <- function() {
     command <-
         glue::glue(
             "{ActiveDataSet()} <- {ActiveDataSet()} %>% \n",
-            "dplyr::mutate_if(is.character, as_factor)"
+            "dplyr::mutate_if(is.character, forcats::as_factor)"
             ) %>%
         style_cmd()
 
@@ -30,3 +30,29 @@ command_all_chr_to_fctr <- function() {
     command_dataset_refresh()
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# TODO:
+#  1. Convert into window to allow choosing the case.
+#
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+command_clean_names <- function() {
+    Library("tidyverse")
+    # Library("forcats")
+    # Library("dplyr")
+
+    command <-
+        glue::glue(
+            "{ActiveDataSet()} <- {ActiveDataSet()} %>% \n",
+            'janitor::clean_names(case = "snake")'
+        ) %>%
+        style_cmd()
+
+    doItAndPrint(command)
+
+    command_dataset_refresh()
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
