@@ -6,7 +6,7 @@ window_dataset_join <- function() {
     dataSets <- listDataSets()
     .activeDataSet <- ActiveDataSet()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettextRcmdr("Join two datasets"))
+    initializeDialog(title = gettextRcmdr("Join Two Datasets"))
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
     tkgrid(label_rcmdr(
