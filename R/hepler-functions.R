@@ -339,4 +339,10 @@ extract_path <- function(str) {
 extract_extension <- function(str) {
     sub("(.*\\/)([^.]+)(\\.[[:alnum:]]+$)", "\\3", str)
 }
+#' @rdname extract-fileparts
+#' @keywords internal
+#' @export
+clean_str <- function(str, ...) {
+    snakecase::to_any_case(make.names(str), ...)
+}
 
