@@ -23,6 +23,9 @@
 #' @importFrom utils browseURL packageVersion
 #'
 
+str_c    <- stringr::str_c
+str_glue <- stringr::str_glue
+
 NULL
 
 # .onLoad <- function(...){
