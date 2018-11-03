@@ -30,12 +30,31 @@ item	bs_data_menu	command	"Bind columns of several datasets..."	window_dataset_b
 
 # ~~~~ Data Import Menu ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 item	bs_data_menu	separator	""	""	""	""
-item	bs_data_menu	command	"Import Rds data file (.Rds)..."	window_import_rds	""	""
+# item	bs_data_menu	command	"Import Rds data file (.Rds)..."	window_import_rds	""	""
 
-# menu	import_menu	bs_data_menu	""	""	""	""
-# item	bs_data_menu	cascade	"Import / Load data"	import_menu	""	""
+menu	import_menu	bs_data_menu	""	""	""	""
+item	bs_data_menu	cascade	"Import / Load data"	import_menu	""	""
+
+item    import_menu      command         "from text file (.txt, .csv, .dat)... [Rcmdr]"          window_import_delim                 ""          ""
+item	import_menu	separator	""	""	""	""
+#    item    import_menu      command         "from Excel, Access or dBase data set..."       importRODBCtable            ""          "WindowsP() && packageAvailable('RODBC') && (.Platform$r_arch == 'i386')"
+#    item    import_menu      command         "from Excel file..."                            importExcel                 ""      "packageAvailable('XLConnect') && (!WindowsP() | (.Platform$r_arch != 'i386')) && hasJava()"
+item    import_menu      command         "from Excel file... [Rcmdr]"     importExcel    ""     "packageAvailable('readxl')"
+item	import_menu	separator	""	""	""	""
+item    import_menu      command         "from SPSS data set... [Rcmdr]"     importSPSS     ""     "packageAvailable('foreign')"
+item    import_menu      command         "from SAS xport file... [Rcmdr]"     importSAS     ""     "packageAvailable('foreign')"
+item    import_menu      command         "from SAS b7dat file... [Rcmdr]"     importSASb7dat     ""           "packageAvailable('RcmdrMisc')"
+item    import_menu      command         "from STATA data set... [Rcmdr]"     importSTATA     ""          "packageAvailable('foreign')"
+item    import_menu      command         "from Minitab data set... [Rcmdr]"     importMinitab     ""          "packageAvailable('foreign')"
+
+item	import_menu	separator	""	""	""	""
+item	import_menu	command	"from Rds data file (.Rds)..."	window_import_rds	""	""
+item	import_menu	command	"from R data file (.RData)..."	window_import_rdata	""	""
+item    import_menu    command    "from R package... [Rcmdr]"     window_read_from_pkg    ""          ""
+item    import_menu    command   "List of datasets in R packages"    command_list_datasets_in_pkgs    ""          ""
 
 
+# item    dataMenu        cascade         "Import data"                                   importMenu                  ""          ""
 
 # ==============================================================================
 # ---- Active dataset ---------------------------------------------------------
@@ -45,20 +64,12 @@ item	biostat_menu	cascade	"Active dataset"	bs_active_ds_menu	""	""
 
 item	bs_active_ds_menu	command	"Refresh active dataset"	command_dataset_refresh	"activeDataSetP()"	""
 
-# ---- Overview of the dataset's -------------------------------------------------
+# ~~~ Rename, copy ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 item	bs_active_ds_menu	separator	""	""	""	""
-item	bs_active_ds_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
-item	bs_active_ds_menu	command	"Number of rows and columns"	command_dataset_dim	"activeDataSetP()"	""
-item	bs_active_ds_menu	command	"Print top and bottom rows"	summary_head_tail	"activeDataSetP()"	""
-# item	bs_active_ds_menu	command	"Print top rows only"	summary_head	"activeDataSetP()"	""
-# item	bs_active_ds_menu	command	"Print bottom rows only"	summary_tail	"activeDataSetP()"	""
-item	bs_active_ds_menu	command	"Print whole dataset"	command_dataset_print	"activeDataSetP()"	""
-item	bs_active_ds_menu	command	"View: show dataset in a separate window"	command_dataset_view	"activeDataSetP()"	""
-
-item	bs_active_ds_menu	separator	""	""	""	""
-item	bs_active_ds_menu	command	"Pander: print dataset as Markdown table"	window_dataset_pander	"activeDataSetP()"	"packageAvailable('pander')"
-
+item	bs_active_ds_menu	command	"Rename active dataset..."	window_dataset_rename	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"Make a copy of active dataset..."	window_dataset_copy	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"Delete active dataset..."	window_dataset_delete	"activeDataSetP()"	""
 
 # ---- Manage dataset's class -------------------------------------------------
 
@@ -70,25 +81,31 @@ item	bs_active_ds_menu	command	"Convert to tibble (`tbl_df`)"	command_dataset_as
 item	bs_active_ds_menu	command	"Convert to `data.table`"	command_dataset_as_dt	"activeDataSetP() && !first_class_isP('data.table')"	"packageAvailable('data.table')"
 
 
-# ~~~ Rename, copy ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+# ---- Print -----------------------------------------------------------------
 item	bs_active_ds_menu	separator	""	""	""	""
-item	bs_active_ds_menu	command	"Rename active dataset..."	window_dataset_rename	"activeDataSetP()"	""
-item	bs_active_ds_menu	command	"Make a copy of active dataset..."	window_dataset_copy	"activeDataSetP()"	""
-item	bs_active_ds_menu	command	"Delete active dataset..."	window_dataset_delete	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"Print whole dataset"	command_dataset_print	"activeDataSetP()"	""
+
+item	bs_active_ds_menu	command	"Pander: print dataset as Markdown table"	window_dataset_pander	"activeDataSetP()"	"packageAvailable('pander')"
+
 
 
 # ~~~~ Data Export Menu ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-item	bs_active_ds_menu	separator	""	""	""	""
+# item	bs_active_ds_menu	separator	""	""	""	""
+# menu	bs_export_menu	bs_active_ds_menu	""	""	""	""
+# item	bs_active_ds_menu	cascade	"Export / Save"	bs_export_menu	"activeDataSetP()"	""
 
-menu	bs_export_menu	bs_active_ds_menu	""	""	""	""
-item	bs_active_ds_menu	cascade	"Export / Save"	bs_export_menu	"activeDataSetP()"	""
+menu	bs_export_menu	bs_data_menu	""	""	""	""
+item	bs_data_menu	cascade	"Export / Save"	bs_export_menu	"activeDataSetP()"	""
 
+item	bs_export_menu	command	"Save data to text file (.txt, .csv)..."	window_export_to_textfile	"activeDataSetP()"	""
+
+item	bs_export_menu	separator	""	""	""	""
 item	bs_export_menu	command	"Save data to Excel file (.xlsx)..."	window_export_to_excel	"activeDataSetP()"	""
+
+item	bs_export_menu	separator	""	""	""	""
 item	bs_export_menu	command	"Save data to Rds data file (.Rds)..."	window_export_to_rds	"activeDataSetP()"	""
 item	bs_export_menu	command	"Save data to R data file (.RData)..."	window_export_to_rdata	"activeDataSetP()"	""
-item	bs_export_menu	command	"Save data to text file (.txt, .csv)..."	window_export_to_textfile	"activeDataSetP()"	""
 
 
 # ==============================================================================
@@ -127,14 +144,15 @@ menu	bs_varible_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Variables (columns)"	bs_varible_menu	""	""
 
 item	bs_varible_menu	command	"Print variable (column) names"	command_colnames	"activeDataSetP()"	""
+item	bs_varible_menu	command	"Clean names (into snake case)"	command_clean_names	"activeDataSetP()"	"packageAvailable('dplyr') && packageAvailable('janitor')"
+item	bs_varible_menu	command	"Rename variables..."	window_variable_rename	"activeDataSetP()"	"packageAvailable('dplyr')"
+
 
 item	bs_varible_menu	separator	""	""	""	""
 
+item	bs_varible_menu	command	"Select/Remove variables..."	window_variable_select0	"activeDataSetP()"	"packageAvailable('dplyr')"
 item	bs_varible_menu	command	"Mutate: compute a variable..."	window_variable_mutate0	"activeDataSetP()"	"packageAvailable('dplyr')"
 item	bs_varible_menu	command	"Recode variable values..."	window_variable_recode0	"activeDataSetP()"	"packageAvailable('dplyr')"
-item	bs_varible_menu	command	"Select/Remove variables..."	window_variable_select0	"activeDataSetP()"	"packageAvailable('dplyr')"
-item	bs_varible_menu	command	"Clean names into snake case"	command_clean_names	"activeDataSetP()"	"packageAvailable('dplyr') && packageAvailable('janitor')"
-item	bs_varible_menu	command	"Rename variables..."	window_variable_rename	"activeDataSetP()"	"packageAvailable('dplyr')"
 # item	bs_varible_menu	command	"Copy variables"	window_variable_copy	"activeDataSetP()"	"packageAvailable('dplyr')"
 
 item	bs_varible_menu	separator	""	""	""	""
@@ -206,15 +224,27 @@ menu	bs_summary_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Summaries"	bs_summary_menu	""	""
 
 
-item	bs_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
-# item	bs_summary_menu	command	"Screen dataset for missing values"	summary_ds_screener	"activeDataSetP()"	""
+# ---- Overview of the dataset's -------------------------------------------------
+
+# item	bs_summary_menu	separator	""	""	""	""
 item	bs_summary_menu	command	"Number of rows and columns"	command_dataset_dim	"activeDataSetP()"	""
 item	bs_summary_menu	command	"Print top and bottom rows"	summary_head_tail	"activeDataSetP()"	""
+# item	bs_summary_menu	command	"Print top rows only"	summary_head	"activeDataSetP()"	""
+# item	bs_summary_menu	command	"Print bottom rows only"	summary_tail	"activeDataSetP()"	""
+item	bs_summary_menu	command	"View: show dataset in a separate window"	command_dataset_view	"activeDataSetP()"	""
+
+
+
+# item	bs_summary_menu	command	"Number of rows and columns"	command_dataset_dim	"activeDataSetP()"	""
+# item	bs_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
+# item	bs_summary_menu	command	"Print top and bottom rows"	summary_head_tail	"activeDataSetP()"	""
+#
+item	bs_summary_menu	separator	""	""	""	""
+item	bs_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
 
 item	bs_summary_menu	separator	""	""	""	""
-item	bs_summary_menu	command	"Screen dataset for missing values"	summary_ds_screener	"activeDataSetP()"	"packageAvailable('descriptr')"
 
-item	bs_summary_menu	separator	""	""	""	""
+item	bs_summary_menu	command	"Summarize all variables: skim..."	window_summary_skim	"activeDataSetP()"	"packageAvailable('skimr')"
 item	bs_summary_menu	command	"Summarize all variables: summary"	command_summary	"activeDataSetP()"	""
 item	bs_summary_menu	command	"Summarize all variables: describe"	summary_Hmisc_describe	"activeDataSetP()"	"packageAvailable('Hmisc')"
 # item	bs_summary_menu	command	"Summarize all variables [stats::summary]"	command_summary	"activeDataSetP()"	""
@@ -251,8 +281,11 @@ item	bs_summary_menu	command	"Frequency table / Multi-way table..."	window_summa
 # descriptr::ds_tway_tables()
 
 
-# item	bs_summary_menu	separator	""	""	""	""
+item	bs_summary_menu	separator	""	""	""	""
 
+item	bs_summary_menu	command	"Screen dataset for missing values"	summary_ds_screener	"activeDataSetP()"	"packageAvailable('descriptr')"
+
+# item	bs_summary_menu	separator	""	""	""	""
 
 # =============================================================================
 # ---- Main plots -------------------------------------------------------------
@@ -411,7 +444,7 @@ menu	bs_settings_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Settings"	bs_settings_menu	""	""
 
 item	bs_settings_menu	command	"Show working directory"  command_getwd	""	""
-item	bs_settings_menu	command	"Change working directory"  command_setwd	""	""
+item	bs_settings_menu	command	"Change working directory..."  command_setwd	""	""
 item	bs_settings_menu	separator	""	""	""	""
 
 item	bs_settings_menu	command	"Session information [devtools]"	command_session_info_devtools	""	""
