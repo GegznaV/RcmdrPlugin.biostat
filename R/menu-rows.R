@@ -10,7 +10,7 @@ command_rownames <- function() {
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # TODO:
-# 1. show which rows are removed.
+#
 #
 #' @rdname Menu-window-functions
 #' @export
@@ -23,14 +23,30 @@ command_row_rm_empty_rows <- function() {
 
     dim_before <- eval_glue("dim({ds})", envir_eval = .GlobalEnv)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    command <- glue::glue("## Remove empty rows\n",
+
+    empty_rows_tmp <- eval_glue("rowSums(is.na({ds})) == ncol({ds})",
+                                envir_eval = .GlobalEnv)
+
+    if (any(empty_rows_tmp)) {
+        empty_rows_ind <-
+            which(empty_rows_tmp) %>%
+            stringr::str_c(collapse = ", ")
+
+        logger(glue::glue("# Indices of empty rows: \n# {empty_rows_ind} \n"))
+
+
+        command <- glue::glue("## Remove empty rows\n",
                           "{empty_row_var} <- rowSums(is.na({ds})) == ncol({ds})\n",
-                          # "which({empty_row_var}) # Empty row numbers\n",
-                          "{ds} <- {ds} %>% dplyr::filter(!{empty_row_var}) # Removal")
+                          "which({empty_row_var}) # Indices of empty rows \n",
+                          "{ds} <- {ds} %>% dplyr::filter(!{empty_row_var}) # Remove the rows\n",
+                          "remove({empty_row_var}) # Clean up\n")
+
     doItAndPrint(command)
 
-
-
+    } else {
+        # No empty rows are present
+        logger(glue::glue("# No empty rows are present in `{ds}`"))
+    }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     dim_after <- eval_glue("dim({ds})", envir_eval = .GlobalEnv)
 
