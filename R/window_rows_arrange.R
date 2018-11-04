@@ -111,7 +111,7 @@ window_rows_arrange_tmp <- function() {
     Library("tidyverse")
 
     doItAndPrint(
-        glue::glue(
+        str_glue(
             '## Examples of code \n\n',
 
             '# Sort rows ascending: \n',

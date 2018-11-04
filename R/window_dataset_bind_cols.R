@@ -39,8 +39,8 @@ window_dataset_bind_cols <- function() {
 
     names_Frame  <- tkframe(top)
     entry_new_ds_name <- ttkentry(names_Frame,
-                             width = "68",
-                             textvariable = new_ds_name_variable)
+                                  width = "68",
+                                  textvariable = new_ds_name_variable)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     dataSets       <- listDataSets()
     .activeDataSet <- ActiveDataSet()
@@ -96,7 +96,7 @@ window_dataset_bind_cols <- function() {
         if (!is.valid.name(new_ds_name)) {
             errorCondition(
                 recall = window_dataset_bind_cols,
-                message = glue::glue('"{new_ds_name}" ', gettextRcmdr("is not a valid name."))
+                message = str_glue('"{new_ds_name}" ', gettextRcmdr("is not a valid name."))
             )
             return()
         }
@@ -159,9 +159,9 @@ window_dataset_bind_cols <- function() {
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         all_new_ds_names <- stringr::str_c(name_ds_1, name_ds_2, name_ds_3,
-                                          sep = ", ")
+                                           sep = ", ")
 
-        command <- style_cmd(glue::glue(
+        command <- style_cmd(str_glue(
             '## Bind columns of datasets\n',
             '{new_ds_name} <- \n',
             'dplyr::bind_cols({all_new_ds_names})'

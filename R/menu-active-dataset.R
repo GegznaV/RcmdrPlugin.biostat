@@ -22,7 +22,7 @@ command_dataset_refresh <- function() {
 #' @export
 #' @keywords internal
 command_dataset_class <- function() {
-    doItAndPrint(glue::glue("## The `R` class of the dataset\n",
+    doItAndPrint(str_glue("## The R class of the dataset\n",
                             "class({ActiveDataSet()})"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -31,7 +31,7 @@ command_dataset_class <- function() {
 #' @export
 #' @keywords internal
 command_colnames <- function() {
-    doItAndPrint(glue::glue("## Column names\n",
+    doItAndPrint(str_glue("## Column names\n",
                             "colnames({ActiveDataSet()})"))
 }
 
@@ -44,7 +44,7 @@ command_colnames <- function() {
 #' @export
 #' @keywords internal
 command_dataset_print <- function() {
-    doItAndPrint(glue::glue("print({ActiveDataSet()})"))
+    doItAndPrint(str_glue("print({ActiveDataSet()})"))
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -58,15 +58,35 @@ command_dataset_print <- function() {
 #' @export
 #' @keywords internal
 window_dataset_pander <- function() {
-    # Library(c("tidyverse", "pander"))
+
+    tbl_style   <- "simple"
+    use_caption <- TRUE
+
+    if (use_caption) {
+       caption_text <- str_glue("Dataset `{ActiveDataSet()}`")
+       tbl_caption  <- str_glue(',\n caption = "{caption_text}" ')
+
+    } else {
+        tbl_caption  <- ""
+    }
+
+
+
     Library("tidyverse")
     Library("pander")
-    doItAndPrint(style_cmd(glue::glue(
-        '## The dataset \n',
-        '# The dataset printed in a from that will be converted \n',
-        '# to a table in an R Markdown report. \n',
+
+
+    command <- str_glue(
+        '## Dataset as Markdown table \n',
+        # '# The dataset printed in a from that will be converted \n',
+        # '# to a table in an R Markdown report. \n',
         '{ActiveDataSet()} %>% \n',
-        'pander::pander(caption = "Dataset `{ActiveDataSet()}`", missing = "")')))
+        '    pander::pander(missing = "", style = "{tbl_style}"',
+        '    {tbl_caption}',
+        '    )') %>%
+    style_cmd()
+
+    doItAndPrint(command)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -74,7 +94,7 @@ window_dataset_pander <- function() {
 #' @export
 #' @keywords internal
 command_dataset_view <- function() {
-    doItAndPrint(glue::glue("View({ActiveDataSet()})"))
+    doItAndPrint(str_glue("View({ActiveDataSet()})"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -82,7 +102,7 @@ command_dataset_view <- function() {
 #' @export
 #' @keywords internal
 command_dataset_dim <- function() {
-    doItAndPrint(glue::glue("## Number of rows and columns\n",
+    doItAndPrint(str_glue("## Number of rows and columns\n",
                             "dim({ActiveDataSet()})"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -91,7 +111,7 @@ command_dataset_dim <- function() {
 #' @export
 #' @keywords internal
 command_dataset_as_df <- function() {
-    doItAndPrint(glue::glue(
+    doItAndPrint(str_glue(
         "## Change class of the dataset to `data.frame`\n",
         "{ActiveDataSet()} <- as.data.frame({ActiveDataSet()})"))
     command_dataset_refresh()
@@ -103,7 +123,7 @@ command_dataset_as_df <- function() {
 #' @keywords internal
 command_dataset_as_tibble <- function() {
     Library("tibble")
-    doItAndPrint(glue::glue(
+    doItAndPrint(str_glue(
         "## Change class of the dataset to `tibble`\n",
         "{ActiveDataSet()} <- as_tibble({ActiveDataSet()})"))
     command_dataset_refresh()
@@ -114,7 +134,7 @@ command_dataset_as_tibble <- function() {
 #' @keywords internal
 command_dataset_as_dt <- function() {
     Library("data.table")
-    doItAndPrint(glue::glue(
+    doItAndPrint(str_glue(
         "## Change class of the dataset to `data.table`\n",
         "{ActiveDataSet()} <- data.table({ActiveDataSet()})"))
     command_dataset_refresh()

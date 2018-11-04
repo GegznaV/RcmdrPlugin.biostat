@@ -69,10 +69,10 @@ window_dataset_bind_rows <- function() {
     }
     choose_id_fun <- function(variables) {
         switch(tclvalue(which_idVariable),
-             id_names   = id_names_fun(),
-             id_numeric = id_numeric_fun(),
-             id_none    = id_none_fun()
-             )
+               id_names   = id_names_fun(),
+               id_numeric = id_numeric_fun(),
+               id_none    = id_none_fun()
+        )
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = gettextRcmdr("Bind rows of datasets"))
@@ -118,7 +118,7 @@ window_dataset_bind_rows <- function() {
                                                      "Do not use ID")),
                             command = choose_id_fun
                             # initialValue = dialog_values$which_names,
-                            )
+    )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     dataSets       <- listDataSets()
     .activeDataSet <- ActiveDataSet()
@@ -132,7 +132,7 @@ window_dataset_bind_rows <- function() {
             onRelease_fun = function() {
                 set_id_name1()
                 set_ds_name()
-                },
+            },
             initialSelection = if (is.null(.activeDataSet)) {
                 NULL
             } else {
@@ -185,8 +185,8 @@ window_dataset_bind_rows <- function() {
         if (!is.valid.name(new_ds_name)) {
             errorCondition(
                 recall = window_dataset_bind_rows,
-                message = glue::glue('"{new_ds_name}" ',
-                                     gettextRcmdr("is not a valid name."))
+                message = str_glue('"{new_ds_name}" ',
+                                   gettextRcmdr("is not a valid name."))
             )
             return()
         }
@@ -248,7 +248,7 @@ window_dataset_bind_rows <- function() {
         annotation <- "## Bind rows of datasets \n"
         if (use_ids) {
             # Use .id variable
-            command <- style_cmd(glue::glue(
+            command <- style_cmd(str_glue(
                 annotation,
                 "{new_ds_name} <- ",
                 "dplyr::bind_rows(\n{ds_names_cmd}, \n",
@@ -256,7 +256,7 @@ window_dataset_bind_rows <- function() {
 
         } else {
             # No .id variable
-            command <- style_cmd(glue::glue(
+            command <- style_cmd(str_glue(
                 annotation,
                 "{new_ds_name} <- ",
                 "dplyr::bind_rows(\n{ds_names_cmd})"))

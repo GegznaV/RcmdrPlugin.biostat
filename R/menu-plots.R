@@ -19,7 +19,7 @@ open_new_plots_window <- function() {
 window_easyPlot <- function() {
     Library("easyPlot")
 
-    command <- glue::glue(
+    command <- str_glue(
         '## To call tool "easyPlot" for making plots (the app),  \n',
         "## run the following code in either R or \n",
         "## RStudio console (and NOT in Rcmdr windows):\n\n",
@@ -40,13 +40,13 @@ window_ggplotgui <- function() {
     # shiny::runApp(system.file(package = "descriptr", "application"),
     #               launch.browser = TRUE)
 
-    command <- glue::glue(
-    '## To call tool "ggplotgui" for making plots (the app),  \n',
-    "## run the following code in either R or RStudio console\n",
-    "## (and NOT in Rcmdr windows).\n",
-    '## In the code you copy form the app, change `ds`\n',
-    '## into the name of your dataset (e.g., `{ActiveDataSet()}`)"\n\n',
-    "# ", 'ggplotgui::ggplot_shiny({ActiveDataSet()})')
+    command <- str_glue(
+        '## To call tool "ggplotgui" for making plots (the app),  \n',
+        "## run the following code in either R or RStudio console\n",
+        "## (and NOT in Rcmdr windows).\n",
+        '## In the code you copy form the app, change `ds`\n',
+        '## into the name of your dataset (e.g., `{ActiveDataSet()}`)"\n\n',
+        "# ", 'ggplotgui::ggplot_shiny({ActiveDataSet()})')
 
     logger(command)
     # justDoIt(command)
@@ -70,7 +70,7 @@ window_show_colors <- function() {
     # Code:
     color_names <- paste0('"', color_names, '"', collapse = ", ")
 
-    command <- style_cmd(glue::glue(
+    command <- style_cmd(str_glue(
         "## This is just an example of code to show colors. \n",
         "## Please write either color names or color codes of inerest: \n\n",
         'scales::show_col(c({color_names}))'))
@@ -100,10 +100,10 @@ window_colourPicker <- function() {
     # [!!!] Name should be changeable:
     palette_name <- "my_palette"
 
-    command <- style_cmd(glue::glue(
+    command <- style_cmd(str_glue(
         "## The color palette you created:\n",
         '{palette_name} <- c({color_names2})'
-        ))
+    ))
 
     doItAndPrint(command)
 }

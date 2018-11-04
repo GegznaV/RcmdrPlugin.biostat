@@ -26,7 +26,7 @@ command_setwd <- function() {
     new_wd <- tclvalue(tkchooseDirectory(initialdir = getwd(),
                                          parent = CommanderWindow()))
     if (new_wd != "") {
-        Rcmdr::doItAndPrint(glue::glue('setwd("{new_wd}")'))
+        Rcmdr::doItAndPrint(str_glue('setwd("{new_wd}")'))
     }
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -56,12 +56,12 @@ command_set_locale_lt <- function() {
         "lt_LT"
     }
 
-    Rcmdr::doItAndPrint(glue::glue(
+    Rcmdr::doItAndPrint(str_glue(
         '## Set locale to Lithuanian \n',
         'Sys.setlocale(locale = "{locale}")'
         # 'locale_info <- Sys.setlocale(locale = "{locale}")\n',
         # 'writeLines(gsub(";", "\\n", locale_info))\n'
-        ))
+    ))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
@@ -75,12 +75,12 @@ command_set_locale_en <- function() {
         "en_US"
     }
 
-    Rcmdr::doItAndPrint(glue::glue(
+    Rcmdr::doItAndPrint(str_glue(
         '## Set locale to English \n',
         'Sys.setlocale(locale = "{locale}")'
         # 'locale_info <- Sys.setlocale(locale = "{locale}")\n',
         # 'writeLines(gsub(";", "\\n", locale_info))\n'
-        ))
+    ))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
@@ -94,12 +94,12 @@ command_set_locale_ru <- function() {
         "ru_RU"
     }
 
-    Rcmdr::doItAndPrint(glue::glue(
+    Rcmdr::doItAndPrint(str_glue(
         '## Set locale to Russian \n',
         'Sys.setlocale(locale = "{locale}")'
         # 'locale_info <- Sys.setlocale(locale = "{locale}")\n',
         # 'writeLines(gsub(";", "\\n", locale_info))\n'
-        ))
+    ))
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

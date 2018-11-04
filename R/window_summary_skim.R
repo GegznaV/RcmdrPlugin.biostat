@@ -37,7 +37,7 @@ window_summary_skim <- function() {
 
     initializeDialog(title = gettextRcmdr("Skim: Summarize Variables")
                      # , use.tabs = TRUE, tabs = tabs
-                     )
+    )
 
     # posthocFrame <- tkframe(posthocTab)
     # plotsFrame <- tkframe(plotsTab)
@@ -65,7 +65,7 @@ window_summary_skim <- function() {
         listHeight = 8,
         title = gettextRcmdr("Grouping variable(s) \n(pick one, several or none)"),
         initialSelection = var_pos_n(dialog_values$initial.gr_var))
-        # initialSelection = varPosn(dialog_values$initial.gr_var, "factor"))
+    # initialSelection = varPosn(dialog_values$initial.gr_var, "factor"))
 
     tkgrid(
         getFrame(yBox),
@@ -248,7 +248,7 @@ window_summary_skim <- function() {
         # use.tabs = TRUE, grid.buttons = TRUE
         # , tabs = tabs,
         # tab.names = tab_names
-                 )
+    )
 }
 # ==============================================================================
 

@@ -3,7 +3,7 @@
 #' @export
 #' @keywords internal
 command_list_datasets_in_pkgs <- function() {
-    doItAndPrint("## List datasets\ndata()")
+    doItAndPrint("## List datasets in attached R packages\ndata()")
 }
 
 

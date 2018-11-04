@@ -63,7 +63,7 @@ window_dataset_bind <- function() {
         if (!is.valid.name(dsnameValue)) {
             errorCondition(
                 recall = window_dataset_bind,
-                message = glue::glue('"{dsnameValue}" ', gettextRcmdr("is not a valid name."))
+                message = str_glue('"{dsnameValue}" ', gettextRcmdr("is not a valid name."))
             )
             return()
         }
@@ -106,13 +106,13 @@ window_dataset_bind <- function() {
         direction <- tclvalue(directionVariable)
         switch(direction,
                "rows" = {
-                   # command <- glue::glue("{dsnameValue} <- mergeRows({name1}, {name2}, common.only = {common})")
+                   # command <- str_glue("{dsnameValue} <- mergeRows({name1}, {name2}, common.only = {common})")
                    if (idnameValue == "NULL") {
                        # No .id variable
-                       command <- glue::glue("{dsnameValue} <- dplyr::bind_rows({name1}, {name2})")
+                       command <- str_glue("{dsnameValue} <- dplyr::bind_rows({name1}, {name2})")
                    } else {
                        # Use .id variable
-                       command <- glue::glue("{dsnameValue} <- dplyr::bind_rows({name1}, {name2}, .id = '{idnameValue}')")
+                       command <- str_glue("{dsnameValue} <- dplyr::bind_rows({name1}, {name2}, .id = '{idnameValue}')")
                    }
 
                },
@@ -125,9 +125,9 @@ window_dataset_bind <- function() {
                        return()
                    }
 
-                   # command <- glue::glue('{dsnameValue} <- merge({name1}, {name2}, all = {!common}, by="row.names")')},
-                   command <- glue::glue('{dsnameValue} <- dplyr::bind_cols({name1}, {name2})')
-                   },
+                   # command <- str_glue('{dsnameValue} <- merge({name1}, {name2}, all = {!common}, by="row.names")')},
+                   command <- str_glue('{dsnameValue} <- dplyr::bind_cols({name1}, {name2})')
+               },
                # else
                stop("Unrecognized option.")
         )
@@ -135,9 +135,9 @@ window_dataset_bind <- function() {
         doItAndPrint(command)
 
         # doItAndPrint(command)
-        # command <- glue::glue("rownames({dsnameValue}) <- {dsnameValue}$Row.names")
+        # command <- str_glue("rownames({dsnameValue}) <- {dsnameValue}$Row.names")
         # doItAndPrint(command)
-        # command <- glue::glue("{dsnameValue}$Row.names <- NULL")
+        # command <- str_glue("{dsnameValue}$Row.names <- NULL")
         # doItAndPrint(command)
 
         activeDataSet(dsnameValue)

@@ -18,7 +18,7 @@ window_dataset_rename <- function() {
         fg = fg_col),
         pady = c(5, 9), columnspan = 2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    dsname <- tclVar(unique_df_name(glue::glue(
+    dsname <- tclVar(unique_df_name(str_glue(
         "{activeDataSet()}_renamed")))
     entryDsname <- ttkentry(top, width = "40", textvariable = dsname)
 
@@ -39,8 +39,8 @@ window_dataset_rename <- function() {
         if (!is.valid.name(dsnameValue)) {
             errorCondition(
                 recall = window_dataset_rename,
-                message = glue::glue('"{dsnameValue}" ',
-                                     gettextRcmdr("is not a valid name for a dataset."))
+                message = str_glue('"{dsnameValue}" ',
+                                   gettextRcmdr("is not a valid name for a dataset."))
             )
             return()
         }
@@ -57,13 +57,13 @@ window_dataset_rename <- function() {
         ds_to_rename <- activeDataSet()
 
         # Two commands are used to avoid error message in R Commander
-        command1 <- glue::glue(
+        command1 <- str_glue(
             "# Rename the dataset \n",
             "{dsnameValue} <- {ds_to_rename}")
         justDoIt(command1)
         activeDataSet(dsnameValue)
 
-        command2 <- glue::glue("remove({ds_to_rename})")
+        command2 <- str_glue("remove({ds_to_rename})")
         justDoIt(command2)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

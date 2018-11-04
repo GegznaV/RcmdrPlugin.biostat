@@ -10,7 +10,7 @@
 command_all_chr_to_fctr <- function() {
     # Library("biostat")
 
-    # doItAndPrint(glue::glue(
+    # doItAndPrint(str_glue(
     #     "{ActiveDataSet()} <- biostat::all_chr_to_factor({ActiveDataSet()})"))
 
     # Library(c("tidyverse", "forcats", "dplyr"))
@@ -19,10 +19,10 @@ command_all_chr_to_fctr <- function() {
     Library("dplyr")
 
     command <-
-        glue::glue(
+        str_glue(
             "{ActiveDataSet()} <- {ActiveDataSet()} %>% \n",
             "dplyr::mutate_if(is.character, forcats::as_factor)"
-            ) %>%
+        ) %>%
         style_cmd()
 
     doItAndPrint(command)
@@ -43,7 +43,7 @@ command_clean_names <- function() {
     # Library("dplyr")
 
     command <-
-        glue::glue(
+        str_glue(
             "{ActiveDataSet()} <- {ActiveDataSet()} %>% \n",
             'janitor::clean_names(case = "snake")'
         ) %>%

@@ -16,8 +16,8 @@ window_dataset_delete <- function() {
         closeDialog()
 
         ActiveDataSet(NULL)
-        command <- glue::glue("## Delete the dataset \n",
-                              "remove({ds_to_delete})")
+        command <- str_glue("## Delete the dataset \n",
+                            "remove({ds_to_delete})")
         res <- doItAndPrint(command)
 
         if (!inherits(res, "try-error")) {

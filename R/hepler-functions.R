@@ -1,3 +1,10 @@
+# Import functions ===========================================================
+str_c    <- stringr::str_c
+str_glue <- stringr::str_glue
+glue     <- str_glue
+
+# Other functions ============================================================
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export
@@ -16,7 +23,7 @@ unique_obj_names <- function(names = ActiveDataSet(),
                              list_of_choices = objects(all.names = TRUE,
                                                        envir = .GlobalEnv),
                              all_numbered = FALSE) {
-    initial_names <- glue("{preffix}{names}{suffix}")
+    initial_names <- str_glue("{preffix}{names}{suffix}")
 
     n_names <- length(names)
 
@@ -106,11 +113,11 @@ function_not_implemented <- function() {
         x <- "This function"
     }
 
-    text <- glue("# ~~~ {x} will be implemented  \n ",
-                 "# ~~~ in the future versions of package `RcmdrPlugin.biostat`! ")
+    text <- str_glue("# ~~~ {x} will be implemented  \n ",
+                     "# ~~~ in the future versions of package `RcmdrPlugin.biostat`! ")
 
-    msg <- glue("{x} will be implemented in the future versions of package",
-                " `RcmdrPlugin.biostat`! ")
+    msg <- str_glue("{x} will be implemented in the future versions of package",
+                    " `RcmdrPlugin.biostat`! ")
 
     doItAndPrint(text)
     Message(msg, type = "warning")
@@ -142,14 +149,12 @@ objects_in_env_P <- function(n = 1, envir = .GlobalEnv, ...) {
     isTRUE(length(objects(envir = envir, ...)) >= n)
 }
 # ------------------------------------------------------------------------------
-glue <- glue::glue
-# ------------------------------------------------------------------------------
 eval_glue <- function(..., envir = parent.frame(),
                       .sep = "", .open = "{", .close = "}",
                       envir_eval = envir,
                       envir_glue = envir) {
 
-    x2 <- glue::glue(..., .envir = envir_glue, .open = .open, .close = .close)
+    x2 <- str_glue(..., .envir = envir_glue, .open = .open, .close = .close)
     eval(parse(text = x2), envir = envir_eval)
 }
 # ------------------------------------------------------------------------------

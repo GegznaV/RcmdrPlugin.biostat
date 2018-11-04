@@ -49,9 +49,9 @@ window_ci_mean <- function() {
 
 
 
-    doItAndPrint(glue::glue("biostat::ci_mean_boot({ActiveDataSet()}${Numeric()[1]}, conf_level = {conf_level}, na.rm = TRUE)"))
+    doItAndPrint(str_glue("biostat::ci_mean_boot({ActiveDataSet()}${Numeric()[1]}, conf_level = {conf_level}, na.rm = TRUE)"))
 
-    doItAndPrint(glue::glue("biostat::ci_mean_t({ActiveDataSet()}${Numeric()[1]}, conf_level = {conf_level}, na.rm = TRUE)"))
+    doItAndPrint(str_glue("biostat::ci_mean_t({ActiveDataSet()}${Numeric()[1]}, conf_level = {conf_level}, na.rm = TRUE)"))
 
 
     function_not_implemented()
@@ -206,7 +206,7 @@ window_ci_boot <- function() {
     conf_level = 0.95
 
     # strata <- eval_glue("{activeDataSet()}[['{Factors()[1]}']]")
-         x <- eval_glue("{activeDataSet()}[['{Numeric()[1]}']]")
+    x <- eval_glue("{activeDataSet()}[['{Numeric()[1]}']]")
 
     statistic <- function(x, i) {
         mean(x[i])
@@ -226,7 +226,7 @@ window_ci_boot <- function() {
                      R = 5000,
                      # strata = strata,
                      sim = simulation
-                     )
+    )
 
     plot(boot_obj)
 

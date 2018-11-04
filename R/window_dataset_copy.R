@@ -9,7 +9,7 @@ window_dataset_copy <- function() {
     # Window to choose dataset's name
 
     initializeDialog(title = gettextRcmdr("Make a Copy of The Active Dataset"))
-    dsname <- tclVar(glue::glue("{activeDataSet()}_copy"))
+    dsname <- tclVar(str_glue("{activeDataSet()}_copy"))
     entryDsname <- ttkentry(top, width = "40", textvariable = dsname)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -30,8 +30,8 @@ window_dataset_copy <- function() {
         if (!is.valid.name(dsnameValue)) {
             errorCondition(
                 recall = window_dataset_copy,
-                message = glue::glue('"{dsnameValue}" ',
-                                     gettextRcmdr("is not a valid name for a dataset."))
+                message = str_glue('"{dsnameValue}" ',
+                                   gettextRcmdr("is not a valid name for a dataset."))
             )
             return()
         }
@@ -49,7 +49,7 @@ window_dataset_copy <- function() {
         ds_to_copy <- activeDataSet()
 
 
-        command1 <- glue::glue(
+        command1 <- str_glue(
             "## Make a copy of the dataset \n",
             "{dsnameValue} <- {ds_to_copy}")
         doItAndPrint(command1)

@@ -22,24 +22,24 @@ window_qqplot_biostat <- function() {
 
     optionsFrame <- tkframe(top)
     Rcmdr::radioButtons(optionsFrame,
-                 name = "test",
-                 buttons = c(if (nrows <= 5000) "shapiro.test",
-                             "ad.test",
-                             "cvm.test",
-                             "lillie.test",
-                             if (nrows <= 5000) "sf.test",
-                             "pearson.test"
-                 ),
-                 labels = c(
-                     if (nrows <= 5000) gettextRcmdr("Shapiro-Wilk"),
-                     gettextRcmdr("Anderson-Darling"),
-                     gettextRcmdr("Cramer-von Mises"),
-                     gettextRcmdr("Lilliefors (Kolmogorov-Smirnov)"),
-                     if (nrows <= 5000) gettextRcmdr("Shapiro-Francia"),
-                     gettextRcmdr("Pearson chi-square")
-                 ),
-                 title = gettextRcmdr("Normality Test"),
-                 initialValue = dialog.values$initial_test
+                        name = "test",
+                        buttons = c(if (nrows <= 5000) "shapiro.test",
+                                    "ad.test",
+                                    "cvm.test",
+                                    "lillie.test",
+                                    if (nrows <= 5000) "sf.test",
+                                    "pearson.test"
+                        ),
+                        labels = c(
+                            if (nrows <= 5000) gettextRcmdr("Shapiro-Wilk"),
+                            gettextRcmdr("Anderson-Darling"),
+                            gettextRcmdr("Cramer-von Mises"),
+                            gettextRcmdr("Lilliefors (Kolmogorov-Smirnov)"),
+                            if (nrows <= 5000) gettextRcmdr("Shapiro-Francia"),
+                            gettextRcmdr("Pearson chi-square")
+                        ),
+                        title = gettextRcmdr("Normality Test"),
+                        initialValue = dialog.values$initial_test
     )
     binsFrame <- tkframe(optionsFrame)
     binsVariable <- tclVar(dialog.values$initial_bins)
@@ -108,11 +108,11 @@ window_qqplot_biostat <- function() {
 
         # plot ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (.groups == FALSE) {
-            command2 <- glue::glue(
+            command2 <- str_glue(
                 'biostat::qq_plot(~{var}, ',
                 'data = {ActiveDataSet()}, use_colors = TRUE)')
         } else{
-            command2 <- glue::glue(
+            command2 <- str_glue(
                 'biostat::qq_plot({var}~{.groups}, ',
                 'data = {ActiveDataSet()}, use_colors = TRUE)')
         }
@@ -121,21 +121,21 @@ window_qqplot_biostat <- function() {
 
         # Test results ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # if (.groups == FALSE) {
-        #     command <- glue::glue(
+        #     command <- str_glue(
         #         'biostat::test_normality(~{var}, ',
         #         'data = {ActiveDataSet()}, test = {test}{n.classes})')
         # } else{
-        #     command <- glue::glue(
+        #     command <- str_glue(
         #         'biostat::test_normality({var}~{.groups}, ',
         #         'data = {ActiveDataSet()}, test = {test}{n.classes})')
         # }
         #
         # # if (.groups == FALSE) {
-        # #     command <- glue::glue(
+        # #     command <- str_glue(
         # #         'normalityTest(~{var}, test = "{test}",',
         # #         ' data = {ActiveDataSet()}{n.classes})'                )
         # # } else{
-        # #     command <- glue::glue(
+        # #     command <- str_glue(
         # #         'normalityTest({var}~{.groups}, test = "{test}",',
         # #         ' data = {ActiveDataSet()}{n.classes})'                )
         # # }

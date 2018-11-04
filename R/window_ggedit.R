@@ -44,12 +44,12 @@ window_ggedit <- function() {
         Library("biostat")
         Library("ggedit")
 
-        command1 <- style_cmd(glue::glue(
+        command1 <- style_cmd(str_glue(
             "tidy_ggedit_code({{",
             "ggedit::ggedit({gg_obj}, launch.browser = TRUE,\n",
             "height = 300, width = 500)",
             "}})"
-            ))
+        ))
         # Open ggedit:
         ggedit_obj <- eval_(command1)
 
@@ -66,9 +66,9 @@ window_ggedit <- function() {
         command1_mod <- str_replace_all(str_c("# ", command1), "\n","\n# ")
 
         # Commands for Rcmdr
-        command2 <- style_cmd(glue::glue("{gg_obj} + \n {ggedit_code}"))
+        command2 <- style_cmd(str_glue("{gg_obj} + \n {ggedit_code}"))
 
-        command <- glue::glue(
+        command <- str_glue(
             "## ------ Interactive tool `ggedit` ------ \n\n",
             "## This code opened the interactive tool `ggedit`:\n",
             "{command1_mod}\n\n",
@@ -105,16 +105,16 @@ window_ggedit <- function() {
         top,
         text = gettext_Bio(glue('The tool will open in the ',
                                 'default Internet browser.')),
-                      fg = "darkred"),
-           sticky = "s",
-           pady = c(10, 2),
+        fg = "darkred"),
+        sticky = "s",
+        pady = c(10, 2),
         columnspan = 2)
 
     # tkgrid(prefixField, sticky = "ew", columnspan = 2)
-#
-#     tkgrid(fun_typeFrame,
-#            sticky = "w",
-#            pady = c(10, 0))
+    #
+    #     tkgrid(fun_typeFrame,
+    #            sticky = "w",
+    #            pady = c(10, 0))
 
     tkgrid(buttonsFrame, sticky = "ew", columnspan = 2)
 

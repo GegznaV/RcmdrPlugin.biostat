@@ -22,7 +22,7 @@ window_import_rds <- function() {
                 multiple = FALSE,
                 filetypes = gettext_Bio(
                     "{ {Rds data file} {.RDS .Rds .rds} } { {All Files} * }"
-                    )
+                )
             )
 
         file_name <- tclvalue(file_name_variable)
@@ -74,9 +74,9 @@ window_import_rds <- function() {
         if (object_name %in% ls(envir = .GlobalEnv))
             break_cycle <- tclvalue(
                 checkReplace(
-                    name = glue::glue('"{object_name}"'),
+                    name = str_glue('"{object_name}"'),
                     type = "Object")
-                )
+            )
 
         # Exit the cycle, if everything is selected correctly
         if (break_cycle == "yes") {
@@ -98,10 +98,10 @@ window_import_rds <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    command <- glue::glue(
+    command <- str_glue(
         '## Import data from Rds file\n',
         '{object_name} <- readRDS("{file_name}")'
-        )
+    )
     doItAndPrint(command)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (inherits(get(object_name, envir = .GlobalEnv), "data.frame"))

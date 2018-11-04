@@ -3,12 +3,8 @@
 \docType{package}
 \name{RcmdrPlugin.biostat}
 \alias{RcmdrPlugin.biostat}
-\alias{str_c}
 \alias{RcmdrPlugin.biostat-package}
 \title{An R Commander Plug-in for Basic Data Analysis Tasks}
-\usage{
-str_c(..., sep = "", collapse = NULL)
-}
 \description{
 \code{RcmdrPlugin.biostat} is an \code{Rcmdr} plugin for functions in package
 \code{biostat} and other common (bio)statistical routines.

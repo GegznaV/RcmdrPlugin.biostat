@@ -27,8 +27,8 @@ window_dataset_new_rcmdr <- function() {
         if (!is.valid.name(dsnameValue)) {
             errorCondition(
                 recall = window_new_dataset_rcmdr,
-                message = glue::glue('"{dsnameValue}" ',
-                                     gettextRcmdr("is not a valid name for a dataset."))
+                message = str_glue('"{dsnameValue}" ',
+                                   gettextRcmdr("is not a valid name for a dataset."))
             )
             return()
         }
@@ -43,7 +43,7 @@ window_dataset_new_rcmdr <- function() {
         closeDialog()
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Edit window
-        command <- glue::glue("Rcmdr::editDataset(dsname = '{dsnameValue}')")
+        command <- str_glue("Rcmdr::editDataset(dsname = '{dsnameValue}')")
         result <- justDoIt(command)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

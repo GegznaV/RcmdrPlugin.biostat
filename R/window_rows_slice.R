@@ -79,7 +79,7 @@ window_rows_slice <- function(){
 
         # If multiple comma separated conditions are selected
         if (stringr::str_detect(index, ",")) {
-           index <-  glue("c({index})")
+            index <-  glue("c({index})")
         }
 
         command <- glue(
@@ -148,7 +148,7 @@ window_rows_slice <- function(){
                 gettextRcmdr(" - comma separated;\n"),
                 gettextRcmdr(" - either positive integers to select rows;\n"),
                 gettextRcmdr(" - or negative integers to remove rows.\n"),
-                gettextRcmdr("Use colon to select ranges from:to. Function n() denotes the last row.\n")
+                gettextRcmdr("Use colon to select ranges from:to. Function n() indicates the last row.\n")
             ),
             foreground = getRcmdr("title.color"),
             font = "RcmdrTitleFont"
@@ -178,7 +178,7 @@ window_rows_slice <- function(){
 # window_rows_slice__ <- function() {
 #     Library("tidyverse")
 #
-#     doItAndPrint(glue::glue(
+#     doItAndPrint(str_glue(
 #
 #         '\n# Select the first row: \n',
 #         '# new_df <- dplyr::slice({ActiveDataSet()}, 1) \n',

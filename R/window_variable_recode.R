@@ -206,7 +206,7 @@ recode_values_template <- function(x) {
         }
 
     rez <-
-        glue::glue('"{unique_values}" = ""') %>%
+        str_glue('"{unique_values}" = ""') %>%
         paste(collapse = "\n") %>%
         paste('\n',
               '\n.default = ""',
@@ -323,15 +323,15 @@ window_variable_recode0 <- function() {
     #                                         variable = make_factorVariable)
 
     Rcmdr::radioButtons(variable_type_frame,
-                            name          = "recode_into",
-                            # title       = gettext_Bio("Use functions: "),
-                            # title.color = getRcmdr("title.color"),
-                            buttons       = c("nominal", "ordinal", "other"),
-                            values        = c("nominal", "ordinal", "other"),
-                            initialValue  = dialog_values$initial_recode_into,
-                            labels        = gettext_Bio(c("Nominal factor",
-                                                          "Ordinal factor",
-                                                          "Do not convert")))
+                        name          = "recode_into",
+                        # title       = gettext_Bio("Use functions: "),
+                        # title.color = getRcmdr("title.color"),
+                        buttons       = c("nominal", "ordinal", "other"),
+                        values        = c("nominal", "ordinal", "other"),
+                        initialValue  = dialog_values$initial_recode_into,
+                        labels        = gettext_Bio(c("Nominal factor",
+                                                      "Ordinal factor",
+                                                      "Do not convert")))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -368,7 +368,7 @@ window_variable_recode0 <- function() {
                                        "^[, ]*"    = "",
                                        # Remove tailing commas and spaces
                                        "[, ]*$"    = "")
-                   )
+            )
         # str_detect(recode_directives,
         #            "[\\p{Alphabetic}\\p{Mark}\\p{Decimal_Number}]")
 
@@ -400,8 +400,8 @@ window_variable_recode0 <- function() {
         if (!is.valid.name(name)) {
             errorCondition(
                 recall  = window_variable_recode0,
-                message = glue::glue('"{name}"',
-                                     gettext_Bio("is not a valid name."))
+                message = str_glue('"{name}"',
+                                   gettext_Bio("is not a valid name."))
             )
             return()
         }
@@ -441,7 +441,7 @@ window_variable_recode0 <- function() {
 
         dataSet <- activeDataSet()
 
-        command <- glue::glue(
+        command <- str_glue(
             "## ", gettext_Bio("Recode variable values"), "\n\n",
             "{dataSet} <- {dataSet} %>% \n",
             "   dplyr::mutate({name} = {recode_fun}({selected_variable}, ",
@@ -479,7 +479,7 @@ window_variable_recode0 <- function() {
         pady = c(0, 9)
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     OKCancelHelp(helpSubject = "recode_factor", helpPackage = "dplyr",
+    OKCancelHelp(helpSubject = "recode_factor", helpPackage = "dplyr",
                  reset = "window_variable_recode0",
                  apply = "window_variable_recode0")
 
@@ -501,8 +501,8 @@ window_variable_recode0 <- function() {
 
     tkgrid(
         label_rcmdr(variable_type_frame,
-                   text = gettext_Bio("Convert variable into: "),
-                   fg = getRcmdr("title.color")),
+                    text = gettext_Bio("Convert variable into: "),
+                    fg = getRcmdr("title.color")),
         sticky = "w",
         pady = c(10, 0)
     )
@@ -514,7 +514,7 @@ window_variable_recode0 <- function() {
             recodesFrame,
             text = gettext_Bio(
                 "Enter recode directives\n(one directive per row; change order of rows, if needed)"),
-                # "Enter recode directives\n(one directive per row or comma separated)"),
+            # "Enter recode directives\n(one directive per row or comma separated)"),
             fg = getRcmdr("title.color"),
             font = "RcmdrTitleFont"
         ),
@@ -541,8 +541,8 @@ window_variable_recode0 <- function() {
     tkgrid_text("Examples of recode directives:", fg = fg_col, pady = c(2, 0))
     tkgrid_text(paste(
         '      Example 1:       "old value 1" = "new value 1"\n',
-                           '\t\t"old value 3" = "new value 3"\n',
-                           '\t\t"old value 2" = "new value 2"\n'))
+        '\t\t"old value 3" = "new value 3"\n',
+        '\t\t"old value 2" = "new value 2"\n'))
 
     # tkgrid_text('      Example 2:       "old 1" = "new 1", "old 2" = "new 2"\n')
     tkgrid_text('      .default - a default value for all non-specified values.')

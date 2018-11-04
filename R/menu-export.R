@@ -36,7 +36,7 @@ window_export_to_rds <- function() {
             # Check if a file with the same name exists
             if (file.exists(file_name))
                 break_cycle <- tclvalue(Rcmdr::checkReplace(
-                    glue::glue('"{file_name}"'), type = "File"))
+                    str_glue('"{file_name}"'), type = "File"))
         }
 
         # Exit the cycle, if everything is selected correctly
@@ -52,8 +52,8 @@ window_export_to_rds <- function() {
         file_name <- make_relative_path(file_name)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    command <- glue::glue("## Save data to 'Rds' file\n",
-                          'saveRDS({activeDataSet()}, file = "{file_name}")')
+    command <- str_glue("## Save data to 'Rds' file\n",
+                        'saveRDS({activeDataSet()}, file = "{file_name}")')
     doItAndPrint(command)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
@@ -93,7 +93,7 @@ window_export_to_rdata <- function() {
             # Check if a file with the same name exists
             if (file.exists(file_name))
                 break_cycle <- tclvalue(Rcmdr::checkReplace(
-                    glue::glue('"{file_name}"'), type = "File"))
+                    str_glue('"{file_name}"'), type = "File"))
         }
 
         # Exit the cycle, if everything is selected correctly
@@ -109,8 +109,8 @@ window_export_to_rdata <- function() {
         file_name <- make_relative_path(file_name)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    command <- glue::glue("## Save data to 'RData' file\n",
-                          'save({activeDataSet()}, file = "{file_name}")') %>%
+    command <- str_glue("## Save data to 'RData' file\n",
+                        'save({activeDataSet()}, file = "{file_name}")') %>%
         style_cmd()
     doItAndPrint(command)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -162,7 +162,7 @@ window_export_to_excel <- function() {
             # Check if a file with the same name exists
             if (file.exists(file_name))
                 break_cycle <- tclvalue(Rcmdr::checkReplace(
-                    glue::glue('"{file_name}"'), type = "File"))
+                    str_glue('"{file_name}"'), type = "File"))
         }
 
         # Exit the cycle, if everything is selected correctly
@@ -196,14 +196,14 @@ window_export_to_excel <- function() {
     file_overwrite <- TRUE
 
     command <-
-        glue::glue("## Save data to Excel file\n",
-                   "openxlsx::write.xlsx({activeDataSet()}, \n",
-                   'file = "{file_name}", \n',
-                   'sheetName = "{sheet_name}", \n',
-                   "rowNames  = {has_rownames}, \n",
-                   "colNames  = TRUE, \n",
-                   'colWidths = "auto",\n',
-                   "overwrite = {file_overwrite})"
+        str_glue("## Save data to Excel file\n",
+                 "openxlsx::write.xlsx({activeDataSet()}, \n",
+                 'file = "{file_name}", \n',
+                 'sheetName = "{sheet_name}", \n',
+                 "rowNames  = {has_rownames}, \n",
+                 "colNames  = TRUE, \n",
+                 'colWidths = "auto",\n',
+                 "overwrite = {file_overwrite})"
         ) %>%
         style_cmd()
 

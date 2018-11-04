@@ -273,16 +273,16 @@ window_test_anova <- function() {
         # }
         # .activeDataSet <- ActiveDataSet()
         #
-        # # command <- glue::glue("{modelValue} <- aov({response} ~ {group}, data = {.activeDataSet})")
+        # # command <- str_glue("{modelValue} <- aov({response} ~ {group}, data = {.activeDataSet})")
         # # justDoIt(command)
         # # logger(command)
         #
-        # doItAndPrint(glue::glue("{modelValue} <- aov({response} ~ {group}, data = {.activeDataSet})"))
+        # doItAndPrint(str_glue("{modelValue} <- aov({response} ~ {group}, data = {.activeDataSet})"))
         #
-        # doItAndPrint(glue::glue("summary({modelValue})"))
+        # doItAndPrint(str_glue("summary({modelValue})"))
         #
         # doItAndPrint(
-        #     glue::glue('with({.activeDataSet}, ',
+        #     str_glue('with({.activeDataSet}, ',
         #                '  numSummary({response}, groups = {group}, statistics = c("mean", "sd"))',
         #                ')', sep = " \n"))
         #
@@ -309,7 +309,7 @@ window_test_anova <- function() {
         #             type = "warning"
         #         )
         #     else {
-        #         commands <- glue::glue(
+        #         commands <- str_glue(
         #             "local({{",
         #             '  .Pairs <- glht({modelValue}, linfct = mcp({group} = "Tukey"))',
         #             "  print(summary(.Pairs)) # pairwise tests",
@@ -327,7 +327,7 @@ window_test_anova <- function() {
         # }
         #
         # if (welch == 1) {
-        #     command <- glue::glue(
+        #     command <- str_glue(
         #         "oneway.test({response} ~ {group}, data = {.activeDataSet}) # Welch test")
         #     doItAndPrint(command)
         # }

@@ -5,8 +5,8 @@
 #' @export
 #' @keywords internal
 command_rownames <- function() {
-    doItAndPrint(glue::glue("## Row names\n",
-                            "rownames({ActiveDataSet()})"))
+    doItAndPrint(str_glue("## Row names\n",
+                          "rownames({ActiveDataSet()})"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # TODO:
@@ -32,20 +32,20 @@ command_row_rm_empty_rows <- function() {
             which(empty_rows_tmp) %>%
             stringr::str_c(collapse = ", ")
 
-        logger(glue::glue("# Indices of empty rows: \n# {empty_rows_ind} \n"))
+        logger(str_glue("# Indices of empty rows: \n# {empty_rows_ind} \n"))
 
 
-        command <- glue::glue("## Remove empty rows\n",
-                          "{empty_row_var} <- rowSums(is.na({ds})) == ncol({ds})\n",
-                          "which({empty_row_var}) # Indices of empty rows \n",
-                          "{ds} <- {ds} %>% dplyr::filter(!{empty_row_var}) # Remove the rows\n",
-                          "remove({empty_row_var}) # Clean up\n")
+        command <- str_glue("## Remove empty rows\n",
+                            "{empty_row_var} <- rowSums(is.na({ds})) == ncol({ds})\n",
+                            "which({empty_row_var}) # Indices of empty rows \n",
+                            "{ds} <- {ds} %>% dplyr::filter(!{empty_row_var}) # Remove the rows\n",
+                            "remove({empty_row_var}) # Clean up\n")
 
-    doItAndPrint(command)
+        doItAndPrint(command)
 
     } else {
         # No empty rows are present
-        logger(glue::glue("# No empty rows are present in `{ds}`"))
+        logger(str_glue("# No empty rows are present in `{ds}`"))
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     dim_after <- eval_glue("dim({ds})", envir_eval = .GlobalEnv)
@@ -75,13 +75,13 @@ command_rowid_to_col <- function() {
     # Do commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_position <-
         switch(which_position,
-            "first" = glue("%>% \n",
-                           "dplyr::select({new_var}, everything())"),
-            "last" = "")
+               "first" = glue("%>% \n",
+                              "dplyr::select({new_var}, everything())"),
+               "last" = "")
 
     cmd_ungroup <- if (is_grouped_df(ActiveDataSet())) "ungroup() %>% \n" else ""
 
-    command <- style_cmd(glue::glue(
+    command <- style_cmd(str_glue(
         '## Add column with row numbers \n',
         "{ActiveDataSet()} <- {ActiveDataSet()} %>% \n",
         "{cmd_ungroup}",
@@ -102,7 +102,7 @@ command_rowid_to_col <- function() {
 # command_rownames_to_col <- function() {
 #     Library("tidyverse")
 #
-#     doItAndPrint(glue::glue(
+#     doItAndPrint(str_glue(
 #         '## An example of code: \n\n',
 #         '# new_df <- tibble::rownames_to_column({ActiveDataSet()}, var = "row_names")'))
 # }
@@ -122,10 +122,10 @@ window_col_to_rownames <- function() {
         row_name_cols[1]
     }
 
-    command <- glue::glue(
+    command <- str_glue(
         '## Move column values to row names: \n\n',
         'new_df <- tibble::column_to_rownames({ActiveDataSet()}, var = "{row_name_col}")'
-        )
+    )
 
     doItAndPrint(command)
 
@@ -150,8 +150,8 @@ window_col_to_rownames0  <- function(variables) {
 # init_conditions (character) - conditions to be evaluated to select rows
 # incorrect_cond_msg (character) - Message for incorrect expression.
 window_col_to_rownames <- function(new_dsname = NULL,
-                               init_conditions = NULL,
-                               incorrect_cond_msg = NULL) {
+                                   init_conditions = NULL,
+                                   incorrect_cond_msg = NULL) {
 
     # Dialog -----------------------------------------------------------------
 
@@ -174,7 +174,7 @@ window_col_to_rownames <- function(new_dsname = NULL,
         Library("tibble")
         command <- glue("## ", gettext_EZR("Move column values to row names"), "\n",
                         '{ActiveDataSet()} <- tibble::column_to_rownames({ActiveDataSet()}, var = "{col_name}")'
-                        ) %>%
+        ) %>%
             style_cmd()
 
         result <- doItAndPrint(command)
@@ -197,7 +197,7 @@ window_col_to_rownames <- function(new_dsname = NULL,
     tkgrid(upper_frame,
            columnspan = 2
            # , sticky = "nw"
-           )
+    )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(getFrame(y_var_box),
            # sticky = "nw",

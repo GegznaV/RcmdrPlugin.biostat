@@ -51,7 +51,7 @@
 #         # Check if an object with the same name exists
 #         if (object_name %in% ls())
 #             break_cycle <- tclvalue(checkReplace(
-#                 glue::glue('"{object_name}"'), type = "Object"))
+#                 str_glue('"{object_name}"'), type = "Object"))
 #
 #         # Exit the cycle, if everything is selected correctly
 #         if (break_cycle == "yes") {
@@ -69,7 +69,7 @@
 #     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 #     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#     command <- glue::glue('{object_name} <- readRDS("{file_name}")')
+#     command <- str_glue('{object_name} <- readRDS("{file_name}")')
 #     doItAndPrint(command)
 #     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #     if (inherits(get(object_name, envir = .GlobalEnv), "data.frame"))
