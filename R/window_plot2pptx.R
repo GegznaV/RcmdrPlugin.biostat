@@ -3,8 +3,6 @@
 #
 window_plot2pptx <- function() {
 
-
-
     # Examples ---------------------------------------------------------------
     library(tidyverse)
 
