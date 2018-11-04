@@ -39,7 +39,7 @@ item    import_menu      command         "from text file (.txt, .csv, .dat)... [
 item	import_menu	separator	""	""	""	""
 #    item    import_menu      command         "from Excel, Access or dBase data set..."       importRODBCtable            ""          "WindowsP() && packageAvailable('RODBC') && (.Platform$r_arch == 'i386')"
 #    item    import_menu      command         "from Excel file..."                            importExcel                 ""      "packageAvailable('XLConnect') && (!WindowsP() | (.Platform$r_arch != 'i386')) && hasJava()"
-item    import_menu      command         "from Excel file... [Rcmdr]"     importExcel    ""     "packageAvailable('readxl')"
+item    import_menu      command         "from Excel file..."     window_import_excel    ""     "packageAvailable('readxl')"
 item	import_menu	separator	""	""	""	""
 item    import_menu      command         "from SPSS data set... [Rcmdr]"     importSPSS     ""     "packageAvailable('foreign')"
 item    import_menu      command         "from SAS xport file... [Rcmdr]"     importSAS     ""     "packageAvailable('foreign')"
@@ -96,16 +96,16 @@ item	bs_active_ds_menu	command	"Pander: print dataset as Markdown table"	window_
 # item	bs_active_ds_menu	cascade	"Export / Save"	bs_export_menu	"activeDataSetP()"	""
 
 menu	bs_export_menu	bs_data_menu	""	""	""	""
-item	bs_data_menu	cascade	"Export / Save"	bs_export_menu	"activeDataSetP()"	""
+item	bs_data_menu	cascade	"Export / Save data"	bs_export_menu	"activeDataSetP()"	""
 
-item	bs_export_menu	command	"Save data to text file (.txt, .csv)..."	window_export_to_textfile	"activeDataSetP()"	""
-
-item	bs_export_menu	separator	""	""	""	""
-item	bs_export_menu	command	"Save data to Excel file (.xlsx)..."	window_export_to_excel	"activeDataSetP()"	""
+item	bs_export_menu	command	"to text file (.txt, .csv)..."	window_export_to_textfile	"activeDataSetP()"	""
 
 item	bs_export_menu	separator	""	""	""	""
-item	bs_export_menu	command	"Save data to Rds data file (.Rds)..."	window_export_to_rds	"activeDataSetP()"	""
-item	bs_export_menu	command	"Save data to R data file (.RData)..."	window_export_to_rdata	"activeDataSetP()"	""
+item	bs_export_menu	command	"to Excel file (.xlsx)..."	window_export_to_excel	"activeDataSetP()"	""
+
+item	bs_export_menu	separator	""	""	""	""
+item	bs_export_menu	command	"to Rds data file (.Rds)..."	window_export_to_rds	"activeDataSetP()"	""
+item	bs_export_menu	command	"to R data file (.RData)..."	window_export_to_rdata	"activeDataSetP()"	""
 
 
 # ==============================================================================
