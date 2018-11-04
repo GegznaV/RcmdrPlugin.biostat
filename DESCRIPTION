@@ -39,7 +39,6 @@ Imports:
     ggedit,
     ggplotgui,
     ggthemes,
-    glue,
     graphics,
     grDevices,
     magrittr,
