@@ -215,9 +215,10 @@ window_summary_skim <- function() {
             # UpdateModelNumber(-1)
             keep_model_command <- glue("remove({model_name_Value})")
         }
-
+        skimr::skim_with(numeric = list(hist = NULL), integer = list(hist = NULL))
         command <- style_cmd(glue(
-            "skimr::skim_with(numeric = list(hist = NULL)) \n",
+            "skimr::skim_with(numeric = list(hist = NULL),\n",
+            "                 integer = list(hist = NULL)) \n\n",
             "{model_name_Value} <- \n",
             "{.activeDataSet} %>% {grouping} skimr::skim({y_var})\n",
             "summary({model_name_Value})\n",
