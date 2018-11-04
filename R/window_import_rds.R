@@ -18,7 +18,7 @@ window_import_rds <- function() {
             tkgetOpenFile(
                 initialdir  = initial_dir,
                 initialfile = file_name,
-                title = "Choose Rds file to import",
+                title = "Choose Rds File to Import",
                 multiple = FALSE,
                 filetypes = gettext_Bio(
                     "{ {Rds data file} {.RDS .Rds .rds} } { {All Files} * }"
@@ -29,6 +29,7 @@ window_import_rds <- function() {
 
         # If cancelled
         if (file_name == "") {
+            tkfocus(CommanderWindow())
             return()
         }
 
@@ -97,10 +98,14 @@ window_import_rds <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    command <- glue::glue('{object_name} <- readRDS("{file_name}")')
+    command <- glue::glue(
+        '## Import data from Rds file\n',
+        '{object_name} <- readRDS("{file_name}")'
+        )
     doItAndPrint(command)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (inherits(get(object_name, envir = .GlobalEnv), "data.frame"))
         activeDataSet(object_name)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkfocus(CommanderWindow())
 }
