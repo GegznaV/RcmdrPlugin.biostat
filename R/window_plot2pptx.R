@@ -67,4 +67,7 @@ window_plot2pptx <- function() {
         '{txt_file_open}') %>%
         style_cmd()
 
+
+    tkfocus(CommanderWindow())
+
 }
