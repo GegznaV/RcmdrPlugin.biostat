@@ -6,10 +6,12 @@
 %   R/window_anova_kw_mood_tests.R, R/window_dataset_bind_cols.R,
 %   R/window_dataset_bind_rows.R, R/window_dataset_join.R,
 %   R/window_fct_drop_lvls.R, R/window_fct_lvls_reorder_manual.R,
-%   R/window_fct_reorder_TMP.R, R/window_import_rds.R, R/window_pander.R,
-%   R/window_qqplot_biostat.R, R/window_row_names_to_col.R,
-%   R/window_rows_arrange.R, R/window_rows_filter.R, R/window_rows_slice.R,
-%   R/window_summary_count.R, R/window_summary_numeric_by_gr.R,
+%   R/window_fct_reorder_TMP.R, R/window_import_delim.R,
+%   R/window_import_excel.R, R/window_import_rdata.R, R/window_import_rds.R,
+%   R/window_pander.R, R/window_qqplot_biostat.R, R/window_read_from_pkg.R,
+%   R/window_row_names_to_col.R, R/window_rows_arrange.R,
+%   R/window_rows_filter.R, R/window_rows_slice.R, R/window_summary_count.R,
+%   R/window_summary_numeric_by_gr.R, R/window_summary_skim.R,
 %   R/window_table_to_df.R, R/window_test_anova.R, R/window_test_normality.R,
 %   R/window_tmp.R, R/window_variable_gather.R, R/window_variable_mutate.R,
 %   R/window_variable_recode.R, R/window_variable_rename.R,
@@ -88,9 +90,14 @@
 \alias{window_factor_lvls_drop}
 \alias{window_fct_lvls_reorder_manual}
 \alias{window_fct_reorder_TMP}
+\alias{window_import_delim}
+\alias{window_import_excel}
+\alias{window_import_rdata}
 \alias{window_import_rds}
 \alias{window_pander}
 \alias{window_qqplot_biostat}
+\alias{command_list_datasets_in_pkgs}
+\alias{window_read_from_pkg}
 \alias{window_rownames_to_col}
 \alias{window_rows_arrange}
 \alias{window_rows_arrange_tmp}
@@ -99,6 +106,7 @@
 \alias{window_rows_slice}
 \alias{window_summary_count}
 \alias{window_do_summary}
+\alias{window_summary_skim}
 \alias{window_table_to_df}
 \alias{window_test_anova}
 \alias{window_test_anova2}
@@ -261,11 +269,21 @@ window_fct_lvls_reorder_manual()
 
 window_fct_reorder_TMP()
 
+window_import_delim()
+
+window_import_excel()
+
+window_import_rdata()
+
 window_import_rds()
 
 window_pander()
 
 window_qqplot_biostat()
+
+command_list_datasets_in_pkgs()
+
+window_read_from_pkg()
 
 window_rownames_to_col()
 
@@ -283,6 +301,8 @@ window_rows_slice()
 window_summary_count()
 
 window_do_summary()
+
+window_summary_skim()
 
 window_table_to_df()
 
