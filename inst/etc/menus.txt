@@ -2,7 +2,7 @@
 
 # =============================================================================
 menu	biostat_menu	topMenu	""	""	""	""
-item	topMenu	cascade	"BioStat'18"	biostat_menu	""	""
+item	topMenu	cascade	"BioStat'19"	biostat_menu	""	""
 
 
 # =============================================================================
@@ -26,9 +26,10 @@ item	bs_data_menu	command	"Bind columns of several datasets..."	window_dataset_b
 
 # ---- Manage R objects ------------------------------------------------------
 item	bs_data_menu	separator	""	""	""	""
-item	bs_data_menu	command	"[???] Rename object..."	function_not_implemented	"activeDataSetP()"	""
-item	bs_data_menu	command	"[???] Copy object..."	function_not_implemented	"activeDataSetP()"	""
-item	bs_data_menu	command	"[???] Delete object..."	function_not_implemented	"activeDataSetP()"	""
+item	bs_data_menu	command	"List objects..."	command_list_objects	"objects_in_env_P()"	""
+item	bs_data_menu	command	"Copy object..."	window_data_obj_copy	"objects_in_env_P()"	""
+item	bs_data_menu	command	"Delete objects... "	window_data_obj_delete	"objects_in_env_P()"	""
+item	bs_data_menu	command	"Rename object..."	window_data_obj_rename	"objects_in_env_P()"	""
 
 # ~~~~ Convert to data.frame ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # item	bs_data_menu	separator	""	""	""	""
@@ -69,16 +70,16 @@ menu	bs_active_ds_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Active dataset"	bs_active_ds_menu	""	""
 
 item	bs_active_ds_menu	command	"Refresh active dataset"	command_dataset_refresh	"activeDataSetP()"	""
-item	bs_active_ds_menu	command	"View: show dataset in a separate window"	command_dataset_view	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"Preview dataset in a separate window"	command_dataset_view	"activeDataSetP()"	""
 item	bs_active_ds_menu	command	"Print dataset"	command_dataset_print	"activeDataSetP()"	""
 
 
 # ~~~ Rename, copy ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 item	bs_active_ds_menu	separator	""	""	""	""
-item	bs_active_ds_menu	command	"Rename active dataset..."	window_dataset_rename	"activeDataSetP()"	""
-item	bs_active_ds_menu	command	"Make a copy of active dataset..."	window_dataset_copy	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"Copy active dataset..."	window_dataset_copy	"activeDataSetP()"	""
 item	bs_active_ds_menu	command	"Delete active dataset..."	window_dataset_delete	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"Rename active dataset..."	window_dataset_rename	"activeDataSetP()"	""
 
 # ---- Manage dataset's class -------------------------------------------------
 
