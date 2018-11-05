@@ -24,6 +24,18 @@ command_summary <- function() {
     # doItAndPrint('library("tidyverse")')
     doItAndPrint(str_glue("## Quick summary of whole dataset\n",
                           "summary({ActiveDataSet()})"))
+
+    # TODO:
+    #
+    # Make one window for skim, summary and describe
+    #
+    #
+    # Library(tidyverse)
+    #
+    # cabbages %>% select_if(is.factor) %>% summary()
+    # cabbages %>% select_if(is.factor) %>% lapply(summary)
+    # cabbages %>% select_if(is.factor) %>% lapply(summary)
+    # cabbages %>% select_if(is.factor) %>% lapply(summary)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
