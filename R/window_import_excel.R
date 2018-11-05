@@ -188,7 +188,7 @@ window_import_excel <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         command <-
             str_glue(
-                "## Read data from Excel file\n ",
+                "## Import data from Excel file\n ",
                 '{new_ds_name} <- ',
                 '  RcmdrMisc::readXL(\n',
                 '    "{xl_file}",  ',
@@ -238,7 +238,7 @@ window_import_excel <- function() {
                                 text = "Choose file",
                                 command = on_click,
                                 cursor = "hand2")
-    tkgrid(button_ch_file, sticky = "e", pady = c(0, 5))
+    tkgrid(button_ch_file, sticky = "e", pady = c(0, 0))
     # file_label <- label_rcmdr(upper_l_frame, text = "File: ",  fg = fg_col)
     # tkgrid(file_label,
     #        sticky = "e", pady = c(0, 5))
@@ -250,7 +250,7 @@ window_import_excel <- function() {
     # upper_r_frame ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     fname_frame <- tkframe(upper_r_frame)
     fname_label <- label_rcmdr(fname_frame, text = xl_file)
-    tkgrid(fname_frame, sticky = "ew", pady = c(0, 5))
+    tkgrid(fname_frame, sticky = "ew", pady = c(5, 5))
 
     tkgrid(fname_label, sticky = "w")
     tkgrid(getFrame(worksheet_box), sticky = "w")
