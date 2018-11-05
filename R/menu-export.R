@@ -224,11 +224,12 @@ window_export_to_excel <- function() {
 window_export_to_textfile <- function() {
 
     dsname <- activeDataSet()
-    has_rownames <- tibble::has_rownames(get(activeDataSet(),
-                                             envir = .GlobalEnv))
+    has_rownames <-
+        tibble::has_rownames(get(activeDataSet(), envir = .GlobalEnv))
 
 
-    initializeDialog(title = gettextRcmdr("Save data to text file"))
+    initializeDialog(title = gettextRcmdr("Save Data to Text File"))
+
     checkBoxes(
         frame = "optionsFrame",
         boxes = c("colnames", "rownames", "quotes"),
@@ -251,7 +252,7 @@ window_export_to_textfile <- function() {
         buttons = c("commas", "semicolons", "spaces", "tabs"),
         labels = gettextRcmdr(c("Commas [,]", "Semicolons [;]", "Spaces", "Tabs")),
         initialValue = "tabs",
-        title = gettextRcmdr("Field Separator")
+        title = gettextRcmdr("Field separator")
     )
 
     delimiterFrame_other <- tkframe(delimiterFrame)
@@ -325,6 +326,15 @@ window_export_to_textfile <- function() {
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     OKCancelHelp(helpSubject = "write.table")
+    # Title ------------------------------------------------------------------
+    fg_col <- Rcmdr::getRcmdr("title.color")
+
+    tkgrid(label_rcmdr(
+        top,
+        text = gettextRcmdr("Save data to text file"),
+        font = tkfont.create(weight = "bold", size = 9),
+        fg = fg_col),
+        pady = c(5, 9))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(delimiterFrame_other, stick = "w")
     tkgrid(otherButton, otherEntry,
