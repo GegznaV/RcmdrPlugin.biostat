@@ -3,19 +3,20 @@
 %   R/menu-conf_interval.R, R/menu-data.R, R/menu-distributions.R,
 %   R/menu-export.R, R/menu-import.R, R/menu-models.R, R/menu-plots.R,
 %   R/menu-rows.R, R/menu-settings.R, R/menu-summary.R, R/menu-variables.R,
-%   R/window_anova_kw_mood_tests.R, R/window_dataset_bind_cols.R,
-%   R/window_dataset_bind_rows.R, R/window_dataset_join.R,
-%   R/window_fct_drop_lvls.R, R/window_fct_lvls_reorder_manual.R,
-%   R/window_fct_reorder_TMP.R, R/window_import_delim.R,
-%   R/window_import_excel.R, R/window_import_rdata.R, R/window_import_rds.R,
-%   R/window_pander.R, R/window_qqplot_biostat.R, R/window_read_from_pkg.R,
-%   R/window_row_names_to_col.R, R/window_rows_arrange.R,
-%   R/window_rows_filter.R, R/window_rows_slice.R, R/window_summary_count.R,
-%   R/window_summary_numeric_by_gr.R, R/window_summary_skim.R,
-%   R/window_table_to_df.R, R/window_test_anova.R, R/window_test_normality.R,
-%   R/window_tmp.R, R/window_variable_gather.R, R/window_variable_mutate.R,
-%   R/window_variable_recode.R, R/window_variable_rename.R,
-%   R/window_variable_select.R
+%   R/window_anova_kw_mood_tests.R, R/window_data_obj_copy.R,
+%   R/window_data_obj_delete.R, R/window_data_obj_rename.R,
+%   R/window_dataset_bind_cols.R, R/window_dataset_bind_rows.R,
+%   R/window_dataset_join.R, R/window_fct_drop_lvls.R,
+%   R/window_fct_lvls_reorder_manual.R, R/window_fct_reorder_TMP.R,
+%   R/window_import_delim.R, R/window_import_excel.R, R/window_import_rdata.R,
+%   R/window_import_rds.R, R/window_pander.R, R/window_qqplot_biostat.R,
+%   R/window_read_from_pkg.R, R/window_row_names_to_col.R,
+%   R/window_rows_arrange.R, R/window_rows_filter.R, R/window_rows_slice.R,
+%   R/window_summary_count.R, R/window_summary_numeric_by_gr.R,
+%   R/window_summary_skim.R, R/window_table_to_df.R, R/window_test_anova.R,
+%   R/window_test_normality.R, R/window_tmp.R, R/window_variable_gather.R,
+%   R/window_variable_mutate.R, R/window_variable_recode.R,
+%   R/window_variable_rename.R, R/window_variable_select.R
 \name{gettext_EZR}
 \alias{gettext_EZR}
 \alias{variables_with_unique_values_P}
@@ -39,6 +40,7 @@
 \alias{window_ci_prop_multi}
 \alias{window_ci_prop_binom}
 \alias{window_ci_boot}
+\alias{command_list_objects}
 \alias{window_distributions_descriptr}
 \alias{window_export_to_rds}
 \alias{window_export_to_rdata}
@@ -84,6 +86,9 @@
 \alias{command_all_chr_to_fctr}
 \alias{command_clean_names}
 \alias{window_anova_kw_mood_tests}
+\alias{window_data_obj_copy}
+\alias{window_data_obj_delete}
+\alias{window_data_obj_rename}
 \alias{window_dataset_bind_cols}
 \alias{window_dataset_bind_rows}
 \alias{window_dataset_join}
@@ -162,6 +167,8 @@ window_ci_prop_multi()
 window_ci_prop_binom()
 
 window_ci_boot()
+
+command_list_objects()
 
 window_distributions_descriptr()
 
@@ -256,6 +263,12 @@ command_all_chr_to_fctr()
 command_clean_names()
 
 window_anova_kw_mood_tests()
+
+window_data_obj_copy()
+
+window_data_obj_delete()
+
+window_data_obj_rename()
 
 window_dataset_bind_cols()
 
