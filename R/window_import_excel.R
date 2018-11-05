@@ -1,6 +1,8 @@
 #' ===========================================================================
 #' TODO:
-#' 1) Better management if several missing values are used.
+#' 1) Save dialogue values (Put dialogue) in order not to reset if error occurs
+#'    and window reappears.
+#' 2) Better management if several missing values are used.
 #'
 #'
 #' @rdname Menu-window-functions
@@ -164,6 +166,10 @@ window_import_excel <- function() {
             }
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (xl_file == "") {
+            errorCondition(message = gettextRcmdr("No Excel file was selected."))
+            return()
+        }
         if (worksheet == "") {
             errorCondition(message = gettextRcmdr("No Excel sheet was selected."))
             return()
@@ -226,8 +232,16 @@ window_import_excel <- function() {
     tkgrid(upper_l_frame, upper_r_frame)
 
     # upper_l_frame ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(label_rcmdr(upper_l_frame, text = "File: ",  fg = fg_col),
-           sticky = "e", pady = c(0, 5))
+    on_click <- function() {select_xl_file()}
+
+    button_ch_file <- tk2button(upper_l_frame,
+                                text = "Choose file",
+                                command = on_click,
+                                cursor = "hand2")
+    tkgrid(button_ch_file, sticky = "e", pady = c(0, 5))
+    # file_label <- label_rcmdr(upper_l_frame, text = "File: ",  fg = fg_col)
+    # tkgrid(file_label,
+    #        sticky = "e", pady = c(0, 5))
     tkgrid(label_rcmdr(upper_l_frame, text = "Sheet: ", fg = fg_col),
            sticky = "e")
     tkgrid(label_rcmdr(upper_l_frame, text = "Name: ",  fg = fg_col),
@@ -267,22 +281,23 @@ window_import_excel <- function() {
     )
     tkgrid(checkBoxFrame, sticky = "w")
     tkgrid(missingFrame,  sticky = "w")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(buttonsFrame,  sticky = "w")
     dialogSuffix(focus = entryDsname)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Add interactivity for `fname_frame` and `fname_label`
-    on_click <- function() {select_xl_file()}
-    tkbind(fname_frame, "<ButtonPress-1>", on_click)
-    tkbind(fname_label, "<ButtonPress-1>", on_click)
+    # tkbind(file_label,     "<ButtonPress-1>", on_click)
+    tkbind(fname_frame,    "<ButtonPress-1>", on_click)
+    tkbind(fname_label,    "<ButtonPress-1>", on_click)
 
     tkbind(fname_frame, "<Enter>",
            function() tkconfigure(fname_label, foreground = "blue"))
     tkbind(fname_frame, "<Leave>",
            function() tkconfigure(fname_label, foreground = "black"))
-    tkconfigure(fname_frame, cursor = "hand2")
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Automatically open file selection window
-    select_xl_file()
+    # tkconfigure(file_label,     cursor = "hand2")
+    tkconfigure(fname_frame,    cursor = "hand2")
+    # tkconfigure(button_ch_file, cursor = "hand2")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 # ============================================================================
