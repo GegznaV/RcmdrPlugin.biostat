@@ -38,13 +38,15 @@ window_num_convert <- function() {
     Rcmdr::radioButtons(into_outter_Frame,
                         name = "into",
                         title = gettext_Bio("Convert into"),
-                        buttons = c("nominal", "ordinal", "character"),
-                        values  = c("nominal", "ordinal", "character"),
+                        buttons = c("nominal", "ordinal", "character", "numeric", "integer"),
+                        values  = c("nominal", "ordinal", "character", "numeric", "integer"),
                         initialValue = dialog_values$into,
                         labels =  gettext_Bio(
                             c("Nominal factors",
                               "Ordinal factors",
-                              "Text"))
+                              "Text",
+                              "Real numbers",
+                              "Integers"))
     )
     # as_factor
     # parse_factor
@@ -177,9 +179,11 @@ window_num_convert <- function() {
             activeDataSet(.activeDataSet, flushModel = FALSE)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        msg <- glue("#---  ", gettext_Bio("Convert factor variables into"), " {into} variables ---#\n\n",
-                    "# ", gettext_Bio("New variable(s):"), " \n",
-                    paste("#   ", new_names, collapse = "\n"), "\n\n\n")
+        msg <- glue(
+            "#---  ", gettext_Bio("Convert numeric variables into"),
+            " {into} variables ---#\n\n",
+            "# ", gettext_Bio("New variable(s):"), " \n",
+            paste("#   ", new_names, collapse = "\n"), "\n\n\n")
 
         logger(paste0(msg, command, collapse = "\n"))
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
