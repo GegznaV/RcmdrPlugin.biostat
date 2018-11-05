@@ -66,11 +66,17 @@ right_click_menu <- function(tcl_widget) {
         initializeDialog(title=gettextRcmdr("Find"))
         textFrame <- tkframe(top)
         textVar <- tclVar(getRcmdr("last.search"))
-        textEntry <- ttkentry(textFrame, width="20", textvariable=textVar)
-        checkBoxes(frame="optionsFrame", boxes=c("regexpr", "case"), initialValues=c("0", "1"),
-                   labels=gettextRcmdr(c("Regular-expression search", "Case sensitive")))
-        radioButtons(name="direction", buttons=c("foward", "backward"), labels=gettextRcmdr(c("Forward", "Backward")),
-                     values=c("-forward", "-backward"), title=gettextRcmdr("Search Direction"))
+        textEntry <- ttkentry(textFrame, width = "20", textvariable = textVar)
+        checkBoxes(frame = "optionsFrame",
+                   boxes = c("regexpr", "case"),
+                   initialValues = c("0", "1"),
+                   labels = gettextRcmdr(c("Regular-expression search", "Case sensitive"))
+                   )
+        radioButtons(name    = "direction",
+                     buttons = c("foward", "backward"),
+                     labels  = gettextRcmdr(c("Forward", "Backward")),
+                     values  = c("-forward", "-backward"),
+                     title   = gettextRcmdr("Search Direction"))
         onOK <- function() {
             text <- tclvalue(textVar)
             putRcmdr("last.search", text)
@@ -159,10 +165,10 @@ right_click_menu <- function(tcl_widget) {
         # tkadd(contextMenu, "command", label = gettextRcmdr("Submit"), command = onSubmit)
 
         # tkadd(contextMenu, "separator")
-        tkadd(contextMenu, "command", label = gettextRcmdr("Cut"),        command = onCut)
-        tkadd(contextMenu, "command", label = gettextRcmdr("Copy"),       command = onCopy)
-        tkadd(contextMenu, "command", label = gettextRcmdr("Paste"),      command = onPaste)
-        tkadd(contextMenu, "command", label = gettextRcmdr("Delete"),     command = onDelete)
+        tkadd(contextMenu, "command", label = gettextRcmdr("Cut"),    command = onCut)
+        tkadd(contextMenu, "command", label = gettextRcmdr("Copy"),   command = onCopy)
+        tkadd(contextMenu, "command", label = gettextRcmdr("Paste"),  command = onPaste)
+        tkadd(contextMenu, "command", label = gettextRcmdr("Delete"), command = onDelete)
 
         tkadd(contextMenu, "separator")
         # tkadd(contextMenu, "command", label = gettextRcmdr("Find..."),    command = onFind)
