@@ -161,16 +161,18 @@ item	bs_varible_menu	separator	""	""	""	""
 item	bs_varible_menu	command	"Select/Remove variables..."	window_variable_select0	"activeDataSetP()"	"packageAvailable('dplyr')"
 item	bs_varible_menu	command	"Mutate: compute a variable..."	window_variable_mutate0	"activeDataSetP()"	"packageAvailable('dplyr')"
 item	bs_varible_menu	command	"Recode variable values..."	window_variable_recode0	"activeDataSetP()"	"packageAvailable('dplyr')"
-# item	bs_varible_menu	command	"Copy variables"	window_variable_copy	"activeDataSetP()"	"packageAvailable('dplyr')"
+
 
 item	bs_varible_menu	separator	""	""	""	""
 item	bs_varible_menu	command	"Gather columns into long format dataset..."	window_variable_gather	"activeDataSetP()"	"packageAvailable('tidyr')"
-# item	bs_varible_menu	command	"[???] Spread columns into wide format dataset..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"#Spread a key-value pair across multiple columns
-# item	bs_varible_menu	command	"[???] Separate one column into multiple columns..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
-# item	bs_varible_menu	command	"[???] Unite multiple columns into one column..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
+item	bs_varible_menu	command	"[???] Spread columns into wide format dataset..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"#Spread a key-value pair across multiple columns
+item	bs_varible_menu	command	"[???] Separate one value into multiple columns..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
+item	bs_varible_menu	command	"[???] Unite values into one column..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
 
 item	bs_varible_menu	separator	""	""	""	""
+item	bs_varible_menu	command	"[???] Fill missing values in using the previous entry..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
 
+item	bs_varible_menu	separator	""	""	""	""
 
 # Text variables -------------------------------------------------------------
 
@@ -221,14 +223,17 @@ item	bs_varible_menu	cascade	"Numeric variables"	bs_var_num_menu	"activeDataSetP
 
 
 item	bs_var_num_menu	command	"Convert numeric variables into..."	window_num_convert	"numericP()"	"" # Character, factors, logical
-# item	bs_var_num_menu	command	"[???] Format numeric values for report..."	function_not_implemented	"FALSE & numericP()"	"" # Format and convert to text
 item	bs_var_num_menu	separator	""	""	""	""
 
+item	bs_var_num_menu	command	"Box-Cox transformation... [Rcmdr]"	function_not_implemented	"FALSE & numericP()"	""
 item	bs_var_num_menu	command	"Log transformation..."	window_transform_log	"numericP()"	""
 item	bs_var_num_menu	command	"Z transformation / Standardization..."	window_transform_z	"numericP()"	""
 
 item	bs_var_num_menu	separator	""	""	""	""
-item	bs_var_num_menu	command	"[???] Bin/Categorize numeric values..."	function_not_implemented	"FALSE & numericP()"	"" # including `cut`, `ifelse`,
+item	bs_var_num_menu	command	"[???] Bin/Categorize numeric values..."	function_not_implemented	"FALSE & numericP()"	"" # including `cut`, `if_else`,
+item	bs_var_num_menu	separator	""	""	""	""
+item	bs_var_num_menu	command	"[???] Format numeric values for report..."	function_not_implemented	"FALSE & numericP()"	"" # Format and convert to text
+
 
 
 
@@ -249,20 +254,14 @@ item	bs_summary_menu	command	"Print top and bottom rows"	summary_head_tail	"acti
 # item	bs_summary_menu	command	"Print top rows only"	summary_head	"activeDataSetP()"	""
 # item	bs_summary_menu	command	"Print bottom rows only"	summary_tail	"activeDataSetP()"	""
 
-
-
-# item	bs_summary_menu	command	"Number of rows and columns"	command_dataset_dim	"activeDataSetP()"	""
-# item	bs_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
-# item	bs_summary_menu	command	"Print top and bottom rows"	summary_head_tail	"activeDataSetP()"	""
-#
 item	bs_summary_menu	separator	""	""	""	""
 item	bs_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
 
 item	bs_summary_menu	separator	""	""	""	""
 
-item	bs_summary_menu	command	"Summarize all variables: skim..."	window_summary_skim	"activeDataSetP()"	"packageAvailable('skimr')"
-item	bs_summary_menu	command	"Summarize all variables: summary"	command_summary	"activeDataSetP()"	""
-item	bs_summary_menu	command	"Summarize all variables: describe"	summary_Hmisc_describe	"activeDataSetP()"	"packageAvailable('Hmisc')"
+item	bs_summary_menu	command	"Quick summary: skim..."	window_summary_skim	"activeDataSetP()"	"packageAvailable('skimr')"
+item	bs_summary_menu	command	"Quick summary: summary"	command_summary	"activeDataSetP()"	""
+item	bs_summary_menu	command	"Quick summary: describe"	summary_Hmisc_describe	"activeDataSetP()"	"packageAvailable('Hmisc')"
 # item	bs_summary_menu	command	"Summarize all variables [stats::summary]"	command_summary	"activeDataSetP()"	""
 # item	bs_summary_menu	command	"Summarize all variables [Hmisc::describe]"	summary_Hmisc_describe	"activeDataSetP()"	""
 
@@ -310,17 +309,18 @@ item	bs_summary_menu	command	"Screen dataset for missing values"	summary_ds_scre
 menu	bs_plots_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Plots"	bs_plots_menu	""	""
 
-item	bs_plots_menu	command	"New window for plots"	open_new_plots_window	""	""
+item	bs_plots_menu	command	"Open new window for plots"	open_new_plots_window	""	""
 
 item	bs_plots_menu	separator	""	""	""	""
-item	bs_plots_menu	command	"Interactive tool: easyPlot..."	window_easyPlot	"variablesP(n = 2)"	""
-item	bs_plots_menu	command	"Interactive tool: ggplot GUI..."	window_ggplotgui	"variablesP()"	""
-item	bs_plots_menu	command	"Interactive tool: ggedit..."	window_ggedit	"class_ggplot_P()"	""
-item	bs_plots_menu	command	"Interactive tool: ggThemeAssist (example)..."	window_ggThemeAssist	"class_ggplot_P()"	""
-
-item	bs_plots_menu	separator	""	""	""	""
-item	bs_plots_menu	command	"Create a color palette..."	window_colourPicker	""	""
 item	bs_plots_menu	command	"Visualize color names & codes (example)"	window_show_colors	""	""
+item	bs_plots_menu	command	"[x] Create a color palette..."	window_colourPicker	""	""
+
+item	bs_plots_menu	separator	""	""	""	""
+item	bs_plots_menu	command	"[x] Interactive tool: easyPlot..."	window_easyPlot	"variablesP(n = 2)"	""
+item	bs_plots_menu	command	"[x] Interactive tool: ggplot GUI..."	window_ggplotgui	"variablesP()"	""
+item	bs_plots_menu	command	"[x] Interactive tool: ggedit..."	window_ggedit	"class_ggplot_P()"	""
+item	bs_plots_menu	command	"[x] Interactive tool: ggThemeAssist (example)..."	window_ggThemeAssist	"class_ggplot_P()"	""
+
 
 # item	bs_plots_menu	separator	""	""	""	""
 # item	bs_plots_menu	command	"[???] Normal Q-Q plot (by groups)"	"function_not_implemented('window_qqplot_biostat')"	"numericP()"	""
@@ -406,7 +406,7 @@ item	bs_centers_menu	command	"ANCOVA... [EZR]"	StatMedANCOVA	"activeDataSetP()"	
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 menu	bs_variances_menu	bs_tests_menu	""	""	""	""
-item	bs_tests_menu	cascade	"Variances tests"	bs_variances_menu	""	""
+item	bs_tests_menu	cascade	"Variance tests"	bs_variances_menu	""	""
 
 # item	bs_variances_menu	command	"Two-variences F test... [Rcmdr]"	twoVariancesFTest	"numericP() && twoLevelFactorsP()"	""
 item	bs_variances_menu	command	"Two-variances F-test [EZR]"	StatMedFTest	"activeDataSetP()"	""
@@ -438,6 +438,12 @@ item	bs_models_menu	separator	""	""	""	""
 item	bs_models_menu	command	"Show model's class"	command_get_model_class	"activeModelP()"	""
 item	bs_models_menu	command	"Print model (basic results)"	command_model_print	"activeModelP()"	""
 item	bs_models_menu	command	"Standardized regression coefficients"	command_std_lm_coeffs	"modelClassP('lm')"	""
+
+item	bs_models_menu	separator	""	""	""	""
+item	bs_models_menu	command	"[???] Tidy: summarize model's statistical findings [broom]"	function_not_implemented	"FALSE && activeModelP() "	""
+item	bs_models_menu	command	"[???] Augment: add columns with modeled data [broom]"	function_not_implemented	"FALSE && activeModelP() "	""
+item	bs_models_menu	command	"[???] Glance: one-row summary of the model [broom]"	function_not_implemented	"FALSE && activeModelP() "	""
+item	bs_models_menu	separator	""	""	""	""
 
 
 # ==============================================================================
@@ -484,7 +490,7 @@ item	bs_settings_menu	separator	""	""	""	""
 # item	bs_settings_menu	cascade	"Locale"	bs_locale_menu	""	""
 
 item	bs_settings_menu	command	"Show current locale"	command_get_locale	""	""
-item	bs_settings_menu	command	"[???] Change locale..."	function_not_implemented	""	""
+item	bs_settings_menu	command	"[???] Change locale..."	function_not_implemented	"FALSE"	""
 
 item	bs_settings_menu	separator	""	""	""	""
 item	bs_settings_menu	command	"[x] Set locale to Lithuanian"	command_set_locale_lt	""	""
@@ -494,7 +500,7 @@ item	bs_settings_menu	command	"[x] Set locale to system's default"	command_set_l
 
 
 item	bs_settings_menu	separator	""	""	""	""
-item	bs_settings_menu	command	"[???] Use absolute/relative path"  function_not_implemented	""	""
+item	bs_settings_menu	command	"[???] Use absolute/relative path"  function_not_implemented	"FALSE"	""
 
 item	bs_settings_menu	separator	""	""	""	""
 item	bs_settings_menu	command	"Session information [devtools]"	command_session_info_devtools	""	""
