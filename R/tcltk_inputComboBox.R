@@ -19,11 +19,11 @@ inputComboBox <- function(parentWindow,
         combovar <- tclVar()
         tclvalue(combovar) <- initialSelection
         combobox <- ttkcombobox(frame,
-                                values = variableList,
+                                values       = variableList,
                                 textvariable = combovar,
-                                state = state,
-                                export = export,
-                                width = width)
+                                state        = state,
+                                export       = export,
+                                width        = width)
 
         firstChar <- tolower(substr(variableList, 1, 1))
 
@@ -98,16 +98,16 @@ inputComboBox <- function(parentWindow,
         if (!is.null(title)) {
             tkgrid(labelRcmdr(frame,
                               text = title,
-                              fg = getRcmdr("title.color"),
+                              fg   = getRcmdr("title.color"),
                               font = "RcmdrTitleFont"),
                    sticky = title_sticky)
         }
 
         tkgrid(combobox, sticky = combobox_sticky)
 
-        result <- list(frame = frame,
+        result <- list(frame    = frame,
                        combobox = combobox,
-                       varlist = variableList,
+                       varlist  = variableList,
                        combovar = combovar)
 
         class(result) <- "combobox"
