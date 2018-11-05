@@ -1,4 +1,4 @@
-# Import functions ===========================================================
+# Imported functions =========================================================
 str_c    <- stringr::str_c
 str_glue <- stringr::str_glue
 glue     <- str_glue
@@ -351,3 +351,29 @@ clean_str <- function(str, ...) {
     snakecase::to_any_case(make.names(str), ...)
 }
 
+
+# Path =======================================================================
+# path <- file.path("c:", "p1p1p1p1p1", "p2p2p2p2p2p2", "p3p3p3p3p3p3p3", "file2.xlsx")
+#                      # "c:/p1p1p1p1p1/p2p2p2p2p2p2/p3p3p3p3p3p3p3/file2.xlsx"
+# path_truncate(path)  # --->  "c:/p1p1p1p1p1/ ... /file2.xlsx"
+path_truncate <- function(path, max_length = 30) {
+    path <- normalizePath(path, winslash = "/")
+
+    if (str_length(path) <= max_length) {
+        show_trunc <- path
+    } else {
+        path_parts <- str_split(path, "/")[[1]]
+        last_ind <- length(path_parts)
+        legths <- path_parts %>% map_int(str_length)
+        lengths2 <-
+            cumsum(c(legths[last_ind], legths[-last_ind])) + 5 # 5 is length of " ... "
+        add_parts <- max(which(lengths2 <= max_length)) - 1 # -1 is minus the last one
+        add_parts <- max(1, add_parts)
+        show_trunc <-
+            file.path(str_c(path_parts[1:add_parts], collapse = "/"),
+                      " ... ",
+                      path_parts[last_ind])
+    }
+
+show_trunc
+}
