@@ -36,6 +36,7 @@ Imports:
     DescTools,
     dplyr,
     easyPlot,
+    glue,
     ggedit,
     ggplotgui,
     ggthemes,
