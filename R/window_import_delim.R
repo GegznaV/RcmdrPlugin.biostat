@@ -83,7 +83,9 @@ window_import_delim <- function() {
         file <- if (location == "clipboard") {
             "clipboard"
         } else if (location == "local") {
-            tclvalue(tkgetOpenFile(filetypes = gettextRcmdr(
+            tclvalue(tkgetOpenFile(
+                title = "Choose Text File to Import",
+                filetypes = gettextRcmdr(
                 "{\"Text Files\" {\".txt\" \".TXT\" \".dat\" \".DAT\" \".csv\" \".CSV\"}} {\"All Files\" {\"*\"}}")))
         } else {
             initializeDialog(subdialog, title = gettextRcmdr("Internet URL"))
