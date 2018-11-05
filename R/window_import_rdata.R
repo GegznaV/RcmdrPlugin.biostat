@@ -39,7 +39,7 @@ window_import_rdata <- function() {
                                 default = "no")
 
         if (choice == "no") {
-            Message("Data import canceled.", type = "warn")
+            Message("Data import was canceled.", type = "warn")
             return()
         }
       }
