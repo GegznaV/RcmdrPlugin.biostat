@@ -30,7 +30,8 @@ window_dataset_delete <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     OKCancelHelp()
 
-    tkgrid(labelRcmdr(top, fg = getRcmdr("title.color"),
+    tkgrid(labelRcmdr(top,
+                      fg = getRcmdr("title.color"),
                       text = gettextRcmdr("Do you want to DELETE the following dataset? ")),
 
            sticky = "w", pady = c(10, 0), padx = 25)
