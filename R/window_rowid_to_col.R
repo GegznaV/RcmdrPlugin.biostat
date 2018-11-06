@@ -2,6 +2,10 @@
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
+
+# This row deletes row names:
+# # new_df <- tibble::rowid_to_column({ActiveDataSet()}, var = "rows_id")
+
 window_rowid_to_col <- function() {
     # Initialize -------------------------------------------------------------
     defaults      <- list(initial_position = "first")
@@ -16,7 +20,8 @@ window_rowid_to_col <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     name_variable <- tclVar(unique_colnames("row_number"))
     name_frame    <- tkframe(upper_frame)
-    name_entry    <- ttkentry(name_frame, width = "28", textvariable = name_variable)
+    name_entry    <- ttkentry(name_frame, width = "28",
+                              textvariable = name_variable)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     rb_frame <- tkframe(upper_frame)
     radioButtons_horizontal(rb_frame,
@@ -33,16 +38,21 @@ window_rowid_to_col <- function() {
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
+        # Reset properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        tkconfigure(name_entry, foreground = "black")
+
         # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         new_name       <- trim.blanks(tclvalue(name_variable))
         which_position <- tclvalue(positionVariable)
 
         # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (!is_valid_name(new_name)) {
+            tkconfigure(name_entry, foreground = "red")
             return()
         }
 
         if (!replace_duplicated_variable(new_name)) {
+            tkconfigure(name_entry, foreground = "red")
             return()
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -54,6 +64,8 @@ window_rowid_to_col <- function() {
         closeDialog()
 
         # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Library("tidyverse")
+
         cmd_position <-
             switch(which_position,
                    "first" = str_glue(
