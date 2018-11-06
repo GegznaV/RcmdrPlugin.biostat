@@ -58,12 +58,12 @@ window_import_delim <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         dsnameValue <- trim.blanks(tclvalue(dsname))
         if (dsnameValue == "") {
-            errorCondition(recall = readDataSet,
+            errorCondition(recall = window_import_delim,
                            message = gettextRcmdr("You must enter a name for the data set."))
             return()
         }
         if (!is.valid.name(dsnameValue)) {
-            errorCondition(recall = readDataSet,
+            errorCondition(recall = window_import_delim,
                            message = paste("\"", dsnameValue, "\" ",
                                            gettextRcmdr("is not a valid name."),
                                            sep = ""
@@ -73,7 +73,7 @@ window_import_delim <- function() {
         if (is.element(dsnameValue, listDataSets())) {
             if ("no" == tclvalue(checkReplace(dsnameValue,
                                               gettextRcmdr("Data set")))) {
-                readDataSet()
+                window_import_delim()
                 return()
             }
         }
