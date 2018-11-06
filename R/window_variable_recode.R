@@ -79,7 +79,7 @@ right_click_menu <- function(tcl_widget) {
                    boxes = c("regexpr", "case"),
                    initialValues = c("0", "1"),
                    labels = gettextRcmdr(c("Regular-expression search", "Case sensitive"))
-                   )
+        )
         radioButtons(name    = "direction",
                      buttons = c("foward", "backward"),
                      labels  = gettextRcmdr(c("Forward", "Backward")),
@@ -306,7 +306,7 @@ window_variable_recode0 <- function() {
             # initial_make_factor     = 1,
             initial_recode_into       = "nominal",
             initial_variables         = NULL,
-            initial_name              = "recoded_variable",
+            initial_name              = unique_colnames("recoded_variable"),
             initial_recode_directives = "",
             initial_selected_variable = "{none}"
         )
@@ -424,6 +424,11 @@ window_variable_recode0 <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
+        # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        cursor_set_busy(top)
+        on.exit(cursor_set_idle(top))
+
+        # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # make_factor <- tclvalue(make_factorVariable) == "1"
         # make_factor <- tclvalue_lgl(make_factorVariable)
         recode_into       <- tclvalue(recode_intoVariable)
@@ -469,52 +474,35 @@ window_variable_recode0 <- function() {
                       initial_selected_variable = selected_variable
                   )
         )
-        closeDialog()
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-        # Is empty? ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (recode_directives == "") {
-            errorCondition(
-                recall  = window_variable_recode0,
-                message = gettext_Bio("No recode directives specified.")
-            )
-            return()
-        }
-
-
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # variables
         # If no variable is selected
         if (length(variables) == 0 || selected_variable == "{none}") {
-            errorCondition(
-                recall  = window_variable_recode0,
-                message = gettext_Bio("You must select a variable.")
+            show_error_messages(
+                "No variable is selected.",
+                str_c("Prease, select a variable."),
+                title = "No Variable Selected"
             )
             return()
         }
-
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # name
-
-        # check variable name for validity
-        if (!is.valid.name(name)) {
-            errorCondition(
-                recall  = window_variable_recode0,
-                message = str_glue('"{name}"',
-                                   gettext_Bio("is not a valid name."))
+        # Is empty? ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (recode_directives == "") {
+            show_error_messages(
+                "No recode directives specified.",
+                str_c("No recode directives specified.\n",
+                      "Double-click on a variable name to insert a template.\n",
+                      "(Use eiter right or left mouse button).\n",
+                      "Then enter the directives."),
+                title = "Missing Recode Directives"
             )
             return()
-        }
 
-        if (name %in% Variables()) {
-            if ("no" == tclvalue(checkReplace(name))) {
-                window_variable_recode0()
-                return()
-            }
         }
-
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+        if (is_empty_name(name))              {return()}
+        if (is_not_valid_name(name))          {return()}
+        if (forbid_to_replace_variable(name)) {return()}
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         switch(recode_into,
                "nominal" = {
                    recode_fun     <- "dplyr::recode_factor"
@@ -543,14 +531,12 @@ window_variable_recode0 <- function() {
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (class(result)[1] != "try-error") {
-            # closeDialog()
-
+            closeDialog()
             logger(style_cmd(command))
             activeDataSet(dataSet,
                           flushModel = FALSE,
                           flushDialogMemory = FALSE)
         } else {
-            window_variable_recode0()
             return()
         }
 
