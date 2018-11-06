@@ -1,8 +1,144 @@
-# Imported functions =========================================================
+#  ___ Imported functions  ___ ===============================================
 str_c    <- stringr::str_c
 str_glue <- stringr::str_glue
 glue     <- str_glue
+
 is_grouped_df <- dplyr::is_grouped_df
+
+
+
+# ___ List variables  ___ ====================================================
+
+get_active_ds <- function() {
+    globalenv()[[activeDataSet()]]
+}
+
+#' All variable names in active dataset
+#'
+#' @keywords internal
+#' @export
+variables_all <- function() {
+    Variables()
+}
+#' Character variable names in active dataset
+#'
+#' @keywords internal
+#' @export
+variables_chr <- function() {
+    objects_of_class("character", envir = as.environment(get_active_ds()))
+}
+#' Logical variable names in active dataset
+#'
+#' @keywords internal
+#' @export
+variables_lgl <- function() {
+    objects_of_class("logical", envir = as.environment(get_active_ds()))
+}
+#' True factor variable names in active dataset
+#'
+#' @keywords internal
+#' @export
+variables_fct <- function() {
+    objects_of_class("factor", envir = as.environment(get_active_ds()))
+
+}
+#' Factor-like variable names in active dataset
+#'
+#' @keywords internal
+#' @export
+variables_fct_like <- function() {
+    Factors()
+}
+#' Non-factor-like variable names in active dataset
+#'
+#' @keywords internal
+#' @export
+variables_non_fct_like <- function() {
+    setdiff(Variables(), Factors())
+}
+#' Two-level factor names in active dataset
+#'
+#' @keywords internal
+#' @export
+variables_fct_2_lvls <- function() {
+    TwoLevelFactors()
+}
+#' Numeric variable names in active dataset
+#'
+#' @keywords internal
+#' @export
+variables_num <- function() {
+    Numeric()
+}
+
+
+#' ...
+#'
+#' @keywords internal
+#' @export
+var_pos_n <- function(variables,
+                      type = c("all",
+                               "numeric",
+                               "factor",
+                               "factor_strict",
+                               "twoLevelFactor",
+                               "nonfactor",
+                               "character",
+                               "logical"),
+                      vars = NULL)
+{
+    if (is.null(variables))
+        return(NULL)
+    type <- match.arg(type)
+    if (is.null(vars))
+        vars <- switch(
+            type,
+            all            = Variables(),
+            character      = variables_chr(),
+            logical        = variables_lgl(),
+            factor_strict  = variables_fct(),
+            factor         = Factors(),
+            numeric        = Numeric(),
+            nonfactor      = setdiff(Variables(), Factors()),
+            twoLevelFactor = TwoLevelFactors())
+    if (any(!variables %in% vars))
+        NULL
+    else apply(outer(variables, vars, "=="), 1, which) - 1
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+list_summaries_Models <- function(envir = .GlobalEnv, ...) {
+    objects <- ls(envir = envir, ...)
+    if (length(objects) == 0)
+        NULL
+    else objects[sapply(objects, function(.x)
+        "summaries_model" == (class(get(.x, envir = envir))[1]))]
+}
+
+
+
+# ___ Code ___ ===============================================================
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+eval_glue <- function(..., envir = parent.frame(),
+                      .sep = "", .open = "{", .close = "}",
+                      envir_eval = envir,
+                      envir_glue = envir) {
+
+    x2 <- str_glue(..., .envir = envir_glue, .open = .open, .close = .close)
+    eval(parse(text = x2), envir = envir_eval)
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+eval_ <- function(x, envir = parent.frame(), ...) {
+    eval(parse(text = x), envir = envir, ...)
+}
+
+# Formatat code in a `tidyverse` style ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+style_cmd <- function(command, indent_by = 4, ...) {
+    cmd <- styler::style_text(command, indent_by = indent_by, ...)
+    paste0(as.character(cmd), collapse = "\n")
+}
 
 # ___ Translate ___ ==========================================================
 
@@ -18,6 +154,193 @@ gettext_EZR <- function(...) {
 gettext_Bio <- function(...) {
     gettext(..., domain = "R-RcmdrPlugin.biostat")
 }
+
+
+# ___ Text ___ ===============================================================
+
+s2u <- function(str) {
+    gsub(" ", "_", str)
+}
+
+u2s <- function(str) {
+    gsub("_", " ", str)
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+spaces <- function(n) {
+    paste0(rep(" ", length = n), collapse = "")
+}
+
+# ___ Names ___ ==============================================================
+
+#' @rdname helper-functions
+#' @keywords internal
+#' @export
+clean_str <- function(str, ...) {
+    snakecase::to_any_case(make.names(str), ...)
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+function_not_implemented <- function() {
+
+    x = NULL
+    doItAndPrint("# ~~~ Not implemented yet! ~~~\n")
+
+    if (is.null(x)) {
+        x <- "This function"
+    }
+
+    text <- str_glue("# ~~~ {x} will be implemented  \n ",
+                     "# ~~~ in the future versions of package `RcmdrPlugin.biostat`! ")
+
+    msg <- str_glue("{x} will be implemented in the future versions of package",
+                    " `RcmdrPlugin.biostat`! ")
+
+    doItAndPrint(text)
+    Message(msg, type = "warning")
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Make a unique name for an object (e.g., data frame) by adding numbers
+#
+# @param name - name of dataset before suffix and preffix are added.
+unique_obj_names <- function(names = ActiveDataSet(),
+                             preffix = "",
+                             suffix = "",
+                             list_of_choices = objects(all.names = TRUE,
+                                                       envir = .GlobalEnv),
+                             all_numbered = FALSE) {
+    initial_names <- str_glue("{preffix}{names}{suffix}")
+
+    n_names <- length(names)
+
+    list_to_check <-
+        if (all_numbered) {
+            c(list_of_choices, initial_names, initial_names)
+
+        } else {
+            c(list_of_choices, initial_names)
+        }
+
+    list_to_check %>%
+        make.unique(sep = "_") %>%
+        rev() %>%
+        .[1:n_names] %>%    # select the last elements
+        rev()
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+unique_df_name <- function(names = ActiveDataSet(),
+                           preffix = "",
+                           suffix = "",
+                           list_of_choices = objects(all.names = TRUE, envir = .GlobalEnv),
+                           all_numbered = FALSE) {
+
+    unique_obj_names(names, preffix, suffix, list_of_choices, all_numbered)
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+unique_colnames <- function(names = "",
+                            preffix = "",
+                            suffix = "",
+                            list_of_choices = listVariables(),
+                            all_numbered = FALSE) {
+
+    unique_obj_names(names, preffix, suffix, list_of_choices, all_numbered)
+}
+
+unique_colnames_2 <- function(names = "",
+                              preffix = "",
+                              suffix = "",
+                              list_of_choices = listVariables(),
+                              all_numbered = TRUE) {
+
+    unique_obj_names(names, preffix, suffix, list_of_choices, all_numbered)
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+variables_with_unique_values <- function() {
+
+    ds <- get(activeDataSet(), envir = .GlobalEnv)
+    not_duplicated_cols <- purrr::map_lgl(ds, ~!any(duplicated(.)))
+    (not_duplicated_cols[not_duplicated_cols == TRUE]) %>%
+        names() %>%
+        sort()
+}
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+variables_with_unique_values_P <- function(n = 1) {
+
+    activeDataSetP() && length(variables_with_unique_values() >= n)
+}
+
+
+
+# ___ Path / File ___ ========================================================
+
+#' Make path to relative
+#'
+#' Make absolute path into relative one in respect to current working directory.
+#'
+#' @param str (character) Sting (or vector of strings) with absolute path.
+#'
+#' @keywords internal
+#' @export
+make_relative_path <- function(str) {
+    sub(paste0(getwd(), "/?"), "", str)
+}
+
+# path <- file.path("c:", "p1p1p1p1p1", "p2p2p2p2p2p2", "p3p3p3p3p3p3p3", "file2.xlsx")
+#                      # "c:/p1p1p1p1p1/p2p2p2p2p2p2/p3p3p3p3p3p3p3/file2.xlsx"
+# path_truncate(path)  # --->  "c:/p1p1p1p1p1/ ... /file2.xlsx"
+path_truncate <- function(path, max_length = 30) {
+    path <- normalizePath(path, winslash = "/")
+
+    if (str_length(path) <= max_length) {
+        show_trunc <- path
+    } else {
+        path_parts <- str_split(path, "/")[[1]]
+        last_ind <- length(path_parts)
+        legths <- path_parts %>% map_int(str_length)
+        lengths2 <-
+            cumsum(c(legths[last_ind], legths[-last_ind])) + 5 # 5 is length of " ... "
+        add_parts <- max(which(lengths2 <= max_length)) - 1    # -1 is minus the last one
+        add_parts <- max(1, add_parts)
+        show_trunc <-
+            file.path(str_c(path_parts[1:add_parts], collapse = "/"),
+                      " ... ",
+                      path_parts[last_ind])
+    }
+
+    show_trunc
+}
+
+#' Extract file parts.
+#' @rdname extract-fileparts
+#' @keywords internal
+#' @export
+extract_path <- function(str) {
+    sub("(.*\\/)([^.]+)(\\.[[:alnum:]]+$)", "\\1", str)
+}
+
+#' @name extract-fileparts
+#' @param str (character) Path to file (with filename and extension).
+#'
+#' @keywords internal
+#' @export
+extract_filename <- function(str) {
+    sub("(.*\\/)([^.]+)(\\.[[:alnum:]]+$)", "\\2", str)
+}
+
+#' @rdname extract-fileparts
+#' @keywords internal
+#' @export
+extract_extension <- function(str) {
+    sub("(.*\\/)([^.]+)(\\.[[:alnum:]]+$)", "\\3", str)
+}
+
+
+
 
 # ___ Check ___ ==============================================================
 
@@ -248,313 +571,3 @@ modelClassP <- function(class_) {
         x = get(ActiveModel(), envir = .GlobalEnv),
         what = class_))
 }
-
-
-# ___ List variables  ___ ====================================================
-
-get_active_ds <- function() {
-    globalenv()[[activeDataSet()]]
-}
-
-#' All variable names in active dataset
-#'
-#' @keywords internal
-#' @export
-variables_all <- function() {
-    Variables()
-}
-#' Character variable names in active dataset
-#'
-#' @keywords internal
-#' @export
-variables_chr <- function() {
-    objects_of_class("character", envir = as.environment(get_active_ds()))
-}
-#' Logical variable names in active dataset
-#'
-#' @keywords internal
-#' @export
-variables_lgl <- function() {
-    objects_of_class("logical", envir = as.environment(get_active_ds()))
-}
-#' True factor variable names in active dataset
-#'
-#' @keywords internal
-#' @export
-variables_fct <- function() {
-    objects_of_class("factor", envir = as.environment(get_active_ds()))
-
-}
-#' Factor-like variable names in active dataset
-#'
-#' @keywords internal
-#' @export
-variables_fct_like <- function() {
-    Factors()
-}
-#' Non-factor-like variable names in active dataset
-#'
-#' @keywords internal
-#' @export
-variables_non_fct_like <- function() {
-    setdiff(Variables(), Factors())
-}
-#' Two-level factor names in active dataset
-#'
-#' @keywords internal
-#' @export
-variables_fct_2_lvls <- function() {
-    TwoLevelFactors()
-}
-#' Numeric variable names in active dataset
-#'
-#' @keywords internal
-#' @export
-variables_num <- function() {
-    Numeric()
-}
-
-
-#' ...
-#'
-#' @keywords internal
-#' @export
-var_pos_n <- function(variables,
-                      type = c("all",
-                               "numeric",
-                               "factor",
-                               "factor_strict",
-                               "twoLevelFactor",
-                               "nonfactor",
-                               "character",
-                               "logical"),
-                      vars = NULL)
-{
-    if (is.null(variables))
-        return(NULL)
-    type <- match.arg(type)
-    if (is.null(vars))
-        vars <- switch(
-            type,
-            all            = Variables(),
-            character      = variables_chr(),
-            logical        = variables_lgl(),
-            factor_strict  = variables_fct(),
-            factor         = Factors(),
-            numeric        = Numeric(),
-            nonfactor      = setdiff(Variables(), Factors()),
-            twoLevelFactor = TwoLevelFactors())
-    if (any(!variables %in% vars))
-        NULL
-    else apply(outer(variables, vars, "=="), 1, which) - 1
-}
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-list_summaries_Models <- function(envir = .GlobalEnv, ...) {
-    objects <- ls(envir = envir, ...)
-    if (length(objects) == 0)
-        NULL
-    else objects[sapply(objects, function(.x)
-        "summaries_model" == (class(get(.x, envir = envir))[1]))]
-}
-
-
-
-# ___ Code ___ ===============================================================
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-eval_glue <- function(..., envir = parent.frame(),
-                      .sep = "", .open = "{", .close = "}",
-                      envir_eval = envir,
-                      envir_glue = envir) {
-
-    x2 <- str_glue(..., .envir = envir_glue, .open = .open, .close = .close)
-    eval(parse(text = x2), envir = envir_eval)
-}
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-eval_ <- function(x, envir = parent.frame(), ...) {
-    eval(parse(text = x), envir = envir, ...)
-}
-
-# Formatat code in a `tidyverse` style ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-style_cmd <- function(command, indent_by = 4, ...) {
-    cmd <- styler::style_text(command, indent_by = indent_by, ...)
-    paste0(as.character(cmd), collapse = "\n")
-}
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-spaces <- function(n) {
-    paste0(rep(" ", length = n), collapse = "")
-}
-
-
-# ___ Names ___ ==============================================================
-
-#' @rdname helper-functions
-#' @keywords internal
-#' @export
-clean_str <- function(str, ...) {
-    snakecase::to_any_case(make.names(str), ...)
-}
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-function_not_implemented <- function() {
-
-    x = NULL
-    doItAndPrint("# ~~~ Not implemented yet! ~~~\n")
-
-    if (is.null(x)) {
-        x <- "This function"
-    }
-
-    text <- str_glue("# ~~~ {x} will be implemented  \n ",
-                     "# ~~~ in the future versions of package `RcmdrPlugin.biostat`! ")
-
-    msg <- str_glue("{x} will be implemented in the future versions of package",
-                    " `RcmdrPlugin.biostat`! ")
-
-    doItAndPrint(text)
-    Message(msg, type = "warning")
-}
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Make a unique name for an object (e.g., data frame) by adding numbers
-#
-# @param name - name of dataset before suffix and preffix are added.
-unique_obj_names <- function(names = ActiveDataSet(),
-                             preffix = "",
-                             suffix = "",
-                             list_of_choices = objects(all.names = TRUE,
-                                                       envir = .GlobalEnv),
-                             all_numbered = FALSE) {
-    initial_names <- str_glue("{preffix}{names}{suffix}")
-
-    n_names <- length(names)
-
-    list_to_check <-
-        if (all_numbered) {
-            c(list_of_choices, initial_names, initial_names)
-
-        } else {
-            c(list_of_choices, initial_names)
-        }
-
-    list_to_check %>%
-        make.unique(sep = "_") %>%
-        rev() %>%
-        .[1:n_names] %>%    # select the last elements
-        rev()
-}
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-unique_df_name <- function(names = ActiveDataSet(),
-                           preffix = "",
-                           suffix = "",
-                           list_of_choices = objects(all.names = TRUE, envir = .GlobalEnv),
-                           all_numbered = FALSE) {
-
-    unique_obj_names(names, preffix, suffix, list_of_choices, all_numbered)
-}
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-unique_colnames <- function(names = "",
-                            preffix = "",
-                            suffix = "",
-                            list_of_choices = listVariables(),
-                            all_numbered = FALSE) {
-
-    unique_obj_names(names, preffix, suffix, list_of_choices, all_numbered)
-}
-
-unique_colnames_2 <- function(names = "",
-                              preffix = "",
-                              suffix = "",
-                              list_of_choices = listVariables(),
-                              all_numbered = TRUE) {
-
-    unique_obj_names(names, preffix, suffix, list_of_choices, all_numbered)
-}
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-variables_with_unique_values <- function() {
-
-    ds <- get(activeDataSet(), envir = .GlobalEnv)
-    not_duplicated_cols <- purrr::map_lgl(ds, ~!any(duplicated(.)))
-    (not_duplicated_cols[not_duplicated_cols == TRUE]) %>%
-        names() %>%
-        sort()
-}
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-variables_with_unique_values_P <- function(n = 1) {
-
-    activeDataSetP() && length(variables_with_unique_values() >= n)
-}
-
-
-
-# ___ Path / File ___ ========================================================
-
-#' Make path to relative
-#'
-#' Make absolute path into relative one in respect to current working directory.
-#'
-#' @param str (character) Sting (or vector of strings) with absolute path.
-#'
-#' @keywords internal
-#' @export
-make_relative_path <- function(str) {
-    sub(paste0(getwd(), "/?"), "", str)
-}
-
-# path <- file.path("c:", "p1p1p1p1p1", "p2p2p2p2p2p2", "p3p3p3p3p3p3p3", "file2.xlsx")
-#                      # "c:/p1p1p1p1p1/p2p2p2p2p2p2/p3p3p3p3p3p3p3/file2.xlsx"
-# path_truncate(path)  # --->  "c:/p1p1p1p1p1/ ... /file2.xlsx"
-path_truncate <- function(path, max_length = 30) {
-    path <- normalizePath(path, winslash = "/")
-
-    if (str_length(path) <= max_length) {
-        show_trunc <- path
-    } else {
-        path_parts <- str_split(path, "/")[[1]]
-        last_ind <- length(path_parts)
-        legths <- path_parts %>% map_int(str_length)
-        lengths2 <-
-            cumsum(c(legths[last_ind], legths[-last_ind])) + 5 # 5 is length of " ... "
-        add_parts <- max(which(lengths2 <= max_length)) - 1    # -1 is minus the last one
-        add_parts <- max(1, add_parts)
-        show_trunc <-
-            file.path(str_c(path_parts[1:add_parts], collapse = "/"),
-                      " ... ",
-                      path_parts[last_ind])
-    }
-
-    show_trunc
-}
-
-#' Extract file parts.
-#' @rdname extract-fileparts
-#' @keywords internal
-#' @export
-extract_path <- function(str) {
-    sub("(.*\\/)([^.]+)(\\.[[:alnum:]]+$)", "\\1", str)
-}
-
-#' @name extract-fileparts
-#' @param str (character) Path to file (with filename and extension).
-#'
-#' @keywords internal
-#' @export
-extract_filename <- function(str) {
-    sub("(.*\\/)([^.]+)(\\.[[:alnum:]]+$)", "\\2", str)
-}
-
-#' @rdname extract-fileparts
-#' @keywords internal
-#' @export
-extract_extension <- function(str) {
-    sub("(.*\\/)([^.]+)(\\.[[:alnum:]]+$)", "\\3", str)
-}
-
