@@ -1,6 +1,14 @@
 # TODO:
 #
-# 1. Add popup menu for right-click, that enables quick change of row position, deletion, etc.
+# 1. Add buttons on the window to insert `recode_values_template` and `
+# recode_values_template_2`.
+#
+# 2. Better handling for code evaluation error, e. g. if only '.missing = "NA"'
+# is enered and other values are not.
+#
+# 3. Add popup menu for right-click and key stroke bindings, that enable quick
+# change of row position, deletion, etc.
+#
 #
 # [+] DONE:
 #
@@ -63,7 +71,7 @@ right_click_menu <- function(tcl_widget) {
         # focused <- tkfocus()
         focused <- tcl_widget
 
-        initializeDialog(title=gettextRcmdr("Find"))
+        initializeDialog(title = gettextRcmdr("Find"))
         textFrame <- tkframe(top)
         textVar <- tclVar(getRcmdr("last.search"))
         textEntry <- ttkentry(textFrame, width = "20", textvariable = textVar)
@@ -111,7 +119,8 @@ right_click_menu <- function(tcl_widget) {
             return("")
         }
         OKCancelHelp()
-        tkgrid(labelRcmdr(textFrame, text=gettextRcmdr("Search for:")), textEntry, sticky="w")
+        tkgrid(labelRcmdr(textFrame, text=gettextRcmdr("Search for:")),
+               textEntry, sticky="w")
         tkgrid(textFrame, sticky="w")
         tkgrid(optionsFrame, sticky="w")
         tkgrid(directionFrame, sticky="w")
@@ -124,6 +133,7 @@ right_click_menu <- function(tcl_widget) {
         tktag.add(tcl_widget, "sel", "1.0", "end")
         tkfocus(tcl_widget)
     }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onSelectRow <- function() {
         # focused <- tkfocus()
@@ -131,12 +141,12 @@ right_click_menu <- function(tcl_widget) {
         tkfocus(tcl_widget)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    onDeleteRow <- function(){
+    onDeleteRow <- function() {
         onSelectRow()
         onDelete()
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    onClear <- function(){
+    onClear <- function() {
         onSelectAll()
         onDelete()
     }
@@ -165,16 +175,22 @@ right_click_menu <- function(tcl_widget) {
         # tkadd(contextMenu, "command", label = gettextRcmdr("Submit"), command = onSubmit)
 
         # tkadd(contextMenu, "separator")
+
+        # tkadd(contextMenu, "command", label = gettextRcmdr("Move row up"),    command = onUp)
+        # tkadd(contextMenu, "command", label = gettextRcmdr("Move row down"),  command = onDown)
+        # tkadd(contextMenu, "command", label = gettextRcmdr("Move row to top"), command = onTop)
+        #
+        # tkadd(contextMenu, "separator")
         tkadd(contextMenu, "command", label = gettextRcmdr("Cut"),    command = onCut)
         tkadd(contextMenu, "command", label = gettextRcmdr("Copy"),   command = onCopy)
         tkadd(contextMenu, "command", label = gettextRcmdr("Paste"),  command = onPaste)
         tkadd(contextMenu, "command", label = gettextRcmdr("Delete"), command = onDelete)
 
-        tkadd(contextMenu, "separator")
+        # tkadd(contextMenu, "separator")
         # tkadd(contextMenu, "command", label = gettextRcmdr("Find..."),    command = onFind)
         # tkadd(contextMenu, "command", label = gettextRcmdr("Select all"), command = onSelectAll)
-        tkadd(contextMenu, "command", label = gettextRcmdr("Select row"), command = onSelectRow)
-        tkadd(contextMenu, "command", label = gettextRcmdr("Delete row"), command = onDeleteRow)
+        # tkadd(contextMenu, "command", label = gettextRcmdr("Select row"), command = onSelectRow)
+        # tkadd(contextMenu, "command", label = gettextRcmdr("Delete row"), command = onDeleteRow)
 
         # tkadd(contextMenu, "separator")
         # tkadd(contextMenu, "command", label = gettextRcmdr("Undo"),       command = onUndo)
@@ -184,7 +200,11 @@ right_click_menu <- function(tcl_widget) {
         # tkadd(contextMenu, "command", label = gettextRcmdr("Clear directives"), command = onClear)
         # tkadd(contextMenu, "command", label = gettextRcmdr("Reset directives"), command = variable_doubleclick)
 
-        tkpopup(contextMenu, tkwinfo("pointerx", tcl_widget), tkwinfo("pointery", tcl_widget))
+        tkpopup(contextMenu,
+                tkwinfo("pointerx", tcl_widget),
+                tkwinfo("pointery", tcl_widget))
+
+
     }
 
 
@@ -196,7 +216,7 @@ right_click_menu <- function(tcl_widget) {
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Helper functions
-
+# x - a vector
 recode_values_template <- function(x) {
 
     if (is.character(x)) {
@@ -220,13 +240,55 @@ recode_values_template <- function(x) {
     rez
     # writeLines(rez)
 }
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Helper functions
+# x - a vector
+recode_values_template_2 <- function(x) {
 
+    if (is.character(x)) {
+        x <- forcats::as_factor(x)
+    }
+
+    unique_values <-
+        if (is.factor(x)) {
+            levels(x)
+
+        } else {
+            sort(unique(x))
+        }
+
+    rez <-
+        str_glue('"{unique_values}" = "{unique_values}"') %>%
+        paste(collapse = "\n") %>%
+        paste('\n',
+              '\n.default = ""',
+              '\n.missing = ""')
+    rez
+    # writeLines(rez)
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# widget - tktext widget
+# i, j - row numbers
+swap_rows_in_tktext <- function(widget, i, j) {
+
+    recodes_text <- trimws(tclvalue(tkget(widget, "1.0", "end")))
+    tmp <- str_split(recodes_text, "\n")[[1]]
+    n <- length(tmp)
+    i <- correct_row_index(i, n)
+    j <- correct_row_index(j, n)
+
+    swapped <- str_c(swap(tmp, i, j), collapse = "\n")
+
+    tkdelete(widget, "1.0", "end")
+    tkinsert(widget, "1.0", swapped)
+}
+
+# ___ Main function ___ ======================================================
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 window_variable_recode0 <- function() {
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = gettext_Bio("Recode Variable Values"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -248,13 +310,34 @@ window_variable_recode0 <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     variable_doubleclick <- function() {
         active_variable  <- getSelection(variablesBox)
-        var_val          <- eval_glue("{activeDataSet()}${active_variable}")
+        var_val          <- get_active_ds()[[active_variable]]
+        # var_val          <- eval_glue("{activeDataSet()}${active_variable}")
+
+        get_active_ds()[[active_variable]]
 
         tclvalue(selected_variable) <- active_variable
 
         # Change contents of "recodes" box
         tkdelete(recodes, "1.0", "end")
         tkinsert(recodes, "1.0", recode_values_template(var_val))
+
+        # Change new variable name
+        tclvalue(newVariableName) <-
+            unique_colnames(active_variable, suffix = "_recoded")
+    }
+
+    variable_doubleclick3 <- function() {
+        active_variable  <- getSelection(variablesBox)
+        var_val          <- get_active_ds()[[active_variable]]
+        # var_val          <- eval_glue("{activeDataSet()}${active_variable}")
+
+        get_active_ds()[[active_variable]]
+
+        tclvalue(selected_variable) <- active_variable
+
+        # Change contents of "recodes" box
+        tkdelete(recodes, "1.0", "end")
+        tkinsert(recodes, "1.0", recode_values_template_2(var_val))
 
         # Change new variable name
         tclvalue(newVariableName) <-
@@ -269,7 +352,9 @@ window_variable_recode0 <- function() {
             listHeight = 7,
             upper_frame,
             Variables(),
-            onDoubleClick_fun = variable_doubleclick,
+            onDoubleClick_fun  = variable_doubleclick,
+            onTripleClick_fun  = variable_doubleclick3,
+            onDoubleClick3_fun = variable_doubleclick3,
             # selectmode = "multiple",
             title = gettext_Bio("Variable to recode \n(double-click to pick one)"),
             initialSelection = varPosn(dialog_values$initial_variables, "all")
@@ -338,7 +423,6 @@ window_variable_recode0 <- function() {
                         labels        = gettext_Bio(c("Nominal factor",
                                                       "Ordinal factor",
                                                       "Do not convert")))
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
@@ -350,7 +434,7 @@ window_variable_recode0 <- function() {
         name              <- trim.blanks(tclvalue(newVariableName))
 
         # Read recode directives
-        save_recodes <- trim.blanks(tclvalue(tkget(recodes, "1.0", "end")))
+        save_recodes <- trimws(tclvalue(tkget(recodes, "1.0", "end")))
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         closeDialog()
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
