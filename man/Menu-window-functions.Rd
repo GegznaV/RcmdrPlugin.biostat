@@ -62,7 +62,6 @@
 \alias{window_plot_bar_err}
 \alias{command_rownames}
 \alias{command_row_rm_empty_rows}
-\alias{command_rowid_to_col}
 \alias{window_col_to_rownames0}
 \alias{window_col_to_rownames}
 \alias{command_load_packages}
@@ -211,8 +210,6 @@ window_plot_bar_err()
 command_rownames()
 
 command_row_rm_empty_rows()
-
-command_rowid_to_col()
 
 window_col_to_rownames0(variables)
 
