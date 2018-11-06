@@ -2,6 +2,7 @@
 str_c    <- stringr::str_c
 str_glue <- stringr::str_glue
 glue     <- str_glue
+is_grouped_df <- dplyr::is_grouped_df
 
 # ___ Translate ___ ==========================================================
 
@@ -26,6 +27,24 @@ show_error_messages <- function(message, message2, title = "") {
 }
 
 # + Valid name ---------------------------------------------------------------
+#' Check if name is valid
+#'
+#' Function checks if string meets requirements for a single, valid, non-empty
+#' R variable name. In case of incalid name, a box wit error message is thrown,
+#' error message is written to R Commander window and result FALSE is returned.
+#' Oterwise, TRUE is returned.
+#'
+#' @param name (character) a single string.
+#'
+#' @return Logical value TRUE if string meets requirements, FALSE - otherwise.
+#' @export
+#'
+#' @keywords internal
+#'
+#' @examples
+#' is_valid_name("a")
+#' is_valid_name("")
+#' is_valid_name("|||")
 is_valid_name <- function(name) {
 
     if (length(name) < 1) {
@@ -47,9 +66,10 @@ is_valid_name <- function(name) {
     } else if (!(name == make.names(name))) {
         # message  <- str_glue('"{name}" {gettextRcmdr("is not a valid name.")}')
         message  <- str_glue('Name "{name}" is not valid.')
-        message2 <- str_glue("{message} \n\n",
-                             "Valid names must start with a letter and contain only \n ",
-                             "letters, numbers, periods (.) and underscores (_). ")
+        message2 <- str_glue(
+            "{message} \n\n",
+            "Valid names must start with a letter and contain only \n ",
+            "letters, numbers, periods (.) and underscores (_). ")
 
         show_error_messages(message, message2, title = "Invalid Name")
     } else {
@@ -64,18 +84,27 @@ is_valid_name <- function(name) {
 
 # + Duplicated name ---------------------------------------------------------------
 
-check_replace_box <-
-    function(name, type = "Variable") {
-        Type <- stringr::str_to_title(type)
+#' Message box to confirm replacement
+#'
+#' @param name string - name of the object to repace.
+#' @param type string - type of the object to repace.
+#'
+#' @return Sring eihter "yes" or "no"
+#' @export
+#'
+#' @examples
+#' msg_box_check_replace()
+msg_box_check_replace <- function(name, type = "Variable") {
+    Type <- stringr::str_to_title(type)
 
-        tclvalue(RcmdrTkmessageBox(
-            title = str_glue("Overwrite {Type}"),
-            message = sprintf('%s "%s" already exists.\n\nDo you agree to OVERWRITE the %s?',
-                              Type, name, tolower(type)),
-            icon = "warning",
-            type = "yesno",
-            default = "no"))
-    }
+    tclvalue(RcmdrTkmessageBox(
+        title = str_glue("Overwrite {Type}"),
+        message = sprintf('%s "%s" already exists.\n\nDo you agree to OVERWRITE the %s?',
+                          Type, name, tolower(type)),
+        icon = "warning",
+        type = "yesno",
+        default = "no"))
+}
 
 replace_duplicated_variable <- function(name) {
     # Checks if variable exists in active dataset
@@ -84,7 +113,7 @@ replace_duplicated_variable <- function(name) {
     #     - variable exists but user agrees to overvrite it.
 
     if (name %in% listVariables()) {
-        check_replace_box(name, "Variable") == "yes"
+        msg_box_check_replace(name, "Variable") == "yes"
     } else {
         TRUE
     }
@@ -97,10 +126,10 @@ replace_duplicated_obj <- function(name, envir = .GlobalEnv) {
     #     - object exists but user agrees to overvrite it.
 
     if (name %in% listDataSets(envir = envir)) {
-        check_replace_box(name, "Dataset") == "yes"
+        msg_box_check_replace(name, "Dataset") == "yes"
 
     } else if (name %in% objects(envir = envir, all.names = TRUE)) {
-        check_replace_box(name, "Object") == "yes"
+        msg_box_check_replace(name, "Object") == "yes"
 
     } else {
         TRUE
@@ -362,7 +391,7 @@ spaces <- function(n) {
 
 # ___ Names ___ ==============================================================
 
-#' @rdname extract-fileparts
+#' @rdname helper-functions
 #' @keywords internal
 #' @export
 clean_str <- function(str, ...) {
