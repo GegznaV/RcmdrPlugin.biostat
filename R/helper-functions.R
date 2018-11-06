@@ -392,7 +392,7 @@ is_valid_name <- function(name) {
         message2 <- str_glue(
             "{message} \n\n",
             "Valid names must start with a letter and contain only \n ",
-            "letters, numbers, periods (.) and underscores (_). ")
+            "letters, numbers, underscores (_) and periods (.). ")
 
         show_error_messages(message, message2, title = "Invalid Name")
     } else {
