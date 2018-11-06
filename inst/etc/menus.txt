@@ -266,15 +266,15 @@ item	bs_summary_menu	command	"Quick summary: describe"	summary_Hmisc_describe	"a
 # item	bs_summary_menu	command	"Summarize all variables [Hmisc::describe]"	summary_Hmisc_describe	"activeDataSetP()"	""
 
 
-item	bs_summary_menu	separator	""	""	""	""
+# item	bs_summary_menu	separator	""	""	""	""
 # item	bs_summary_menu	command	"Summarize numerical variables [psych::describe]"	summary_psych_describe	"numericP()"	""
-item	bs_summary_menu	command	"Summarize numerical variables by group..."	window_do_summary	"numericP()"	""
+item	bs_summary_menu	command	"Summarize numerical variables..."	window_do_summary	"numericP()"	""
 
 # item	bs_summary_menu	command	"[???] Frequency table for continuous variables"	function_not_implemented	"FALSE & activeDataSetP()"	""
 # descriptr::ds_freq_cont()
 
 
-item	bs_summary_menu	separator	""	""	""	""
+# item	bs_summary_menu	separator	""	""	""	""
 item	bs_summary_menu	command	"Frequency table / Multi-way table..."	window_summary_count	"activeDataSetP()"	""
 # df %>% dplyr::count(..., ...);
 # df %>% with(table(..., ...)) %>% as.data.frame()
