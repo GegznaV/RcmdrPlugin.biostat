@@ -185,6 +185,8 @@ right_click_menu <- function(tcl_widget) {
         tkadd(contextMenu, "command", label = gettextRcmdr("Copy"),   command = onCopy)
         tkadd(contextMenu, "command", label = gettextRcmdr("Paste"),  command = onPaste)
         tkadd(contextMenu, "command", label = gettextRcmdr("Delete"), command = onDelete)
+        tkadd(contextMenu, "command", label = gettextRcmdr("Delete all"), command = onClear)
+
 
         # tkadd(contextMenu, "separator")
         # tkadd(contextMenu, "command", label = gettextRcmdr("Find..."),    command = onFind)
@@ -192,12 +194,12 @@ right_click_menu <- function(tcl_widget) {
         # tkadd(contextMenu, "command", label = gettextRcmdr("Select row"), command = onSelectRow)
         # tkadd(contextMenu, "command", label = gettextRcmdr("Delete row"), command = onDeleteRow)
 
-        # tkadd(contextMenu, "separator")
-        # tkadd(contextMenu, "command", label = gettextRcmdr("Undo"),       command = onUndo)
-        # tkadd(contextMenu, "command", label = gettextRcmdr("Redo"),       command = onRedo)
+        tkadd(contextMenu, "separator")
+        tkadd(contextMenu, "command", label = gettextRcmdr("Undo"),       command = onUndo)
+        tkadd(contextMenu, "command", label = gettextRcmdr("Redo"),       command = onRedo)
+
 
         # tkadd(contextMenu, "separator")
-        # tkadd(contextMenu, "command", label = gettextRcmdr("Clear directives"), command = onClear)
         # tkadd(contextMenu, "command", label = gettextRcmdr("Reset directives"), command = variable_doubleclick)
 
         tkpopup(contextMenu,
@@ -217,7 +219,7 @@ right_click_menu <- function(tcl_widget) {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Helper functions
 # x - a vector
-recode_values_template <- function(x) {
+recode_values_template <- function(x, template = "1") {
 
     if (is.character(x)) {
         x <- forcats::as_factor(x)
@@ -231,41 +233,48 @@ recode_values_template <- function(x) {
             sort(unique(x))
         }
 
-    rez <-
-        str_glue('"{unique_values}" = ""') %>%
-        paste(collapse = "\n") %>%
-        paste('\n',
-              '\n.default = ""',
-              '\n.missing = ""')
+    switch(as.character(template),
+           "1" = {
+               rez <-
+                   str_glue('"{unique_values}" = ""') %>%
+                   paste(collapse = "\n") %>%
+                   paste('\n',
+                         '\n.default = ""',
+                         '\n.missing = ""')
+           },
+           "1a" = {
+               rez <-
+                   str_glue('"{unique_values}" = ""') %>%
+                   paste(collapse = "\n") %>%
+                   paste('\n',
+                         '\n.default = ""',
+                         '\n.missing = ""')
+               # %>% align_at_equal()
+           },
+           "2" = {
+               rez <-
+                   str_glue('"{unique_values}" = "{unique_values}"') %>%
+                   paste(collapse = "\n") %>%
+                   paste('\n',
+                         '\n.default = ""',
+                         '\n.missing = ""')
+           },
+           "2a" = {
+               rez <-
+                   str_glue('"{unique_values}" = "{unique_values}"') %>%
+                   paste(collapse = "\n") %>%
+                   paste('\n',
+                         '\n.default = ""',
+                         '\n.missing = ""')
+               # %>% align_at_equal()
+           }
+    )
+
     rez
     # writeLines(rez)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Helper functions
-# x - a vector
-recode_values_template_2 <- function(x) {
 
-    if (is.character(x)) {
-        x <- forcats::as_factor(x)
-    }
-
-    unique_values <-
-        if (is.factor(x)) {
-            levels(x)
-
-        } else {
-            sort(unique(x))
-        }
-
-    rez <-
-        str_glue('"{unique_values}" = "{unique_values}"') %>%
-        paste(collapse = "\n") %>%
-        paste('\n',
-              '\n.default = ""',
-              '\n.missing = ""')
-    rez
-    # writeLines(rez)
-}
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # widget - tktext widget
 # i, j - row numbers
@@ -308,7 +317,7 @@ window_variable_recode0 <- function() {
     selected_variable  <- tclVar(dialog_values$initial_selected_variable)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    variable_doubleclick <- function() {
+    insert_template <- function(template = "1") {
         active_variable  <- getSelection(variablesBox)
         var_val          <- get_active_ds()[[active_variable]]
         # var_val          <- eval_glue("{activeDataSet()}${active_variable}")
@@ -319,30 +328,18 @@ window_variable_recode0 <- function() {
 
         # Change contents of "recodes" box
         tkdelete(recodes, "1.0", "end")
-        tkinsert(recodes, "1.0", recode_values_template(var_val))
+        tkinsert(recodes, "1.0", recode_values_template(var_val, template))
 
         # Change new variable name
         tclvalue(newVariableName) <-
             unique_colnames(active_variable, suffix = "_recoded")
     }
 
-    variable_doubleclick3 <- function() {
-        active_variable  <- getSelection(variablesBox)
-        var_val          <- get_active_ds()[[active_variable]]
-        # var_val          <- eval_glue("{activeDataSet()}${active_variable}")
+    insert_template_1  <- function() {insert_template("1")}
+    insert_template_1a <- function() {insert_template("1a")}
+    insert_template_2  <- function() {insert_template("2")}
+    insert_template_2a <- function() {insert_template("2a")}
 
-        get_active_ds()[[active_variable]]
-
-        tclvalue(selected_variable) <- active_variable
-
-        # Change contents of "recodes" box
-        tkdelete(recodes, "1.0", "end")
-        tkinsert(recodes, "1.0", recode_values_template_2(var_val))
-
-        # Change new variable name
-        tclvalue(newVariableName) <-
-            unique_colnames(active_variable, suffix = "_recoded")
-    }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
@@ -352,9 +349,10 @@ window_variable_recode0 <- function() {
             listHeight = 7,
             upper_frame,
             Variables(),
-            onDoubleClick_fun  = variable_doubleclick,
-            onTripleClick_fun  = variable_doubleclick3,
-            onDoubleClick3_fun = variable_doubleclick3,
+            onDoubleClick_fun  = insert_template_1,
+            onTripleClick_fun  = insert_template_1a,
+            onDoubleClick3_fun = insert_template_2,
+            onTripleClick3_fun = insert_template_2a,
             # selectmode = "multiple",
             title = gettext_Bio("Variable to recode \n(double-click to pick one)"),
             initialSelection = varPosn(dialog_values$initial_variables, "all")
@@ -436,8 +434,7 @@ window_variable_recode0 <- function() {
         # Read recode directives
         save_recodes <- trimws(tclvalue(tkget(recodes, "1.0", "end")))
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        closeDialog()
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
         # Format code into one row
         recode_directives <-
             stringr::str_replace_all(save_recodes,
@@ -461,6 +458,19 @@ window_variable_recode0 <- function() {
             )
         # str_detect(recode_directives,
         #            "[\\p{Alphabetic}\\p{Mark}\\p{Decimal_Number}]")
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        putDialog("window_variable_recode0",
+                  list(
+                      # initial_make_factor       = make_factor,
+                      initial_variables         = variables,
+                      initial_name              = name,
+                      initial_recode_directives = save_recodes,
+                      initial_recode_into       = recode_into,
+                      initial_selected_variable = selected_variable
+                  )
+        )
+        closeDialog()
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         # Is empty? ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (recode_directives == "") {
@@ -502,17 +512,7 @@ window_variable_recode0 <- function() {
                 return()
             }
         }
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        putDialog("window_variable_recode0",
-                  list(
-                      # initial_make_factor       = make_factor,
-                      initial_variables         = variables,
-                      initial_name              = name,
-                      initial_recode_directives = save_recodes,
-                      initial_recode_into       = recode_into,
-                      initial_selected_variable = selected_variable
-                  )
-        )
+
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         switch(recode_into,
@@ -534,18 +534,26 @@ window_variable_recode0 <- function() {
         command <- str_glue(
             "## ", gettext_Bio("Recode variable values"), "\n\n",
             "{dataSet} <- {dataSet} %>% \n",
-            "   dplyr::mutate({name} = {recode_fun}({selected_variable}, ",
-            " {recode_directives}{ordered_factor}))"
-        ) %>%
-            style_cmd()
+            "   dplyr::mutate(\n",
+            "   {name} = {recode_fun}({selected_variable}, ",
+            "   {recode_directives}{ordered_factor}))"
+        )
 
-        result <- doItAndPrint(command)
+        result <- justDoIt(command)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (class(result)[1] != "try-error")
+        if (class(result)[1] != "try-error") {
+            # closeDialog()
+
+            logger(style_cmd(command))
             activeDataSet(dataSet,
                           flushModel = FALSE,
                           flushDialogMemory = FALSE)
+        } else {
+            window_variable_recode0()
+            return()
+        }
+
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkfocus(CommanderWindow())
     }
