@@ -97,11 +97,11 @@ window_import_excel <- function() {
             variableList     = worksheets,
             initialSelection = worksheets[1],
             onSelect_fun     = correct_worksheet_selection,
-            width = 32
+            width = 36
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     dsname      <- tclVar(unique_df_name("new_data", all_numbered = TRUE))
-    entryDsname <- ttkentry(upper_r_frame, width = "35", textvariable = dsname)
+    entryDsname <- ttkentry(upper_r_frame, width = "39", textvariable = dsname)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     checkBoxFrame <- tkframe(top)
@@ -118,17 +118,19 @@ window_import_excel <- function() {
                        variable = stringsAsFactors
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    missingFrame <- tkframe(top)
+    lower_frame <- tkframe(top)
+
+    missingFrame    <- tkframe(lower_frame)
     missingVariable <- tclVar(gettextRcmdr("<empty cell>"))
-    missingEntry <- ttkentry(missingFrame,
-                             width = "15",
-                             textvariable = missingVariable)
+    missingEntry    <- ttkentry(missingFrame,
+                                width = "12",
+                                textvariable = missingVariable)
     # ========================================================================
     onOK <- function() {
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         setBusyCursor()
         on.exit(setIdleCursor())
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         xl_file     <- tclvalue(xl_file_var)
         worksheet   <- getSelection(worksheet_box)
         new_ds_name <- trim.blanks(tclvalue(dsname))
@@ -140,9 +142,7 @@ window_import_excel <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         closeDialog()
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (missingValues == gettextRcmdr("<empty cell>")) {
-            missingValues <- ""
-        }
+
         if (new_ds_name == "") {
             errorCondition(
                 recall = window_import_excel,
@@ -189,14 +189,14 @@ window_import_excel <- function() {
         command <-
             str_glue(
                 "## Import data from Excel file\n ",
-                '{new_ds_name} <- ',
-                '  RcmdrMisc::readXL(\n',
+                '{new_ds_name} <-  RcmdrMisc::readXL(   \n',
                 '    "{xl_file}",  ',
-                '    sheet = "{worksheet}", ',
-                "    rownames = {rownames_str}, header = {header_str}, \n",
-                '    na = "{missingValues}",',
-                "    stringsAsFactors = {as_factor_str} \n",
-                "  )"
+                '    sheet = "{worksheet}",             \n',
+                '    rownames = {rownames_str},         \n',
+                '    header = {header_str},             \n',
+                '    na = "{missingValues}",            \n',
+                '    stringsAsFactors = {as_factor_str} \n',
+                '  )'
             ) %>%
             style_cmd()
        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -229,23 +229,19 @@ window_import_excel <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(upper_frame, sticky = "e")
 
-    tkgrid(upper_l_frame, upper_r_frame)
+    tkgrid(upper_l_frame, upper_r_frame, pady = c(0, 5))
 
     # upper_l_frame ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     on_click <- function() {select_xl_file()}
 
-    button_ch_file <- tk2button(upper_l_frame,
-                                text = "Choose file",
-                                command = on_click,
-                                cursor = "hand2")
-    tkgrid(button_ch_file, sticky = "e", pady = c(0, 0))
-    # file_label <- label_rcmdr(upper_l_frame, text = "File: ",  fg = fg_col)
-    # tkgrid(file_label,
-    #        sticky = "e", pady = c(0, 5))
+
+    file_label <- label_rcmdr(upper_l_frame, text = "File: ",  fg = fg_col)
+    tkgrid(file_label,
+           sticky = "e", pady = c(2.5, 5))
     tkgrid(label_rcmdr(upper_l_frame, text = "Sheet: ", fg = fg_col),
-           sticky = "e")
+           sticky = "e", pady = c(0, 2.5))
     tkgrid(label_rcmdr(upper_l_frame, text = "Name: ",  fg = fg_col),
-           sticky = "e", pady = 5)
+           sticky = "e", pady = c(5, 5))
 
     # upper_r_frame ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     fname_frame <- tkframe(upper_r_frame)
@@ -256,36 +252,53 @@ window_import_excel <- function() {
     tkgrid(getFrame(worksheet_box), sticky = "w")
     tkgrid(entryDsname, sticky = "w", pady = 5)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    button_ch_file_frame <- tkframe(lower_frame)
+    button_ch_file <- tk2button(button_ch_file_frame,
+                                text = "Choose file",
+                                command = on_click,
+                                cursor = "hand2")
+
+    # tkgrid(button_ch_file, sticky = "e", pady = c(0, 0))
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(variableNamesCheckBox,
-           labelRcmdr(checkBoxFrame,
-                      text = gettextRcmdr("Variable names in first row of spreadsheet")
+           labelRcmdr(
+               checkBoxFrame,
+               text = gettextRcmdr("Variable names in first row of spreadsheet")
            ),
            sticky = "w"
     )
     tkgrid(rowNamesCheckBox,
-           labelRcmdr(checkBoxFrame,
-                      text = gettextRcmdr("Row names in first column of spreadsheet")
+           labelRcmdr(
+               checkBoxFrame,
+               text = gettextRcmdr("Row names in first column of spreadsheet")
            ),
            sticky = "w"
     )
     tkgrid(stringsAsFactorsCheckBox,
-           labelRcmdr(checkBoxFrame,
-                      text = gettextRcmdr("Convert character data to factors")
+           labelRcmdr(
+               checkBoxFrame,
+               text = gettextRcmdr("Convert character data to factors")
            ),
            sticky = "w"
     )
+    tkgrid(checkBoxFrame, sticky = "w")
+
+
     tkgrid(labelRcmdr(missingFrame,
-                      text = gettextRcmdr("Missing data indicator:")),
+                      text = gettextRcmdr("Missing data indicator: ")),
            missingEntry,
            sticky = "w"
     )
-    tkgrid(checkBoxFrame, sticky = "w")
-    tkgrid(missingFrame,  sticky = "w")
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(button_ch_file, padx = c(5, 0))
+    tkgrid(missingFrame, button_ch_file_frame, sticky = "w")
+    tkgrid(lower_frame, pady = c(5, 0), sticky = "ew")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(buttonsFrame,  sticky = "w")
     dialogSuffix(focus = entryDsname)
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Interactive bindings ---------------------------------------------------
+
     # Add interactivity for `fname_frame` and `fname_label`
     # tkbind(file_label,     "<ButtonPress-1>", on_click)
     tkbind(fname_frame,    "<ButtonPress-1>", on_click)
