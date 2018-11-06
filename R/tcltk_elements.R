@@ -7,11 +7,12 @@ label_rcmdr <- function(..., fg = NULL) {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 labeled_frame <- function(parent, label = NULL, ...) {
     ttklabelframe(parent = parent,
-                  labelwidget = tklabel(parent,
-                                        text = label,
-                                        font = "RcmdrTitleFont",
-                                        foreground = Rcmdr::getRcmdr("title.color"),
-                                        ...)
+                  labelwidget = tklabel(
+                      parent,
+                      text = label,
+                      font = "RcmdrTitleFont",
+                      foreground = Rcmdr::getRcmdr("title.color"),
+                      ...)
     )
 }
 
@@ -209,21 +210,21 @@ bs_check_boxes <- defmacro(
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # This function modified based on code by Liviu Andronic (13 Dec 09) and on code by Milan Bouchet-Valat (29 Jun 12):
-radioButtons_horizontal <-
-    defmacro(window = top,
-             name,
-             buttons,
-             values = NULL,
-             initialValue = ..values[1],
-             labels,
-             title = NULL,
-             title.color = NULL,
-             right.buttons = FALSE,
-             command = function() {},
-             sticky_title = "w",
-             sticky_buttons = "e",
-             expr =
-{
+radioButtons_horizontal <- defmacro(
+    window = top,
+    name,
+    buttons,
+    values = NULL,
+    initialValue = ..values[1],
+    labels,
+    title = NULL,
+    title.color = NULL,
+    right.buttons = FALSE,
+    command = function() {},
+    sticky_title = "w",
+    sticky_buttons = "e",
+    expr =
+    {
     ..values <- if (is.null(values)) buttons else values
 
     ..frame <- paste0(name, "Frame")
@@ -303,17 +304,18 @@ radioButtons_horizontal <-
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-radiobuttons_env <- function(window        = top,
-                             name          = stop("name not supplied"),
-                             buttons       = stop("buttons not supplied"),
-                             values        = NULL,
-                             initialValue  = ..values[1],
-                             labels        = stop("labels not supplied"),
-                             title         = "",
-                             title.color   = getRcmdr("title.color"),
-                             right.buttons = FALSE,
-                             command       = function() {},
-                             env           = parent.frame())
+radiobuttons_env <- function(
+    window        = top,
+    name          = stop("name not supplied"),
+    buttons       = stop("buttons not supplied"),
+    values        = NULL,
+    initialValue  = ..values[1],
+    labels        = stop("labels not supplied"),
+    title         = "",
+    title.color   = getRcmdr("title.color"),
+    right.buttons = FALSE,
+    command       = function() {},
+    env           = parent.frame())
 {
 
     tmp <- substitute({
@@ -375,36 +377,3 @@ radiobuttons_env <- function(window        = top,
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-#' Message box, which asks if object should be replaced
-#' @name box_ask_to_replace
-#' @param name The name of the object.
-#' @param type The type of the object.
-#' @keywords internal
-#' @return Logical value: TRUE -- to replace or FALSE -- not to replace.
-# @export
-#
-# @examples
-box_ask_to_replace <- function(name, type = gettextRcmdr("Object")) {
-    rez <- RcmdrTkmessageBox(
-        message = sprintf(
-            gettextRcmdr('%s "%s" already exists.\nOverwrite the %s?'),
-            type,
-            name,
-            tolower(type)
-        ),
-        icon = "warning",
-        type = "yesno",
-        default = "no"
-    )
-    tclvalue(rez) == "yes"
-}
-
-#' @rdname box_ask_to_replace
-replace_object <- function(name, type = gettextRcmdr("Object")) {
-    box_ask_to_replace(name, type)
-}
-
-#' @rdname box_ask_to_replace
-replace_variable <- function(name, type = gettextRcmdr("Variable")) {
-    box_ask_to_replace(name, type)
-}
