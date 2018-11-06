@@ -80,12 +80,15 @@ tk_normalize <- function(tk_obj, ...) {
 # }
 
 # Get values -----------------------------------------------------------------
+#
+# TODO:
+# 1) senas `tclvalue_*` funkcijų versijas visame pakete pakeisti naujomis
+#    versijomis.
 
 tclvalue_lgl <- function(x) {
     # as.logical(as.integer(tclvalue(x)))
     as.logical(tclvalue_int(x))
 }
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Sena versija:
@@ -123,9 +126,12 @@ tclvalue_chr <- function(x) {
 #     names(x) <- NULL
 #     x
 # }
-
-# tclvalue_chr <- function(x) {
-#     trimws(as.character(tclvalue(x))
+#
+# tclvalue_chr <- function(x, trim = TRUE, ...) {
+#     rez <- as.character(tclvalue(x))
+#     if (isTRUE(trim)) {
+#         rez <- trimws(rez, ...)
+#     }
+#     rez
 # }
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
