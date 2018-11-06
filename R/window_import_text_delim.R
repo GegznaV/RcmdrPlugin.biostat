@@ -4,7 +4,7 @@
 #' @keywords internal
 # Based on function from "Rcmdr"
 
-window_import_delim <- function() {
+window_import_text_delim <- function() {
     initializeDialog(title =
                          gettextRcmdr("Read Text Data From File, Clipboard, or URL"))
     optionsFrame <- tkframe(top)
@@ -58,12 +58,12 @@ window_import_delim <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         dsnameValue <- trim.blanks(tclvalue(dsname))
         if (dsnameValue == "") {
-            errorCondition(recall = window_import_delim,
+            errorCondition(recall = window_import_text_delim,
                            message = gettextRcmdr("You must enter a name for the data set."))
             return()
         }
         if (!is.valid.name(dsnameValue)) {
-            errorCondition(recall = window_import_delim,
+            errorCondition(recall = window_import_text_delim,
                            message = paste("\"", dsnameValue, "\" ",
                                            gettextRcmdr("is not a valid name."),
                                            sep = ""
@@ -73,7 +73,7 @@ window_import_delim <- function() {
         if (is.element(dsnameValue, listDataSets())) {
             if ("no" == tclvalue(checkReplace(dsnameValue,
                                               gettextRcmdr("Data set")))) {
-                window_import_delim()
+                window_import_text_delim()
                 return()
             }
         }

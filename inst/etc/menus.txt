@@ -41,7 +41,7 @@ item	bs_data_menu	separator	""	""	""	""
 menu	import_menu	bs_data_menu	""	""	""	""
 item	bs_data_menu	cascade	"Import / Load data"	import_menu	""	""
 
-item    import_menu      command         "from text file (.txt, .csv, .dat)... [Rcmdr]"          window_import_delim                 ""          ""
+item    import_menu      command         "from text file (.txt, .csv, .dat)... [Rcmdr]"          window_import_text_delim                 ""          ""
 item	import_menu	separator	""	""	""	""
 item    import_menu      command         "from Excel file..."     window_import_excel    ""     "packageAvailable('readxl')"
 

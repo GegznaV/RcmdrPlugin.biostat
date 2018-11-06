@@ -8,8 +8,8 @@
 %   R/window_dataset_bind_cols.R, R/window_dataset_bind_rows.R,
 %   R/window_dataset_join.R, R/window_fct_drop_lvls.R,
 %   R/window_fct_lvls_reorder_manual.R, R/window_fct_reorder_TMP.R,
-%   R/window_import_delim.R, R/window_import_excel.R, R/window_import_rdata.R,
-%   R/window_import_rds.R, R/window_pander.R, R/window_qqplot_biostat.R,
+%   R/window_import_excel.R, R/window_import_rdata.R, R/window_import_rds.R,
+%   R/window_import_text_delim.R, R/window_pander.R, R/window_qqplot_biostat.R,
 %   R/window_read_from_pkg.R, R/window_row_names_to_col.R,
 %   R/window_rowid_to_col.R, R/window_rows_arrange.R,
 %   R/window_rows_filter.R, R/window_rows_slice.R, R/window_summary_count.R,
@@ -95,10 +95,10 @@
 \alias{window_factor_lvls_drop}
 \alias{window_fct_lvls_reorder_manual}
 \alias{window_fct_reorder_TMP}
-\alias{window_import_delim}
 \alias{window_import_excel}
 \alias{window_import_rdata}
 \alias{window_import_rds}
+\alias{window_import_text_delim}
 \alias{window_pander}
 \alias{window_qqplot_biostat}
 \alias{command_list_datasets_in_pkgs}
@@ -278,13 +278,13 @@ window_fct_lvls_reorder_manual()
 
 window_fct_reorder_TMP()
 
-window_import_delim()
-
 window_import_excel()
 
 window_import_rdata()
 
 window_import_rds()
+
+window_import_text_delim()
 
 window_pander()
 
