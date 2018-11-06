@@ -37,8 +37,6 @@ cursor_set_idle <- function(frame = NULL) {
     tkconfigure(.messages,  cursor = "xterm")
 }
 
-
-
 # Set state -------------------------------------------------------------------
 #' Activate/Disable TK Objects
 #'
@@ -88,11 +86,29 @@ tclvalue_lgl <- function(x) {
     as.logical(tclvalue_int(x))
 }
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# Sena versija:
+
 tclvalue_int <- function(x) {
     x <- sapply(unlist(strsplit(tclvalue(x), " ")), as.integer)
     names(x) <- NULL
     x
 }
+# Naujos versijos:
+#
+# tclvalue_int <- function(x) {
+#     as.integer(tclvalue(x))
+# }
+#
+# tclvalue_split_int <- function(x) {
+#     x <- sapply(unlist(strsplit(tclvalue(x), " ")), as.integer)
+#     names(x) <- NULL
+#     x
+# }
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# Sena versija:
 
 tclvalue_chr <- function(x) {
     sapply(unlist(strsplit(tclvalue(x), " ")), as.character)
@@ -100,4 +116,16 @@ tclvalue_chr <- function(x) {
     x
 }
 
+# Naujos versijos:
 
+# tclvalue_split_chr <- function(x) {
+#     sapply(unlist(strsplit(tclvalue(x), " ")), as.character)
+#     names(x) <- NULL
+#     x
+# }
+
+# tclvalue_chr <- function(x) {
+#     trimws(as.character(tclvalue(x))
+# }
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
