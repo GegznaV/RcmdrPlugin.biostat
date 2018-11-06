@@ -47,12 +47,16 @@ window_rowid_to_col <- function() {
         tkconfigure(name_entry, foreground = "black")
 
         # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (!is_valid_name(new_name)) {
+        if (is_empty_name(new_name)) {
+            return()
+        }
+
+        if (is_not_valid_name(new_name)) {
             tkconfigure(name_entry, foreground = "red")
             return()
         }
 
-        if (!replace_duplicated_variable(new_name)) {
+        if (forbid_to_replace_variable(new_name)) {
             tkconfigure(name_entry, foreground = "red")
             return()
         }
