@@ -20,10 +20,10 @@
 %   R/window_variable_rename.R, R/window_variable_select.R
 \name{gettext_EZR}
 \alias{gettext_EZR}
-\alias{class_ggplot_P}
-\alias{objects_in_env_P}
 \alias{function_not_implemented}
 \alias{variables_with_unique_values_P}
+\alias{class_ggplot_P}
+\alias{objects_in_env_P}
 \alias{Menu-window-functions}
 \alias{command_dataset_refresh}
 \alias{command_dataset_class}
@@ -129,13 +129,13 @@
 \usage{
 gettext_EZR(...)
 
-class_ggplot_P(n = 1)
-
-objects_in_env_P(n = 1, envir = .GlobalEnv, ...)
-
 function_not_implemented()
 
 variables_with_unique_values_P(n = 1)
+
+class_ggplot_P(n = 1)
+
+objects_in_env_P(n = 1, envir = .GlobalEnv, ...)
 
 command_dataset_refresh()
 
