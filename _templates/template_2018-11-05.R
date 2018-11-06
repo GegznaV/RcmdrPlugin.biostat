@@ -60,7 +60,11 @@ window_xxx <- function() {
         # tkconfigure(name_entry, foreground = "black")
 
         # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (!is_valid_name(new_name)) {
+        if (is_empty_name(new_name)) {
+            return()
+        }
+
+        if (is_not_valid_name(new_name)) {
             return()
         }
 
@@ -71,6 +75,20 @@ window_xxx <- function() {
         # if (forbid_to_replace_object(new_name)) {
         #     return()
         # }
+
+        # if (is_empty_name(new_name))              {return()}
+        # if (is_not_valid_name(new_name))          {return()}
+        # if (forbid_to_replace_variable(new_name)) {return()}
+        # if (forbid_to_replace_object(new_name))   {return()}
+
+        # if (??? == "") {
+            # show_error_messages(
+            #     "No ???  was selected.\nPlease select a ???.",
+            #     title = "")
+            # return()
+        # }
+
+        #
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
