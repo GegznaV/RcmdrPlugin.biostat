@@ -82,8 +82,8 @@ window_rows_slice <- function(){
             index <-  glue("c({index})")
         }
 
-        command <- glue(
-            "## ", gettext_Bio("Select/Remove rows by index"), "\n\n",
+        command <- str_glue(
+            "## ", gettext_Bio("Select/Remove rows by index"), "\n",
             "{new_dsname} <- {activeDataSet()} %>% \n",
             "dplyr::slice({index})") %>%
             style_cmd()
