@@ -117,7 +117,7 @@ item	bs_export_menu	command	"to Rds data file (.Rds)..."	window_export_to_rds	"a
 item	bs_export_menu	command	"to R data file (.RData)..."	window_export_to_rdata	"activeDataSetP()"	""
 
 # ==============================================================================
-# ---- * Manage observations / rows ---------------------------------------------
+# ---- * Rows (Manage observations) --------------------------------------------
 
 menu	bs_rows_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Rows (observations)"	bs_rows_menu	""	""
@@ -135,7 +135,7 @@ item	bs_rows_menu	command	"Remove empty rows"	command_row_rm_empty_rows	"activeD
 # # item	bs_rows_menu	command	"[???] Fill missing values with..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
 
 item	bs_rows_menu	separator	""	""	""	""
-item	bs_rows_menu	command	"Add column with row numbers"	command_rowid_to_col	"activeDataSetP()"	"packageAvailable('tidyverse')"
+item	bs_rows_menu	command	"Add column with row numbers"	window_rowid_to_col	"activeDataSetP()"	"packageAvailable('tidyverse')"
 item	bs_rows_menu	command	"Move column values to row names..."	window_col_to_rownames	"variables_with_unique_values_P()"	"packageAvailable('tibble')"
 item	bs_rows_menu	command	"Move row names to column values..."	window_rownames_to_col	"activeDataSetP()"	"packageAvailable('tibble')"
 # Remove row names and Add row numbers to column
@@ -146,7 +146,7 @@ item	bs_rows_menu	command	"Move row names to column values..."	window_rownames_t
 
 
 # ==============================================================================
-# ---- * Manage variables / columns ---------------------------------------------
+# ---- * Columns (Manage variables)  -------------------------------------------
 
 menu	bs_varible_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Variables (columns)"	bs_varible_menu	""	""
