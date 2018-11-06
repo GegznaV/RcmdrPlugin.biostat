@@ -3,7 +3,7 @@
 #' @export
 #' @keywords internal
 window_rownames_to_col <- function(){
-    dataSet <- activeDataSet()
+    ds <- activeDataSet()
 
     initializeDialog(title = gettextRcmdr("Move row names to column"))
 
@@ -39,7 +39,7 @@ window_rownames_to_col <- function(){
 
         command <- glue(
             "## ", gettext_Bio("Move row names to column"), "\n",
-            "{activeDataSet()} <- {activeDataSet()} %>% \n",
+            "{ds} <- {ds} %>% \n",
             'tibble::rownames_to_column("{new_name}")') %>%
             style_cmd()
 
