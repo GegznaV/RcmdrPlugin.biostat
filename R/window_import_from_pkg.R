@@ -14,7 +14,7 @@ command_list_datasets_in_pkgs <- function() {
 #' @keywords internal
 # Based on function from "Rcmdr"
 
-window_read_from_pkg <- function() {
+window_import_from_pkg <- function() {
   env <- environment()
   datasets <- NULL
   initializeDialog(title = gettextRcmdr("Read Data From R Package"))
@@ -134,9 +134,7 @@ window_read_from_pkg <- function() {
   onLetter <- function(letter) {
     letter <- tolower(letter)
     current <- 1 + round(as.numeric(unlist(strsplit(
-      tclvalue(tkyview(packageBox)),
-      " "
-    ))[1]) * len)
+      tclvalue(tkyview(packageBox)), " " ))[1]) * len)
     mat <- match(letter, firstChar[-(1:current)])
     if (is.na(mat)) {
       return()
@@ -191,7 +189,7 @@ window_read_from_pkg <- function() {
             tkgrab.release(top)
           }
           tkdestroy(top)
-          readDataFromPackage()
+          window_import_from_pkg()
           return()
         }
       }
@@ -205,7 +203,7 @@ window_read_from_pkg <- function() {
       options(save.options)
       if (class(check) == "try-error") {
         errorCondition(
-          recall = readDataFromPackage,
+          recall = window_import_from_pkg,
           message = sprintf(
             gettextRcmdr("Data set %s does not exist"),
             dsnameValue
@@ -219,14 +217,14 @@ window_read_from_pkg <- function() {
     else {
       if (is.null(package)) {
         errorCondition(
-          recall = readDataFromPackage,
+          recall = window_import_from_pkg,
           message = gettextRcmdr("You must select a package.")
         )
         return()
       }
       if (length(datasetName) == 0) {
         errorCondition(
-          recall = readDataFromPackage,
+          recall = window_import_from_pkg,
           message = gettextRcmdr("You must select a data set.")
         )
         return()
@@ -240,7 +238,7 @@ window_read_from_pkg <- function() {
             tkgrab.release(top)
           }
           tkdestroy(top)
-          readDataFromPackage()
+          window_import_from_pkg()
           return()
         }
       }

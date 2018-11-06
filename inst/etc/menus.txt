@@ -55,7 +55,7 @@ item    import_menu      command         "from Minitab data file... [Rcmdr]"    
 item	import_menu	separator	""	""	""	""
 item	import_menu	command	"from Rds data file (.Rds)..."	window_import_rds	""	""
 item	import_menu	command	"from R data file (.RData, .rda)..."	window_import_rdata	""	""
-item    import_menu    command    "from R package... [Rcmdr]"     window_read_from_pkg    ""          ""
+item    import_menu    command    "from R package... [Rcmdr]"     window_import_from_pkg    ""          ""
 item    import_menu    command   "List of datasets in R packages"    command_list_datasets_in_pkgs    ""          ""
 
 
