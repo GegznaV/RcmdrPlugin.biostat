@@ -42,18 +42,19 @@ command_get_locale <- function() {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # TODO:
-# 1. Chaeck if it works in UBUNTU
+# 1. Chaeck if it works on UBUNTU
+# 2. MacOSXP(), WindowsP(),
 #
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 command_set_locale_lt <- function() {
-    # [!!!] Check if works in non-Windows.
+    # [!!!] Check if works on non-Windows.
 
     locale <- if (.Platform$OS.type == "windows") {
         "Lithuanian"
     } else {
-        "lt_LT"
+        "lt_LT.UTF8"
     }
 
     Rcmdr::doItAndPrint(str_glue(
@@ -68,11 +69,11 @@ command_set_locale_lt <- function() {
 #' @export
 #' @keywords internal
 command_set_locale_en <- function() {
-    # [!!!] Check if works in non-Windows.
+    # [!!!] Check if works on non-Windows.
     locale <- if (.Platform$OS.type == "windows") {
         "English"
     } else {
-        "en_US"
+        "en_US.UTF8"
     }
 
     Rcmdr::doItAndPrint(str_glue(
@@ -87,11 +88,11 @@ command_set_locale_en <- function() {
 #' @export
 #' @keywords internal
 command_set_locale_ru <- function() {
-    # [!!!] Check if works in non-Windows.
+    # [!!!] Check if works on non-Windows.
     locale <- if (.Platform$OS.type == "windows") {
         "Russian"
     } else {
-        "ru_RU"
+        "ru_RU.UTF8"
     }
 
     Rcmdr::doItAndPrint(str_glue(
