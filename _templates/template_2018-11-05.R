@@ -47,7 +47,7 @@ window_xxx <- function() {
     )
     # Function onOK ----------------------------------------------------------
     onOK <- function() {
-        # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         cursor_set_busy(top)
         on.exit(cursor_set_idle(top))
 
@@ -64,11 +64,11 @@ window_xxx <- function() {
             return()
         }
 
-        if (!replace_duplicated_variable(new_name)) {
+        if (forbid_to_replace_variable(new_name)) {
             return()
         }
 
-        # if (!replace_duplicated_obj(new_name)) {
+        # if (forbid_to_replace_object(new_name)) {
         #     return()
         # }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
