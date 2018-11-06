@@ -1,13 +1,4 @@
-#  ___ Imported functions  ___ ===============================================
-str_c    <- stringr::str_c
-str_glue <- stringr::str_glue
-glue     <- str_glue
-
-is_grouped_df <- dplyr::is_grouped_df
-
-
-
-# ___ List variables  ___ ====================================================
+ # ___ List variables  ___ ====================================================
 
 get_active_ds <- function() {
     globalenv()[[activeDataSet()]]
@@ -168,6 +159,25 @@ u2s <- function(str) {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 spaces <- function(n) {
     paste0(rep(" ", length = n), collapse = "")
+}
+
+# ___ Vectors  ___ ===========================================================
+
+# @examples swap(1:5, 2, 4)
+swap <- function(x, i, j) {
+    x[c(i, j)] <- x[c(j, i)]
+    x
+}
+
+swap_rows <- function(x, i, j) {
+    tmp <- str_split(x, "\n")[[1]]
+    tmp <- swap(tmp, i, j)
+    str_c(tmp, collapse = "\n")
+}
+
+correct_row_index <- function(i, n_max) {
+    # Make a valid row index: between 1 and maximum (n)
+    if (i < 1) 1 else if (i > n_max) n_max else i
 }
 
 # ___ Names ___ ==============================================================
