@@ -33,29 +33,11 @@ window_rowid_to_col <- function() {
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
+        # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         new_name       <- trim.blanks(tclvalue(name_variable))
         which_position <- tclvalue(positionVariable)
-        # putDialog ----------------------------------------------------------
-        putDialog("window_rowid_to_col",
-                  list(initial_position = which_position))
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # if (!is.valid.name(new_name)) {
-        #     errorCondition(
-        #         recall = window_rowid_to_col,
-        #         message =
-        #     )
-        #     return()
-        # }
-        #
-        # if (new_name %in% listVariables()) {
-        #     if ("no" == tclvalue(
-        #         checkReplace(new_name, type = gettextRcmdr("Variable")))) {
-        #         closeDialog()
-        #         window_rowid_to_col()
-        #         return()
-        #     }
-        # }
 
+        # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (!is_valid_name(new_name)) {
             return()
         }
@@ -63,11 +45,15 @@ window_rowid_to_col <- function() {
         if (!replace_duplicated_variable(new_name)) {
             return()
         }
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+        # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        putDialog("window_rowid_to_col",
+                  list(initial_position = which_position))
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         closeDialog()
 
-        # Do commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         cmd_position <-
             switch(which_position,
                    "first" = str_glue(
@@ -83,8 +69,10 @@ window_rowid_to_col <- function() {
             "dplyr::mutate({new_name} = 1:n())",
             "{cmd_position}"))
 
+        # Do commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         doItAndPrint(command)
         command_dataset_refresh()
+
         tkfocus(CommanderWindow())
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
