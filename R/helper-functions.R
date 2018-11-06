@@ -367,7 +367,7 @@ path_truncate <- function(path, max_length = 30) {
         legths <- path_parts %>% map_int(str_length)
         lengths2 <-
             cumsum(c(legths[last_ind], legths[-last_ind])) + 5 # 5 is length of " ... "
-        add_parts <- max(which(lengths2 <= max_length)) - 1 # -1 is minus the last one
+        add_parts <- max(which(lengths2 <= max_length)) - 1    # -1 is minus the last one
         add_parts <- max(1, add_parts)
         show_trunc <-
             file.path(str_c(path_parts[1:add_parts], collapse = "/"),
@@ -375,5 +375,93 @@ path_truncate <- function(path, max_length = 30) {
                       path_parts[last_ind])
     }
 
-show_trunc
+    show_trunc
+}
+
+
+# Check ======================================================================
+
+# + Valid name ---------------------------------------------------------------
+is_valid_name <- function(name) {
+
+    message <- NULL
+
+    show_messages <- function(message, message2, title = "") {
+        Message(message = message,  type = "error")
+        RcmdrTkmessageBox(message2, icon = "error", title = title, type = "ok")
+    }
+
+    if (!(length(name) == 1)) {
+        message  <- "The name must not be empty."
+        show_messages(message, message, title = "Empty name")
+    }
+
+    if (!(is.character(name))) {
+        message  <- ('The class of the name must be character.')
+        show_messages(message, message, title = "Invalid class")
+
+    }
+
+    if (!(name == make.names(name))) {
+        # message  <- str_glue('"{name}" {gettextRcmdr("is not a valid name.")}')
+        message <- str_glue('Name "{name}" is not valid.')
+        message2 <- str_glue("{message} \n\n",
+                             "Valid names must start with a letter and contain only \n ",
+                             "letters, numbers, periods (.) and underscores (_). ")
+
+        show_messages(message, message2, title = "Invalid name")
+
+    }
+
+    if (is.null(message)) {
+        return(TRUE)
+
+    } else {
+        return(FALSE)
+    }
+}
+
+# + Duplicated name ---------------------------------------------------------------
+
+check_replace_box <-
+    function(name, type = "Variable") {
+        Type <- stringr::str_to_title(type)
+
+        tclvalue(RcmdrTkmessageBox(
+            title = str_glue("Overwrite {Type}"),
+            message = sprintf('%s "%s" already exists.\n\nDo you agree to OVERWRITE the %s?',
+                              Type, name, tolower(type)),
+            icon = "warning",
+            type = "yesno",
+            default = "no"))
+    }
+
+replace_duplicated_variable <- function(name) {
+    # Checks if variable exists in active dataset
+    # Returns TRUE if:
+    #     - variable does not exist.
+    #     - variable exists but user agrees to overvrite it.
+
+    if (name %in% listVariables()) {
+        check_replace_box(name, "Variable") == "yes"
+    } else {
+        TRUE
+    }
+}
+
+replace_duplicated_obj <- function(name, envir = .GlobalEnv) {
+    # Checks if object exists in (Global) environment
+    # Returns TRUE if:
+    #     - object does not exist.
+    #     - object exists but user agrees to overvrite it.
+
+    if (name %in% listDataSets(envir = envir)) {
+        check_replace_box(name, "Dataset") == "yes"
+
+    } else if (name %in% objects(envir = envir, all.names = TRUE)) {
+        check_replace_box(name, "Object") == "yes"
+
+    } else {
+        TRUE
+    }
 }
