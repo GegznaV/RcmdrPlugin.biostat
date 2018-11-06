@@ -38,12 +38,13 @@ window_rowid_to_col <- function() {
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
-        # Reset properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        tkconfigure(name_entry, foreground = "black")
 
         # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         new_name       <- trim.blanks(tclvalue(name_variable))
         which_position <- tclvalue(positionVariable)
+
+        # Reset properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        tkconfigure(name_entry, foreground = "black")
 
         # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (!is_valid_name(new_name)) {
