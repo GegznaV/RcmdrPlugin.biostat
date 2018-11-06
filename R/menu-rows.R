@@ -57,48 +57,6 @@ command_row_rm_empty_rows <- function() {
     if (!identical(dim_before, dim_after))
         command_dataset_refresh()
 }
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-command_rowid_to_col <- function() {
-    Library("tidyverse")
-
-    # This row deletes row names:
-    # '# new_df <- tibble::rowid_to_column({ActiveDataSet()}, var = "rows_id")'
-
-
-    # cabbages %>%
-    #     mutate(row_number = 1:n()) %>%
-    #     select(row_number, everything())
-
-    new_var <- unique_colnames("row_number")
-
-    which_position <- "first"
-
-    # Do commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    cmd_position <-
-        switch(which_position,
-               "first" = glue("%>% \n",
-                              "dplyr::select({new_var}, everything())"),
-               "last" = "")
-
-    cmd_ungroup <- if (is_grouped_df(ActiveDataSet())) "ungroup() %>% \n" else ""
-
-    command <- style_cmd(str_glue(
-        '## Add column with row numbers \n',
-        "{ActiveDataSet()} <- {ActiveDataSet()} %>% \n",
-        "{cmd_ungroup}",
-        "dplyr::mutate({new_var} = 1:n())",
-        "{cmd_position}"))
-
-    doItAndPrint(command)
-    command_dataset_refresh()
-    tkfocus(CommanderWindow())
-
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-}
 
 # ============================================================================
 
