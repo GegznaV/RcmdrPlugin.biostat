@@ -355,7 +355,9 @@ show_error_messages <- function(message, message2, title = "") {
 #' Function checks if string meets requirements for a single, valid, non-empty
 #' R variable name. In case of incalid name, a box wit error message is thrown,
 #' error message is written to R Commander window and result FALSE is returned.
-#' Oterwise, TRUE is returned.
+#' Oterwise, TRUE is returned.\cr
+#' \code{is_valit_name} - checks character validity.\cr
+#' \code{is_empty_name} - does not check character validity.
 #'
 #' @param name (character) a single string.
 #'
@@ -368,23 +370,14 @@ show_error_messages <- function(message, message2, title = "") {
 #' is_valid_name("a")
 #' is_valid_name("")
 #' is_valid_name("|||")
+#'
+#' is_empty_name("a")
+#' is_empty_name("")
+#' is_empty_name("|||")
 is_valid_name <- function(name) {
 
-    if (length(name) < 1) {
-        message  <- "The object does not contain any strings.\n Please, enter the name."
-        show_error_messages(message, message, title = "Missing Name")
-
-    } else if (length(name) > 1) {
-        message  <- "The object cotains more than one string."
-        show_error_messages(message, message, title = "Too Many Names")
-
-    } else if (!(is.character(name))) {
-        message  <- ('The class of the object with \nthe name must be "character".')
-        show_error_messages(message, message, title = "Invalid Class")
-
-    } else if (name == "") {
-        message  <- str_glue('The name must not be empty.\nPlease, enter the name.')
-        show_error_messages(message, message, title = "Empty Name")
+    if (is_empty_name(name)) {
+        return(FALSE) # is not valid name
 
     } else if (!(name == make.names(name))) {
         # message  <- str_glue('"{name}" {gettextRcmdr("is not a valid name.")}')
@@ -395,60 +388,70 @@ is_valid_name <- function(name) {
             "letters, numbers, underscores (_) and periods (.). ")
 
         show_error_messages(message, message2, title = "Invalid Name")
+
+        # is not valid name
+        return(FALSE)
+
     } else {
         # is_valid_name
         return(TRUE)
     }
 
-    # is_valid_name
-    return(FALSE)
+
 }
 
-
-# + Duplicated name ---------------------------------------------------------------
-
-# TODO:
-#  Ar reikalingos funkcijos `box_ask_to_replace`, `replace_object`,
-#  `replace_variable `
-#
-#
-#  ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?
-#' Message box, which asks if object should be replaced
-#' @name box_ask_to_replace
-#' @param name The name of the object.
-#' @param type The type of the object.
+#' @export
+#'
 #' @keywords internal
-#' @return Logical value: TRUE -- to replace or FALSE -- not to replace.
-# @export
-#
-# @examples
-box_ask_to_replace <- function(name, type = gettextRcmdr("Object")) {
-    rez <- RcmdrTkmessageBox(
-        message = sprintf(
-            gettextRcmdr('%s "%s" already exists.\nOverwrite the %s?'),
-            type,
-            name,
-            tolower(type)
-        ),
-        icon = "warning",
-        type = "yesno",
-        default = "no"
-    )
-    tclvalue(rez) == "yes"
+is_not_valid_name <- function(name) {
+    !is_valid_name(name)
 }
-#  ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?
-#' @rdname box_ask_to_replace
-replace_object <- function(name, type = gettextRcmdr("Object")) {
-    box_ask_to_replace(name, type)
+
+#' @export
+#'
+#' @keywords internal
+is_empty_name <- function(name) {
+    !is_not_empty_name(name)
 }
-#  ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?
-#' @rdname box_ask_to_replace
-replace_variable <- function(name, type = gettextRcmdr("Variable")) {
-    box_ask_to_replace(name, type)
+
+#' @export
+#'
+#' @keywords internal
+is_not_empty_name <- function(name) {
+
+    if (length(name) < 1) {
+        message  <- "The object does not contain any strings.\n Please, enter the name."
+        show_error_messages(message, message, title = "Missing Name")
+
+        return(FALSE)
+
+    } else if (length(name) > 1) {
+        message  <- "The object cotains more than one string."
+        show_error_messages(message, message, title = "Too Many Names")
+
+        return(FALSE)
+
+    } else if (!(is.character(name))) {
+        message  <- ('The class of the object with \nthe name must be "character".')
+        show_error_messages(message, message, title = "Invalid Class")
+
+        return(FALSE)
+
+    } else if (name == "") {
+        message  <- str_glue('The name must not be empty.\nPlease, enter the name.')
+        show_error_messages(message, message, title = "Empty Name")
+
+        return(FALSE)
+
+    } else {
+        # is_valid_name
+        return(TRUE)
+    }
+
 }
-#  ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?
 
 
+# + Duplicated name -----------------------------------------------------------
 
 #' Message box to confirm replacement
 #'
@@ -459,8 +462,8 @@ replace_variable <- function(name, type = gettextRcmdr("Variable")) {
 #' @export
 #'
 #' @examples
-#' msg_box_confirm_replacement()
-msg_box_confirm_replacement <- function(name, type = "Variable") {
+#' msg_box_confirm_to_replace()
+msg_box_confirm_to_replace <- function(name, type = "Variable") {
     Type <- stringr::str_to_title(type)
 
     tclvalue(RcmdrTkmessageBox(
@@ -472,35 +475,44 @@ msg_box_confirm_replacement <- function(name, type = "Variable") {
         default = "no"))
 }
 
-replace_duplicated_variable <- function(name) {
-    # Checks if variable exists in active dataset
-    # Returns TRUE if:
+
+forbid_to_replace_variable <- function(name) {
+    # Checks if variable exists in active dataset.
+    #
+    # Returns FALSE if:
     #     - variable does not exist.
     #     - variable exists but user agrees to overvrite it.
+    #
+    # Otherwise TRUE
 
     if (name %in% listVariables()) {
-        msg_box_confirm_replacement(name, "Variable") == "yes"
+        msg_box_confirm_to_replace(name, "Variable") == "no"
+
     } else {
-        TRUE
+        FALSE
     }
 }
 
-replace_duplicated_obj <- function(name, envir = .GlobalEnv) {
+forbid_to_replace_object <- function(name, envir = .GlobalEnv) {
     # Checks if object exists in (Global) environment
-    # Returns TRUE if:
+    #
+    # Returns FALSE if:
     #     - object does not exist.
-    #     - object exists but user agrees to overvrite it.
+    #     - object exists but user agrees to overvrite (replace) it.
+    #
+    # Othervise TRUE
 
     if (name %in% listDataSets(envir = envir)) {
-        msg_box_confirm_replacement(name, "Dataset") == "yes"
+        msg_box_confirm_to_replace(name, "Dataset") == "no"
 
     } else if (name %in% objects(envir = envir, all.names = TRUE)) {
-        msg_box_confirm_replacement(name, "Object") == "yes"
+        msg_box_confirm_to_replace(name, "Object") == "no"
 
     } else {
-        TRUE
+        FALSE
     }
 }
+
 
 
 # + Class --------------------------------------------------------------------

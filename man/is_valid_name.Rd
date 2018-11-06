@@ -16,11 +16,17 @@ Logical value TRUE if string meets requirements, FALSE - otherwise.
 Function checks if string meets requirements for a single, valid, non-empty
 R variable name. In case of incalid name, a box wit error message is thrown,
 error message is written to R Commander window and result FALSE is returned.
-Oterwise, TRUE is returned.
+Oterwise, TRUE is returned.\cr
+\code{is_valit_name} - checks character validity.\cr
+\code{is_empty_name} - does not check character validity.
 }
 \examples{
 is_valid_name("a")
 is_valid_name("")
 is_valid_name("|||")
+
+is_empty_name("a")
+is_empty_name("")
+is_empty_name("|||")
 }
 \keyword{internal}
