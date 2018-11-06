@@ -48,8 +48,8 @@ window_xxx <- function() {
     # Function onOK ----------------------------------------------------------
     onOK <- function() {
         # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        setBusyCursor()
-        on.exit(setIdleCursor())
+        cursor_set_busy(top)
+        on.exit(cursor_set_idle(top))
 
         # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         new_name       <- trim.blanks(tclvalue(name_variable))
