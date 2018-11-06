@@ -10,18 +10,20 @@
 #' \code{biostat} and other common (bio)statistical routines.
 #'
 #' @importFrom glue glue
-#' @importFrom dplyr glimpse
+#' @importFrom dplyr glimpse is_grouped_df
 #' @importFrom magrittr "%>%"  "%<>%"  "%T>%"  "%$%"
-#' @import tcltk
-#' @import tcltk2
+#' @import stringr
+#' @import purrr
 #' @import biostat
 #' @import nortest
+#' @import Rcmdr
 #' @import RcmdrPlugin.EZR
+#' @import tcltk
+#' @import tcltk2
 #' @importFrom Rcmdr activeDataSet
 #' @importFrom graphics plot
 #' @importFrom stats p.adjust.methods C
-#' @importFrom utils browseURL packageVersion
-#'
+#' @importFrom utils browseURL packageVersion data
 
 NULL
 
