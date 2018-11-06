@@ -35,13 +35,17 @@ command_row_rm_empty_rows <- function() {
         logger(str_glue("# Indices of empty rows: \n# {empty_rows_ind} \n"))
 
 
-        command <- str_glue("## Remove empty rows\n",
-                            "{empty_row_var} <- rowSums(is.na({ds})) == ncol({ds})\n",
-                            "which({empty_row_var}) # Indices of empty rows \n",
-                            "{ds} <- {ds} %>% dplyr::filter(!{empty_row_var}) # Remove the rows\n",
-                            "remove({empty_row_var}) # Clean up\n")
+        command_1 <- str_glue(
+            "## Remove empty rows\n",
+            "{empty_row_var} <- rowSums(is.na({ds})) == ncol({ds})\n",
+            "which({empty_row_var}, useNames = FALSE) # Indices of empty rows \n")
 
-        doItAndPrint(command)
+        command_2 <- str_glue(
+            "{ds} <- {ds} %>% dplyr::filter(!{empty_row_var}) # Remove the rows\n",
+            "remove({empty_row_var}) # Clean up\n")
+
+        doItAndPrint(command_1)
+        doItAndPrint(command_2)
 
     } else {
         # No empty rows are present
@@ -95,43 +99,6 @@ command_rowid_to_col <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# #' @rdname Menu-window-functions
-# #' @export
-# #' @keywords internal
-# command_rownames_to_col <- function() {
-#     Library("tidyverse")
-#
-#     doItAndPrint(str_glue(
-#         '## An example of code: \n\n',
-#         '# new_df <- tibble::rownames_to_column({ActiveDataSet()}, var = "row_names")'))
-# }
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-window_col_to_rownames <- function() {
-    Library("tidyverse")
-
-
-    row_name_cols <- variables_with_unique_values()
-
-    row_name_col <- if (length(row_name_cols) == 0) {
-        "row_names"
-    } else {
-        row_name_cols[1]
-    }
-
-    command <- str_glue(
-        '## Move column values to row names: \n\n',
-        'new_df <- tibble::column_to_rownames({ActiveDataSet()}, var = "{row_name_col}")'
-    )
-
-    doItAndPrint(command)
-
-    command_dataset_refresh()
-    tkfocus(CommanderWindow())
-}
 
 # ============================================================================
 
@@ -155,8 +122,7 @@ window_col_to_rownames <- function(new_dsname = NULL,
 
     # Dialog -----------------------------------------------------------------
 
-    initializeDialog(
-        title = gettext_EZR("Move column values to row names"))
+    initializeDialog(title = gettext_EZR("Set Row Names"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
     y_var_box <-
@@ -172,8 +138,10 @@ window_col_to_rownames <- function(new_dsname = NULL,
         closeDialog()
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Library("tibble")
-        command <- glue("## ", gettext_EZR("Move column values to row names"), "\n",
-                        '{ActiveDataSet()} <- tibble::column_to_rownames({ActiveDataSet()}, var = "{col_name}")'
+        command <- glue(
+            "## ", gettext_EZR("Move column values to row names"), "\n",
+            '{ActiveDataSet()} <- ',
+            'tibble::column_to_rownames({ActiveDataSet()}, var = "{col_name}")'
         ) %>%
             style_cmd()
 
@@ -204,8 +172,7 @@ window_col_to_rownames <- function(new_dsname = NULL,
            columnspan = 2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(buttonsFrame, sticky = "ew", columnspan = 2)
-    dialogSuffix(rows = 3,
-                 columns = 2)
+    dialogSuffix(rows = 3, columns = 2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
