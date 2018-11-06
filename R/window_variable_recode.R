@@ -1,4 +1,5 @@
 # TODO:
+# 1. Solve problem of window duplication on error when apply button is pressed.
 #
 # 1. Add buttons on the window to insert `recode_values_template` and `
 # recode_values_template_2`.
