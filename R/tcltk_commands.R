@@ -1,3 +1,45 @@
+# Set cursor ------------------------------------------------------------------
+cursor_set_busy <- function(frame = NULL) {
+
+    if (!is.null(frame)) {
+        tkconfigure(frame, cursor = "watch")
+    }
+
+    .commander <- CommanderWindow()
+    .menu      <- tkcget(.commander, menu = NULL)
+    .log       <- LogWindow()
+    .output    <- OutputWindow()
+    .messages  <- MessagesWindow()
+
+    tkconfigure(.commander, cursor = "watch")
+    tkconfigure(.menu,      cursor = "watch")
+    tkconfigure(.log,       cursor = "watch")
+    tkconfigure(.output,    cursor = "watch")
+    tkconfigure(.messages,  cursor = "watch")
+}
+
+cursor_set_idle <- function(frame = NULL) {
+
+    if (!is.null(frame)) {
+        tkconfigure(frame, cursor = "")
+    }
+
+    .commander <- CommanderWindow()
+    .menu      <- tkcget(.commander, menu = NULL)
+    .log       <- LogWindow()
+    .output    <- OutputWindow()
+    .messages  <- MessagesWindow()
+
+    tkconfigure(.commander, cursor = "")
+    tkconfigure(.menu,      cursor = "")
+    tkconfigure(.log,       cursor = "xterm")
+    tkconfigure(.output,    cursor = "xterm")
+    tkconfigure(.messages,  cursor = "xterm")
+}
+
+
+
+# Set state -------------------------------------------------------------------
 #' Activate/Disable TK Objects
 #'
 #' Modify state of tk objects.
@@ -39,6 +81,8 @@ tk_normalize <- function(tk_obj, ...) {
 #     tkconfigure(widget, state = "normal")
 # }
 
+# Get values -----------------------------------------------------------------
+
 tclvalue_lgl <- function(x) {
     # as.logical(as.integer(tclvalue(x)))
     as.logical(tclvalue_int(x))
@@ -56,23 +100,4 @@ tclvalue_chr <- function(x) {
     x
 }
 
-
-# Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-set_busy_cursor <- function() {
-
-    .current   <- top
-    .commander <- CommanderWindow()
-    .menu      <- tkcget(.commander, menu = NULL)
-    .log       <- LogWindow()
-    .output    <- OutputWindow()
-    .messages  <- MessagesWindow()
-
-
-    tkconfigure(.current,   cursor = "watch")
-    tkconfigure(.commander, cursor = "watch")
-    tkconfigure(.menu,      cursor = "watch")
-    tkconfigure(.log,       cursor = "watch")
-    tkconfigure(.output,    cursor = "watch")
-    tkconfigure(.messages,  cursor = "watch")
-}
 
