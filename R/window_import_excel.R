@@ -14,13 +14,24 @@
 # ============================================================================
 window_import_excel <- function() {
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Initial values ---------------------------------------------------------
+    # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     xl_file        <- ""
     worksheets     <- ""
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initial_dir_var <- tclVar(getwd())
     xl_file_var     <- tclVar(xl_file)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # defaults      <- list(
+    #     initial_??? = "???",
+    #     initial_??? = "???",
+    #     initial_??? = "???",
+    #     initial_??? = "???",
+    # )
+    # dialog_values <- getDialog("window_import_excel", defaults)
+
 
     # if (length(worksheets) > 1) {
     #     worksheet <- tk_select.list(worksheets, title = gettextRcmdr("Select one table"))
@@ -83,7 +94,9 @@ window_import_excel <- function() {
             tclvalue(worksheet_box$combovar) <- worksheets[1]
         }
     }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    # Frames and widgets -----------------------------------------------------
+    # Initialize ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = gettextRcmdr("Import from Excel"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame   <- tkframe(top)
@@ -127,10 +140,10 @@ window_import_excel <- function() {
                                 textvariable = missingVariable)
     # ========================================================================
     onOK <- function() {
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        setBusyCursor()
-        on.exit(setIdleCursor())
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        cursor_set_busy(top)
+        on.exit(cursor_set_idle(top))
+        # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         xl_file     <- tclvalue(xl_file_var)
         worksheet   <- getSelection(worksheet_box)
         new_ds_name <- trim.blanks(tclvalue(dsname))
@@ -140,40 +153,42 @@ window_import_excel <- function() {
         stringsAsFactorsValue <- tclvalue(stringsAsFactors)
         missingValues         <- as.character(tclvalue(missingVariable))
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        closeDialog()
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (new_ds_name == "") {
-            errorCondition(
-                recall = window_import_excel,
-                message = gettextRcmdr("You must enter the name of the dataset.")
-            )
-            return()
-        }
-        if (!is.valid.name(new_ds_name)) {
-            errorCondition(
-                recall = window_import_excel,
-                message = paste0("\"", new_ds_name, "\" ",
-                                 gettextRcmdr("is not a valid name."))
-            )
-            return()
-        }
-        if (is.element(new_ds_name, listDataSets())) {
-            if ("no" == tclvalue(
-                checkReplace(new_ds_name, gettextRcmdr("Data set")))) {
-                window_import_excel()
-                return()
-            }
-        }
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Reset widget properties before checking ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        # ....
+
+        # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (is_empty_name(new_ds_name))            {return()}
+        if (is_not_valid_name(new_ds_name))        {return()}
+        if (forbid_to_replace_object(new_ds_name)) {return()}
+
         if (xl_file == "") {
-            errorCondition(message = gettextRcmdr("No Excel file was selected."))
+            show_error_messages(
+                "No Excel file was selected.\nPlease select a file.",
+                title = "File Not Selected")
             return()
         }
+
         if (worksheet == "") {
-            errorCondition(message = gettextRcmdr("No Excel sheet was selected."))
+            show_error_messages(
+                "No Excel worksheet was selected.\nPlease select a worksheet.",
+                title = "Worksheet Not Selected")
             return()
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # putDialog("window_import_excel", list(
+        #     initial_??? = "???",
+        #     initial_??? = "???",
+        #     initial_??? = "???",
+        #     initial_??? = "???"
+        # ))
+
+        # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        closeDialog()
+
+        # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
         rownames_str <-
             if (rowNamesValue == "1") {"TRUE"} else {"FALSE"}
 
@@ -203,7 +218,10 @@ window_import_excel <- function() {
                 '  )'
             ) %>%
             style_cmd()
-       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
         # writeLines(command)
 
         # result <- justDoIt(command)
@@ -218,8 +236,9 @@ window_import_excel <- function() {
         tkfocus(CommanderWindow())
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "readXL")
-    # Title ------------------------------------------------------------------
+    # Grid of widgets ========================================================
+
+    # Title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     fg_col <- Rcmdr::getRcmdr("title.color")
 
     tkgrid(label_rcmdr(
@@ -230,7 +249,7 @@ window_import_excel <- function() {
     ),
     pady = c(5, 9)
     )
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Grid ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(upper_frame, sticky = "e")
 
     tkgrid(upper_l_frame, upper_r_frame, pady = c(0, 5))
@@ -297,6 +316,10 @@ window_import_excel <- function() {
     tkgrid(missingFrame, button_ch_file_frame, sticky = "w")
     tkgrid(lower_frame, pady = c(5, 0), sticky = "ew")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Help topic ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    OKCancelHelp(helpSubject = "readXL")
+
+    # Finalize ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(buttonsFrame,  sticky = "w")
     dialogSuffix(focus = entryDsname)
 
