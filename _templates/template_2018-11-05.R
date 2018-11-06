@@ -139,4 +139,21 @@ window_xxx <- function() {
     tkgrid(buttonsFrame, sticky = "ew")
     dialogSuffix()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-}
+    # Interactive bindings ---------------------------------------------------
+
+    # Add interactivity for `fname_frame` and `fname_label`
+    # tkbind(file_label,     "<ButtonPress-1>", on_click)
+    # tkbind(fname_frame,    "<ButtonPress-1>", on_click)
+    # tkbind(fname_label,    "<ButtonPress-1>", on_click)
+    #
+    # tkbind(fname_frame, "<Enter>",
+    #        function() tkconfigure(fname_label, foreground = "blue"))
+    # tkbind(fname_frame, "<Leave>",
+    #        function() tkconfigure(fname_label, foreground = "black"))
+    # # tkconfigure(file_label,     cursor = "hand2")
+    # tkconfigure(fname_frame,    cursor = "hand2")
+    # tkconfigure(button_ch_file, cursor = "hand2")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+    }
