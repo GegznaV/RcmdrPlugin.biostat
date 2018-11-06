@@ -142,7 +142,6 @@ window_import_excel <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         closeDialog()
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
         if (new_ds_name == "") {
             errorCondition(
                 recall = window_import_excel,
@@ -183,6 +182,11 @@ window_import_excel <- function() {
 
         as_factor_str <-
             if (stringsAsFactorsValue == "1") {"TRUE"} else {"FALSE"}
+
+        initial_mv <- missingValues %in% gettextRcmdr("<empty cell>")
+        if (any(initial_mv)) {
+            missingValues[initial_mv] <- ""
+        }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Library("RcmdrMisc")
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
