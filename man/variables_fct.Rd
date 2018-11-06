@@ -2,11 +2,11 @@
 % Please edit documentation in R/helper-functions.R
 \name{variables_fct}
 \alias{variables_fct}
-\title{True factor variables names in active dataset}
+\title{True factor variable names in active dataset}
 \usage{
 variables_fct()
 }
 \description{
-True factor variables names in active dataset
+True factor variable names in active dataset
 }
 \keyword{internal}
