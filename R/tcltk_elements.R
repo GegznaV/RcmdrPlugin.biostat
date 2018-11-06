@@ -30,6 +30,9 @@ variableListBox2 <-
              listHeight = getRcmdr("variable.list.height"),
              onClick_fun = function(){},
              onDoubleClick_fun = function(){},
+             onTripleClick_fun = function(){},
+             onClick3_fun       = function(){},
+             onDoubleClick3_fun = function(){},
              onRelease_fun = function(){},
              title)
     {
@@ -109,15 +112,35 @@ variableListBox2 <-
     tkbind(listbox, "<ButtonPress-1>",   onClick)
 
     onDoubleClick <- function() {
+        tkfocus(listbox)
         onDoubleClick_fun()
     }
     tkbind(listbox, "<Double-Button-1>", onDoubleClick)
 
+    onTripleClick <- function() {
+        tkfocus(listbox)
+        onTripleClick_fun()
+    }
+    tkbind(listbox, "<Triple-Button-1>", onTripleClick)
+
+
     onRelease <- function() {
+        tkfocus(listbox)
         onRelease_fun()
     }
     tkbind(listbox, "<ButtonRelease-1>", onRelease)
 
+    onClick3 <- function() {
+        tkfocus(listbox)
+        onClick3_fun()
+    }
+    tkbind(listbox, "<ButtonPress-3>", onClick3)
+
+    onDoubleClick3 <- function() {
+        tkfocus(listbox)
+        onDoubleClick3_fun()
+    }
+    tkbind(listbox, "<Double-Button-3>", onDoubleClick3)
 
     toggleSelection <- function() {
         active <- tclvalue(tkindex(listbox, "active"))
