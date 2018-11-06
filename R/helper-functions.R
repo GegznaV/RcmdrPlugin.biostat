@@ -354,7 +354,7 @@ extract_extension <- function(str) {
 
 # ___ Check ___ ==============================================================
 
-show_error_messages <- function(message, message2, title = "") {
+show_error_messages <- function(message, message2 = message, title = "") {
     Message(message = message,  type = "error")
     RcmdrTkmessageBox(message2, icon = "error", title = title, type = "ok")
 }
