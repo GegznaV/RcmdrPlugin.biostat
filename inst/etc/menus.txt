@@ -81,15 +81,18 @@ item	bs_active_ds_menu	command	"Copy active dataset..."	window_dataset_copy	"act
 item	bs_active_ds_menu	command	"Delete active dataset..."	window_dataset_delete	"activeDataSetP()"	""
 item	bs_active_ds_menu	command	"Rename active dataset..."	window_dataset_rename	"activeDataSetP()"	""
 
+# item	bs_active_ds_menu	separator	""	""	""	""
+
 # ---- Manage dataset's class -------------------------------------------------
 
-item	bs_active_ds_menu	separator	""	""	""	""
+menu	bs_ds_class	biostat_menu	""	""	""	""
+item	bs_active_ds_menu	cascade	"Dataset's class"	bs_ds_class	""	""
 
-item	bs_active_ds_menu	command	"Show class"	command_dataset_class	"activeDataSetP()"	""
-item	bs_active_ds_menu	command	"Convert to `data.frame`"	command_dataset_as_df	"activeDataSetP()"	""
-# item	bs_active_ds_menu	command	"Convert to `data.frame`"	command_dataset_as_df	"activeDataSetP() && !first_class_is_dataframeP()"	""
-item	bs_active_ds_menu	command	"Convert to tibble (`tbl_df`)"	command_dataset_as_tibble	"activeDataSetP() && !first_class_isP('tbl_df')"	"packageAvailable('tibble')"
-item	bs_active_ds_menu	command	"Convert to `data.table`"	command_dataset_as_dt	"activeDataSetP() && !first_class_isP('data.table')"	"packageAvailable('data.table')"
+item	bs_ds_class	command	"Show class"	command_dataset_class	"activeDataSetP()"	""
+item	bs_ds_class	command	"Convert to `data.frame`"	command_dataset_as_df	"activeDataSetP()"	""
+# item	bs_ds_class	command	"Convert to `data.frame`"	command_dataset_as_df	"activeDataSetP() && !first_class_is_dataframeP()"	""
+item	bs_ds_class	command	"Convert to tibble (`tbl_df`)"	command_dataset_as_tibble	"activeDataSetP() && !first_class_isP('tbl_df')"	"packageAvailable('tibble')"
+item	bs_ds_class	command	"Convert to `data.table`"	command_dataset_as_dt	"activeDataSetP() && !first_class_isP('data.table')"	"packageAvailable('data.table')"
 
 
 # ---- Print -----------------------------------------------------------------
@@ -110,7 +113,7 @@ item	bs_data_menu	cascade	"Export / Save data"	bs_export_menu	"activeDataSetP()"
 item	bs_export_menu	command	"to text file (.txt, .csv)..."	window_export_to_textfile	"activeDataSetP()"	""
 
 item	bs_export_menu	separator	""	""	""	""
-item	bs_export_menu	command	"to Excel file (.xlsx)..."	window_export_to_excel	"activeDataSetP()"	""
+item	bs_export_menu	command	"to Excel file (.xlsx)..."	window_export_to_excel_old	"activeDataSetP()"	""
 
 item	bs_export_menu	separator	""	""	""	""
 item	bs_export_menu	command	"to Rds data file (.Rds)..."	window_export_to_rds	"activeDataSetP()"	""
