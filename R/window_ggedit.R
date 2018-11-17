@@ -19,7 +19,7 @@ window_ggedit <- function() {
 
     variableBox <-
         variableListBox2(upper_Frame,
-                         biostat::objects_of_class("ggplot", envir = .GlobalEnv),
+                         list_objects_ggplot(),
                          selectmode = "single",
                          title = gettext_Bio("Available ggplot objects\n (select one)"),
                          initialSelection = dialog_values$gg_obj,

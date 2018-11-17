@@ -23,6 +23,7 @@
 \alias{function_not_implemented}
 \alias{variables_with_unique_values_P}
 \alias{class_ggplot_P}
+\alias{list_objects_ggplot}
 \alias{objects_in_env_P}
 \alias{Menu-window-functions}
 \alias{command_dataset_refresh}
@@ -135,6 +136,8 @@ function_not_implemented()
 variables_with_unique_values_P(n = 1)
 
 class_ggplot_P(n = 1)
+
+list_objects_ggplot(envir = .GlobalEnv)
 
 objects_in_env_P(n = 1, envir = .GlobalEnv, ...)
 

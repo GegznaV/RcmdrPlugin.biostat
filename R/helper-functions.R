@@ -1,8 +1,28 @@
  # ___ List variables  ___ ====================================================
-
+# Get contents of active dataset
 get_active_ds <- function() {
     globalenv()[[activeDataSet()]]
 }
+
+
+list_objects_of_class <- function(
+    class = NULL, all.names = FALSE,  envir = parent.frame()) {
+
+    checkmate::assert_character(class, null.ok = TRUE)
+
+    all_variable_names <- objects(envir, all.names = all.names)
+
+    if (length(all_variable_names) == 0 || is.null(class)) {
+        return(all_variable_names)
+    } else {
+        # Object names of class to return
+        mget(all_variable_names, envir = envir) %>%
+            purrr::keep(~inherits(.x, class)) %>%
+            names()
+    }
+}
+
+
 
 #' All variable names in active dataset
 #'
@@ -16,21 +36,21 @@ variables_all <- function() {
 #' @keywords internal
 #' @export
 variables_chr <- function() {
-    objects_of_class("character", envir = as.environment(get_active_ds()))
+    list_objects_of_class("character", envir = as.environment(get_active_ds()))
 }
 #' Logical variable names in active dataset
 #'
 #' @keywords internal
 #' @export
 variables_lgl <- function() {
-    objects_of_class("logical", envir = as.environment(get_active_ds()))
+    list_objects_of_class("logical", envir = as.environment(get_active_ds()))
 }
 #' True factor variable names in active dataset
 #'
 #' @keywords internal
 #' @export
 variables_fct <- function() {
-    objects_of_class("factor", envir = as.environment(get_active_ds()))
+    list_objects_of_class("factor", envir = as.environment(get_active_ds()))
 
 }
 #' Factor-like variable names in active dataset
@@ -567,7 +587,14 @@ nonFactorsP <- function(n = 1) {
 #' @keywords internal
 class_ggplot_P <- function(n = 1) {
     #  n - number of ggplot objects.
-    length(objects_of_class("ggplot", envir = .GlobalEnv)) >= n
+    length(list_objects_of_class("ggplot", envir = .GlobalEnv)) >= n
+}
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+# List ggolot2 objects in global  environment.
+list_objects_ggplot <- function(envir = .GlobalEnv) {
+    list_objects_of_class("ggplot", envir = envir)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
