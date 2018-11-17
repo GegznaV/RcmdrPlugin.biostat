@@ -534,15 +534,18 @@ window_variable_recode0 <- function() {
         if (class(result)[1] != "try-error") {
             closeDialog()
             logger(style_cmd(command))
-            activeDataSet(dataSet,
-                          flushModel = FALSE,
-                          flushDialogMemory = FALSE)
+            activeDataSet(dataSet, flushModel = FALSE, flushDialogMemory = FALSE)
+
         } else {
             return()
         }
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkfocus(CommanderWindow())
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Announce about success to run the function
+        TRUE
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Title ------------------------------------------------------------------
@@ -564,9 +567,10 @@ window_variable_recode0 <- function() {
         pady = c(0, 9)
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "recode_factor", helpPackage = "dplyr",
-                 reset = "window_variable_recode0",
-                 apply = "window_variable_recode0")
+
+    ok_cancel_help(helpSubject = "recode_factor", helpPackage = "dplyr",
+                   reset = "window_variable_recode0",
+                   apply = "window_variable_recode0")
 
     tkgrid(upper_frame, sticky = "nw")
     tkgrid(getFrame(variablesBox),
