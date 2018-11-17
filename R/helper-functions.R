@@ -157,9 +157,24 @@ u2s <- function(str) {
     gsub("_", " ", str)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-spaces <- function(n) {
-    paste0(rep(" ", length = n), collapse = "")
+spaces <- function(n, symbol = " ") {
+    paste0(rep(symbol, length = n), collapse = "")
 }
+
+# Print code if code evaluation error occured
+logger_error <- function(command) {
+
+    logger(str_c("#### START (code with error) ", spaces(30, "-")), rmd = FALSE)
+    rez <- logger(str_c("   #   ", str_split(command,"\n")[[1]],
+                        collapse = "\n"), rmd = FALSE)
+    logger(str_c("#### END (code with error)   ", spaces(30, "-")), rmd = FALSE)
+    invisible(rez)
+}
+
+tk_label_blue <- function(...) {
+    label_rcmdr(..., foreground = getRcmdr("title.color"))
+}
+
 
 # ___ Vectors  ___ ===========================================================
 
@@ -331,6 +346,7 @@ path_truncate <- function(path, max_length = 30) {
 #' @export
 extract_path <- function(str) {
     sub("(.*\\/)([^.]+)(\\.[[:alnum:]]+$)", "\\1", str)
+    # sub("(.*)[\\/]([^.]+)(\\.[[:alnum:]]+$)", "\\1", str)
 }
 
 #' @name extract-fileparts
@@ -523,6 +539,19 @@ forbid_to_replace_object <- function(name, envir = .GlobalEnv) {
     }
 }
 
+show_code_evaluation_error_message <- function() {
+    show_error_messages(
+        str_c("Something went wrong while evaluating the code.\n",
+              "Please, check if all options are selected correctly."),
+
+        str_c("Something went wrong while evaluating the code.\n\n",
+              "Please, check if all options are selected correctly.\n\n",
+              "If no error was found, you may consider reporting\n",
+              "the bug in the package `RcmdrPlugin.biostat`\n",
+              '(see link in "About").\n'),
+
+        title = "Code Evaluation Error")
+}
 
 
 # + Class --------------------------------------------------------------------
