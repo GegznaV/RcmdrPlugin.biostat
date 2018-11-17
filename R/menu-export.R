@@ -125,8 +125,9 @@ window_export_to_rdata <- function() {
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_export_to_excel <- function() {
+window_export_to_excel_old <- function() {
     file_name <- ""
+
     while (TRUE) {
         break_cycle <- "yes"
 
@@ -188,7 +189,9 @@ window_export_to_excel <- function() {
     # sheet_name <- unique_obj_names(glue("{activeDataSet()} {Sys.Date()}"),
     #                                list_of_choices = sheet_names_list)
 
-    sheet_name <- glue("{activeDataSet()} {Sys.Date()}")
+    sheet_name <-
+        str_c(str_trunc(activeDataSet(), 19, ellipsis = ""),
+              Sys.Date(), sep = " ")
 
     has_rownames <- tibble::has_rownames(get(activeDataSet(),
                                              envir = .GlobalEnv))
