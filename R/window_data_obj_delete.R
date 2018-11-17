@@ -5,7 +5,8 @@
 
 window_data_obj_delete <- function() {
     dataSets  <- objects(envir = .GlobalEnv)
-    active_ds <- activeDataSet()
+    active_ds <- ActiveDataSet()
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = "Delete Objects")
 
@@ -61,7 +62,7 @@ window_data_obj_delete <- function() {
 
                 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 # Deselect active dataset if it should be deleted.
-                if (active_ds %in% obj_names) {
+                if (isTRUE(any(active_ds %in% obj_names))) {
                     ActiveDataSet(NULL)
                 }
 
