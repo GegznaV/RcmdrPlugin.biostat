@@ -96,9 +96,6 @@ window_xxx <- function() {
             initial_position = which_position
             ))
 
-        # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        closeDialog()
-
         # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         cmd_position <-
             switch(which_position,
@@ -108,17 +105,35 @@ window_xxx <- function() {
 
         cmd_ungroup <- if (is_grouped_df(ds)) "ungroup() %>% \n" else ""
 
-        command <- style_cmd(str_glue(
+        command <- str_glue(
             '## Add column with row numbers \n',
             "{ds} <- {ds} %>% \n",
             "{cmd_ungroup}",
             "dplyr::mutate({new_name} = 1:n())",
-            "{cmd_position}"))
+            "{cmd_position}")
 
         # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Library("tidyverse")
 
-        doItAndPrint(command)
+        # doItAndPrint(command)
+
+        result <- justDoIt(command)
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (class(result)[1] != "try-error") {
+            logger(style_cmd(command))
+            activeDataSet(ds, flushModel = FALSE, flushDialogMemory = FALSE)
+
+            # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            closeDialog()
+
+
+        } else {
+            return()
+        }
+
+        # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        closeDialog()
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         command_dataset_refresh()
