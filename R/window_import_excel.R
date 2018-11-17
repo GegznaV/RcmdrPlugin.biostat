@@ -16,11 +16,11 @@ window_import_excel <- function() {
 
     # Initial values ---------------------------------------------------------
     # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    xl_file        <- ""
-    worksheets     <- ""
+    xl_file       <- ""
+    worksheets    <- ""
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initial_dir_var <- tclVar(getwd())
-    xl_file_var     <- tclVar(xl_file)
+    dir_name_var  <- tclVar(getwd())
+    file_name_var <- tclVar(xl_file)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -41,15 +41,14 @@ window_import_excel <- function() {
 
     # Functions --------------------------------------------------------------
     select_xl_file <- function() {
-
         xl_file <- tclvalue(
             tkgetOpenFile(
                 title = "Choose Excel File to Import",
                 filetypes = str_c(
-                  '{\"MS Excel file\" {\".xlsx\" \".XLSX\" \".xls\" \".XLS\"}} ',
-                  '{\"All Files\" {\"*\"}}'),
+                    '{\"MS Excel file\" {\".xlsx\" \".XLSX\" \".xls\" \".XLS\"}} ',
+                    '{\"All Files\" {\"*\"}}'),
                 parent     = CommanderWindow(),
-                initialdir = tclvalue(initial_dir_var)
+                initialdir = tclvalue(dir_name_var)
             ))
         # Update Excel worksheeds information ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -75,11 +74,11 @@ window_import_excel <- function() {
 
 
         # Update initial dir ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        tclvalue(initial_dir_var) <- extract_path(xl_file)
+        tclvalue(dir_name_var) <- extract_path(xl_file)
 
         # Update Import window values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Update Excel file name ~~~~~~~
-        tclvalue(xl_file_var) <- xl_file
+        tclvalue(file_name_var) <- xl_file
         tkconfigure(fname_label, text = path_truncate(xl_file, max_length = 40))
         # Update worksheet names ~~~~~~~
         tkconfigure(worksheet_box$combobox, values = correct_input(worksheets))
@@ -88,12 +87,12 @@ window_import_excel <- function() {
         tclvalue(dsname) <- unique_df_name(clean_str(extract_filename(xl_file)))
     }
 
-    correct_worksheet_selection <- function() {
-        # Do not allow select last empty option
-        if (tclvalue(worksheet_box$combovar) == "") {
-            tclvalue(worksheet_box$combovar) <- worksheets[1]
-        }
-    }
+    # correct_worksheet_selection <- function() {
+    #     # Do not allow select last empty option
+    #     if (tclvalue(worksheet_box$combovar) == "") {
+    #         tclvalue(worksheet_box$combovar) <- worksheets[1]
+    #     }
+    # }
 
     # Frames and widgets -----------------------------------------------------
     # Initialize ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -109,7 +108,7 @@ window_import_excel <- function() {
             upper_r_frame,
             variableList     = worksheets,
             initialSelection = worksheets[1],
-            onSelect_fun     = correct_worksheet_selection,
+            # onSelect_fun     = correct_worksheet_selection,
             width = 36
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -138,13 +137,13 @@ window_import_excel <- function() {
     missingEntry    <- ttkentry(missingFrame,
                                 width = "12",
                                 textvariable = missingVariable)
-    # ========================================================================
+    # onOK ===================================================================
     onOK <- function() {
         # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         cursor_set_busy(top)
         on.exit(cursor_set_idle(top))
         # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        xl_file     <- tclvalue(xl_file_var)
+        xl_file     <- tclvalue(file_name_var)
         worksheet   <- getSelection(worksheet_box)
         new_ds_name <- trim.blanks(tclvalue(dsname))
 
@@ -255,7 +254,7 @@ window_import_excel <- function() {
     tkgrid(upper_l_frame, upper_r_frame, pady = c(0, 5))
 
     # upper_l_frame ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    on_click <- function() {select_xl_file()}
+    # on_click <- function() {select_xl_file()}
 
 
     file_label <- label_rcmdr(upper_l_frame, text = "File: ",  fg = fg_col)
@@ -275,13 +274,13 @@ window_import_excel <- function() {
     tkgrid(getFrame(worksheet_box), sticky = "w")
     tkgrid(entryDsname, sticky = "w", pady = 5)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    button_ch_file_frame <- tkframe(lower_frame)
-    button_ch_file <- tk2button(button_ch_file_frame,
-                                text = "Choose file",
-                                command = on_click,
-                                cursor = "hand2")
+    button_get_file_frame <- tkframe(lower_frame)
+    button_get_file <- tk2button(button_get_file_frame,
+                                 text = "Choose file",
+                                 command = select_xl_file,
+                                 cursor = "hand2")
 
-    # tkgrid(button_ch_file, sticky = "e", pady = c(0, 0))
+    # tkgrid(button_get_file, sticky = "e", pady = c(0, 0))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(variableNamesCheckBox,
            labelRcmdr(
@@ -312,8 +311,8 @@ window_import_excel <- function() {
            missingEntry,
            sticky = "w"
     )
-    tkgrid(button_ch_file, padx = c(5, 0))
-    tkgrid(missingFrame, button_ch_file_frame, sticky = "w")
+    tkgrid(button_get_file, padx = c(5, 0))
+    tkgrid(missingFrame, button_get_file_frame, sticky = "w")
     tkgrid(lower_frame, pady = c(5, 0), sticky = "ew")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Help topic ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -327,9 +326,9 @@ window_import_excel <- function() {
     # Interactive bindings ---------------------------------------------------
 
     # Add interactivity for `fname_frame` and `fname_label`
-    # tkbind(file_label,     "<ButtonPress-1>", on_click)
-    tkbind(fname_frame,    "<ButtonPress-1>", on_click)
-    tkbind(fname_label,    "<ButtonPress-1>", on_click)
+    # tkbind(file_label,     "<ButtonPress-1>", select_xl_file)
+    tkbind(fname_frame,    "<ButtonPress-1>", select_xl_file)
+    tkbind(fname_label,    "<ButtonPress-1>", select_xl_file)
 
     tkbind(fname_frame, "<Enter>",
            function() tkconfigure(fname_label, foreground = "blue"))
@@ -337,7 +336,7 @@ window_import_excel <- function() {
            function() tkconfigure(fname_label, foreground = "black"))
     # tkconfigure(file_label,     cursor = "hand2")
     tkconfigure(fname_frame,    cursor = "hand2")
-    # tkconfigure(button_ch_file, cursor = "hand2")
+    # tkconfigure(button_get_file, cursor = "hand2")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 # ============================================================================
