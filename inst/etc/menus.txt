@@ -70,20 +70,27 @@ menu	bs_active_ds_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Active dataset"	bs_active_ds_menu	""	""
 
 item	bs_active_ds_menu	command	"Refresh active dataset"	command_dataset_refresh	"activeDataSetP()"	""
-item	bs_active_ds_menu	command	"Preview dataset in a separate window"	command_dataset_view	"activeDataSetP()"	""
-item	bs_active_ds_menu	command	"Print dataset"	command_dataset_print	"activeDataSetP()"	""
-
 
 # ~~~ Rename, copy ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-item	bs_active_ds_menu	separator	""	""	""	""
+# item	bs_active_ds_menu	separator	""	""	""	""
 item	bs_active_ds_menu	command	"Copy active dataset..."	window_dataset_copy	"activeDataSetP()"	""
 item	bs_active_ds_menu	command	"Delete active dataset..."	window_dataset_delete	"activeDataSetP()"	""
 item	bs_active_ds_menu	command	"Rename active dataset..."	window_dataset_rename	"activeDataSetP()"	""
 
+
+
+# ---- Print -----------------------------------------------------------------
 # item	bs_active_ds_menu	separator	""	""	""	""
 
+item	bs_active_ds_menu	command	"Preview dataset in a separate window"	command_dataset_view	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"Print dataset"	command_dataset_print	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"Print dataset as Markdown table"	window_dataset_pander	"activeDataSetP()"	"packageAvailable('pander')"
+
+
 # ---- Manage dataset's class -------------------------------------------------
+
+# item	bs_active_ds_menu	separator	""	""	""	""
 
 menu	bs_ds_class	biostat_menu	""	""	""	""
 item	bs_active_ds_menu	cascade	"Dataset's class"	bs_ds_class	""	""
@@ -95,9 +102,6 @@ item	bs_ds_class	command	"Convert to tibble (`tbl_df`)"	command_dataset_as_tibbl
 item	bs_ds_class	command	"Convert to `data.table`"	command_dataset_as_dt	"activeDataSetP() && !first_class_isP('data.table')"	"packageAvailable('data.table')"
 
 
-# ---- Print -----------------------------------------------------------------
-item	bs_active_ds_menu	separator	""	""	""	""
-item	bs_active_ds_menu	command	"Pander: print dataset as Markdown table"	window_dataset_pander	"activeDataSetP()"	"packageAvailable('pander')"
 
 
 
