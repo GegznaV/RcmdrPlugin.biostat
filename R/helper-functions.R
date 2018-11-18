@@ -161,9 +161,19 @@ eval_glue <- function(..., envir = parent.frame(),
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
+# This function will deprecate as it is the same as `eval_text`. [!!!]
 eval_ <- function(x, envir = parent.frame(), ...) {
     eval(parse(text = x), envir = envir, ...)
 }
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+# The same as `eval_`
+eval_text <- function(x, envir = parent.frame(), ...) {
+    eval(parse(text = x), envir = envir, ...)
+}
+
 
 # Formatat code in a `tidyverse` style ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Helper-functions
