@@ -1,3 +1,6 @@
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 ok_cancel_help <- defmacro(
     window = top,
     helpSubject = NULL,
@@ -7,21 +10,27 @@ ok_cancel_help <- defmacro(
     helpPackage = NULL,
     expr = {
         memory <- getRcmdr("retain.selections")
+
         button.strings <- c(
             "OK",
             "Cancel",
-            if (!is.null(helpSubject)) "Help",
+            if (!is.null(helpSubject))     "Help",
             if (!is.null(reset) && memory) "Reset",
-            if (!is.null(apply)) "Apply"
+            if (!is.null(apply))           "Apply"
         )
+
         width <- max(nchar(gettextRcmdr(button.strings)))
         if (WindowsP()) width <- width + 2
-        buttonsFrame <- tkframe(window)
-        leftButtonsBox <- tkframe(buttonsFrame)
+
+        buttonsFrame    <- tkframe(window)
+        leftButtonsBox  <- tkframe(buttonsFrame)
         rightButtonsBox <- tkframe(buttonsFrame)
 
+        # Functions ============================================================
+        # START: ok ------------------------------------------------------------
         OnOK <- function() {
             putRcmdr("restoreTab", FALSE)
+
             if (getRcmdr("use.markdown")) {
                 putRcmdr("startNewCommandBlock", FALSE)
                 beginRmdBlock()
@@ -32,11 +41,13 @@ ok_cancel_help <- defmacro(
                 beginRnwBlock()
             }
 
-            setBusyCursor()
-            on.exit(setIdleCursor())
+            cursor_set_busy()
+            on.exit(cursor_set_idle())
+
             onOK()
 
             if (model) putDialog("effectPlots", NULL)
+
             if (getRcmdr("use.markdown")) {
                 removeNullRmdBlocks()
                 putRcmdr("startNewCommandBlock", TRUE)
@@ -68,7 +79,10 @@ ok_cancel_help <- defmacro(
                                 image      = "::image::okIcon",
                                 compound   = "left"
         )
+        # END: ok ------------------------------------------------------------
 
+
+        # START: cancel ------------------------------------------------------
         onCancel <- function() {
             if (exists(".exit")) {
                 result <- .exit()
@@ -112,7 +126,9 @@ ok_cancel_help <- defmacro(
                 compound      = "left"
             )
         }
+        # END: cancel --------------------------------------------------------
 
+        # START: reset -------------------------------------------------------
         if (!is.null(reset) && memory) {
             onReset <- function() {
                 ID <- window$ID
@@ -135,7 +151,9 @@ ok_cancel_help <- defmacro(
                 compound = "left"
             )
         }
+        # END: reset ---------------------------------------------------------
 
+        # START: apply -------------------------------------------------------
         if (!is.null(apply)) {
             onApply <- function() {
                 putRcmdr("restoreTab", TRUE)
@@ -144,7 +162,16 @@ ok_cancel_help <- defmacro(
 
                 # [???] ------
                 # Ar tai iškraipo klaidos pranešimo dėžučių dydį???
-                putRcmdr("open.dialog.here", as.character(.Tcl(paste("winfo geometry", ID))))
+                # Kokia kitos eilutės paskirtis?
+
+                # putRcmdr("open.dialog.here", as.character(.Tcl(paste("winfo geometry", ID))))
+
+
+
+                wininfo <- as.character(.Tcl(paste("winfo geometry", ID)))
+
+
+
                 if (getRcmdr("use.markdown")) {
                     putRcmdr("startNewCommandBlock", FALSE)
                     beginRmdBlock()
@@ -154,16 +181,23 @@ ok_cancel_help <- defmacro(
                     beginRnwBlock()
                 }
 
-                setBusyCursor()
-                on.exit(setIdleCursor())
-
+                cursor_set_busy()
+                on.exit(cursor_set_idle())
                 # [???] ------
                 # Gal reikia kokio nors rezultato, kuris parodytų, jog funkcija
                 # įvykdyta sėkmingai
-                onOK()
 
+                res_of_ok <- onOK() # Function should return TRUE,
+                                    # if no error occurs.
+
+                # print(res_of_ok)
+
+                if (!isTRUE(res_of_ok)) {
+                    putRcmdr("cancelDialogReopen", TRUE)
+                }
+                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 putRcmdr("rgl.command", FALSE)
-
+                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 if (getRcmdr("use.markdown")) {
                     removeNullRmdBlocks()
                     putRcmdr("startNewCommandBlock", TRUE)
@@ -173,6 +207,7 @@ ok_cancel_help <- defmacro(
                     }
                     removeNullRmdBlocks()
                 }
+                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 if (getRcmdr("use.knitr")) {
                     removeNullRnwBlocks()
                     putRcmdr("startNewKnitrCommandBlock", TRUE)
@@ -182,15 +217,18 @@ ok_cancel_help <- defmacro(
                     }
                     removeNullRnwBlocks()
                 }
+                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 if (getRcmdr("cancelDialogReopen")) {
                     putRcmdr("cancelDialogReopen", FALSE)
-                }
-                else {
+
+                } else {
+                    putRcmdr("open.dialog.here", wininfo)
                     # [???] ------
                     eval(parse(text = paste(apply, "()")))
                     putRcmdr("open.dialog.here", NULL)
                 }
             }
+
             applyButton <- buttonRcmdr(
                 rightButtonsBox,
                 text       = gettextRcmdr("Apply"),
@@ -201,7 +239,9 @@ ok_cancel_help <- defmacro(
                 compound   = "left"
             )
         }
+        # END: apply ---------------------------------------------------------
 
+        # Grid ===============================================================
         if (!WindowsP()) {
             if (!is.null(apply)) {
                 tkgrid(applyButton, cancelButton, OKbutton, sticky = "w")
