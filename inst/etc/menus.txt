@@ -139,7 +139,10 @@ item	bs_rows_menu	separator	""	""	""	""
 item	bs_rows_menu	command	"Remove empty rows"	command_row_rm_empty_rows	"activeDataSetP()"	""
 # item	bs_rows_menu	command	"[???] Remove rows with duplicated values..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
 # item	bs_rows_menu	command	"[???] Remove rows with missing values..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
-# # item	bs_rows_menu	command	"[???] Fill missing values with..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
+# item	bs_rows_menu	command	"[???] Fill missing values with..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
+#
+# item	bs_rows_menu	command	"[???] Fill missing values in using the previous entry..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
+# item	bs_rows_menu	separator	""	""	""	""
 
 item	bs_rows_menu	separator	""	""	""	""
 item	bs_rows_menu	command	"Add column with row numbers"	window_rowid_to_col	"activeDataSetP()"	"packageAvailable('tidyverse')"
@@ -176,8 +179,6 @@ item	bs_varible_menu	command	"[???] Spread columns into wide format dataset..."	
 item	bs_varible_menu	command	"[???] Separate one value into multiple columns..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
 item	bs_varible_menu	command	"[???] Unite values into one column..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
 
-item	bs_varible_menu	separator	""	""	""	""
-item	bs_varible_menu	command	"[???] Fill missing values in using the previous entry..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
 
 item	bs_varible_menu	separator	""	""	""	""
 
