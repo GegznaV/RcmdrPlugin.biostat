@@ -3,10 +3,10 @@
 #' @keywords internal
 # This macro is based on function from Rcmdr package
 # window = top          -- parent window
-# helpSubject = NULL,   --
+# helpSubject = NULL,   -- string with a help subject
 # model = FALSE,        --
-# reset = NULL,         -- string with function to recall
-# apply = NULL,         -- string with function to recall
+# reset = NULL,         -- string with a function to recall
+# apply = NULL,         -- string with a function to recall
 # helpPackage = NULL    -- package to search help topic in
 
 ok_cancel_help <- defmacro(
