@@ -39,10 +39,10 @@ item	bs_active_ds_menu	command	"Join two datasets..."	window_dataset_join	"dataS
 item	bs_active_ds_menu	command	"Bind rows of several datasets..."	window_dataset_bind_rows	"dataSetsP(2)"	"packageAvailable('dplyr')"
 item	bs_active_ds_menu	command	"Bind columns of several datasets..."	window_dataset_bind_cols	"dataSetsP(2)"	"packageAvailable('dplyr')"
 
-# item	bs_data_menu	command	"Bind rows/columns of two datasets"	window_dataset_bind	"dataSetsP(2)"	"packageAvailable('dplyr')"
+# item	bs_settings_menu	command	"Bind rows/columns of two datasets"	window_dataset_bind	"dataSetsP(2)"	"packageAvailable('dplyr')"
 
-# item	bs_data_menu	separator	""	""	""	""
-# item	bs_data_menu	command	"[???] Pander: print object for report"	window_pander	"activeDataSetP() && objects_in_env_P(n = 1)"	"packageAvailable('pander')"
+# item	bs_settings_menu	separator	""	""	""	""
+# item	bs_settings_menu	command	"[???] Pander: print object for report"	window_pander	"activeDataSetP() && objects_in_env_P(n = 1)"	"packageAvailable('pander')"
 
 
 # ---- Manage dataset's class -------------------------------------------------
@@ -68,8 +68,8 @@ item	bs_ds_class	command	"Convert to `data.table`"	command_dataset_as_dt	"active
 # menu	bs_export_menu	bs_active_ds_menu	""	""	""	""
 # item	bs_active_ds_menu	cascade	"Export / Save"	bs_export_menu	"activeDataSetP()"	""
 
-menu	bs_export_menu	bs_data_menu	""	""	""	""
-item	bs_data_menu	cascade	"Export / Save data"	bs_export_menu	"activeDataSetP()"	""
+menu	bs_export_menu	bs_settings_menu	""	""	""	""
+item	bs_settings_menu	cascade	"Export / Save data"	bs_export_menu	"activeDataSetP()"	""
 
 item	bs_export_menu	command	"to text file (.txt, .csv)..."	window_export_to_textfile	"activeDataSetP()"	""
 
@@ -438,29 +438,30 @@ menu	bs_analysis_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Other analysis"	bs_analysis_menu	""	""
 
 
+
 # =============================================================================
 # ---- * Workspace & Session menu ---------------------------------------------
-menu	bs_data_menu	biostat_menu	""	""	""	""
-item	biostat_menu	cascade	"Workspace & Session"	bs_data_menu	""	""
+menu	bs_settings_menu	biostat_menu	""	""	""	""
+item	biostat_menu	cascade	"Workspace & Session"	bs_settings_menu	""	""
 
 
 # ---- Manage R objects ------------------------------------------------------
-item	bs_data_menu	separator	""	""	""	""
-item	bs_data_menu	command	"List objects..."	command_list_objects	"objects_in_env_P()"	""
-item	bs_data_menu	command	"Copy object..."	window_data_obj_copy	"objects_in_env_P()"	""
-item	bs_data_menu	command	"Delete objects... "	window_data_obj_delete	"objects_in_env_P()"	""
-item	bs_data_menu	command	"Rename object..."	window_data_obj_rename	"objects_in_env_P()"	""
+item	bs_settings_menu	separator	""	""	""	""
+item	bs_settings_menu	command	"List objects..."	command_list_objects	"objects_in_env_P()"	""
+item	bs_settings_menu	command	"Copy object..."	window_data_obj_copy	"objects_in_env_P()"	""
+item	bs_settings_menu	command	"Delete objects... "	window_data_obj_delete	"objects_in_env_P()"	""
+item	bs_settings_menu	command	"Rename object..."	window_data_obj_rename	"objects_in_env_P()"	""
 
 # ~~~~ Convert to data.frame ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# item	bs_data_menu	separator	""	""	""	""
-# item	bs_data_menu	command	"[???] Convert `table` to `data.frame`"	window_table_to_df	"FALSE"	""
+# item	bs_settings_menu	separator	""	""	""	""
+# item	bs_settings_menu	command	"[???] Convert `table` to `data.frame`"	window_table_to_df	"FALSE"	""
 
 
 # ==============================================================================
 # ---- * Settings --------------------------------------------------------------
 
-menu	bs_settings_menu	biostat_menu	""	""	""	""
-item	biostat_menu	cascade	"Settings"	bs_settings_menu	""	""
+# menu	bs_settings_menu	biostat_menu	""	""	""	""
+# item	biostat_menu	cascade	"Settings"	bs_settings_menu	""	""
 
 
 item	bs_settings_menu	command	"Show working directory"  command_getwd	""	""
