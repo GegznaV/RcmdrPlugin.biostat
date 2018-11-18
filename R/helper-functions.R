@@ -1,10 +1,21 @@
- # ___ List variables  ___ ====================================================
+#' @name Helper-functions
+#' @title Helper functions for RcmdrPlugin.biostat.
+#' @description Helper functions for package \pkg{RcmdrPlugin.biostat}.
+#' @keywords internal
+NULL
+
+# ___ List variables  ___ ====================================================
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 # Get contents of active dataset
 get_active_ds <- function() {
     globalenv()[[activeDataSet()]]
 }
 
-
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 list_objects_of_class <- function(
     class = NULL, all.names = FALSE,  envir = parent.frame()) {
 
@@ -118,6 +129,9 @@ var_pos_n <- function(variables,
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 list_summaries_Models <- function(envir = .GlobalEnv, ...) {
     objects <- ls(envir = envir, ...)
     if (length(objects) == 0)
@@ -131,6 +145,9 @@ list_summaries_Models <- function(envir = .GlobalEnv, ...) {
 # ___ Code ___ ===============================================================
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 eval_glue <- function(..., envir = parent.frame(),
                       .sep = "", .open = "{", .close = "}",
                       envir_eval = envir,
@@ -141,11 +158,17 @@ eval_glue <- function(..., envir = parent.frame(),
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 eval_ <- function(x, envir = parent.frame(), ...) {
     eval(parse(text = x), envir = envir, ...)
 }
 
 # Formatat code in a `tidyverse` style ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 style_cmd <- function(command, indent_by = 4, ...) {
     cmd <- styler::style_text(command, indent_by = indent_by, ...)
     paste0(as.character(cmd), collapse = "\n")
@@ -154,7 +177,7 @@ style_cmd <- function(command, indent_by = 4, ...) {
 # ___ Translate ___ ==========================================================
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Menu-window-functions
+#' @rdname Helper-functions
 #' @export
 #' @keywords internal
 gettext_EZR <- function(...) {
@@ -162,25 +185,39 @@ gettext_EZR <- function(...) {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 gettext_Bio <- function(...) {
     gettext(..., domain = "R-RcmdrPlugin.biostat")
 }
 
 
 # ___ Text ___ ===============================================================
-
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 s2u <- function(str) {
     gsub(" ", "_", str)
 }
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 u2s <- function(str) {
     gsub("_", " ", str)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 spaces <- function(n, symbol = " ") {
     paste0(rep(symbol, length = n), collapse = "")
 }
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 # Print code if code evaluation error occured
 logger_error <- function(command) {
 
@@ -191,25 +228,36 @@ logger_error <- function(command) {
     invisible(rez)
 }
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 tk_label_blue <- function(...) {
     label_rcmdr(..., foreground = getRcmdr("title.color"))
 }
 
 
 # ___ Vectors  ___ ===========================================================
-
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 # @examples swap(1:5, 2, 4)
 swap <- function(x, i, j) {
     x[c(i, j)] <- x[c(j, i)]
     x
 }
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 swap_rows <- function(x, i, j) {
     tmp <- str_split(x, "\n")[[1]]
     tmp <- swap(tmp, i, j)
     str_c(tmp, collapse = "\n")
 }
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 correct_row_index <- function(i, n_max) {
     # Make a valid row index: between 1 and maximum (n)
     if (i < 1) 1 else if (i > n_max) n_max else i
@@ -225,7 +273,7 @@ clean_str <- function(str, ...) {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Menu-window-functions
+#' @rdname Helper-functions
 #' @export
 #' @keywords internal
 function_not_implemented <- function() {
@@ -248,6 +296,9 @@ function_not_implemented <- function() {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 # Make a unique name for an object (e.g., data frame) by adding numbers
 #
 # @param name - name of dataset before suffix and preffix are added.
@@ -276,6 +327,9 @@ unique_obj_names <- function(names = ActiveDataSet(),
         rev()
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 unique_df_name <- function(names = ActiveDataSet(),
                            preffix = "",
                            suffix = "",
@@ -285,6 +339,9 @@ unique_df_name <- function(names = ActiveDataSet(),
     unique_obj_names(names, preffix, suffix, list_of_choices, all_numbered)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 unique_colnames <- function(names = "",
                             preffix = "",
                             suffix = "",
@@ -293,7 +350,9 @@ unique_colnames <- function(names = "",
 
     unique_obj_names(names, preffix, suffix, list_of_choices, all_numbered)
 }
-
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 unique_colnames_2 <- function(names = "",
                               preffix = "",
                               suffix = "",
@@ -303,6 +362,9 @@ unique_colnames_2 <- function(names = "",
     unique_obj_names(names, preffix, suffix, list_of_choices, all_numbered)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 variables_with_unique_values <- function() {
 
     ds <- get(activeDataSet(), envir = .GlobalEnv)
@@ -311,7 +373,7 @@ variables_with_unique_values <- function() {
         names() %>%
         sort()
 }
-#' @rdname Menu-window-functions
+#' @rdname Helper-functions
 #' @export
 #' @keywords internal
 variables_with_unique_values_P <- function(n = 1) {
@@ -335,6 +397,11 @@ make_relative_path <- function(str) {
     sub(paste0(getwd(), "/?"), "", str)
 }
 
+
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 # path <- file.path("c:", "p1p1p1p1p1", "p2p2p2p2p2p2", "p3p3p3p3p3p3p3", "file2.xlsx")
 #                      # "c:/p1p1p1p1p1/p2p2p2p2p2p2/p3p3p3p3p3p3p3/file2.xlsx"
 # path_truncate(path)  # --->  "c:/p1p1p1p1p1/ ... /file2.xlsx"
@@ -389,7 +456,9 @@ extract_extension <- function(str) {
 
 
 # ___ Check ___ ==============================================================
-
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 show_error_messages <- function(message, message2 = message, title = "") {
     Message(message = message,  type = "error")
     RcmdrTkmessageBox(message2, icon = "error", title = title, type = "ok")
@@ -446,22 +515,22 @@ is_valid_name <- function(name) {
 
 }
 
+#' @rdname Helper-functions
 #' @export
-#'
 #' @keywords internal
 is_not_valid_name <- function(name) {
     !is_valid_name(name)
 }
 
+#' @rdname Helper-functions
 #' @export
-#'
 #' @keywords internal
 is_empty_name <- function(name) {
     !is_not_empty_name(name)
 }
 
+#' @rdname Helper-functions
 #' @export
-#'
 #' @keywords internal
 is_not_empty_name <- function(name) {
 
@@ -521,7 +590,9 @@ msg_box_confirm_to_replace <- function(name, type = "Variable") {
         default = "no"))
 }
 
-
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 forbid_to_replace_variable <- function(name) {
     # Checks if variable exists in active dataset.
     #
@@ -539,6 +610,9 @@ forbid_to_replace_variable <- function(name) {
     }
 }
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 forbid_to_replace_object <- function(name, envir = .GlobalEnv) {
     # Checks if object exists in (Global) environment
     #
@@ -559,6 +633,9 @@ forbid_to_replace_object <- function(name, envir = .GlobalEnv) {
     }
 }
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 show_code_evaluation_error_message <- function() {
     show_error_messages(
         str_c("Something went wrong while evaluating the code.\n",
@@ -577,19 +654,23 @@ show_code_evaluation_error_message <- function() {
 # + Class --------------------------------------------------------------------
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 nonFactorsP <- function(n = 1) {
     #  n - number of non-factors.
     activeDataSetP() && length(setdiff(listVariables(), listFactors())) >= n
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Menu-window-functions
+#' @rdname Helper-functions
 #' @export
 #' @keywords internal
 class_ggplot_P <- function(n = 1) {
     #  n - number of ggplot objects.
     length(list_objects_of_class("ggplot", envir = .GlobalEnv)) >= n
 }
-#' @rdname Menu-window-functions
+
+#' @rdname Helper-functions
 #' @export
 #' @keywords internal
 # List ggolot2 objects in global  environment.
@@ -598,7 +679,7 @@ list_objects_ggplot <- function(envir = .GlobalEnv) {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Menu-window-functions
+#' @rdname Helper-functions
 #' @export
 #' @keywords internal
 objects_in_env_P <- function(n = 1, envir = .GlobalEnv, ...) {

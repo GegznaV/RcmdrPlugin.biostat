@@ -1,10 +1,23 @@
+# #' @name Helper-functions
+# #' @title Helper functions for RcmdrPlugin.biostat.
+# #' @description Helper functions for package \pkg{RcmdrPlugin.biostat}.
+# #' @keywords internal
+# NULL
+
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 # Label for R Commander
 # see also: labelRcmdr
 label_rcmdr <- function(..., fg = NULL) {
     if (is.null(fg)) ttklabel(...) else ttklabel(..., foreground = fg)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 labeled_frame <- function(parent, label = NULL, ...) {
     ttklabelframe(parent = parent,
                   labelwidget = tklabel(
@@ -17,6 +30,9 @@ labeled_frame <- function(parent, label = NULL, ...) {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 # Variable list box with constant length (numer of rows)
 # onClick_fun - function on mouse click
 # onRelease_fun - function on mouse release
@@ -181,6 +197,9 @@ variableListBox2 <-
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 # Checkboxes with command functions
 # commands - a named list of commands (functions) for checkbox.
 #            The names are the same as in "boxes"
@@ -247,6 +266,9 @@ bs_check_boxes <- defmacro(
     }
 )
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 
 # This function modified based on code by Liviu Andronic (13 Dec 09) and on code by Milan Bouchet-Valat (29 Jun 12):
 radioButtons_horizontal <- defmacro(
@@ -342,6 +364,9 @@ radioButtons_horizontal <- defmacro(
     )
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 
 radiobuttons_env <- function(
     window        = top,
@@ -414,5 +439,3 @@ radiobuttons_env <- function(
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-

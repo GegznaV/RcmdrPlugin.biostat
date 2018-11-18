@@ -1,3 +1,7 @@
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+
 # functions for building dialog boxes
 
 # Function copied from `Rcmdr` with this comment:
