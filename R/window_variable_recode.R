@@ -300,7 +300,7 @@ swap_rows_in_tktext <- function(widget, i, j) {
 #' @keywords internal
 window_variable_recode0 <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_Bio("Recode Variable Values"))
+    initializeDialog(title = gettext_bs("Recode Variable Values"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     defaults <-
         list(
@@ -321,7 +321,7 @@ window_variable_recode0 <- function() {
     insert_template <- function(template = "1") {
         active_variable  <- getSelection(variablesBox)
         var_val          <- get_active_ds()[[active_variable]]
-        # var_val          <- eval_glue("{activeDataSet()}${active_variable}")
+        # var_val        <- eval_glue("{activeDataSet()}${active_variable}")
 
         get_active_ds()[[active_variable]]
 
@@ -355,7 +355,7 @@ window_variable_recode0 <- function() {
             onDoubleClick3_fun = insert_template_2,
             onTripleClick3_fun = insert_template_2a,
             # selectmode = "multiple",
-            title = gettext_Bio("Variable to recode \n(double-click to pick one)"),
+            title = gettext_bs("Variable to recode \n(double-click to pick one)"),
             initialSelection = varPosn(dialog_values$initial_variables, "all")
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -414,12 +414,12 @@ window_variable_recode0 <- function() {
 
     Rcmdr::radioButtons(variable_type_frame,
                         name          = "recode_into",
-                        # title       = gettext_Bio("Use functions: "),
+                        # title       = gettext_bs("Use functions: "),
                         # title.color = getRcmdr("title.color"),
                         buttons       = c("nominal", "ordinal", "other"),
                         values        = c("nominal", "ordinal", "other"),
                         initialValue  = dialog_values$initial_recode_into,
-                        labels        = gettext_Bio(c("Nominal factor",
+                        labels        = gettext_bs(c("Nominal factor",
                                                       "Ordinal factor",
                                                       "Do not convert")))
 
@@ -521,7 +521,7 @@ window_variable_recode0 <- function() {
         dataSet <- activeDataSet()
 
         command <- str_glue(
-            "## ", gettext_Bio("Recode variable values"), "\n\n",
+            "## ", gettext_bs("Recode variable values"), "\n\n",
             "{dataSet} <- {dataSet} %>% \n",
             "   dplyr::mutate(\n",
             "   {name} = {recode_fun}({selected_variable}, ",
@@ -584,14 +584,14 @@ window_variable_recode0 <- function() {
     tkgrid(label_rcmdr(
         variablesFrame,
         fg = getRcmdr("title.color"),
-        text = gettext_Bio("Name for recoded variable: ")),
+        text = gettext_bs("Name for recoded variable: ")),
         sticky = "w",
         pady = c(2, 0))
     tkgrid(newVariable, sticky = "w")
 
     tkgrid(
         label_rcmdr(variable_type_frame,
-                    text = gettext_Bio("Convert variable into: "),
+                    text = gettext_bs("Convert variable into: "),
                     fg = getRcmdr("title.color")),
         sticky = "w",
         pady = c(10, 0)
@@ -602,7 +602,7 @@ window_variable_recode0 <- function() {
     tkgrid(
         label_rcmdr(
             recodesFrame,
-            text = gettext_Bio(
+            text = gettext_bs(
                 "Enter recode directives\n(one directive per row; change order of rows, if needed)"),
             # "Enter recode directives\n(one directive per row or comma separated)"),
             fg = getRcmdr("title.color"),
@@ -624,7 +624,7 @@ window_variable_recode0 <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid_text <- function(text = "", frame = examples_frame, fg = "black",
                             sticky = "w", padx = 10, pady = 0, ...) {
-        tkgrid(label_rcmdr(frame, text = gettext_Bio(text), fg = fg),
+        tkgrid(label_rcmdr(frame, text = gettext_bs(text), fg = fg),
                sticky = sticky, padx = padx, pady = pady, ...)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

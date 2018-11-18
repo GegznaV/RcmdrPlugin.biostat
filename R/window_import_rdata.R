@@ -13,7 +13,7 @@ window_import_rdata <- function() {
         title = "Choose RData File to Import",
         initialdir  = initial_dir,
         multiple = FALSE,
-        filetypes = gettext_Bio("{ {R Data Files} {.RData .rda .Rda .RDA .Rdata } } { {All Files} * }")))
+        filetypes = gettext_bs("{ {R Data Files} {.RData .rda .Rda .RDA .Rdata } } { {All Files} * }")))
 
     if (file == "") {
         tkfocus(CommanderWindow())

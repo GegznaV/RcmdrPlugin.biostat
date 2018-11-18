@@ -12,7 +12,7 @@
 #'
 window_transform_log <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_Bio("Logarithmic transformation"))
+    initializeDialog(title = gettext_bs("Logarithmic transformation"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
@@ -41,7 +41,7 @@ window_transform_log <- function() {
         variableListBox2(upper_frame,
                          Numeric(),
                          selectmode = "multiple",
-                         title = gettext_Bio("Variables (pick one or more)"),
+                         title = gettext_bs("Variables (pick one or more)"),
                          initialSelection = varPosn(dialog_values$variables, "numeric"),
                          listHeight = 7
         )
@@ -61,11 +61,11 @@ window_transform_log <- function() {
     log_txt_outter_Frame <- tkframe(upper_frame)
     Rcmdr::radioButtons(log_txt_outter_Frame,
                         name         = "log_txt",
-                        title        = gettext_Bio("Choose of logarithmic transformation"),
+                        title        = gettext_bs("Choose of logarithmic transformation"),
                         buttons      = c("common", "binary", "natural", "natural_1p"),
                         values       = c("log10", "log2", "log", "log1p"),
                         initialValue = dialog_values$log_txt,
-                        labels       =  gettext_Bio(
+                        labels       =  gettext_bs(
                             c("Common,  log(x, base = 10)",
                               "Binary,  log(x, base = 2)",
                               "Natural, log(x, base = e)",
@@ -75,12 +75,12 @@ window_transform_log <- function() {
     change_prefix()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     radioButtons_horizontal(name         = "fun_type",
-                            title        = gettext_Bio("Use functions: "),
+                            title        = gettext_bs("Use functions: "),
                             title.color  = getRcmdr("title.color"),
                             buttons      = c("tidyverse", "base"),
                             values       = c("Tidyverse", "Base_R"),
                             initialValue = dialog_values$fun_type,
-                            labels       = gettext_Bio(c("Tidyverse", "Base R")))
+                            labels       = gettext_bs(c("Tidyverse", "Base R")))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         prefix    <- trim.blanks(tclvalue(prefix_variable))
@@ -102,7 +102,7 @@ window_transform_log <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (length(variables) == 0) {
             errorCondition(recall  = window_transform_log,
-                           message = gettext_Bio("You must select a variable."))
+                           message = gettext_bs("You must select a variable."))
             return()
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -116,7 +116,7 @@ window_transform_log <- function() {
             if (!is.valid.name(new_names[i])) {
                 errorCondition(
                     recall  = window_transform_log,
-                    message = paste(new_names[i], gettext_Bio("is not a valid name."))
+                    message = paste(new_names[i], gettext_bs("is not a valid name."))
                 )
                 return()
             }
@@ -168,8 +168,8 @@ window_transform_log <- function() {
             activeDataSet(.activeDataSet, flushModel = FALSE)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        msg <- glue("#---  ", gettext_Bio("Logarithmic transformation"), "  ---#\n\n",
-                    "# ", gettext_Bio("New variable(s):"), " \n",
+        msg <- glue("#---  ", gettext_bs("Logarithmic transformation"), "  ---#\n\n",
+                    "# ", gettext_bs("New variable(s):"), " \n",
                     paste("#   ", new_names, collapse = "\n"), "\n\n\n")
 
         logger(paste0(msg, command, collapse = "\n"))
@@ -185,16 +185,16 @@ window_transform_log <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(middle_frame, sticky = "ew")
     tkgrid(labelRcmdr(middle_frame,
-                      text = gettext_Bio("Prefix for variable names (optional):"),
+                      text = gettext_bs("Prefix for variable names (optional):"),
                       fg = fg_col),
-           labelRcmdr(middle_frame, text = gettext_Bio("     ")),
+           labelRcmdr(middle_frame, text = gettext_bs("     ")),
            labelRcmdr(middle_frame,
-                      text = gettext_Bio("Suffix for variable names (optional):"),
+                      text = gettext_bs("Suffix for variable names (optional):"),
                       fg = fg_col),
            sticky = "ew",
            pady = c(10, 0))
     tkgrid(prefix_field,
-           labelRcmdr(middle_frame, text = gettext_Bio("     ")),
+           labelRcmdr(middle_frame, text = gettext_bs("     ")),
            suffix_field, sticky = "ew")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

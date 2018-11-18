@@ -7,14 +7,14 @@
 #' @keywords internal
 window_variable_rename <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_Bio("Rename variables"))
+    initializeDialog(title = gettext_bs("Rename variables"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     variables_frame <- tkframe(top)
     variableBox <-
         variableListBox2(
             variables_frame,
             Variables(),
-            title = gettext_Bio("Variables\n(pick one or more)"),
+            title = gettext_bs("Variables\n(pick one or more)"),
             selectmode = "multiple",
             initialSelection = NULL,
             listHeight = 10
@@ -30,7 +30,7 @@ window_variable_rename <- function() {
         if (n_old_names < 1) {
             errorCondition(
                 recall = window_variable_rename,
-                message = gettext_Bio("No variables selected.")
+                message = gettext_bs("No variables selected.")
             )
             return()
         }
@@ -40,7 +40,7 @@ window_variable_rename <- function() {
         which_variables <- match(old_names, unordered_names)
 
         # Subdialog ----------------------------------------------------------
-        initializeDialog(subdialog,  title = gettext_Bio("Change variable names"))
+        initializeDialog(subdialog,  title = gettext_bs("Change variable names"))
         new_names <- rep("", n_old_names)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         onOKsub <- function() {
@@ -55,7 +55,7 @@ window_variable_rename <- function() {
             if (any(new_names == "")) {
                 errorCondition(
                     recall = window_variable_rename,
-                    message = gettext_Bio("A variable name is empty.")
+                    message = gettext_bs("A variable name is empty.")
                 )
                 return()
             }
@@ -64,7 +64,7 @@ window_variable_rename <- function() {
             if (!all(test.names)) {
                 errorCondition(recall = window_variable_rename,
                                message = paste(
-                                   gettext_Bio("The following variable names are not valid:\n"),
+                                   gettext_bs("The following variable names are not valid:\n"),
                                    paste(new_names[!test.names], collapse = ", ")))
                 return()
             }
@@ -75,7 +75,7 @@ window_variable_rename <- function() {
             if (any(duplicated(all_names))) {
                 errorCondition(
                     recall = window_variable_rename,
-                    message = gettext_Bio("Variable names are not unique")
+                    message = gettext_bs("Variable names are not unique")
                 )
                 return()
             }
@@ -105,12 +105,12 @@ window_variable_rename <- function() {
         tkgrid(
             labelRcmdr(
                 subdialog,
-                text = gettext_Bio("Old Name   "),
+                text = gettext_bs("Old Name   "),
                 fg = "blue"
             ),
             labelRcmdr(
                 subdialog,
-                text = gettext_Bio("New name   "),
+                text = gettext_bs("New name   "),
                 fg = "blue"
             ),
             sticky = "w",

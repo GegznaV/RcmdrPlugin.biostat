@@ -82,8 +82,8 @@ window_test_anova <- function() {
                          buttons = tclvalue_chr(ph_buttons),
                          values  = tclvalue_chr(ph_values),
 
-                         labels = gettext_Bio(u2s(tclvalue_chr(ph_labels))),
-                         title = gettext_Bio("Post-hoc test"), env = parent.frame()
+                         labels = gettext_bs(u2s(tclvalue_chr(ph_labels))),
+                         title = gettext_bs("Post-hoc test"), env = parent.frame()
         )
 
         tkgrid(posthoc_testFrame,         pady = c(0, 5), padx = c(5, 5), sticky = "nw")
@@ -99,11 +99,11 @@ window_test_anova <- function() {
                         values  = c("anova", "welch_anova", "kw_test", "mood_test"),
                         # initialValue = NULL,
 
-                        labels =  gettext_Bio(c("ANOVA",
+                        labels =  gettext_bs(c("ANOVA",
                                                 "Welch ANOVA",
                                                 "Kruskal-Wallis test",
                                                 "Mood's median test")),
-                        title = gettext_Bio("Test"),
+                        title = gettext_bs("Test"),
                         command = function() {
                             logger("ok")
                             update_test_name()
@@ -198,15 +198,15 @@ window_test_anova <- function() {
                             buttons = tclvalue_chr(ph_buttons),
                             values  = tclvalue_chr(ph_values),
 
-                            labels = gettext_Bio(u2s(tclvalue_chr(ph_labels))),
-                            title = gettext_Bio("Post-hoc test")
+                            labels = gettext_bs(u2s(tclvalue_chr(ph_labels))),
+                            title = gettext_bs("Post-hoc test")
         )
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         pval_adjustment <- inputComboBox(
             posthoc_test_panel,
             variableList = p.adjust.methods,
             initialSelection = p.adjust.methods[1],
-            title = gettext_Bio("P value adjustment method")
+            title = gettext_bs("P value adjustment method")
         )
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkgrid(posthoc_testFrame,         pady = c(0, 5), padx = c(5, 5), sticky = "nw")

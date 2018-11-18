@@ -9,7 +9,7 @@
 #'
 window_ggedit <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_Bio("Select a `ggplot` Object to Modify"))
+    initializeDialog(title = gettext_bs("Select a `ggplot` Object to Modify"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     defaults <- list(gg_obj = NULL)
 
@@ -21,7 +21,7 @@ window_ggedit <- function() {
         variableListBox2(upper_Frame,
                          list_objects_ggplot(),
                          selectmode = "single",
-                         title = gettext_Bio("Available ggplot objects\n (select one)"),
+                         title = gettext_bs("Available ggplot objects\n (select one)"),
                          initialSelection = dialog_values$gg_obj,
                          listHeight = 7
         )
@@ -35,7 +35,7 @@ window_ggedit <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (length(gg_obj) == 0) {
             errorCondition(recall = window_ggedit,
-                           message = gettext_Bio("You must select a `ggplot` object"))
+                           message = gettext_bs("You must select a `ggplot` object"))
             return()
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -93,7 +93,7 @@ window_ggedit <- function() {
     OKCancelHelp(helpSubject = "ggedit", helpPackage = "ggedit")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # tkgrid(labelRcmdr(top,
-    #                   text = gettext_Bio("Select a `ggplot` object to modify:"),
+    #                   text = gettext_bs("Select a `ggplot` object to modify:"),
     #                   fg = getRcmdr("title.color")),
     #        sticky = "w",
     #        pady = c(10, 0))
@@ -103,7 +103,7 @@ window_ggedit <- function() {
 
     tkgrid(labelRcmdr(
         top,
-        text = gettext_Bio(glue('The tool will open in the ',
+        text = gettext_bs(glue('The tool will open in the ',
                                 'default Internet browser.')),
         fg = "darkred"),
         sticky = "s",

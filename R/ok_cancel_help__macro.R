@@ -45,14 +45,14 @@ ok_cancel_help <- Rcmdr::defmacro(
         memory <- getRcmdr("retain.selections")
 
         button.strings <- c(
-            gettext_Bio("OK"),
-            gettext_Bio("Cancel"),
-            if (!is.null(helpSubject))     gettext_Bio("Help"),
-            if (!is.null(reset) && memory) gettext_Bio("Reset"),
-            if (!is.null(apply))           gettext_Bio("Apply")
+            gettext_bs("OK"),
+            gettext_bs("Cancel"),
+            if (!is.null(helpSubject))     gettext_bs("Help"),
+            if (!is.null(reset) && memory) gettext_bs("Reset"),
+            if (!is.null(apply))           gettext_bs("Apply")
         )
 
-        width <- max(nchar(gettext_Bio(button.strings)))
+        width <- max(nchar(gettext_bs(button.strings)))
         if (WindowsP()) width <- width + 2
 
         buttonsFrame    <- tkframe(window)
@@ -104,7 +104,7 @@ ok_cancel_help <- Rcmdr::defmacro(
         }
 
         OKbutton <- buttonRcmdr(rightButtonsBox,
-                                text       = gettext_Bio("OK"),
+                                text       = gettext_bs("OK"),
                                 foreground = "darkgreen",
                                 width      = width,
                                 command    = OnOK,
@@ -131,7 +131,7 @@ ok_cancel_help <- Rcmdr::defmacro(
 
         cancelButton <- buttonRcmdr(
             rightButtonsBox,
-            text         = gettext_Bio("Cancel"),
+            text         = gettext_bs("Cancel"),
             foreground   = "red",
             width        = width,
             command      = onCancel,
@@ -151,7 +151,7 @@ ok_cancel_help <- Rcmdr::defmacro(
             }
             helpButton <- buttonRcmdr(
                 leftButtonsBox,
-                text          = gettext_Bio("Help"),
+                text          = gettext_bs("Help"),
                 width         = width,
                 command       = onHelp,
                 # borderwidth = 3,
@@ -177,7 +177,7 @@ ok_cancel_help <- Rcmdr::defmacro(
             }
             resetButton <- buttonRcmdr(
                 leftButtonsBox,
-                text     = gettext_Bio("Reset"),
+                text     = gettext_bs("Reset"),
                 width    = width,
                 command  = onReset,
                 image    = "::image::resetIcon",
@@ -248,7 +248,7 @@ ok_cancel_help <- Rcmdr::defmacro(
 
             applyButton <- buttonRcmdr(
                 rightButtonsBox,
-                text       = gettext_Bio("Apply"),
+                text       = gettext_bs("Apply"),
                 foreground = "yellow",
                 width      = width,
                 command    = onApply,

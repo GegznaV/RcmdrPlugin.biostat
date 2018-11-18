@@ -9,7 +9,7 @@
 #' @keywords internal
 window_factor_lvls_drop <- function() {
     dataSet <- activeDataSet()
-    initializeDialog(title = gettext_Bio("Drop Unused Factor Levels"))
+    initializeDialog(title = gettext_bs("Drop Unused Factor Levels"))
     allfactorsVariable <- tclVar("0")
     allFrame <- tkframe(top)
     allfactorsCheckBox <-
@@ -17,7 +17,7 @@ window_factor_lvls_drop <- function() {
     variablesBox <- variableListBox2(
         top,
         variables_fct(),
-        title = gettext_Bio("Factors(s) to drop levels \n(pick one or more)"),
+        title = gettext_bs("Factors(s) to drop levels \n(pick one or more)"),
         selectmode = "multiple",
         initialSelection = NULL,
         listHeight = 6
@@ -26,7 +26,7 @@ window_factor_lvls_drop <- function() {
     onOK <- function() {
         # logger(paste(
         #     "#####",
-        #     gettext_Bio("Drop unused factor levels"),
+        #     gettext_bs("Drop unused factor levels"),
         #     "#####",
         #     sep = ""
         # ))
@@ -36,14 +36,14 @@ window_factor_lvls_drop <- function() {
         if (all == 0 && length(variables) == 0) {
             errorCondition(
                 recall = window_factor_lvls_drop,
-                message = gettext_Bio("You must select one or more variables.")
+                message = gettext_bs("You must select one or more variables.")
             )
             return()
         }
         response <-
             tclvalue(
                 RcmdrTkmessageBox(
-                    message = gettext_Bio("Drop unused factor levels\nPlease confirm."),
+                    message = gettext_bs("Drop unused factor levels\nPlease confirm."),
                     icon = "warning",
                     type = "okcancel",
                     default = "cancel"
@@ -83,13 +83,13 @@ window_factor_lvls_drop <- function() {
     tkgrid(allfactorsCheckBox,
            labelRcmdr(
                allFrame,
-               text = gettext_Bio("all factors")
+               text = gettext_bs("all factors")
            ),
            sticky = "w")
     tkgrid(allFrame, sticky = "w")
     tkgrid(labelRcmdr(
         top,
-        text = gettext_Bio("OR"),
+        text = gettext_bs("OR"),
         fg = "red"
     ), sticky = "w")
     tkgrid(getFrame(variablesBox), sticky = "nw")

@@ -14,9 +14,9 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 window_num_convert <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_Bio("Convert numeric variables into other classes"))
+    initializeDialog(title = gettext_bs("Convert numeric variables into other classes"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    defaults <- list(suffix      = gettext_Bio("<automatic suffix>"),
+    defaults <- list(suffix      = gettext_bs("<automatic suffix>"),
                      into        = "character",
                      which_names = "new_names",
                      variables   = NULL)
@@ -29,7 +29,7 @@ window_num_convert <- function() {
         variableListBox2(upper_Frame,
                          Numeric(),
                          selectmode       = "multiple",
-                         title            = gettext_Bio("Variables (pick one or more)"),
+                         title            = gettext_bs("Variables (pick one or more)"),
                          initialSelection = var_pos_n(dialog_values$variables, "numeric"),
                          listHeight       = 7
         )
@@ -37,11 +37,11 @@ window_num_convert <- function() {
     into_outter_Frame <- tkframe(upper_Frame)
     Rcmdr::radioButtons(into_outter_Frame,
                         name = "into",
-                        title = gettext_Bio("Convert into"),
+                        title = gettext_bs("Convert into"),
                         buttons = c("nominal", "ordinal", "character", "numeric", "integer"),
                         values  = c("nominal", "ordinal", "character", "numeric", "integer"),
                         initialValue = dialog_values$into,
-                        labels =  gettext_Bio(
+                        labels =  gettext_bs(
                             c("Nominal factors",
                               "Ordinal factors",
                               "Text",
@@ -59,12 +59,12 @@ window_num_convert <- function() {
     suffixField <- ttkentry(top, width = "20", textvariable = suffix_var)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     radioButtons_horizontal(name = "which_names",
-                            title = gettext_Bio("Variable names: "),
+                            title = gettext_bs("Variable names: "),
                             title.color = getRcmdr("title.color"),
                             buttons = c("overwrite", "new_names"),
                             values  = c("overwrite", "new_names"),
                             initialValue = dialog_values$which_names,
-                            labels =  gettext_Bio(c("Overwrite", "Create new")))
+                            labels =  gettext_bs(c("Overwrite", "Create new")))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         suffix      <- trim.blanks(tclvalue(suffix_var))
@@ -73,7 +73,7 @@ window_num_convert <- function() {
         variables   <- getSelection(variableBox)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         putDialog("window_num_convert",
-                  list(suffix = {if (nchar(suffix) == 0) gettext_Bio("<automatic suffix>") else suffix},
+                  list(suffix = {if (nchar(suffix) == 0) gettext_bs("<automatic suffix>") else suffix},
                        into = into,
                        which_names = which_names,
                        variables = variables
@@ -84,7 +84,7 @@ window_num_convert <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (length(variables) == 0) {
             errorCondition(recall = window_num_convert,
-                           message = gettext_Bio("You must select a variable."))
+                           message = gettext_bs("You must select a variable."))
             return()
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -101,7 +101,7 @@ window_num_convert <- function() {
             # Use new names ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             "new_names" = {
                 new_names <-
-                    if (suffix == gettext_Bio("<automatic suffix>")) {
+                    if (suffix == gettext_bs("<automatic suffix>")) {
                         suffix <- switch(into,
                                          "character" = "chr",
                                          "factor"    = "fct",
@@ -126,7 +126,7 @@ window_num_convert <- function() {
                     if (!is.valid.name(new_names[i])) {
                         errorCondition(
                             recall = window_num_convert,
-                            message = paste(new_names[i], gettext_Bio("is not a valid name."))
+                            message = paste(new_names[i], gettext_bs("is not a valid name."))
                         )
                         return()
                     }
@@ -180,9 +180,9 @@ window_num_convert <- function() {
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         msg <- glue(
-            "#---  ", gettext_Bio("Convert numeric variables into"),
+            "#---  ", gettext_bs("Convert numeric variables into"),
             " {into} variables ---#\n\n",
-            "# ", gettext_Bio("New variable(s):"), " \n",
+            "# ", gettext_bs("New variable(s):"), " \n",
             paste("#   ", new_names, collapse = "\n"), "\n\n\n")
 
         logger(paste0(msg, command, collapse = "\n"))
@@ -204,7 +204,7 @@ window_num_convert <- function() {
            pady = c(10, 0))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(labelRcmdr(top,
-                      text = gettext_Bio("New variable name or suffix for multiple variables:"),
+                      text = gettext_bs("New variable name or suffix for multiple variables:"),
                       fg = getRcmdr("title.color")),
            sticky = "w",
            pady = c(10, 0))

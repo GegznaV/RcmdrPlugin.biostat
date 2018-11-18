@@ -20,7 +20,7 @@ window_import_rds <- function() {
                 initialfile = file_name,
                 title = "Choose Rds File to Import",
                 multiple = FALSE,
-                filetypes = gettext_Bio(
+                filetypes = gettext_bs(
                     "{ {Rds data file} {.RDS .Rds .rds} } { {All Files} * }"
                 )
             )

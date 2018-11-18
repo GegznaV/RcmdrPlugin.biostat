@@ -6,7 +6,7 @@
 #' @family transformations
 #'
 window_transform_z <- function() {
-    initializeDialog(title = gettext_Bio("Z transformation (standardization)"))
+    initializeDialog(title = gettext_bs("Z transformation (standardization)"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
@@ -21,7 +21,7 @@ window_transform_z <- function() {
         variableListBox2(top,
                         Numeric(),
                         selectmode = "multiple",
-                        title = gettext_Bio("Variables (pick one or more)"),
+                        title = gettext_bs("Variables (pick one or more)"),
                         listHeight = 6
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -44,7 +44,7 @@ window_transform_z <- function() {
         # Check conditions
         if (length(variables) == 0) {
             errorCondition(recall = window_transform_z,
-                           message = gettext_Bio("You must select a variable."))
+                           message = gettext_bs("You must select a variable."))
             return()
         }
 
@@ -57,7 +57,7 @@ window_transform_z <- function() {
             if (!is.valid.name(new_names[i])) {
                 errorCondition(
                     recall = window_transform_z,
-                    message = paste(new_names[i], gettext_Bio("is not a valid name."))
+                    message = paste(new_names[i], gettext_bs("is not a valid name."))
                 )
                 return()
             }
@@ -100,8 +100,8 @@ window_transform_z <- function() {
             activeDataSet(.activeDataSet, flushModel = FALSE)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        msg <- glue("#---  ", gettext_Bio("Z transformation"), "  ---#\n\n",
-                    "# ", gettext_Bio("New variable(s):"), " \n",
+        msg <- glue("#---  ", gettext_bs("Z transformation"), "  ---#\n\n",
+                    "# ", gettext_bs("New variable(s):"), " \n",
                     paste("#   ", new_names, collapse = "\n"))
 
         logger(paste0(msg, command, collapse = "\n"))
@@ -114,7 +114,7 @@ window_transform_z <- function() {
     tkgrid(getFrame(variableBox), sticky = "n", columnspan = 2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(labelRcmdr(top,
-                      text = gettext_Bio("Prefix for variable names (optional):"),
+                      text = gettext_bs("Prefix for variable names (optional):"),
                       fg = getRcmdr("title.color")),
            sticky = "w",
            pady = c(10, 0), columnspan = 2)
@@ -122,7 +122,7 @@ window_transform_z <- function() {
     tkgrid(prefixField, sticky = "ew", columnspan = 2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(labelRcmdr(top,
-                      text = gettext_Bio("Suffix for variable names (optional):"),
+                      text = gettext_bs("Suffix for variable names (optional):"),
                       fg = getRcmdr("title.color")),
            sticky = "w",
            pady = c(10, 0), columnspan = 2)

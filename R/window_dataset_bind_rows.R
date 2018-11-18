@@ -113,7 +113,7 @@ window_dataset_bind_rows <- function() {
                             name = "which_id",
                             buttons = c("id_names", "id_numeric","id_none"),
                             values  = c("id_names", "id_numeric","id_none"),
-                            labels  =  gettext_Bio(c("Names  ",
+                            labels  =  gettext_bs(c("Names  ",
                                                      "Numeric (1, 2, ...) ",
                                                      "Do not use ID")),
                             command = choose_id_fun
@@ -288,7 +288,7 @@ window_dataset_bind_rows <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(radiobuttons_frame, sticky = "w", pady = c(10, 0), columnspan = 3)
     tkgrid(labelRcmdr(radiobuttons_frame,
-                      text = gettext_Bio("Type of datasets' ID:   "),
+                      text = gettext_bs("Type of datasets' ID:   "),
                       fg = fg_col),
 
            which_idFrame)

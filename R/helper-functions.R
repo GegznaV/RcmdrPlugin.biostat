@@ -198,7 +198,7 @@ gettext_ezr <- function(...) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-gettext_Bio <- function(...) {
+gettext_bs <- function(...) {
     gettext(..., domain = "R-RcmdrPlugin.biostat")
 }
 

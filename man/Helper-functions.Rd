@@ -11,7 +11,7 @@
 \alias{eval_text}
 \alias{style_cmd}
 \alias{gettext_ezr}
-\alias{gettext_Bio}
+\alias{gettext_bs}
 \alias{s2u}
 \alias{u2s}
 \alias{spaces}
@@ -66,7 +66,7 @@ style_cmd(command, indent_by = 4, ...)
 
 gettext_ezr(...)
 
-gettext_Bio(...)
+gettext_bs(...)
 
 s2u(str)
 

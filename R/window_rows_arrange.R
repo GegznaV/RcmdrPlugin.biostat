@@ -10,7 +10,7 @@
 #' @export
 #' @keywords internal
 window_rows_arrange <- function() {
-    initializeDialog(title = gettext_Bio("Arrange rows"))
+    initializeDialog(title = gettext_bs("Arrange rows"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -20,7 +20,7 @@ window_rows_arrange <- function() {
             Variables(),
             selectmode = "single",
             initialSelection = NULL,
-            title            = gettext_Bio("Variable for sorting"),
+            title            = gettext_bs("Variable for sorting"),
             listHeight       = 8
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -28,10 +28,10 @@ window_rows_arrange <- function() {
     Rcmdr::radioButtons(
         optionsFrame,
         name    = "decreasing",
-        buttons = gettext_Bio(c("Ascending", "Descending")),
+        buttons = gettext_bs(c("Ascending", "Descending")),
         values  = c("FALSE", "TRUE"),
-        labels  = gettext_Bio(c("Ascending", "Descending")),
-        title   = gettext_Bio("Sorting order")
+        labels  = gettext_bs(c("Ascending", "Descending")),
+        title   = gettext_bs("Sorting order")
     )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -43,7 +43,7 @@ window_rows_arrange <- function() {
         if (length(y) == 0) {
             errorCondition(
                 recall = window_rows_arrange,
-                message = gettext_Bio("You must select a variable.")
+                message = gettext_bs("You must select a variable.")
             )
             return()
         }

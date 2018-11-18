@@ -20,14 +20,14 @@ window_variable_select0  <- function(variables) {
 window_variable_select <- function(new_dsname = NULL,
                                    incorrect_cond_msg = NULL) {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_Bio("Select/Remove variables from data set"))
+    initializeDialog(title = gettext_bs("Select/Remove variables from data set"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
 
     var_select_box <- variableListBox2(
         upper_frame,
         Variables(),
-        title = gettext_Bio("Select / Include \n(pick one or more)"),
+        title = gettext_bs("Select / Include \n(pick one or more)"),
         selectmode = "multiple",
         initialSelection = NA,
         listHeight = 8
@@ -36,7 +36,7 @@ window_variable_select <- function(new_dsname = NULL,
     var_delete_box <- variableListBox2(
         upper_frame,
         Variables(),
-        title = gettext_Bio("Remove \n(pick one or more)"),
+        title = gettext_bs("Remove \n(pick one or more)"),
         selectmode = "multiple",
         initialSelection = NA,
         listHeight = 8
@@ -63,7 +63,7 @@ window_variable_select <- function(new_dsname = NULL,
         if ((length(var_select) + length(var_delete)) == 0) {
             errorCondition(
                 recall = window_variable_select,
-                message = gettext_Bio("You must select one or more variables.")
+                message = gettext_bs("You must select one or more variables.")
             )
             return()
         }
@@ -87,7 +87,7 @@ window_variable_select <- function(new_dsname = NULL,
                 RcmdrTkmessageBox(
                     message =
                         sprintf(
-                            gettext_Bio("Variable(s):\nExplicitly selected to include: %d\nExplicitly selected to remove: %d\nPlease confirm to modify your dataset."),
+                            gettext_bs("Variable(s):\nExplicitly selected to include: %d\nExplicitly selected to remove: %d\nPlease confirm to modify your dataset."),
                             length(var_select), length(var_delete)
                         ),
                     icon    = "warning",

@@ -38,7 +38,7 @@ window_rownames_to_col <- function(){
         Library("tibble")
 
         command <- glue(
-            "## ", gettext_Bio("Move row names to column"), "\n",
+            "## ", gettext_bs("Move row names to column"), "\n",
             "{ds} <- {ds} %>% \n",
             'tibble::rownames_to_column("{new_name}")') %>%
             style_cmd()
