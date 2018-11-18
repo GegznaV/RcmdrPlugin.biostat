@@ -1,4 +1,7 @@
 # Set cursor ------------------------------------------------------------------
+#' @rdname helper-functions
+#' @keywords internal
+#' @export
 cursor_set_busy <- function(frame = NULL) {
 
     if (!is.null(frame)) {
@@ -18,10 +21,19 @@ cursor_set_busy <- function(frame = NULL) {
     tkconfigure(.messages,  cursor = "watch")
 }
 
+
+#' @rdname helper-functions
+#' @keywords internal
+#' @export
 cursor_set_idle <- function(frame = NULL) {
 
     if (!is.null(frame)) {
-        tkconfigure(frame, cursor = "")
+        # tkconfigure(frame, cursor = "")
+        tryCatch(
+            tkconfigure(frame, cursor = ""),
+            error   = function(e) {},
+            finally = function(e) {}
+        )
     }
 
     .commander <- CommanderWindow()
@@ -80,10 +92,19 @@ tk_normalize <- function(tk_obj, ...) {
 # }
 
 # Get values -----------------------------------------------------------------
+
+#' @rdname helper-functions
+#' @keywords internal
+#' @export
+
 #
 # TODO:
 # 1) senas `tclvalue_*` funkcijų versijas visame pakete pakeisti naujomis
 #    versijomis.
+
+#' @rdname helper-functions
+#' @keywords internal
+#' @export
 
 tclvalue_lgl <- function(x) {
     # as.logical(as.integer(tclvalue(x)))
@@ -93,39 +114,64 @@ tclvalue_lgl <- function(x) {
 
 # Sena versija:
 
+#' @rdname helper-functions
+#' @keywords internal
+#' @export
+
 tclvalue_int <- function(x) {
     x <- sapply(unlist(strsplit(tclvalue(x), " ")), as.integer)
     names(x) <- NULL
     x
 }
+
 # Naujos versijos:
+
+# #' @rdname helper-functions
+# #' @keywords internal
+# #' @export
 #
 # tclvalue_int <- function(x) {
 #     as.integer(tclvalue(x))
 # }
-#
-# tclvalue_split_int <- function(x) {
-#     x <- sapply(unlist(strsplit(tclvalue(x), " ")), as.integer)
-#     names(x) <- NULL
-#     x
-# }
+
+#' @rdname helper-functions
+#' @keywords internal
+#' @export
+
+tclvalue_split_int <- function(x) {
+    x <- sapply(unlist(strsplit(tclvalue(x), " ")), as.integer)
+    names(x) <- NULL
+    x
+}
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Sena versija:
 
+#' @rdname helper-functions
+#' @keywords internal
+#' @export
 tclvalue_chr <- function(x) {
     sapply(unlist(strsplit(tclvalue(x), " ")), as.character)
     names(x) <- NULL
     x
 }
 
+
 # Naujos versijos:
 
-# tclvalue_split_chr <- function(x) {
-#     sapply(unlist(strsplit(tclvalue(x), " ")), as.character)
-#     names(x) <- NULL
-#     x
-# }
+#' @rdname helper-functions
+#' @keywords internal
+#' @export
+
+tclvalue_split_chr <- function(x) {
+    sapply(unlist(strsplit(tclvalue(x), " ")), as.character)
+    names(x) <- NULL
+    x
+}
+
+# #' @rdname helper-functions
+# #' @keywords internal
+# #' @export
 #
 # tclvalue_chr <- function(x, trim = TRUE, ...) {
 #     rez <- as.character(tclvalue(x))
