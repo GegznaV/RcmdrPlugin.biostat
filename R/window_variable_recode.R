@@ -491,9 +491,9 @@ window_variable_recode0 <- function() {
             show_error_messages(
                 "No recode directives were specified.",
                 str_c("No recode directives were specified.\n\n",
-                      "Double-click on a variable name to insert a template.\n",
-                      "Use either right or left mouse button.\n",
-                      "Then enter the directives."),
+                      "Double-click on a variable name to insert a template:\n",
+                      "use either right or left mouse button.\n",
+                      "Then fill in the template where necessary."),
                 title = "Missing Recode Directives"
             )
             return()
