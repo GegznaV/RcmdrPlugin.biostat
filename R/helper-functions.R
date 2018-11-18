@@ -190,7 +190,7 @@ style_cmd <- function(command, indent_by = 4, ...) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-gettext_EZR <- function(...) {
+gettext_ezr <- function(...) {
     gettext(domain = "R-RcmdrPlugin.EZR", ...)
 }
 

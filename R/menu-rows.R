@@ -80,13 +80,13 @@ window_col_to_rownames <- function(new_dsname = NULL,
 
     # Dialog -----------------------------------------------------------------
 
-    initializeDialog(title = gettext_EZR("Set Row Names"))
+    initializeDialog(title = gettext_bs("Set Row Names"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
     y_var_box <-
         variableListBox2(
             upper_frame,
-            title = gettext_EZR("Variables with unique values\n(select one)"),
+            title = gettext_bs("Variables with unique values\n(select one)"),
             variableList = variables_with_unique_values(),
             listHeight = 7
         )
@@ -97,7 +97,7 @@ window_col_to_rownames <- function(new_dsname = NULL,
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Library("tibble")
         command <- glue(
-            "## ", gettext_EZR("Move column values to row names"), "\n",
+            "## ", gettext_bs("Move column values to row names"), "\n",
             '{ActiveDataSet()} <- ',
             'tibble::column_to_rownames({ActiveDataSet()}, var = "{col_name}")'
         ) %>%

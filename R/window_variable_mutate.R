@@ -31,7 +31,7 @@ window_variable_mutate <- function(var_name = NULL,
     onDoubleClick_variable <- function() {
         var <- trim.blanks(getSelection(variablesBox))
 
-        word <- glue('\\[{gettext_EZR("factor")}\\]')
+        word <- glue('\\[{gettext_bs("factor")}\\]')
 
         if (length(grep(word, var)) == 1)
             var <- trim.blanks(sub(word, "", var))
@@ -52,13 +52,13 @@ window_variable_mutate <- function(var_name = NULL,
     # Dialog -----------------------------------------------------------------
     dataSet <- activeDataSet()
     initializeDialog(
-        title = gettext_EZR("Mutate: create new or replace existing variable"))
+        title = gettext_bs("Mutate: create new or replace existing variable"))
 
     .variables <- Variables()
     variables <-
         paste(.variables,
               ifelse(.variables %in% Factors(),
-                     yes = gettext_EZR("[factor]"),
+                     yes = gettext_bs("[factor]"),
                      no  = ""
               ))
 
@@ -68,7 +68,7 @@ window_variable_mutate <- function(var_name = NULL,
         variableListBox2(
             var_box_Frame,
             variables,
-            title = gettext_EZR("Current variables \n(double-click to add to expression)"),
+            title = gettext_bs("Current variables \n(double-click to add to expression)"),
             listHeight = 8,
             onDoubleClick_fun = onDoubleClick_variable
         )
@@ -79,7 +79,7 @@ window_variable_mutate <- function(var_name = NULL,
     computeFrame <- tkframe(top)
 
     if (is.null(var_name))
-        var_name <- unique_colnames_2(gettext_EZR("new_variable"))
+        var_name <- unique_colnames_2(gettext_bs("new_variable"))
 
     newVariableName <- tclVar(var_name)
 
@@ -114,7 +114,7 @@ window_variable_mutate <- function(var_name = NULL,
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
-        # logger(paste0("##### ", gettext_EZR("Create a new variable")," #####"))
+        # logger(paste0("##### ", gettext_bs("Create a new variable")," #####"))
         closeDialog()
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -123,8 +123,8 @@ window_variable_mutate <- function(var_name = NULL,
 
         # Check validity of var name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (!is.valid.name(newVar)) {
-            msg <- glue(gettext_EZR("Variable name"), ' "{newVar}" ',
-                        gettext_EZR("is not valid!"))
+            msg <- glue(gettext_bs("Variable name"), ' "{newVar}" ',
+                        gettext_bs("is not valid!"))
 
             Message(message = msg, type = "error")
             window_variable_mutate(var_name = make.names(newVar),
@@ -138,7 +138,7 @@ window_variable_mutate <- function(var_name = NULL,
         check.empty <- gsub(";", "", gsub(" ", "", express))
 
         if ("" == check.empty) {
-            Message(message = gettext_EZR("No expression was specified!"),
+            Message(message = gettext_bs("No expression was specified!"),
                     type = "error")
             window_variable_mutate(var_name = newVar,
                                     init_express = express,
@@ -149,7 +149,7 @@ window_variable_mutate <- function(var_name = NULL,
         # Check if variable name already exists ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (is.element(newVar, Variables())) {
             if ("no" == tclvalue(checkReplace(newVar,
-                                              gettext_EZR("Variable")))) {
+                                              gettext_bs("Variable")))) {
 
                 window_variable_mutate(var_name = newVar,
                                        init_express = express,
@@ -171,7 +171,7 @@ window_variable_mutate <- function(var_name = NULL,
             activeDataSet(dataSet, flushModel = FALSE)
         } else {
             # If expression results in error
-            Message(message = gettext_EZR("Error in the expression!"),
+            Message(message = gettext_bs("Error in the expression!"),
                                           type = "error")
             window_variable_mutate(var_name = newVar,
                                     init_express = express,
@@ -181,8 +181,8 @@ window_variable_mutate <- function(var_name = NULL,
 
 
         command <-
-            # glue("## ", gettext_EZR("Create/Replace a variable:"), " {newVar}\n",
-            glue("## ", gettext_EZR("Compute a variable:"), " {newVar}\n",
+            # glue("## ", gettext_bs("Create/Replace a variable:"), " {newVar}\n",
+            glue("## ", gettext_bs("Compute a variable:"), " {newVar}\n",
                                    style_cmd(command))
         logger(command)
 
@@ -202,7 +202,7 @@ window_variable_mutate <- function(var_name = NULL,
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid_text <- function(text = "", frame = examples_Frame, fg = "black",
                             sticky = "w", padx = 20, pady = 0, ...) {
-        tkgrid(labelRcmdr(frame, text = gettext_EZR(text), fg = fg),
+        tkgrid(labelRcmdr(frame, text = gettext_bs(text), fg = fg),
                 sticky = sticky, padx = padx, pady = pady, ...)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -228,11 +228,11 @@ window_variable_mutate <- function(var_name = NULL,
     tkgrid(
         labelRcmdr(computeFrame,
                       fg = getRcmdr("title.color"),
-                      text = gettext_EZR("New variable name")),
+                      text = gettext_bs("New variable name")),
         labelRcmdr(computeFrame, text = "   "),
         labelRcmdr(computeFrame,
                    fg = getRcmdr("title.color"),
-                   text = gettext_EZR("Expression to compute")),
+                   text = gettext_bs("Expression to compute")),
            pady = c(15, 0),
            sticky = "nw")
 

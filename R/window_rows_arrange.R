@@ -78,7 +78,7 @@ window_rows_arrange <- function() {
 
         } else {
             # If evaluation of conditions results in error
-            Message(message = gettext_EZR("Evaluation of conditions resulted in error!"),
+            Message(message = gettext_bs("Evaluation of conditions resulted in error!"),
                     type = "error")
             window_rows_filter(new_dsname = new_dsname,
                                init_conditions = conditions,

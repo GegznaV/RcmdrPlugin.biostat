@@ -74,7 +74,7 @@ window_variable_select <- function(new_dsname = NULL,
 
             if (new_dsname %in% listDataSets()) {
                 if ("no" == tclvalue(checkReplace(new_dsname,
-                                                  gettext_EZR("Data set")))) {
+                                                  gettext_bs("Data set")))) {
                     window_variable_select(new_dsname     = new_dsname,
                                            incorrect_cond_msg =
                                                glue('Chose other name than "{new_dsname}".'))
@@ -155,7 +155,7 @@ window_variable_select <- function(new_dsname = NULL,
     tkgrid(
         label_rcmdr(top,
                     # fg = getRcmdr("title.color"),
-                    text = gettext_EZR("Choose either variables to include, or variables to remove. ")),
+                    text = gettext_bs("Choose either variables to include, or variables to remove. ")),
         pady = c(0, 10))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(upper_frame, columnspan = 3, sticky = "n")
@@ -168,7 +168,7 @@ window_variable_select <- function(new_dsname = NULL,
     tkgrid(
         label_rcmdr(lower_frame,
                     fg = getRcmdr("title.color"),
-                    text = gettext_EZR("Name for modified dataset \n(with selected and without removed variables) ")),
+                    text = gettext_bs("Name for modified dataset \n(with selected and without removed variables) ")),
         pady = c(15, 0),
         sticky = "nw")
 

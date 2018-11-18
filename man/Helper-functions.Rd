@@ -10,7 +10,7 @@
 \alias{eval_}
 \alias{eval_text}
 \alias{style_cmd}
-\alias{gettext_EZR}
+\alias{gettext_ezr}
 \alias{gettext_Bio}
 \alias{s2u}
 \alias{u2s}
@@ -64,7 +64,7 @@ eval_text(x, envir = parent.frame(), ...)
 
 style_cmd(command, indent_by = 4, ...)
 
-gettext_EZR(...)
+gettext_ezr(...)
 
 gettext_Bio(...)
 
