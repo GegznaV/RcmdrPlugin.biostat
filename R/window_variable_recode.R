@@ -489,10 +489,10 @@ window_variable_recode0 <- function() {
         # Is empty? ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (recode_directives == "") {
             show_error_messages(
-                "No recode directives specified.",
-                str_c("No recode directives specified.\n",
+                "No recode directives were specified.",
+                str_c("No recode directives were specified.\n\n",
                       "Double-click on a variable name to insert a template.\n",
-                      "(Use eiter right or left mouse button).\n",
+                      "Use either right or left mouse button.\n",
                       "Then enter the directives."),
                 title = "Missing Recode Directives"
             )
@@ -543,7 +543,7 @@ window_variable_recode0 <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkfocus(CommanderWindow())
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # Announce about success to run the function
+        # Announce about the success to run the function
         TRUE
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     }
