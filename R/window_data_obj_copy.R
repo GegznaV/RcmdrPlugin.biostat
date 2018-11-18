@@ -121,7 +121,7 @@ window_data_obj_copy <- function() {
 
     tkgrid(label_rcmdr(
         top,
-        text = gettextRcmdr("Copy object"),
+        text = gettext_bs("Copy object"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col),
         pady = c(5, 9))

@@ -133,7 +133,7 @@ window_data_obj_rename <- function() {
 
     tkgrid(label_rcmdr(
         top,
-        text = gettextRcmdr("Rename object"),
+        text = gettext_bs("Rename object"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col),
         pady = c(5, 9))

@@ -8,7 +8,7 @@ window_dataset_new_rcmdr <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Window to choose dataset's name
 
-    initializeDialog(title = gettextRcmdr("Create a New Dataset"))
+    initializeDialog(title = gettext_bs("Create a New Dataset"))
     dsname <- tclVar(unique_df_name("new_dataset"))
     entryDsname <- ttkentry(top, width = "30", textvariable = dsname)
 
@@ -19,7 +19,7 @@ window_dataset_new_rcmdr <- function() {
         if (dsnameValue == "") {
             errorCondition(
                 recall = window_new_dataset_rcmdr,
-                message = gettextRcmdr("You must enter the name of the dataset."))
+                message = gettext_bs("You must enter the name of the dataset."))
             return()
         }
 
@@ -28,14 +28,14 @@ window_dataset_new_rcmdr <- function() {
             errorCondition(
                 recall = window_new_dataset_rcmdr,
                 message = str_glue('"{dsnameValue}" ',
-                                   gettextRcmdr("is not a valid name for a dataset."))
+                                   gettext_bs("is not a valid name for a dataset."))
             )
             return()
         }
 
         # Check if a dataset with the same name exists in the workspace
         if (is.element(dsnameValue, listDataSets())) {
-            if ("no" == tclvalue(checkReplace(dsnameValue, gettextRcmdr("Dataset")))) {
+            if ("no" == tclvalue(checkReplace(dsnameValue, gettext_bs("Dataset")))) {
                 window_new_dataset_rcmdr()
                 return()
             }
@@ -52,7 +52,7 @@ window_dataset_new_rcmdr <- function() {
             .data <- try(get(dsnameValue, envir = .GlobalEnv), silent = TRUE)
             if (nrow(.data) == 0) {
                 errorCondition(recall = window_new_dataset_rcmdr,
-                               message = gettextRcmdr("empty data set."))
+                               message = gettext_bs("empty data set."))
                 return()
             }
             tempdir <- tempdir()
@@ -74,7 +74,7 @@ window_dataset_new_rcmdr <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     OKCancelHelp(helpSubject = "editDataset")
     tkgrid(labelRcmdr(top,
-                      text = gettextRcmdr("Enter dataset's name:   ")),
+                      text = gettext_bs("Enter dataset's name:   ")),
            entryDsname,
            pady = c(5, 5),
            sticky = "e")

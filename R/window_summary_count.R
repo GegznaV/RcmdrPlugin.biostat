@@ -81,7 +81,7 @@ window_summary_count <- function() {
     # tabs =      c("dataTab", "optionsTab")
     # tab_names = c(" Data ",  " Options ")
 
-    initializeDialog(title = gettextRcmdr("Frequency / Multi-way table"))
+    initializeDialog(title = gettext_bs("Frequency / Multi-way table"))
 
     # posthocFrame <- tkframe(posthocTab)
     # plotsFrame   <- tkframe(plotsTab)
@@ -99,7 +99,7 @@ window_summary_count <- function() {
         Variables(),
         selectmode = "single",
         listHeight = 7,
-        title = gettextRcmdr("First/Row variable \n(select one)"),
+        title = gettext_bs("First/Row variable \n(select one)"),
         initialSelection = var_pos_n(dialog_values$initial_x_var),
         onRelease_fun = activate_checkboxes
     )
@@ -110,7 +110,7 @@ window_summary_count <- function() {
         selectmode = "single",
         # selectmode = "multiple",
         listHeight = 7,
-        title = gettextRcmdr("Second/Column variable \n(select one or none)"),
+        title = gettext_bs("Second/Column variable \n(select one or none)"),
         initialSelection = var_pos_n(dialog_values$initial_y_var),
         onRelease_fun = activate_checkboxes
     )
@@ -120,7 +120,7 @@ window_summary_count <- function() {
         Variables(),
         selectmode = "multiple",
         listHeight = 7,
-        title = gettextRcmdr("Other/Control variables \n(select one, several or none)"),
+        title = gettext_bs("Other/Control variables \n(select one, several or none)"),
         initialSelection = var_pos_n(dialog_values$initial_z_var),
         onRelease_fun = activate_checkboxes
     )
@@ -135,9 +135,9 @@ window_summary_count <- function() {
         main_middle_frame,
         name         = "table_type",
         buttons      = c("df", "multiway"),
-        labels       = gettextRcmdr(c("Frequency table\n(data frame)", "Multi-way table")),
+        labels       = gettext_bs(c("Frequency table\n(data frame)", "Multi-way table")),
         initialValue = dialog_values$initial_table_type,
-        title        = gettextRcmdr("Type of table:")
+        title        = gettext_bs("Type of table:")
     )
 
     # Middle right frame ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -155,7 +155,7 @@ window_summary_count <- function() {
                        dialog_values$initial_chisq_test ,
                        dialog_values$initial_fisher_test,
                        dialog_values$initial_assoc_stats),
-                   labels = gettextRcmdr(
+                   labels = gettext_bs(
                        c("Pearson's chi-square test",
                          "Fisher's exact test",
                          "Measures of association for categorical variables")
@@ -182,7 +182,7 @@ window_summary_count <- function() {
                    boxes = c("keep_model"),
                    initialValues = c(
                        dialog_values$initial_keep_model),
-                   labels = gettextRcmdr(
+                   labels = gettext_bs(
                        c("Keep summary in R memory")
                    ),
                    commands = list("keep_model"  = function(){})
@@ -214,7 +214,7 @@ window_summary_count <- function() {
 
         if (!is.valid.name(model_name)) {
             errorCondition(recall = window_summary_count,
-                           message = sprintf(gettextRcmdr("\"%s\" is not a valid name."),
+                           message = sprintf(gettext_bs("\"%s\" is not a valid name."),
                                              model_name))
             return()
         }
@@ -229,7 +229,7 @@ window_summary_count <- function() {
         if (length(c(x_var, y_var, z_var)) == 0) {
             errorCondition(
                 recall  = window_summary_count,
-                message = gettextRcmdr("You must select a variable to summarize.")
+                message = gettext_bs("You must select a variable to summarize.")
             )
             return()
         }
@@ -340,7 +340,7 @@ window_summary_count <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(main_frame_b, columnspan = 2, sticky = "sw", pady = c(10, 10))
     tkgrid(labelRcmdr(main_frame_b,
-                      text = gettextRcmdr("Enter name for summary table: "),
+                      text = gettext_bs("Enter name for summary table: "),
                       fg = Rcmdr::getRcmdr("title.color")),
            sticky = "w")
 

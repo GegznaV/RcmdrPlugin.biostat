@@ -5,7 +5,7 @@
 window_rownames_to_col <- function(){
     ds <- activeDataSet()
 
-    initializeDialog(title = gettextRcmdr("Move row names to column"))
+    initializeDialog(title = gettext_bs("Move row names to column"))
 
     name_variable <- tclVar(unique_colnames("row_name"))
     name_frame <- tkframe(top)
@@ -20,14 +20,14 @@ window_rownames_to_col <- function(){
         if (!is.valid.name(new_name)) {
             errorCondition(
                 recall = command_rownames_to_col,
-                message = paste0( '"',new_name,'" ', gettextRcmdr("is not a valid name."))
+                message = paste0( '"',new_name,'" ', gettext_bs("is not a valid name."))
             )
             return()
         }
 
         if (is.element(new_name, listDataSets())) {
             if ("no" == tclvalue(checkReplace(new_name,
-                                              type = gettextRcmdr("Variable")))) {
+                                              type = gettext_bs("Variable")))) {
                 closeDialog()
                 command_rownames_to_col()
                 return()
@@ -58,7 +58,7 @@ window_rownames_to_col <- function(){
     fg_col <- Rcmdr::getRcmdr("title.color")
     tkgrid(label_rcmdr(
         top,
-        text = gettextRcmdr("Move row names to column"),
+        text = gettext_bs("Move row names to column"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col),
         pady = c(5, 9))
@@ -68,7 +68,7 @@ window_rownames_to_col <- function(){
     tkgrid(
         label_rcmdr(
             name_frame,
-            text = gettextRcmdr("Column name for row names:"),
+            text = gettext_bs("Column name for row names:"),
             foreground = getRcmdr("title.color")),
         sticky = "w"
     )

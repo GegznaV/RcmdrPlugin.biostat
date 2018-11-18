@@ -6,7 +6,7 @@
 
 window_import_text_delim <- function() {
     initializeDialog(title =
-                         gettextRcmdr("Read Text Data From File, Clipboard, or URL"))
+                         gettext_bs("Read Text Data From File, Clipboard, or URL"))
     optionsFrame <- tkframe(top)
     dsname <- tclVar(unique_df_name("new_dataset", all_numbered = TRUE))
     entryDsname <- ttkentry(optionsFrame, width = "20", textvariable = dsname)
@@ -15,25 +15,25 @@ window_import_text_delim <- function() {
                      "local",
                      "clipboard", "url"
                  ),
-                 labels = gettextRcmdr(c(
+                 labels = gettext_bs(c(
                      "Local file system",
                      "Clipboard", "Internet URL"
                  )),
-                 title = gettextRcmdr("Location of Data File"))
+                 title = gettext_bs("Location of Data File"))
     headerVariable <- tclVar("1")
     headerCheckBox <- ttkcheckbutton(optionsFrame, variable = headerVariable)
     radioButtons(optionsFrame, "delimiter",
                  buttons = c("whitespace", "commas", "semicolons", "tabs"),
-                 labels = gettextRcmdr(c(
+                 labels = gettext_bs(c(
                      "White space", "Commas [,]", "Semicolons [;]", "Tabs"
                  )),
-                 title = gettextRcmdr("Field Separator"),
+                 title = gettext_bs("Field Separator"),
                  columns = 2
     )
     otherDelimiterFrame <- tkframe(optionsFrame)
     otherButton <- ttkradiobutton(otherDelimiterFrame,
                                   variable = delimiterVariable,
-                                  value = "other", text = gettextRcmdr("Other")
+                                  value = "other", text = gettext_bs("Other")
     )
     otherVariable <- tclVar("")
     otherEntry <- ttkentry(otherDelimiterFrame,
@@ -41,9 +41,9 @@ window_import_text_delim <- function() {
                            textvariable = otherVariable
     )
     radioButtons(optionsFrame, "decimal",
-                 title = gettextRcmdr("Decimal-Point Character"),
+                 title = gettext_bs("Decimal-Point Character"),
                  buttons = c("period","comma"),
-                 labels = gettextRcmdr(c("Period [.]", "Comma [,]"))
+                 labels = gettext_bs(c("Period [.]", "Comma [,]"))
     )
     missingVariable <- tclVar("NA")
     missingEntry <- ttkentry(optionsFrame,
@@ -59,20 +59,20 @@ window_import_text_delim <- function() {
         dsnameValue <- trim.blanks(tclvalue(dsname))
         if (dsnameValue == "") {
             errorCondition(recall = window_import_text_delim,
-                           message = gettextRcmdr("You must enter a name for the data set."))
+                           message = gettext_bs("You must enter a name for the data set."))
             return()
         }
         if (!is.valid.name(dsnameValue)) {
             errorCondition(recall = window_import_text_delim,
                            message = paste("\"", dsnameValue, "\" ",
-                                           gettextRcmdr("is not a valid name."),
+                                           gettext_bs("is not a valid name."),
                                            sep = ""
             ))
             return()
         }
         if (is.element(dsnameValue, listDataSets())) {
             if ("no" == tclvalue(checkReplace(dsnameValue,
-                                              gettextRcmdr("Data set")))) {
+                                              gettext_bs("Data set")))) {
                 window_import_text_delim()
                 return()
             }
@@ -85,10 +85,10 @@ window_import_text_delim <- function() {
         } else if (location == "local") {
             tclvalue(tkgetOpenFile(
                 title = "Choose Text File to Import",
-                filetypes = gettextRcmdr(
+                filetypes = gettext_bs(
                 "{\"Text Files\" {\".txt\" \".TXT\" \".dat\" \".DAT\" \".csv\" \".CSV\"}} {\"All Files\" {\"*\"}}")))
         } else {
-            initializeDialog(subdialog, title = gettextRcmdr("Internet URL"))
+            initializeDialog(subdialog, title = gettext_bs("Internet URL"))
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             onOKsub <- function() {
                 closeDialog(subdialog)
@@ -162,20 +162,20 @@ window_import_text_delim <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     OKCancelHelp(helpSubject = "read.table")
     tkgrid(labelRcmdr(optionsFrame,
-                      text = gettextRcmdr("Enter name for data set:")),
+                      text = gettext_bs("Enter name for data set:")),
            entryDsname,
            sticky = "w"
     )
-    tkgrid(labelRcmdr(optionsFrame, text = gettextRcmdr("Variable names in file:")),
+    tkgrid(labelRcmdr(optionsFrame, text = gettext_bs("Variable names in file:")),
            headerCheckBox,
            sticky = "w"
     )
-    tkgrid(labelRcmdr(optionsFrame, text = gettextRcmdr("Missing data indicator:")),
+    tkgrid(labelRcmdr(optionsFrame, text = gettext_bs("Missing data indicator:")),
            missingEntry,
            sticky = "w"
     )
     tkgrid(locationFrame, sticky = "w")
-    tkgrid(otherButton, labelRcmdr(otherDelimiterFrame, text = gettextRcmdr("    Specify:")),
+    tkgrid(otherButton, labelRcmdr(otherDelimiterFrame, text = gettext_bs("    Specify:")),
            otherEntry,
            sticky = "ew", padx = "3"
     )

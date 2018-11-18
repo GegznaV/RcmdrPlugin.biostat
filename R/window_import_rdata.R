@@ -78,7 +78,7 @@ window_import_rdata <- function() {
     } else {
         Message(
             message = paste(
-                gettextRcmdr("More than one object was imported. Object names:\n"),
+                gettext_bs("More than one object was imported. Object names:\n"),
                 paste(dsname, collapse = ", ")
             ),
             type = "note")

@@ -92,7 +92,7 @@ window_data_obj_delete <- function() {
 
     tkgrid(label_rcmdr(
         top,
-        text = gettextRcmdr("Delete objects"),
+        text = gettext_bs("Delete objects"),
         font = tkfont.create(weight = "bold", size = 9),
         fg   = "darkred"),
         pady = c(5, 9))

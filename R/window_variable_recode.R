@@ -72,25 +72,25 @@ right_click_menu <- function(tcl_widget) {
         # focused <- tkfocus()
         focused <- tcl_widget
 
-        initializeDialog(title = gettextRcmdr("Find"))
+        initializeDialog(title = gettext_bs("Find"))
         textFrame <- tkframe(top)
         textVar <- tclVar(getRcmdr("last.search"))
         textEntry <- ttkentry(textFrame, width = "20", textvariable = textVar)
         checkBoxes(frame = "optionsFrame",
                    boxes = c("regexpr", "case"),
                    initialValues = c("0", "1"),
-                   labels = gettextRcmdr(c("Regular-expression search", "Case sensitive"))
+                   labels = gettext_bs(c("Regular-expression search", "Case sensitive"))
         )
         radioButtons(name    = "direction",
                      buttons = c("foward", "backward"),
-                     labels  = gettextRcmdr(c("Forward", "Backward")),
+                     labels  = gettext_bs(c("Forward", "Backward")),
                      values  = c("-forward", "-backward"),
-                     title   = gettextRcmdr("Search Direction"))
+                     title   = gettext_bs("Search Direction"))
         onOK <- function() {
             text <- tclvalue(textVar)
             putRcmdr("last.search", text)
             if (text == ""){
-                errorCondition(recall=onFind, message=gettextRcmdr("No search text specified."))
+                errorCondition(recall=onFind, message=gettext_bs("No search text specified."))
                 return()
             }
             type <- if (tclvalue(regexprVariable) == 1) "-regexp" else "-exact"
@@ -101,7 +101,7 @@ right_click_menu <- function(tcl_widget) {
             else tksearch(focused, type, direction, "-nocase", "--", text, "insert", stop)
             where.txt <- tclvalue(where.txt)
             if (where.txt == "") {
-                Message(message=gettextRcmdr("Text not found."),
+                Message(message=gettext_bs("Text not found."),
                         type="note")
                 if (GrabFocus()) tkgrab.release(top)
                 tkdestroy(top)
@@ -120,7 +120,7 @@ right_click_menu <- function(tcl_widget) {
             return("")
         }
         OKCancelHelp()
-        tkgrid(labelRcmdr(textFrame, text=gettextRcmdr("Search for:")),
+        tkgrid(labelRcmdr(textFrame, text=gettext_bs("Search for:")),
                textEntry, sticky="w")
         tkgrid(textFrame, sticky="w")
         tkgrid(optionsFrame, sticky="w")
@@ -173,35 +173,35 @@ right_click_menu <- function(tcl_widget) {
 
         contextMenu <- tkmenu(tkmenu(tcl_widget), tearoff = FALSE)
 
-        # tkadd(contextMenu, "command", label = gettextRcmdr("Submit"), command = onSubmit)
+        # tkadd(contextMenu, "command", label = gettext_bs("Submit"), command = onSubmit)
 
         # tkadd(contextMenu, "separator")
 
-        # tkadd(contextMenu, "command", label = gettextRcmdr("Move row up"),    command = onUp)
-        # tkadd(contextMenu, "command", label = gettextRcmdr("Move row down"),  command = onDown)
-        # tkadd(contextMenu, "command", label = gettextRcmdr("Move row to top"), command = onTop)
+        # tkadd(contextMenu, "command", label = gettext_bs("Move row up"),    command = onUp)
+        # tkadd(contextMenu, "command", label = gettext_bs("Move row down"),  command = onDown)
+        # tkadd(contextMenu, "command", label = gettext_bs("Move row to top"), command = onTop)
         #
         # tkadd(contextMenu, "separator")
-        tkadd(contextMenu, "command", label = gettextRcmdr("Cut"),    command = onCut)
-        tkadd(contextMenu, "command", label = gettextRcmdr("Copy"),   command = onCopy)
-        tkadd(contextMenu, "command", label = gettextRcmdr("Paste"),  command = onPaste)
-        tkadd(contextMenu, "command", label = gettextRcmdr("Delete"), command = onDelete)
-        tkadd(contextMenu, "command", label = gettextRcmdr("Delete all"), command = onClear)
+        tkadd(contextMenu, "command", label = gettext_bs("Cut"),    command = onCut)
+        tkadd(contextMenu, "command", label = gettext_bs("Copy"),   command = onCopy)
+        tkadd(contextMenu, "command", label = gettext_bs("Paste"),  command = onPaste)
+        tkadd(contextMenu, "command", label = gettext_bs("Delete"), command = onDelete)
+        tkadd(contextMenu, "command", label = gettext_bs("Delete all"), command = onClear)
 
 
         # tkadd(contextMenu, "separator")
-        # tkadd(contextMenu, "command", label = gettextRcmdr("Find..."),    command = onFind)
-        # tkadd(contextMenu, "command", label = gettextRcmdr("Select all"), command = onSelectAll)
-        # tkadd(contextMenu, "command", label = gettextRcmdr("Select row"), command = onSelectRow)
-        # tkadd(contextMenu, "command", label = gettextRcmdr("Delete row"), command = onDeleteRow)
+        # tkadd(contextMenu, "command", label = gettext_bs("Find..."),    command = onFind)
+        # tkadd(contextMenu, "command", label = gettext_bs("Select all"), command = onSelectAll)
+        # tkadd(contextMenu, "command", label = gettext_bs("Select row"), command = onSelectRow)
+        # tkadd(contextMenu, "command", label = gettext_bs("Delete row"), command = onDeleteRow)
 
         tkadd(contextMenu, "separator")
-        tkadd(contextMenu, "command", label = gettextRcmdr("Undo"),       command = onUndo)
-        tkadd(contextMenu, "command", label = gettextRcmdr("Redo"),       command = onRedo)
+        tkadd(contextMenu, "command", label = gettext_bs("Undo"),       command = onUndo)
+        tkadd(contextMenu, "command", label = gettext_bs("Redo"),       command = onRedo)
 
 
         # tkadd(contextMenu, "separator")
-        # tkadd(contextMenu, "command", label = gettextRcmdr("Reset directives"), command = variable_doubleclick)
+        # tkadd(contextMenu, "command", label = gettext_bs("Reset directives"), command = variable_doubleclick)
 
         tkpopup(contextMenu,
                 tkwinfo("pointerx", tcl_widget),
@@ -553,7 +553,7 @@ window_variable_recode0 <- function() {
     fg_col <- Rcmdr::getRcmdr("title.color")
     tkgrid(label_rcmdr(
         top,
-        text = gettextRcmdr("Recode variable values"),
+        text = gettext_bs("Recode variable values"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col),
         pady = c(5, 9))

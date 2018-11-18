@@ -8,7 +8,7 @@ window_test_normality <- function() {
                      initial_gr_var = NULL,
                      initial_by_groups = FALSE,
                      initial_test = if (nrows <= 5000) "shapiro.test" else "ad.test",
-                     initial_bins = gettextRcmdr("<auto>"),
+                     initial_bins = gettext_bs("<auto>"),
                      initial_add_plot = FALSE,
                      initial_plot_in_colors  = TRUE,
                      initial_new_plots_window = TRUE,
@@ -19,7 +19,7 @@ window_test_normality <- function() {
 
     dialog_values <- getDialog("window_test_normality", defaults)
 
-    initializeDialog(title = gettextRcmdr("Tests of Normality for Groups"))
+    initializeDialog(title = gettext_bs("Tests of Normality for Groups"))
 
 
     # Callback  functions-----------------------------------------------------
@@ -68,7 +68,7 @@ window_test_normality <- function() {
         variables_Frame,
         listHeight =  6,
         Numeric(),
-        title = gettextRcmdr("Variable to test\n(pick one)"),
+        title = gettext_bs("Variable to test\n(pick one)"),
         initialSelection = varPosn(dialog_values$initial_y_var, "numeric")
     )
 
@@ -79,7 +79,7 @@ window_test_normality <- function() {
         selectmode = "multiple",
         Factors(),
         listHeight =  5,
-        title = gettextRcmdr("Groups variable\n(pick one, several or none)"),
+        title = gettext_bs("Groups variable\n(pick one, several or none)"),
         initialSelection =  varPosn(dialog_values$initial_gr_var, "factor"),
         onRelease_fun = cmd_onRelease_gr_var_Box)
 
@@ -89,7 +89,7 @@ window_test_normality <- function() {
                    commands = list("by_groups" = cmd_onClick_by_groups_checkbox),
                    initialValues = c(dialog_values$initial_by_groups),
                    # initialValues = (length(getSelection(gr_var_Box)) != 0),
-                   labels = gettextRcmdr(c("Test by groups"))
+                   labels = gettext_bs(c("Test by groups"))
     )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -98,7 +98,7 @@ window_test_normality <- function() {
     # Choose test
 
     choose_test_Frame <- labeled_frame(options_Frame,
-                                       gettextRcmdr("Normality test"))
+                                       gettext_bs("Normality test"))
 
     choose_test_inner_Frame <- tkframe(choose_test_Frame)
     Rcmdr::radioButtons(choose_test_inner_Frame,
@@ -111,12 +111,12 @@ window_test_normality <- function() {
                                     "pearson.test"
                         ),
                         labels = c(
-                            if (nrows <= 5000) gettextRcmdr("Shapiro-Wilk"),
-                            gettextRcmdr("Anderson-Darling"),
-                            gettextRcmdr("Cramer-von Mises"),
-                            gettextRcmdr("Lilliefors (Kolmogorov-Smirnov)"),
-                            if (nrows <= 5000) gettextRcmdr("Shapiro-Francia"),
-                            gettextRcmdr("Pearson chi-square")
+                            if (nrows <= 5000) gettext_bs("Shapiro-Wilk"),
+                            gettext_bs("Anderson-Darling"),
+                            gettext_bs("Cramer-von Mises"),
+                            gettext_bs("Lilliefors (Kolmogorov-Smirnov)"),
+                            if (nrows <= 5000) gettext_bs("Shapiro-Francia"),
+                            gettext_bs("Pearson chi-square")
                         ),
                         initialValue = dialog_values$initial_test
     )
@@ -138,7 +138,7 @@ window_test_normality <- function() {
                        dialog_values$initial_plot_in_colors,
                        dialog_values$initial_new_plots_window
                    ),
-                   labels = gettextRcmdr(
+                   labels = gettext_bs(
                        c(  "Draw a normal qq-plot",
                            "Plot groups in colors",
                            "Make a new window for the plot")
@@ -156,7 +156,7 @@ window_test_normality <- function() {
                    dialog_values$initial_use_pander,
                    dialog_values$initial_pval_legend
                ),
-               labels = gettextRcmdr(
+               labels = gettext_bs(
                    c("R Markdown compatible results",
                      "Legend for significance stars")
                )
@@ -176,7 +176,7 @@ window_test_normality <- function() {
 
     tkgrid(
         labelRcmdr(binsFrame,
-                   text = gettextRcmdr("Number of bins for\nPearson chi-square")),
+                   text = gettext_bs("Number of bins for\nPearson chi-square")),
         binsField,
         padx = 3,
         sticky = "sw"
@@ -201,17 +201,17 @@ window_test_normality <- function() {
         warn  <- options(warn = -1)
         nbins <- as.numeric(bins)
         options(warn)
-        if (bins != gettextRcmdr("<auto>") &&
+        if (bins != gettext_bs("<auto>") &&
             (is.na(nbins) || nbins < 4)) {
             errorCondition(
                 recall = window_test_normality,
-                message = gettextRcmdr("Number of bins must be a number >= 4")
+                message = gettext_bs("Number of bins must be a number >= 4")
             )
             return()
         }
 
         chi_sq_params <-
-            if (test != "pearson.test" || bins == gettextRcmdr("<auto>")) {
+            if (test != "pearson.test" || bins == gettext_bs("<auto>")) {
                 ""
             } else {
                 glue(",\n{spaces(24)}n.classes = ", bins)
@@ -235,7 +235,7 @@ window_test_normality <- function() {
 
         if (length(y_var) == 0) {
             errorCondition(recall = window_test_normality,
-                           message = gettextRcmdr("You must select a variable."))
+                           message = gettext_bs("You must select a variable."))
             return()
         }
 
@@ -313,7 +313,7 @@ window_test_normality <- function() {
     fg_col <- Rcmdr::getRcmdr("title.color")
     tkgrid(label_rcmdr(
         top,
-        text = gettextRcmdr("Normality tests and normal QQ plots for groups"),
+        text = gettext_bs("Normality tests and normal QQ plots for groups"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col),
         pady = c(5, 9))

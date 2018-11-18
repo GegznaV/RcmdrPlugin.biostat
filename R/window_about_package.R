@@ -3,7 +3,7 @@
 #' @export
 #' @keywords internal
 window_about_package <- function() {
-    initializeDialog(title = gettextRcmdr("Information About The Package"))
+    initializeDialog(title = gettext_bs("Information About The Package"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {closeDialog(); tkfocus(CommanderWindow())}
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -29,7 +29,7 @@ window_about_package <- function() {
 
     tkgrid(
         labelRcmdr(info_frame, fg = getRcmdr("title.color"),
-                      text = gettextRcmdr("Package: ")),
+                      text = gettext_bs("Package: ")),
         labelRcmdr(info_frame, text = "RcmdrPlugin.biostat"),
 
            sticky = "w", pady = c(2, 0), padx = 25)
@@ -37,7 +37,7 @@ window_about_package <- function() {
     tkgrid(
         labelRcmdr(info_frame,
                    fg   = getRcmdr("title.color"),
-                   text = gettextRcmdr("Version: ")),
+                   text = gettext_bs("Version: ")),
         labelRcmdr(info_frame,
                    text = as.character(packageVersion("RcmdrPlugin.biostat"))),
            sticky = "w", pady = c(2, 0), padx = 25)
@@ -45,7 +45,7 @@ window_about_package <- function() {
     tkgrid(
         labelRcmdr(info_frame,
                    fg   = getRcmdr("title.color"),
-                   text = gettextRcmdr("Date: ")),
+                   text = gettext_bs("Date: ")),
         labelRcmdr(info_frame, text = desc::desc_get("Date", descr_file)),
         sticky = "w", pady = c(0, 10), padx = 25
         )
@@ -55,7 +55,7 @@ window_about_package <- function() {
 
     on_click <- function() {browseURL(homepage_link)}
 
-    hp_frame_1 <- labelRcmdr(top, text = gettextRcmdr("Homepage: "))
+    hp_frame_1 <- labelRcmdr(top, text = gettext_bs("Homepage: "))
     hp_frame_2 <- labelRcmdr(top, fg = getRcmdr("title.color"), text = homepage_link)
 
     tkbind(hp_frame_2, "<ButtonPress-1>", on_click) # Link activation
@@ -70,7 +70,7 @@ window_about_package <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     issues_link <- "https://github.com/GegznaV/RcmdrPlugin.biostat/issues"
 
-    issues_frame_1 <- labelRcmdr(top, text = gettextRcmdr("Bug reports: "))
+    issues_frame_1 <- labelRcmdr(top, text = gettext_bs("Bug reports: "))
     issues_frame_2 <- labelRcmdr(top, fg = getRcmdr("title.color"), text = "(link)")
 
     on_click_i <- function() {
@@ -89,7 +89,7 @@ window_about_package <- function() {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # tkgrid(
 #     labelRcmdr(top, fg = getRcmdr("title.color"),
-#                   text = gettextRcmdr("Package: ")),
+#                   text = gettext_bs("Package: ")),
 #     labelRcmdr(top, text = "biostat"),
 #
 #        sticky = "w", pady = c(0, 0), padx = 25)
@@ -97,7 +97,7 @@ window_about_package <- function() {
 # tkgrid(
 #     labelRcmdr(top,
 #                fg = getRcmdr("title.color"),
-#                text = gettextRcmdr("Version: ")),
+#                text = gettext_bs("Version: ")),
 #     labelRcmdr(top, text = as.character(packageVersion("biostat"))),
 #     sticky = "w", pady = c(0, 10), padx = 25)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

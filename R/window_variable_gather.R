@@ -19,7 +19,7 @@
 #' @keywords internal
 window_variable_gather <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettextRcmdr("Gather / Stack variables"))
+    initializeDialog(title = gettext_bs("Gather / Stack variables"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     defaults <- list(initial_y_var         = NULL,
                      initial_dsname        = unique_df_name(suffix = "_long"),
@@ -64,7 +64,7 @@ window_variable_gather <- function() {
             # Numeric(),
             selectmode = "multiple",
             onRelease_fun = cmd_onRelease_y_var_box,
-            title = gettextRcmdr("Variables to gather \n(pick none, one or more)"))
+            title = gettext_bs("Variables to gather \n(pick none, one or more)"))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     options_right_frame <- tkframe(upper_frame)
@@ -80,7 +80,7 @@ window_variable_gather <- function() {
                        dialog_values$initial_factor_key,
                        dialog_values$initial_convert_key
                        ),
-                   labels = gettextRcmdr(
+                   labels = gettext_bs(
                        c(  "Gather all variables",
                            "Remove missing values from output",
                            "Convert key column to factor",
@@ -146,21 +146,21 @@ window_variable_gather <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # if (length(variables) == 1) {
         #     errorCondition(recall = window_variable_gather,
-        #                    message = gettextRcmdr("You must select either none or at least two variables."))
+        #                    message = gettext_bs("You must select either none or at least two variables."))
         #     return()
         # }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (!is.valid.name(key_colname)) {
             errorCondition(recall = window_variable_gather,
                            message = glue('"{key_colname}" ',
-                                          gettextRcmdr("is not a valid name.")))
+                                          gettext_bs("is not a valid name.")))
             return()
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (!is.valid.name(value_colname)) {
             errorCondition(recall = window_variable_gather,
                            message = glue('"{value_colname}" ',
-                                          gettextRcmdr("is not a valid name.")))
+                                          gettext_bs("is not a valid name.")))
 
             return()
         }
@@ -168,12 +168,12 @@ window_variable_gather <- function() {
         if (!is.valid.name(dsname)) {
             errorCondition(recall = window_variable_gather,
                            message = glue('"{dsname}" ',
-                                          gettextRcmdr("is not a valid name.")))
+                                          gettext_bs("is not a valid name.")))
             return()
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (is.element(dsname, listDataSets())) {
-            if ("no" == tclvalue(checkReplace(dsname, gettextRcmdr("Data set")))){
+            if ("no" == tclvalue(checkReplace(dsname, gettext_bs("Data set")))){
                 window_variable_gather()
                 return()
             }
@@ -246,7 +246,7 @@ window_variable_gather <- function() {
     fg_col <- Rcmdr::getRcmdr("title.color")
     tkgrid(label_rcmdr(
         top,
-        text = gettextRcmdr("Gather columns into key-value pairs: convert dataset into long format"),
+        text = gettext_bs("Gather columns into key-value pairs: convert dataset into long format"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col),
         pady = c(5, 9))
@@ -266,19 +266,19 @@ window_variable_gather <- function() {
     tkgrid(lower_frame, pady = c(20, 0))
 
 
-    tkgrid(label_rcmdr(lower_frame, text = gettextRcmdr("Output dataset name:        "),
+    tkgrid(label_rcmdr(lower_frame, text = gettext_bs("Output dataset name:        "),
                        fg = fg_col),
            dataset_nameField,
            sticky = "w",
            pady = 2)
 
-    tkgrid(label_rcmdr(lower_frame, text = gettextRcmdr("Key column name:  "),
+    tkgrid(label_rcmdr(lower_frame, text = gettext_bs("Key column name:  "),
                        fg = fg_col),
            key_colnameField,
            sticky = "w",
            pady = 2)
 
-    tkgrid(label_rcmdr(lower_frame, text = gettextRcmdr("Value column name:"),
+    tkgrid(label_rcmdr(lower_frame, text = gettext_bs("Value column name:"),
                        fg = fg_col),
            values_colnameField,
            sticky = "w",

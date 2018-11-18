@@ -36,7 +36,7 @@ window_do_summary <- function() {
     tabs =      c("dataTab", "optionsTab")
     tab_names = c(" Data ",  " Options ")
 
-    initializeDialog(title = gettextRcmdr("Summarize numerical variables")
+    initializeDialog(title = gettext_bs("Summarize numerical variables")
                      # , use.tabs = TRUE, tabs = tabs
                      )
 
@@ -54,7 +54,7 @@ window_do_summary <- function() {
         Numeric(),
         selectmode = "multiple",
         listHeight = 8,
-        title = gettextRcmdr("Variable(s) to summarize \n(pick one or several)"),
+        title = gettext_bs("Variable(s) to summarize \n(pick one or several)"),
         # initialSelection = varPosn(dialog_values$initial.y_var, "numeric")
         initialSelection = var_pos_n(dialog_values$initial.y_var, "numeric")
     )
@@ -64,7 +64,7 @@ window_do_summary <- function() {
         selectmode = "multiple",
         Variables(), # Factors(),
         listHeight = 8,
-        title = gettextRcmdr("Grouping variable(s) \n(pick one, several or none)"),
+        title = gettext_bs("Grouping variable(s) \n(pick one, several or none)"),
         initialSelection = var_pos_n(dialog_values$initial.gr_var))
         # initialSelection = varPosn(dialog_values$initial.gr_var, "factor"))
 
@@ -100,7 +100,7 @@ window_do_summary <- function() {
                    # title = "Plot options",
                    boxes = c("keep_model"),
                    initialValues = c(dialog_values$initial.keep_model),
-                   labels = gettextRcmdr(
+                   labels = gettext_bs(
                        c("Keep summary in R memory")
                    ),
                    commands = list("keep_model" = function(){})
@@ -110,7 +110,7 @@ window_do_summary <- function() {
     tkgrid(optionsTab, pady = c(10, 0), sticky = "w")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(labelRcmdr(model_box_frame,
-                      text = gettextRcmdr("Enter name for summary table: "),
+                      text = gettext_bs("Enter name for summary table: "),
                       fg = Rcmdr::getRcmdr("title.color")),   sticky = "w")
 
     tkgrid(model_name_box, keep_model_frame, sticky = "ew")
@@ -123,7 +123,7 @@ window_do_summary <- function() {
     digitsBox      <- ttkentry(digitsVarFrame, width = "30", textvariable = digitsVar)
 
     tkgrid(labelRcmdr(digitsVarFrame,
-                      text = gettextRcmdr("Number of decimal digits to print:\n(either integer or NA)"),
+                      text = gettext_bs("Number of decimal digits to print:\n(either integer or NA)"),
                       fg = Rcmdr::getRcmdr("title.color")),
            sticky = "w",
            pady = c(10, 0))
@@ -147,14 +147,14 @@ window_do_summary <- function() {
         if (!is.valid.name(model_name_Value)) {
             # UpdateModelNumber(-1)
             errorCondition(recall = window_do_summary,
-                           message = sprintf(gettextRcmdr("\"%s\" is not a valid name."),
+                           message = sprintf(gettext_bs("\"%s\" is not a valid name."),
                                              model_name_Value))
             return()
         }
 
         if (is.element(model_name_Value, list_summaries_Models())) {
             if ("no" == tclvalue(checkReplace(model_name_Value,
-                                              type = gettextRcmdr("Model")))) {
+                                              type = gettext_bs("Model")))) {
                 # UpdateModelNumber(-1)
                 tkdestroy(top)
                 window_do_summary()
@@ -167,7 +167,7 @@ window_do_summary <- function() {
         if (length(y_var) == 0) {
             errorCondition(
                 recall = window_do_summary,
-                message = gettextRcmdr("You must select a variable to summarize.")
+                message = gettext_bs("You must select a variable to summarize.")
             )
             return()
         }

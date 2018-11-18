@@ -13,7 +13,7 @@ window_dataset_bind <- function() {
     .activeDataSet <- ActiveDataSet()
 
     # [!!!] functions to get and put diaglog are needed.
-    initializeDialog(title = gettextRcmdr("Bind Datasets"))
+    initializeDialog(title = gettext_bs("Bind Datasets"))
     dsname <- tclVar(unique_df_name("new_dataset"))
     idname <- tclVar(".old_dataset_id")
 
@@ -25,8 +25,8 @@ window_dataset_bind <- function() {
     Rcmdr::radioButtons(
         top,
         "direction",
-        title = gettextRcmdr("Direction:"),
-        labels = gettextRcmdr(c("Bind rows", "Bind columns")),
+        title = gettext_bs("Direction:"),
+        labels = gettext_bs(c("Bind rows", "Bind columns")),
         buttons = c("rows", "columns")
     )
 
@@ -35,7 +35,7 @@ window_dataset_bind <- function() {
         variableListBox(
             top,
             dataSets,
-            title = gettextRcmdr("First dataset (left) \n(pick one)"),
+            title = gettext_bs("First dataset (left) \n(pick one)"),
             initialSelection = if (is.null(.activeDataSet)) {
                 NULL
             } else {
@@ -45,7 +45,7 @@ window_dataset_bind <- function() {
     dataSet2Box <-
         variableListBox(top,
                         dataSets,
-                        title = gettextRcmdr("Second dataset (right) \n(pick one)"))
+                        title = gettext_bs("Second dataset (right) \n(pick one)"))
     # commonVar <- tclVar("0")
     # commonFrame <- tkframe(top)
     # commonButton <- ttkcheckbutton(commonFrame, variable = commonVar)
@@ -56,19 +56,19 @@ window_dataset_bind <- function() {
         if (dsnameValue == "") {
             errorCondition(
                 recall = window_dataset_bind,
-                message = gettextRcmdr("You must enter the name of a new dataset.")
+                message = gettext_bs("You must enter the name of a new dataset.")
             )
             return()
         }
         if (!is.valid.name(dsnameValue)) {
             errorCondition(
                 recall = window_dataset_bind,
-                message = str_glue('"{dsnameValue}" ', gettextRcmdr("is not a valid name."))
+                message = str_glue('"{dsnameValue}" ', gettext_bs("is not a valid name."))
             )
             return()
         }
         if (is.element(dsnameValue, listDataSets())) {
-            if ("no" == tclvalue(checkReplace(dsnameValue, gettextRcmdr("Dataset")))) {
+            if ("no" == tclvalue(checkReplace(dsnameValue, gettext_bs("Dataset")))) {
                 closeDialog()
                 window_dataset_bind()
                 return()
@@ -79,21 +79,21 @@ window_dataset_bind <- function() {
         if (length(name1) == 0) {
             errorCondition(
                 recall = window_dataset_bind,
-                message = gettextRcmdr("You must select a dataset (left).")
+                message = gettext_bs("You must select a dataset (left).")
             )
             return()
         }
         if (length(name2) == 0) {
             errorCondition(
                 recall = window_dataset_bind,
-                message = gettextRcmdr("You must select a dataset (right).")
+                message = gettext_bs("You must select a dataset (right).")
             )
             return()
         }
         # if (name1 == name2) {
         #     errorCondition(
         #         recall = window_dataset_bind,
-        #         message = gettextRcmdr("You cannot bind a dataset with itself.")
+        #         message = gettext_bs("You cannot bind a dataset with itself.")
         #     )
         #     return()
         # }
@@ -120,7 +120,7 @@ window_dataset_bind <- function() {
                    if (nrow(eval_glue("{name1}")) != nrow(eval_glue("{name2}"))) {
                        errorCondition(
                            recall = window_dataset_bind,
-                           message = gettextRcmdr("To bind by columns, number of rows in each dataset must match.")
+                           message = gettext_bs("To bind by columns, number of rows in each dataset must match.")
                        )
                        return()
                    }
@@ -148,10 +148,10 @@ window_dataset_bind <- function() {
     OKCancelHelp(helpSubject = "bind_rows", helpPackage = "dplyr")
 
 
-    tkgrid(labelRcmdr(names_Frame, text = gettextRcmdr("Name for resulting dataset:  ")),
+    tkgrid(labelRcmdr(names_Frame, text = gettext_bs("Name for resulting dataset:  ")),
            entry_dsname)
 
-    tkgrid(labelRcmdr(names_Frame, text = gettextRcmdr("Name for .id variable:  ")),
+    tkgrid(labelRcmdr(names_Frame, text = gettext_bs("Name for .id variable:  ")),
            entry_idname)
 
     # tkgrid(directionFrame, commonFrame, pady = c(0, 10), sticky = "sw")
@@ -163,7 +163,7 @@ window_dataset_bind <- function() {
 
     # tkgrid(
     #     commonButton,
-    #     labelRcmdr(commonFrame, text = gettextRcmdr("Merge only common\nrows or columns")),
+    #     labelRcmdr(commonFrame, text = gettext_bs("Merge only common\nrows or columns")),
     #     sticky = "nw"
     # )
 

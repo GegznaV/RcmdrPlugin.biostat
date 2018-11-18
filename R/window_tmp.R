@@ -23,7 +23,7 @@ window_tmp <- function() {
     tabs = c("dataTab", "mainTab", "posthocTab", "outputTab", "plotsTab")
     tab_names = c(" Data ", " Main test ", " Post-hoc analysis ", "Numeric output", "Plots ")
 
-    initializeDialog(title = gettextRcmdr("Compare centers of independent samples"),
+    initializeDialog(title = gettext_bs("Compare centers of independent samples"),
                      use.tabs = TRUE, tabs = tabs)
 
     # posthocFrame <- tkframe(posthocTab)
@@ -116,7 +116,7 @@ window_tmp <- function() {
     model <- ttkentry(model_boxlFrame, width = "20", textvariable = modelName)
 
     tkgrid(labelRcmdr(model_boxlFrame,
-                      text = gettextRcmdr("Enter name for model: "),
+                      text = gettext_bs("Enter name for model: "),
                       fg = Rcmdr::getRcmdr("title.color")),   sticky = "w")
 
     tkgrid(model, sticky = "ew")
@@ -130,7 +130,7 @@ window_tmp <- function() {
                            textvariable = textEntryVarTcl)
 
     tkgrid(labelRcmdr(model_boxlFrame,
-                      text = gettextRcmdr("Significance level (0-1):"),
+                      text = gettext_bs("Significance level (0-1):"),
                       fg = Rcmdr::getRcmdr("title.color")),
            pady = c(5, 0), sticky = "nw")
 

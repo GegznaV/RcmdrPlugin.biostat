@@ -3,7 +3,7 @@ inputComboBox <- function(parentWindow,
                           export             = "FALSE",
                           state              = "readonly",
                           # default_text     = "<no variable selected>",
-                          # initialSelection = gettextRcmdr(default_text),
+                          # initialSelection = gettext_bs(default_text),
                           initialSelection   = NULL,
                           title              = NULL,
                           title_sticky       = "w",
@@ -14,7 +14,7 @@ inputComboBox <- function(parentWindow,
                           width              = 20
                           )
 {
-        # variableList <- c(gettextRcmdr(default_text), variableList)
+        # variableList <- c(gettext_bs(default_text), variableList)
         frame <- tkframe(parentWindow)
         combovar <- tclVar()
         tclvalue(combovar) <- initialSelection

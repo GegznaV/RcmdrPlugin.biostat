@@ -32,7 +32,7 @@ window_anova_kw_mood_tests <- function() {
     tabs = c("dataTab", "mainTab",    "posthocTab",          "outputTab",        "plotsTab")
     tab_names = c(" Data ", " Main test ", " Post-hoc analysis ", "Numerical output", "Plots ")
 
-    initializeDialog(title = gettextRcmdr("Compare centers of independent samples"),
+    initializeDialog(title = gettext_bs("Compare centers of independent samples"),
                      use.tabs = TRUE, tabs = tabs)
 
     # posthocFrame <- tkframe(posthocTab)
@@ -141,7 +141,7 @@ window_anova_kw_mood_tests <- function() {
     model <- ttkentry(model_boxlFrame, width = "20", textvariable = modelName)
 
     tkgrid(labelRcmdr(model_boxlFrame,
-                      text = gettextRcmdr("Enter name for model: "),
+                      text = gettext_bs("Enter name for model: "),
                       fg = Rcmdr::getRcmdr("title.color")),   sticky = "w")
 
     tkgrid(model, sticky = "ew")
@@ -155,7 +155,7 @@ window_anova_kw_mood_tests <- function() {
                            textvariable = textEntryVarTcl)
 
     tkgrid(labelRcmdr(model_boxlFrame,
-                      text = gettextRcmdr("Significance level (0-1):"),
+                      text = gettext_bs("Significance level (0-1):"),
                       fg = Rcmdr::getRcmdr("title.color")),
            pady = c(5, 0),
            sticky = "nw")
@@ -187,14 +187,14 @@ window_anova_kw_mood_tests <- function() {
         dataFrame,
         Factors(),
         listHeight = 10,
-        title = gettextRcmdr("Grouping variable \n(pick one)"),
+        title = gettext_bs("Grouping variable \n(pick one)"),
         initialSelection = varPosn(dialog.values$initial.group, "factor"))
 
     responseBox <- variableListBox2(
         dataFrame,
         Numeric(),
         listHeight = 10,
-        title = gettextRcmdr("Variable to test \n(pick one)"),
+        title = gettext_bs("Variable to test \n(pick one)"),
         initialSelection = varPosn(dialog.values$initial.response, "numeric")
     )
 
@@ -255,12 +255,12 @@ window_anova_kw_mood_tests <- function() {
         # if (!is.valid.name(modelValue)) {
         #     UpdateModelNumber(-1)
         #     errorCondition(recall = window_anova_kw_mood_tests,
-        #                    message = sprintf(gettextRcmdr("\"%s\" is not a valid name."),modelValue
+        #                    message = sprintf(gettext_bs("\"%s\" is not a valid name."),modelValue
         #                    ))
         #     return()
         # }
         # if (is.element(modelValue, listAOVModels())) {
-        #     if ("no" == tclvalue(checkReplace(modelValue, type = gettextRcmdr("Model")))) {
+        #     if ("no" == tclvalue(checkReplace(modelValue, type = gettext_bs("Model")))) {
         #         UpdateModelNumber(-1)
         #         tkdestroy(top)
         #         window_anova_kw_mood_tests()
@@ -277,7 +277,7 @@ window_anova_kw_mood_tests <- function() {
         # if (length(group) == 0) {
         #     errorCondition(
         #         recall = window_anova_kw_mood_tests,
-        #         message = gettextRcmdr("You must select a groups factor.")
+        #         message = gettext_bs("You must select a groups factor.")
         #     )
         #     return()
         # }
@@ -285,7 +285,7 @@ window_anova_kw_mood_tests <- function() {
         # if (length(response) == 0) {
         #     errorCondition(
         #         recall = window_anova_kw_mood_tests,
-        #         message = gettextRcmdr("You must select a response variable.")
+        #         message = gettext_bs("You must select a response variable.")
         #     )
         #     return()
         # }
@@ -322,7 +322,7 @@ window_anova_kw_mood_tests <- function() {
         # if (pairwise == 1) {
         #     if (eval_glue("length(levels({.activeDataSet}${group})) < 3"))
         #
-        #         Message(message = gettextRcmdr(
+        #         Message(message = gettext_bs(
         #                 "Factor has fewer than 3 levels; pairwise comparisons omitted."),
         #             type = "warning"
         #         )
@@ -365,13 +365,13 @@ window_anova_kw_mood_tests <- function() {
     # tkgrid(test_options, sticky = "w")
     #
     # tkgrid(pairwiseCheckBox,
-    #        labelRcmdr(optionsFrame, text = gettextRcmdr("Pairwise comparisons of means")),
+    #        labelRcmdr(optionsFrame, text = gettext_bs("Pairwise comparisons of means")),
     #        sticky = "w")
     #
     # tkgrid(welchCheckBox,
     #        labelRcmdr(
     #            optionsFrame,
-    #            text = gettextRcmdr("Welch F-test not assuming equal variances")
+    #            text = gettext_bs("Welch F-test not assuming equal variances")
     #        ),
     #        sticky = "w")
     #

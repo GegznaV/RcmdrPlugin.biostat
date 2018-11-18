@@ -18,7 +18,7 @@
 #               if (!is.null(reset) && memory) "Reset",
 #               if (!is.null(apply)) "Apply")
 #
-#         width <- max(nchar(gettextRcmdr(button.strings)))
+#         width <- max(nchar(gettext_bs(button.strings)))
 #
 #         if (WindowsP())
 #             width <- width + 2
@@ -66,7 +66,7 @@
 #         OKbutton <-
 #             buttonRcmdr(
 #                 rightButtonsBox,
-#                 text       = gettextRcmdr("OK"),
+#                 text       = gettext_bs("OK"),
 #                 foreground = "darkgreen",
 #                 width      = width,
 #                 command    = OnOK,
@@ -93,7 +93,7 @@
 #         cancelButton <-
 #             buttonRcmdr(
 #                 rightButtonsBox,
-#                 text = gettextRcmdr("Cancel"),
+#                 text = gettext_bs("Cancel"),
 #                 foreground = "red",
 #                 width = width,
 #                 command = onCancel,
@@ -114,7 +114,7 @@
 #             helpButton <-
 #                 buttonRcmdr(
 #                     leftButtonsBox,
-#                     text = gettextRcmdr("Help"),
+#                     text = gettext_bs("Help"),
 #                     width = width,
 #                     command = onHelp,
 #                     image = "::image::helpIcon",
@@ -144,7 +144,7 @@
 #             resetButton <-
 #                 buttonRcmdr(
 #                     leftButtonsBox,
-#                     text = gettextRcmdr("Reset"),
+#                     text = gettext_bs("Reset"),
 #                     width = width,
 #                     command = onReset,
 #                     image = "::image::resetIcon",
@@ -213,7 +213,7 @@
 #             applyButton <-
 #                 buttonRcmdr(
 #                     rightButtonsBox,
-#                     text       = gettextRcmdr("Apply"),
+#                     text       = gettext_bs("Apply"),
 #                     foreground = "yellow",
 #                     width      = width,
 #                     command    = onApply,

@@ -11,7 +11,7 @@ window_rowid_to_col <- function() {
     defaults      <- list(initial_position = "first")
     dialog_values <- getDialog("window_rowid_to_col", defaults)
 
-    initializeDialog(title = gettextRcmdr("Create Row Numbers"))
+    initializeDialog(title = gettext_bs("Create Row Numbers"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ds     <- activeDataSet()
     fg_col <- Rcmdr::getRcmdr("title.color")
@@ -99,7 +99,7 @@ window_rowid_to_col <- function() {
     # Title ------------------------------------------------------------------
     tkgrid(label_rcmdr(
         top,
-        text = gettextRcmdr("Create column with row numbers"),
+        text = gettext_bs("Create column with row numbers"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col),
         pady = c(5, 9))
@@ -110,7 +110,7 @@ window_rowid_to_col <- function() {
     tkgrid(
         label_rcmdr(
             name_frame,
-            text = gettextRcmdr("Column name for row numbers:"),
+            text = gettext_bs("Column name for row numbers:"),
             foreground = getRcmdr("title.color")),
         sticky = "w"
     )

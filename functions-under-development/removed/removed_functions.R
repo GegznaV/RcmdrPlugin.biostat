@@ -14,10 +14,10 @@
 # # @export
 # #
 # # @examples
-# box_ask_to_replace <- function(name, type = gettextRcmdr("Object")) {
+# box_ask_to_replace <- function(name, type = gettext_bs("Object")) {
 #     rez <- RcmdrTkmessageBox(
 #         message = sprintf(
-#             gettextRcmdr('%s "%s" already exists.\nOverwrite the %s?'),
+#             gettext_bs('%s "%s" already exists.\nOverwrite the %s?'),
 #             type,
 #             name,
 #             tolower(type)
@@ -30,12 +30,12 @@
 # }
 # #  ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?
 # #' @rdname box_ask_to_replace
-# replace_object <- function(name, type = gettextRcmdr("Object")) {
+# replace_object <- function(name, type = gettext_bs("Object")) {
 #     box_ask_to_replace(name, type)
 # }
 # #  ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?
 # #' @rdname box_ask_to_replace
-# replace_variable <- function(name, type = gettextRcmdr("Variable")) {
+# replace_variable <- function(name, type = gettext_bs("Variable")) {
 #     box_ask_to_replace(name, type)
 # }
 # #  ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?

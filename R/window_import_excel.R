@@ -34,7 +34,7 @@ window_import_excel <- function() {
 
 
     # if (length(worksheets) > 1) {
-    #     worksheet <- tk_select.list(worksheets, title = gettextRcmdr("Select one table"))
+    #     worksheet <- tk_select.list(worksheets, title = gettext_bs("Select one table"))
     # } else {
     #     worksheet <- worksheets
     # }
@@ -96,7 +96,7 @@ window_import_excel <- function() {
 
     # Frames and widgets -----------------------------------------------------
     # Initialize ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettextRcmdr("Import from Excel"))
+    initializeDialog(title = gettext_bs("Import from Excel"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame   <- tkframe(top)
     upper_l_frame <- tkframe(upper_frame)
@@ -133,7 +133,7 @@ window_import_excel <- function() {
     lower_frame <- tkframe(top)
 
     missingFrame    <- tkframe(lower_frame)
-    missingVariable <- tclVar(gettextRcmdr("<empty cell>"))
+    missingVariable <- tclVar(gettext_bs("<empty cell>"))
     missingEntry    <- ttkentry(missingFrame,
                                 width = "12",
                                 textvariable = missingVariable)
@@ -197,7 +197,7 @@ window_import_excel <- function() {
         as_factor_str <-
             if (stringsAsFactorsValue == "1") {"TRUE"} else {"FALSE"}
 
-        initial_mv <- missingValues %in% gettextRcmdr("<empty cell>")
+        initial_mv <- missingValues %in% gettext_bs("<empty cell>")
         if (any(initial_mv)) {
             missingValues[initial_mv] <- ""
         }
@@ -242,7 +242,7 @@ window_import_excel <- function() {
 
     tkgrid(label_rcmdr(
         top,
-        text = gettextRcmdr("Import data from Excel file"),
+        text = gettext_bs("Import data from Excel file"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col
     ),
@@ -285,21 +285,21 @@ window_import_excel <- function() {
     tkgrid(variableNamesCheckBox,
            labelRcmdr(
                checkBoxFrame,
-               text = gettextRcmdr("Variable names in first row of spreadsheet")
+               text = gettext_bs("Variable names in first row of spreadsheet")
            ),
            sticky = "w"
     )
     tkgrid(rowNamesCheckBox,
            labelRcmdr(
                checkBoxFrame,
-               text = gettextRcmdr("Row names in first column of spreadsheet")
+               text = gettext_bs("Row names in first column of spreadsheet")
            ),
            sticky = "w"
     )
     tkgrid(stringsAsFactorsCheckBox,
            labelRcmdr(
                checkBoxFrame,
-               text = gettextRcmdr("Convert character data to factors")
+               text = gettext_bs("Convert character data to factors")
            ),
            sticky = "w"
     )
@@ -307,7 +307,7 @@ window_import_excel <- function() {
 
 
     tkgrid(labelRcmdr(missingFrame,
-                      text = gettextRcmdr("Missing data indicator: ")),
+                      text = gettext_bs("Missing data indicator: ")),
            missingEntry,
            sticky = "w"
     )

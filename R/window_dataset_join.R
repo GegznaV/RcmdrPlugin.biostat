@@ -6,12 +6,12 @@ window_dataset_join <- function() {
     dataSets <- listDataSets()
     .activeDataSet <- ActiveDataSet()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettextRcmdr("Join Two Datasets"))
+    initializeDialog(title = gettext_bs("Join Two Datasets"))
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
     tkgrid(label_rcmdr(
         top,
-        text = gettextRcmdr("Join two datasets"),
+        text = gettext_bs("Join two datasets"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col),
         pady = c(5, 9), columnspan = 3)
@@ -104,8 +104,8 @@ window_dataset_join <- function() {
     Rcmdr::radioButtons(
         middle_Frame,
         "join_type",
-        title = gettextRcmdr("Join type: "),
-        labels = gettextRcmdr(c(
+        title = gettext_bs("Join type: "),
+        labels = gettext_bs(c(
             "Full join",
             "Left join",
             "Right join",
@@ -150,7 +150,7 @@ window_dataset_join <- function() {
             middle_Frame,
             dataSets,
             listHeight = 7,
-            title = gettextRcmdr("First dataset (left, x) \n(pick one)"),
+            title = gettext_bs("First dataset (left, x) \n(pick one)"),
             onRelease_fun = function() {
                 set_ds_name()
                 cmd_onRelease_ds_x()
@@ -171,7 +171,7 @@ window_dataset_join <- function() {
                              set_ds_name()
                              cmd_onRelease_ds_y()
                          },
-                         title = gettextRcmdr("Second dataset (right, y) \n(pick one)"))
+                         title = gettext_bs("Second dataset (right, y) \n(pick one)"))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_onRelease_ds_x()
@@ -207,7 +207,7 @@ window_dataset_join <- function() {
         if (ds_name == "") {
             errorCondition(
                 recall = window_dataset_join,
-                message = gettextRcmdr("You must enter a name of the new joint dataset.")
+                message = gettext_bs("You must enter a name of the new joint dataset.")
             )
             return()
         }
@@ -217,7 +217,7 @@ window_dataset_join <- function() {
             errorCondition(
                 recall = window_dataset_join,
                 message = str_glue('"{ds_name}" ',
-                                   gettextRcmdr("is not a valid name for a dataset."))
+                                   gettext_bs("is not a valid name for a dataset."))
             )
             return()
         }
@@ -225,7 +225,7 @@ window_dataset_join <- function() {
         # Check if the new name is not duplicated
         # (if a dataset with the same name does not exist in the workspace)
         if (is.element(ds_name, listDataSets())) {
-            if ("no" == tclvalue(checkReplace(ds_name, gettextRcmdr("Dataset")))) {
+            if ("no" == tclvalue(checkReplace(ds_name, gettext_bs("Dataset")))) {
                 closeDialog()
                 window_dataset_join()
                 return()
@@ -289,14 +289,14 @@ window_dataset_join <- function() {
         if (length(ds_name_x) == 0) {
             errorCondition(
                 recall = window_dataset_join,
-                message = gettextRcmdr("You must select the first dataset (left).")
+                message = gettext_bs("You must select the first dataset (left).")
             )
             return()
         }
         if (length(ds_name_y) == 0) {
             errorCondition(
                 recall = window_dataset_join,
-                message = gettextRcmdr("You must select the second dataset (right).")
+                message = gettext_bs("You must select the second dataset (right).")
             )
             return()
         }
@@ -304,7 +304,7 @@ window_dataset_join <- function() {
         # if (ds_name_x == ds_name_y) {
         #     errorCondition(
         #         recall = window_dataset_join,
-        #         message = gettextRcmdr("You cannot merge a dataset with itself.")
+        #         message = gettext_bs("You cannot merge a dataset with itself.")
         #     )
         #     return()
         # }
@@ -331,7 +331,7 @@ window_dataset_join <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(labelRcmdr(var_names_Frame,
                       fg = getRcmdr("title.color"),
-                      text = gettextRcmdr(paste(
+                      text = gettext_bs(paste(
                           "     Variable names to join the datasets by \n",
                           "(leave blank to choose all matching names)"))),
            columnspan = 3, padx = c(5, 5), pady = c(5, 5)
@@ -339,13 +339,13 @@ window_dataset_join <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(
         labelRcmdr(var_names_Frame,
-                   text = gettextRcmdr("Variable in x")),
+                   text = gettext_bs("Variable in x")),
 
         labelRcmdr(var_names_Frame,
-                   text = gettextRcmdr("      ")),
+                   text = gettext_bs("      ")),
 
         labelRcmdr(var_names_Frame,
-                   text = gettextRcmdr("Variable in y"))
+                   text = gettext_bs("Variable in y"))
 
     )
 
@@ -365,7 +365,7 @@ window_dataset_join <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(labelRcmdr(ds_name_Frame,
                       fg = getRcmdr("title.color"),
-                      text = gettextRcmdr("Name for joint dataset:  ")),
+                      text = gettext_bs("Name for joint dataset:  ")),
            entry_ds_name, pady = c(5, 0))
 
     tkgrid(ds_name_Frame, pady = c(0, 5), sticky = "sw", columnspan = 3)

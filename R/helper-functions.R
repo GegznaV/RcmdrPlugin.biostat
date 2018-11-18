@@ -505,7 +505,7 @@ is_valid_name <- function(name) {
         return(FALSE) # is not valid name
 
     } else if (!(name == make.names(name))) {
-        # message  <- str_glue('"{name}" {gettextRcmdr("is not a valid name.")}')
+        # message  <- str_glue('"{name}" {gettext_bs("is not a valid name.")}')
         message  <- str_glue('Name "{name}" is not valid.')
         message2 <- str_glue(
             "{message} \n\n",

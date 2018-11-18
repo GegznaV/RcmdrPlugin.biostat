@@ -26,7 +26,7 @@ window_... <- function() {
     # tabs =      c("dataTab", "optionsTab")
     # tab_names = c(" Data ",  " Options ")
 
-    initializeDialog(title = gettextRcmdr("Frequency table (for categorical data)"))
+    initializeDialog(title = gettext_bs("Frequency table (for categorical data)"))
 
     # posthocFrame <- tkframe(posthocTab)
     # plotsFrame   <- tkframe(plotsTab)
@@ -43,7 +43,7 @@ window_... <- function() {
         Factors(),
         selectmode = "multiple",
         listHeight = 7,
-        title = gettextRcmdr("Variables\n(pick one or several)"),
+        title = gettext_bs("Variables\n(pick one or several)"),
         initialSelection = varPosn(dialog_values$initial_y_var, "numeric")
     )
 
@@ -52,7 +52,7 @@ window_... <- function() {
     #     selectmode = "multiple",
     #     Factors(),
     #     listHeight = 6,
-    #     title = gettextRcmdr("Grouping variable(s) \n(pick one, several or none)"),
+    #     title = gettext_bs("Grouping variable(s) \n(pick one, several or none)"),
     #     initialSelection = varPosn(dialog_values$initial_gr_var, "factor"))
     #
     # tkgrid(
@@ -88,7 +88,7 @@ window_... <- function() {
                    boxes = c("as_df", "keep_model"),
                    initialValues = c(dialog_values$initial_as_df,
                                      dialog_values$initial_keep_model),
-                   labels = gettextRcmdr(
+                   labels = gettext_bs(
                        c("Summary as data frame", "Keep summary")
                    ),
                    commands = list("as_df" = function(){},
@@ -97,7 +97,7 @@ window_... <- function() {
 
     tkgrid(keep_model_Frame, sticky = "ew")
     tkgrid(labelRcmdr(model_boxlFrame,
-                      text = gettextRcmdr("Enter name for summary: "),
+                      text = gettext_bs("Enter name for summary: "),
                       fg = Rcmdr::getRcmdr("title.color")),   sticky = "w")
 
     tkgrid(model, sticky = "ew")
@@ -113,7 +113,7 @@ window_... <- function() {
     # digitsBox      <- ttkentry(digitsVarFrame, width = "20", textvariable = digitsVar)
     #
     # tkgrid(labelRcmdr(digitsVarFrame,
-    #                   text = gettextRcmdr("Decimal digits to round to:\n(either integer or NA)"),
+    #                   text = gettext_bs("Decimal digits to round to:\n(either integer or NA)"),
     #                   fg = Rcmdr::getRcmdr("title.color")),   sticky = "w")
     #
     # tkgrid(digitsBox, sticky = "ew")
@@ -150,7 +150,7 @@ window_... <- function() {
         if (!is.valid.name(model_name_Value)) {
             UpdateModelNumber(-1)
             errorCondition(recall = window_...,
-                           message = sprintf(gettextRcmdr("\"%s\" is not a valid name."),
+                           message = sprintf(gettext_bs("\"%s\" is not a valid name."),
                                              model_name_Value))
             return()
         }
@@ -158,7 +158,7 @@ window_... <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (is.element(model_name_Value, list_summaries_Models())) {
             if ("no" == tclvalue(checkReplace(model_name_Value,
-                                              type = gettextRcmdr("Model")))) {
+                                              type = gettext_bs("Model")))) {
                 UpdateModelNumber(-1)
                 tkdestroy(top)
                 window_...()
@@ -171,7 +171,7 @@ window_... <- function() {
         if (length(y_var) == 0) {
             errorCondition(
                 recall = window_...,
-                message = gettextRcmdr("You must select a variable to summarize.")
+                message = gettext_bs("You must select a variable to summarize.")
             )
             return()
         }

@@ -147,7 +147,7 @@ window_variable_rename <- function() {
     fg_col <- Rcmdr::getRcmdr("title.color")
     tkgrid(label_rcmdr(
         top,
-        text = gettextRcmdr("Rename variables (columns)"),
+        text = gettext_bs("Rename variables (columns)"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col),
         pady = c(5, 9))

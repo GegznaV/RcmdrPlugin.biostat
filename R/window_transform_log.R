@@ -18,7 +18,7 @@ window_transform_log <- function() {
     fg_col <- Rcmdr::getRcmdr("title.color")
     tkgrid(label_rcmdr(
         top,
-        text = gettextRcmdr("Logarithmic transformation"),
+        text = gettext_bs("Logarithmic transformation"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col),
         pady = c(5, 9), columnspan = 2)

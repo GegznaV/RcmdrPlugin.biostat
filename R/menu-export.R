@@ -231,13 +231,13 @@ window_export_to_textfile <- function() {
         tibble::has_rownames(get(activeDataSet(), envir = .GlobalEnv))
 
 
-    initializeDialog(title = gettextRcmdr("Save Data to Text File"))
+    initializeDialog(title = gettext_bs("Save Data to Text File"))
 
     checkBoxes(
         frame = "optionsFrame",
         boxes = c("colnames", "rownames", "quotes"),
         initialValues = c(TRUE, has_rownames, TRUE),
-        labels = gettextRcmdr(
+        labels = gettext_bs(
             c(
                 "Write variable names",
                 "Write row names",
@@ -253,9 +253,9 @@ window_export_to_textfile <- function() {
     Rcmdr::radioButtons(
         name = "delimiter",
         buttons = c("commas", "semicolons", "spaces", "tabs"),
-        labels = gettextRcmdr(c("Commas [,]", "Semicolons [;]", "Spaces", "Tabs")),
+        labels = gettext_bs(c("Commas [,]", "Semicolons [;]", "Spaces", "Tabs")),
         initialValue = "tabs",
-        title = gettextRcmdr("Field separator")
+        title = gettext_bs("Field separator")
     )
 
     delimiterFrame_other <- tkframe(delimiterFrame)
@@ -265,7 +265,7 @@ window_export_to_textfile <- function() {
             delimiterFrame_other,
             variable = delimiterVariable,
             value    = "other",
-            text     = gettextRcmdr("Other: ")
+            text     = gettext_bs("Other: ")
         )
     otherVariable <- tclVar("")
     otherEntry    <- ttkentry(delimiterFrame_other,
@@ -296,7 +296,7 @@ window_export_to_textfile <- function() {
         saveFile <-
             tclvalue(tkgetSaveFile(
                 title = "Save data to text file",
-                filetypes = gettextRcmdr(
+                filetypes = gettext_bs(
                     '{"All Files" {"*"}} {"Text Files" {".txt" ".TXT" ".dat" ".DAT" ".csv" ".CSV"}}'
                 ),
                 defaultextension = if (delim == "commas") ".csv" else ".txt",
@@ -323,7 +323,7 @@ window_export_to_textfile <- function() {
         justDoIt(command)
         logger(command)
 
-        Message(paste(gettextRcmdr("Active dataset exported to file"), saveFile),
+        Message(paste(gettext_bs("Active dataset exported to file"), saveFile),
                 type = "note")
         tkfocus(CommanderWindow())
     }
@@ -334,7 +334,7 @@ window_export_to_textfile <- function() {
 
     tkgrid(label_rcmdr(
         top,
-        text = gettextRcmdr("Save data to text file"),
+        text = gettext_bs("Save data to text file"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col),
         pady = c(5, 9))
@@ -346,12 +346,12 @@ window_export_to_textfile <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     tkgrid(labelRcmdr(top,
-                      text = gettextRcmdr("Options "),
+                      text = gettext_bs("Options "),
                       fg = getRcmdr("title.color")),
            sticky = "w",
            pady = c(10, 0))
 
-    tkgrid(labelRcmdr(missingFrame, text = gettextRcmdr("Missing values:  ")),
+    tkgrid(labelRcmdr(missingFrame, text = gettext_bs("Missing values:  ")),
            missingEntry,
            sticky = "w")
     tkgrid(missingFrame, sticky = "w")

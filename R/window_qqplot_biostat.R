@@ -6,17 +6,17 @@ window_qqplot_biostat <- function() {
     nrows <- getRcmdr("nrow") # nrows in active dataset
     defaults <- list(initial_var = NULL,
                      initial_test = if (nrows <= 5000) "shapiro.test" else "ad.test",
-                     initial_bins = gettextRcmdr("<auto>"),
+                     initial_bins = gettext_bs("<auto>"),
                      initial_groups = NULL
     )
 
     dialog.values <- getDialog("window_qqplot_biostat", defaults)
-    initializeDialog(title = gettextRcmdr("Test of Normality"))
+    initializeDialog(title = gettext_bs("Test of Normality"))
 
     variableBox <- variableListBox(
         top,
         Numeric(),
-        title = gettextRcmdr("Variable to test\n(pick one)"),
+        title = gettext_bs("Variable to test\n(pick one)"),
         initialSelection = varPosn(dialog.values$initial_var, "numeric")
     )
 
@@ -31,14 +31,14 @@ window_qqplot_biostat <- function() {
                                     "pearson.test"
                         ),
                         labels = c(
-                            if (nrows <= 5000) gettextRcmdr("Shapiro-Wilk"),
-                            gettextRcmdr("Anderson-Darling"),
-                            gettextRcmdr("Cramer-von Mises"),
-                            gettextRcmdr("Lilliefors (Kolmogorov-Smirnov)"),
-                            if (nrows <= 5000) gettextRcmdr("Shapiro-Francia"),
-                            gettextRcmdr("Pearson chi-square")
+                            if (nrows <= 5000) gettext_bs("Shapiro-Wilk"),
+                            gettext_bs("Anderson-Darling"),
+                            gettext_bs("Cramer-von Mises"),
+                            gettext_bs("Lilliefors (Kolmogorov-Smirnov)"),
+                            if (nrows <= 5000) gettext_bs("Shapiro-Francia"),
+                            gettext_bs("Pearson chi-square")
                         ),
-                        title = gettextRcmdr("Normality Test"),
+                        title = gettext_bs("Normality Test"),
                         initialValue = dialog.values$initial_test
     )
     binsFrame <- tkframe(optionsFrame)
@@ -47,11 +47,11 @@ window_qqplot_biostat <- function() {
 
     groupsBox(
         recall = window_qqplot_biostat,
-        label = gettextRcmdr("Test by:"),
+        label = gettext_bs("Test by:"),
         initialLabel = if (is.null(dialog.values$initial_group)) {
-            gettextRcmdr("Test by groups")
+            gettext_bs("Test by groups")
         } else {
-            paste(gettextRcmdr("Test by:"),
+            paste(gettext_bs("Test by:"),
                   paste0(dialog.values$initial_group, collapse = " + "))
 
             # [!!!] 2ia gali b8ti reikialinti str_ komanda,
@@ -68,17 +68,17 @@ window_qqplot_biostat <- function() {
         warn <- options(warn = -1)
         nbins <- as.numeric(bins)
         options(warn)
-        if (bins != gettextRcmdr("<auto>") &&
+        if (bins != gettext_bs("<auto>") &&
             (is.na(nbins) || nbins < 4)) {
             errorCondition(
                 recall = window_qqplot_biostat,
-                message = gettextRcmdr("Number of bins must be a number >= 4")
+                message = gettext_bs("Number of bins must be a number >= 4")
             )
             return()
         }
 
         n.classes <-
-            if (test != "pearson.test" || bins == gettextRcmdr("<auto>")) {
+            if (test != "pearson.test" || bins == gettext_bs("<auto>")) {
                 ""
             } else {
                 paste0(", n.classes = ", bins)
@@ -93,7 +93,7 @@ window_qqplot_biostat <- function() {
         )
         if (length(var) == 0) {
             errorCondition(recall = window_qqplot_biostat,
-                           message = gettextRcmdr("You must select a variable."))
+                           message = gettext_bs("You must select a variable."))
             return()
         }
 
@@ -149,7 +149,7 @@ window_qqplot_biostat <- function() {
                  apply = "window_qqplot_biostat")
     tkgrid(getFrame(variableBox), sticky = "nw")
     tkgrid(
-        labelRcmdr(binsFrame, text = gettextRcmdr(
+        labelRcmdr(binsFrame, text = gettext_bs(
             "Number of bins\nfor Pearson chi-square"
         )),
         binsField,

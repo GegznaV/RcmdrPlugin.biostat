@@ -22,7 +22,7 @@ window_xxx <- function() {
 
     # Frames and widgets -----------------------------------------------------
     # Initialize ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettextRcmdr("xxx_title"))
+    initializeDialog(title = gettext_bs("xxx_title"))
 
     # Populate ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
@@ -151,7 +151,7 @@ window_xxx <- function() {
     # Title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(label_rcmdr(
         top,
-        text = gettextRcmdr("xxx_title"),
+        text = gettext_bs("xxx_title"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col),
         pady = c(5, 9))
@@ -163,7 +163,7 @@ window_xxx <- function() {
     tkgrid(
         label_rcmdr(
             name_frame,
-            text = gettextRcmdr("Column name for row numbers:"),
+            text = gettext_bs("Column name for row numbers:"),
             foreground = getRcmdr("title.color")),
         sticky = "w"
     )

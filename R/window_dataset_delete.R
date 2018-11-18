@@ -8,7 +8,7 @@ window_dataset_delete <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Window to choose dataset's name
 
-    initializeDialog(title = gettextRcmdr("Delete Active Dataset"))
+    initializeDialog(title = gettext_bs("Delete Active Dataset"))
 
     ds_to_delete <- activeDataSet()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -32,7 +32,7 @@ window_dataset_delete <- function() {
 
     tkgrid(labelRcmdr(top,
                       fg = getRcmdr("title.color"),
-                      text = gettextRcmdr("Do you want to DELETE the following dataset? ")),
+                      text = gettext_bs("Do you want to DELETE the following dataset? ")),
 
            sticky = "w", pady = c(10, 0), padx = 25)
 

@@ -17,7 +17,7 @@ command_list_datasets_in_pkgs <- function() {
 window_import_from_pkg <- function() {
   env <- environment()
   datasets <- NULL
-  initializeDialog(title = gettextRcmdr("Read Data From R Package"))
+  initializeDialog(title = gettext_bs("Read Data From R Package"))
   dsname <- tclVar("")
   package <- NULL
   enterFrame <- tkframe(top)
@@ -183,7 +183,7 @@ window_import_from_pkg <- function() {
       if (is.element(dsnameValue, listDataSets())) {
         if ("no" == tclvalue(checkReplace(
           dsnameValue,
-          gettextRcmdr("Data set")
+          gettext_bs("Data set")
         ))) {
           if (GrabFocus()) {
             tkgrab.release(top)
@@ -205,7 +205,7 @@ window_import_from_pkg <- function() {
         errorCondition(
           recall = window_import_from_pkg,
           message = sprintf(
-            gettextRcmdr("Data set %s does not exist"),
+            gettext_bs("Data set %s does not exist"),
             dsnameValue
           )
         )
@@ -218,21 +218,21 @@ window_import_from_pkg <- function() {
       if (is.null(package)) {
         errorCondition(
           recall = window_import_from_pkg,
-          message = gettextRcmdr("You must select a package.")
+          message = gettext_bs("You must select a package.")
         )
         return()
       }
       if (length(datasetName) == 0) {
         errorCondition(
           recall = window_import_from_pkg,
-          message = gettextRcmdr("You must select a data set.")
+          message = gettext_bs("You must select a data set.")
         )
         return()
       }
       if (is.element(datasetName, listDataSets())) {
         if ("no" == tclvalue(checkReplace(
           datasetName,
-          gettextRcmdr("Data set")
+          gettext_bs("Data set")
         ))) {
           if (GrabFocus()) {
             tkgrab.release(top)
@@ -260,7 +260,7 @@ window_import_from_pkg <- function() {
       dsnameValue <- datasetName
     }
     if (length(dsnameValue) == 0) {
-      Message(gettextRcmdr("No data set selected."), type = "warning")
+      Message(gettext_bs("No data set selected."), type = "warning")
     } else if (is.null(package)) {
       doItAndPrint(paste("help(\"", dsnameValue, "\")",
         sep = ""
@@ -274,15 +274,15 @@ window_import_from_pkg <- function() {
   }
   OKCancelHelp(helpSubject = "data")
   dataHelpButton <- buttonRcmdr(top,
-    text = gettextRcmdr("Help on selected data set"),
+    text = gettext_bs("Help on selected data set"),
     command = onDataHelp
   )
   tkgrid(labelRcmdr(packageDatasetFrame,
-    text = gettextRcmdr("Package (Double-click to select)"),
+    text = gettext_bs("Package (Double-click to select)"),
     fg = getRcmdr("title.color"), font = "RcmdrTitleFont"
   ),
   labelRcmdr(packageDatasetFrame, text = "   "), labelRcmdr(packageDatasetFrame,
-    text = gettextRcmdr("Data set (Double-click to select)"),
+    text = gettext_bs("Data set (Double-click to select)"),
     fg = getRcmdr("title.color"), font = "RcmdrTitleFont"
   ),
   sticky = "w"
@@ -294,11 +294,11 @@ window_import_from_pkg <- function() {
     sticky = "nw"
   )
   tkgrid(packageDatasetFrame, sticky = "w")
-  tkgrid(labelRcmdr(top, text = gettextRcmdr("OR"), fg = "red"),
+  tkgrid(labelRcmdr(top, text = gettext_bs("OR"), fg = "red"),
     sticky = "w"
   )
   tkgrid(labelRcmdr(enterFrame,
-    text = gettextRcmdr("Enter name of data set:  "),
+    text = gettext_bs("Enter name of data set:  "),
     fg = getRcmdr("title.color"), font = "RcmdrTitleFont"
   ),
   entryDsname,

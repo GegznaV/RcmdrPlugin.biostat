@@ -118,7 +118,7 @@ window_export_to_excel <- function() {
 
     # Frames and widgets -----------------------------------------------------
     # Initialize ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettextRcmdr("Export Data to Excel File"))
+    initializeDialog(title = gettext_bs("Export Data to Excel File"))
 
     # Populate ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame   <- tkframe(top)
@@ -286,7 +286,7 @@ window_export_to_excel <- function() {
     # Title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(label_rcmdr(
         top,
-        text = gettextRcmdr("Export data to Excel file"),
+        text = gettext_bs("Export data to Excel file"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col),
         pady = c(5, 9))

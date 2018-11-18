@@ -30,6 +30,7 @@ command_dataset_class <- function() {
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
+# List column names
 command_colnames <- function() {
     doItAndPrint(str_glue("## Column names\n",
                             "colnames({ActiveDataSet()})"))

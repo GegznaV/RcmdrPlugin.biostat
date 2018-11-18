@@ -12,7 +12,7 @@ window_transform_z <- function() {
     fg_col <- Rcmdr::getRcmdr("title.color")
     tkgrid(label_rcmdr(
         top,
-        text = gettextRcmdr("Standardize variables"),
+        text = gettext_bs("Standardize variables"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col),
         pady = c(5, 9), columnspan = 2)

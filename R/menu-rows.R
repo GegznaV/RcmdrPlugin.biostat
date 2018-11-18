@@ -114,7 +114,7 @@ window_col_to_rownames <- function(new_dsname = NULL,
     fg_col <- Rcmdr::getRcmdr("title.color")
     tkgrid(label_rcmdr(
         top,
-        text = gettextRcmdr("Move column values to row names"),
+        text = gettext_bs("Move column values to row names"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col),
         columnspan = 2,

@@ -8,7 +8,7 @@
 window_fct_reorder_TMP <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initial_new_name_variable <- tclVar(gettextRcmdr("New variable name goes here..."))
+    initial_new_name_variable <- tclVar(gettext_bs("New variable name goes here..."))
    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_onClick_name <- function() {
         switch(tclvalue(which_nameVariable),
@@ -39,20 +39,20 @@ window_fct_reorder_TMP <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettextRcmdr("Reorder Factor Levels"))
+    initializeDialog(title = gettext_bs("Reorder Factor Levels"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     variableBox <- variableListBox2(top,
                                     variableList = Factors(),
                                     onRelease_fun = cmd_onRelease_var_box,
                                     listHeight = 5,
-                                    title = gettextRcmdr("Factor (pick one)"))
+                                    title = gettext_bs("Factor (pick one)"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     new_name_frame <- tkframe(top)
 
     Rcmdr::radioButtons(
         new_name_frame,
         "which_name",
-        labels = gettextRcmdr(c(
+        labels = gettext_bs(c(
             "Update selected variable", #  (overwrites)
             "Create a new variable:")),
         buttons = c("overwrite", "create_new"),
@@ -76,7 +76,7 @@ window_fct_reorder_TMP <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (length(variable) == 0) {
             errorCondition(recall = window_fct_reorder,
-                           message = gettextRcmdr("You must select a variable."))
+                           message = gettext_bs("You must select a variable."))
             return()
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -94,7 +94,7 @@ window_fct_reorder_TMP <- function() {
                     errorCondition(
                         recall = window_fct_reorder,
                         message = glue('"{new_name}" ',
-                                       gettextRcmdr("is not a valid name."))
+                                       gettext_bs("is not a valid name."))
                     )
                     return()
                 }
@@ -119,13 +119,13 @@ window_fct_reorder_TMP <- function() {
         if (nvalues > 30) {
             errorCondition(recall = window_fct_reorder,
                            message = sprintf(
-                               gettextRcmdr("Number of levels (%d) is too large.\nMust be no more than 30."),
+                               gettext_bs("Number of levels (%d) is too large.\nMust be no more than 30."),
                                nvalues
                            ))
             return()
         }
         # ====================================================================
-        initializeDialog(subdialog, title = gettextRcmdr("Reorder Levels"))
+        initializeDialog(subdialog, title = gettext_bs("Reorder Levels"))
 
         new_order <- rep_len(NA_integer_, nvalues)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -142,7 +142,7 @@ window_fct_reorder_TMP <- function() {
                 errorCondition(
                     recall = window_fct_reorder,
                     message = paste0(
-                        gettextRcmdr(
+                        gettext_bs(
                             "Order of levels must include all integers from 1 to "
                         ), nvalues
                     )
@@ -176,13 +176,13 @@ window_fct_reorder_TMP <- function() {
             tkgrid(
                 labelRcmdr(
                     subdialog,
-                    text = gettextRcmdr("Old Levels"),
+                    text = gettext_bs("Old Levels"),
                     fg = getRcmdr("title.color"),
                     font = "RcmdrTitleFont"
                 ),
                 labelRcmdr(
                     subdialog,
-                    text = gettextRcmdr("New order"),
+                    text = gettext_bs("New order"),
                     fg = getRcmdr("title.color"),
                     font = "RcmdrTitleFont"
                 ),
@@ -215,7 +215,7 @@ window_fct_reorder_TMP <- function() {
 
     tkgrid(labelRcmdr(new_name_frame,
                       fg = getRcmdr("title.color"),
-                      text = gettextRcmdr("Method")), # New factor with reordered levels:
+                      text = gettext_bs("Method")), # New factor with reordered levels:
            sticky = "nsw",
            pady = c(0, 5))
 
@@ -223,7 +223,7 @@ window_fct_reorder_TMP <- function() {
     tkgrid(new_name_field, sticky = "ws", pady = c(15, 0))
 
     # tkgrid(same_name_check_box,
-    #        labelRcmdr(new_name_frame, text = gettextRcmdr("Same as original")),
+    #        labelRcmdr(new_name_frame, text = gettext_bs("Same as original")),
     #        sticky = "w")
     # tkgrid(new_name_frame, sticky = "w")
 
