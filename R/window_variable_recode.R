@@ -542,8 +542,9 @@ window_variable_recode0 <- function() {
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkfocus(CommanderWindow())
+
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # Announce about the success to run the function
+        # Announce about the success to run the function `onOk()`
         TRUE
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     }
@@ -569,8 +570,8 @@ window_variable_recode0 <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     ok_cancel_help(helpSubject = "recode_factor", helpPackage = "dplyr",
-                   reset = "window_variable_recode0",
-                   apply = "window_variable_recode0")
+                   reset = "window_variable_recode0()",
+                   apply = "window_variable_recode0()")
 
     tkgrid(upper_frame, sticky = "nw")
     tkgrid(getFrame(variablesBox),
