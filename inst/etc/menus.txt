@@ -61,25 +61,6 @@ item	bs_ds_class	command	"Convert to `data.table`"	command_dataset_as_dt	"active
 
 
 
-
-# ---- Data Export Menu -----
-
-# item	bs_active_ds_menu	separator	""	""	""	""
-# menu	bs_export_menu	bs_active_ds_menu	""	""	""	""
-# item	bs_active_ds_menu	cascade	"Export / Save"	bs_export_menu	"activeDataSetP()"	""
-
-menu	bs_export_menu	bs_settings_menu	""	""	""	""
-item	bs_settings_menu	cascade	"Export / Save data"	bs_export_menu	"activeDataSetP()"	""
-
-item	bs_export_menu	command	"to text file (.txt, .csv)..."	window_export_to_textfile	"activeDataSetP()"	""
-
-item	bs_export_menu	separator	""	""	""	""
-item	bs_export_menu	command	"to Excel file (.xlsx)..."	window_export_to_excel_old	"activeDataSetP()"	""
-
-item	bs_export_menu	separator	""	""	""	""
-item	bs_export_menu	command	"to Rds data file (.Rds)..."	window_export_to_rds	"activeDataSetP()"	""
-item	bs_export_menu	command	"to R data file (.RData)..."	window_export_to_rdata	"activeDataSetP()"	""
-
 # ==============================================================================
 # ---- * Rows (Manage observations) --------------------------------------------
 
@@ -439,6 +420,12 @@ item	biostat_menu	cascade	"Other analysis"	bs_analysis_menu	""	""
 
 
 
+
+# ==============================================================================
+# ---- * Settings --------------------------------------------------------------
+
+# menu	bs_settings_menu	biostat_menu	""	""	""	""
+# item	biostat_menu	cascade	"Settings"	bs_settings_menu	""	""
 # =============================================================================
 # ---- * Workspace & Session menu ---------------------------------------------
 menu	bs_settings_menu	biostat_menu	""	""	""	""
@@ -456,12 +443,6 @@ item	bs_settings_menu	command	"Rename object..."	window_data_obj_rename	"objects
 # item	bs_settings_menu	separator	""	""	""	""
 # item	bs_settings_menu	command	"[???] Convert `table` to `data.frame`"	window_table_to_df	"FALSE"	""
 
-
-# ==============================================================================
-# ---- * Settings --------------------------------------------------------------
-
-# menu	bs_settings_menu	biostat_menu	""	""	""	""
-# item	biostat_menu	cascade	"Settings"	bs_settings_menu	""	""
 
 
 item	bs_settings_menu	command	"Show working directory"  command_getwd	""	""
@@ -486,8 +467,8 @@ item	bs_settings_menu	command	"[x] Set locale to system's default"	command_set_l
 # item	bs_settings_menu	command	"[???] Use absolute/relative path"  function_not_implemented	"FALSE"	""
 
 item	bs_settings_menu	separator	""	""	""	""
-item	bs_settings_menu	command	"Session information [devtools]"	command_session_info_devtools	""	""
-item	bs_settings_menu	command	"Session information [utils]"	command_session_info_utils	""	""
+item	bs_settings_menu	command	"Print session information [devtools]"	command_session_info_devtools	""	""
+item	bs_settings_menu	command	"Print session information [utils]"	command_session_info_utils	""	""
 
 
 # ---- Data Import Menu ----
@@ -515,6 +496,25 @@ item    import_menu    command   "List of datasets in R packages"    command_lis
 
 # item    dataMenu        cascade         "Import data"                                   importMenu                  ""          ""
 
+
+
+# ---- Data Export Menu -----
+
+# item	bs_active_ds_menu	separator	""	""	""	""
+# menu	bs_export_menu	bs_active_ds_menu	""	""	""	""
+# item	bs_active_ds_menu	cascade	"Export / Save"	bs_export_menu	"activeDataSetP()"	""
+
+menu	bs_export_menu	bs_settings_menu	""	""	""	""
+item	bs_settings_menu	cascade	"Export / Save data"	bs_export_menu	"activeDataSetP()"	""
+
+item	bs_export_menu	command	"to text file (.txt, .csv)..."	window_export_to_textfile	"activeDataSetP()"	""
+
+item	bs_export_menu	separator	""	""	""	""
+item	bs_export_menu	command	"to Excel file (.xlsx)..."	window_export_to_excel_old	"activeDataSetP()"	""
+
+item	bs_export_menu	separator	""	""	""	""
+item	bs_export_menu	command	"to Rds data file (.Rds)..."	window_export_to_rds	"activeDataSetP()"	""
+item	bs_export_menu	command	"to R data file (.RData)..."	window_export_to_rdata	"activeDataSetP()"	""
 
 # ==============================================================================
 # ---- * About ---------------------------------------------------------------
