@@ -4,71 +4,16 @@
 menu	biostat_menu	topMenu	""	""	""	""
 item	topMenu	cascade	"BioStat'19"	biostat_menu	""	""
 
-
-# =============================================================================
-# ---- * Data menu -------------------------------------------------------------
-menu	bs_data_menu	biostat_menu	""	""	""	""
-item	biostat_menu	cascade	"Data"	bs_data_menu	""	""
-
-# ---- Create data -----------------------------------------------------------
-item	bs_data_menu	command	"Create a new dataset..."	window_dataset_new_rcmdr	""	"" # from Rcmdr
-
-# ---- Join/Bind datasets ---------------------------------------------------------
-item	bs_data_menu	separator	""	""	""	""
-item	bs_data_menu	command	"Join two datasets..."	window_dataset_join	"dataSetsP(2)"	"packageAvailable('dplyr')"
-item	bs_data_menu	command	"Bind rows of several datasets..."	window_dataset_bind_rows	"dataSetsP(2)"	"packageAvailable('dplyr')"
-item	bs_data_menu	command	"Bind columns of several datasets..."	window_dataset_bind_cols	"dataSetsP(2)"	"packageAvailable('dplyr')"
-
-# item	bs_data_menu	command	"Bind rows/columns of two datasets"	window_dataset_bind	"dataSetsP(2)"	"packageAvailable('dplyr')"
-
-# item	bs_data_menu	separator	""	""	""	""
-# item	bs_data_menu	command	"[???] Pander: print object for report"	window_pander	"activeDataSetP() && objects_in_env_P(n = 1)"	"packageAvailable('pander')"
-
-# ---- Manage R objects ------------------------------------------------------
-item	bs_data_menu	separator	""	""	""	""
-item	bs_data_menu	command	"List objects..."	command_list_objects	"objects_in_env_P()"	""
-item	bs_data_menu	command	"Copy object..."	window_data_obj_copy	"objects_in_env_P()"	""
-item	bs_data_menu	command	"Delete objects... "	window_data_obj_delete	"objects_in_env_P()"	""
-item	bs_data_menu	command	"Rename object..."	window_data_obj_rename	"objects_in_env_P()"	""
-
-# ~~~~ Convert to data.frame ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# item	bs_data_menu	separator	""	""	""	""
-# item	bs_data_menu	command	"[???] Convert `table` to `data.frame`"	window_table_to_df	"FALSE"	""
-
-# ---- Data Import Menu ----
-item	bs_data_menu	separator	""	""	""	""
-
-menu	import_menu	bs_data_menu	""	""	""	""
-item	bs_data_menu	cascade	"Import / Load data"	import_menu	""	""
-
-item    import_menu      command         "from text file (.txt, .csv, .dat)... [Rcmdr]"          window_import_text_delim                 ""          ""
-item	import_menu	separator	""	""	""	""
-item    import_menu      command         "from Excel file..."     window_import_excel    ""     "packageAvailable('readxl')"
-
-item	import_menu	separator	""	""	""	""
-item    import_menu      command         "from SPSS data file... [Rcmdr]"     importSPSS     ""     "packageAvailable('foreign')"
-item    import_menu      command         "from SAS xport file... [Rcmdr]"     importSAS     ""     "packageAvailable('foreign')"
-item    import_menu      command         "from SAS b7dat file... [Rcmdr]"     importSASb7dat     ""           "packageAvailable('RcmdrMisc')"
-item    import_menu      command         "from STATA data file... [Rcmdr]"     importSTATA     ""          "packageAvailable('foreign')"
-item    import_menu      command         "from Minitab data file... [Rcmdr]"     importMinitab     ""          "packageAvailable('foreign')"
-
-item	import_menu	separator	""	""	""	""
-item	import_menu	command	"from Rds data file (.Rds)..."	window_import_rds	""	""
-item	import_menu	command	"from R data file (.RData, .rda)..."	window_import_rdata	""	""
-item    import_menu    command    "from R package... [Rcmdr]"     window_import_from_pkg    ""          ""
-item    import_menu    command   "List of datasets in R packages"    command_list_datasets_in_pkgs    ""          ""
-
-
-# item    dataMenu        cascade         "Import data"                                   importMenu                  ""          ""
-
-
-
 # ==============================================================================
 # ---- * Active dataset ---------------------------------------------------------
 
 menu	bs_active_ds_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Active dataset"	bs_active_ds_menu	""	""
 
+# ---- Create data -----------------------------------------------------------
+item	bs_active_ds_menu	command	"Create a new dataset..."	window_dataset_new_rcmdr	""	"" # from Rcmdr
+
+# ---- Refresh data -----------------------------------------------------------
 item	bs_active_ds_menu	command	"Refresh active dataset"	command_dataset_refresh	"activeDataSetP()"	""
 
 # ~~~ Rename, copy ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -84,13 +29,25 @@ item	bs_active_ds_menu	command	"Rename active dataset..."	window_dataset_rename	
 # item	bs_active_ds_menu	separator	""	""	""	""
 
 item	bs_active_ds_menu	command	"Preview dataset in a separate window"	command_dataset_view	"activeDataSetP()"	""
-item	bs_active_ds_menu	command	"Print dataset"	command_dataset_print	"activeDataSetP()"	""
-item	bs_active_ds_menu	command	"Print dataset as Markdown table"	window_dataset_pander	"activeDataSetP()"	"packageAvailable('pander')"
+item	bs_active_ds_menu	command	"Print active dataset"	command_dataset_print	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"Print active dataset as Markdown table"	window_dataset_pander	"activeDataSetP()"	"packageAvailable('pander')"
+
+
+# ---- Join/Bind datasets ---------------------------------------------------------
+item	bs_active_ds_menu	separator	""	""	""	""
+item	bs_active_ds_menu	command	"Join two datasets..."	window_dataset_join	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	bs_active_ds_menu	command	"Bind rows of several datasets..."	window_dataset_bind_rows	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	bs_active_ds_menu	command	"Bind columns of several datasets..."	window_dataset_bind_cols	"dataSetsP(2)"	"packageAvailable('dplyr')"
+
+# item	bs_data_menu	command	"Bind rows/columns of two datasets"	window_dataset_bind	"dataSetsP(2)"	"packageAvailable('dplyr')"
+
+# item	bs_data_menu	separator	""	""	""	""
+# item	bs_data_menu	command	"[???] Pander: print object for report"	window_pander	"activeDataSetP() && objects_in_env_P(n = 1)"	"packageAvailable('pander')"
 
 
 # ---- Manage dataset's class -------------------------------------------------
 
-# item	bs_active_ds_menu	separator	""	""	""	""
+item	bs_active_ds_menu	separator	""	""	""	""
 
 menu	bs_ds_class	biostat_menu	""	""	""	""
 item	bs_active_ds_menu	cascade	"Dataset's class"	bs_ds_class	""	""
@@ -481,6 +438,23 @@ menu	bs_analysis_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Other analysis"	bs_analysis_menu	""	""
 
 
+# =============================================================================
+# ---- * Workspace & Session menu ---------------------------------------------
+menu	bs_data_menu	biostat_menu	""	""	""	""
+item	biostat_menu	cascade	"Workspace & Session"	bs_data_menu	""	""
+
+
+# ---- Manage R objects ------------------------------------------------------
+item	bs_data_menu	separator	""	""	""	""
+item	bs_data_menu	command	"List objects..."	command_list_objects	"objects_in_env_P()"	""
+item	bs_data_menu	command	"Copy object..."	window_data_obj_copy	"objects_in_env_P()"	""
+item	bs_data_menu	command	"Delete objects... "	window_data_obj_delete	"objects_in_env_P()"	""
+item	bs_data_menu	command	"Rename object..."	window_data_obj_rename	"objects_in_env_P()"	""
+
+# ~~~~ Convert to data.frame ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# item	bs_data_menu	separator	""	""	""	""
+# item	bs_data_menu	command	"[???] Convert `table` to `data.frame`"	window_table_to_df	"FALSE"	""
+
 
 # ==============================================================================
 # ---- * Settings --------------------------------------------------------------
@@ -507,12 +481,38 @@ item	bs_settings_menu	command	"[x] Set locale to Russian"	command_set_locale_ru	
 item	bs_settings_menu	command	"[x] Set locale to system's default"	command_set_locale_default	""	""
 
 
-item	bs_settings_menu	separator	""	""	""	""
-item	bs_settings_menu	command	"[???] Use absolute/relative path"  function_not_implemented	"FALSE"	""
+# item	bs_settings_menu	separator	""	""	""	""
+# item	bs_settings_menu	command	"[???] Use absolute/relative path"  function_not_implemented	"FALSE"	""
 
 item	bs_settings_menu	separator	""	""	""	""
 item	bs_settings_menu	command	"Session information [devtools]"	command_session_info_devtools	""	""
 item	bs_settings_menu	command	"Session information [utils]"	command_session_info_utils	""	""
+
+
+# ---- Data Import Menu ----
+item	bs_settings_menu	separator	""	""	""	""
+
+menu	import_menu	bs_settings_menu	""	""	""	""
+item	bs_settings_menu	cascade	"Import / Load data"	import_menu	""	""
+
+item    import_menu      command         "from text file (.txt, .csv, .dat)... [Rcmdr]"          window_import_text_delim                 ""          ""
+item	import_menu	separator	""	""	""	""
+item    import_menu      command         "from Excel file..."     window_import_excel    ""     "packageAvailable('readxl')"
+
+item	import_menu	separator	""	""	""	""
+item    import_menu      command         "from SPSS data file... [Rcmdr]"     importSPSS     ""     "packageAvailable('foreign')"
+item    import_menu      command         "from SAS xport file... [Rcmdr]"     importSAS     ""     "packageAvailable('foreign')"
+item    import_menu      command         "from SAS b7dat file... [Rcmdr]"     importSASb7dat     ""           "packageAvailable('RcmdrMisc')"
+item    import_menu      command         "from STATA data file... [Rcmdr]"     importSTATA     ""          "packageAvailable('foreign')"
+item    import_menu      command         "from Minitab data file... [Rcmdr]"     importMinitab     ""          "packageAvailable('foreign')"
+
+item	import_menu	separator	""	""	""	""
+item	import_menu	command	"from Rds data file (.Rds)..."	window_import_rds	""	""
+item	import_menu	command	"from R data file (.RData, .rda)..."	window_import_rdata	""	""
+item    import_menu    command    "from R package... [Rcmdr]"     window_import_from_pkg    ""          ""
+item    import_menu    command   "List of datasets in R packages"    command_list_datasets_in_pkgs    ""          ""
+
+# item    dataMenu        cascade         "Import data"                                   importMenu                  ""          ""
 
 
 # ==============================================================================
