@@ -9,7 +9,7 @@
 # apply = NULL,         -- string with a function to recall
 # helpPackage = NULL    -- package to search help topic in
 
-ok_cancel_help <- defmacro(
+ok_cancel_help <- Rcmdr::defmacro(
     window      = top,
     helpSubject = NULL,
     model       = FALSE,
