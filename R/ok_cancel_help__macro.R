@@ -1,25 +1,58 @@
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
+# This macro is based on function from Rcmdr package
+# window = top          -- parent window
+# helpSubject = NULL,   --
+# model = FALSE,        --
+# reset = NULL,         -- string with function to recall
+# apply = NULL,         -- string with function to recall
+# helpPackage = NULL    -- package to search help topic in
+
 ok_cancel_help <- defmacro(
-    window = top,
+    window      = top,
     helpSubject = NULL,
-    model = FALSE,
-    reset = NULL,
-    apply = NULL,
+    model       = FALSE,
+    reset       = NULL,
+    apply       = NULL,
     helpPackage = NULL,
     expr = {
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Functions that allows parentheses "()" in string with function name.
+
+        # Removes () and everything in it
+        extrac_function_name <- function(str) {
+            str_extract(str, "^.*?(?=\\()")
+        }
+
+        # Make string into form ready to evaluate as function
+        make_ready_to_eval <- function(str) {
+            if (str_detect(str, "\\(")) {str} else {str_c(str, "()")}
+        }
+
+        if (!is.null(reset)) {
+            reset_fun <- make_ready_to_eval(reset)
+            reset     <- extrac_function_name(reset)
+        }
+
+        if (!is.null(apply)) {
+            apply_fun <- make_ready_to_eval(apply)
+            apply     <- extrac_function_name(apply)
+        }
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
         memory <- getRcmdr("retain.selections")
 
         button.strings <- c(
-            "OK",
-            "Cancel",
-            if (!is.null(helpSubject))     "Help",
-            if (!is.null(reset) && memory) "Reset",
-            if (!is.null(apply))           "Apply"
+            gettext_Bio("OK"),
+            gettext_Bio("Cancel"),
+            if (!is.null(helpSubject))     gettext_Bio("Help"),
+            if (!is.null(reset) && memory) gettext_Bio("Reset"),
+            if (!is.null(apply))           gettext_Bio("Apply")
         )
 
-        width <- max(nchar(gettextRcmdr(button.strings)))
+        width <- max(nchar(gettext_Bio(button.strings)))
         if (WindowsP()) width <- width + 2
 
         buttonsFrame    <- tkframe(window)
@@ -71,7 +104,7 @@ ok_cancel_help <- defmacro(
         }
 
         OKbutton <- buttonRcmdr(rightButtonsBox,
-                                text       = gettextRcmdr("OK"),
+                                text       = gettext_Bio("OK"),
                                 foreground = "darkgreen",
                                 width      = width,
                                 command    = OnOK,
@@ -98,7 +131,7 @@ ok_cancel_help <- defmacro(
 
         cancelButton <- buttonRcmdr(
             rightButtonsBox,
-            text         = gettextRcmdr("Cancel"),
+            text         = gettext_Bio("Cancel"),
             foreground   = "red",
             width        = width,
             command      = onCancel,
@@ -118,7 +151,7 @@ ok_cancel_help <- defmacro(
             }
             helpButton <- buttonRcmdr(
                 leftButtonsBox,
-                text          = gettextRcmdr("Help"),
+                text          = gettext_Bio("Help"),
                 width         = width,
                 command       = onHelp,
                 # borderwidth = 3,
@@ -138,13 +171,13 @@ ok_cancel_help <- defmacro(
                 putDialog(reset, NULL)
                 putDialog(reset, NULL, resettable = FALSE)
                 closeDialog()
-                eval(parse(text = paste(reset, "()")))
+                eval_text(reset_fun)
                 putRcmdr("open.dialog.here", NULL)
                 putRcmdr("restoreTab", FALSE)
             }
             resetButton <- buttonRcmdr(
                 leftButtonsBox,
-                text     = gettextRcmdr("Reset"),
+                text     = gettext_Bio("Reset"),
                 width    = width,
                 command  = onReset,
                 image    = "::image::resetIcon",
@@ -223,15 +256,14 @@ ok_cancel_help <- defmacro(
 
                 } else {
                     putRcmdr("open.dialog.here", wininfo)
-                    # [???] ------
-                    eval(parse(text = paste(apply, "()")))
+                    eval_text(apply_fun)
                     putRcmdr("open.dialog.here", NULL)
                 }
             }
 
             applyButton <- buttonRcmdr(
                 rightButtonsBox,
-                text       = gettextRcmdr("Apply"),
+                text       = gettext_Bio("Apply"),
                 foreground = "yellow",
                 width      = width,
                 command    = onApply,
