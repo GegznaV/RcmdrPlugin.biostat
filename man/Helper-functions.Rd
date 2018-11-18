@@ -9,6 +9,7 @@
 \alias{list_summaries_Models}
 \alias{eval_glue}
 \alias{eval_}
+\alias{eval_text}
 \alias{style_cmd}
 \alias{gettext_EZR}
 \alias{gettext_Bio}
@@ -61,6 +62,8 @@ eval_glue(..., envir = parent.frame(), .sep = "", .open = "{",
   .close = "}", envir_eval = envir, envir_glue = envir)
 
 eval_(x, envir = parent.frame(), ...)
+
+eval_text(x, envir = parent.frame(), ...)
 
 style_cmd(command, indent_by = 4, ...)
 
