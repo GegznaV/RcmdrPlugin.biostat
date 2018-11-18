@@ -59,8 +59,8 @@ ok_cancel_help <- defmacro(
         leftButtonsBox  <- tkframe(buttonsFrame)
         rightButtonsBox <- tkframe(buttonsFrame)
 
-        # Functions ============================================================
-        # START: ok ------------------------------------------------------------
+        # Button call-back functions ==========================================
+        # START: ok -----------------------------------------------------------
         OnOK <- function() {
             putRcmdr("restoreTab", FALSE)
 
@@ -193,17 +193,7 @@ ok_cancel_help <- defmacro(
                 putRcmdr("cancelDialogReopen", FALSE)
                 ID <- window$ID
 
-                # [???] ------
-                # Ar tai iškraipo klaidos pranešimo dėžučių dydį???
-                # Kokia kitos eilutės paskirtis?
-
-                # putRcmdr("open.dialog.here", as.character(.Tcl(paste("winfo geometry", ID))))
-
-
-
                 wininfo <- as.character(.Tcl(paste("winfo geometry", ID)))
-
-
 
                 if (getRcmdr("use.markdown")) {
                     putRcmdr("startNewCommandBlock", FALSE)
@@ -216,14 +206,9 @@ ok_cancel_help <- defmacro(
 
                 cursor_set_busy()
                 on.exit(cursor_set_idle())
-                # [???] ------
-                # Gal reikia kokio nors rezultato, kuris parodytų, jog funkcija
-                # įvykdyta sėkmingai
 
-                res_of_ok <- onOK() # Function should return TRUE,
-                                    # if no error occurs.
-
-                # print(res_of_ok)
+                # Function should return TRUE, if no error occurs:
+                res_of_ok <- onOK()
 
                 if (!isTRUE(res_of_ok)) {
                     putRcmdr("cancelDialogReopen", TRUE)
@@ -278,40 +263,45 @@ ok_cancel_help <- defmacro(
             if (!is.null(apply)) {
                 tkgrid(applyButton, cancelButton, OKbutton, sticky = "w")
                 tkgrid.configure(OKbutton, padx = c(6, 0))
-            }
-            else {
+
+            } else {
                 tkgrid(cancelButton, OKbutton, sticky = "w")
             }
             tkgrid.configure(cancelButton, padx = c(6, 6))
-        }
-        else {
+
+        } else {
             if (!is.null(apply)) {
                 tkgrid(OKbutton, cancelButton, applyButton, sticky = "w")
                 tkgrid.configure(applyButton, padx = c(6, 0))
-            }
-            else {
+
+            } else {
                 tkgrid(OKbutton, cancelButton, sticky = "w")
             }
             tkgrid.configure(OKbutton, padx = c(6, 6))
         }
+
         if (!is.null(reset) && memory) {
             if (!is.null(helpSubject)) {
                 tkgrid(helpButton, resetButton, pady = 6)
-            }
-            else {
+
+            } else {
                 tkgrid(resetButton, pady = 6)
             }
             if (!WindowsP()) tkgrid.configure(resetButton, padx = c(0, 6))
-        }
-        else if (!is.null(helpSubject)) {
+
+        } else if (!is.null(helpSubject)) {
             tkgrid(helpButton, pady = 6)
         }
+
         tkgrid(leftButtonsBox, rightButtonsBox, pady = 6, sticky = "ew")
+
         if (!is.null(helpSubject)) {
             tkgrid.configure(helpButton, padx = c(0, 18))
+
         } else if (!is.null(reset) && memory) {
             tkgrid.configure(resetButton, padx = c(0, 18))
         }
+
         tkgrid.columnconfigure(buttonsFrame, 0, weight = 1)
         tkgrid.columnconfigure(buttonsFrame, 1, weight = 1)
         tkgrid.configure(leftButtonsBox, sticky = "w")
