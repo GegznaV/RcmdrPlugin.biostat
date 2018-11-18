@@ -139,7 +139,12 @@ window_xxx <- function() {
         command_dataset_refresh()
         tkfocus(CommanderWindow())
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    }
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Announce about the success to run the function `onOk()`
+        TRUE
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         }
 
     # Grid of widgets ========================================================
 
@@ -166,7 +171,11 @@ window_xxx <- function() {
     tkgrid(positionFrame, padx = c(15, 0))
 
     # Help topic ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "mutate", helpPackage = "dplyr")
+    # OKCancelHelp(helpSubject = "mutate", helpPackage = "dplyr")
+
+    ok_cancel_help(helpSubject = "xxx", helpPackage = "xxx",
+                   reset = "window_xxx()",
+                   apply = "window_xxx()")
 
     # Finalize ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(buttonsFrame, sticky = "ew")
