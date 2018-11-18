@@ -24,6 +24,11 @@
 # 9. Correct help topic.
 # 10. Add three boxes for variables as in "multi-way table.." in original Rcommander menu.
 # 11. Acticate/Deactivate approptiate checkboxes if exactly 2 variables are selected.
+#
+# df %>% dplyr::count(..., ...);
+# df %>% with(table(..., ...)) %>% as.data.frame()
+
+
 
 #' @rdname Menu-window-functions
 #' @export
