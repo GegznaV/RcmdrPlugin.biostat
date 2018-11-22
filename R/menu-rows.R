@@ -1,6 +1,13 @@
 # "Rows" menu functions ======================================================
 
 # General---------------------------------------------------------------------
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+command_rownames <- function() {
+    doItAndPrint(str_glue("## Row names\n",
+                          "rownames({ActiveDataSet()})"))
+}
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # TODO:
