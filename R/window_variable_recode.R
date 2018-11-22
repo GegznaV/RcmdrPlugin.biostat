@@ -537,6 +537,8 @@ window_variable_recode0 <- function() {
             activeDataSet(dataSet, flushModel = FALSE, flushDialogMemory = FALSE)
 
         } else {
+            logger_error(command, error_msg = result)
+            show_code_evaluation_error_message()
             return()
         }
 
