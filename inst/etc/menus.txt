@@ -30,7 +30,7 @@ item	bs_active_ds_menu	command	"Rename active dataset..."	window_dataset_rename	
 item	bs_active_ds_menu	separator	""	""	""	""
 item	bs_active_ds_menu	command	"Preview active dataset (in a new window)"	command_dataset_view	"activeDataSetP()"	""
 item	bs_active_ds_menu	command	"Print active dataset"	command_dataset_print	"activeDataSetP()"	""
-item	bs_active_ds_menu	command	"Print active dataset as Markdown table"	window_dataset_pander	"activeDataSetP() && objects_in_env_P(n = 1)"	"packageAvailable('pander') || packageAvailable('knitr')"
+item	bs_active_ds_menu	command	"Print active dataset as Markdown table"	window_dataset_print_as_md	"activeDataSetP() && objects_in_env_P(n = 1)"	"packageAvailable('pander') || packageAvailable('knitr')"
 
 
 # ---- Join/Bind datasets ----------------------------------------------------

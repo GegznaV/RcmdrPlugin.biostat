@@ -58,7 +58,7 @@ command_dataset_print <- function() {
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_dataset_pander <- function() {
+window_dataset_print_as_md <- function() {
 
     tbl_style   <- "simple"
     use_caption <- TRUE

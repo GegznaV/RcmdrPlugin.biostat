@@ -24,7 +24,7 @@
 \alias{command_dataset_class}
 \alias{command_colnames}
 \alias{command_dataset_print}
-\alias{window_dataset_pander}
+\alias{window_dataset_print_as_md}
 \alias{command_dataset_view}
 \alias{command_dataset_dim}
 \alias{command_dataset_as_df}
@@ -131,7 +131,7 @@ command_colnames()
 
 command_dataset_print()
 
-window_dataset_pander()
+window_dataset_print_as_md()
 
 command_dataset_view()
 
