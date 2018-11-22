@@ -4,17 +4,21 @@
 menu	biostat_menu	topMenu	""	""	""	""
 item	topMenu	cascade	"BioStat'19"	biostat_menu	""	""
 
+
 # . ===========================================================================
 # ---- >>> Data --------------------------------------------------------------
+
 menu	bs_active_ds_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Data"	bs_active_ds_menu	""	""
 
 
 # ---- Refresh data -----------------------------------------------------------
+
 item	bs_active_ds_menu	command	"Refresh active dataset"	command_dataset_refresh	"activeDataSetP()"	""
 
 
 # ~~~ Rename, copy ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 item	bs_active_ds_menu	separator	""	""	""	""
 item	bs_active_ds_menu	command	"Copy active dataset..."	window_dataset_copy	"activeDataSetP()"	""
 item	bs_active_ds_menu	command	"Delete active dataset..."	window_dataset_delete	"activeDataSetP()"	""
@@ -22,6 +26,7 @@ item	bs_active_ds_menu	command	"Rename active dataset..."	window_dataset_rename	
 
 
 # ---- Preview / Print -------------------------------------------------------
+
 item	bs_active_ds_menu	separator	""	""	""	""
 item	bs_active_ds_menu	command	"Preview active dataset (in a new window)"	command_dataset_view	"activeDataSetP()"	""
 item	bs_active_ds_menu	command	"Print active dataset"	command_dataset_print	"activeDataSetP()"	""
@@ -29,14 +34,15 @@ item	bs_active_ds_menu	command	"Print active dataset as Markdown table"	window_d
 
 
 # ---- Join/Bind datasets ----------------------------------------------------
-item	bs_active_ds_menu	separator	""	""	""	""
 
+item	bs_active_ds_menu	separator	""	""	""	""
 item	bs_active_ds_menu	command	"Join two datasets by row IDs..."	window_dataset_join	"dataSetsP(2)"	"packageAvailable('dplyr')"
 item	bs_active_ds_menu	command	"Bind rows of several datasets..."	window_dataset_bind_rows	"dataSetsP(2)"	"packageAvailable('dplyr')"
 item	bs_active_ds_menu	command	"Bind columns of several datasets..."	window_dataset_bind_cols	"dataSetsP(2)"	"packageAvailable('dplyr')"
 
 
 # ---- + Import Data  --------------------------------------------------------
+
 item	bs_active_ds_menu	separator	""	""	""	""
 
 menu	import_menu	bs_active_ds_menu	""	""	""	""
@@ -44,8 +50,10 @@ item	bs_active_ds_menu	cascade	"Import / Create data"	import_menu	""	""
 
 
 # ---- Create data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 item	import_menu	command	"Create a new dataset... [Rcmdr]"	window_dataset_new_rcmdr	""	"" # from Rcmdr
 item	import_menu	separator	""	""	""	""
+
 
 # ---- Import data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -68,13 +76,8 @@ item	import_menu	command	"Import from R data file (.RData, .Rda, .rda)..."	windo
 item    import_menu    command    "Import from loaded R package... [Rcmdr]"     window_import_from_pkg    ""          ""
 item    import_menu    command   "List of datasets in R packages"    command_list_datasets_in_pkgs    ""          ""
 
-# item    dataMenu        cascade         "Import data"                                   importMenu                  ""          ""
-
 
 # ---- + Export Data -----------------------------------------------------------
-# item	bs_active_ds_menu	separator	""	""	""	""
-# menu	bs_export_menu	bs_active_ds_menu	""	""	""	""
-# item	bs_active_ds_menu	cascade	"Export / Save"	bs_export_menu	"activeDataSetP()"	""
 
 menu	bs_export_menu	bs_active_ds_menu	""	""	""	""
 item	bs_active_ds_menu	cascade	"Export / Save data"	bs_export_menu	"activeDataSetP()"	""
@@ -90,21 +93,19 @@ item	bs_export_menu	command	"Export to R data file (.RData)..."	window_export_to
 item	bs_export_menu	separator	""	""	""	""
 item	bs_export_menu	command	"[???] Save as MS Word table..."	function_not_implemented	"activeDataSetP()"	""
 
+
 # ---- + Manage Class of dataset ---------------------------------------------
 
-# item	bs_active_ds_menu	separator	""	""	""	""
 menu	bs_ds_class	biostat_menu	""	""	""	""
 item	bs_active_ds_menu	cascade	"Manage dataset's class"	bs_ds_class	""	""
 
 item	bs_ds_class	command	"Show class of active dataset"	command_dataset_class	"activeDataSetP()"	""
 item	bs_ds_class	command	"Convert class to `data.frame`"	command_dataset_as_df	"activeDataSetP()"	""
-# item	bs_ds_class	command	"Convert to `data.frame`"	command_dataset_as_df	"activeDataSetP() && !first_class_is_dataframeP()"	""
-item	bs_ds_class	command	"Convert class to tibble (`tbl_df`)"	command_dataset_as_tibble	"activeDataSetP() && !first_class_isP('tbl_df')"	"packageAvailable('tibble')"
-item	bs_ds_class	command	"Convert class to `data.table`"	command_dataset_as_dt	"activeDataSetP() && !first_class_isP('data.table')"	"packageAvailable('data.table')"
+item	bs_ds_class	command	"Convert class to tibble (`tbl_df`)"	command_dataset_as_tibble	"activeDataSetP()"	"packageAvailable('tibble')"
+item	bs_ds_class	command	"Convert class to `data.table`"	command_dataset_as_dt	"activeDataSetP()"	"packageAvailable('data.table')"
 
 
 # . ===========================================================================
-
 # ---- >>> Rows (Manage observations) -----------------------------------------
 
 menu	bs_rows_menu	biostat_menu	""	""	""	""
@@ -121,19 +122,12 @@ item	bs_rows_menu	command	"Remove empty rows"	command_row_rm_empty_rows	"activeD
 item	bs_rows_menu	command	"[???] Remove rows with duplicated values..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
 item	bs_rows_menu	command	"[???] Remove rows with missing values..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
 # item	bs_rows_menu	command	"[???] Fill missing values with..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
-#
 # item	bs_rows_menu	command	"[???] Fill missing values in using the previous entry..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
-# item	bs_rows_menu	separator	""	""	""	""
 
 item	bs_rows_menu	separator	""	""	""	""
 item	bs_rows_menu	command	"Add column with row numbers"	window_rowid_to_col	"activeDataSetP()"	"packageAvailable('tidyverse')"
 item	bs_rows_menu	command	"Move column values to row names..."	window_col_to_rownames	"variables_with_unique_values_P()"	"packageAvailable('tibble')"
 item	bs_rows_menu	command	"Move row names to column values..."	window_rownames_to_col	"activeDataSetP()"	"packageAvailable('tibble')"
-# Remove row names and Add row numbers to column
-#
-#
-#item	bs_rows_menu	separator	""	""	""	""
-#item	bs_rows_menu	command	"Make random subset of rows"	window_rows_...	"activeDataSetP()"	""
 
 
 # . ===========================================================================
@@ -148,7 +142,6 @@ item	bs_varible_menu	command	"Rename variables..."	window_variable_rename	"activ
 
 
 item	bs_varible_menu	separator	""	""	""	""
-
 item	bs_varible_menu	command	"Select/Remove variables..."	window_variable_select0	"activeDataSetP()"	"packageAvailable('dplyr')"
 item	bs_varible_menu	command	"Mutate: compute a variable..."	window_variable_mutate0	"activeDataSetP()"	"packageAvailable('dplyr')"
 item	bs_varible_menu	command	"Recode variable values..."	window_variable_recode0	"activeDataSetP()"	"packageAvailable('dplyr')"
@@ -161,12 +154,12 @@ item	bs_varible_menu	command	"[???] Separate one value into multiple columns..."
 item	bs_varible_menu	command	"[???] Unite values into one column..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
 
 
+# For each variable type ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 item	bs_varible_menu	separator	""	""	""	""
 
-
-
-
 # --- + Factor variables ------------------------------------------------------
+
 menu	bs_var_fct_menu	bs_varible_menu	""	""	""	""
 item	bs_varible_menu	cascade	"Factors (categorical variables)"	bs_var_fct_menu	"activeDataSetP()"	""
 
@@ -193,24 +186,18 @@ item	bs_var_fct_menu	command	"[???] Convert missing values into explicit level..
 # --- + Logical variables ----------------------------------------------------
 menu	bs_var_lgl_menu	bs_varible_menu	""	""	""	""
 item	bs_varible_menu	cascade	"Logical variables"	bs_var_lgl_menu	"logicalP()"	""
-
 item	bs_var_lgl_menu	command	"Convert logical variables into..."	window_lgl_convert	"logicalP()"	"packageAvailable('rlang') && packageAvailable('forcats')"
-# menu	bs_var_lgl_menu	bs_varible_menu	""	""	""	""
-# item	bs_varible_menu	cascade	"Logical variables"	bs_var_lgl_menu	"logicalP()"	""
 
 
 # --- + Numeric variables ----------------------------------------------------
 menu	bs_var_num_menu	bs_varible_menu	""	""	""	""
 item	bs_varible_menu	cascade	"Numeric variables"	bs_var_num_menu	"activeDataSetP()"	""
 
-
 item	bs_var_num_menu	command	"Convert numeric variables into..."	window_num_convert	"numericP()"	"" # Character, factors, logical
 item	bs_var_num_menu	command	"[???] Convert into formatted text..."	function_not_implemented	"FALSE & numericP()"	"" # Format and convert to text
 
-
 item	bs_var_num_menu	separator	""	""	""	""
 item	bs_var_num_menu	command	"[???] Bin/Categorize numeric values..."	function_not_implemented	"FALSE & numericP()"	"" # including `cut`, `if_else`,
-
 
 item	bs_var_num_menu	separator	""	""	""	""
 item	bs_var_num_menu	command	"Box-Cox transformation... [Rcmdr]"	function_not_implemented	"FALSE & numericP()"	""
@@ -219,6 +206,7 @@ item	bs_var_num_menu	command	"Z transformation / Standardization..."	window_tran
 
 
 # --- + Text variables --------------------------------------------------------
+
 menu	bs_var_text_menu	bs_varible_menu	""	""	""	""
 item	bs_varible_menu	cascade	"Text (character) variables: strings "	bs_var_text_menu	"activeDataSetP()"	""
 item	bs_var_text_menu	command	"Convert all text variables into factors"	command_all_chr_to_fctr	"characterP()"	"packageAvailable('tidyverse')"
@@ -227,32 +215,27 @@ item	bs_var_text_menu	command	"Convert text variables into..."	window_chr_conver
 
 # . ==========================================================================
 # ---- >>> Statistical summaries ---------------------------------------------
-
 menu	bs_summary_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Summaries"	bs_summary_menu	""	""
 
 
 # ---- Overview / Structure --------------------------------------------------------------
-# item	bs_summary_menu	separator	""	""	""	""
+
 item	bs_summary_menu	command	"Number of rows and columns"	command_dataset_dim	"activeDataSetP()"	""
 item	bs_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
 item	bs_summary_menu	command	"Print top and bottom rows"	summary_head_tail	"activeDataSetP()"	""
 
+
 # --- Summarize variables ----------------------------------------------------
+
 item	bs_summary_menu	separator	""	""	""	""
 item	bs_summary_menu	command	"[???] Summarize variables..."	window_summary_skim	"FALSE && activeDataSetP()"	"packageAvailable('skimr')"
 
 item	bs_summary_menu	command	"Frequency & multi-way tables..."	window_summary_count	"activeDataSetP()"	""
 
 
-# item	bs_summary_menu	command	"[???] Frequency table for continuous variables"	function_not_implemented	"FALSE & activeDataSetP()"	""
-# descriptr::ds_freq_cont()
-
-# item	bs_summary_menu	command	"[???] Two-way tables"	function_not_implemented	"FALSE & factorsP()"	""
-
-
 # . ===========================================================================
-# ---- * Plots (main) ---------------------------------------------------------
+# ---- >>> Plots (main) -------------------------------------------------------
 
 menu	bs_plots_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Plots"	bs_plots_menu	""	""
@@ -267,6 +250,7 @@ item	bs_plots_menu	command	"[???] Save plot to PowerPoint (editable)"	function_n
 
 # . ===========================================================================
 # ---- >>> Analysis ----------------------------------------------------------
+
 menu	bs_analysis_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Analysis"	bs_analysis_menu	""	""
 
@@ -288,9 +272,10 @@ item	bs_ci_menu	command	"[???] Bootstrap confidence intervals"	window_ci_boot	""
 
 
 # . ===========================================================================
-# ---- + Correlation / Association --------------------------------------------
+# ---- + Association / Correlation --------------------------------------------
+
 menu	bs_assoc_menu	bs_analysis_menu	""	""	""	""
-item	bs_analysis_menu	cascade	"Correlation / Association"	bs_assoc_menu	""	""
+item	bs_analysis_menu	cascade	"Association / Correlation"	bs_assoc_menu	""	""
 
 item	bs_assoc_menu	command "Correlation... [Rcmdr]"	correlationTest	"numericP(2)"	"packageAvailable('RcmdrMisc')"
 item	bs_assoc_menu	command "Correlation matrix... [Rcmdr]"	correlationMatrix	"numericP(2)"	"packageAvailable('RcmdrMisc')"
@@ -304,8 +289,10 @@ item	bs_assoc_menu	command	"[???] Kappa... [EZR]"	function_not_implemented	"acti
 # . ==========================================================================
 # ---- * Statistical tests ---------------------------------------------------
 
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # + ~ Central tendency tests -------------------------------------------------
+
 menu	bs_centers_menu	bs_analysis_menu	""	""	""	""
 item	bs_analysis_menu	cascade	"Central tendency tests"	bs_centers_menu	""	""
 
@@ -340,20 +327,6 @@ item	bs_centers_menu	separator	""	""	""	""
 # item	bs_centers_menu	command	"Multi-way ANOVA... [Rcmdr]"	multiWayAnova	"numericP() && factorsP()"	""
 item	bs_centers_menu	command	"Multi-way ANOVA... [EZR]"	StatMedMultiANOVA	"activeDataSetP()"	"packageAvailable('multcomp') && packageAvailable('abind')"
 item	bs_centers_menu	command	"ANCOVA... [EZR]"	StatMedANCOVA	"activeDataSetP()"	"packageAvailable('multcomp') && packageAvailable('abind')"
-
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# item	bs_centers_menu	command	"Welch F test"	function_not_implemented	"numericP() & factors_strict_P()"	""
-# item	bs_centers_menu	command	"Kruskal-Wallis test"	function_not_implemented	"numericP() & factors_strict_P()"	""
-
-# item	bs_centers_menu	separator	""	""	""	""
-# item	bs_centers_menu	command	"[???] ANOVA, Kruskal-Wallis, Median tests"	window_anova_kw_mood_tests	"numericP() & factorsP()"	""
-# menu	bs_centers_menu	bs_centers_menu	""	""	""	""
-# item	bs_centers_menu	command	"[???] Independent samples (exactly 2)"	function_not_implemented	"numericP() & twoLevelFactorsP()"	""
-# item	bs_centers_menu	command	"[???] Independent samples (2 or more)"	window_anova_kw_mood_tests	"numericP() & factorsP()"	""
-# item	bs_centers_menu	command	"[???] Independent samples (2 or more) [tmp]"	window_tmp	"numericP() & factorsP()"	""
-# item	bs_centers_menu	command	"[???] "t tests, Wilcoxon, Mann-Whitney tests, Wald-Wolfowitz"	function_not_implemented	"numericP() & factorsP()"	""
-
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -394,8 +367,6 @@ item	bs_fit_models_menu	command	"[???] Calibration (linear regression)..."	funct
 menu	bs_models_menu	bs_analysis_menu	""	""	""	""
 item	bs_analysis_menu	cascade	"Analyze models"	bs_models_menu	""	""
 
-# item	bs_models_menu	separator	""	""	""	""
-
 item	bs_models_menu	command	"Print model (basic results)"	command_model_print	"activeModelP()"	""
 item	bs_models_menu	command	"[???] Summary: print summary of the model"	function_not_implemented	"FALSE && activeModelP() "	""
 
@@ -414,11 +385,6 @@ item	biostat_menu	cascade	"Workspace & settings"	bs_settings_menu	""	""
 
 
 # ---- Manage locale ---------------------------------------------------------
-
-# item	bs_settings_menu	separator	""	""	""	""
-# menu	bs_locale_menu	bs_settings_menu	""	""	""	""
-# item	bs_settings_menu	cascade	"Locale"	bs_locale_menu	""	""
-
 item	bs_settings_menu	command	"Show current locale"	command_get_locale	""	""
 item	bs_settings_menu	command	"[???] Change locale..."	function_not_implemented	"FALSE"	""
 
@@ -427,8 +393,6 @@ item	bs_settings_menu	command	"[x] Set locale to system's default"	command_set_l
 item	bs_settings_menu	command	"[x] Set locale to English"	command_set_locale_en	""	""
 item	bs_settings_menu	command	"[x] Set locale to Lithuanian"	command_set_locale_lt	""	""
 item	bs_settings_menu	command	"[x] Set locale to Russian"	command_set_locale_ru	""	""
-
-
 
 
 # ---- Manage Working directory ----------------------------------------------
@@ -445,16 +409,11 @@ item	bs_settings_menu	command	"Copy object..."	window_data_obj_copy	"objects_in_
 item	bs_settings_menu	command	"Delete objects... "	window_data_obj_delete	"objects_in_env_P()"	""
 item	bs_settings_menu	command	"Rename object..."	window_data_obj_rename	"objects_in_env_P()"	""
 
-# ~~~~ Convert to data.frame ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# item	bs_settings_menu	separator	""	""	""	""
-# item	bs_settings_menu	command	"[???] Convert `table` to `data.frame`"	window_table_to_df	"FALSE"	""
-
 
 # ---- Session information ---------------------------------------------------
 item	bs_settings_menu	separator	""	""	""	""
 item	bs_settings_menu	command	"Print session information: devtools style"	command_session_info_devtools	""	""
 item	bs_settings_menu	command	"Print session information: base R style"	command_session_info_utils	""	""
-
 
 
 # . ==========================================================================
@@ -463,77 +422,4 @@ menu	bs_about_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"About"	bs_about_menu	""	""
 
 item	bs_about_menu	command 'About package "RcmdrPlugin.biostat"'	window_about_package	""	""
-
-
-# [x] ========================================================================
-
-# ---- x Distributions -------------------------------------------------------
-
-# menu	bs_distr_menu	bs_analysis_menu	""	""	""	""
-# item	bs_analysis_menu	cascade	"Distributions"	bs_distr_menu	""	""
-#
-# item	bs_distr_menu	command	"Interactive tool to explore distributions"	window_distributions_descriptr	""	"packageAvailable('descriptr')" # from Rcmdr
-
-
-# ---- x Removed plots -------------------------------------------------------
-# item	bs_plots_menu	command	"[x] Create a color palette..."	window_colourPicker	""	""
-#
-# item	bs_plots_menu	separator	""	""	""	""
-# item	bs_plots_menu	command	"[x] Interactive tool: easyPlot..."	window_easyPlot	"variablesP(n = 2)"	""
-# item	bs_plots_menu	command	"[x] Interactive tool: ggplot GUI..."	window_ggplotgui	"variablesP()"	""
-# item	bs_plots_menu	command	"[x] Interactive tool: ggedit..."	window_ggedit	"class_ggplot_P()"	""
-# item	bs_plots_menu	command	"[x] Interactive tool: ggThemeAssist (example)..."	window_ggThemeAssist	"class_ggplot_P()"	""
-#
-#
-# # item	bs_plots_menu	separator	""	""	""	""
-# # item	bs_plots_menu	command	"[???] Normal Q-Q plot (by groups)"	"function_not_implemented('window_qqplot_biostat')"	"numericP()"	""
-# #
-# # item	bs_plots_menu	separator	""	""	""	""
-# # item	bs_plots_menu	command	"[???] Histogram"	window_histogram	"nonFactorsP()"	""
-# # item	bs_plots_menu	command	"[???] Density plot"	window_density_plot	"nonFactorsP()"	""
-# #
-# # item	bs_plots_menu	separator	""	""	""	""
-# # item	bs_plots_menu	command	"[???] Dots (with error bars)"	window_plot_dot_err	"nonFactorsP()"	""
-# # item	bs_plots_menu	command	"[???] Columns (with error bars)"	window_plot_bar_err	"nonFactorsP()"	""
-
-# ---- x Summary functions ---------------------------------------------------
-# item	bs_summary_menu	command	"[x] Quick summary: skim..."	window_summary_skim	"activeDataSetP()"	"packageAvailable('skimr')"
-# item	bs_summary_menu	command	"[x] Quick summary: summary"	command_summary	"activeDataSetP()"	""
-# item	bs_summary_menu	command	"[x] Quick summary: describe"	summary_Hmisc_describe	"activeDataSetP()"	"packageAvailable('Hmisc')"
-#
-# item	bs_summary_menu	command	"[x] Summarize numerical variables..."	window_do_summary	"numericP()"	""
-
-
-# item	bs_summary_menu	separator	""	""	""	""
-#
-# item	bs_summary_menu	command	"Screen dataset for missing values"	summary_ds_screener	"activeDataSetP()"	"packageAvailable('descriptr')"
-
-
-
-
-# item	bs_summary_menu	separator	""	""	""	""
-
-# item	bs_summary_menu	command	"Summarize all variables [stats::summary]"	command_summary	"activeDataSetP()"	""
-# item	bs_summary_menu	command	"Summarize all variables [Hmisc::describe]"	summary_Hmisc_describe	"activeDataSetP()"	""
-
-# item	bs_summary_menu	separator	""	""	""	""
-# item	bs_summary_menu	command	"Summarize numerical variables [psych::describe]"	summary_psych_describe	"numericP()"	""
-
-# item	bs_summary_menu	separator	""	""	""	""
-
-# item	bs_summary_menu	command	"[???] One-way tables"	function_not_implemented	"FALSE & factorsP()"	""
-
-# item	bs_summary_menu	command	"[???] One-way table (for one variable)"	function_not_implemented	"FALSE & factorsP()"	""
-# descriptr::ds_freq_table
-
-# item	bs_summary_menu	command	"[???] One-way tables for all categorical variables"	function_not_implemented	"FALSE & factorsP()"	""
-# descriptr::ds_oway_tables()
-
-
-# item	bs_summary_menu	command	"[???] Two-way table (for one variable)"	function_not_implemented	"FALSE & factorsP()"	""
-# descriptr::ds_cross_table()
-
-
-# item	bs_summary_menu	command	"[???] Two-way tables for all pairs of categorical variables"	function_not_implemented	"FALSE & factorsP()"	""
-# descriptr::ds_tway_tables()
 
