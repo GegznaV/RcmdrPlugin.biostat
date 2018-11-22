@@ -278,6 +278,8 @@ correct_row_index <- function(i, n_max) {
 #' @rdname helper-functions
 #' @keywords internal
 #' @export
+#' @param str sring
+#' @param ... other arguments
 clean_str <- function(str, ...) {
     snakecase::to_any_case(make.names(str), ...)
 }
