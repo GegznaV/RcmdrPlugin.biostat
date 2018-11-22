@@ -186,7 +186,7 @@ window_export_to_excel_old <- function() {
     #         ""
     #     }
     #
-    # sheet_name <- unique_obj_names(glue("{activeDataSet()} {Sys.Date()}"),
+    # sheet_name <- unique_obj_names(str_glue("{activeDataSet()} {Sys.Date()}"),
     #                                list_of_choices = sheet_names_list)
 
     sheet_name <-
@@ -311,7 +311,7 @@ window_export_to_textfile <- function() {
             return()
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        command <- glue("## Save data to text file \n",
+        command <- str_glue("## Save data to text file \n",
                         "write.table({dsname}, file = '{saveFile}', \n",
                         "sep = '{sep}', \n",
                         "col.names = {col}, \n",
