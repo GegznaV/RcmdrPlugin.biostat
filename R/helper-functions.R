@@ -275,7 +275,7 @@ correct_row_index <- function(i, n_max) {
 
 # ___ Names ___ ==============================================================
 
-#' @rdname helper-functions
+#' @rdname Helper-functions
 #' @keywords internal
 #' @export
 #' @param str sring
@@ -591,7 +591,9 @@ is_not_empty_name <- function(name) {
 #' @export
 #'
 #' @examples
+#' \dontrun{\donttest{
 #' msg_box_confirm_to_replace()
+#' }}
 msg_box_confirm_to_replace <- function(name, type = "Variable") {
     Type <- stringr::str_to_title(type)
 

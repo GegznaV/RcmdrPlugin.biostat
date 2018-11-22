@@ -20,6 +20,7 @@
 \alias{swap}
 \alias{swap_rows}
 \alias{correct_row_index}
+\alias{clean_str}
 \alias{function_not_implemented}
 \alias{unique_obj_names}
 \alias{unique_df_name}
@@ -83,6 +84,8 @@ swap(x, i, j)
 swap_rows(x, i, j)
 
 correct_row_index(i, n_max)
+
+clean_str(str, ...)
 
 function_not_implemented()
 
@@ -162,6 +165,11 @@ radiobuttons_env(window = top, name = stop("name not supplied"),
 
 ok_cancel_help(window = top, helpSubject = NULL, model = FALSE,
   reset = NULL, apply = NULL, helpPackage = NULL)
+}
+\arguments{
+\item{...}{other arguments}
+
+\item{str}{sring}
 }
 \description{
 Helper functions for package \pkg{RcmdrPlugin.biostat}.
