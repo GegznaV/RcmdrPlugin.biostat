@@ -229,14 +229,30 @@ spaces <- function(n, symbol = " ") {
 #' @export
 #' @keywords internal
 # Print code if code evaluation error occured
-logger_error <- function(command) {
+logger_error <- function(command = NULL, error_msg = NULL) {
 
-    logger(str_c("#### START (code with error) ", spaces(30, "-")), rmd = FALSE)
-    rez <- logger(str_c("   #   ", str_split(command,"\n")[[1]],
-                        collapse = "\n"), rmd = FALSE)
-    logger(str_c("#### END (code with error)   ", spaces(30, "-")), rmd = FALSE)
-    invisible(rez)
+
+    if (!is.null(command)) {
+        logger(str_c("#### START (code with error) ", spaces(50, "-")), rmd = FALSE)
+        rez <- logger(str_c("   #   ", str_split(command,"\n")[[1]],
+                            collapse = "\n"), rmd = FALSE)
+
+        txt <- "-----"
+    } else {
+        txt <- "START"
+    }
+
+    if (!is.null(error_msg)) {
+        logger(str_c("#### ", txt ," (error message) ", spaces(52, "-")), rmd = FALSE)
+        rez <- logger(str_c("   #   ", str_split(error_msg,"\n")[[1]],
+                            collapse = "\n"), rmd = FALSE)
+    }
+
+    logger(str_c("#### END ", spaces(70, "-")), rmd = FALSE)
+
+    invisible(NULL)
 }
+
 
 #' @rdname Helper-functions
 #' @export
@@ -655,13 +671,17 @@ forbid_to_replace_object <- function(name, envir = .GlobalEnv) {
 show_code_evaluation_error_message <- function() {
     show_error_messages(
         str_c("Something went wrong while evaluating the code.\n",
-              "Please, check if all options are selected correctly."),
+              "Please, check if all options are selected correctly\n",
+              "and try to fix the issue."),
 
         str_c("Something went wrong while evaluating the code.\n\n",
-              "Please, check if all options are selected correctly.\n\n",
-              "If no error was found, you may consider reporting\n",
-              "the bug in the package `RcmdrPlugin.biostat`\n",
-              '(see link in "About").\n'),
+              "Please, check if all options are selected correctly\n",
+              "and try to fix the issue."
+
+              # "If no error was found, you may consider reporting\n",
+              # "the bug in the package `RcmdrPlugin.biostat`\n",
+              # '(see link in "About").\n'
+              ),
 
         title = "Code Evaluation Error")
 }
