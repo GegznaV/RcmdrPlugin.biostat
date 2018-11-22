@@ -492,6 +492,7 @@ show_error_messages <- function(message, message2 = message, title = "") {
 #' @keywords internal
 #'
 #' @examples
+#' \dontrun{\donttest{
 #' is_valid_name("a")
 #' is_valid_name("")
 #' is_valid_name("|||")
@@ -499,6 +500,7 @@ show_error_messages <- function(message, message2 = message, title = "") {
 #' is_empty_name("a")
 #' is_empty_name("")
 #' is_empty_name("|||")
+#' }}
 is_valid_name <- function(name) {
 
     if (is_empty_name(name)) {
