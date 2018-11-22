@@ -23,11 +23,9 @@
 \alias{window_ci_boot}
 \alias{Menu-window-functions}
 \alias{command_dataset_refresh}
-\alias{command_dataset_class}
-\alias{command_colnames}
-\alias{command_dataset_print}
 \alias{command_dataset_view}
-\alias{command_dataset_dim}
+\alias{command_dataset_print}
+\alias{command_dataset_class}
 \alias{command_dataset_as_df}
 \alias{command_dataset_as_tibble}
 \alias{command_dataset_as_dt}
@@ -48,11 +46,9 @@
 \alias{window_density_plot}
 \alias{window_plot_dot_err}
 \alias{window_plot_bar_err}
-\alias{command_rownames}
 \alias{command_row_rm_empty_rows}
 \alias{window_col_to_rownames0}
 \alias{window_col_to_rownames}
-\alias{command_load_packages}
 \alias{command_getwd}
 \alias{command_setwd}
 \alias{command_get_locale}
@@ -63,17 +59,12 @@
 \alias{command_list_objects}
 \alias{command_session_info_devtools}
 \alias{command_session_info_utils}
+\alias{command_dataset_dim}
 \alias{command_glimpse}
-\alias{command_summary}
 \alias{summary_head_tail}
-\alias{summary_head}
-\alias{summary_tail}
-\alias{summary_Hmisc_describe}
-\alias{summary_ds_screener}
-\alias{summary_psych_describe}
-\alias{summary_psych_describeBy}
-\alias{command_all_chr_to_fctr}
+\alias{command_colnames}
 \alias{command_clean_names}
+\alias{command_all_chr_to_fctr}
 \alias{window_dataset_bind_cols}
 \alias{window_dataset_bind_rows}
 \alias{window_dataset_join}
@@ -123,15 +114,11 @@ window_ci_boot()
 
 command_dataset_refresh()
 
-command_dataset_class()
-
-command_colnames()
+command_dataset_view()
 
 command_dataset_print()
 
-command_dataset_view()
-
-command_dataset_dim()
+command_dataset_class()
 
 command_dataset_as_df()
 
@@ -173,16 +160,12 @@ window_plot_dot_err()
 
 window_plot_bar_err()
 
-command_rownames()
-
 command_row_rm_empty_rows()
 
 window_col_to_rownames0(variables)
 
 window_col_to_rownames(new_dsname = NULL, init_conditions = NULL,
   incorrect_cond_msg = NULL)
-
-command_load_packages()
 
 command_getwd()
 
@@ -204,27 +187,17 @@ command_session_info_devtools()
 
 command_session_info_utils()
 
-command_glimpse()
+command_dataset_dim()
 
-command_summary()
+command_glimpse()
 
 summary_head_tail()
 
-summary_head()
-
-summary_tail()
-
-summary_Hmisc_describe()
-
-summary_ds_screener()
-
-summary_psych_describe()
-
-summary_psych_describeBy()
-
-command_all_chr_to_fctr()
+command_colnames()
 
 command_clean_names()
+
+command_all_chr_to_fctr()
 
 window_dataset_bind_cols()
 

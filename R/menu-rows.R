@@ -1,13 +1,7 @@
-# ============================================================================
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# "Rows" menu functions ======================================================
 
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-command_rownames <- function() {
-    doItAndPrint(str_glue("## Row names\n",
-                          "rownames({ActiveDataSet()})"))
-}
+# General---------------------------------------------------------------------
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # TODO:
 #
@@ -58,7 +52,7 @@ command_row_rm_empty_rows <- function() {
         command_dataset_refresh()
 }
 
-# ============================================================================
+# Row names ------------------------------------------------------------------
 
 #' @rdname Menu-window-functions
 #' @export
@@ -67,6 +61,7 @@ command_row_rm_empty_rows <- function() {
 window_col_to_rownames0  <- function(variables) {
     window_col_to_rownames()
 }
+
 
 #' @rdname Menu-window-functions
 #' @export

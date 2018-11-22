@@ -1,13 +1,7 @@
-# Create new window for plots
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-command_load_packages <- function() {
-    Rcmdr::doItAndPrint(paste0(
-        "library(tidyverse) \n",
-        "library(biostat)   \n",
-        "library(magrittr)  \n"))
-}
+# Workspace and Settings menu functions ======================================
+
+# Working directory ----------------------------------------------------------
+#
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export
@@ -18,6 +12,7 @@ command_getwd <- function() {
         'getwd()',
         sep = " \n"))
 }
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export
@@ -29,6 +24,9 @@ command_setwd <- function() {
         Rcmdr::doItAndPrint(str_glue('setwd("{new_wd}")'))
     }
 }
+
+# Locale ---------------------------------------------------------------------
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export
@@ -39,8 +37,8 @@ command_get_locale <- function() {
         'Sys.getlocale()') %>%
         Rcmdr::doItAndPrint()
 }
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # TODO:
 # 1. Chaeck if it works on UBUNTU
 # 2. MacOSXP(), WindowsP(),
@@ -121,14 +119,17 @@ command_set_locale_default <- function() {
         Rcmdr::doItAndPrint()
 }
 
-
+# Workspace ------------------------------------------------------------------
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# TODO:
+#  Convert to window
+#
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 command_list_objects <- function() {
 
-    # Inputs (not implemented) -----------------------------------------------
+    # Inputs (not implemented) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     show_hidden <- FALSE
 
     if (show_hidden) {
@@ -137,7 +138,7 @@ command_list_objects <- function() {
         all_names <- ""
     }
 
-    # Code -------------------------------------------------------------------
+    # Code ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     command <-  str_glue(
         "## List objects in R workspace \n",
         "objects({all_names})"
@@ -147,6 +148,7 @@ command_list_objects <- function() {
 
 }
 
+# Session information --------------------------------------------------------
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export

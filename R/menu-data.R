@@ -4,7 +4,7 @@
 #' @keywords internal
 NULL
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 # "Data" menu related functions ==============================================
 
 # Manage dataset -------------------------------------------------------------
@@ -16,31 +16,16 @@ NULL
 command_dataset_refresh <- function() {
     Rcmdr::activeDataSet(Rcmdr::ActiveDataSet())
 }
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-command_dataset_class <- function() {
-    doItAndPrint(str_glue("## The R class of the dataset\n",
-                          "class({ActiveDataSet()})"))
-}
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-# List column names
-command_colnames <- function() {
-    doItAndPrint(str_glue("## Column names\n",
-                          "colnames({ActiveDataSet()})"))
+command_dataset_view <- function() {
+    doItAndPrint(str_glue("View({ActiveDataSet()})"))
 }
 
-
-# ============================================================================
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
@@ -48,25 +33,18 @@ command_dataset_print <- function() {
     doItAndPrint(str_glue("print({ActiveDataSet()})"))
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+# Dataset's class ------------------------------------------------------------
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-command_dataset_view <- function() {
-    doItAndPrint(str_glue("View({ActiveDataSet()})"))
+command_dataset_class <- function() {
+    doItAndPrint(str_glue("## The R class of the dataset\n",
+                          "class({ActiveDataSet()})"))
 }
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-command_dataset_dim <- function() {
-    doItAndPrint(str_glue("## Number of rows and columns\n",
-                          "dim({ActiveDataSet()})"))
-}
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
@@ -88,6 +66,7 @@ command_dataset_as_tibble <- function() {
         "{ActiveDataSet()} <- as_tibble({ActiveDataSet()})"))
     command_dataset_refresh()
 }
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export
@@ -99,4 +78,5 @@ command_dataset_as_dt <- function() {
         "{ActiveDataSet()} <- data.table({ActiveDataSet()})"))
     command_dataset_refresh()
 }
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
