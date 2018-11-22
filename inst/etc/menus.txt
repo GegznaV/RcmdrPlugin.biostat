@@ -229,7 +229,7 @@ item	bs_summary_menu	command	"Print top and bottom rows"	summary_head_tail	"acti
 # --- Summarize variables ----------------------------------------------------
 
 item	bs_summary_menu	separator	""	""	""	""
-item	bs_summary_menu	command	"[???] Summarize variables..."	window_summary_skim	"FALSE && activeDataSetP()"	"packageAvailable('skimr')"
+item	bs_summary_menu	command	"[???] Summarize variables..."	window_summary_skim	"activeDataSetP()"	"packageAvailable('skimr')"
 
 item	bs_summary_menu	command	"Frequency & multi-way tables..."	window_summary_count	"activeDataSetP()"	""
 
