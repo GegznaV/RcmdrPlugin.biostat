@@ -271,7 +271,7 @@ window_export_to_excel <- function() {
             closeDialog()
 
         } else {
-            logger_error(command)
+            logger_error(command, error_msg = result)
             show_code_evaluation_error_message()
             return()
         }
