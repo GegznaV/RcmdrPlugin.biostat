@@ -52,14 +52,3 @@ command_row_rm_empty_rows <- function() {
         command_dataset_refresh()
 }
 
-# Row names ------------------------------------------------------------------
-
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-# Correctly initializes window `window_col_to_rownames()`
-window_col_to_rownames0  <- function(variables) {
-    window_col_to_rownames()
-}
-
-
