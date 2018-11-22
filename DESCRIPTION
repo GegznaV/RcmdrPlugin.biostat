@@ -29,6 +29,7 @@ Depends:
 Imports:
     binom,
     boot,
+    checkmate,
     colourpicker,
     data.table,
     desc,
