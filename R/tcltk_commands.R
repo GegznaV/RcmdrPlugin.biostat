@@ -1,5 +1,5 @@
 # Set cursor ------------------------------------------------------------------
-#' @rdname helper-functions
+#' @rdname Helper-functions
 #' @param frame Tcl/Tk frame object.
 #'
 #' @keywords internal
@@ -25,7 +25,7 @@ cursor_set_busy <- function(frame = NULL) {
 }
 
 
-#' @rdname helper-functions
+#' @rdname Helper-functions
 #' @keywords internal
 #' @export
 cursor_set_idle <- function(frame = NULL) {
@@ -96,7 +96,7 @@ tk_normalize <- function(tk_obj, ...) {
 
 # Get values -----------------------------------------------------------------
 
-#' @rdname helper-functions
+#' @rdname Helper-functions
 #' @keywords internal
 #' @export
 
@@ -105,7 +105,7 @@ tk_normalize <- function(tk_obj, ...) {
 # 1) senas `tclvalue_*` funkcijų versijas visame pakete pakeisti naujomis
 #    versijomis.
 
-#' @rdname helper-functions
+#' @rdname Helper-functions
 #' @keywords internal
 #' @export
 
@@ -117,7 +117,7 @@ tclvalue_lgl <- function(x) {
 
 # Sena versija:
 
-#' @rdname helper-functions
+#' @rdname Helper-functions
 #' @keywords internal
 #' @export
 
@@ -129,7 +129,7 @@ tclvalue_int <- function(x) {
 
 # Naujos versijos:
 
-# #' @rdname helper-functions
+# #' @rdname Helper-functions
 # #' @keywords internal
 # #' @export
 #
@@ -137,7 +137,7 @@ tclvalue_int <- function(x) {
 #     as.integer(tclvalue(x))
 # }
 
-#' @rdname helper-functions
+#' @rdname Helper-functions
 #' @keywords internal
 #' @export
 
@@ -152,7 +152,7 @@ tclvalue_split_int <- function(x) {
 
 #' @param x Tcl/Tk object
 #'
-#' @rdname helper-functions
+#' @rdname Helper-functions
 #' @keywords internal
 #' @export
 #'
@@ -165,7 +165,7 @@ tclvalue_chr <- function(x) {
 
 # Naujos versijos:
 
-#' @rdname helper-functions
+#' @rdname Helper-functions
 #' @keywords internal
 #' @export
 tclvalue_split_chr <- function(x) {
@@ -173,8 +173,7 @@ tclvalue_split_chr <- function(x) {
     names(x) <- NULL
     x
 }
-
-# #' @rdname helper-functions
+# #' @rdname Helper-functions
 # #' @keywords internal
 # #' @export
 #
