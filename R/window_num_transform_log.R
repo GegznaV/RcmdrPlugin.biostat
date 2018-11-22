@@ -10,7 +10,7 @@
 #' @keywords internal
 #' @family transformations
 #'
-window_transform_log <- function() {
+window_num_transform_log <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = gettext_bs("Logarithmic transformation"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -33,7 +33,7 @@ window_transform_log <- function() {
                      fun_type  = "Tidyverse",
                      variables = NULL)
 
-    dialog_values <- getDialog("window_transform_log", defaults)
+    dialog_values <- getDialog("window_num_transform_log", defaults)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
 
@@ -89,7 +89,7 @@ window_transform_log <- function() {
         fun_type  <- tclvalue(fun_typeVariable)
         variables <- getSelection(variableBox)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        putDialog("window_transform_log",
+        putDialog("window_num_transform_log",
                   list(prefix    = prefix,
                        suffix    = suffix,
                        log_txt   = log_txt,
@@ -101,7 +101,7 @@ window_transform_log <- function() {
         closeDialog()
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (length(variables) == 0) {
-            errorCondition(recall  = window_transform_log,
+            errorCondition(recall  = window_num_transform_log,
                            message = gettext_bs("You must select a variable."))
             return()
         }
@@ -115,14 +115,14 @@ window_transform_log <- function() {
 
             if (!is.valid.name(new_names[i])) {
                 errorCondition(
-                    recall  = window_transform_log,
+                    recall  = window_num_transform_log,
                     message = paste(new_names[i], gettext_bs("is not a valid name."))
                 )
                 return()
             }
             if (is.element(new_names[i], Variables())) {
                 if ("no" == tclvalue(checkReplace(new_names[i]))) {
-                    window_transform_log()
+                    window_num_transform_log()
                     return()
                 }
             }

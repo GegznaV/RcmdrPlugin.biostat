@@ -5,7 +5,7 @@
 #' @keywords internal
 #' @family transformations
 #'
-window_transform_z <- function() {
+window_num_transform_z <- function() {
     initializeDialog(title = gettext_bs("Z transformation (standardization)"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Title ------------------------------------------------------------------
@@ -43,7 +43,7 @@ window_transform_z <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Check conditions
         if (length(variables) == 0) {
-            errorCondition(recall = window_transform_z,
+            errorCondition(recall = window_num_transform_z,
                            message = gettext_bs("You must select a variable."))
             return()
         }
@@ -56,14 +56,14 @@ window_transform_z <- function() {
 
             if (!is.valid.name(new_names[i])) {
                 errorCondition(
-                    recall = window_transform_z,
+                    recall = window_num_transform_z,
                     message = paste(new_names[i], gettext_bs("is not a valid name."))
                 )
                 return()
             }
             if (is.element(new_names[i], Variables())) {
                 if ("no" == tclvalue(checkReplace(new_names[i]))) {
-                    window_transform_z()
+                    window_num_transform_z()
                     return()
                 }
             }

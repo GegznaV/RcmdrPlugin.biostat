@@ -125,9 +125,9 @@ item	bs_rows_menu	command	"[???] Remove rows with missing values..."	function_no
 # item	bs_rows_menu	command	"[???] Fill missing values in using the previous entry..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
 
 item	bs_rows_menu	separator	""	""	""	""
-item	bs_rows_menu	command	"Add column with row numbers"	window_rowid_to_col	"activeDataSetP()"	"packageAvailable('tidyverse')"
-item	bs_rows_menu	command	"Move column values to row names..."	window_col_to_rownames	"variables_with_unique_values_P()"	"packageAvailable('tibble')"
-item	bs_rows_menu	command	"Move row names to column values..."	window_rownames_to_col	"activeDataSetP()"	"packageAvailable('tibble')"
+item	bs_rows_menu	command	"Add column with row numbers"	window_rows_rowid_to_col	"activeDataSetP()"	"packageAvailable('tidyverse')"
+item	bs_rows_menu	command	"Create row names from column values..."	window_rows_col_to_rownames	"variables_with_unique_values_P()"	"packageAvailable('tibble')"
+item	bs_rows_menu	command	"Move row names to column values..."	window_rows_rownames_to_col	"activeDataSetP()"	"packageAvailable('tibble')"
 
 
 # . ===========================================================================
@@ -201,8 +201,8 @@ item	bs_var_num_menu	command	"[???] Bin/Categorize numeric values..."	function_n
 
 item	bs_var_num_menu	separator	""	""	""	""
 item	bs_var_num_menu	command	"Box-Cox transformation... [Rcmdr]"	function_not_implemented	"FALSE & numericP()"	""
-item	bs_var_num_menu	command	"Log transformation..."	window_transform_log	"numericP()"	""
-item	bs_var_num_menu	command	"Z transformation / Standardization..."	window_transform_z	"numericP()"	""
+item	bs_var_num_menu	command	"Log transformation..."	window_num_transform_log	"numericP()"	""
+item	bs_var_num_menu	command	"Z transformation / Standardization..."	window_num_transform_z	"numericP()"	""
 
 
 # --- + Text variables --------------------------------------------------------

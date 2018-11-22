@@ -2,7 +2,7 @@
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_rownames_to_col <- function(){
+window_rows_rownames_to_col <- function(){
     ds <- activeDataSet()
 
     initializeDialog(title = gettext_bs("Move row names to column"))
@@ -19,7 +19,7 @@ window_rownames_to_col <- function(){
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (!is.valid.name(new_name)) {
             errorCondition(
-                recall = command_rownames_to_col,
+                recall = window_rows_rownames_to_col,
                 message = paste0( '"',new_name,'" ', gettext_bs("is not a valid name."))
             )
             return()
@@ -29,7 +29,7 @@ window_rownames_to_col <- function(){
             if ("no" == tclvalue(checkReplace(new_name,
                                               type = gettext_bs("Variable")))) {
                 closeDialog()
-                command_rownames_to_col()
+                window_rows_rownames_to_col()
                 return()
             }
         }

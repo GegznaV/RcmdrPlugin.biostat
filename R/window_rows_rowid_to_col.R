@@ -6,10 +6,10 @@
 # This row deletes row names:
 # # new_df <- tibble::rowid_to_column({ActiveDataSet()}, var = "rows_id")
 
-window_rowid_to_col <- function() {
+window_rows_rowid_to_col <- function() {
     # Initialize -------------------------------------------------------------
     defaults      <- list(initial_position = "first")
-    dialog_values <- getDialog("window_rowid_to_col", defaults)
+    dialog_values <- getDialog("window_rows_rowid_to_col", defaults)
 
     initializeDialog(title = gettext_bs("Create Row Numbers"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -63,7 +63,7 @@ window_rowid_to_col <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        putDialog("window_rowid_to_col",
+        putDialog("window_rows_rowid_to_col",
                   list(initial_position = which_position))
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         closeDialog()

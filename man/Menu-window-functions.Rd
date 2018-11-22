@@ -7,8 +7,9 @@
 %   R/window_export_to_excel.R, R/window_fct_drop_lvls.R,
 %   R/window_fct_lvls_reorder_manual.R, R/window_import_excel.R,
 %   R/window_import_from_pkg.R, R/window_import_rdata.R, R/window_import_rds.R,
-%   R/window_import_text_delim.R, R/window_row_names_to_col.R,
-%   R/window_rowid_to_col.R, R/window_rows_arrange.R, R/window_rows_filter.R,
+%   R/window_import_text_delim.R, R/window_rows_arrange.R,
+%   R/window_rows_col_to_rownames.R, R/window_rows_filter.R,
+%   R/window_rows_rowid_to_col.R, R/window_rows_rownames_to_col.R,
 %   R/window_rows_slice.R, R/window_summary_count.R, R/window_summary_skim.R,
 %   R/window_test_normality.R, R/window_variable_gather.R,
 %   R/window_variable_mutate.R, R/window_variable_recode.R,
@@ -46,9 +47,8 @@
 \alias{window_density_plot}
 \alias{window_plot_dot_err}
 \alias{window_plot_bar_err}
+\alias{command_rownames}
 \alias{command_row_rm_empty_rows}
-\alias{window_col_to_rownames0}
-\alias{window_col_to_rownames}
 \alias{command_getwd}
 \alias{command_setwd}
 \alias{command_get_locale}
@@ -78,12 +78,14 @@
 \alias{window_import_rdata}
 \alias{window_import_rds}
 \alias{window_import_text_delim}
-\alias{window_rownames_to_col}
-\alias{window_rowid_to_col}
 \alias{window_rows_arrange}
 \alias{window_rows_arrange_tmp}
+\alias{window_rows_col_to_rownames0}
+\alias{window_rows_col_to_rownames}
 \alias{window_rows_filter0}
 \alias{window_rows_filter}
+\alias{window_rows_rowid_to_col}
+\alias{window_rows_rownames_to_col}
 \alias{window_rows_slice}
 \alias{window_summary_count}
 \alias{window_summary_skim}
@@ -160,12 +162,9 @@ window_plot_dot_err()
 
 window_plot_bar_err()
 
+command_rownames()
+
 command_row_rm_empty_rows()
-
-window_col_to_rownames0(variables)
-
-window_col_to_rownames(new_dsname = NULL, init_conditions = NULL,
-  incorrect_cond_msg = NULL)
 
 command_getwd()
 
@@ -225,18 +224,23 @@ window_import_rds()
 
 window_import_text_delim()
 
-window_rownames_to_col()
-
-window_rowid_to_col()
-
 window_rows_arrange()
 
 window_rows_arrange_tmp()
+
+window_rows_col_to_rownames0(variables)
+
+window_rows_col_to_rownames(new_dsname = NULL, init_conditions = NULL,
+  incorrect_cond_msg = NULL)
 
 window_rows_filter0(variables)
 
 window_rows_filter(new_dsname = NULL, init_conditions = NULL,
   incorrect_cond_msg = NULL)
+
+window_rows_rowid_to_col()
+
+window_rows_rownames_to_col()
 
 window_rows_slice()
 

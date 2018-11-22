@@ -1,9 +1,9 @@
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-# Correctly initializes window `window_col_to_rownames()`
-window_col_to_rownames0  <- function(variables) {
-    window_col_to_rownames()
+# Correctly initializes window `window_rows_col_to_rownames()`
+window_rows_col_to_rownames0  <- function(variables) {
+    window_rows_col_to_rownames()
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -13,7 +13,7 @@ window_col_to_rownames0  <- function(variables) {
 # new_dsname (character) - data frame name
 # init_conditions (character) - conditions to be evaluated to select rows
 # incorrect_cond_msg (character) - Message for incorrect expression.
-window_col_to_rownames <- function(new_dsname = NULL,
+window_rows_col_to_rownames <- function(new_dsname = NULL,
                                    init_conditions = NULL,
                                    incorrect_cond_msg = NULL) {
 
