@@ -129,6 +129,8 @@ window_xxx <- function() {
 
 
         } else {
+            logger_error(command, error_msg = result)
+            show_code_evaluation_error_message()
             return()
         }
 
