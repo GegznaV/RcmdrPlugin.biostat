@@ -1,7 +1,10 @@
 # Set cursor ------------------------------------------------------------------
 #' @rdname helper-functions
+#' @param frame Tcl/Tk frame object.
+#'
 #' @keywords internal
 #' @export
+#'
 cursor_set_busy <- function(frame = NULL) {
 
     if (!is.null(frame)) {
@@ -147,9 +150,12 @@ tclvalue_split_int <- function(x) {
 
 # Sena versija:
 
+#' @param x Tcl/Tk object
+#'
 #' @rdname helper-functions
 #' @keywords internal
 #' @export
+#'
 tclvalue_chr <- function(x) {
     sapply(unlist(strsplit(tclvalue(x), " ")), as.character)
     names(x) <- NULL
@@ -162,7 +168,6 @@ tclvalue_chr <- function(x) {
 #' @rdname helper-functions
 #' @keywords internal
 #' @export
-
 tclvalue_split_chr <- function(x) {
     sapply(unlist(strsplit(tclvalue(x), " ")), as.character)
     names(x) <- NULL
