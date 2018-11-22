@@ -39,14 +39,7 @@
 \alias{command_get_model_class}
 \alias{command_model_print}
 \alias{open_new_plots_window}
-\alias{window_easyPlot}
-\alias{window_ggplotgui}
 \alias{window_show_colors}
-\alias{window_colourPicker}
-\alias{window_histogram}
-\alias{window_density_plot}
-\alias{window_plot_dot_err}
-\alias{window_plot_bar_err}
 \alias{command_rownames}
 \alias{command_row_rm_empty_rows}
 \alias{command_getwd}
@@ -146,21 +139,7 @@ command_model_print()
 
 open_new_plots_window()
 
-window_easyPlot()
-
-window_ggplotgui()
-
 window_show_colors()
-
-window_colourPicker()
-
-window_histogram()
-
-window_density_plot()
-
-window_plot_dot_err()
-
-window_plot_bar_err()
 
 command_rownames()
 
