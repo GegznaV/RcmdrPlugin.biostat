@@ -14,14 +14,14 @@
 #' @importFrom graphics plot
 #' @importFrom stats p.adjust.methods C
 #' @importFrom utils browseURL packageVersion data
+#' @import tcltk
+#' @import tcltk2
 #' @import stringr
 #' @import purrr
 #' @import biostat
 #' @import nortest
-#' @import Rcmdr
 #' @import RcmdrPlugin.EZR
-#' @import tcltk
-#' @import tcltk2
+# @import Rcmdr
 
 
 NULL
