@@ -17,8 +17,7 @@ LazyData: true
 ByteCompile: false
 BugReports: https://github.com/GegznaV/RcmdrPlugin.biostat/issues
 Remotes:
-    GegznaV/biostat,
-    majkamichal/easyPlot
+    GegznaV/biostat
 Depends:
     R (>= 3.3.0),
     biostat (>= 0.0.18),
@@ -30,18 +29,12 @@ Imports:
     binom,
     boot,
     checkmate,
-    colourpicker,
     data.table,
     desc,
-    descriptr (>= 0.4.1),
     DescTools,
     dplyr,
-    easyPlot,
     forcats,
     fs,
-    ggedit,
-    ggplotgui,
-    ggthemes,
     glue,
     graphics,
     grDevices,
@@ -51,10 +44,8 @@ Imports:
     nortest,
     openxlsx,
     pander,
-    plyr,
     purrr,
     scales,
-    shiny,
     skimr,
     snakecase,
     stats,
