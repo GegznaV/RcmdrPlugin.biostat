@@ -1,99 +1,107 @@
-# DEPRECADED FUNCTION
+
+#' Rcmdr windows for variable class conversion
+#'
+#' @export
+#' @keywords internal
+#' @family conversion
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Rcmdr windows for variable class conversion
-#
-# @export
-# @keywords internal
-# @family conversion
-#
-window_lgl_convert__old <- function() {
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_bs("Convert logical variables into other classes"))
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    defaults <- list(suffix = gettext_bs("<automatic suffix>"),
-                     into = "integer",
-                     which_names = "add_suffix",
-                     variables = NULL)
+window_lgl_convert <- function() {
+    # Initial values ---------------------------------------------------------
+
+    # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ds     <- activeDataSet()
+    fg_col <- Rcmdr::getRcmdr("title.color")
+    init_var_type <- "logical"
+
+
+    # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    initializeDialog(
+        title = gettext_bs("Convert Logical Variables into Other Classes"))
+
+    tk_title(top, "Convert logical variables")
+
+    # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    defaults <- list(
+        variables    = NULL,
+        into         = "nominal",
+        names_action = "overwrite",
+        make_unique  = FALSE,
+        prefix       = "",
+        suffix       = ""
+    )
 
     dialog_values <- getDialog("window_lgl_convert", defaults)
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    upper_Frame <- tkframe(top)
 
-    variableBox <-
-        variableListBox2(upper_Frame,
-                         variables_lgl(),                              # "lgl"
-                         selectmode = "multiple",
-                         title = gettext_bs("Logical variables \n(pick one or more)"),
-                         initialSelection = var_pos_n(dialog_values$variables, "logical"), # "lgl"
-                         listHeight = 7
+    # Functions --------------------------------------------------------------
+    change_name_suffix <- function() {
+
+        opt_1 <- tclvalue_chr(widget_2$var_radiobuttons)
+        opt_2 <- tclvalue_chr(widget_2$var_suffix)
+
+        if (opt_1 != "overwrite" &&
+            opt_2 %in% c("", "_chr", "_fct", "_ord", "_num", "_int", "_lgl")) {
+
+                tclvalue(widget_2$var_suffix) <-
+                    switch(tclvalue(into_Variable),
+                           "character" = "_chr",
+                           "text"      = "_chr",
+                           "factor"    = "_fct",
+                           "nominal"   = "_fct",
+                           "ordinal"   = "_ord",
+                           "numeric"   = "_num",
+                           "integer"   = "_int",
+                           "logical"   = "_lgl",
+                           "")
+            }
+    }
+
+    control_checkbox_activation <- function() {
+
+        opt_1 <- tclvalue_chr(widget_2$var_radiobuttons)
+        switch(opt_1,
+               "overwrite" = {
+                   # Clear values
+                   tclvalue(widget_2$var_checkbox) <- "0"
+                   tclvalue(widget_2$var_prefix)   <- ""
+                   tclvalue(widget_2$var_suffix)   <- ""
+
+                   # Disable widgets
+                   tk_disable(widget_2$obj_checkbox)
+                   tk_disable(widget_2$obj_prefix)
+                   tk_disable(widget_2$obj_suffix)
+               },
+
+               "modify" = {
+                   # Activate widgets
+                   tk_activate(widget_2$obj_checkbox)
+                   tk_activate(widget_2$obj_prefix)
+                   tk_activate(widget_2$obj_suffix)
+
+                   change_name_suffix()
+               },
+
+               stop("Unrecognized option")
         )
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    into_outter_Frame <- tkframe(upper_Frame)
-    Rcmdr::radioButtons(into_outter_Frame,
-                 name = "into",
-                 title = gettext_bs("\nConvert into:"),
-                 buttons = c("integer", "factor",  "text"),
-                 values  = c("integer", "factor",  "text"),
-                 initialValue = dialog_values$into,
-                 labels =  gettext_bs(
-                     c("Integers",
-                       "Factors",
-                       "Text variables"))
-    )
-    # as_factor
-    # parse_factor
-    # parse_double
-    # parse_integer
-    # parse_logical
+    }
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    suffix      <- tclVar(dialog_values$suffix)
-    suffixField <- ttkentry(top, width = "20", textvariable = suffix)
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    radioButtons_horizontal(name = "which_names",
-                            title = gettext_bs("Names for converted variable: "),
-                            title.color = getRcmdr("title.color"),
-                            initialValue = dialog_values$which_names,
-                            buttons = c("overwrite"
-                                        , "add_suffix"
-                                        # , "new_names"
-                                        ),
-                            values  = c("overwrite"
-                                        , "add_suffix"
-                                        # , "new_names"
-                                        ),
-                            labels =  gettext_bs(c("Overwrite"
-                                                    , "Add suffixes"
-                                                    # , "Create new names"
-                                                    )))
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Function onOK ----------------------------------------------------------
     onOK <- function() {
-        suffix      <- trim.blanks(tclvalue(suffix))
-        into        <- tclvalue_chr(intoVariable)
-        which_names <- tclvalue_chr(which_namesVariable)
-        variables   <- getSelection(variableBox)
+        variables   <- getSelection(var_y_box)
+        into        <- tclvalue_chr(into_Variable)
+
+        names_action <- tclvalue_chr(widget_2$var_radiobuttons)
+        make_unique  <- tclvalue_lgl(widget_2$var_checkbox)
+        prefix       <- tclvalue_chr(widget_2$var_prefix)
+        suffix       <- tclvalue_chr(widget_2$var_suffix)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        putDialog("window_lgl_convert",
-                  list(suffix      = {if (nchar(suffix) == 0) gettext_bs("<automatic suffix>") else suffix},
-                       into        = into,
-                       which_names = which_names,
-                       variables   = variables
-                  )
-        )
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        closeDialog()
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (length(variables) == 0) {
-            errorCondition(recall = window_lgl_convert,
-                           message = gettext_bs("You must select a variable."))
+        if (variable_is_not_selected(variables, "variable")) {
             return()
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        .activeDataSet <- ActiveDataSet()
-
+        # Process new names
         switch(
-            which_names,
+            names_action,
 
             # Overwrite names ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             "overwrite" = {
@@ -101,120 +109,160 @@ window_lgl_convert__old <- function() {
             },
 
             # Use new names ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            "new_names" = {
-                stop("[!!!] New name window is NOT implemented yet!")   # [!!!] -------------
-                new_names <- new_name_window(old_names = variables,
-                                             new_names = NULL,
-                                             avoid_names = Variables())
-            },
-            "add_suffix" = {
-                new_names <-
-                    if (suffix == gettext_bs("<automatic suffix>")) {
-                        suffix <- switch(into,
-                                         "character" = "chr",
-                                         "factor"    = "fct",
-                                         "nominal"   = "fct",
-                                         "ordinal"   = "ord",
-                                         "number"    = "num",
-                                         "integer"   = "int",
-                                         "logical"   = "lgl",
-                                         into)
-                        paste0(variables, "_", suffix)
+            "modify" = {
+                new_names <- str_c(prefix, variables, suffix)
+            }
+        )
 
-                    } else {
-                        paste0(variables, suffix)
-                    }
-            })
+        if (make_unique) {
+            new_names <- unique_colnames(new_names)
+        }
 
-        # Check if new variable names are not duplicated ~~~~~~~~~~~~~~~~~~~~~~
-        switch(
-            which_names,
-            "new_names" = ,
-            "add_suffix" = {
+        # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (are_not_valid_names(new_names)) {
+            return()
+        }
 
-                for (i in seq_along(variables)) {
+        if (forbid_to_replace_variables(new_names)) {
+            return()
+        }
 
-                    if (!is.valid.name(new_names[i])) {
-                        errorCondition(
-                            recall = window_lgl_convert,
-                            message = paste(new_names[i], gettext_bs("is not a valid name."))
-                        )
-                        return()
-                    }
-                    if (is.element(new_names[i], Variables())) {
-                        if ("no" == tclvalue(checkReplace(new_names[i]))) {
-                            window_lgl_convert()
-                            return()
-                        }
-                    }
-                }
-            })
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        putDialog("window_lgl_convert",
+                  list(
+                      variables    = variables    ,
+                      into         = into         ,
+                      names_action = names_action ,
+                      make_unique  = make_unique  ,
+                      prefix       = prefix       ,
+                      suffix       = suffix
+                  )
+        )
 
-        # Library(c("tidyverse", "rlang"))
-        Library("tidyverse")
-        Library("rlang")
-
+        # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         into_fun <- switch(into,
-                           "integer" = "as.integer" ,
-                           "factor"  = "factor",
-                           "text"    = "as.character"   ,
+                           "character"  = "as.character" ,
+                           "text"       = "as.character" ,
+                           "factor"     = "as.factor" ,
+                           "nominal"    = "factor" ,
+                           "ordinal"    = "factor" ,
+                           "numeric"    = "as.numeric"  ,
+                           "integer"    = "as.integer" ,
+                           "logical"    = "as.logical" ,
                            stop("Unexpected choice"))
 
-        tans_txt <- glue("{new_names} = {into_fun}({variables})")
+        fct_type <- switch(into,
+                           "ordinal"    = ", ordered = TRUE" ,
+                           "nominal"    = ", ordered = FALSE" ,
+                           "")
+
+        tans_txt <- str_glue("{new_names} = {into_fun}({variables}{fct_type})")
 
         command <-
             if (length(tans_txt) == 1) {
-                glue("{.activeDataSet} <- {.activeDataSet} %>%\n",
-                     "dplyr::mutate({tans_txt})\n")
+                str_glue("{ds} <- {ds} %>%\n",
+                         "dplyr::mutate({tans_txt})\n")
 
             } else {
-                glue("{.activeDataSet} <- {.activeDataSet} %>%\n",
-                     'dplyr::mutate(\n{paste0(tans_txt, collapse = ",\n")}\n',
-                     ')\n')
+                str_glue("{ds} <- {ds} %>%\n",
+                         'dplyr::mutate(\n{paste0(tans_txt, collapse = ",\n")}\n',
+                         ')\n')
             }
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        command <- style_cmd(command)
 
+        # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Library("tidyverse")
+
+        # doItAndPrint(command)
         result <- justDoIt(command)
 
-        if (class(result)[1] != "try-error")
-            activeDataSet(.activeDataSet, flushModel = FALSE)
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (class(result)[1] != "try-error") {
+            msg <- str_glue(
+                "## Convert logical variables into {into} variables \n\n",
+                "# New variable(s): \n",
+                paste("#   ", new_names, collapse = "\n"), "\n\n\n")
+
+            logger(paste0(msg, style_cmd(command), collapse = "\n"))
+            activeDataSet(ds, flushModel = FALSE, flushDialogMemory = FALSE)
+
+            # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            closeDialog()
+
+
+        } else {
+            logger_error(command, error_msg = result)
+            show_code_evaluation_error_message()
+            return()
+        }
+
+        # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        closeDialog()
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        msg <- glue("#---  ", gettext_bs("Convert logical variables into"), " {into} variables ---#\n\n",
-                    "# ", gettext_bs("New variable(s):"), " \n",
-                    paste("#   ", new_names, collapse = "\n"), "\n\n\n")
-
-        logger(paste0(msg, command, collapse = "\n"))
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        command_dataset_refresh()
         tkfocus(CommanderWindow())
-    } # [end: onOK] ----------------------------------------------------------
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "factor")
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(intoFrame, padx = c(15, 5))
-    tkgrid(getFrame(variableBox), into_outter_Frame, sticky = "nw")
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    tkgrid(upper_Frame)
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(which_namesFrame,
-           sticky = "w",
-           pady = c(10, 0))
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(labelRcmdr(top,
-                      text = gettext_bs("Suffix for variable names:"),
-                      fg = getRcmdr("title.color")),
-           sticky = "w",
-           pady = c(10, 0))
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Announce about the success to run the function `onOk()`
+        TRUE
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    }
 
-    tkgrid(suffixField, sticky = "ew", columnspan = 2)
+    # Widgets ----------------------------------------------------------------
+
+    upper_frame <- tkframe(top)
+
+    var_y_box <- variableListBox2(
+        upper_frame,
+        variables_lgl(),    # <-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        listHeight = 7,
+        selectmode = "multiple",
+        title      = gettext_bs("Variables (pick one or more)"),
+        initialSelection = var_pos_n(dialog_values$variables, "logical")
+    )
+
+    into_outter_Frame <- tkframe(upper_frame)
+    Rcmdr::radioButtons(
+        into_outter_Frame,
+        name    = "into_",
+        title   = gettext_bs("Convert into"),
+        buttons = c("character", "nominal", "ordinal", "integer", "numeric"),
+        values  = c("character", "nominal", "ordinal", "integer", "numeric"),
+        initialValue = dialog_values$into,
+        labels  = gettext_bs(
+            c("Text (character)",
+              "Nominal factors",
+              "Ordinal factors",
+              "Integers",
+              "Real numbers")),
+        command = change_name_suffix
+    )
+
+    # Layout
+    tkgrid(upper_frame)
+    tkgrid(getFrame(var_y_box), into_outter_Frame, sticky = "nw")
+    tkgrid(into_Frame, padx = c(15, 5))
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    widget_2 <- tk_widget_modify_names(
+        top,
+        init_val_radiobuttons = dialog_values$names_action,
+        init_val_checkbox     = dialog_values$make_unique,
+        init_val_prefix       = dialog_values$prefix,
+        init_val_suffix       = dialog_values$suffix,
+        cmd_radiobuttons      = control_checkbox_activation
+    )
+
+    # Finalize ---------------------------------------------------------------
+    ok_cancel_help(helpSubject = "as.character")
     tkgrid(buttonsFrame, sticky = "ew", columnspan = 2)
+    dialogSuffix(rows = 4, columns = 2, preventGrabFocus = TRUE)
 
-    dialogSuffix(rows = 4,
-                 columns = 2,
-                 preventGrabFocus = TRUE)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Apply initial configuration functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    change_name_suffix()
+    control_checkbox_activation()
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
