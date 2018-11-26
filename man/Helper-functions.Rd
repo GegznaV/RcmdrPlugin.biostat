@@ -5,6 +5,7 @@
 \alias{Helper-functions}
 \alias{get_active_ds}
 \alias{list_objects_of_class}
+\alias{var_pos_n}
 \alias{list_summaries_Models}
 \alias{eval_glue}
 \alias{eval_}
@@ -44,9 +45,9 @@
 \alias{cursor_set_idle}
 \alias{tclvalue_lgl}
 \alias{tclvalue_int}
-\alias{tclvalue_split_int}
+\alias{tclvalue_int_split}
 \alias{tclvalue_chr}
-\alias{tclvalue_split_chr}
+\alias{tclvalue_chr_split}
 \alias{label_rcmdr}
 \alias{labeled_frame}
 \alias{variableListBox2}
@@ -60,6 +61,10 @@ get_active_ds()
 
 list_objects_of_class(class = NULL, all.names = FALSE,
   envir = parent.frame())
+
+var_pos_n(variables, type = c("all", "numeric", "factor",
+  "factor_strict", "twoLevelFactor", "nonfactor", "character", "logical"),
+  vars = NULL)
 
 list_summaries_Models(envir = .GlobalEnv, ...)
 
@@ -146,11 +151,11 @@ tclvalue_lgl(x)
 
 tclvalue_int(x)
 
-tclvalue_split_int(x)
+tclvalue_int_split(x)
 
 tclvalue_chr(x)
 
-tclvalue_split_chr(x)
+tclvalue_chr_split(x)
 
 label_rcmdr(..., fg = NULL)
 

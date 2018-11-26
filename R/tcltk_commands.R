@@ -141,7 +141,7 @@ tclvalue_int <- function(x) {
 #' @keywords internal
 #' @export
 
-tclvalue_split_int <- function(x) {
+tclvalue_int_split <- function(x) {
     x <- sapply(unlist(strsplit(tclvalue(x), " ")), as.integer)
     names(x) <- NULL
     x
@@ -168,10 +168,9 @@ tclvalue_chr <- function(x) {
 #' @rdname Helper-functions
 #' @keywords internal
 #' @export
-tclvalue_split_chr <- function(x) {
+tclvalue_chr_split <- function(x) {
     sapply(unlist(strsplit(tclvalue(x), " ")), as.character)
-    names(x) <- NULL
-    x
+    unname(x)
 }
 # #' @rdname Helper-functions
 # #' @keywords internal

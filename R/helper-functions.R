@@ -94,7 +94,7 @@ variables_num <- function() {
 }
 
 
-#' ...
+#' @rdname Helper-functions
 #'
 #' @keywords internal
 #' @export
@@ -148,13 +148,20 @@ list_summaries_Models <- function(envir = .GlobalEnv, ...) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
+# ?stringr::str_glue
+# ?parse
+# ?eval
+# TODO: pervadinto į str_glue_eval
 eval_glue <- function(..., envir = parent.frame(),
                       .sep = "", .open = "{", .close = "}",
                       envir_eval = envir,
                       envir_glue = envir) {
 
-    x2 <- str_glue(..., .envir = envir_glue, .open = .open, .close = .close)
-    eval(parse(text = x2), envir = envir_eval)
+    commands_as_text <- stringr::str_glue(...,
+                                          .envir = envir_glue,
+                                          .open  = .open,
+                                          .close = .close)
+    eval(parse(text = commands_as_text), envir = envir_eval)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
