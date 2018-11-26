@@ -222,7 +222,7 @@ window_num_convert <- function() {
 
     var_y_box <- variableListBox2(
         upper_frame,
-        Numeric(),    # <-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        variables_num(),    # <-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         listHeight = 7,
         selectmode = "multiple",
         title      = gettext_bs("Variables (pick one or more)"),
@@ -234,15 +234,17 @@ window_num_convert <- function() {
         into_outter_Frame,
         name    = "into_",
         title   = gettext_bs("Convert into"),
-        buttons = c("numeric", "integer", "character", "nominal", "ordinal"),
-        values  = c("numeric", "integer", "character", "nominal", "ordinal"),
+        buttons = c("character", "nominal", "ordinal", "integer", "numeric", "logical"),
+        values  = c("character", "nominal", "ordinal", "integer", "numeric", "logical"),
         initialValue = dialog_values$into,
         labels  = gettext_bs(
-            c("Real numbers",
-              "Integers",
-              "Text",
+            c("Text (character)",
               "Nominal factors",
-              "Ordinal factors")),
+              "Ordinal factors",
+              "Integers",
+              "Real numbers",
+              "Logical"
+            )),
         command = change_name_suffix
     )
 
