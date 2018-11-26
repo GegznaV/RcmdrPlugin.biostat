@@ -1,18 +1,14 @@
 
-# TODO:
-#
-# Change interface for name input:
-#        + add separate window for name input
-#        + add boxes for prefix/suffix inputs.
+# DEPRECATED FUNCTION
 
-#' Rcmdr windows for variable class conversion
-#'
-#' @export
-#' @keywords internal
-#' @family conversion
+# Rcmdr windows for variable class conversion
+#
+# @export
+# @keywords internal
+# @family conversion
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-window_num_convert <- function() {
+window_num_convert__old <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = gettext_bs("Convert numeric variables into other classes"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
