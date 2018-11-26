@@ -1,18 +1,12 @@
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# DEPRECATED FUNCTION
 
-# TODO:
+# Rcmdr windows for variable class conversion
 #
-# Change interface for name input:
-#        + add separate window for name input
-#        + add boxes for prefix/suffix inputs.
-
-#' Rcmdr windows for variable class conversion
-#'
-#' @export
-#' @keywords internal
-#' @family conversion
-#'
-window_fct_convert <- function() {
+# @export
+# @keywords internal
+# @family conversion
+#
+window_fct_convert_old <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = gettext_bs("Convert factor variables into other classes"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
