@@ -2,9 +2,12 @@
 % Please edit documentation in R/helper-functions.R
 \name{msg_box_confirm_to_replace}
 \alias{msg_box_confirm_to_replace}
+\alias{msg_box_confirm_to_replace_all}
 \title{Message box to confirm replacement}
 \usage{
 msg_box_confirm_to_replace(name, type = "Variable")
+
+msg_box_confirm_to_replace_all(name, type = "Variables")
 }
 \arguments{
 \item{name}{string - name of the object to repace.}

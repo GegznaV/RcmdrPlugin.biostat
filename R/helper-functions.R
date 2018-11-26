@@ -494,9 +494,13 @@ extract_extension <- function(str) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-show_error_messages <- function(message, message2 = message, title = "") {
-    Message(message = message,  type = "error")
-    RcmdrTkmessageBox(message2, icon = "error", title = title, type = "ok")
+# show_error_messages <- function(message, message2 = message, title = "") {
+#     Message(message = message,  type = "error")
+#     RcmdrTkmessageBox(message2, icon = "error", title = title, type = "ok")
+# }
+show_error_messages <- function(message, popup_msg = message, title = "Error") {
+    Message(message = message, type = "error")
+    RcmdrTkmessageBox(popup_msg, icon = "error", title = title, type = "ok")
 }
 
 # + Valid name ---------------------------------------------------------------
@@ -531,7 +535,7 @@ is_valid_name <- function(name) {
     if (is_empty_name(name)) {
         return(FALSE) # is not valid name
 
-    } else if (!(name == make.names(name))) {
+    } else if (name != make.names(name)) {
         # message  <- str_glue('"{name}" {gettext_bs("is not a valid name.")}')
         message  <- str_glue('Name "{name}" is not valid.')
         message2 <- str_glue(
@@ -548,8 +552,6 @@ is_valid_name <- function(name) {
         # is_valid_name
         return(TRUE)
     }
-
-
 }
 
 #' @rdname Helper-functions
@@ -584,13 +586,15 @@ is_not_empty_name <- function(name) {
         return(FALSE)
 
     } else if (!(is.character(name))) {
-        message  <- ('The class of the object with \nthe name must be "character".')
+        message  <- str_c('The class of the object with \n',
+                          'the name must be "character".')
         show_error_messages(message, message, title = "Invalid Class")
 
         return(FALSE)
 
     } else if (name == "") {
-        message  <- str_glue('The name must not be empty.\nPlease, enter the name.')
+        message  <- str_glue('The name must not be empty.\n',
+                             'Please, enter the name.')
         show_error_messages(message, message, title = "Empty Name")
 
         return(FALSE)
@@ -600,6 +604,66 @@ is_not_empty_name <- function(name) {
         return(TRUE)
     }
 
+}
+
+
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+variable_is_not_selected <- function(obj, obj_type = "variable") {
+
+    if (length(obj) < 1 || (length(obj) == 1 && any(obj == ""))) {
+        message  <- str_glue(
+            "No {obj_type} is selected.\n",
+            "Please, select a {obj_type}.")
+
+        show_error_messages(message, message,
+                            title = str_glue("Select a {obj_type}"))
+        return(TRUE)
+
+    } else {
+        return(FALSE)
+    }
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+are_not_valid_names <- function(name) {
+    # Checks if variable names are valis.
+    #
+    # Returns TRUE if any of the names are invalid
+
+    if (length(name) < 1 || !is.character(name)) {
+        message <- "Invalid (empty) name. \nPlease check and correct the name."
+
+        show_error_messages(message, message, title = "Invalid (Empty) Name")
+        return(TRUE) # is in valid name
+    }
+
+    invalid_names <- name[make.names(name) != name]
+
+    if (length(invalid_names) == 0) {
+        return(FALSE) # is valid name
+
+    } else if (length(invalid_names) == 1) {
+        msg_box_confirm_to_replace(invalid_names, "Variable") == "no"
+
+    } else if (length(invalid_names) > 1) {
+        # message  <- str_glue('"{name}" {gettext_bs("is not a valid name.")}')
+        message  <- str_glue('Invalid names: \n{str_c(name, collapse = ", ")}')
+        message2 <- str_glue(
+            "The following names are invalid:\n\n",
+            "{str_c(name, collapse = '\n')} \n\n",
+            "Valid names must start with a letter and contain only \n",
+            "letters, numbers, underscores (_) and periods (.). ")
+
+        show_error_messages(message, message2, title = "Invalid Names")
+
+        # is not valid name
+        return(TRUE)
+    }
 }
 
 
@@ -629,6 +693,23 @@ msg_box_confirm_to_replace <- function(name, type = "Variable") {
         default = "no"))
 }
 
+#' @rdname msg_box_confirm_to_replace
+#' @export
+msg_box_confirm_to_replace_all <- function(name, type = "Variables") {
+    Type <- stringr::str_to_title(type)
+    vars <- str_c(name, collapse = "\n")
+
+    tclvalue(RcmdrTkmessageBox(
+        title = str_glue("Overwrite All {Type}"),
+        message = str_glue(
+            'The following {tolower(type)} already exist:\n\n',
+            '{vars}\n\n',
+            'Do you agree to OVERWRITE ALL the {tolower(type)}?'),
+        icon = "warning",
+        type = "yesno",
+        default = "no"))
+}
+
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
@@ -648,6 +729,32 @@ forbid_to_replace_variable <- function(name) {
         FALSE
     }
 }
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+forbid_to_replace_variables <- function(name) {
+    # Checks if variable exists in active dataset.
+    #
+    # Returns FALSE if:
+    #     - variable does not exist.
+    #     - variable exists but user agrees to overvrite it.
+    #
+    # Otherwise TRUE
+
+    vars_to_replace <- Variables()[Variables() %in% name]
+
+    if (length(vars_to_replace) == 1) {
+        msg_box_confirm_to_replace(vars_to_replace, "Variable") == "no"
+
+    } else if (length(vars_to_replace) > 1) {
+        msg_box_confirm_to_replace_all(vars_to_replace, "Variables") == "no"
+
+    } else {
+        FALSE
+    }
+}
+
 
 #' @rdname Helper-functions
 #' @export
