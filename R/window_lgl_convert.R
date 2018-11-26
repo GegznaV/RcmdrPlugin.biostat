@@ -1,18 +1,13 @@
-# TODO:
-#
-# 1. Implement window for new variable names.
-# 2. Enable this option to chose names.
-# 3. Activate-inactivate suffix window. Plot/hide suffix window.
-# 4. Automatically update suffix in suffix entry (as is done in log transform window).
+# DEPRECADED FUNCTION
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Rcmdr windows for variable class conversion
-#'
-#' @export
-#' @keywords internal
-#' @family conversion
-#'
-window_lgl_convert <- function() {
+# Rcmdr windows for variable class conversion
+#
+# @export
+# @keywords internal
+# @family conversion
+#
+window_lgl_convert__old <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = gettext_bs("Convert logical variables into other classes"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
