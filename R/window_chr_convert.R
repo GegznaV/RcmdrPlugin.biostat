@@ -1,20 +1,14 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# TODO:
-#
-# Change interface for name input:
-#        + add separate window for name input
-#        + add boxes for prefix/suffix inputs.
-# Add possibility to convert to time, date, datetime, etc.
-# Add possibility to automalically identify column class.
+# DEPRECATED FUNCTION
 
-#' Rcmdr windows for variable class conversion
-#'
-#' @export
-#' @keywords internal
-#' @family conversion
-#'
-window_chr_convert <- function() {
+# Rcmdr windows for variable class conversion
+#
+# @export
+# @keywords internal
+# @family conversion
+#
+window_chr_convert__old <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = gettext_bs("Convert text variables into other classes"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
