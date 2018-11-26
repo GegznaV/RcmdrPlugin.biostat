@@ -18,8 +18,6 @@ window_num_convert <- function() {
     # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ds     <- activeDataSet()
     fg_col <- Rcmdr::getRcmdr("title.color")
-    init_var_type <- "numeric"
-
 
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(
@@ -30,8 +28,8 @@ window_num_convert <- function() {
     # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     defaults <- list(
         variables    = NULL,
-        into         = init_var_type,
-        names_action = "modify",
+        into         = "numeric",
+        names_action = "overwrite",
         make_unique  = FALSE,
         prefix       = "",
         suffix       = ""
