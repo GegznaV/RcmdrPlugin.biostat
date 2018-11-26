@@ -36,7 +36,7 @@ item	bs_active_ds_menu	command	"Print active dataset as Markdown table"	window_d
 # ---- Join/Bind datasets ----------------------------------------------------
 
 item	bs_active_ds_menu	separator	""	""	""	""
-item	bs_active_ds_menu	command	"Join two datasets by row IDs..."	window_dataset_join	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	bs_active_ds_menu	command	"Join two datasets by matching rows..."	window_dataset_join	"dataSetsP(2)"	"packageAvailable('dplyr')"
 item	bs_active_ds_menu	command	"Bind rows of several datasets..."	window_dataset_bind_rows	"dataSetsP(2)"	"packageAvailable('dplyr')"
 item	bs_active_ds_menu	command	"Bind columns of several datasets..."	window_dataset_bind_cols	"dataSetsP(2)"	"packageAvailable('dplyr')"
 
@@ -209,8 +209,8 @@ item	bs_var_num_menu	command	"Z transformation / Standardization..."	window_num_
 
 menu	bs_var_text_menu	bs_varible_menu	""	""	""	""
 item	bs_varible_menu	cascade	"Text (character) variables: strings "	bs_var_text_menu	"activeDataSetP()"	""
-item	bs_var_text_menu	command	"Convert all text variables into factors"	command_all_chr_to_fctr	"characterP()"	"packageAvailable('tidyverse')"
 item	bs_var_text_menu	command	"Convert text variables into..."	window_chr_convert	"characterP()"	"packageAvailable('tidyverse')"
+item	bs_var_text_menu	command	"Convert all text variables into factors"	command_all_chr_to_fctr	"characterP()"	"packageAvailable('tidyverse')"
 
 
 # . ==========================================================================
