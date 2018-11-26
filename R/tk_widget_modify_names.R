@@ -1,9 +1,18 @@
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-tk_widget_modify_names <- function(parent = top,
-                                   cmd_radiobuttons = function(){},
-                                   ) {
+tk_widget_modify_names <- function(
+    parent = top,
+    init_val_radiobuttons = c("overwrite", "modify"),
+    init_val_checkbox = "0",
+    init_val_prefix = "",
+    init_val_suffix = "",
+    cmd_radiobuttons = function(){},
+    cmd_checkbox     = function(){}
+) {
+    fg_col <- fg_col <- Rcmdr::getRcmdr("title.color")
+    init_val_radiobuttons <- match.arg(init_val_radiobuttons)
+
     main_frame <- tkframe(parent)
 
     var_name_opts_frame <- tkframe(main_frame)
@@ -15,28 +24,29 @@ tk_widget_modify_names <- function(parent = top,
         title.color  = fg_col,
         buttons      = c("overwrite", "modify"),
         values       = c("overwrite", "modify"),
-        initialValue = dialog_values$names_action,
+        initialValue = init_val_radiobuttons,
         labels       = gettext_bs(c("Overwrite", "Copy & modify")),
-        command      = cmd_radiobuttons # control_checkbox_activation
+        command      = cmd_radiobuttons
     )
 
     make_unique_outer_frame <- tkframe(var_name_opts_frame)
 
     bs_check_boxes(make_unique_outer_frame,
-                   frame = "make_unique_frame",
-                   boxes = c("make_unique"),
-                   # commands = list("make_unique" = control_checkbox_activation),
-                   initialValues = c(dialog_values$make_unique),
-                   labels = gettext_bs(c("Make unique"))
+                   frame         = "make_unique_frame",
+                   boxes         = c("make_unique"),
+                   commands      = list("make_unique" = cmd_checkbox),
+                   initialValues = init_val_checkbox,
+                   labels        = gettext_bs(c("Make unique"))
     )
 
     lower_frame <- tkframe(main_frame)
 
-    prefix_var   <- tclVar(dialog_values$prefix)
+    prefix_var   <- tclVar(init_val_prefix)
     prefix_field <- ttkentry(lower_frame, width = "37", textvariable = prefix_var)
 
-    suffix_var   <- tclVar(dialog_values$suffix)
+    suffix_var   <- tclVar(init_val_suffix)
     suffix_field <- ttkentry(lower_frame, width = "37", textvariable = suffix_var)
+
 
     # Layout
     tkgrid(main_frame, sticky = "ew")
@@ -69,15 +79,21 @@ tk_widget_modify_names <- function(parent = top,
              var_prefix       = prefix_var,
              var_suffix       = suffix_var,
 
-             obj_radiobuttons = NULL,   # Not implemented yet
+             # obj_radiobuttons = NULL,
+             obj_button_overwrite = overwriteButton,
+             obj_button_modify    = modifyButton,
              obj_checkbox     = make_uniqueCheckBox,
              obj_prefix       = prefix_field,
              obj_suffix       = suffix_field
         ),
-    class = c("tk_widget_modify_names", "list"))
+        class = c("tk_widget_modify_names", "list")
+    )
 
 }
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 print.tk_widget_modify_names <- function(x, ...) {
     summary(x, ...)
 }
