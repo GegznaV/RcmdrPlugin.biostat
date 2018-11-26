@@ -33,17 +33,18 @@ window_xxx <- function() {
                               textvariable = name_variable)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     rb_frame <- tkframe(upper_frame)
-    radioButtons_horizontal(rb_frame,
-                            title = "Column position: ",
-                            title.color = fg_col,
+    radioButtons_horizontal(
+        rb_frame,
+        title = "Column position: ",
+        title.color = fg_col,
 
-                            # right.buttons = FALSE,
-                            name = "position",
-                            sticky_buttons = "w",
-                            buttons = c("first",  "last"),
-                            values =  c("first",  "last"),
-                            labels =  c("First  ","Last  "),
-                            initialValue = dialog_values$initial_position
+        # right.buttons = FALSE,
+        name = "position",
+        sticky_buttons = "w",
+        buttons = c("first",  "last"),
+        values =  c("first",  "last"),
+        labels =  c("First  ","Last  "),
+        initialValue = dialog_values$initial_position
     )
     # Function onOK ----------------------------------------------------------
     onOK <- function() {
