@@ -46,8 +46,8 @@
 \alias{tclvalue_lgl}
 \alias{tclvalue_int}
 \alias{tclvalue_int_split}
-\alias{tclvalue_chr}
 \alias{tclvalue_chr_split}
+\alias{tclvalue_chr}
 \alias{label_rcmdr}
 \alias{labeled_frame}
 \alias{variableListBox2}
@@ -153,9 +153,9 @@ tclvalue_int(x)
 
 tclvalue_int_split(x)
 
-tclvalue_chr(x)
-
 tclvalue_chr_split(x)
+
+tclvalue_chr(x, trim = TRUE, ...)
 
 label_rcmdr(..., fg = NULL)
 
@@ -194,8 +194,6 @@ ok_cancel_help(window = top, helpSubject = NULL, model = FALSE,
 }
 \arguments{
 \item{...}{other arguments}
-
-\item{x}{Tcl/Tk object}
 
 \item{str}{sring}
 
