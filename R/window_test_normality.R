@@ -6,7 +6,7 @@ window_test_normality <- function() {
     nrows <- getRcmdr("nrow") # nrows in active dataset
     defaults <- list(initial_y_var  = NULL,
                      initial_gr_var = NULL,
-                     initial_by_groups = FALSE,
+                     initial_by_group = FALSE,
                      initial_test = if (nrows <= 5000) "shapiro.test" else "ad.test",
                      initial_bins = gettext_bs("<auto>"),
                      initial_add_plot = FALSE,
@@ -19,32 +19,32 @@ window_test_normality <- function() {
 
     dialog_values <- getDialog("window_test_normality", defaults)
 
-    initializeDialog(title = gettext_bs("Tests of Normality for Groups"))
+    initializeDialog(title = gettext_bs("Tests of Normality by Group"))
 
 
     # Callback  functions-----------------------------------------------------
 
-    cmd_onClick_by_groups_checkbox <- function(){
-        if (tclvalue_lgl(by_groupsVariable) == FALSE) {
+    cmd_onClick_by_group_checkbox <- function(){
+        if (tclvalue_lgl(by_groupVariable) == FALSE) {
             # Clear factor variable box
             for (sel in seq_along(gr_var_Box$varlist) - 1)
                 tkselection.clear(gr_var_Box$listbox, sel)
-            tkconfigure(by_groupsCheckBox, state = "disabled")
+            tkconfigure(by_groupCheckBox, state = "disabled")
         } else {
             # Box is checked only if groups in gr_var_Box
             # are selected
-            tclvalue(by_groupsVariable) <- "0"
+            tclvalue(by_groupVariable) <- "0"
         }
     }
 
     cmd_onRelease_gr_var_Box <- function() {
         # On mouse relese select/deselect checkbox
         if (length(getSelection(gr_var_Box)) == 0) {
-            tclvalue(by_groupsVariable) <- "0"
-            tkconfigure(by_groupsCheckBox, state = "disabled")
+            tclvalue(by_groupVariable) <- "0"
+            tkconfigure(by_groupCheckBox, state = "disabled")
         } else {
-            tclvalue(by_groupsVariable) <- "1"
-            tkconfigure(by_groupsCheckBox, state = "active")
+            tclvalue(by_groupVariable) <- "1"
+            tkconfigure(by_groupCheckBox, state = "active")
         }
     }
 
@@ -84,12 +84,12 @@ window_test_normality <- function() {
         onRelease_fun = cmd_onRelease_gr_var_Box)
 
     bs_check_boxes(gr_var_Frame,
-                   frame = "by_groups_Frame",
-                   boxes = c("by_groups"),
-                   commands = list("by_groups" = cmd_onClick_by_groups_checkbox),
-                   initialValues = c(dialog_values$initial_by_groups),
+                   frame = "by_group_Frame",
+                   boxes = c("by_group"),
+                   commands = list("by_group" = cmd_onClick_by_group_checkbox),
+                   initialValues = c(dialog_values$initial_by_group),
                    # initialValues = (length(getSelection(gr_var_Box)) != 0),
-                   labels = gettext_bs(c("Test by groups"))
+                   labels = gettext_bs(c("Test by group"))
     )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -140,8 +140,8 @@ window_test_normality <- function() {
                    ),
                    labels = gettext_bs(
                        c(  "Draw a normal qq-plot",
-                           "Plot groups in colors",
-                           "Make a new window for the plot")
+                           "Plot groups in color",
+                           "New window for qq-plot")
                    ),
                    commands = list("add_plot" = cmd_onClick_add_plot_checkbox)
     )
@@ -157,7 +157,8 @@ window_test_normality <- function() {
                    dialog_values$initial_pval_legend
                ),
                labels = gettext_bs(
-                   c("R Markdown compatible results",
+                   # c("R Markdown compatible results",
+                   c("Results as Markdown table",
                      "Legend for significance stars")
                )
     )
@@ -185,7 +186,7 @@ window_test_normality <- function() {
     # Functions --------------------------------------------------------------
     onOK <- function() {
         # Get values ---------------------------------------------------------
-        by_groups        <- tclvalue(by_groupsVariable)
+        by_group         <- tclvalue(by_groupVariable)
         gr_var           <- getSelection(gr_var_Box)
         y_var            <- getSelection(y_var_Box)
         test             <- tclvalue(testVariable)
@@ -221,7 +222,7 @@ window_test_normality <- function() {
         putDialog("window_test_normality",
                   list(initial_y_var  = y_var,
                        initial_gr_var = gr_var,
-                       initial_by_groups = by_groups,
+                       initial_by_group = by_group,
                        initial_test = test,
                        initial_bins = bins,
                        initial_add_plot = add_plot,
@@ -313,7 +314,7 @@ window_test_normality <- function() {
     fg_col <- Rcmdr::getRcmdr("title.color")
     tkgrid(label_rcmdr(
         top,
-        text = gettext_bs("Normality tests and normal QQ plots for groups"),
+        text = gettext_bs("Normality tests and normal QQ plots"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col),
         pady = c(5, 9))
@@ -326,7 +327,7 @@ window_test_normality <- function() {
     tkgrid(getFrame(y_var_Box), gr_var_Frame, sticky = "nwe", padx = c(10, 0))
 
     tkgrid(getFrame(gr_var_Box), sticky = "nsw", padx = c(20, 0))
-    tkgrid(by_groups_Frame,      sticky = "sw",  padx = c(20, 0), pady = c(0, 5))
+    tkgrid(by_group_Frame,      sticky = "sw",  padx = c(20, 0), pady = c(0, 5))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(options_Frame, pady = c(5, 0), sticky = "we") #~~~~~~~~~~~~~~~~~~~~
     tkgrid(choose_test_Frame, options_right_Frame, padx = c(0, 5), sticky = "nse")
