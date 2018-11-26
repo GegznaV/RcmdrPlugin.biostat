@@ -25,13 +25,13 @@ window_lgl_convert <- function() {
     defaults <- list(
         variables    = NULL,
         into         = "nominal",
-        names_action = "modify",
+        names_action = "overwrite",
         make_unique  = FALSE,
         prefix       = "",
         suffix       = ""
     )
 
-    dialog_values <- getDialog("window_num_convert", defaults)
+    dialog_values <- getDialog("window_lgl_convert", defaults)
 
     # Functions --------------------------------------------------------------
     change_name_suffix <- function() {
@@ -128,7 +128,7 @@ window_lgl_convert <- function() {
         }
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        putDialog("window_num_convert",
+        putDialog("window_lgl_convert",
                   list(
                       variables    = variables    ,
                       into         = into         ,
