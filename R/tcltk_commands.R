@@ -165,13 +165,7 @@ tclvalue_int_split <- function(x) {
 
 # Naujos versijos:
 
-#' @rdname Helper-functions
-#' @keywords internal
-#' @export
-tclvalue_chr_split <- function(x) {
-    sapply(unlist(strsplit(tclvalue(x), " ")), as.character)
-    unname(x)
-}
+
 #' @rdname Helper-functions
 #' @keywords internal
 #' @export
@@ -180,5 +174,13 @@ tclvalue_chr <- function(x, trim = TRUE, ...) {
     rez <- as.character(tclvalue(x))
     if (isTRUE(trim)) {rez <- trimws(rez, ...)}
     unname(rez)
+}
+
+#' @rdname Helper-functions
+#' @keywords internal
+#' @export
+tclvalue_chr_split <- function(x) {
+    sapply(unlist(strsplit(tclvalue(x), " ")), as.character)
+    unname(x)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

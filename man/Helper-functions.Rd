@@ -50,8 +50,8 @@
 \alias{tclvalue_lgl}
 \alias{tclvalue_int}
 \alias{tclvalue_int_split}
-\alias{tclvalue_chr_split}
 \alias{tclvalue_chr}
+\alias{tclvalue_chr_split}
 \alias{label_rcmdr}
 \alias{labeled_frame}
 \alias{tk_title}
@@ -166,9 +166,9 @@ tclvalue_int(x)
 
 tclvalue_int_split(x)
 
-tclvalue_chr_split(x)
-
 tclvalue_chr(x, trim = TRUE, ...)
+
+tclvalue_chr_split(x)
 
 label_rcmdr(..., fg = NULL)
 
