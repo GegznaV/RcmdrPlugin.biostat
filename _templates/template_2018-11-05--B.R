@@ -15,15 +15,7 @@ window_xxx <- function() {
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = gettext_bs("xxx_title"))
 
-    # Title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    tk_title(top, "xxx_title")
-    # tkgrid(label_rcmdr(
-    #     top,
-    #     text = gettext_bs("xxx_title"),
-    #     font = tkfont.create(weight = "bold", size = 9),
-    #     fg = fg_col),
-    #     pady = c(5, 9))
+    tk_title(top, "xxx_title") # Title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     defaults <- list(
@@ -59,7 +51,15 @@ window_xxx <- function() {
             return()
         }
 
-        if (forbid_to_replace_variable(new_name)) {
+        if (forbid_to_replace_variables(new_name)) {
+            return()
+        }
+
+        if (variable_is_not_selected(new_name, "variable")) {
+            return()
+        }
+
+        if (variable_is_not_selected(new_name, "group variable")) {
             return()
         }
 
@@ -107,7 +107,6 @@ window_xxx <- function() {
         Library("tidyverse")
 
         # doItAndPrint(command)
-
         result <- justDoIt(command)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
