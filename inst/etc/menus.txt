@@ -425,8 +425,8 @@ item	bs_settings_menu	command	"[x] Set locale to Russian"	command_set_locale_ru	
 
 # ---- Rcmdr windows ---------------------------------------------------------
 item	bs_settings_menu	separator	""	""	""	""
-item	bs_settings_menu	command	"Rcmdr in 1-window mode (RStudio only)"	command_use_1_window_rcmdr	""	""
-item	bs_settings_menu	command	"Rcmdr in 3-window mode (RStudio only)"	command_use_3_window_rcmdr	""	""
+item	bs_settings_menu	command	"Switch Rcmdr to 1-window mode"	command_use_1_window_rcmdr	""	""
+item	bs_settings_menu	command	"Switch Rcmdr to 3-window mode"	command_use_3_window_rcmdr	""	""
 
 
 # ---- Session information ---------------------------------------------------
