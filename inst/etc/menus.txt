@@ -414,13 +414,13 @@ item	biostat_menu	cascade	"Session & settings"	bs_settings_menu	""	""
 
 # ---- Manage locale ---------------------------------------------------------
 item	bs_settings_menu	command	"Show current locale"	command_get_locale	""	""
-item	bs_settings_menu	command	"[???] Change locale..."	function_not_implemented	"FALSE"	""
+item	bs_settings_menu	command	"Change locale..."	window_locale_set	""	""
 
-item	bs_settings_menu	separator	""	""	""	""
-item	bs_settings_menu	command	"[x] Set locale to system's default"	command_set_locale_default	""	""
-item	bs_settings_menu	command	"[x] Set locale to English"	command_set_locale_en	""	""
-item	bs_settings_menu	command	"[x] Set locale to Lithuanian"	command_set_locale_lt	""	""
-item	bs_settings_menu	command	"[x] Set locale to Russian"	command_set_locale_ru	""	""
+# item	bs_settings_menu	separator	""	""	""	""
+# item	bs_settings_menu	command	"[x] Set locale to system's default"	command_set_locale_default	""	""
+# item	bs_settings_menu	command	"[x] Set locale to English"	command_set_locale_en	""	""
+# item	bs_settings_menu	command	"[x] Set locale to Lithuanian"	command_set_locale_lt	""	""
+# item	bs_settings_menu	command	"[x] Set locale to Russian"	command_set_locale_ru	""	""
 
 
 # ---- Rcmdr windows ---------------------------------------------------------
