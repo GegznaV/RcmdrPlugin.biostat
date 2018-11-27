@@ -923,3 +923,48 @@ modelClassP <- function(class_) {
         x = get(ActiveModel(), envir = .GlobalEnv),
         what = class_))
 }
+
+# ___ Rcmdr ___ ==============================================================
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+command_use_1_window_rcmdr <- function() {
+    command_use_rcmdr_windows(console.output = TRUE)
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+command_use_3_window_rcmdr <- function() {
+    command_use_rcmdr_windows(console.output = FALSE)
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+command_use_rcmdr_windows <- function(console.output = NULL) {
+
+    # Current options
+    Rcmdr_opts <- options()$Rcmdr
+
+    if (is.null(Rcmdr_opts)) {
+        Rcmdr_opts <- list(console.output = console.output)
+    }
+
+    updated_opts <-
+        modifyList(Rcmdr_opts, list(console.output = console.output))
+
+    if (!identical(Rcmdr_opts, updated_opts)) {
+        # Set new options and restart R Commander
+        options(Rcmdr = updated_opts)
+
+        if (!getRcmdr("autoRestart")) {
+            closeCommander(ask = FALSE, ask.save = TRUE)
+            Commander()
+
+        } else {
+            Commander()
+        }
+    }
+}
