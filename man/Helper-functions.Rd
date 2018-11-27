@@ -45,6 +45,9 @@
 \alias{class_ggplot_P}
 \alias{list_objects_ggplot}
 \alias{objects_in_env_P}
+\alias{command_use_1_window_rcmdr}
+\alias{command_use_3_window_rcmdr}
+\alias{command_use_rcmdr_windows}
 \alias{cursor_set_busy}
 \alias{cursor_set_idle}
 \alias{tclvalue_lgl}
@@ -155,6 +158,12 @@ class_ggplot_P(n = 1)
 list_objects_ggplot(envir = .GlobalEnv)
 
 objects_in_env_P(n = 1, envir = .GlobalEnv, ...)
+
+command_use_1_window_rcmdr()
+
+command_use_3_window_rcmdr()
+
+command_use_rcmdr_windows(console.output = NULL)
 
 cursor_set_busy(frame = NULL)
 
