@@ -249,12 +249,12 @@ window_export_to_excel <- function() {
         command <-
             str_glue("## Save data to Excel file\n",
                      "openxlsx::write.xlsx({ds}, \n",
-                     'file = "{file_name}", \n',
-                     'sheetName = "{sheet_name}", \n',
-                     "rowNames  = {has_rownames}, \n",
-                     "colNames  = TRUE, \n",
-                     'colWidths = "auto",\n',
-                     "overwrite = {file_overwrite})"
+                     '     file = "{file_name}", \n',
+                     '     sheetName = "{sheet_name}", \n',
+                     "     rowNames  = {has_rownames}, \n",
+                     "     colNames  = TRUE, \n",
+                     '     colWidths = "auto",\n',
+                     "     overwrite = {file_overwrite})"
             )
 
         # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
