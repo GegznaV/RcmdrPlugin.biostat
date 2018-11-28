@@ -86,14 +86,13 @@ tk_widget_modify_names <- function(
              obj_prefix       = prefix_field,
              obj_suffix       = suffix_field
         ),
-        class = c("tk_widget_modify_names", "list")
+        class = c("tk_widget_modify_names", "bs_tk_widget", "list")
     )
-
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-print.tk_widget_modify_names <- function(x, ...) {
+print.bs_tk_widget <- function(x, ...) {
     summary(x, ...)
 }
