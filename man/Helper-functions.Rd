@@ -3,10 +3,15 @@
 %   R/tcltk__bs_check_boxes.R, R/tcltk_commands.R, R/tcltk_elements.R,
 %   R/tcltk_listbox.R, R/tcltk_ok_cancel_help__macro.R,
 %   R/tk_widget_modify_names.R
-\name{get_values}
+\name{tk_get_state}
+\alias{tk_get_state}
+\alias{tk_activate}
+\alias{tk_disable}
+\alias{tk_normalize}
 \alias{get_values}
 \alias{set_values}
 \alias{get_selection}
+\alias{get_selection_length}
 \alias{set_selection}
 \alias{set_new_selection}
 \alias{set_yview}
@@ -77,21 +82,35 @@
 \alias{listbox_set_selection}
 \alias{listbox_set_new_selection}
 \alias{get_selection.listbox}
+\alias{get_selection_length.listbox}
 \alias{set_selection.listbox}
 \alias{set_new_selection.listbox}
 \alias{get_values.listbox}
 \alias{set_values.listbox}
 \alias{set_yview.listbox}
+\alias{tk_disable.listbox}
+\alias{tk_normalize.listbox}
+\alias{tk_get_state.listbox}
 \alias{ok_cancel_help}
 \alias{tk_widget_modify_names}
-\alias{print.tk_widget_modify_names}
+\alias{print.bs_tk_widget}
 \title{Helper functions for RcmdrPlugin.biostat.}
 \usage{
+tk_get_state(obj, ...)
+
+tk_activate(obj, ...)
+
+tk_disable(obj, ...)
+
+tk_normalize(obj, ...)
+
 get_values(obj, ...)
 
 set_values(obj, ...)
 
 get_selection(obj, ...)
+
+get_selection_length(obj, ...)
 
 set_selection(obj, sel, ...)
 
@@ -104,8 +123,9 @@ get_active_ds()
 list_objects_of_class(class = NULL, all.names = FALSE,
   envir = parent.frame())
 
-var_pos_n(variables, type = c("all", "numeric", "factor",
-  "factor_strict", "twoLevelFactor", "nonfactor", "character", "logical"),
+var_pos_n(variables, type = c("all", "numeric", "num", "factor",
+  "fct_like", "factor_strict", "fct", "twoLevelFactor", "fct2",
+  "nonfactor", "nfct", "character", "chr", "logical", "lgl"),
   vars = NULL)
 
 list_summaries_Models(envir = .GlobalEnv, ...)
@@ -263,6 +283,8 @@ listbox_set_new_selection(listbox, sel)
 
 \method{get_selection}{listbox}(obj, ...)
 
+\method{get_selection_length}{listbox}(obj, ...)
+
 \method{set_selection}{listbox}(obj, sel, clear = FALSE, ...)
 
 \method{set_new_selection}{listbox}(obj, sel, ...)
@@ -273,6 +295,12 @@ listbox_set_new_selection(listbox, sel)
 
 \method{set_yview}{listbox}(obj, ind, ...)
 
+\method{tk_disable}{listbox}(obj, ..., background = "grey95")
+
+\method{tk_normalize}{listbox}(obj, ..., background = "white")
+
+\method{tk_get_state}{listbox}(obj)
+
 ok_cancel_help(window = top, helpSubject = NULL, model = FALSE,
   reset = NULL, apply = NULL, helpPackage = NULL)
 
@@ -282,7 +310,7 @@ tk_widget_modify_names(parent = top,
   init_val_suffix = "", cmd_radiobuttons = function() { },
   cmd_checkbox = function() { })
 
-\method{print}{tk_widget_modify_names}(x, ...)
+\method{print}{bs_tk_widget}(x, ...)
 }
 \arguments{
 \item{...}{other arguments}
