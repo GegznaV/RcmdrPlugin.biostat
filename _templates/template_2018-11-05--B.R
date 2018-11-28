@@ -19,9 +19,9 @@ window_xxx <- function() {
 
     # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     defaults <- list(
-        initial_position = "first"
+        position = "first"
     )
-    dialog_values <- getDialog("window_xxx", defaults)
+    initial <- getDialog("window_xxx", defaults)
 
 
     # Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -143,6 +143,7 @@ window_xxx <- function() {
     }
 
 
+    # ... Widgets ============================================================
     # Widgets ----------------------------------------------------------------
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -166,7 +167,7 @@ window_xxx <- function() {
         buttons = c("first",  "last"),
         values =  c("first",  "last"),
         labels =  c("First  ","Last  "),
-        initialValue = dialog_values$initial_position
+        initialValue = initial$position
     )
 
     # Layout
@@ -182,6 +183,44 @@ window_xxx <- function() {
     )
     tkgrid(name_entry, sticky = "w")
     tkgrid(positionFrame, padx = c(15, 0))
+
+    # Check box
+    bs_check_boxes(upper_frame,
+                   frame         = "check_locale_frame",
+                   boxes         = c("check_locale_", "hide_output_"),
+                   # commands      = list("check_locale_" = cmd_checkbox),
+                   initialValues = c("1", "0"),
+                   labels        = gettext_bs(c(
+                       "Check if the locale can be used on this computer",
+                       "Hide output"))
+    )
+
+
+    # * Y and Groups box =====================================================
+
+    defaults <- list(
+        var_y      = NULL,
+        var_gr     = NULL,
+        use_groups = "0"
+    )
+
+    widget_y_gr <- tk_widget_boxes_y_gr(
+        y_title        = title_var_1,
+        y_var_type     = "num",
+        y_initial      = initial$var_y,
+        y_select_mode  = "single",
+
+        gr_title       = title_gr_0_n,
+        gr_var_type    = "fct_like",
+        gr_initial     = initial$var_gr,
+        gr_select_mode = "multiple",
+
+        ch_initial     = initial$use_groups
+    )
+
+    use_groups <- tclvalue_lgl(widget_y_gr$var_checkbox)
+    var_y      <- get_selection(widget_y_gr$listbox_y)
+    var_gr     <- get_selection(widget_y_gr$listbox_gr)
 
 
     # Finalize ---------------------------------------------------------------
