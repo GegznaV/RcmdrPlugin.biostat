@@ -2,12 +2,13 @@
 % Please edit documentation in R/generic_functions.R, R/helper-functions.R,
 %   R/tcltk__bs_check_boxes.R, R/tcltk_commands.R, R/tcltk_elements.R,
 %   R/tcltk_listbox.R, R/tcltk_ok_cancel_help__macro.R,
-%   R/tk_widget_modify_names.R
+%   R/tk_widget_modify_names.R, R/tk_widget_y_gr_boxes.R
 \name{tk_get_state}
 \alias{tk_get_state}
 \alias{tk_activate}
 \alias{tk_disable}
 \alias{tk_normalize}
+\alias{get_size}
 \alias{get_values}
 \alias{set_values}
 \alias{get_selection}
@@ -83,6 +84,8 @@
 \alias{listbox_set_new_selection}
 \alias{get_selection.listbox}
 \alias{get_selection_length.listbox}
+\alias{get_size.listbox}
+\alias{get_size.tkwin}
 \alias{set_selection.listbox}
 \alias{set_new_selection.listbox}
 \alias{get_values.listbox}
@@ -94,6 +97,7 @@
 \alias{ok_cancel_help}
 \alias{tk_widget_modify_names}
 \alias{print.bs_tk_widget}
+\alias{tk_widget_boxes_y_gr}
 \title{Helper functions for RcmdrPlugin.biostat.}
 \usage{
 tk_get_state(obj, ...)
@@ -103,6 +107,8 @@ tk_activate(obj, ...)
 tk_disable(obj, ...)
 
 tk_normalize(obj, ...)
+
+get_size(obj, ...)
 
 get_values(obj, ...)
 
@@ -285,6 +291,10 @@ listbox_set_new_selection(listbox, sel)
 
 \method{get_selection_length}{listbox}(obj, ...)
 
+\method{get_size}{listbox}(obj, ...)
+
+\method{get_size}{tkwin}(obj, ...)
+
 \method{set_selection}{listbox}(obj, sel, clear = FALSE, ...)
 
 \method{set_new_selection}{listbox}(obj, sel, ...)
@@ -311,6 +321,15 @@ tk_widget_modify_names(parent = top,
   cmd_checkbox = function() { })
 
 \method{print}{bs_tk_widget}(x, ...)
+
+tk_widget_boxes_y_gr(parent_frame = top, y_title = title_var_1,
+  y_var_type = NA_character_, y_vars = NULL, y_initial = NULL,
+  y_select_mode = "single", y_params = list(),
+  gr_title = title_gr_0_n, gr_var_type = NA_character_,
+  gr_vars = NULL, gr_initial = NULL, gr_select_mode = "multiple",
+  gr_params = list(), ch_label = "Use groups", ch_initial = "0",
+  ch_commands = function() { }, ch_params = list(), listHeight = 7,
+  listWidth = c(25, Inf), add_to_grid = TRUE)
 }
 \arguments{
 \item{...}{other arguments}
