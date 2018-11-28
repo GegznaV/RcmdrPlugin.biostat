@@ -18,3 +18,25 @@ set_values <- function(obj, ...) {
 get_selection <- function(obj, ...) {
     UseMethod("get_selection")
 }
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+set_selection <- function(obj, sel, ...) {
+    UseMethod("set_selection")
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+set_new_selection <- function(obj, sel, ...) {
+    UseMethod("set_new_selection")
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+set_yview <- function(obj, ...) {
+    UseMethod("set_yview")
+}
+
