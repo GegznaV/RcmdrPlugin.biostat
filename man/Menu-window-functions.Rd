@@ -6,11 +6,12 @@
 %   R/window_dataset_join.R, R/window_dataset_print_as_md.R,
 %   R/window_export_to_excel.R, R/window_fct_drop_lvls.R,
 %   R/window_fct_lvls_reorder_manual.R, R/window_import_excel.R,
-%   R/window_import_from_pkg.R, R/window_import_rdata.R, R/window_import_rds.R,
-%   R/window_import_text_delim.R, R/window_rows_arrange.R,
-%   R/window_rows_col_to_rownames.R, R/window_rows_filter.R,
-%   R/window_rows_rowid_to_col.R, R/window_rows_rownames_to_col.R,
-%   R/window_rows_slice.R, R/window_summary_count.R, R/window_summary_skim.R,
+%   R/window_import_from_pkg.R, R/window_import_rdata.R,
+%   R/window_import_rds.R, R/window_import_text_delim.R, R/window_locale_set.R,
+%   R/window_rows_arrange.R, R/window_rows_col_to_rownames.R,
+%   R/window_rows_filter.R, R/window_rows_rowid_to_col.R,
+%   R/window_rows_rownames_to_col.R, R/window_rows_slice.R,
+%   R/window_summary_count.R, R/window_summary_skim.R,
 %   R/window_test_normality.R, R/window_variable_gather.R,
 %   R/window_variable_mutate.R, R/window_variable_recode.R,
 %   R/window_variable_rename.R, R/window_variable_select.R,
@@ -71,6 +72,7 @@
 \alias{window_import_rdata}
 \alias{window_import_rds}
 \alias{window_import_text_delim}
+\alias{window_locale_set}
 \alias{window_rows_arrange}
 \alias{window_rows_arrange_tmp}
 \alias{window_rows_col_to_rownames0}
@@ -202,6 +204,8 @@ window_import_rdata()
 window_import_rds()
 
 window_import_text_delim()
+
+window_locale_set()
 
 window_rows_arrange()
 
