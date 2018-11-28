@@ -1,6 +1,43 @@
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
+tk_get_state <- function(obj, ...) {
+    UseMethod("tk_get_state")
+}
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+tk_activate <- function(obj, ...) {
+    UseMethod("tk_activate")
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+tk_disable <- function(obj, ...) {
+    UseMethod("tk_disable")
+ }
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+tk_normalize <- function(obj, ...) {
+    UseMethod("tk_normalize")
+}
+
+# #' @rdname Helper-functions
+# #' @export
+# #' @keywords internal
+#  <- function(obj, ...) {
+#     UseMethod("")
+# }
+
+
+
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 get_values <- function(obj, ...) {
     UseMethod("get_values")
 }
@@ -17,6 +54,13 @@ set_values <- function(obj, ...) {
 #' @keywords internal
 get_selection <- function(obj, ...) {
     UseMethod("get_selection")
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+get_selection_length <- function(obj, ...) {
+    UseMethod("get_selection_length")
 }
 
 #' @rdname Helper-functions
