@@ -14,6 +14,7 @@ variableListBox2 <-
              export = "FALSE",
              initialSelection = NULL,
              listHeight = getRcmdr("variable.list.height"),
+             listWidth  = getRcmdr("variable.list.width"),
              onClick_fun       = function(){},
              onDoubleClick_fun = function(){},
              onTripleClick_fun = function(){},
@@ -32,7 +33,8 @@ variableListBox2 <-
             initialSelection <- 0
 
         frame   <- tkframe(parentWindow)
-        minmax  <- getRcmdr("variable.list.width")
+        # minmax  <- getRcmdr("variable.list.width")
+        minmax  <- listWidth
         listbox <- tklistbox(
             frame,
             height     = listHeight,
