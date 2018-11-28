@@ -45,11 +45,6 @@
 \alias{command_row_rm_empty_rows}
 \alias{command_getwd}
 \alias{command_setwd}
-\alias{command_get_locale}
-\alias{command_set_locale_lt}
-\alias{command_set_locale_en}
-\alias{command_set_locale_ru}
-\alias{command_set_locale_default}
 \alias{command_list_objects}
 \alias{command_session_info_devtools}
 \alias{command_session_info_utils}
@@ -72,6 +67,7 @@
 \alias{window_import_rdata}
 \alias{window_import_rds}
 \alias{window_import_text_delim}
+\alias{command_get_locale}
 \alias{window_locale_set}
 \alias{window_rows_arrange}
 \alias{window_rows_arrange_tmp}
@@ -151,16 +147,6 @@ command_getwd()
 
 command_setwd()
 
-command_get_locale()
-
-command_set_locale_lt()
-
-command_set_locale_en()
-
-command_set_locale_ru()
-
-command_set_locale_default()
-
 command_list_objects()
 
 command_session_info_devtools()
@@ -204,6 +190,8 @@ window_import_rdata()
 window_import_rds()
 
 window_import_text_delim()
+
+command_get_locale()
 
 window_locale_set()
 
