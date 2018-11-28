@@ -1,6 +1,17 @@
+# Locale ---------------------------------------------------------------------
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+command_get_locale <- function() {
+    paste0(
+        '## Show current locale  \n',
+        'Sys.getlocale()') %>%
+        Rcmdr::doItAndPrint()
+}
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #' @rdname Menu-window-functions
 #' @export
