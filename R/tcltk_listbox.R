@@ -282,6 +282,19 @@ get_selection_length.listbox <- function(obj, ...) {
     length(get_selection(obj))
 }
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+get_size.listbox <- function(obj, ...) {
+  tclvalue_int(tksize(obj$listbox))
+}
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+get_size.tkwin <- function(obj, ...) {
+  tclvalue_int(tksize(obj))
+}
+
 
 #' @rdname Helper-functions
 #' @export
