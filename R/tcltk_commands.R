@@ -52,7 +52,16 @@ cursor_set_idle <- function(frame = NULL) {
     tkconfigure(.messages,  cursor = "xterm")
 }
 
+# Get state -------------------------------------------------------------------
+#' @name tk_activate
+#' @export
+tk_get_state.default <- function(tk_obj, ...) {
+    tclvalue_chr(tkcget(tk_obj, "-state"))
+}
+
+
 # Set state -------------------------------------------------------------------
+#' @name tk_activate
 #' Activate/Disable TK Objects
 #'
 #' Modify state of tk objects.
@@ -67,18 +76,18 @@ cursor_set_idle <- function(frame = NULL) {
 #' # tk_activate(tk_obj)
 #' # tk_disable(tk_obj)
 #'
-tk_activate <- function(tk_obj, ...) {
+tk_activate.default <- function(tk_obj, ...) {
     tkconfigure(tk_obj, state = "active", ...)
 }
 
 #' @name tk_activate
 #' @export
-tk_disable <- function(tk_obj, ...) {
+tk_disable.default <- function(tk_obj, ...) {
     tkconfigure(tk_obj, state = "disabled", ...)
 }
 #' @name tk_activate
 #' @export
-tk_normalize <- function(tk_obj, ...) {
+tk_normalize.default <- function(tk_obj, ...) {
     tkconfigure(tk_obj, state = "normal", ...)
 }
 
