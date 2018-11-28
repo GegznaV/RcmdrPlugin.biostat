@@ -109,9 +109,13 @@ window_xxx <- function() {
         # doItAndPrint(command)
         result <- justDoIt(command)
 
+        # result <- try_command(command)
+
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (class(result)[1] != "try-error") {
             logger(style_cmd(command))
+            # doItAndPrint(style_cmd(command))
+
             activeDataSet(ds, flushModel = FALSE, flushDialogMemory = FALSE)
 
             # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
