@@ -272,9 +272,16 @@ listbox_set_new_selection <- function(listbox, sel) {
 #' @export
 #' @keywords internal
 get_selection.listbox <- function(obj, ...) {
-    listbox <- obj$listbox
-    listbox_get_selection(listbox)
+    listbox_get_selection(obj$listbox)
 }
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+get_selection_length.listbox <- function(obj, ...) {
+    length(get_selection(obj))
+}
+
 
 #' @rdname Helper-functions
 #' @export
@@ -317,5 +324,24 @@ set_yview.listbox <- function(obj, ind, ...) {
     tkyview(obj$listbox, ind, ...)
 }
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+tk_disable.listbox <- function(obj, ..., background = "grey95") {
+  tk_disable(obj$listbox, background = background, ...)
+}
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+tk_normalize.listbox <- function(obj, ..., background = "white") {
+  tk_normalize(obj$listbox, background = background, ...)
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+tk_get_state.listbox <- function(obj) {
+  tk_get_state(obj$listbox)
+}
 
