@@ -327,7 +327,7 @@ window_test_normality <- function() {
     tkgrid(getFrame(y_var_Box), gr_var_Frame, sticky = "nwe", padx = c(10, 0))
 
     tkgrid(getFrame(gr_var_Box), sticky = "nsw", padx = c(20, 0))
-    tkgrid(by_group_Frame,      sticky = "sw",  padx = c(20, 0), pady = c(0, 5))
+    tkgrid(by_group_Frame,       sticky = "sw",  padx = c(20, 0), pady = c(0, 5))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(options_Frame, pady = c(5, 0), sticky = "we") #~~~~~~~~~~~~~~~~~~~~
     tkgrid(choose_test_Frame, options_right_Frame, padx = c(0, 5), sticky = "nse")
