@@ -38,6 +38,13 @@ tk_normalize <- function(obj, ...) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
+get_size <- function(obj, ...) {
+    UseMethod("get_size")
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 get_values <- function(obj, ...) {
     UseMethod("get_values")
 }
