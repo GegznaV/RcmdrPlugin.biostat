@@ -31,15 +31,16 @@ variableListBox2 <-
         if (length(variableList) == 1 && is.null(initialSelection))
             initialSelection <- 0
 
-        frame <- tkframe(parentWindow)
-        minmax <- getRcmdr("variable.list.width")
+        frame   <- tkframe(parentWindow)
+        minmax  <- getRcmdr("variable.list.width")
         listbox <- tklistbox(
             frame,
-            height = listHeight,
+            height     = listHeight,
             selectmode = selectmode,
             background = bg,
             exportselection = export,
-            width = min(max(minmax[1], 2 + nchar(variableList)), minmax[2]))
+            width = min(max(minmax[1], 2 + nchar(variableList)), minmax[2])
+        )
 
         scrollbar <-
             ttkscrollbar(
@@ -49,7 +50,8 @@ variableListBox2 <-
         tkconfigure(listbox,
                     yscrollcommand = function(...) tkset(scrollbar,  ...))
 
-        for (var in variableList)  tkinsert(listbox, "end", var)
+        # for (var in variableList)  tkinsert(listbox, "end", var)
+        listbox_set_values(listbox, variableList)
 
         if (is.numeric(initialSelection))
             for (sel in initialSelection)
@@ -216,10 +218,52 @@ listbox_get_selection_ind <- function(listbox) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
+# Get selected values
 listbox_get_selection <- function(listbox) {
     vals <- listbox_get_values(listbox)
     inds <- listbox_get_selection_ind(listbox)
     vals[inds]
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+# Set selection
+# sel - either character values of indices
+listbox_set_selection <- function(listbox, sel, clear = FALSE) {
+
+    if (is.null(sel) || length(sel) == 0) {
+        return()
+
+    } else if (is.character(sel)) {
+        ind <- which(listbox_get_values(listbox) %in% sel) - 1
+
+    } else if (is.numeric(sel)) {
+        ind <- sel - 1
+
+    } else if (is.na(sel)) {
+        ind <- -1
+
+    } else {
+      stop("Incorrect value of argument `sel`: \n", sel)
+    }
+
+    if (isTRUE(clear)) {
+        tkselection.clear(listbox, 0, "end")
+    }
+
+    for (i in ind)
+        tkselection.set(listbox, i)
+}
+
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+# Set selection
+# sel - either character values of indices
+listbox_set_new_selection <- function(listbox, sel) {
+    listbox_set_selection(listbox, sel, clear = TRUE)
 }
 
 #' @rdname Helper-functions
@@ -233,8 +277,17 @@ get_selection.listbox <- function(obj, ...) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-set_values.listbox <- function(obj, vals, ...) {
-    listbox_set_values(obj$listbox, vals, ...)
+set_selection.listbox <- function(obj, sel, clear = FALSE, ...) {
+    listbox <- obj$listbox
+    listbox_set_selection(listbox, sel = sel, clear = clear, ...)
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+set_new_selection.listbox <- function(obj, sel, ...) {
+    listbox <- obj$listbox
+    listbox_set_new_selection(listbox, sel = sel, ...)
 }
 
 #' @rdname Helper-functions
@@ -243,4 +296,24 @@ set_values.listbox <- function(obj, vals, ...) {
 get_values.listbox <- function(obj, vals, ...) {
     listbox_get_values(obj$listbox, ...)
 }
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+set_values.listbox <- function(obj, vals, ...) {
+    listbox_set_values(obj$listbox, vals, ...)
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+set_yview.listbox <- function(obj, ind, ...) {
+    if (is.numeric(ind)) {
+        ind <- ind - 1
+    }
+
+    tkyview(obj$listbox, ind, ...)
+}
+
+
 
