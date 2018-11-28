@@ -191,6 +191,19 @@ style_cmd <- function(command, indent_by = 4, ...) {
     paste0(as.character(cmd), collapse = "\n")
 }
 
+
+# Try to parse the code written as text ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+try_command <- function(x) {
+    safe_parse <-
+        purrr::safely(parse, otherwise = structure("", class = "try-error"))
+
+    safe_parse(text = x)$result
+    # On error returns class "try-error" as `justDoIt()` does
+}
+
 # ___ Translate ___ ==========================================================
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
