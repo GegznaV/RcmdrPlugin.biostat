@@ -8,7 +8,7 @@
 #' @keywords internal
 command_getwd <- function() {
     Rcmdr::doItAndPrint(paste(
-        '# You are working in folder:',
+        '## You are working in folder:',
         'getwd()',
         sep = " \n"))
 }
