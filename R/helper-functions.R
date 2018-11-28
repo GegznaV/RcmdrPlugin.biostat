@@ -78,11 +78,26 @@ variables_fct_like <- function() {
 variables_non_fct_like <- function() {
     setdiff(Variables(), Factors())
 }
+#' Non-factor-like variable names in active dataset
+#'
+#' @keywords internal
+#' @export
+variables_nfct <- function() {
+    setdiff(Variables(), Factors())
+}
+
 #' Two-level factor names in active dataset
 #'
 #' @keywords internal
 #' @export
 variables_fct_2_lvls <- function() {
+    TwoLevelFactors()
+}
+#' Two-level factor names in active dataset
+#'
+#' @keywords internal
+#' @export
+variables_fct2_like <- function() {
     TwoLevelFactors()
 }
 #' Numeric variable names in active dataset
@@ -100,13 +115,13 @@ variables_num <- function() {
 #' @export
 var_pos_n <- function(variables,
                       type = c("all",
-                               "numeric",
-                               "factor",
-                               "factor_strict",
-                               "twoLevelFactor",
-                               "nonfactor",
-                               "character",
-                               "logical"),
+                               "numeric",        "num",
+                               "factor",         "fct_like",
+                               "factor_strict",  "fct",
+                               "twoLevelFactor", "fct2",
+                               "nonfactor",      "nfct",
+                               "character",      "chr",
+                               "logical",        "lgl"),
                       vars = NULL)
 {
     if (is.null(variables))
@@ -115,17 +130,27 @@ var_pos_n <- function(variables,
     if (is.null(vars))
         vars <- switch(
             type,
-            all            = Variables(),
-            character      = variables_chr(),
-            logical        = variables_lgl(),
-            factor_strict  = variables_fct(),
-            factor         = Factors(),
-            numeric        = Numeric(),
-            nonfactor      = setdiff(Variables(), Factors()),
-            twoLevelFactor = TwoLevelFactors())
-    if (any(!variables %in% vars))
+            all            = variables_all(),
+            character      = ,
+            chr            = variables_chr(),
+            logical        = ,
+            lgl            = variables_lgl(),
+            factor_strict  = ,
+            fct            = variables_fct(),
+            factor         = ,
+            fct_like       = variables_fct_like(),
+            numeric        = ,
+            num            = variables_num(),
+            nonfactor      = ,
+            nfct           = variables_nfct(),
+            twoLevelFactor = ,
+            fct2_like      = variables_fct2_like())
+
+    if (any(!variables %in% vars)) {
         NULL
-    else apply(outer(variables, vars, "=="), 1, which) - 1
+    } else {
+        apply(outer(variables, vars, "=="), 1, which) - 1
+    }
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -327,7 +352,7 @@ clean_str <- function(str, ...) {
 function_not_implemented <- function() {
 
     x = NULL
-    doItAndPrint("# ~~~ Not implemented yet! ~~~\n")
+    doItAndPrint("## ~~~ Not implemented yet! ~~~\n")
 
     if (is.null(x)) {
         x <- "This function"
@@ -808,7 +833,7 @@ show_code_evaluation_error_message <- function() {
               # "If no error was found, you may consider reporting\n",
               # "the bug in the package `RcmdrPlugin.biostat`\n",
               # '(see link in "About").\n'
-              ),
+        ),
 
         title = "Code Evaluation Error")
 }
