@@ -34,12 +34,17 @@ window_locale_set <- function() {
                    tk_disable(var_y_box$listbox, background = "grey95")
                    tk_disable(locale_entry)
                    tclvalue(locale_variable) <- "System's default"
+                   tk_disable(check_locale_CheckBox)
+                   tclvalue(check_locale_Variable) <- "0"
+
                },
                "other" = {
                    tk_normalize(var_y_box$listbox, background = "white")
                    set_values(var_y_box, vals = locales)
                    tk_activate(locale_entry)
                    tclvalue(locale_variable) <- ""
+                   tk_activate(check_locale_CheckBox)
+                   tclvalue(check_locale_Variable) <- "1"
                }
         )
     }
@@ -75,6 +80,7 @@ window_locale_set <- function() {
         locale_value <- tclvalue_chr(locale_variable)
         opt          <- tclvalue_chr(options_Variable)
         check_locale <- tclvalue_lgl(check_locale_Variable)
+        hide_output  <- tclvalue_lgl(hide_output_Variable)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (variable_is_not_selected(locale_value, "locale")) {
@@ -82,6 +88,7 @@ window_locale_set <- function() {
         }
 
         if (check_locale && (opt != "default")) {
+           # Default locale does not pass this function (on Windows)
 
             suppressWarnings({
                 initial_locale <- Sys.getlocale()
@@ -118,6 +125,10 @@ window_locale_set <- function() {
                 txt_locale_set <- locale_value
             }
         )
+
+        if (hide_output) {
+            cmd_locale_set <- str_glue("invisible({cmd_locale_set})")
+        }
 
         command <- str_glue(
             '## Set locale to {txt_locale_set} \n',
@@ -170,7 +181,7 @@ window_locale_set <- function() {
 
         # right.buttons = FALSE,
         name = "options_",
-        sticky_buttons = "w",
+        sticky_buttons = "e",
         buttons = c("default"          , "other"),
         values =  c("default"          , "other"),
         labels =  c("System's default", "Other"),
@@ -184,6 +195,7 @@ window_locale_set <- function() {
         title        = gettext_bs("List of Locales"),
         variableList = locales,
         listHeight = 7,
+        listWidth  = c(43, Inf),
         selectmode = "single",
         initialSelection = NULL,
         onRelease_fun     = cmd_update_textentry,
@@ -194,23 +206,25 @@ window_locale_set <- function() {
     # locale_variable <- tclVar(Sys.getlocale())
     locale_variable <- tclVar("")
     locale_frame    <- tkframe(upper_frame)
-    locale_entry    <- ttkentry(locale_frame, width = "38",
+    locale_entry    <- ttkentry(locale_frame, width = "46",
                                 textvariable = locale_variable)
 
 
     # Check box
     bs_check_boxes(upper_frame,
                    frame         = "check_locale_frame",
-                   boxes         = c("check_locale_"),
+                   boxes         = c("check_locale_", "hide_output_"),
                    # commands      = list("check_locale_" = cmd_checkbox),
-                   initialValues = "1",
-                   labels        = gettext_bs(c("Check if locale can be used on this computer."))
+                   initialValues = c("1", "0"),
+                   labels        = gettext_bs(c(
+                       "Check if the locale can be used on this computer",
+                       "Hide output"))
     )
 
 
     # Layout
 
-    tkgrid(upper_frame, sticky = "w", padx = c(15, 0))
+    tkgrid(upper_frame, sticky = "w", padx = c(10, 10))
 
     tkgrid(options_outer_frame, sticky = "nw")
     tkgrid(options_Frame, sticky = "nw")
