@@ -57,8 +57,8 @@ item	import_menu	separator	""	""	""	""
 
 # ---- Import data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-item    import_menu      command         "Import from text file (.txt, .csv, .dat)... [Rcmdr]"          window_import_text_delim                 ""          ""
-item    import_menu      command         "[???] Import from coppied text... "          function_not_implemented                 "FALSE"          ""
+item    import_menu      command         "Import from text file (.txt, .csv, .dat) or clipboard... [Rcmdr]"          window_import_text_delim                 ""          ""
+# item    import_menu      command         "[???] Import from coppied text... "          function_not_implemented                 "FALSE"          ""
 
 item	import_menu	separator	""	""	""	""
 item    import_menu      command         "Import from Excel file..."     window_import_excel    ""     "packageAvailable('readxl')"
