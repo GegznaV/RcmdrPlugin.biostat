@@ -154,7 +154,8 @@ window_xxx <- function() {
     name_frame    <- tkframe(upper_frame)
     name_entry    <- ttkentry(name_frame, width = "28",
                               textvariable = name_variable)
-    # Radiobuttons
+
+    # Radiobuttons horizontal
     rb_frame <- tkframe(upper_frame)
     radioButtons_horizontal(
         rb_frame,
@@ -184,6 +185,8 @@ window_xxx <- function() {
     tkgrid(name_entry, sticky = "w")
     tkgrid(positionFrame, padx = c(15, 0))
 
+
+
     # Check box
     bs_check_boxes(upper_frame,
                    frame         = "check_locale_frame",
@@ -194,6 +197,34 @@ window_xxx <- function() {
                        "Check if the locale can be used on this computer",
                        "Hide output"))
     )
+
+
+
+
+    # Radiobuttons vertical
+    into_outter_frame <- tkframe(upper_frame)
+    Rcmdr::radioButtons(
+        window  = into_outter_frame,
+        name    = "into_",
+        title   = gettext_bs("Convert into"),
+        buttons = c("character", "nominal", "ordinal", "integer", "numeric", "logical"),
+        values  = c("character", "nominal", "ordinal", "integer", "numeric", "logical"),
+        # initialValue = dialog_values$into,
+        labels  = gettext_bs(
+            c("Text (character)",
+              "Nominal factors",
+              "Ordinal factors",
+              "Integers",
+              "Real numbers",
+              "Logical"
+            )),
+        command = function(){}
+    )
+    # Layout
+    # tkgrid(upper_frame)
+    # tkgrid(getFrame(var_y_box), into_outter_Frame, sticky = "nw")
+    tkgrid(into_outter_frame, sticky = "nw")
+    tkgrid(into_Frame, padx = c(15, 5))
 
 
     # * Y and Groups box =====================================================
