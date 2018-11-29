@@ -229,7 +229,7 @@ window_num_convert <- function() {
 
     into_outter_Frame <- tkframe(upper_frame)
     Rcmdr::radioButtons(
-        into_outter_Frame,
+        window  = into_outter_Frame,
         name    = "into_",
         title   = gettext_bs("Convert into"),
         buttons = c("character", "nominal", "ordinal", "integer", "numeric", "logical"),
