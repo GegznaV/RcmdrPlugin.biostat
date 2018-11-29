@@ -962,6 +962,37 @@ modelClassP <- function(class_) {
         what = class_))
 }
 
+# + Input validation ---------------------------------------------------------
+
+
+is_numeric_str <- function(str) {
+    str_detect(str, "^(-|\\+)?((\\.?\\d+)|(\\d+\\.\\d+)|(\\d+\\.?))$")
+}
+
+
+validate_num_0_0.5 <- function(P, W) {
+    # P - value
+    res <-
+        if (is_numeric_str(P)) {
+            dplyr::between(as.numeric(P), 0, 0.5)
+        } else {
+            FALSE
+        }
+
+    if (res == TRUE) {
+        tkconfigure(W, foreground = "black")
+        return(tcl("expr", "TRUE"))
+    } else {
+        return(tcl("expr", "FALSE"))
+    }
+}
+
+make_red_text <- function(P, W, S, v) {
+    tkconfigure(W, foreground = "red2")
+    tcl("expr", "TRUE")
+}
+
+
 # ___ Rcmdr ___ ==============================================================
 
 #' @rdname Helper-functions
