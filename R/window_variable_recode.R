@@ -86,10 +86,11 @@ right_click_menu <- function(tcl_widget) {
                      labels  = gettext_bs(c("Forward", "Backward")),
                      values  = c("-forward", "-backward"),
                      title   = gettext_bs("Search Direction"))
+
         onOK <- function() {
             text <- tclvalue(textVar)
             putRcmdr("last.search", text)
-            if (text == ""){
+            if (text == "") {
                 errorCondition(recall=onFind, message=gettext_bs("No search text specified."))
                 return()
             }
@@ -196,8 +197,8 @@ right_click_menu <- function(tcl_widget) {
         # tkadd(contextMenu, "command", label = gettext_bs("Delete row"), command = onDeleteRow)
 
         tkadd(contextMenu, "separator")
-        tkadd(contextMenu, "command", label = gettext_bs("Undo"),       command = onUndo)
-        tkadd(contextMenu, "command", label = gettext_bs("Redo"),       command = onRedo)
+        tkadd(contextMenu, "command", label = gettext_bs("Undo"), command = onUndo)
+        tkadd(contextMenu, "command", label = gettext_bs("Redo"), command = onRedo)
 
 
         # tkadd(contextMenu, "separator")
