@@ -47,8 +47,8 @@ NULL
 
     add_plugins <-
         unname(grep("RcmdrPlugin.(KMggplot2|EZR.2|biostat)",
-                        installed.packages()[ , 1],
-                        value = TRUE))
+                    installed.packages()[ , 1],
+                    value = TRUE))
 
     # Add plugins in certain order
     plugins <- c(setdiff(Rcmdr_opts$plugins, add_plugins),
@@ -83,4 +83,27 @@ NULL
             Commander()
         }
     }
+
+
+    # Create icons
+    tkimage.create("photo", "::image::bs_dataset",
+                   file = system.file("etc", "list.png",
+                                      package = "RcmdrPlugin.biostat"))
+
+
+    # Enamble enhanced Dataset button
+    res <- try(Rcmdr::getRcmdr("dataSetLabel"), silent = TRUE)
+
+    if (!inherits(res, "try-error")) {
+        tkconfigure(res,
+                    # foreground = "darkred",
+                    image = "::image::bs_dataset",
+                    compound = "left",
+                    command = window_dataset_select)
+    }
+
 }
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
