@@ -45,10 +45,11 @@ window_import_excel <- function() {
             tkgetOpenFile(
                 title = "Choose Excel File to Import",
                 filetypes = str_c(
-                    '{\"MS Excel file\" {\".xlsx\" \".XLSX\" \".xls\" \".XLS\"}} ',
-                    '{\"All Files\" {\"*\"}}'),
+                    '{{MS Excel files} {.xls .xlsx}} ',
+                    '{{All Files} *}'
+                    ),
                 parent     = CommanderWindow(),
-                initialdir = tclvalue(dir_name_var)
+                initialdir = tclvalue_chr(dir_name_var)
             ))
         # Update Excel worksheeds information ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -145,7 +146,7 @@ window_import_excel <- function() {
         # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         xl_file     <- tclvalue(file_name_var)
         worksheet   <- getSelection(worksheet_box)
-        new_ds_name <- trim.blanks(tclvalue(dsname))
+        new_ds_name <- tclvalue_chr(dsname)
 
         variableNamesValue    <- tclvalue(variableNames)
         rowNamesValue         <- tclvalue(rowNames)
@@ -276,9 +277,9 @@ window_import_excel <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     button_get_file_frame <- tkframe(lower_frame)
     button_get_file <- tk2button(button_get_file_frame,
-                                 text = "Choose file",
+                                 text    = "Choose file",
                                  command = select_xl_file,
-                                 cursor = "hand2")
+                                 cursor  = "hand2")
 
     # tkgrid(button_get_file, sticky = "e", pady = c(0, 0))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
