@@ -25,6 +25,25 @@ command_setwd <- function() {
     }
 }
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+command_openwd <- function() {
+    fs::file_show(getwd())
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+command_get_file_info <- function() {
+    f_path <- fs::path_tidy(file.choose())
+    Rcmdr::doItAndPrint(str_glue(
+        '## Information about file "{basename(f_path)}"\n\n',
+        't(fs::file_info("{f_path}"))'))
+}
+
 
 # Workspace ------------------------------------------------------------------
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -41,13 +60,16 @@ command_list_objects <- function() {
 
     if (show_hidden) {
         all_names <- "all.names = TRUE"
+        all_txt   <- " all "
     } else {
         all_names <- ""
+        all_txt   <- " "
+
     }
 
     # Code ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     command <-  str_glue(
-        "## List objects in R workspace \n",
+        "## List{all_txt}objects in R workspace \n",
         "objects({all_names})"
     )
 
