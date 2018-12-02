@@ -83,3 +83,4 @@ window_dataset_new_rcmdr <- function() {
     tkgrid.configure(entryDsname, sticky = "w")
     dialogSuffix(focus = entryDsname)
 }
+
