@@ -707,6 +707,7 @@ are_not_valid_names <- function(name) {
 
 # + Duplicated name -----------------------------------------------------------
 
+
 #' Message box to confirm replacement
 #'
 #' @param name string - name of the object to repace.
