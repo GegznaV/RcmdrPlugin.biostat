@@ -9,3 +9,6 @@
 \code{RcmdrPlugin.biostat} is an \code{Rcmdr} plugin for functions in package
 \code{biostat} and other common (bio)statistical routines.
 }
+\details{
+Some icons are made by Freepik from www.flaticon.com
+}
