@@ -75,6 +75,7 @@
 \alias{window_import_rdata}
 \alias{window_import_rds}
 \alias{window_import_text_delim}
+\alias{window_import_text_delim0}
 \alias{command_get_locale}
 \alias{window_locale_set}
 \alias{window_rows_arrange}
@@ -209,7 +210,9 @@ window_import_rdata()
 
 window_import_rds()
 
-window_import_text_delim(init_location = "local")
+window_import_text_delim()
+
+window_import_text_delim0(init_location = "local")
 
 command_get_locale()
 
