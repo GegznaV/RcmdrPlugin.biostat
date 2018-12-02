@@ -44,6 +44,7 @@ Imports:
     nortest,
     openxlsx,
     pander,
+    pingr,
     purrr,
     scales,
     skimr,
