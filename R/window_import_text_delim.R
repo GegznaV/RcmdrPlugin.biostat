@@ -3,11 +3,21 @@
 #' @export
 #' @keywords internal
 # Based on function from "Rcmdr"
+window_import_text_delim <- function() {
+    window_import_text_delim0()
+}
 
-window_import_text_delim <- function(init_location = "local") {
+
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+# Based on function from "Rcmdr"
+
+window_import_text_delim0 <- function(init_location = "local") {
+
     initializeDialog(title = gettext_bs("Read Text Data From File, Clipboard, or URL"))
-
-    tk_title(text = gettext_bs("Import data from Text"))
+    tk_title(top, text = gettext_bs("Import data from Text"))
 
     optionsFrame <- tkframe(top)
     dsname <- tclVar(unique_df_name("new_dataset", all_numbered = TRUE))
