@@ -93,12 +93,59 @@ those packages are under GPL-2/GPL-3 license.
 
 ***
 
+
 <!-- [![Travis-CI Build Status]
 (https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)]
 (https://travis-ci.org/GegznaV/RcmdrPlugin.biostat) -->
 <!-- [![codecov.io]
 (https://codecov.io/github/GegznaV/RcmdrPlugin.biostat/coverage.svg?branch=master)]
 (https://codecov.io/github/GegznaV/RcmdrPlugin.biostat?branch=master) -->
+
+
+
+```{r fig.height=12, fig.width=15, echo=FALSE}
+source("https://gist.githubusercontent.com/crsh/c906e93c260488e7363ea606243057c2/raw/f6f0fce38bc274446d205854ea35cfa03b9b1f7a/plot_dependencies.R")
+
+plot_dependencies()
+```
+
+
+
+```{r eval=FALSE, include=FALSE}
+devtools::install_github("datastorm-open/DependenciesGraphs")
+devtools::install_github("ctesta01/QualtricsTools")
+
+```
+
+
+```{r include=FALSE}
+library(RcmdrPlugin.biostat)
+library(DependenciesGraphs)
+library(QualtricsTools) 
+```
+
+```{r fig.height=5, fig.width=5, echo=FALSE}
+# deps <- funDependencies("package:RcmdrPlugin.biostat",
+#                         "window_num_convert")
+# plot(deps)
+
+
+dep <- envirDependencies("package:RcmdrPlugin.biostat")
+
+# visualization
+plot(dep)
+```
+
+
+
+```{r fig.height=12, fig.width=15, include=FALSE, eval=FALSE}
+library(mvbutils)
+library(QualtricsTools) 
+deps <- foodweb(where = "package:RcmdrPlugin.biostat", plotting = FALSE)
+plot(deps)
+```
+
+
 
 <!-- * * * -->
 
