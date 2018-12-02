@@ -16,6 +16,7 @@ ok_cancel_help <- Rcmdr::defmacro(
     reset       = NULL,
     apply       = NULL,
     helpPackage = NULL,
+    sticky      = "w",
     expr = {
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -261,21 +262,21 @@ ok_cancel_help <- Rcmdr::defmacro(
         # Grid ===============================================================
         if (!WindowsP()) {
             if (!is.null(apply)) {
-                tkgrid(applyButton, cancelButton, OKbutton, sticky = "w")
+                tkgrid(applyButton, cancelButton, OKbutton, sticky = sticky)
                 tkgrid.configure(OKbutton, padx = c(6, 0))
 
             } else {
-                tkgrid(cancelButton, OKbutton, sticky = "w")
+                tkgrid(cancelButton, OKbutton, sticky = sticky)
             }
             tkgrid.configure(cancelButton, padx = c(6, 6))
 
         } else {
             if (!is.null(apply)) {
-                tkgrid(OKbutton, cancelButton, applyButton, sticky = "w")
+                tkgrid(OKbutton, cancelButton, applyButton, sticky = sticky)
                 tkgrid.configure(applyButton, padx = c(6, 0))
 
             } else {
-                tkgrid(OKbutton, cancelButton, sticky = "w")
+                tkgrid(OKbutton, cancelButton, sticky = sticky)
             }
             tkgrid.configure(OKbutton, padx = c(6, 6))
         }
