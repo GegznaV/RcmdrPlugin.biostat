@@ -62,9 +62,9 @@ tk_get_state.default <- function(tk_obj, ...) {
 
 # Set state -------------------------------------------------------------------
 #' @name tk_activate
-#' Activate/Disable TK Objects
+#' @title Activate/Disable TK Objects
 #'
-#' Modify state of tk objects.
+#' @description Modify state of tk objects.
 #'
 #' @param tk_obj TK object.
 #' @param ... other options to be passed to \code{tkconfigure}.
