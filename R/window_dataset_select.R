@@ -26,30 +26,51 @@ window_dataset_select <- function() {
             listWidth    = c(25, Inf),
             title        = gettext_bs("Datasets (pick one)"),
             initialSelection = if (is.null(.ds)) NULL else which(.ds == dataSets) - 1
-    )
+        )
 
 
     import_buttons_frame <- tkframe(top)
 
     b1 <- tk2button(import_buttons_frame,
-              text = "Create",
-              width = 8,
-              command = function() {cat("Create\n")})
+                    text = "Create",
+                    width = 8,
+                    command = function() {
+                        closeDialog()
+                        window_dataset_new_rcmdr()
+                    })
 
     b2 <- tk2button(import_buttons_frame,
-              text = "Paste",
-              width = 8,
-              command = function() {cat("Paste\n")})
+                    text = "Paste",
+                    width = 8,
+                    command = function() {
+                        window_import_text_delim(init_location = "clipboard")
+                        closeDialog()
+                    })
 
     b3 <- tk2button(import_buttons_frame,
-              text = "Import",
-              width = 8,
-              command = function() {cat("Import\n")})
+                    text = "Import",
+                    width = 8,
+                    command = function() {
+                        cat("Import\n")
+                        closeDialog()
+                    })
 
 
     onOK <- function() {
         cursor_set_busy(top)
         on.exit(cursor_set_idle(top))
+
+
+        if (length(dataSets) == 0) {
+            RcmdrTkmessageBox(
+                "There are no datasets in R memory.\nPlease, create or import a dataset.",
+                icon = "warning",
+                title = "No Dataset Found in R",
+                type = "ok")
+
+            return()
+        }
+
 
         if (get_selection_length(var_ds_box) == 0) {
             RcmdrTkmessageBox("Please, select a dataset.",
@@ -80,13 +101,6 @@ window_dataset_select <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (length(dataSets) == 0) {
-        RcmdrTkmessageBox(
-            "There are no datasets imported.\nPlease, import a dataset.",
-            icon = "warning",
-            title = "No Dataset Found in R",
-            type = "ok")
-
-
         tk_disable(var_ds_box)
     }
 
