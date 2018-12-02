@@ -209,7 +209,7 @@ window_import_rdata()
 
 window_import_rds()
 
-window_import_text_delim()
+window_import_text_delim(init_location = "local")
 
 command_get_locale()
 
