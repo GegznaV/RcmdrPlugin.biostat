@@ -8,9 +8,7 @@ command_dataset_button_rcmdr <- function() {
                     # foreground = "darkred",
                     image = "::image::dataIcon",
                     compound = "left",
-                    command = selectActiveDataSet)
-
-
+                    command  = selectActiveDataSet)
 }
 
 #' @rdname Helper-functions
