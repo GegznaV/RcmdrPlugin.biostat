@@ -240,9 +240,9 @@ window_ci_mean <- function() {
 
     textbox_1 <- tk_widget_textbox(
         parent_frame = middle_frame,
-        init_val = 0,
+        init_val = "0.",
         width    = "5",
-        label    = "Fraction to trim (0 – 0.5): ",
+        label    = "(fraction to trim, 0 – 0.5): ",
         validate = "key",
         validatecommand = validate_num_0_0.5 ,
         invalidcommand  = make_red_text
