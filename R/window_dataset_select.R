@@ -22,8 +22,8 @@ window_dataset_select <- function() {
         variableListBox2(
             parentWindow = top,
             variableList = dataSets,
-            listHeight   = 7,
-            listWidth    = c(25, Inf),
+            listHeight   = 8,
+            listWidth    = c(26, Inf),
             title        = gettext_bs("Datasets (pick one)"),
             initialSelection = if (is.null(.ds)) NULL else which(.ds == dataSets) - 1
         )
@@ -32,27 +32,35 @@ window_dataset_select <- function() {
     import_buttons_frame <- tkframe(top)
 
     b1 <- tk2button(import_buttons_frame,
-                    text = "Create",
-                    width = 8,
+                    text = "Create new",
+                    width = 12,
                     command = function() {
                         closeDialog()
                         window_dataset_new_rcmdr()
                     })
 
     b2 <- tk2button(import_buttons_frame,
-                    text = "Paste",
-                    width = 8,
+                    text = "From clipboard",
+                    width = 14,
                     command = function() {
-                        window_import_text_delim(init_location = "clipboard")
                         closeDialog()
+                        window_import_text_delim0(init_location = "clipboard")
                     })
 
     b3 <- tk2button(import_buttons_frame,
-                    text = "Import",
-                    width = 8,
+                    text = "From file",
+                    width = 12,
                     command = function() {
-                        cat("Import\n")
                         closeDialog()
+                        cat("Import\n")
+                    })
+
+    b4 <- tk2button(import_buttons_frame,
+                    text = "From package",
+                    width = 14,
+                    command = function() {
+                        closeDialog()
+                        window_import_from_pkg()
                     })
 
 
@@ -90,12 +98,13 @@ window_dataset_select <- function() {
 
     ok_cancel_help()
 
-    tkgrid(getFrame(var_ds_box))
+    tkgrid(getFrame(var_ds_box), sticky = "e")
 
-    tkgrid(b1, b2, b3)
-    tkgrid(import_buttons_frame, pady = c(10, 0))
+    tkgrid(b1, b2)
+    tkgrid(b3, b4)
+    tkgrid(import_buttons_frame, pady = c(10, 0), sticky = "e")
 
-    tkgrid(buttonsFrame, pady = c(5, 0))
+    tkgrid(buttonsFrame, pady = c(0, 0))
 
     dialogSuffix()
 
