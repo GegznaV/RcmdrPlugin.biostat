@@ -4,46 +4,59 @@
 #' @keywords internal
 # Based on function from "Rcmdr"
 
-window_import_text_delim <- function() {
-    initializeDialog(title =
-                         gettext_bs("Read Text Data From File, Clipboard, or URL"))
+window_import_text_delim <- function(init_location = "local") {
+    initializeDialog(title = gettext_bs("Read Text Data From File, Clipboard, or URL"))
+
+    tk_title(text = gettext_bs("Import data from Text"))
+
     optionsFrame <- tkframe(top)
     dsname <- tclVar(unique_df_name("new_dataset", all_numbered = TRUE))
     entryDsname <- ttkentry(optionsFrame, width = "20", textvariable = dsname)
-    radioButtons(optionsFrame, "location",
-                 buttons = c(
-                     "local",
-                     "clipboard", "url"
-                 ),
-                 labels = gettext_bs(c(
-                     "Local file system",
-                     "Clipboard", "Internet URL"
-                 )),
-                 title = gettext_bs("Location of Data File"))
+    radioButtons(
+        optionsFrame,
+        name = "location",
+        initialValue = init_location,
+        buttons = c(
+            "local",
+            "clipboard",
+            "url"
+        ),
+        labels = gettext_bs(c(
+            "Local file system",
+            "Clipboard",
+            "Internet URL"
+        )),
+        title = gettext_bs("Location of Data File"))
     headerVariable <- tclVar("1")
     headerCheckBox <- ttkcheckbutton(optionsFrame, variable = headerVariable)
-    radioButtons(optionsFrame, "delimiter",
-                 buttons = c("whitespace", "commas", "semicolons", "tabs"),
-                 labels = gettext_bs(c(
-                     "White space", "Commas [,]", "Semicolons [;]", "Tabs"
-                 )),
-                 title = gettext_bs("Field Separator"),
-                 columns = 2
+    radioButtons(
+        optionsFrame,
+        name = "delimiter",
+        initialValue = "commas",
+        buttons = c("whitespace", "commas", "semicolons", "tabs"),
+        labels = gettext_bs(c(
+            "White space", "Commas [,]", "Semicolons [;]", "Tabs"
+        )),
+        title = gettext_bs("Field Separator"),
+        columns = 2
     )
     otherDelimiterFrame <- tkframe(optionsFrame)
-    otherButton <- ttkradiobutton(otherDelimiterFrame,
-                                  variable = delimiterVariable,
-                                  value = "other", text = gettext_bs("Other")
+    otherButton <- ttkradiobutton(
+        otherDelimiterFrame,
+        variable = delimiterVariable,
+        value = "other", text = gettext_bs("Other")
     )
     otherVariable <- tclVar("")
-    otherEntry <- ttkentry(otherDelimiterFrame,
-                           width = "4",
-                           textvariable = otherVariable
+    otherEntry <- ttkentry(
+        otherDelimiterFrame,
+        width = "4",
+        textvariable = otherVariable
     )
-    radioButtons(optionsFrame, "decimal",
-                 title = gettext_bs("Decimal-Point Character"),
-                 buttons = c("period","comma"),
-                 labels = gettext_bs(c("Period [.]", "Comma [,]"))
+    radioButtons(
+        optionsFrame, "decimal",
+        title = gettext_bs("Decimal-Point Character"),
+        buttons = c("period","comma"),
+        labels = gettext_bs(c("Period [.]", "Comma [,]"))
     )
     missingVariable <- tclVar("NA")
     missingEntry <- ttkentry(optionsFrame,
@@ -64,10 +77,9 @@ window_import_text_delim <- function() {
         }
         if (!is.valid.name(dsnameValue)) {
             errorCondition(recall = window_import_text_delim,
-                           message = paste("\"", dsnameValue, "\" ",
-                                           gettext_bs("is not a valid name."),
-                                           sep = ""
-            ))
+                           message = paste0("\"", dsnameValue, "\" ",
+                                           gettext_bs("is not a valid name.")
+                           ))
             return()
         }
         if (is.element(dsnameValue, listDataSets())) {
@@ -83,11 +95,15 @@ window_import_text_delim <- function() {
         file <- if (location == "clipboard") {
             "clipboard"
         } else if (location == "local") {
+
             tclvalue(tkgetOpenFile(
                 title = "Choose Text File to Import",
                 filetypes = gettext_bs(
-                "{\"Text Files\" {\".txt\" \".TXT\" \".dat\" \".DAT\" \".csv\" \".CSV\"}} {\"All Files\" {\"*\"}}")))
+                    "{{Text Files} {.csv .dat .txt}}
+                    {{All Files} *}")))
+
         } else {
+
             initializeDialog(subdialog, title = gettext_bs("Internet URL"))
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             onOKsub <- function() {
@@ -97,7 +113,8 @@ window_import_text_delim <- function() {
             urlVar <- tclVar("")
             url <- ttkentry(urlFrame,
                             font = getRcmdr("logFont"),
-                            width = "30", textvariable = urlVar
+                            width = "30",
+                            textvariable = urlVar
             )
             urlXscroll <- ttkscrollbar(urlFrame,
                                        orient = "horizontal",
@@ -135,14 +152,11 @@ window_import_text_delim <- function() {
                       "semicolons" = ";",
                       "tabs"       = "\\t",
                       tclvalue(otherVariable)
-                      )
+        )
         miss <- tclvalue(missingVariable)
         dec <-
-            if (tclvalue(decimalVariable) == "period") {
-                "."
-            } else {
-                ","
-            }
+            if (tclvalue(decimalVariable) == "period") {"."} else {","}
+
         command <-
             str_glue('{dsnameValue} <- read.table("{file}", \n',
                      ' header = {head}, sep = "{del}",',
