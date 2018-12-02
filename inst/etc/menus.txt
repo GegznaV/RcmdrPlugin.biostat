@@ -451,7 +451,7 @@ item	bs_settings_menu	command	"Switch Rcmdr to 3-window mode"	command_use_3_wind
 # ---- Dataset button ---------------------------------------------------------
 item	bs_settings_menu	separator	""	""	""	""
 item	bs_settings_menu	command	"Dataset button: ordinary"	command_dataset_button_rcmdr	""	""
-item	bs_settings_menu	command	"Dataset button: BioStat"	command_dataset_button_biostat	""	""
+item	bs_settings_menu	command	"Dataset button: enhanced"	command_dataset_button_biostat	""	""
 
 
 # ---- Session information ---------------------------------------------------
