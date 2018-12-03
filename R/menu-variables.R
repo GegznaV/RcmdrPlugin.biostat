@@ -9,8 +9,9 @@
 #' @keywords internal
 # List column names
 command_colnames <- function() {
-    doItAndPrint(str_glue("## Column names\n",
-                          "colnames({ActiveDataSet()})"))
+    doItAndPrint(str_glue(
+        "## Column names\n",
+        "colnames({ActiveDataSet()})"))
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -27,6 +28,7 @@ command_clean_names <- function() {
 
     command <-
         str_glue(
+            "## Clean names (to sanke case)\n",
             "{ActiveDataSet()} <- {ActiveDataSet()} %>% \n",
             'janitor::clean_names(case = "snake")'
         ) %>%
@@ -44,19 +46,17 @@ command_clean_names <- function() {
 #' @export
 #' @keywords internal
 command_all_chr_to_fctr <- function() {
-    # Library("biostat")
 
-    # doItAndPrint(str_glue(
-    #     "{ActiveDataSet()} <- biostat::all_chr_to_factor({ActiveDataSet()})"))
+    .ds <- ActiveDataSet()
 
-    # Library(c("tidyverse", "forcats", "dplyr"))
     Library("tidyverse")
     Library("forcats")
     Library("dplyr")
 
     command <-
         str_glue(
-            "{ActiveDataSet()} <- {ActiveDataSet()} %>% \n",
+            "## Convert all text variables to factor variables\n",
+            "{.ds} <- {.ds} %>% \n",
             "dplyr::mutate_if(is.character, forcats::as_factor)"
         ) %>%
         style_cmd()
