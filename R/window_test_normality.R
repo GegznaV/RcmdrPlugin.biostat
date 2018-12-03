@@ -3,6 +3,8 @@
 #' @keywords internal
 window_test_normality <- function() {
     # Initialize -------------------------------------------------------------
+    .ds <- ActiveDataSet()
+
     nrows <- getRcmdr("nrow") # nrows in active dataset
     defaults <- list(
         initial_y_var            = NULL,
@@ -278,14 +280,14 @@ window_test_normality <- function() {
         if (length(gr_var) == 0) {
             command <- glue(
                 'biostat::test_normality(~{y_var}, ',
-                'data = {ActiveDataSet()},\n',
+                'data = {.ds},\n',
                 '{spaces(24)}test = {test}{chi_sq_params})',
                 print_as_report)
 
         } else {
             command <- glue(
                 'biostat::test_normality({y_var} ~ {gr_var}, ',
-                'data = {ActiveDataSet()},\n',
+                'data = {.ds},\n',
                 '{spaces(24)}test = {test}{chi_sq_params})',
                 print_as_report)
         }
@@ -301,12 +303,12 @@ window_test_normality <- function() {
             if (length(gr_var) == 0) {
                 command2 <- glue(
                     'biostat::qq_plot(~{y_var}, ',
-                    'data = {ActiveDataSet()}, use_colors = {plot_in_colors})')
+                    'data = {.ds}, use_colors = {plot_in_colors})')
 
             } else {
                 command2 <- glue(
                     'biostat::qq_plot({y_var} ~ {gr_var}, ',
-                    'data = {ActiveDataSet()}, use_colors = {plot_in_colors})')
+                    'data = {.ds}, use_colors = {plot_in_colors})')
             }
 
             doItAndPrint(command2)
