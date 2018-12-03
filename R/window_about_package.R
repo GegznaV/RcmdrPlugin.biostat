@@ -85,19 +85,3 @@ window_about_package <- function() {
     tkgrid(buttonsFrame, columnspan = "4", sticky = "")
     dialogSuffix()
 }
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# tkgrid(
-#     labelRcmdr(top, fg = getRcmdr("title.color"),
-#                   text = gettext_bs("Package: ")),
-#     labelRcmdr(top, text = "biostat"),
-#
-#        sticky = "w", pady = c(0, 0), padx = 25)
-#
-# tkgrid(
-#     labelRcmdr(top,
-#                fg = getRcmdr("title.color"),
-#                text = gettext_bs("Version: ")),
-#     labelRcmdr(top, text = as.character(packageVersion("biostat"))),
-#     sticky = "w", pady = c(0, 10), padx = 25)
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
