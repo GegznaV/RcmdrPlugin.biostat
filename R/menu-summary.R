@@ -50,7 +50,6 @@ summary_head_tail <- function() {
         "{note_txt}",
         "{.ds} %>% as.data.table() %>% print(topn = 5, nrows = 10)"
     ))
-
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
