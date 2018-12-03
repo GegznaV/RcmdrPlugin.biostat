@@ -73,11 +73,12 @@ window_num_transform_z <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         .ds <- ActiveDataSet()
 
-        # # Base way
-        # command <- paste0(c("\n",
-        #                     glue("{.ds} <- within({.ds}, {{ "),
-        #                     glue("   {new_names} <- as.vector(scale({variables})) "),
-        #                     "})\n"
+        # Base way
+        # command <- paste0(c(
+        #     "\n",
+        #     glue("{.ds} <- within({.ds}, {{ "),
+        #     glue("   {new_names} <- as.vector(scale({variables})) "),
+        #     "})\n"
         # ),
         # collapse = "\n")
 
