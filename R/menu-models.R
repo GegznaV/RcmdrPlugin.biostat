@@ -12,8 +12,9 @@ command_std_lm_coeffs <- function() {
 #' @export
 #' @keywords internal
 command_get_model_class <- function() {
-    doItAndPrint(str_glue("## The `R` class of the model\n",
-                          "class({ActiveModel()})"))
+    doItAndPrint(str_glue(
+        "## The `R` class of the model\n",
+        "class({ActiveModel()})"))
 }
 
 #' @rdname Menu-window-functions
