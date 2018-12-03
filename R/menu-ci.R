@@ -25,8 +25,6 @@ window_ci_mean__0 <- function() {
     Library("tidyverse")
     Library("DescTools")
 
-    Library("biostat")
-
     conf_level = 0.95
     R = 2000
 
@@ -65,97 +63,11 @@ window_ci_mean__0 <- function() {
         pander::pander()
 
 
-
-    doItAndPrint(str_glue("biostat::ci_mean_boot({ActiveDataSet()}${Numeric()[1]}, conf_level = {conf_level}, na.rm = TRUE)"))
-
-    doItAndPrint(str_glue("biostat::ci_mean_t({ActiveDataSet()}${Numeric()[1]}, conf_level = {conf_level}, na.rm = TRUE)"))
-
-
     function_not_implemented()
 
 }
-# window_ci_mean <- function() {
-#
-#     # Example ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#
-#     logger(paste0(
-#         "# # An example of code for confidence intervals of mean:\n",
-#         "# \n",
-#         '# x <- 1:50\n',
-#         '# DescTools::MeanCI(x, method = "boot", type = "bca", na.rm = TRUE)\n',
-#         "\n"
-#     ))
-#
-#     return()
-#     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#
-#
-#     function_not_implemented("Function for confidence intervals of mean")
-#     return()
-#
-#     Library("tidyverse")
-#     Library("biostat")
-#
-#     conf_level = 0.95
-#     R = 2000
-#
-#     set.seed(123456)
-#
-#     iris %>%
-#         group_by(Species) %>%
-#         nest() %>%
-#         mutate(ci = map(
-#             data,
-#             ~with(., ci_mean_boot(Sepal.Width,
-#                                   conf_level = conf_level,
-#                                   repetitions = R)))) %>%
-#         unnest(ci, .drop = TRUE)
-#
-#     iris %>%
-#         group_by(Species) %>%
-#         nest() %>%
-#         mutate(ci = map(
-#             data,
-#             ~with(., DescTools::MeanCI(Sepal.Width,
-#                                        method = "boot",
-#                                        type = "bca",
-#                                        R = !!R,
-#                                        na.rm = TRUE,
-#                                        conf.level = !!conf_level) %>%
-#                        t() %>% as.data.frame()
-#             ))) %>%
-#         # pull(ci)
-#         unnest(ci, .drop = TRUE)
-#
-#         do(ci_mean_boot(.$Sepal.Width,
-#                         conf_level = conf_level,
-#                         repetitions = R))  %>%
-#         ungroup() %>%
-#         format_numbers(digits = c(NA, 2, 2, 2, 2, NA))  %>%
-#         pander::pander()
-#
-#
-#     DescTools::MeanCI(x, method = "boot", type = "bca", na.rm = TRUE)
-#
-#     DescTools::MeanCI
-#
-#     iris %>%
-#         group_by(Species)  %>%
-#         do(ci_mean_t(.$Sepal.Width, conf_level = conf_level)) %>%
-#         ungroup()  %>%
-#         format_numbers(digits = c(NA, 2, 2, 2, 2))  %>%
-#         pander::pander()
-#
-#
-#
-#     doItAndPrint(str_glue("biostat::ci_mean_boot({ActiveDataSet()}${Numeric()[1]}, conf_level = {conf_level}, na.rm = TRUE)"))
-#
-#     doItAndPrint(str_glue("biostat::ci_mean_t({ActiveDataSet()}${Numeric()[1]}, conf_level = {conf_level}, na.rm = TRUE)"))
-#
-#
-#     function_not_implemented()
-#
-# }
+
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
