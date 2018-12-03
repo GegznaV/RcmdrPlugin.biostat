@@ -4,8 +4,10 @@
 #' @title An R Commander Plug-in for Basic Data Analysis Tasks
 #'
 #' @description
-#' \code{RcmdrPlugin.biostat} is an \code{Rcmdr} plugin for functions in package
-#' \code{biostat} and other common (bio)statistical routines.
+#' \pkg{RcmdrPlugin.biostat} is an
+#' \href{\pkg{Rcmdr}}{https://cran.r-project.org/web/packages/Rcmdr/index.html}
+#' plug-in for the most common data wrangling, visualisation and analysis tasks
+#' using "tidyverse" family functions as well as functions from other packages.
 #'
 #' @importFrom glue glue
 #' @importFrom dplyr glimpse is_grouped_df
@@ -18,10 +20,10 @@
 #' @import tcltk2
 #' @import stringr
 #' @import purrr
-#' @import biostat
 #' @import nortest
 #' @import RcmdrPlugin.EZR
 # @import Rcmdr
+# @import biostat
 
 
 NULL
