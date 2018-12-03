@@ -83,13 +83,15 @@ window_test_normality <- function() {
         initialSelection =  varPosn(dialog_values$initial_gr_var, "factor"),
         onRelease_fun = cmd_onRelease_gr_var_Box)
 
-    bs_check_boxes(gr_var_Frame,
-                   frame = "by_group_Frame",
-                   boxes = c("by_group"),
-                   commands = list("by_group" = cmd_onClick_by_group_checkbox),
-                   initialValues = c(dialog_values$initial_by_group),
-                   # initialValues = (length(getSelection(gr_var_Box)) != 0),
-                   labels = gettext_bs(c("Test by group"))
+    bs_check_boxes(
+
+        gr_var_Frame,
+        frame = "by_group_Frame",
+        boxes = c("by_group"),
+        commands = list("by_group" = cmd_onClick_by_group_checkbox),
+        initialValues = c(dialog_values$initial_by_group),
+        # initialValues = (length(getSelection(gr_var_Box)) != 0),
+        labels = gettext_bs(c("Test by group"))
     )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -101,24 +103,25 @@ window_test_normality <- function() {
                                        gettext_bs("Normality test"))
 
     choose_test_inner_Frame <- tkframe(choose_test_Frame)
-    Rcmdr::radioButtons(choose_test_inner_Frame,
-                        name = "test",
-                        buttons = c(if (nrows <= 5000) "shapiro.test",
-                                    "ad.test",
-                                    "cvm.test",
-                                    "lillie.test",
-                                    if (nrows <= 5000) "sf.test",
-                                    "pearson.test"
-                        ),
-                        labels = c(
-                            if (nrows <= 5000) gettext_bs("Shapiro-Wilk"),
-                            gettext_bs("Anderson-Darling"),
-                            gettext_bs("Cramer-von Mises"),
-                            gettext_bs("Lilliefors (Kolmogorov-Smirnov)"),
-                            if (nrows <= 5000) gettext_bs("Shapiro-Francia"),
-                            gettext_bs("Pearson chi-square")
-                        ),
-                        initialValue = dialog_values$initial_test
+    Rcmdr::radioButtons(
+        choose_test_inner_Frame,
+        name = "test",
+        buttons = c(if (nrows <= 5000) "shapiro.test",
+                    "ad.test",
+                    "cvm.test",
+                    "lillie.test",
+                    if (nrows <= 5000) "sf.test",
+                    "pearson.test"
+        ),
+        labels = c(
+            if (nrows <= 5000) gettext_bs("Shapiro-Wilk"),
+            gettext_bs("Anderson-Darling"),
+            gettext_bs("Cramer-von Mises"),
+            gettext_bs("Lilliefors (Kolmogorov-Smirnov)"),
+            if (nrows <= 5000) gettext_bs("Shapiro-Francia"),
+            gettext_bs("Pearson chi-square")
+        ),
+        initialValue = dialog_values$initial_test
     )
 
     binsVariable <- tclVar(dialog_values$initial_bins)
@@ -128,51 +131,54 @@ window_test_normality <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     options_right_Frame <- tkframe(options_Frame)
 
-    bs_check_boxes(options_right_Frame,
-                   ttk = TRUE,
-                   frame = "plot_options_Frame",
-                   title = "Plot options",
-                   boxes = c("add_plot", "plot_in_colors", "new_plots_window"),
-                   initialValues = c(
-                       dialog_values$initial_add_plot,
-                       dialog_values$initial_plot_in_colors,
-                       dialog_values$initial_new_plots_window
-                   ),
-                   labels = gettext_bs(
-                       c(  "Draw a normal qq-plot",
-                           "Plot groups in color",
-                           "New window for qq-plot")
-                   ),
-                   commands = list("add_plot" = cmd_onClick_add_plot_checkbox)
+    bs_check_boxes(
+        options_right_Frame,
+        ttk = TRUE,
+        frame = "plot_options_Frame",
+        title = "Plot options",
+        boxes = c("add_plot", "plot_in_colors", "new_plots_window"),
+        initialValues = c(
+            dialog_values$initial_add_plot,
+            dialog_values$initial_plot_in_colors,
+            dialog_values$initial_new_plots_window
+        ),
+        labels = gettext_bs(
+            c(  "Draw a normal qq-plot",
+                "Plot groups in color",
+                "New window for qq-plot")
+        ),
+        commands = list("add_plot" = cmd_onClick_add_plot_checkbox)
     )
 
-    Rcmdr::checkBoxes(options_right_Frame,
-               ttk = TRUE,
-               frame = "numerical_options_Frame",
-               title = "Numerical output options",
-               boxes = c("use_pander",
-                         "pval_legend"),
-               initialValues = c(
-                   dialog_values$initial_use_pander,
-                   dialog_values$initial_pval_legend
-               ),
-               labels = gettext_bs(
-                   # c("R Markdown compatible results",
-                   c("Results as Markdown table",
-                     "Legend for significance stars")
-               )
+    Rcmdr::checkBoxes(
+        options_right_Frame,
+        ttk = TRUE,
+        frame = "numerical_options_Frame",
+        title = "Numerical output options",
+        boxes = c("use_pander",
+                  "pval_legend"),
+        initialValues = c(
+            dialog_values$initial_use_pander,
+            dialog_values$initial_pval_legend
+        ),
+        labels = gettext_bs(
+            # c("R Markdown compatible results",
+            c("Results as Markdown table",
+              "Legend for significance stars")
+        )
     )
 
-    radioButtons_horizontal(numerical_options_Frame,
-                            # title = "Decimal digits to round p-values to: ",
-                            title = "Round p-values to decimal digits: ",
-                            # right.buttons = FALSE,
-                            name = "digits_p",
-                            # sticky_buttons = "w",
-                            buttons = c("d2", "d3", "d4",  "d5", "dmore"),
-                            values =  c("2",  "3",  "4",   "5", "0"),
-                            labels =  c("2  ","3  ","4  ", "5 ", "more"),
-                            initialValue = dialog_values$initial_digits_p
+    radioButtons_horizontal(
+        numerical_options_Frame,
+        # title = "Decimal digits to round p-values to: ",
+        title = "Round p-values to decimal digits: ",
+        # right.buttons = FALSE,
+        name = "digits_p",
+        # sticky_buttons = "w",
+        buttons = c("d2", "d3", "d4",  "d5", "dmore"),
+        values =  c("2",  "3",  "4",   "5", "0"),
+        labels =  c("2  ","3  ","4  ", "5 ", "more"),
+        initialValue = dialog_values$initial_digits_p
     )
 
     tkgrid(
@@ -219,19 +225,20 @@ window_test_normality <- function() {
             }
 
         # putDialog ----------------------------------------------------------
-        putDialog("window_test_normality",
-                  list(initial_y_var  = y_var,
-                       initial_gr_var = gr_var,
-                       initial_by_group = by_group,
-                       initial_test = test,
-                       initial_bins = bins,
-                       initial_add_plot = add_plot,
-                       initial_plot_in_colors   = plot_in_colors,
-                       initial_new_plots_window = new_plots_window,
-                       initial_use_pander  = use_pander,
-                       initial_pval_legend = pval_leg,
-                       initial_digits_p = digits_p
-                  )
+        putDialog(
+            "window_test_normality",
+            list(initial_y_var            = y_var,
+                 initial_gr_var           = gr_var,
+                 initial_by_group         = by_group,
+                 initial_test             = test,
+                 initial_bins             = bins,
+                 initial_add_plot         = add_plot,
+                 initial_plot_in_colors   = plot_in_colors,
+                 initial_new_plots_window = new_plots_window,
+                 initial_use_pander       = use_pander,
+                 initial_pval_legend      = pval_leg,
+                 initial_digits_p         = digits_p
+            )
         )
 
         if (length(y_var) == 0) {
