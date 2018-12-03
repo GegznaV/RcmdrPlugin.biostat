@@ -84,7 +84,7 @@ window_num_transform_z <- function() {
 
         # Tidyverse way
         Library("tidyverse")
-        Library("biostat")
+
         command <- paste0(
             c("\n",
               glue("{.ds} <- {.ds} %>% \n",
@@ -112,7 +112,7 @@ window_num_transform_z <- function() {
         tkfocus(CommanderWindow())
     } # [end: onOK]
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "scale_vector", helpPackage = "biostat")
+    OKCancelHelp(helpSubject = "scale")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(getFrame(variableBox), sticky = "n", columnspan = 2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
