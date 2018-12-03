@@ -31,9 +31,26 @@ command_glimpse <- function() {
 #' @export
 #' @keywords internal
 summary_head_tail <- function() {
-    Library("biostat")
-    doItAndPrint(str_glue("## Top and bottom rows\n",
-                          "biostat::head_tail({ActiveDataSet()}, 4)"))
+    .ds <- ActiveDataSet()
+     ds <- eval_text(.ds, envir = .GlobalEnv)
+
+    Library("tidyverse")
+    Library("data.table")
+
+    # Note if dataset has row names
+    note_txt <-
+        if (tibble::has_rownames(ds)) {
+            str_c(str_glue("# NOTE: Dataset '{.ds}' has row names, which are not displayed."), "\n")
+        } else {
+            ""
+        }
+
+    doItAndPrint(str_glue(
+        "## Top and bottom rows\n",
+        "{note_txt}",
+        "{.ds} %>% as.data.table() %>% print(topn = 5, nrows = 10)"
+    ))
+
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
