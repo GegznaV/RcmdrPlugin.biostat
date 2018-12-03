@@ -259,10 +259,9 @@ window_summary_count <- function() {
         )
 
         # calculations -------------------------------------------------------
-        .activeDataSet <- ActiveDataSet()
+        .ds <- ActiveDataSet()
 
         Library("tidyverse")
-        Library("biostat")
 
         vars_select <- c(x_var, y_var, z_var)
         all_vars <- stringr::str_c("`", vars_select, "`", collapse = ", ")
@@ -310,7 +309,7 @@ window_summary_count <- function() {
         my_table <- unique_obj_names("table", all_numbered = TRUE)
         command1 <-
             glue('## Frequency table / Multi-way table\n\n',
-                "{my_table} <- {.activeDataSet} %>% \n",
+                "{my_table} <- {.ds} %>% \n",
                 'with(table({all_vars}, useNA = "ifany"))\n',
                 as_df_command,
                 "print({model_name})\n",
@@ -362,7 +361,7 @@ window_summary_count <- function() {
     # OKCancelHelp()
     OKCancelHelp(
         helpSubject = "table",
-        # helpPackage = "biostat",
+        # helpPackage = "base",
         model = TRUE,
         reset = "window_summary_count",
         apply = "window_summary_count"
