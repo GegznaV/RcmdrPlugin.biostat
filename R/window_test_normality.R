@@ -4,17 +4,18 @@
 window_test_normality <- function() {
     # Initialize -------------------------------------------------------------
     nrows <- getRcmdr("nrow") # nrows in active dataset
-    defaults <- list(initial_y_var  = NULL,
-                     initial_gr_var = NULL,
-                     initial_by_group = FALSE,
-                     initial_test = if (nrows <= 5000) "shapiro.test" else "ad.test",
-                     initial_bins = gettext_bs("<auto>"),
-                     initial_add_plot = FALSE,
-                     initial_plot_in_colors  = TRUE,
-                     initial_new_plots_window = TRUE,
-                     initial_use_pander = FALSE,
-                     initial_pval_legend = FALSE,
-                     initial_digits_p = "3"
+    defaults <- list(
+        initial_y_var            = NULL,
+        initial_gr_var           = NULL,
+        initial_by_group         = FALSE,
+        initial_test         = if (nrows <= 5000) "shapiro.test" else "ad.test",
+        initial_bins             = gettext_bs("<auto>"),
+        initial_add_plot         = FALSE,
+        initial_plot_in_colors   = TRUE,
+        initial_new_plots_window = TRUE,
+        initial_use_pander       = FALSE,
+        initial_pval_legend      = FALSE,
+        initial_digits_p         = "3"
     )
 
     dialog_values <- getDialog("window_test_normality", defaults)
@@ -250,13 +251,12 @@ window_test_normality <- function() {
         closeDialog()
 
         # Do analysis --------------------------------------------------------
-        # Library(c("tidyverse", "biostat", "nortest"))
         Library("tidyverse")
         Library("biostat")
         Library("nortest")
 
         # NA means no rounding
-        digits_p <- if (digits_p > 0) digits_p else NA
+        digits_p <- if (digits_p > 0) {digits_p} else {NA}
         print_opt <- glue("digits_p = {digits_p}, legend = {pval_leg}")
 
         print_as_report <-
