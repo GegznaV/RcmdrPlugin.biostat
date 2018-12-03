@@ -18,11 +18,13 @@ window_num_transform_z <- function() {
         pady = c(5, 9), columnspan = 2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     variableBox <-
-        variableListBox2(top,
-                        Numeric(),
-                        selectmode = "multiple",
-                        title = gettext_bs("Variables (pick one or more)"),
-                        listHeight = 6
+        variableListBox2(
+            top,
+            Numeric(),
+            listWidth = c(43, Inf),
+            selectmode = "multiple",
+            title = gettext_bs("Variables (pick one or more)"),
+            listHeight = 6
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     prefix_var  <- tclVar("z_")
@@ -69,12 +71,12 @@ window_num_transform_z <- function() {
             }
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        .activeDataSet <- ActiveDataSet()
+        .ds <- ActiveDataSet()
 
         # # Base way
         # command <- paste0(c("\n",
-        #                     glue("{.activeDataSet} <- within({.activeDataSet}, {{ "),
-        #                     glue("   {new_names} <- biostat::scale_vector({variables}) "),
+        #                     glue("{.ds} <- within({.ds}, {{ "),
+        #                     glue("   {new_names} <- as.vector(scale({variables})) "),
         #                     "})\n"
         # ),
         # collapse = "\n")
@@ -84,10 +86,10 @@ window_num_transform_z <- function() {
         Library("biostat")
         command <- paste0(
             c("\n",
-              glue("{.activeDataSet} <- {.activeDataSet} %>% \n",
+              glue("{.ds} <- {.ds} %>% \n",
                    "dplyr::mutate(\n"),
               paste(
-                  glue("   {new_names} = biostat::scale_vector({variables}) "),
+                  glue("   {new_names} = as.vector(scale({variables})) "),
                   collapse = ",\n"),
               ")\n"
             ),
@@ -97,7 +99,7 @@ window_num_transform_z <- function() {
         result <- justDoIt(command)
 
         if (class(result)[1] !=  "try-error")
-            activeDataSet(.activeDataSet, flushModel = FALSE)
+            activeDataSet(.ds, flushModel = FALSE)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         msg <- glue("#---  ", gettext_bs("Z transformation"), "  ---#\n\n",
