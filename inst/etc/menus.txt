@@ -429,9 +429,9 @@ item	bs_models_menu	command	"Show model's class"	command_get_model_class	"active
 
 
 # . ==========================================================================
-# ---- >>> Session & Settings menu -----------------------------------------
+# ---- >>> Settings menu -----------------------------------------------------
 menu	bs_settings_menu	biostat_menu	""	""	""	""
-item	biostat_menu	cascade	"Session & settings"	bs_settings_menu	""	""
+item	biostat_menu	cascade	"Settings"	bs_settings_menu	""	""
 
 # ---- Manage locale ---------------------------------------------------------
 item	bs_settings_menu	command	"Show current locale"	command_get_locale	""	""
@@ -444,21 +444,15 @@ item	bs_settings_menu	command	"Change locale..."	window_locale_set	""	""
 # item	bs_settings_menu	command	"[x] Set locale to Russian"	command_set_locale_ru	""	""
 
 
-# ---- Rcmdr windows ---------------------------------------------------------
-item	bs_settings_menu	separator	""	""	""	""
-item	bs_settings_menu	command	"Switch Rcmdr to 1-window mode"	command_use_1_window_rcmdr	""	""
-item	bs_settings_menu	command	"Switch Rcmdr to 3-window mode"	command_use_3_window_rcmdr	""	""
-
 # ---- Dataset button ---------------------------------------------------------
 item	bs_settings_menu	separator	""	""	""	""
-item	bs_settings_menu	command	"Buttons mode: ordinary"	command_buttons_mode_rcmdr	""	""
-item	bs_settings_menu	command	"Buttons mode: enhanded"	command_buttons_mode_biostat	""	""
+item	bs_settings_menu	command	"Rcmdr buttons mode: ordinary"	command_buttons_mode_rcmdr	""	""
+item	bs_settings_menu	command	"Rcmdr buttons mode: enhanded"	command_buttons_mode_biostat	""	""
 
-
-# ---- Session information ---------------------------------------------------
+# ---- Rcmdr windows ---------------------------------------------------------
 item	bs_settings_menu	separator	""	""	""	""
-item	bs_settings_menu	command	"Print session information: devtools style"	command_session_info_devtools	""	""
-item	bs_settings_menu	command	"Print session information: base R style"	command_session_info_utils	""	""
+item	bs_settings_menu	command	"Rcmdr windows mode: 1 window"	command_use_1_window_rcmdr	""	""
+item	bs_settings_menu	command	"Rcmdr windows mode: 3 windows"	command_use_3_window_rcmdr	""	""
 
 
 # . ==========================================================================
@@ -468,3 +462,7 @@ item	biostat_menu	cascade	"About"	bs_about_menu	""	""
 
 item	bs_about_menu	command 'About package "RcmdrPlugin.biostat"'	window_about_package	""	""
 
+# ---- Session information ---------------------------------------------------
+item	bs_about_menu	separator	""	""	""	""
+item	bs_about_menu	command	"Print session information: devtools style"	command_session_info_devtools	""	""
+item	bs_about_menu	command	"Print session information: base R style"	command_session_info_utils	""	""
