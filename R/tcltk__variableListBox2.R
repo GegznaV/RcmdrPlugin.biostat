@@ -1,3 +1,5 @@
+# Soft DEPRECATED
+
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
