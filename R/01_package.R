@@ -88,21 +88,25 @@ NULL
 
 
     # Create icons
-    tkimage.create("photo", "::image::bs_dataset",
-                   file = system.file("etc", "list.png",
-                                      package = "RcmdrPlugin.biostat"))
+    tkimage.create(
+        "photo", "::image::bs_dataset",
+        file = system.file("etc", "list.png", package = "RcmdrPlugin.biostat"))
+
+    tkimage.create(
+        "photo", "::image::bs_model",
+        file = system.file("etc", "model.png", package = "RcmdrPlugin.biostat"))
 
 
-    # Enamble enhanced Dataset button
-    res <- try(Rcmdr::getRcmdr("dataSetLabel"), silent = TRUE)
-
-    if (!inherits(res, "try-error")) {
-        tkconfigure(res,
-                    # foreground = "darkred",
-                    image = "::image::bs_dataset",
-                    compound = "left",
-                    command = window_dataset_select)
-    }
+    # # Enamble enhanced Dataset button
+    # res <- try(Rcmdr::getRcmdr("dataSetLabel"), silent = TRUE)
+    #
+    # if (!inherits(res, "try-error")) {
+    #     tkconfigure(res,
+    #                 # foreground = "darkred",
+    #                 image = "::image::bs_dataset",
+    #                 compound = "left",
+    #                 command = window_dataset_select)
+    # }
 
 }
 
