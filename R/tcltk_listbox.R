@@ -12,25 +12,27 @@ bs_listbox <-
            bg = "white",
            selectmode = "single",
            export = "FALSE",
-           initialSelection = NULL,
+           initial_selection = NULL,
            listHeight = getRcmdr("variable.list.height"),
            listWidth  = getRcmdr("variable.list.width"),
-           onClick_fun       = function(){},
-           onDoubleClick_fun = function(){},
-           onTripleClick_fun = function(){},
-           onRelease_fun     = function(){},
-           onClick3_fun       = function(){},
-           onDoubleClick3_fun = function(){},
-           onTripleClick3_fun = function(){},
-           onRelease3_fun     = function(){},
+
+           on_click          = function() {},
+           on_double_click   = function() {},
+           on_triple_click   = function() {},
+           on_release        = function() {},
+           on_click_3        = function() {},
+           on_double_click_3 = function() {},
+           on_triple_click_3 = function() {},
+           on_release_3      = function() {},
+
            title)
   {
 
     if (selectmode == "multiple")
       selectmode <- getRcmdr("multiple.select.mode")
 
-    if (length(variableList) == 1 && is.null(initialSelection))
-      initialSelection <- 0
+    if (length(variableList) == 1 && is.null(initial_selection))
+      initial_selection <- 0
 
     frame   <- tkframe(parentWindow)
     # minmax  <- getRcmdr("variable.list.width")
@@ -55,8 +57,9 @@ bs_listbox <-
     # for (var in variableList)  tkinsert(listbox, "end", var)
     listbox_set_values(listbox, variableList)
 
-    if (is.numeric(initialSelection))
-      for (sel in initialSelection)
+    # Initial selection ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    if (is.numeric(initial_selection))
+      for (sel in initial_selection)
         tkselection.set(listbox, sel)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -73,87 +76,12 @@ bs_listbox <-
         return()
       tkyview.scroll(listbox, mat, "units")
     }
-    onA <- function() onLetter("a")
-    onB <- function() onLetter("b")
-    onC <- function() onLetter("c")
-    onD <- function() onLetter("d")
-    onE <- function() onLetter("e")
-    onF <- function() onLetter("f")
-    onG <- function() onLetter("g")
-    onH <- function() onLetter("h")
-    onI <- function() onLetter("i")
-    onJ <- function() onLetter("j")
-    onK <- function() onLetter("k")
-    onL <- function() onLetter("l")
-    onM <- function() onLetter("m")
-    onN <- function() onLetter("n")
-    onO <- function() onLetter("o")
-    onP <- function() onLetter("p")
-    onQ <- function() onLetter("q")
-    onR <- function() onLetter("r")
-    onS <- function() onLetter("s")
-    onT <- function() onLetter("t")
-    onU <- function() onLetter("u")
-    onV <- function() onLetter("v")
-    onW <- function() onLetter("w")
-    onX <- function() onLetter("x")
-    onY <- function() onLetter("y")
-    onZ <- function() onLetter("z")
-    for (letter in c(letters, LETTERS)) {
-      tkbind(listbox,
-             str_glue("<{letter}>"),
-             get(str_glue("on{toupper(letter)}")))
-    }
+
+    eval_glue('tkbind(combobox, "<{letters}>", function() onLetter{"letters"})')
+    eval_glue('tkbind(combobox, "<{LETTERS}>", function() onLetter{"letters"})')
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    onClick <- function() {
-      tkfocus(listbox)
-      onClick_fun()
-    }
-    tkbind(listbox, "<ButtonPress-1>",   onClick)
-
-    onDoubleClick <- function() {
-      tkfocus(listbox)
-      onDoubleClick_fun()
-    }
-    tkbind(listbox, "<Double-Button-1>", onDoubleClick)
-
-    onTripleClick <- function() {
-      tkfocus(listbox)
-      onTripleClick_fun()
-    }
-    tkbind(listbox, "<Triple-Button-1>", onTripleClick)
-
-
-    onRelease <- function() {
-      tkfocus(listbox)
-      onRelease_fun()
-    }
-    tkbind(listbox, "<ButtonRelease-1>", onRelease)
-
-
-    onClick3 <- function() {
-      tkfocus(listbox)
-      onClick3_fun()
-    }
-    tkbind(listbox, "<ButtonPress-3>", onClick3)
-
-    onDoubleClick3 <- function() {
-      tkfocus(listbox)
-      onDoubleClick3_fun()
-    }
-    tkbind(listbox, "<Double-Button-3>", onDoubleClick3)
-
-    onTripleClick3 <- function() {
-      tkfocus(listbox)
-      onTripleClick3_fun()
-    }
-    tkbind(listbox, "<Triple-Button-3>", onTripleClick3)
-
-    onRelease3 <- function() {
-      tkfocus(listbox)
-      onRelease3_fun()
-    }
-    tkbind(listbox, "<ButtonRelease-3>", onRelease3)
+    bind_mouse_keys(listbox)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     toggleSelection <- function() {
@@ -178,7 +106,7 @@ bs_listbox <-
     tkgrid.configure(scrollbar, sticky = "wns")
     tkgrid.configure(listbox,   sticky = "ewns")
 
-
+    # Output ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     structure(
       list(frame      = frame,
            listbox    = listbox,
@@ -188,6 +116,8 @@ bs_listbox <-
       class = "listbox"
     )
   }
+# ~~~~~~~~~~~~~~~~~~~~~ ======================================================
+
 
 # Helpers and methods ========================================================
 #' @rdname Helper-functions
@@ -235,6 +165,7 @@ listbox_get_selection <- function(listbox) {
 listbox_set_selection <- function(listbox, sel, clear = FALSE) {
 
   if (is.null(sel) || length(sel) == 0) {
+    # ind <- NULL
     return()
 
   } else if (is.character(sel)) {
@@ -253,6 +184,10 @@ listbox_set_selection <- function(listbox, sel, clear = FALSE) {
   if (isTRUE(clear)) {
     tkselection.clear(listbox, 0, "end")
   }
+
+  # if (is.null(ind)) {
+  #   return
+  # }
 
   for (i in ind)
     tkselection.set(listbox, i)
