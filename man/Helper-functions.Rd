@@ -290,14 +290,13 @@ radiobuttons_env(window = top, name = stop("name not supplied"),
   env = parent.frame())
 
 bs_listbox(parentWindow, variableList = variables_all(), bg = "white",
-  selectmode = "single", export = "FALSE", initialSelection = NULL,
+  selectmode = "single", export = "FALSE", initial_selection = NULL,
   listHeight = getRcmdr("variable.list.height"),
-  listWidth = getRcmdr("variable.list.width"), onClick_fun = function()
-  { }, onDoubleClick_fun = function() { },
-  onTripleClick_fun = function() { }, onRelease_fun = function() { },
-  onClick3_fun = function() { }, onDoubleClick3_fun = function() { },
-  onTripleClick3_fun = function() { }, onRelease3_fun = function() { },
-  title)
+  listWidth = getRcmdr("variable.list.width"), on_click = function() {
+  }, on_double_click = function() { }, on_triple_click = function() {
+  }, on_release = function() { }, on_click_3 = function() { },
+  on_double_click_3 = function() { }, on_triple_click_3 = function() {
+  }, on_release_3 = function() { }, title)
 
 listbox_get_values(listbox)
 
