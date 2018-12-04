@@ -178,6 +178,7 @@ list_summaries_Models <- function(envir = .GlobalEnv, ...) {
 # ?eval
 # TODO: pervadinto į str_glue_eval
 eval_glue <- function(..., envir = parent.frame(),
+                      # .collapse = "\n",
                       .sep = "", .open = "{", .close = "}",
                       envir_eval = envir,
                       envir_glue = envir) {
@@ -186,6 +187,7 @@ eval_glue <- function(..., envir = parent.frame(),
                                           .envir = envir_glue,
                                           .open  = .open,
                                           .close = .close)
+    # commands_as_text <- stringr::str_c(commands_as_text, collapse = .collapse)
     eval(parse(text = commands_as_text), envir = envir_eval)
 }
 
