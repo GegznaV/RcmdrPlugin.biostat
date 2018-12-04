@@ -34,7 +34,7 @@
 # @return
 # @export
 
-bs_combo_box <- function(
+bs_combobox <- function(
     parent_window       = top,
     variableList        = variables_all(),
     export              = "FALSE",
