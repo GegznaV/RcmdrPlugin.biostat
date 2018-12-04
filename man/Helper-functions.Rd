@@ -77,8 +77,10 @@
 \alias{tclvalue_chr}
 \alias{tclvalue_chr_split}
 \alias{label_rcmdr}
+\alias{bs_label_b}
 \alias{labeled_frame}
 \alias{tk_title}
+\alias{bs_title}
 \alias{radioButtons_horizontal}
 \alias{radiobuttons_env}
 \alias{bs_listbox}
@@ -271,9 +273,14 @@ tclvalue_chr_split(x)
 
 label_rcmdr(..., fg = NULL)
 
+bs_label_b(..., fg = Rcmdr::getRcmdr("title.color"))
+
 labeled_frame(parent, label = NULL, ...)
 
 tk_title(parent = top, text = "xxx_title", pady = c(5, 9),
+  font = tkfont.create(weight = "bold", size = 9), ...)
+
+bs_title(parent = top, text, pady = c(5, 9),
   font = tkfont.create(weight = "bold", size = 9), ...)
 
 radioButtons_horizontal(window = top, name = stop("name not supplied"),
@@ -289,18 +296,18 @@ radiobuttons_env(window = top, name = stop("name not supplied"),
   right.buttons = FALSE, command = function() { },
   env = parent.frame())
 
-bs_listbox(parentWindow, variableList = variables_all(), bg = "white",
-  selectmode = "single", export = "FALSE", initial_selection = NULL,
-  listHeight = getRcmdr("variable.list.height"),
-  listWidth = getRcmdr("variable.list.width"), on_click = function() {
-  }, on_double_click = function() { }, on_triple_click = function() {
-  }, on_release = function() { }, on_click_3 = function() { },
+bs_listbox(parent_window, variable_list = variables_all(),
+  bg = "white", select_mode = "single", export = "FALSE",
+  initial_selection = NULL, height = getRcmdr("variable.list.height"),
+  width = getRcmdr("variable.list.width"), on_click = function() { },
+  on_double_click = function() { }, on_triple_click = function() { },
+  on_release = function() { }, on_click_3 = function() { },
   on_double_click_3 = function() { }, on_triple_click_3 = function() {
-  }, on_release_3 = function() { }, title)
+  }, on_release_3 = function() { }, title = NULL, title_sticky = "w")
 
 listbox_get_values(listbox)
 
-listbox_set_values(listbox, variableList)
+listbox_set_values(listbox, variable_list)
 
 listbox_get_selection_ind(listbox)
 
