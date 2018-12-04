@@ -6,9 +6,9 @@
 # Variable list box with constant length (numer of rows)
 # onClick_fun - function on mouse click
 # onRelease_fun - function on mouse release
-variableListBox2 <-
+bs_listbox <-
   function(parentWindow,
-           variableList = Variables(),
+           variableList = variables_all(),
            bg = "white",
            selectmode = "single",
            export = "FALSE",
