@@ -13,6 +13,16 @@
 label_rcmdr <- function(..., fg = NULL) {
   if (is.null(fg)) ttklabel(...) else ttklabel(..., foreground = fg)
 }
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+# Label for R Commander
+# see also: labelRcmdr
+bs_label_b <- function(..., fg = Rcmdr::getRcmdr("title.color")) {
+  if (is.null(fg)) ttklabel(...) else ttklabel(..., foreground = fg)
+}
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Helper-functions
 #' @export
