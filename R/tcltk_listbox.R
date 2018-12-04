@@ -7,14 +7,14 @@
 # onClick_fun - function on mouse click
 # onRelease_fun - function on mouse release
 bs_listbox <-
-  function(parentWindow,
-           variableList = variables_all(),
-           bg = "white",
-           selectmode = "single",
-           export = "FALSE",
+  function(parent_window,
+           variable_list = variables_all(),
+           bg            = "white",
+           select_mode   = "single",
+           export        = "FALSE",
            initial_selection = NULL,
-           listHeight = getRcmdr("variable.list.height"),
-           listWidth  = getRcmdr("variable.list.width"),
+           height = getRcmdr("variable.list.height"),
+           width  = getRcmdr("variable.list.width"),
 
            on_click          = function() {},
            on_double_click   = function() {},
@@ -25,25 +25,26 @@ bs_listbox <-
            on_triple_click_3 = function() {},
            on_release_3      = function() {},
 
-           title)
+           title = NULL,
+           title_sticky = "w")
   {
 
-    if (selectmode == "multiple")
-      selectmode <- getRcmdr("multiple.select.mode")
+    if (select_mode == "multiple")
+      select_mode <- getRcmdr("multiple.select.mode")
 
-    if (length(variableList) == 1 && is.null(initial_selection))
+    if (length(variable_list) == 1 && is.null(initial_selection))
       initial_selection <- 0
 
-    frame   <- tkframe(parentWindow)
+    frame   <- tkframe(parent_window)
     # minmax  <- getRcmdr("variable.list.width")
-    minmax  <- listWidth
+    minmax  <- width
     listbox <- tklistbox(
       frame,
-      height     = listHeight,
-      selectmode = selectmode,
+      height     = height,
+      selectmode = select_mode,
       background = bg,
       exportselection = export,
-      width = min(max(minmax[1], 2 + nchar(variableList)), minmax[2])
+      width = min(max(minmax[1], 2 + nchar(variable_list)), minmax[2])
     )
 
     scrollbar <-
@@ -54,8 +55,8 @@ bs_listbox <-
     tkconfigure(listbox,
                 yscrollcommand = function(...) tkset(scrollbar,  ...))
 
-    # for (var in variableList)  tkinsert(listbox, "end", var)
-    listbox_set_values(listbox, variableList)
+    # for (var in variable_list)  tkinsert(listbox, "end", var)
+    listbox_set_values(listbox, variable_list)
 
     # Initial selection ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (is.numeric(initial_selection))
@@ -63,8 +64,8 @@ bs_listbox <-
         tkselection.set(listbox, sel)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    firstChar <- tolower(substr(variableList, 1, 1))
-    len <- length(variableList)
+    firstChar <- tolower(substr(variable_list, 1, 1))
+    len <- length(variable_list)
     onLetter <- function(letter) {
       letter <- tolower(letter)
       current <-
@@ -77,8 +78,8 @@ bs_listbox <-
       tkyview.scroll(listbox, mat, "units")
     }
 
-    eval_glue('tkbind(combobox, "<{letters}>", function() onLetter("{letters}")')
-    eval_glue('tkbind(combobox, "<{LETTERS}>", function() onLetter("{letters}")')
+    eval_glue('tkbind(listbox, "<{letters}>", function() onLetter("{letters}"))')
+    eval_glue('tkbind(listbox, "<{LETTERS}>", function() onLetter("{letters}"))')
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     bind_mouse_keys(listbox)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -94,13 +95,15 @@ bs_listbox <-
       }
     }
 
-    if (selectmode == "single")
+    if (select_mode == "single")
       tkbind(listbox, "<Control-ButtonPress-1>", toggleSelection)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    tkgrid(labelRcmdr(frame, text = title, fg = getRcmdr("title.color"),
-                      font = "RcmdrTitleFont"),
-           columnspan = 2, sticky = "w")
+    if (!is.null(title)) {
+      tkgrid(
+        bs_label_b(frame, text = title, font = "RcmdrTitleFont"),
+        columnspan = 2, sticky = title_sticky)
+    }
 
     tkgrid(listbox, scrollbar,  sticky = "nw")
     tkgrid.configure(scrollbar, sticky = "wns")
@@ -111,8 +114,8 @@ bs_listbox <-
       list(frame      = frame,
            listbox    = listbox,
            scrollbar  = scrollbar,
-           selectmode = selectmode,
-           varlist    = variableList),
+           select_mode = select_mode,
+           varlist    = variable_list),
       class = "listbox"
     )
   }
@@ -135,9 +138,9 @@ listbox_get_values <- function(listbox) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-listbox_set_values <- function(listbox, variableList) {
+listbox_set_values <- function(listbox, variable_list) {
   tkdelete(listbox, 0, "end")
-  for (var in variableList)  tkinsert(listbox, "end", var)
+  for (var in variable_list)  tkinsert(listbox, "end", var)
 }
 
 #' @rdname Helper-functions
