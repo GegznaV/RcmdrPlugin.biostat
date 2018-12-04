@@ -30,7 +30,7 @@ command_buttons_mode_biostat <- function() {
 
     tkconfigure(getRcmdr("modelLabel"),
                 # foreground = "darkred",
-                image = "::image::bs_dataset",
+                image = "::image::bs_model",
                 compound = "left",
                 command = window_model_select)
 }
