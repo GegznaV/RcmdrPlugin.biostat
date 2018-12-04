@@ -77,8 +77,8 @@ bs_listbox <-
       tkyview.scroll(listbox, mat, "units")
     }
 
-    eval_glue('tkbind(combobox, "<{letters}>", function() onLetter{"letters"})')
-    eval_glue('tkbind(combobox, "<{LETTERS}>", function() onLetter{"letters"})')
+    eval_glue('tkbind(combobox, "<{letters}>", function() onLetter("{letters}")')
+    eval_glue('tkbind(combobox, "<{LETTERS}>", function() onLetter("{letters}")')
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     bind_mouse_keys(listbox)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
