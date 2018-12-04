@@ -6,6 +6,8 @@
 \alias{RcmdrPlugin.biostat-package}
 \title{An R Commander Plug-in for Basic Data Analysis Tasks}
 \description{
-\code{RcmdrPlugin.biostat} is an \code{Rcmdr} plugin for functions in package
-\code{biostat} and other common (bio)statistical routines.
+\pkg{RcmdrPlugin.biostat} is an
+\href{\pkg{Rcmdr}}{https://cran.r-project.org/web/packages/Rcmdr/index.html}
+plug-in for the most common data wrangling, visualisation and analysis tasks
+using "tidyverse" family functions as well as functions from other packages.
 }
