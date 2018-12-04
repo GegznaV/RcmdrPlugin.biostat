@@ -70,6 +70,7 @@ bs_combobox <- function(
     combovar           <- tclVar()
     tclvalue(combovar) <- initial_selection
 
+    # Main -------------------------------------------------------------------
     combobox <- ttkcombobox(
         parent = frame,
         values       = variableList,
@@ -80,6 +81,7 @@ bs_combobox <- function(
         postcommand = postcommand,
         ...)
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     firstChar <- tolower(substr(variableList, 1, 1))
 
     onLetter <- function(letter) {
@@ -95,8 +97,8 @@ bs_combobox <- function(
     # eval_glue('tkbind(combobox, "<{letters}>", get("on{LETTERS}"))')
     # eval_glue('tkbind(combobox, "<{LETTERS}>", get("on{LETTERS}"))')
 
-    eval_glue('tkbind(combobox, "<{letters}>", function() onLetter{"letters"})')
-    eval_glue('tkbind(combobox, "<{LETTERS}>", function() onLetter{"letters"})')
+    eval_glue('tkbind(combobox, "<{letters}>", function() onLetter("{letters}")')
+    eval_glue('tkbind(combobox, "<{LETTERS}>", function() onLetter("{letters}")')
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onClick <-
