@@ -17,16 +17,21 @@ window_dataset_select <- function() {
 
     ds_selection_callback  <- function() {
         if (get_size(var_ds_box) == 0 || get_selection_length(var_ds_box) == 0) {
-            tk_disable(bi1)
-            tk_disable(bi2)
-            tk_disable(bi3)
-            tk_disable(bi4)
+
+            tk_disable(i1)
+            tk_disable(i2)
+            tk_disable(i3)
+            tk_disable(i4)
+            tk_disable(i5)
+            tk_disable(i6)
 
         } else {
-            tk_normalize(bi1)
-            tk_normalize(bi2)
-            tk_normalize(bi3)
-            tk_normalize(bi4)
+            tk_normalize(i1)
+            tk_normalize(i2)
+            tk_normalize(i3)
+            tk_normalize(i4)
+            tk_normalize(i5)
+            tk_normalize(i6)
         }
 
     }
@@ -40,7 +45,7 @@ window_dataset_select <- function() {
             parentWindow     = top,
             variableList     = dataSets,
             listHeight       = 8,
-            listWidth        = c(26, Inf),
+            listWidth        = c(47, Inf),
             onRelease_fun    = ds_selection_callback,
             title            = gettext_bs("Datasets (pick one)"),
             initialSelection = if (is.null(.ds)) NULL else which(.ds == dataSets) - 1
@@ -49,10 +54,10 @@ window_dataset_select <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     info_buttons_frame <- tkframe(top)
 
-    bi1 <- tk2button(
+    i1 <- tk2button(
         info_buttons_frame,
         text = "Size",
-        width = 0,
+        width = 4,
         command = function() {
             .ds_1 <- get_selection(var_ds_box)
             doItAndPrint(str_glue(
@@ -60,10 +65,10 @@ window_dataset_select <- function() {
                 "dim({.ds_1})"))
         })
 
-    bi2 <- tk2button(
+    i2 <- tk2button(
         info_buttons_frame,
         text = "Class",
-        width = 0,
+        width = 5,
         command = function() {
             .ds_1 <- get_selection(var_ds_box)
 
@@ -72,7 +77,19 @@ window_dataset_select <- function() {
                 "class({.ds_1})"))
         })
 
-    bi3 <- tk2button(
+    i3 <- tk2button(
+        info_buttons_frame,
+        text = "Variables",
+        width = 0,
+        command = function() {
+            .ds_1 <- get_selection(var_ds_box)
+            doItAndPrint(str_glue(
+                "## Variable names in dataset '{.ds_1}'\n",
+                "names({.ds_1})"
+            ))
+        })
+
+    i4 <- tk2button(
         info_buttons_frame,
         text = "Structure",
         width = 0,
@@ -84,7 +101,19 @@ window_dataset_select <- function() {
                 "glimpse({.ds_1})"))
         })
 
-    bi4 <- tk2button(
+    i5 <- tk2button(
+        info_buttons_frame,
+        text = "Summary",
+        width = 0,
+        command = function() {
+            .ds_1 <- get_selection(var_ds_box)
+            doItAndPrint(str_glue(
+                "## Summary of variables in dataset '{.ds_1}'\n",
+                "skimr::skim({.ds_1})"
+            ))
+        })
+
+    i6 <- tk2button(
         info_buttons_frame,
         text = "Preview",
         width = 0,
@@ -102,7 +131,7 @@ window_dataset_select <- function() {
     b1 <- tk2button(
         import_buttons_frame,
         text = "Create new",
-        width = 12,
+        width = 0, # 12,
         command = function() {
             closeDialog()
             window_dataset_new_rcmdr()
@@ -111,7 +140,7 @@ window_dataset_select <- function() {
     b2 <- tk2button(
         import_buttons_frame,
         text = "From clipboard",
-        width = 14,
+        width = 0, #  14,
         command = function() {
             closeDialog()
             window_import_text_delim0(init_location = "clipboard")
@@ -119,20 +148,20 @@ window_dataset_select <- function() {
 
     b3 <- tk2button(
         import_buttons_frame,
-        text = "From file",
-        width = 12,
+        text = "From package",
+        width = 0, #  14,
         command = function() {
             closeDialog()
-            cat("Import\n")
+            window_import_from_pkg()
         })
 
     b4 <- tk2button(
         import_buttons_frame,
-        text = "From package",
-        width = 14,
+        text = "From file",
+        width = 0, #  12,
         command = function() {
             closeDialog()
-            window_import_from_pkg()
+            window_import_excel()
         })
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -172,14 +201,16 @@ window_dataset_select <- function() {
 
     tkgrid(getFrame(var_ds_box), sticky = "e")
 
-    tkgrid(bi1, bi2, bi3, bi4)
-    tkgrid(info_buttons_frame, pady = c(10, 0), sticky = "e")
+    tkgrid(i1, i2, i3, i4, i5, i6)
+    tkgrid(info_buttons_frame, pady = c(2, 0), sticky = "e")
 
-    tkgrid(b1, b2)
-    tkgrid(b3, b4)
+    # tkgrid(b1, b2
+    # tkgrid(b3, b4)
+    tkgrid(b1, b2, b3, b4)
+
     tkgrid(import_buttons_frame, pady = c(5, 0), sticky = "e")
 
-    tkgrid(buttonsFrame, pady = c(0, 0))
+    tkgrid(buttonsFrame, pady = c(5, 0))
 
     dialogSuffix()
 
