@@ -2,8 +2,10 @@
 #' @export
 #' @keywords internal
 window_dataset_select <- function() {
+
     dataSets <- listDataSets()
     .ds <- ActiveDataSet()
+
     # if ((length(dataSets) == 1) && !is.null(.ds)) {
     #     Message(
     #         message = gettext_bs("There is only one dataset in memory."),
@@ -21,10 +23,10 @@ window_dataset_select <- function() {
             tk_disable(bi4)
 
         } else {
-            tk_activate(bi1)
-            tk_activate(bi2)
-            tk_activate(bi3)
-            tk_activate(bi4)
+            tk_normalize(bi1)
+            tk_normalize(bi2)
+            tk_normalize(bi3)
+            tk_normalize(bi4)
         }
 
     }
