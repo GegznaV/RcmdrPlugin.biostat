@@ -6,16 +6,20 @@ window_dataset_select <- function() {
     dataSets <- listDataSets()
     .ds <- ActiveDataSet()
 
-    # if ((length(dataSets) == 1) && !is.null(.ds)) {
-    #     Message(
-    #         message = gettext_bs("There is only one dataset in memory."),
-    #         type = "warning"
-    #     )
-    #     tkfocus(CommanderWindow())
-    #     return()
-    # }
+    # Functions --------------------------------------------------------------
+    cmd_listbox_activation  <- function(variables) {
 
-    ds_selection_callback  <- function() {
+        if (get_size(var_ds_box) == 0) {
+            tk_disable(var_ds_box)
+
+        } else if (!is.null(.ds)) {
+            set_new_selection(var_ds_box, .ds)
+            tkyview(var_ds_box$listbox, which(get_values(var_ds_box) == .ds) - 1)
+        }
+    }
+
+
+    cmd_ds_selection_callback  <- function() {
         if (get_size(var_ds_box) == 0 || get_selection_length(var_ds_box) == 0) {
 
             tk_disable(i1)
@@ -36,36 +40,26 @@ window_dataset_select <- function() {
 
     }
 
+    # Initialize -------------------------------------------------------------
     initializeDialog(title = gettext_bs("Select Dataset"))
-
     tk_title(top, "Select a dataset")
 
     var_ds_box <-
-        variableListBox2(
-            parentWindow     = top,
-            variableList     = dataSets,
-            listHeight       = 8,
-            listWidth        = c(47, Inf),
-            onRelease_fun    = ds_selection_callback,
+        bs_listbox(
+            parent_window    = top,
             title            = gettext_bs("Datasets (pick one)"),
-            initialSelection = if (is.null(.ds)) NULL else which(.ds == dataSets) - 1
+            title_sticky      = "",
+            variable_list     = dataSets,
+            height            = 8,
+            width             = c(47, Inf),
+            on_release        = ds_selection_callback,
+            initial_selection = if (is.null(.ds)) NULL else which(.ds == dataSets) - 1
         )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     info_buttons_frame <- tkframe(top)
 
     i1 <- tk2button(
-        info_buttons_frame,
-        text = "Size",
-        width = 4,
-        command = function() {
-            .ds_1 <- get_selection(var_ds_box)
-            doItAndPrint(str_glue(
-                "## The size of dataset '{.ds_1}' (rows, columns)\n",
-                "dim({.ds_1})"))
-        })
-
-    i2 <- tk2button(
         info_buttons_frame,
         text = "Class",
         width = 5,
@@ -76,6 +70,23 @@ window_dataset_select <- function() {
                 "## The class of dataset '{.ds_1}'\n",
                 "class({.ds_1})"))
         })
+
+    i2 <- tk2button(
+        info_buttons_frame,
+        text = "Size",
+        width = 4,
+        command = function() {
+            .ds_1 <- get_selection(var_ds_box)
+            # doItAndPrint(str_glue(
+            #     "## The size of dataset '{.ds_1}' (rows, columns)\n",
+            #     "dim({.ds_1})"))
+
+            doItAndPrint(str_glue(
+                "## The size of dataset '{.ds_1}'\n",
+                "summary(skimr::skim({.ds_1}))"
+            ))
+        })
+
 
     i3 <- tk2button(
         info_buttons_frame,
@@ -98,7 +109,7 @@ window_dataset_select <- function() {
 
             doItAndPrint(str_glue(
                 "## The structure of dataset '{.ds_1}'\n",
-                "glimpse({.ds_1})"))
+                "dplyr::glimpse({.ds_1})"))
         })
 
     i5 <- tk2button(
@@ -107,10 +118,33 @@ window_dataset_select <- function() {
         width = 0,
         command = function() {
             .ds_1 <- get_selection(var_ds_box)
+            Library("tidyverse")
+            Library("skimr")
             doItAndPrint(str_glue(
-                "## Summary of variables in dataset '{.ds_1}'\n",
+                "skimr::skim_with(\n",
+                "    numeric = list(hist = NULL),\n",
+                "    integer = list(hist = NULL) \n",
+                ")\n\n"
+            ))
+            doItAndPrint(str_glue(
+                "## Summary of the variables in dataset '{.ds_1}'\n",
                 "skimr::skim({.ds_1})"
             ))
+
+            # If any factors exist
+            ds_factors <-
+                purrr::map_lgl(eval_glue("{.ds_1}", envir = .GlobalEnv),
+                               ~inherits(., "factor"))
+
+            if (any(ds_factors)) {
+                doItAndPrint(style_cmd(str_glue(
+                    "## More details on categorical variables\n",
+                    "{.ds_1} %>% \n ",
+                    "dplyr::select_if(is.factor) %>% \n",
+                    " purrr::map(summary)"
+                )))
+            }
+
         })
 
     i6 <- tk2button(
@@ -135,6 +169,8 @@ window_dataset_select <- function() {
         command = function() {
             closeDialog()
             window_dataset_new_rcmdr()
+            # cmd_listbox_activation()
+
         })
 
     b2 <- tk2button(
@@ -144,6 +180,7 @@ window_dataset_select <- function() {
         command = function() {
             closeDialog()
             window_import_text_delim0(init_location = "clipboard")
+            # cmd_listbox_activation()
         })
 
     b3 <- tk2button(
@@ -153,6 +190,7 @@ window_dataset_select <- function() {
         command = function() {
             closeDialog()
             window_import_from_pkg()
+            # cmd_listbox_activation()
         })
 
     b4 <- tk2button(
@@ -162,6 +200,7 @@ window_dataset_select <- function() {
         command = function() {
             closeDialog()
             window_import_excel()
+            # cmd_listbox_activation()
         })
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -201,27 +240,24 @@ window_dataset_select <- function() {
 
     tkgrid(getFrame(var_ds_box), sticky = "e")
 
+    tkgrid(bs_label_b(top, text = "Information about selected dataset"),
+           pady = c(5, 0))
     tkgrid(i1, i2, i3, i4, i5, i6)
-    tkgrid(info_buttons_frame, pady = c(2, 0), sticky = "e")
+    tkgrid(info_buttons_frame, sticky = "e")
 
     # tkgrid(b1, b2
     # tkgrid(b3, b4)
-    tkgrid(b1, b2, b3, b4)
 
-    tkgrid(import_buttons_frame, pady = c(5, 0), sticky = "e")
+    tkgrid(bs_label_b(top, text = "Import another dataset"), pady = c(5, 0))
+    tkgrid(import_buttons_frame, sticky = "e")
+    tkgrid(b1, b2, b3, b4)
 
     tkgrid(buttonsFrame, pady = c(5, 0))
 
     dialogSuffix()
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (length(dataSets) == 0) {
-        tk_disable(var_ds_box)
 
-    } else if (!is.null(.ds)) {
-        set_new_selection(var_ds_box, .ds)
-        tkyview(var_ds_box$listbox, which(get_values(var_ds_box) == .ds) - 1)
-    }
-
-    ds_selection_callback()
+    cmd_ds_selection_callback()
+    cmd_listbox_activation()
 }
