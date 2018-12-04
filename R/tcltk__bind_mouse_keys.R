@@ -22,6 +22,7 @@ bind_mouse_keys <- function(obj, envir = parent.frame()) {
         "Triple-Button-3",    "on_triple_click_3",
         "ButtonRelease-3",    "on_release_3"        )
 
-    eval_glue('tkbind({obj}, "<{key$Binding}>", function() {{tkfocus({obj}); {key$Function}}()}',
-              envir_eval = envir)
+    eval_glue(
+        'tkbind({obj}, "<{key$Binding}>", function() {{tkfocus({obj}); {key$Function}()}})',
+        envir_eval = envir)
 }
