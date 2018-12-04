@@ -3,7 +3,7 @@
 # https://www.tcl.tk/man/tcl/TkCmd/ttk_combobox.htm
 #
 # @param parent_window parent Tcl/Tk frame
-# @param variableList
+# @param variable_list
 # @param export
 # @param state
 # @param initial_selection
@@ -36,7 +36,7 @@
 
 bs_combobox <- function(
     parent_window       = top,
-    variableList        = variables_all(),
+    variable_list       = variables_all(),
     export              = "FALSE",
     state               = c("readonly", "normal", "disabled"),
     # default_text      = "<no variable selected>",
@@ -47,7 +47,7 @@ bs_combobox <- function(
     combobox_sticky     = "nw",
 
     on_select           = function(){},
-    postcommand         = postcommand,
+    postcommand         = function(){},
 
     on_click          = function() {},
     on_double_click   = function() {},
@@ -65,7 +65,7 @@ bs_combobox <- function(
 
     state <- match.arg(state)
 
-    # variableList     <- c(gettext_bs(default_text), variableList)
+    # variable_list     <- c(gettext_bs(default_text), variable_list)
     frame              <- tkframe(parent_window)
     combovar           <- tclVar()
     tclvalue(combovar) <- initial_selection
@@ -73,7 +73,7 @@ bs_combobox <- function(
     # Main -------------------------------------------------------------------
     combobox <- ttkcombobox(
         parent = frame,
-        values       = variableList,
+        values       = variable_list,
         textvariable = combovar,
         state        = state,
         export       = export,
@@ -82,7 +82,7 @@ bs_combobox <- function(
         ...)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    firstChar <- tolower(substr(variableList, 1, 1))
+    firstChar <- tolower(substr(variable_list, 1, 1))
 
     onLetter <- function(letter) {
         letter  <- tolower(letter)
@@ -97,27 +97,15 @@ bs_combobox <- function(
     # eval_glue('tkbind(combobox, "<{letters}>", get("on{LETTERS}"))')
     # eval_glue('tkbind(combobox, "<{LETTERS}>", get("on{LETTERS}"))')
 
-    eval_glue('tkbind(combobox, "<{letters}>", function() onLetter("{letters}")')
-    eval_glue('tkbind(combobox, "<{LETTERS}>", function() onLetter("{letters}")')
-
+    eval_glue('tkbind(combobox, "<{letters}>", function() onLetter("{letters}"))')
+    eval_glue('tkbind(combobox, "<{LETTERS}>", function() onLetter("{letters}"))')
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    onClick <-
-
-    onDoubleClick <- function()
-
-    onRelease <- function() {
-        tkfocus(combobox)
-        onRelease_fun()
-    }
-
-    onSelect <- function() {
-        tkfocus(combobox)
-        onSelect_fun()
-    }
-
     bind_mouse_keys(combobox)
-
-    tkbind(combobox, "<<ComboboxSelected>>", onSelect) # on change of selected value
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkbind(combobox, "<<ComboboxSelected>>", function() {
+        tkfocus(combobox)
+        on_select()
+    }) # on change of selected value
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     if (!is.null(title)) {
@@ -133,7 +121,7 @@ bs_combobox <- function(
     result <- list(
         frame    = frame,
         combobox = combobox,
-        varlist  = variableList,
+        varlist  = variable_list,
         combovar = combovar)
 
     class(result) <- "combobox"
