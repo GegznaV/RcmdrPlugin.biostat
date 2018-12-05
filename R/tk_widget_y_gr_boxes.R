@@ -80,13 +80,13 @@ tk_widget_boxes_y_gr <- function(
 
             if (get_selection_length(var_gr_box) == 0) {
                 sel_ind <- 1
-                set_new_selection(var_gr_box, sel_ind)
-                set_yview(var_gr_box,         sel_ind)
+                set_selection(var_gr_box, sel_ind)
+                set_yview(var_gr_box,     sel_ind)
             }
 
         } else {
             # Clear group variable box selection
-            # set_new_selection(var_gr_box, sel = 0)
+            # set_selection(var_gr_box, sel = 0)
             tk_disable(var_gr_box)
         }
     }
