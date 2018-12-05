@@ -7,7 +7,9 @@ window_dataset_select <- function() {
     .ds <- ActiveDataSet()
 
     # Functions --------------------------------------------------------------
-    cmd_listbox_activation  <- function(variables) {
+    cmd_refresh_listbox  <- function(variables) {
+
+        set_values(var_ds_box, listDataSets())
 
         if (get_size(var_ds_box) == 0) {
             tk_disable(var_ds_box)
@@ -212,7 +214,7 @@ window_dataset_select <- function() {
                 "dput({.ds_1})"
             ))
             # window_dataset_new_rcmdr()
-            # cmd_listbox_activation()
+            # cmd_refresh_listbox()
 
         })
 
@@ -223,7 +225,7 @@ window_dataset_select <- function() {
         command = function() {
             closeDialog()
             # window_dataset_new_rcmdr()
-            # cmd_listbox_activation()
+            # cmd_refresh_listbox()
 
         })
 
@@ -234,7 +236,7 @@ window_dataset_select <- function() {
         command = function() {
             closeDialog()
             # window_import_text_delim0(init_location = "clipboard")
-            # cmd_listbox_activation()
+            # cmd_refresh_listbox()
         })
 
     e4 <- tk2button(
@@ -244,7 +246,7 @@ window_dataset_select <- function() {
         command = function() {
             closeDialog()
             # window_import_from_pkg()
-            # cmd_listbox_activation()
+            # cmd_refresh_listbox()
         })
 
     e5 <- tk2button(
@@ -254,7 +256,7 @@ window_dataset_select <- function() {
         command = function() {
             closeDialog()
             # window_import_excel()
-            # cmd_listbox_activation()
+            # cmd_refresh_listbox()
         })
 
     e6 <- tk2button(
@@ -264,7 +266,7 @@ window_dataset_select <- function() {
         command = function() {
             closeDialog()
             # window_import_excel()
-            # cmd_listbox_activation()
+            # cmd_refresh_listbox()
         })
 
     e7 <- tk2button(
@@ -274,7 +276,7 @@ window_dataset_select <- function() {
         command = function() {
             closeDialog()
             # window_import_excel()
-            # cmd_listbox_activation()
+            # cmd_refresh_listbox()
         })
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -285,9 +287,9 @@ window_dataset_select <- function() {
         text = "Create new",
         width = 0, # 12,
         command = function() {
-            closeDialog()
+            # closeDialog()
             window_dataset_new_rcmdr()
-            # cmd_listbox_activation()
+            cmd_refresh_listbox()
 
         })
 
@@ -296,9 +298,9 @@ window_dataset_select <- function() {
         text = "From clipboard",
         width = 0, #  14,
         command = function() {
-            closeDialog()
+            # closeDialog()
             window_import_text_delim0(init_location = "clipboard")
-            # cmd_listbox_activation()
+            cmd_refresh_listbox()
         })
 
     b3 <- tk2button(
@@ -306,9 +308,9 @@ window_dataset_select <- function() {
         text = "From package",
         width = 0, #  14,
         command = function() {
-            closeDialog()
+            # closeDialog()
             window_import_from_pkg()
-            # cmd_listbox_activation()
+            cmd_refresh_listbox()
         })
 
     b4 <- tk2button(
@@ -316,9 +318,9 @@ window_dataset_select <- function() {
         text = "From file",
         width = 0, #  12,
         command = function() {
-            closeDialog()
+            # closeDialog()
             window_import_excel()
-            # cmd_listbox_activation()
+            cmd_refresh_listbox()
         })
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -353,5 +355,9 @@ window_dataset_select <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     cmd_ds_selection_callback()
-    cmd_listbox_activation()
+    cmd_refresh_listbox()
+
+    if (!isTRUE(ActiveDataSet() %in% ls(all.names = TRUE, envir = .GlobalEnv))) {
+        ActiveDataSet(NULL)
+    }
 }
