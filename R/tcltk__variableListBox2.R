@@ -51,7 +51,7 @@ variableListBox2 <- function(parentWindow,
                 yscrollcommand = function(...) tkset(scrollbar,  ...))
 
     # for (var in variableList)  tkinsert(listbox, "end", var)
-    listbox_set_values(listbox, variableList)
+    set_values_listbox(listbox, variableList)
 
     if (is.numeric(initialSelection))
         for (sel in initialSelection)
