@@ -7,6 +7,8 @@
 \alias{tk_normalize.default}
 \alias{tk_read_only.default}
 \alias{tk_disable.default}
+\alias{tk_yview.default}
+\alias{tk_xview.default}
 \title{Activate/Disable TK Objects}
 \usage{
 \method{tk_get_state}{default}(tk_obj, ...)
@@ -18,6 +20,12 @@
 \method{tk_read_only}{default}(tk_obj, ...)
 
 \method{tk_disable}{default}(tk_obj, ...)
+
+\method{tk_disable}{default}(tk_obj, ...)
+
+tk_yview.default(obj, ind, ...)
+
+tk_xview.default(obj, ind, ...)
 }
 \arguments{
 \item{tk_obj}{TK object.}
