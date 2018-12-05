@@ -51,7 +51,7 @@ window_locale_set <- function() {
                },
                "other" = {
                    tk_normalize(var_y_box$listbox, background = "white")
-                   set_values(var_y_box, vals = locales)
+                   set_values(var_y_box, values = locales)
                    tk_activate(locale_entry)
                    tclvalue(locale_variable) <- ""
                    tk_activate(check_locale_CheckBox)
@@ -76,8 +76,8 @@ window_locale_set <- function() {
         # message(str_c(sel_ind, txt, pattern, sep = "\t"))
 
         if (!is.na(sel_ind)) {
-            set_new_selection(var_y_box, sel_ind)
-            set_yview(var_y_box, sel_ind)
+            set_selection(var_y_box, sel_ind)
+            set_yview(    var_y_box, sel_ind)
         }
     }
 
