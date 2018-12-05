@@ -94,7 +94,25 @@ tk_read_only.default <- function(tk_obj, ...) {
 tk_disable.default <- function(tk_obj, ...) {
     tkconfigure(tk_obj, state = "disabled", ...)
 }
+#' @name tk_activate
+#' @export
+tk_disable.default <- function(tk_obj, ...) {
+    tkconfigure(tk_obj, state = "disabled", ...)
+}
 
+#' @name tk_activate
+#' @export
+tk_yview.default <- function(obj, ind, ...) {
+    tkyview(obj, ind, ...)
+
+}
+
+#' @name tk_activate
+#' @export
+tk_xview.default <- function(obj, ind, ...) {
+    tkxview(obj, ind, ...)
+
+}
 
 # Get values -----------------------------------------------------------------
 
