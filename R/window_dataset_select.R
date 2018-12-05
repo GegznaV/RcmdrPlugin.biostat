@@ -13,31 +13,59 @@ window_dataset_select <- function() {
             tk_disable(var_ds_box)
 
         } else if (!is.null(.ds)) {
-            set_new_selection(var_ds_box, .ds)
+            set_selection(var_ds_box, .ds)
             tkyview(var_ds_box$listbox, which(get_values(var_ds_box) == .ds) - 1)
         }
     }
 
-
     cmd_ds_selection_callback  <- function() {
-        if (get_size(var_ds_box) == 0 || get_selection_length(var_ds_box) == 0) {
 
-            tk_disable(i1)
-            tk_disable(i2)
-            tk_disable(i3)
-            tk_disable(i4)
-            tk_disable(i5)
-            tk_disable(i6)
+        envir = parent.frame()
+        button_obj <- c(
+            "i1", "i2", "i3", "i4", "i5", "i6",
+            "e1", "e2", "e3", "e4", "e5", "e6", "e7"
+        )
+
+        if (get_size(var_ds_box) == 0 || get_selection_length(var_ds_box) == 0) {
+           # Disable buttons
+           eval_glue("tk_disable({button_obj})",    eval_envir = envir)
 
         } else {
-            tk_normalize(i1)
-            tk_normalize(i2)
-            tk_normalize(i3)
-            tk_normalize(i4)
-            tk_normalize(i5)
-            tk_normalize(i6)
+            # Normalize buttons
+            eval_glue("tk_normalize({button_obj})", eval_envir = envir)
+        }
+    }
+
+    onOK <- function() {
+        cursor_set_busy(top)
+        on.exit(cursor_set_idle(top))
+
+
+        if (length(dataSets) == 0) {
+            RcmdrTkmessageBox(
+                "There are no datasets in R memory.\nPlease, create or import a dataset.",
+                icon = "warning",
+                title = "No Dataset Found in R",
+                type = "ok")
+
+            return()
         }
 
+
+        if (get_selection_length(var_ds_box) == 0) {
+            RcmdrTkmessageBox("Please, select a dataset.",
+                              title = "Dataset Not Selected",
+                              icon = "warning",
+                              type = "ok")
+            return()
+        }
+
+        selection <- getSelection(var_ds_box)
+        closeDialog()
+
+        active_dataset(selection)
+        # active_datatet(selection)
+        tkfocus(CommanderWindow())
     }
 
     # Initialize -------------------------------------------------------------
@@ -52,7 +80,8 @@ window_dataset_select <- function() {
             variable_list     = dataSets,
             height            = 8,
             width             = c(47, Inf),
-            on_release        = ds_selection_callback,
+            on_release        = cmd_ds_selection_callback,
+            on_double_click   = onOK,
             initial_selection = if (is.null(.ds)) NULL else which(.ds == dataSets) - 1
         )
 
@@ -117,9 +146,12 @@ window_dataset_select <- function() {
         text = "Summary",
         width = 0,
         command = function() {
+
             .ds_1 <- get_selection(var_ds_box)
+
             Library("tidyverse")
             Library("skimr")
+
             doItAndPrint(str_glue(
                 "skimr::skim_with(\n",
                 "    numeric = list(hist = NULL),\n",
@@ -133,8 +165,11 @@ window_dataset_select <- function() {
 
             # If any factors exist
             ds_factors <-
-                purrr::map_lgl(eval_glue("{.ds_1}", envir = .GlobalEnv),
+                purrr::map_lgl(eval_glue("{.ds_1}", envir_eval = .GlobalEnv),
                                ~inherits(., "factor"))
+            get(.ds_1)
+            print(.ds_1)
+            print(ds_factors)
 
             if (any(ds_factors)) {
                 doItAndPrint(style_cmd(str_glue(
@@ -157,6 +192,89 @@ window_dataset_select <- function() {
                 "## Preview dataset '{.ds_1}'\n",
                 "View({.ds_1})"
             ))
+        })
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    export_buttons_frame <- tkframe(top)
+    export_row_1_frame <- tkframe(export_buttons_frame)
+    export_row_2_frame <- tkframe(export_buttons_frame)
+
+    e1 <- tk2button(
+        export_row_1_frame,
+        text = "As R structure",
+        width = 0, # 12,
+        command = function() {
+            .ds_1 <- get_selection(var_ds_box)
+            closeDialog()
+
+            doItAndPrint(str_glue(
+                "## Export as R structure ('{.ds_1}')\n",
+                "dput({.ds_1})"
+            ))
+            # window_dataset_new_rcmdr()
+            # cmd_listbox_activation()
+
+        })
+
+    e2 <- tk2button(
+        export_row_1_frame,
+        text = "To Rds file",
+        width = 0, # 12,
+        command = function() {
+            closeDialog()
+            # window_dataset_new_rcmdr()
+            # cmd_listbox_activation()
+
+        })
+
+    e3 <- tk2button(
+        export_row_1_frame,
+        text = "To R Data file",
+        width = 0, #  14,
+        command = function() {
+            closeDialog()
+            # window_import_text_delim0(init_location = "clipboard")
+            # cmd_listbox_activation()
+        })
+
+    e4 <- tk2button(
+        export_row_2_frame,
+        text = "To text (.txt, .csv)",
+        width = 0, #  14,
+        command = function() {
+            closeDialog()
+            # window_import_from_pkg()
+            # cmd_listbox_activation()
+        })
+
+    e5 <- tk2button(
+        export_row_2_frame,
+        text = "To Excel",
+        width = 0, #  12,
+        command = function() {
+            closeDialog()
+            # window_import_excel()
+            # cmd_listbox_activation()
+        })
+
+    e6 <- tk2button(
+        export_row_2_frame,
+        text = "To Word",
+        width = 0, #  12,
+        command = function() {
+            closeDialog()
+            # window_import_excel()
+            # cmd_listbox_activation()
+        })
+
+    e7 <- tk2button(
+        export_row_2_frame,
+        text = "To PowerPoint",
+        width = 0, #  12,
+        command = function() {
+            closeDialog()
+            # window_import_excel()
+            # cmd_listbox_activation()
         })
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -202,40 +320,8 @@ window_dataset_select <- function() {
             window_import_excel()
             # cmd_listbox_activation()
         })
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    onOK <- function() {
-        cursor_set_busy(top)
-        on.exit(cursor_set_idle(top))
-
-
-        if (length(dataSets) == 0) {
-            RcmdrTkmessageBox(
-                "There are no datasets in R memory.\nPlease, create or import a dataset.",
-                icon = "warning",
-                title = "No Dataset Found in R",
-                type = "ok")
-
-            return()
-        }
-
-
-        if (get_selection_length(var_ds_box) == 0) {
-            RcmdrTkmessageBox("Please, select a dataset.",
-                              title = "Dataset Not Selected",
-                              icon = "warning",
-                              type = "ok")
-            return()
-        }
-
-        selection <- getSelection(var_ds_box)
-        closeDialog()
-
-        active_dataset(selection)
-        # active_datatet(selection)
-        tkfocus(CommanderWindow())
-    }
-
     ok_cancel_help()
 
     tkgrid(getFrame(var_ds_box), sticky = "e")
@@ -247,6 +333,14 @@ window_dataset_select <- function() {
 
     # tkgrid(b1, b2
     # tkgrid(b3, b4)
+
+    tkgrid(bs_label_b(top, text = "Export selected dataset"), pady = c(5, 0))
+    tkgrid(export_buttons_frame, sticky = "e")
+    tkgrid(export_row_1_frame)
+    tkgrid(export_row_2_frame)
+    # tkgrid(e1, e2, e3, e4, e5, e6, e7)
+    tkgrid(e1, e2, e3)
+    tkgrid(e4, e5, e6, e7)
 
     tkgrid(bs_label_b(top, text = "Import another dataset"), pady = c(5, 0))
     tkgrid(import_buttons_frame, sticky = "e")
