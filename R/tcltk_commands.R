@@ -79,29 +79,22 @@ tk_get_state.default <- function(tk_obj, ...) {
 tk_activate.default <- function(tk_obj, ...) {
     tkconfigure(tk_obj, state = "active", ...)
 }
-
-#' @name tk_activate
-#' @export
-tk_disable.default <- function(tk_obj, ...) {
-    tkconfigure(tk_obj, state = "disabled", ...)
-}
 #' @name tk_activate
 #' @export
 tk_normalize.default <- function(tk_obj, ...) {
     tkconfigure(tk_obj, state = "normal", ...)
 }
+#' @name tk_activate
+#' @export
+tk_read_only.default <- function(tk_obj, ...) {
+    tkconfigure(tk_obj, state = "readonly", ...)
+}
+#' @name tk_activate
+#' @export
+tk_disable.default <- function(tk_obj, ...) {
+    tkconfigure(tk_obj, state = "disabled", ...)
+}
 
-# state_disabled <- function(widget) {
-#     tkconfigure(widget, state = "disabled")
-# }
-#
-# active <- function(widget) {
-#     tkconfigure(widget, state = "active")
-# }
-#
-# normal <- function(widget) {
-#     tkconfigure(widget, state = "normal")
-# }
 
 # Get values -----------------------------------------------------------------
 
