@@ -24,6 +24,12 @@ tk_disable <- function(obj, ...) {
 tk_normalize <- function(obj, ...) {
     UseMethod("tk_normalize")
 }
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+tk_read_only <- function(obj, ...) {
+    UseMethod("tk_read_only")
+}
 
 # #' @rdname Helper-functions
 # #' @export
@@ -52,7 +58,7 @@ get_values <- function(obj, ...) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-set_values <- function(obj, ...) {
+set_values <- function(obj, values, ...) {
     UseMethod("set_values")
 }
 
@@ -80,8 +86,15 @@ set_selection <- function(obj, sel, ...) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-set_new_selection <- function(obj, sel, ...) {
-    UseMethod("set_new_selection")
+add_selection <- function(obj, sel, ...) {
+    UseMethod("add_selection")
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+set_xview <- function(obj, ...) {
+    UseMethod("set_xview")
 }
 
 #' @rdname Helper-functions
