@@ -25,8 +25,11 @@ bs_listbox <-
            on_triple_click_3 = function() {},
            on_release_3      = function() {},
 
+
            title = NULL,
-           title_sticky = "w")
+           title_sticky = "w",
+           tip = "",
+           ...)
   {
 
     if (select_mode == "multiple")
@@ -38,13 +41,15 @@ bs_listbox <-
     frame   <- tkframe(parent_window)
     # minmax  <- getRcmdr("variable.list.width")
     minmax  <- width
+
     listbox <- tklistbox(
-      frame,
+      parent     = frame,
       height     = height,
       selectmode = select_mode,
       background = bg,
       exportselection = export,
-      width = min(max(minmax[1], 2 + nchar(variable_list)), minmax[2])
+      width = min(max(minmax[1], 2 + nchar(variable_list)), minmax[2]),
+      ...
     )
 
     scrollbar <-
@@ -56,7 +61,7 @@ bs_listbox <-
                 yscrollcommand = function(...) tkset(scrollbar,  ...))
 
     # for (var in variable_list)  tkinsert(listbox, "end", var)
-    listbox_set_values(listbox, variable_list)
+    set_values_listbox(listbox, variable_list)
 
     # Initial selection ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (is.numeric(initial_selection))
@@ -64,19 +69,48 @@ bs_listbox <-
         tkselection.set(listbox, sel)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    firstChar <- tolower(substr(variable_list, 1, 1))
-    len <- length(variable_list)
-    onLetter <- function(letter) {
-      letter <- tolower(letter)
-      current <-
-        1 + round(as.numeric(
-          unlist(strsplit(tclvalue(tkyview(listbox)), " "))[1]) * len)
+    # firstChar <- tolower(substr(variable_list, 1, 1))
+    # len <- length(variable_list)
+    # onLetter <- function(letter) {
+    #   letter <- tolower(letter)
+    #   current <-
+    #     1 + round(as.numeric(
+    #       unlist(strsplit(tclvalue(tkyview(listbox)), " "))[1]) * len)
+    #
+    #   mat <- match(letter, firstChar[-(1:current)])
+    #   if (is.na(mat))
+    #     return()
+    #   tkyview.scroll(listbox, mat, "units")
+    # }
 
-      mat <- match(letter, firstChar[-(1:current)])
-      if (is.na(mat))
+    onLetter <- function(letter) {
+      # Letter binding is good for read-only comboboxes only
+
+      get_first_letter <- function(str) {
+        tolower(substr(str, 1, 1))
+      }
+
+      letter   <- tolower("e")
+      all_vals <- get_values_(listbox)
+      acceptable_inds <- which(get_first_letter(all_vals) %in% letter)
+
+      if (length(acceptable_ind) == 0) {
         return()
-      tkyview.scroll(listbox, mat, "units")
+      }
+
+      cur_val <- tclvalue(combovar)
+      cur_val_ind <- which(all_vals %in% cur_val)
+
+      if (is.na(cur_val_ind)) return()
+
+      if (isTRUE((cur_val_ind + 1) %in% acceptable_inds)) {
+        next_ind <- cur_val_ind + 1
+      } else {
+        next_ind <- min(acceptable_inds)
+      }
+      tcl(combobox, "current", next_ind - 1)
     }
+
 
     eval_glue('tkbind(listbox, "<{letters}>", function() onLetter("{letters}"))')
     eval_glue('tkbind(listbox, "<{LETTERS}>", function() onLetter("{letters}"))')
@@ -111,11 +145,11 @@ bs_listbox <-
 
     # Output ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     structure(
-      list(frame      = frame,
-           listbox    = listbox,
-           scrollbar  = scrollbar,
+      list(frame       = frame,
+           listbox     = listbox,
+           scrollbar   = scrollbar,
            select_mode = select_mode,
-           varlist    = variable_list),
+           varlist     = variable_list),
       class = "listbox"
     )
   }
@@ -126,7 +160,7 @@ bs_listbox <-
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-listbox_get_values <- function(listbox) {
+get_values_listbox <- function(listbox) {
   n <- tclvalue_int(tksize(listbox))
   vars <-
     (seq_len(n) - 1) %>% # zero based index
@@ -138,15 +172,15 @@ listbox_get_values <- function(listbox) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-listbox_set_values <- function(listbox, variable_list) {
+set_values_listbox <- function(listbox, values) {
   tkdelete(listbox, 0, "end")
-  for (var in variable_list)  tkinsert(listbox, "end", var)
+  for (val in values)  tkinsert(listbox, "end", as.character(val))
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-listbox_get_selection_ind <- function(listbox) {
+get_selection_listbox_ind <- function(listbox) {
   as.numeric(tkcurselection(listbox)) + 1
 }
 
@@ -154,9 +188,9 @@ listbox_get_selection_ind <- function(listbox) {
 #' @export
 #' @keywords internal
 # Get selected values
-listbox_get_selection <- function(listbox) {
-  vals <- listbox_get_values(listbox)
-  inds <- listbox_get_selection_ind(listbox)
+get_selection_listbox <- function(listbox) {
+  vals <- get_values_listbox(listbox)
+  inds <- get_selection_listbox_ind(listbox)
   vals[inds]
 }
 
@@ -165,14 +199,14 @@ listbox_get_selection <- function(listbox) {
 #' @keywords internal
 # Set selection
 # sel - either character values of indices
-listbox_set_selection <- function(listbox, sel, clear = FALSE) {
+set_selection_listbox <- function(listbox, sel, clear = TRUE) {
 
   if (is.null(sel) || length(sel) == 0) {
     # ind <- NULL
     return()
 
   } else if (is.character(sel)) {
-    ind <- which(listbox_get_values(listbox) %in% sel) - 1
+    ind <- which(get_values_listbox(listbox) %in% sel) - 1
 
   } else if (is.numeric(sel)) {
     ind <- sel - 1
@@ -196,21 +230,28 @@ listbox_set_selection <- function(listbox, sel, clear = FALSE) {
     tkselection.set(listbox, i)
 }
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-# Set selection
-# sel - either character values of indices
-listbox_set_new_selection <- function(listbox, sel) {
-  listbox_set_selection(listbox, sel, clear = TRUE)
+get_size.listbox <- function(obj, ...) {
+  tclvalue_int(tksize(obj$listbox))
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+get_size.tkwin <- function(obj, ...) {
+  tclvalue_int(tksize(obj))
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 get_selection.listbox <- function(obj, ...) {
-  listbox_get_selection(obj$listbox)
+  get_selection_listbox(obj$listbox)
 }
 
 #' @rdname Helper-functions
@@ -223,45 +264,31 @@ get_selection_length.listbox <- function(obj, ...) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-get_size.listbox <- function(obj, ...) {
-  tclvalue_int(tksize(obj$listbox))
-}
-#' @rdname Helper-functions
-#' @export
-#' @keywords internal
-get_size.tkwin <- function(obj, ...) {
-  tclvalue_int(tksize(obj))
-}
-
-
-#' @rdname Helper-functions
-#' @export
-#' @keywords internal
-set_selection.listbox <- function(obj, sel, clear = FALSE, ...) {
+set_selection.listbox <- function(obj, sel, clear = TRUE, ...) {
   listbox <- obj$listbox
-  listbox_set_selection(listbox, sel = sel, clear = clear, ...)
+  set_selection_listbox(listbox, sel = sel, clear = clear, ...)
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-set_new_selection.listbox <- function(obj, sel, ...) {
+add_selection.listbox <- function(obj, sel, ...) {
   listbox <- obj$listbox
-  listbox_set_new_selection(listbox, sel = sel, ...)
+  set_selection_listbox(listbox, sel = sel, clear = FALSE, ...)
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 get_values.listbox <- function(obj, vals, ...) {
-  listbox_get_values(obj$listbox, ...)
+  get_values_listbox(obj$listbox, ...)
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-set_values.listbox <- function(obj, vals, ...) {
-  listbox_set_values(obj$listbox, vals, ...)
+set_values.listbox <- function(obj, values, ...) {
+  set_values_listbox(obj$listbox, values = values, ...)
 }
 
 #' @rdname Helper-functions
