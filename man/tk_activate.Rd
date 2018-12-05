@@ -4,17 +4,20 @@
 \alias{tk_activate}
 \alias{tk_get_state.default}
 \alias{tk_activate.default}
-\alias{tk_disable.default}
 \alias{tk_normalize.default}
+\alias{tk_read_only.default}
+\alias{tk_disable.default}
 \title{Activate/Disable TK Objects}
 \usage{
 \method{tk_get_state}{default}(tk_obj, ...)
 
 \method{tk_activate}{default}(tk_obj, ...)
 
-\method{tk_disable}{default}(tk_obj, ...)
-
 \method{tk_normalize}{default}(tk_obj, ...)
+
+\method{tk_read_only}{default}(tk_obj, ...)
+
+\method{tk_disable}{default}(tk_obj, ...)
 }
 \arguments{
 \item{tk_obj}{TK object.}
