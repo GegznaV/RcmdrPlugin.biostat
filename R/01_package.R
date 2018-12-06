@@ -108,6 +108,13 @@ NULL
     #                 command = window_dataset_select)
     # }
 
+    # # Change theme, if not set
+    # if (is.null(options()$Rcmdr$theme)) {
+    #     tcltk2::tk2theme("clearlooks")
+    # }
+
+
+
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
