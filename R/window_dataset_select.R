@@ -39,6 +39,8 @@ window_dataset_select <- function() {
     }
 
     onOK <- function() {
+        cmd_refresh_listbox()
+
         cursor_set_busy(top)
         on.exit(cursor_set_idle(top))
 
@@ -76,15 +78,15 @@ window_dataset_select <- function() {
 
     var_ds_box <-
         bs_listbox(
-            parent_window    = top,
-            title            = gettext_bs("Datasets (pick one)"),
-            title_sticky      = "",
-            variable_list     = dataSets,
-            height            = 8,
-            width             = c(47, Inf),
-            on_release        = cmd_ds_selection_callback,
-            on_double_click   = onOK,
-            initial_selection = if (is.null(.ds)) NULL else which(.ds == dataSets) - 1
+            parent          = top,
+            title           = gettext_bs("Datasets (pick one)"),
+            title_sticky    = "",
+            values          = dataSets,
+            selection       = if (is.null(.ds)) NULL else which(.ds == dataSets) - 1,
+            height          = 8,
+            width           = c(47, Inf),
+            on_release      = cmd_ds_selection_callback,
+            on_double_click = onOK
         )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
