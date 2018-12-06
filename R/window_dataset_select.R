@@ -24,8 +24,6 @@ window_dataset_select <- function() {
 
         envir = parent.frame()
         button_obj <- c(
-            "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8",
-
             "i1", "i2", "i3", "i4", "i5", "i6",
             "e0"
         )
@@ -78,11 +76,8 @@ window_dataset_select <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
-        cmd_refresh_listbox()
-
         cursor_set_busy(top)
         on.exit(cursor_set_idle(top))
-
 
         if (length(dataSets) == 0) {
             RcmdrTkmessageBox(
@@ -115,6 +110,7 @@ window_dataset_select <- function() {
     initializeDialog(title = gettext_bs("Select Dataset"))
     tk_title(top, "Select a dataset")
 
+    # Widgets ----------------------------------------------------------------
     var_ds_box <-
         bs_listbox(
             parent          = top,
@@ -128,12 +124,16 @@ window_dataset_select <- function() {
             on_double_click = onOK
         )
 
-    # Info  -------------------------------------------------------------------
+    tkgrid(getFrame(var_ds_box), sticky = "e",  pady = c(10, 0))
+
+
+    # Dataset info buttons ---------------------------------------------------
     info_buttons_frame <- tkframe(top)
 
     i1 <- tk2button(
         info_buttons_frame,
         text = "Class",
+        tip  = "Print class of the selected dataset.",
         width = 5,
         command = function() {
             .ds_1 <- get_selection(var_ds_box)
@@ -146,6 +146,10 @@ window_dataset_select <- function() {
     i2 <- tk2button(
         info_buttons_frame,
         text = "Size",
+        tip  = str_c("Print selected dataset's size and",
+                     "column type frequencies.",
+                     sep = "\n"),
+
         width = 4,
         command = function() {
             .ds_1 <- get_selection(var_ds_box)
@@ -163,6 +167,9 @@ window_dataset_select <- function() {
     i3 <- tk2button(
         info_buttons_frame,
         text = "Variables",
+        tip  = str_c("Print variable names in",
+                     "the selected dataset.",
+                     sep = "\n"),
         width = 0,
         command = function() {
             .ds_1 <- get_selection(var_ds_box)
@@ -175,6 +182,10 @@ window_dataset_select <- function() {
     i4 <- tk2button(
         info_buttons_frame,
         text = "Structure",
+        tip  = str_c("Print selected dataset's structure:",
+                     "variable names, types and several ",
+                     "first values.",
+                     sep = "\n"),
         width = 0,
         command = function() {
             .ds_1 <- get_selection(var_ds_box)
@@ -187,6 +198,9 @@ window_dataset_select <- function() {
     i5 <- tk2button(
         info_buttons_frame,
         text = "Summary",
+        tip  = str_c("Print summary of the variables",
+                     "in the selected dataset.",
+                     sep = "\n"),
         width = 0,
         command = function() {
 
@@ -228,6 +242,9 @@ window_dataset_select <- function() {
     i6 <- tk2button(
         info_buttons_frame,
         text = "Preview",
+        tip  = str_c("Preview the  selected dataset",
+                     "in a separate window.",
+                     sep = "\n"),
         width = 0,
         command = function() {
             .ds_1 <- get_selection(var_ds_box)
@@ -237,254 +254,68 @@ window_dataset_select <- function() {
             ))
         })
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Export -----------------------------------------------------------------
-    export_buttons_frame <- tkframe(top)
-    export_row_1_frame <- tkframe(export_buttons_frame)
-    # export_row_2_frame <- tkframe(export_buttons_frame)
-
-    e1 <- tk2button(
-        export_row_1_frame,
-        text = "To R structure",
-        width = 0, # 12,
-        command = function() {
-            .ds_1 <- get_selection(var_ds_box)
-            closeDialog()
-
-            doItAndPrint(str_glue(
-                "## Export as R structure ('{.ds_1}')\n",
-                "dput({.ds_1})"
-            ))
-            # window_dataset_new_rcmdr()
-            # cmd_refresh_listbox()
-
-        })
-
-    e2 <- tk2button(
-        export_row_1_frame,
-        text = "To Rds",
-        width = 0, # 12,
-        command = function() {
-            closeDialog()
-            # window_dataset_new_rcmdr()
-            # cmd_refresh_listbox()
-
-        })
-
-    e3 <- tk2button(
-        export_row_1_frame,
-        text = "To R Data",
-        width = 0, #  14,
-        command = function() {
-            closeDialog()
-            # window_import_text_delim0(init_location = "clipboard")
-            # cmd_refresh_listbox()
-        })
-
-
-
-
-
-    e8 <- tk2button(
-        export_row_1_frame,
-        text = "More",
-        width = 0, #  14,
-        command = function() {
-            closeDialog()
-            # window_import_text_delim0(init_location = "clipboard")
-            # cmd_refresh_listbox()
-        })
-
-    e4 <- tk2button(
-        export_row_1_frame,
-        text = "To text",
-        width = 0, #  14,
-        command = function() {
-            closeDialog()
-            # window_import_from_pkg()
-            # cmd_refresh_listbox()
-        })
-
-    e5 <- tk2button(
-        export_row_1_frame,
-        text = "To Excel",
-        width = 0, #  12,
-        command = function() {
-            closeDialog()
-            # window_import_excel()
-            # cmd_refresh_listbox()
-        })
-
-    e6 <- tk2button(
-        export_row_1_frame,
-        text = "To Word",
-        width = 0, #  12,
-        command = function() {
-            closeDialog()
-            # window_import_excel()
-            # cmd_refresh_listbox()
-        })
-
-    e7 <- tk2button(
-        export_row_1_frame,
-        text = "To PowerPoint",
-        width = 0, #  12,
-        command = function() {
-            closeDialog()
-            # window_import_excel()
-            # cmd_refresh_listbox()
-        })
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Import -----------------------------------------------------------------
-    import_buttons_frame <- tkframe(top)
-
-    b1 <- tk2button(
-        import_buttons_frame,
-        text = "Create new",
-        width = 0, # 12,
-        command = function() {
-            # closeDialog()
-            window_dataset_new_rcmdr()
-            cmd_refresh_listbox()
-
-        })
-
-    b2 <- tk2button(
-        import_buttons_frame,
-        text = "From clipboard",
-        width = 0, #  14,
-        command = function() {
-            # closeDialog()
-            window_import_text_delim0(init_location = "clipboard")
-            cmd_refresh_listbox()
-        })
-
-    b3 <- tk2button(
-        import_buttons_frame,
-        text = "From package",
-        width = 0, #  14,
-        command = function() {
-            # closeDialog()
-            window_import_from_pkg()
-            cmd_refresh_listbox()
-        })
-
-    b4 <- tk2button(
-        import_buttons_frame,
-        text = "From file",
-        width = 0, #  12,
-        command = function() {
-            # closeDialog()
-            window_import_excel()
-            cmd_refresh_listbox()
-        })
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    # wwww ------------------------------------------------  -----------------
-    manage_buttons_frame <- tkframe(top)
-
-
-    b0 <- tk2button(
-        manage_buttons_frame,
-        text = "Create new",
-        width =  15,
-        command = function() {
-            # closeDialog()
-            window_dataset_new_rcmdr()
-            cmd_refresh_listbox()
-
-        })
-
-    i0 <- tk2button(
-        manage_buttons_frame,
-        text = "Import",
-        width =  15,
-        command = function() {
-            closeDialog()
-            # window_dataset_new_rcmdr()
-            # cmd_refresh_listbox()
-
-        })
-
-    e0 <- tk2button(
-        manage_buttons_frame,
-        text = "Export",
-        width =  15,
-        command = function() {
-            closeDialog()
-            # window_dataset_new_rcmdr()
-            # cmd_refresh_listbox()
-
-        })
-
-
-    # Layout -----------------------------------------------------------------
-    ok_cancel_help()
-
-
-    # tkgrid(bs_label_b(top, text = "Import dataset"), pady = c(0, 0))
-    # tkgrid(import_buttons_frame, sticky = "e")
-    # tkgrid(b1, b2, b3, b4)
-    #
-
-
-
-
-
-    tkgrid(getFrame(var_ds_box), sticky = "e",  pady = c(10, 0))
-
-    # tkgrid(bs_label_b(top, text = "More options"), pady = c(0, 0))
-    tkgrid(manage_buttons_frame, sticky = "e")
-    tkgrid(b0, i0, e0)
-
-
-
-    tkgrid(bs_label_b(top, text = "Information about selected dataset"),
-           pady = c(5, 0))
+    # tkgrid(bs_label_b(top, text = "Information about selected dataset"),
+           # pady = c(5, 0))
     tkgrid(i1, i2, i3, i4, i5, i6)
     tkgrid(info_buttons_frame, sticky = "e")
 
 
+    # Import / Export buttons ------------------------------------------------------------
+    io_buttons_frame <- tkframe(top)
 
-    # tkgrid(b1, b2
-    # tkgrid(b3, b4)
+    c0 <- tk2button(
+        io_buttons_frame,
+        text  = "Create new",
+        tip   = "Create a new dataset.",
+        width =  15,
+        command = function() {
+            window_dataset_new_rcmdr()
+            # cmd_refresh_listbox()
+            closeDialog()
 
-    # tkgrid(bs_label_b(top, text = "Export selected dataset"), pady = c(5, 0))
-    # tkgrid(export_buttons_frame, sticky = "e")
-    # tkgrid(export_row_1_frame)
-    # # tkgrid(export_row_2_frame)
-    # tkgrid(e2, e3, e4, e5, e6, e8)
-    # # tkgrid(e1, e2, e3, e5)
-    # # tkgrid(e4, e6, e7, e8)
+        })
+
+    i0 <- tk2button(
+        io_buttons_frame,
+        text  = "Import",
+        tip   = str_c("Import a dataset from file",
+                      "clipboard or R package.",
+                      sep = "\n"),
+        width =  15,
+        command = function() {
+            # closeDialog()
+            tk_messageBox("ok", "Import menu does not work yet.")
+            cmd_refresh_listbox()
+
+        })
+
+    e0 <- tk2button(
+        io_buttons_frame,
+        tip  = str_c("Export the selected",
+                     "dataset to a file.",
+                     sep = "\n"),
+        text = "Export",
+        width =  15,
+        command = function() {
+            # closeDialog()
+            tk_messageBox("ok", "Export menu does not work yet.")
+            cmd_refresh_listbox()
+
+        })
 
 
+    tkgrid(io_buttons_frame, sticky = "e", pady = c(10, 0))
+    tkgrid(c0, i0, e0)
 
-    tkgrid(buttonsFrame, pady = c(5, 0))
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    # Finalize ---------------------------------------------------------------
+    ok_cancel_help()
+    tkgrid(buttonsFrame, pady = c(0, 0))
     dialogSuffix()
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    # menu <- tk2menu(top)           # Create a menu
-    # menu_imp <- tk2menu(top)           # Create a menu
-    # menu_exp <- tk2menu(top)           # Create a menu
-    # tkconfigure(top, menu = menu)  # Add it to the 'win1' window
-    # # tkconfigure(top, menu = menu_imp)  # Add it to the 'win1' window
-    # # tkconfigure(top, menu = menu_exp)  # Add it to the 'win1' window
-    #
-    #
-    # menuFile <- tk2menu(menu, tearoff = FALSE)
-    #
-    # tkadd(menu,     "cascade", label = "File", menu = menuFile)
-    # tkadd(menuFile, "command", label = "Quit", command = function() tkdestroy(top))
-    #
-    # # tkadd(menu_imp,     "command", label = "Import", menu = menuFile)
-    # tkadd(menu_exp,     "command", label = "Export", menu = menuFile)
-
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Apply functions --------------------------------------------------------
 
     cmd_ds_selection_callback()
     cmd_refresh_listbox()
@@ -492,8 +323,5 @@ window_dataset_select <- function() {
     if (!isTRUE(ActiveDataSet() %in% ls(all.names = TRUE, envir = .GlobalEnv))) {
         ActiveDataSet(NULL)
     }
-
-
-
 
 }
