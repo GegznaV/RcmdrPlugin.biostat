@@ -7,14 +7,19 @@
 # onClick_fun - function on mouse click
 # onRelease_fun - function on mouse release
 bs_listbox <-
-  function(parent_window,
-           variable_list = variables_all(),
-           bg            = "white",
-           select_mode   = "single",
-           export        = "FALSE",
-           initial_selection = NULL,
-           height = getRcmdr("variable.list.height"),
-           width  = getRcmdr("variable.list.width"),
+  function(parent,
+           values     = variables_all(), # NULL
+           value      = NULL,
+           selection  = NULL,
+           selectmode = c("single", "extended", "browse", "multiple"),
+           title      = NULL,
+           subtitle   = NULL,
+           tip        = "",
+           height     = getRcmdr("variable.list.height"),
+           width      = getRcmdr("variable.list.width"),
+           enabled    = TRUE,
+           scroll     = c("both", "x", "y", "none"),
+           autoscroll = c("x", "y", "both", "none"),
 
            on_click          = function() {},
            on_double_click   = function() {},
@@ -25,119 +30,157 @@ bs_listbox <-
            on_triple_click_3 = function() {},
            on_release_3      = function() {},
 
-
-           title = NULL,
            title_sticky = "w",
-           tip = "",
-           ...)
+           subtitle_sticky = title_sticky,
+           bind_keyboard = TRUE
+
+           , ...
+
+
+           )
   {
 
-    if (select_mode == "multiple")
-      select_mode <- getRcmdr("multiple.select.mode")
+    selectmode = match.arg(selectmode)
+    scroll     = match.arg(scroll)
+    autoscroll = match.arg(autoscroll)
 
-    if (length(variable_list) == 1 && is.null(initial_selection))
-      initial_selection <- 0
 
-    frame   <- tkframe(parent_window)
-    # minmax  <- getRcmdr("variable.list.width")
-    minmax  <- width
+    if (selectmode == "multiple")
+      selectmode <- getRcmdr("multiple.select.mode")
 
-    listbox <- tklistbox(
-      parent     = frame,
-      height     = height,
-      selectmode = select_mode,
-      background = bg,
-      exportselection = export,
-      width = min(max(minmax[1], 2 + nchar(variable_list)), minmax[2]),
-      ...
-    )
+    if (length(values) == 1 && is.null(selection))
+      selection <- 0
 
-    scrollbar <-
-      ttkscrollbar(
-        frame,
-        command = function(...) tkyview(listbox, ...))
 
-    tkconfigure(listbox,
-                yscrollcommand = function(...) tkset(scrollbar,  ...))
+    frame  <- tk2frame(parent)
+    if (length(width) == 1) {
+      width <- c(width, width)
+    }
+    width  <- min(max(width[1], 2 + nchar(values)), width[2]) # Set width
 
-    # for (var in variable_list)  tkinsert(listbox, "end", var)
-    set_values_listbox(listbox, variable_list)
+    if (is.null(value)) {
+      listbox <- tk2listbox(
+        parent     = frame,
+        values     = values,
+        # value      = value,
+        selection  = selection,
+        selectmode = selectmode,
+        height     = height,
+        width      = width,
+        scroll     = scroll,
+        autoscroll = autoscroll,
+        enabled    = enabled,
+        tip        = tip,
+        ...
+      )
 
-    # Initial selection ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (is.numeric(initial_selection))
-      for (sel in initial_selection)
-        tkselection.set(listbox, sel)
+    } else {
+      listbox <- tk2listbox(
+        parent     = frame,
+        values     = values,
+        value      = value,
+        selection  = selection,
+        selectmode = selectmode,
+        height     = height,
+        width      = width,
+        scroll     = scroll,
+        autoscroll = autoscroll,
+        enabled    = enabled,
+        tip        = tip,
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    onLetter <- function(letter) {
-      # Letter binding is good for read-only listboxes only
-
-      get_first_letter <- function(str) {
-        tolower(substr(str, 1, 1))
-      }
-
-      letter   <- tolower(letter)
-      all_vals <- get_values_listbox(listbox)
-      acceptable_inds <- which(get_first_letter(all_vals) %in% letter)
-
-      if (length(acceptable_inds) == 0) {
-        return()
-      }
-
-      cur_val_ind <- get_selection_ind_listbox(listbox)[1]
-
-      if (is.na(cur_val_ind) || length(cur_val_ind) == 0)
-        cur_val_ind <- 0
-
-      if (isTRUE((cur_val_ind + 1) %in% acceptable_inds)) {
-        next_ind <- cur_val_ind + 1
-      } else {
-        next_ind <- min(acceptable_inds)
-      }
-      # Set selection and make selection visible
-      set_selection_listbox(listbox, next_ind) # 1 based index
-      tkyview(listbox, next_ind - 1)           # 0 based index
+        ...
+      )
     }
 
-    eval_glue('tkbind(listbox, "<{letters}>", function() onLetter("{letters}"))')
-    eval_glue('tkbind(listbox, "<{LETTERS}>", function() onLetter("{letters}"))')
+
+    # listbox <- tklistbox(
+    #   parent     = frame,
+    #   height     = height,
+    #   selectmode = selectmode,
+    #   background = bg,
+    #   exportselection = export,
+    #   width = width,
+    #   ...
+    # )
+
+    if (isTRUE(bind_keyboard)) {
+
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      onLetter <- function(letter) {
+        # Letter binding is good for read-only listboxes only
+
+        get_first_letter <- function(str) {
+          tolower(substr(str, 1, 1))
+        }
+
+        letter   <- tolower(letter)
+        all_vals <- get_values_listbox(listbox)
+        acceptable_inds <- which(get_first_letter(all_vals) %in% letter)
+
+        if (length(acceptable_inds) == 0) {
+          return()
+        }
+
+        cur_val_ind <- get_selection_ind_listbox(listbox)[1]
+
+        if (is.na(cur_val_ind) || length(cur_val_ind) == 0)
+          cur_val_ind <- 0
+
+        if (isTRUE((cur_val_ind + 1) %in% acceptable_inds)) {
+          next_ind <- cur_val_ind + 1
+        } else {
+          next_ind <- min(acceptable_inds)
+        }
+        # Set selection and make selection visible
+        set_selection_listbox(listbox, next_ind) # 1 based index
+        tkyview(listbox, next_ind - 1)           # 0 based index
+      }
+
+      eval_glue('tkbind(listbox, "<{letters}>", function() onLetter("{letters}"))')
+      eval_glue('tkbind(listbox, "<{LETTERS}>", function() onLetter("{letters}"))')
+    }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     bind_mouse_keys(listbox)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    toggleSelection <- function() {
-      active   <- tclvalue(tkindex(listbox, "active"))
-      selected <- tclvalue(tkcurselection(listbox))
-      if (selected == active) {
-        tkselection.clear(listbox, "active")
-      } else {
-        tkselection.set(listbox, "active")
-      }
-    }
-
-    if (select_mode == "single")
-      tkbind(listbox, "<Control-ButtonPress-1>", toggleSelection)
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     if (!is.null(title)) {
       tkgrid(
         bs_label_b(frame, text = title, font = "RcmdrTitleFont"),
         columnspan = 2, sticky = title_sticky)
     }
+    if (!is.null(subtitle)) {
+      tkgrid(
+        bs_label(frame, text = subtitle, font = "RcmdrTitleFont"),
+        columnspan = 2, sticky = subtitle_sticky)
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # toggleSelection <- function() {
+    #   active   <- tclvalue(tkindex(listbox, "active"))
+    #   selected <- tclvalue(tkcurselection(listbox))
+    #   if (selected == active) {
+    #     tkselection.clear(listbox, "active")
+    #   } else {
+    #     tkselection.set(listbox, "active")
+    #   }
+    # }
+    #
+    # if (selectmode == "single")
+    #   tkbind(listbox, "<Control-ButtonPress-1>", toggleSelection)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    tkgrid(listbox, scrollbar,  sticky = "nw")
-    tkgrid.configure(scrollbar, sticky = "wns")
-    tkgrid.configure(listbox,   sticky = "ewns")
+
+    tkgrid(listbox, sticky = "nw")
+    # tkgrid(listbox, scrollbar,  sticky = "nw")
+    # tkgrid.configure(scrollbar, sticky = "wns")
+    # tkgrid.configure(listbox,   sticky = "ewns")
 
     # Output ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     structure(
       list(frame       = frame,
            listbox     = listbox,
-           scrollbar   = scrollbar,
-           select_mode = select_mode,
-           varlist     = variable_list),
+           # scrollbar   = scrollbar,
+           selectmode  = selectmode,
+           varlist     = values),
       class = "listbox"
     )
   }
