@@ -113,6 +113,7 @@
 \alias{tclvalue_chr_split}
 \alias{label_rcmdr}
 \alias{bs_label_b}
+\alias{bs_label}
 \alias{labeled_frame}
 \alias{tk_title}
 \alias{bs_title}
@@ -296,15 +297,18 @@ get_selection_combobox(combobox)
 
 \method{tk_get_state}{combobox}(obj)
 
-bs_listbox(parent_window, variable_list = variables_all(),
-  bg = "white", select_mode = "single", export = "FALSE",
-  initial_selection = NULL, height = getRcmdr("variable.list.height"),
-  width = getRcmdr("variable.list.width"), on_click = function() { },
+bs_listbox(parent, values = variables_all(), value = NULL,
+  selection = NULL, selectmode = c("single", "extended", "browse",
+  "multiple"), title = NULL, subtitle = NULL, tip = "",
+  height = getRcmdr("variable.list.height"),
+  width = getRcmdr("variable.list.width"), enabled = TRUE,
+  scroll = c("both", "x", "y", "none"), autoscroll = c("x", "y",
+  "both", "none"), on_click = function() { },
   on_double_click = function() { }, on_triple_click = function() { },
   on_release = function() { }, on_click_3 = function() { },
   on_double_click_3 = function() { }, on_triple_click_3 = function() {
-  }, on_release_3 = function() { }, title = NULL, title_sticky = "w",
-  tip = "", ...)
+  }, on_release_3 = function() { }, title_sticky = "w",
+  subtitle_sticky = title_sticky, bind_keyboard = TRUE, ...)
 
 get_values_listbox(listbox)
 
@@ -368,6 +372,8 @@ tclvalue_chr_split(x)
 label_rcmdr(..., fg = NULL)
 
 bs_label_b(..., fg = Rcmdr::getRcmdr("title.color"))
+
+bs_label(..., fg = "black")
 
 labeled_frame(parent, label = NULL, ...)
 
