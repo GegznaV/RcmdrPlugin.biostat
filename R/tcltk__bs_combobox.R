@@ -3,11 +3,11 @@
 # https://www.tcl.tk/man/tcl/TkCmd/ttk_combobox.htm
 # https://core.tcl.tk/bwidget/doc/bwidget/BWman/ComboBox.html#-values
 #
-# @param parent_window parent Tcl/Tk frame
-# @param variable_list
+# @param parent parent Tcl/Tk frame
+# @param values
 # @param export
 # @param state
-# @param initial_selection
+# @param selection
 # @param title
 #
 # @param title_sticky
@@ -36,13 +36,14 @@
 # @export
 
 bs_combobox <- function(
-    parent_window       = top,
-    variable_list       = variables_all(),
+    parent       = top,
+    values       = variables_all(),
     export              = "FALSE",
     state               = c("readonly", "normal", "disabled"),
     # default_text      = "<no variable selected>",
-    # initial_selection = gettext_bs(default_text),
-    initial_selection   = NULL,
+    # selection = gettext_bs(default_text),
+    value               = NULL,
+    selection           = NULL,
     title               = NULL,
     title_sticky        = "w",
     combobox_sticky     = "nw",
@@ -66,21 +67,44 @@ bs_combobox <- function(
 
     state <- match.arg(state)
 
-    # variable_list     <- c(gettext_bs(default_text), variable_list)
-    frame              <- tkframe(parent_window)
+    checkmate::assert_integerish(selection, lower = 1, len = 1, null.ok = TRUE)
+    checkmate::assert_string(value, null.ok = TRUE)
+
+    # Check this ---- START ==================================================
+    if (is.null(values) || length(values) == 0) {
+        values    <- NULL
+        selection <- NULL
+        value     <- NULL
+
+    } else {
+        values <- as.character(values)
+
+        if (length(value) == 1 && (value[1] %in% values)) {
+            value <- value[1]
+        } else if (length(selection) != 0) {
+            value <-  values[selection[1]]
+        } else {
+            value <- NULL
+        }
+    }
+
+    # Check this ---- END ==================================================
+
+
+    # values     <- c(gettext_bs(default_text), values)
+    frame              <- tkframe(parent)
     combovar           <- tclVar()
-    tclvalue(combovar) <- initial_selection
+    tclvalue(combovar) <- value
 
     # Main -------------------------------------------------------------------
     combobox <- tk2combobox(
         parent       = frame,
-        values       = variable_list,
+        values       = values,
         textvariable = combovar,
         state        = state,
         export       = export,
         width        = width,
         height       = height,
-        # modifycmd    = modifycmd,
         postcommand  = postcommand,
         tip = tip
         , ...
@@ -103,18 +127,20 @@ bs_combobox <- function(
             return()
         }
 
-        cur_val <- tclvalue_chr(tkget(combobox))
+        cur_val     <- tclvalue_chr(tkget(combobox))
         cur_val_ind <- which(all_vals %in% cur_val)
 
         if (length(cur_val_ind) == 0)
             cur_val_ind <- 0
 
-        if (isTRUE((cur_val_ind + 1) %in% acceptable_inds)) {
-            next_ind <- cur_val_ind + 1
-        } else {
+        next_ind <-
+            acceptable_inds[which(acceptable_inds %in% cur_val_ind)[1] + 1]
+
+        if (is.na(next_ind)) {
             next_ind <- min(acceptable_inds)
         }
-        tcl(combobox, "current", next_ind - 1)
+
+        tcl(combobox, "current", next_ind - 1) # 0 based index
     }
     eval_glue('tkbind(combobox, "<{letters}>", function() onLetter("{letters}"))')
     eval_glue('tkbind(combobox, "<{LETTERS}>", function() onLetter("{letters}"))')
@@ -143,8 +169,11 @@ bs_combobox <- function(
         var      = combovar,
 
         combobox = combobox,
-        varlist  = variable_list,
-        combovar = combovar)
+        combovar = combovar,
+
+
+        varlist  = values
+    )
 
     class(result) <- "combobox"
     result
