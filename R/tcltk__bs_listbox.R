@@ -119,10 +119,25 @@ bs_listbox <-
     #   ...
     # )
 
-    if (isTRUE(bind_keyboard)) {
-
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Adds ability deselect in single-selection boxes
+    toggle_single_selection <- function() {
+      active   <- tclvalue(tkindex(listbox, "active"))
+      selected <- tclvalue_int_split(tkcurselection(listbox))
+
+      if (selected == active) {
+        tkselection.clear(listbox, "active")
+
+      } else {
+        tkselection.clear(listbox, 1, "end") # prevents from multiple selection
+        tkselection.set(listbox, "active")
+      }
+    }
+
+    if (selectmode == "single")
+      tkbind(listbox, "<Control-ButtonPress-1>", toggle_single_selection)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    if (isTRUE(bind_keyboard)) {
       onLetter <- function(letter) {
         # Letter binding is good for read-only listboxes only
 
@@ -170,22 +185,6 @@ bs_listbox <-
         bs_label(frame, text = subtitle, font = "RcmdrTitleFont"),
         columnspan = 2, sticky = subtitle_sticky)
     }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    toggle_single_selection <- function() {
-      active   <- tclvalue(tkindex(listbox, "active"))
-      selected <- tclvalue_int_split(tkcurselection(listbox))
-
-      if (selected == active) {
-        tkselection.clear(listbox, "active")
-
-      } else {
-        tkselection.clear(listbox, 1, "end") # prevents from multiple selection
-        tkselection.set(listbox, "active")
-      }
-    }
-
-    if (selectmode == "single")
-      tkbind(listbox, "<Control-ButtonPress-1>", toggle_single_selection)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
