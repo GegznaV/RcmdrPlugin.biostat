@@ -209,4 +209,5 @@ window_import_text_delim0 <- function(init_location = "local") {
     tkgrid(optionsFrame, sticky = "w")
     tkgrid(buttonsFrame, sticky = "w")
     dialogSuffix()
+
 }
