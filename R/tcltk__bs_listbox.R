@@ -48,8 +48,8 @@ bs_listbox <-
     if (selectmode == "multiple")
       selectmode <- getRcmdr("multiple.select.mode")
 
-    if (length(values) == 1 && is.null(selection))
-      selection <- 0
+    # if (length(values) == 1 && is.null(selection))
+    #   selection <- 0
 
 
     frame  <- tk2frame(parent)
@@ -58,7 +58,23 @@ bs_listbox <-
     }
     width  <- min(max(width[1], 2 + nchar(values)), width[2]) # Set width
 
-    if (is.null(value)) {
+    if (is.null(value) & is.null(selection)) {
+      listbox <- tk2listbox(
+        parent     = frame,
+        values     = values,
+        # value      = value,
+        # selection  = selection,
+        selectmode = selectmode,
+        height     = height,
+        width      = width,
+        scroll     = scroll,
+        autoscroll = autoscroll,
+        enabled    = enabled,
+        tip        = tip,
+        ...
+      )
+
+    } else if (!is.null(selection)) {
       listbox <- tk2listbox(
         parent     = frame,
         values     = values,
@@ -71,15 +87,15 @@ bs_listbox <-
         autoscroll = autoscroll,
         enabled    = enabled,
         tip        = tip,
+
         ...
       )
-
     } else {
       listbox <- tk2listbox(
         parent     = frame,
         values     = values,
         value      = value,
-        selection  = selection,
+        # selection  = selection,
         selectmode = selectmode,
         height     = height,
         width      = width,
@@ -127,9 +143,10 @@ bs_listbox <-
         if (is.na(cur_val_ind) || length(cur_val_ind) == 0)
           cur_val_ind <- 0
 
-        if (isTRUE((cur_val_ind + 1) %in% acceptable_inds)) {
-          next_ind <- cur_val_ind + 1
-        } else {
+        next_ind <-
+          acceptable_inds[which(acceptable_inds %in% cur_val_ind)[1] + 1]
+
+        if (is.na(next_ind)) {
           next_ind <- min(acceptable_inds)
         }
         # Set selection and make selection visible
