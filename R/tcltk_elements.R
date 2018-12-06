@@ -27,6 +27,15 @@ bs_label_b <- function(..., fg = Rcmdr::getRcmdr("title.color")) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
+# Label for R Commander
+# see also: labelRcmdr
+bs_label <- function(..., fg = "black") {
+  if (is.null(fg)) ttklabel(...) else ttklabel(..., foreground = fg)
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 labeled_frame <- function(parent, label = NULL, ...) {
   ttklabelframe(parent = parent,
                 labelwidget = tklabel(
