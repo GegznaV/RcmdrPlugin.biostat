@@ -171,18 +171,21 @@ bs_listbox <-
         columnspan = 2, sticky = subtitle_sticky)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # toggleSelection <- function() {
-    #   active   <- tclvalue(tkindex(listbox, "active"))
-    #   selected <- tclvalue(tkcurselection(listbox))
-    #   if (selected == active) {
-    #     tkselection.clear(listbox, "active")
-    #   } else {
-    #     tkselection.set(listbox, "active")
-    #   }
-    # }
-    #
-    # if (selectmode == "single")
-    #   tkbind(listbox, "<Control-ButtonPress-1>", toggleSelection)
+    toggle_single_selection <- function() {
+      active   <- tclvalue(tkindex(listbox, "active"))
+      selected <- tclvalue_int_split(tkcurselection(listbox))
+
+      if (selected == active) {
+        tkselection.clear(listbox, "active")
+
+      } else {
+        tkselection.clear(listbox, 1, "end") # prevents from multiple selection
+        tkselection.set(listbox, "active")
+      }
+    }
+
+    if (selectmode == "single")
+      tkbind(listbox, "<Control-ButtonPress-1>", toggle_single_selection)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
