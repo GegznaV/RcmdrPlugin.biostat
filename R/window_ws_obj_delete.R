@@ -4,23 +4,6 @@
 #'
 
 window_data_obj_delete <- function() {
-    dataSets  <- objects(envir = .GlobalEnv)
-    active_ds <- ActiveDataSet()
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = "Delete Objects")
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    dataSet1Box <- variableListBox2(
-        selectmode = "multiple",
-
-        listHeight = 9,
-        top,
-        dataSets,
-        title = "Objects\n(pick one or several)",
-
-        initialSelection = NULL
-    )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         obj_names <- getSelection(dataSet1Box)
@@ -84,6 +67,43 @@ window_data_obj_delete <- function() {
 
         tkfocus(CommanderWindow())
     }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    dataSets  <- objects(envir = .GlobalEnv)
+    active_ds <- ActiveDataSet()
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    initializeDialog(title = "Delete Objects")
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    dataSet1Box <- bs_listbox(
+        parent       = top,
+        title        = "Objects to delete\n(pick one or several)",
+        values       = dataSets,
+        selectmode   = "multiple",
+        height       = 9,
+        width        = 24,
+        value        =  active_ds,
+        tip  = str_c("Hold 'Ctrl' key and left-click \n",
+                     "mouse to select several or deselect. ")
+
+    )
+
+    if (!is.null(active_ds)) {
+        set_yview(dataSet1Box, which(dataSets %in% active_ds))
+    }
+
+    # dataSet1Box <- variableListBox2(
+    #     selectmode = "multiple",
+    #
+    #     listHeight = 9,
+    #     top,
+    #     dataSets,
+    #     title = "Objects\n(pick one or several)",
+    #
+    #     initialSelection = NULL
+    # )
+
     # ========================================================================
     OKCancelHelp()
 
@@ -97,7 +117,7 @@ window_data_obj_delete <- function() {
         fg   = "darkred"),
         pady = c(5, 9))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(getFrame(dataSet1Box))
+    tkgrid(getFrame(dataSet1Box), sticky = "e")
 
     tkgrid(buttonsFrame, columnspan = 2)
     dialogSuffix()
