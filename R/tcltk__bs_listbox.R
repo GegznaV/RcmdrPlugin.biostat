@@ -186,8 +186,6 @@ bs_listbox <-
         columnspan = 2, sticky = subtitle_sticky)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
     tkgrid(listbox, sticky = "nw")
     # tkgrid(listbox, scrollbar,  sticky = "nw")
     # tkgrid.configure(scrollbar, sticky = "wns")
