@@ -122,16 +122,16 @@ bs_listbox <-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Adds ability deselect in single-selection boxes
     toggle_single_selection <- function() {
-      active   <- tclvalue(tkindex(listbox, "active"))
+      active   <- tclvalue_int(tkindex(listbox, "active"))
       selected <- tclvalue_int_split(tkcurselection(listbox))
 
-      if (selected == active) {
-        tkselection.clear(listbox, "active")
-
-      } else {
-        tkselection.clear(listbox, 1, "end") # prevents from multiple selection
+      if (length(selected) == 0) {
         tkselection.set(listbox, "active")
+
+      } else if (isTRUE(active %in% selected)) {
+        tkselection.clear(listbox, "active")
       }
+
     }
 
     if (selectmode == "single")
