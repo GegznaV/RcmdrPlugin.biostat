@@ -24,8 +24,10 @@ window_dataset_select <- function() {
 
         envir = parent.frame()
         button_obj <- c(
+            "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8",
+
             "i1", "i2", "i3", "i4", "i5", "i6",
-            "e1", "e2", "e3", "e4", "e5", "e6", "e7"
+            "e0"
         )
 
         if (get_size(var_ds_box) == 0 || get_selection_length(var_ds_box) == 0) {
@@ -38,6 +40,43 @@ window_dataset_select <- function() {
         }
     }
 
+    to_pptx <- function(variables) {
+
+        library(tidyverse)
+        library(officer)
+
+        doc <- read_pptx() %>%
+            add_slide(layout = "Title and Content", master = "Office Theme") %>%
+            ph_with_text(type =  "title", str = "A title") %>%
+            ph_with_table(type = "body", value = mtcars) %>%
+            ph_with_text(type = "dt", str = format(Sys.Date()))
+
+        print(doc, target = "ph_with_table.pptx")
+
+        fs::file_show("ph_with_table.pptx")
+    }
+
+    to_docx <- function(variables) {
+
+        library(tidyverse)
+        library(officer)
+        doc <- read_docx("toc_and_captions.docx") %>%
+
+            # body_add_par(value = "dataset mtcars", style = "heading 1") %>%
+            # body_add_break() %>%
+
+            body_add_par(value = "data mtcars", style = "table title") %>%
+
+            body_add_table(value = swiss, style = "table_template" ) %>%
+
+            body_end_section_portrait() %>%
+
+        print(doc, target = "toc_and_captions.docx")
+
+        fs::file_show("toc_and_captions.docx")
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         cmd_refresh_listbox()
 
@@ -79,17 +118,17 @@ window_dataset_select <- function() {
     var_ds_box <-
         bs_listbox(
             parent          = top,
-            title           = gettext_bs("Datasets (pick one)"),
+            title           = gettext_bs("Datasets in R memory (select one)"),
             title_sticky    = "",
             values          = dataSets,
             selection       = if (is.null(.ds)) NULL else which(.ds == dataSets) - 1,
-            height          = 8,
+            height          = 10,
             width           = c(47, Inf),
             on_release      = cmd_ds_selection_callback,
             on_double_click = onOK
         )
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Info  -------------------------------------------------------------------
     info_buttons_frame <- tkframe(top)
 
     i1 <- tk2button(
@@ -180,7 +219,7 @@ window_dataset_select <- function() {
                     "## More details on categorical variables\n",
                     "{.ds_1} %>% \n ",
                     "dplyr::select_if(is.factor) %>% \n",
-                    " purrr::map(summary)"
+                    "purrr::map(~data.frame(n = summary(.)))"
                 )))
             }
 
@@ -199,13 +238,14 @@ window_dataset_select <- function() {
         })
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Export -----------------------------------------------------------------
     export_buttons_frame <- tkframe(top)
     export_row_1_frame <- tkframe(export_buttons_frame)
-    export_row_2_frame <- tkframe(export_buttons_frame)
+    # export_row_2_frame <- tkframe(export_buttons_frame)
 
     e1 <- tk2button(
         export_row_1_frame,
-        text = "As R structure",
+        text = "To R structure",
         width = 0, # 12,
         command = function() {
             .ds_1 <- get_selection(var_ds_box)
@@ -222,7 +262,7 @@ window_dataset_select <- function() {
 
     e2 <- tk2button(
         export_row_1_frame,
-        text = "To Rds file",
+        text = "To Rds",
         width = 0, # 12,
         command = function() {
             closeDialog()
@@ -233,7 +273,21 @@ window_dataset_select <- function() {
 
     e3 <- tk2button(
         export_row_1_frame,
-        text = "To R Data file",
+        text = "To R Data",
+        width = 0, #  14,
+        command = function() {
+            closeDialog()
+            # window_import_text_delim0(init_location = "clipboard")
+            # cmd_refresh_listbox()
+        })
+
+
+
+
+
+    e8 <- tk2button(
+        export_row_1_frame,
+        text = "More",
         width = 0, #  14,
         command = function() {
             closeDialog()
@@ -242,8 +296,8 @@ window_dataset_select <- function() {
         })
 
     e4 <- tk2button(
-        export_row_2_frame,
-        text = "To text (.txt, .csv)",
+        export_row_1_frame,
+        text = "To text",
         width = 0, #  14,
         command = function() {
             closeDialog()
@@ -252,7 +306,7 @@ window_dataset_select <- function() {
         })
 
     e5 <- tk2button(
-        export_row_2_frame,
+        export_row_1_frame,
         text = "To Excel",
         width = 0, #  12,
         command = function() {
@@ -262,7 +316,7 @@ window_dataset_select <- function() {
         })
 
     e6 <- tk2button(
-        export_row_2_frame,
+        export_row_1_frame,
         text = "To Word",
         width = 0, #  12,
         command = function() {
@@ -272,7 +326,7 @@ window_dataset_select <- function() {
         })
 
     e7 <- tk2button(
-        export_row_2_frame,
+        export_row_1_frame,
         text = "To PowerPoint",
         width = 0, #  12,
         command = function() {
@@ -282,6 +336,7 @@ window_dataset_select <- function() {
         })
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Import -----------------------------------------------------------------
     import_buttons_frame <- tkframe(top)
 
     b1 <- tk2button(
@@ -326,33 +381,108 @@ window_dataset_select <- function() {
         })
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    # wwww ------------------------------------------------  -----------------
+    manage_buttons_frame <- tkframe(top)
+
+
+    b0 <- tk2button(
+        manage_buttons_frame,
+        text = "Create new",
+        width =  15,
+        command = function() {
+            # closeDialog()
+            window_dataset_new_rcmdr()
+            cmd_refresh_listbox()
+
+        })
+
+    i0 <- tk2button(
+        manage_buttons_frame,
+        text = "Import",
+        width =  15,
+        command = function() {
+            closeDialog()
+            # window_dataset_new_rcmdr()
+            # cmd_refresh_listbox()
+
+        })
+
+    e0 <- tk2button(
+        manage_buttons_frame,
+        text = "Export",
+        width =  15,
+        command = function() {
+            closeDialog()
+            # window_dataset_new_rcmdr()
+            # cmd_refresh_listbox()
+
+        })
+
+
+    # Layout -----------------------------------------------------------------
     ok_cancel_help()
 
-    tkgrid(getFrame(var_ds_box), sticky = "e")
+
+    # tkgrid(bs_label_b(top, text = "Import dataset"), pady = c(0, 0))
+    # tkgrid(import_buttons_frame, sticky = "e")
+    # tkgrid(b1, b2, b3, b4)
+    #
+
+
+
+
+
+    tkgrid(getFrame(var_ds_box), sticky = "e",  pady = c(10, 0))
+
+    # tkgrid(bs_label_b(top, text = "More options"), pady = c(0, 0))
+    tkgrid(manage_buttons_frame, sticky = "e")
+    tkgrid(b0, i0, e0)
+
+
 
     tkgrid(bs_label_b(top, text = "Information about selected dataset"),
            pady = c(5, 0))
     tkgrid(i1, i2, i3, i4, i5, i6)
     tkgrid(info_buttons_frame, sticky = "e")
 
+
+
     # tkgrid(b1, b2
     # tkgrid(b3, b4)
 
-    tkgrid(bs_label_b(top, text = "Export selected dataset"), pady = c(5, 0))
-    tkgrid(export_buttons_frame, sticky = "e")
-    tkgrid(export_row_1_frame)
-    tkgrid(export_row_2_frame)
-    # tkgrid(e1, e2, e3, e4, e5, e6, e7)
-    tkgrid(e1, e2, e3)
-    tkgrid(e4, e5, e6, e7)
+    # tkgrid(bs_label_b(top, text = "Export selected dataset"), pady = c(5, 0))
+    # tkgrid(export_buttons_frame, sticky = "e")
+    # tkgrid(export_row_1_frame)
+    # # tkgrid(export_row_2_frame)
+    # tkgrid(e2, e3, e4, e5, e6, e8)
+    # # tkgrid(e1, e2, e3, e5)
+    # # tkgrid(e4, e6, e7, e8)
 
-    tkgrid(bs_label_b(top, text = "Import another dataset"), pady = c(5, 0))
-    tkgrid(import_buttons_frame, sticky = "e")
-    tkgrid(b1, b2, b3, b4)
+
 
     tkgrid(buttonsFrame, pady = c(5, 0))
 
     dialogSuffix()
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    # menu <- tk2menu(top)           # Create a menu
+    # menu_imp <- tk2menu(top)           # Create a menu
+    # menu_exp <- tk2menu(top)           # Create a menu
+    # tkconfigure(top, menu = menu)  # Add it to the 'win1' window
+    # # tkconfigure(top, menu = menu_imp)  # Add it to the 'win1' window
+    # # tkconfigure(top, menu = menu_exp)  # Add it to the 'win1' window
+    #
+    #
+    # menuFile <- tk2menu(menu, tearoff = FALSE)
+    #
+    # tkadd(menu,     "cascade", label = "File", menu = menuFile)
+    # tkadd(menuFile, "command", label = "Quit", command = function() tkdestroy(top))
+    #
+    # # tkadd(menu_imp,     "command", label = "Import", menu = menuFile)
+    # tkadd(menu_exp,     "command", label = "Export", menu = menuFile)
+
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -362,4 +492,8 @@ window_dataset_select <- function() {
     if (!isTRUE(ActiveDataSet() %in% ls(all.names = TRUE, envir = .GlobalEnv))) {
         ActiveDataSet(NULL)
     }
+
+
+
+
 }
