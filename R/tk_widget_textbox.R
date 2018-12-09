@@ -1,35 +1,41 @@
 
-tk_widget_textbox <- function(
+bs_tk_textbox <- function(
 
-    parent_frame = top,
-    width    = "28",
-    init_val = "",
+    parent = top,
+    width = "28",
+    value = "",
     label = "",
     label_position = c("left", "above", "right", "none"),
     label_color = getRcmdr("title.color"),
     padx = 0,
     pady = 5,
     sticky = "w",
-    main_frame  = tkframe(parent_frame),
+    main_frame  = tkframe(parent),
     text_frame  = tkframe(main_frame),
     label_frame = tkframe(main_frame),
+    tip = "",
     ...
 
 ) {
     label_position <- match.arg(label_position)
 
-    var_text  <- tclVar(init_val)
-    obj_text <- ttkentry(text_frame,
-                         width = width,
-                         textvariable = var_text,
-                         ...)
+    var_text <- tclVar(value)
+
+    obj_text <- tk2entry(
+        parent       = text_frame,
+        tip          = tip,
+        width        = width,
+        textvariable = var_text,
+        ...
+    )
+
+    obj_label <- label_rcmdr(
+        parent     = label_frame,
+        text       = gettext_bs(label),
+        foreground = label_color
+    )
 
     if (nchar(label) > 0) {
-
-        label_obj <- label_rcmdr(
-            label_frame,
-            text = gettext_bs(label),
-            foreground = label_color)
 
         switch(label_position,
                "above" = {
@@ -38,7 +44,7 @@ tk_widget_textbox <- function(
                    }
                    tkgrid(label_frame, sticky = sticky, padx = padx, pady = c(pady[1], 0))
                    tkgrid(text_frame,  sticky = sticky, padx = padx, pady = c(0, pady[2]))
-                   tkgrid(obj_text,   sticky = sticky)
+                   tkgrid(obj_text,    sticky = sticky)
                } ,
                "left" = {
                    tkgrid(label_frame, text_frame, sticky = sticky,
@@ -51,7 +57,7 @@ tk_widget_textbox <- function(
                    tkgrid(obj_text,   sticky = sticky, padx = c(0, 5))
                }
         )
-        tkgrid(label_obj, sticky = sticky)
+        tkgrid(obj_label, sticky = sticky)
 
     } else {
         tkgrid(text_frame, sticky = sticky, padx = padx, pady = pady)
@@ -59,12 +65,66 @@ tk_widget_textbox <- function(
     }
 
     structure(list(
-        frame = main_frame,
+        frame       = main_frame,
         frame_text  = text_frame,
         frame_label = label_frame,
 
-        var_text = var_text,
-        obj_text = obj_text
-    ))
+        var_text  = var_text,
+        obj_text  = obj_text,
+        obj_label = obj_label
+    ),
+    class = c("bs_tk_textbox", "bs_tk_widget", "list"))
 }
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+set_values.bs_tk_textbox <- function(obj, values, ...) {
+    tclvalue(obj$var_text) <- values
+}
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+`values<-.bs_tk_textbox` <- function(x, value) {
+    tclvalue(x$var_text) <- value
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+get_values.bs_tk_textbox <- function(obj, ...) {
+    tclvalue_chr(obj$var_text)
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+tk_disable.bs_tk_textbox <- function(obj, ..., foreground = "grey") {
+    tk_disable(obj$obj_text, ...)
+    tk_disable(obj$obj_label, foreground = foreground)
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+tk_normalize.bs_tk_textbox <- function(obj, ..., foreground = getRcmdr("title.color")) {
+    tk_normalize(obj$obj_text, ...)
+    tk_normalize(obj$obj_label, foreground = foreground)
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+tk_activate.bs_tk_textbox <- function(obj, ..., foreground = getRcmdr("title.color")) {
+    tk_activate(obj$obj_text)
+    tk_activate(obj$obj_label, foreground = foreground)
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+tk_get_state.bs_tk_textbox <- function(obj) {
+    tk_get_state(obj$obj_text)
+}

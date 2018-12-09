@@ -18,39 +18,23 @@ command_get_locale <- function() {
 #' @keywords internal
 window_locale_set <- function() {
 
-    # Initial values ---------------------------------------------------------
-
-    # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    fg_col <- Rcmdr::getRcmdr("title.color")
-
-    locales <-
-        if (.Platform$OS.type == "windows") {
-            windows_languages
-        } else {
-            system("locale -a", intern = TRUE)
-        }
-
-    # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_bs("Change Locale"))
-
-    tk_title(top, "Change locale") # Title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    # Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Functions --------------------------------------------------------------
 
     cmd_control_activation <- function() {
 
         switch(tclvalue_chr(options_Variable),
                "default" = {
                    set_values(var_y_box, "")
-                   tk_disable(var_y_box$listbox, background = "grey95")
+                   tk_disable(var_y_box)
                    tk_disable(locale_entry)
                    tclvalue(locale_variable) <- "System's default"
+
                    tk_disable(check_locale_CheckBox)
                    tclvalue(check_locale_Variable) <- "0"
 
                },
                "other" = {
-                   tk_normalize(var_y_box$listbox, background = "white")
+                   tk_normalize(var_y_box)
                    set_values(var_y_box, values = locales)
                    tk_activate(locale_entry)
                    tclvalue(locale_variable) <- ""
@@ -178,6 +162,23 @@ window_locale_set <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     }
 
+    # Initial values ---------------------------------------------------------
+
+    # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    fg_col <- Rcmdr::getRcmdr("title.color")
+
+
+    if (.Platform$OS.type == "windows") {
+        locales <- windows_languages
+    } else {
+        locales <- system("locale -a", intern = TRUE)
+    }
+
+    # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    initializeDialog(title = gettext_bs("Change Locale"))
+
+    tk_title(top, "Change locale") # Title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     # Widgets ----------------------------------------------------------------
 
     upper_frame <- tkframe(top)
@@ -187,30 +188,30 @@ window_locale_set <- function() {
 
     radioButtons_horizontal(
         options_outer_frame,
-        title = "Change locale into: ",
-        title.color = fg_col,
+        title           = "Change locale into: ",
+        title.color     = fg_col,
 
         # right.buttons = FALSE,
-        name = "options_",
-        sticky_buttons = "e",
-        buttons = c("default"          , "other"),
-        values =  c("default"          , "other"),
-        labels =  c("System's default", "Other"),
-        initialValue = "other",
-        command = cmd_control_activation
+        name            = "options_",
+        sticky_buttons  = "e",
+        buttons         = c("default"          , "other"),
+        values          = c("default"          , "other"),
+        labels          = c("System's default" , "Other"),
+        initialValue    = "other",
+        command         = cmd_control_activation
     )
 
     # List of locales
-    var_y_box <- variableListBox2(
-        upper_frame,
-        title        = gettext_bs("List of Locales"),
-        variableList = locales,
-        listHeight = 7,
-        listWidth  = c(43, Inf),
-        selectmode = "single",
-        initialSelection = NULL,
-        onRelease_fun     = cmd_update_textentry,
-        onDoubleClick_fun = cmd_update_textentry
+    var_y_box <- bs_listbox(
+        parent            = upper_frame,
+        title             = gettext_bs("List of Locales"),
+        values            = locales,
+        value             = NULL,
+        height            = 7,
+        width             = c(43, Inf),
+        selectmode        = "single",
+        on_release        = cmd_update_textentry,
+        on_double_click   = cmd_update_textentry
     )
 
     # Text entry box
