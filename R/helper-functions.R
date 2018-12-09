@@ -377,12 +377,15 @@ function_not_implemented <- function() {
 # Make a unique name for an object (e.g., data frame) by adding numbers
 #
 # @param name - name of dataset before suffix and preffix are added.
-unique_obj_names <- function(names = ActiveDataSet(),
+unique_obj_names <- function(names,
                              preffix = "",
-                             suffix = "",
+                             suffix  = "",
                              list_of_choices = objects(all.names = TRUE,
                                                        envir = .GlobalEnv),
                              all_numbered = FALSE) {
+    if (length(names) == 0)
+        return(NULL)
+
     initial_names <- str_glue("{preffix}{names}{suffix}")
 
     n_names <- length(names)
@@ -660,6 +663,25 @@ variable_is_not_selected <- function(obj, obj_type = "variable") {
 
         show_error_messages(message, message,
                             title = str_glue("Select a {obj_type}"))
+        return(TRUE)
+
+    } else {
+        return(FALSE)
+    }
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+object_is_not_selected <- function(obj, obj_type = "object") {
+
+    if (length(obj) < 1 || (length(obj) == 1 && any(obj == ""))) {
+        message  <- str_glue(
+            "No {obj_type} is selected.\n",
+            "Please, select an {obj_type}.")
+
+        show_error_messages(message, message,
+                            title = str_glue("Select an {obj_type}"))
         return(TRUE)
 
     } else {
