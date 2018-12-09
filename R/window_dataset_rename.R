@@ -18,8 +18,7 @@ window_dataset_rename <- function() {
         fg = fg_col),
         pady = c(5, 9), columnspan = 2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    dsname <- tclVar(unique_df_name(str_glue(
-        "{activeDataSet()}_renamed")))
+    dsname <- tclVar(unique_df_name(str_glue("{activeDataSet()}_renamed")))
     entryDsname <- ttkentry(top, width = "40", textvariable = dsname)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
