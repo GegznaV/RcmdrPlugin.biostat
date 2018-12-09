@@ -84,6 +84,14 @@ bs_tk_textbox <- function(
 set_values.bs_tk_textbox <- function(obj, values, ...) {
     tclvalue(obj$var_text) <- values
 }
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+`values<-.bs_tk_textbox` <- function(x, value) {
+    tclvalue(x$var_text) <- value
+}
+
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
