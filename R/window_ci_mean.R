@@ -238,7 +238,7 @@ window_ci_mean <- function() {
                    labels        = gettext_bs(c("Timmed mean"))
     )
 
-    textbox_1 <- tk_widget_textbox(
+    textbox_1 <- bs_tk_textbox(
         parent_frame = middle_frame,
         init_val = "0.",
         width    = "5",
