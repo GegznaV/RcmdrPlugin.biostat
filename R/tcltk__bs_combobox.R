@@ -62,10 +62,14 @@ bs_combobox <- function(
         "For quicker search, press the \nfirst letter of variable name\non your keyboard."),
     width              = 20,
     height             = 8,
+    on_keyboard        = c("select", "ignore"),
+
     ...)
 {
 
-    state <- match.arg(state)
+    state       <- match.arg(state)
+    on_keyboard <- match.arg(on_keyboard)
+
 
     checkmate::assert_integerish(selection, lower = 1, len = 1, null.ok = TRUE)
     checkmate::assert_string(value, null.ok = TRUE)
@@ -88,7 +92,7 @@ bs_combobox <- function(
         }
     }
 
-    # Check this ---- END ==================================================
+    # Check this ---- END ====================================================
 
 
     # values     <- c(gettext_bs(default_text), values)
@@ -112,38 +116,47 @@ bs_combobox <- function(
 
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    onLetter <- function(letter) {
-        # Letter binding is good for read-only comboboxes only
+    if (on_keyboard %in% c("select")) {
 
-        get_first_letter <- function(str) {
-            tolower(substr(str, 1, 1))
+        onLetter <- function(letter) {
+            # Letter binding is good for read-only comboboxes only
+
+            get_first_letter <- function(str) {
+                tolower(substr(str, 1, 1))
+            }
+
+            letter   <- tolower(letter)
+            all_vals <- tk2list.get(combobox)
+            acceptable_inds <- which(get_first_letter(all_vals) %in% letter)
+
+            if (length(acceptable_inds) == 0) {
+                return()
+            }
+
+            cur_val     <- tclvalue_chr(tkget(combobox))
+            cur_val_ind <- which(all_vals %in% cur_val)
+
+            if (length(cur_val_ind) == 0)
+                cur_val_ind <- 0
+
+            next_ind <-
+                acceptable_inds[which(acceptable_inds %in% cur_val_ind)[1] + 1]
+
+            if (is.na(next_ind)) {
+                next_ind <- min(acceptable_inds)
+            }
+
+            tcl(combobox, "current", next_ind - 1) # 0 based index
         }
+        eval_glue('tkbind(combobox, "<{letters}>", function() onLetter("{letters}"))')
+        eval_glue('tkbind(combobox, "<{LETTERS}>", function() onLetter("{letters}"))')
 
-        letter   <- tolower(letter)
-        all_vals <- tk2list.get(combobox)
-        acceptable_inds <- which(get_first_letter(all_vals) %in% letter)
 
-        if (length(acceptable_inds) == 0) {
-            return()
-        }
-
-        cur_val     <- tclvalue_chr(tkget(combobox))
-        cur_val_ind <- which(all_vals %in% cur_val)
-
-        if (length(cur_val_ind) == 0)
-            cur_val_ind <- 0
-
-        next_ind <-
-            acceptable_inds[which(acceptable_inds %in% cur_val_ind)[1] + 1]
-
-        if (is.na(next_ind)) {
-            next_ind <- min(acceptable_inds)
-        }
-
-        tcl(combobox, "current", next_ind - 1) # 0 based index
+        # TODO:
+        #    -  bind event "on state change"
+        #    -  on state change: bind letters only in read-only mode
+        #    -  on state change: in other modes - remove binding
     }
-    eval_glue('tkbind(combobox, "<{letters}>", function() onLetter("{letters}"))')
-    eval_glue('tkbind(combobox, "<{LETTERS}>", function() onLetter("{letters}"))')
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     bind_mouse_keys(combobox)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
