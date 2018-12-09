@@ -4,7 +4,7 @@
 \name{RcmdrPlugin.biostat}
 \alias{RcmdrPlugin.biostat}
 \alias{RcmdrPlugin.biostat-package}
-\title{An R Commander Plug-in for Basic Data Analysis Tasks}
+\title{An R Commander Plug-in for Basic Data Management and Analysis Tasks}
 \description{
 \pkg{RcmdrPlugin.biostat} is an
 \href{\pkg{Rcmdr}}{https://cran.r-project.org/web/packages/Rcmdr/index.html}
