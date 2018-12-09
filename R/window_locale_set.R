@@ -218,7 +218,8 @@ window_locale_set <- function() {
     # locale_variable <- tclVar(Sys.getlocale())
     locale_variable <- tclVar("")
     locale_frame    <- tkframe(upper_frame)
-    locale_entry    <- ttkentry(locale_frame, width = "46",
+    locale_entry    <- ttkentry(locale_frame,
+                                width = "46",
                                 textvariable = locale_variable)
 
 
