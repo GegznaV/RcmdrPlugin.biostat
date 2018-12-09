@@ -2,151 +2,122 @@
 #' @export
 #' @keywords internal
 #'
-# Based on RcmdrPlugin.EZR::StatMedCopyDataset
+# TODO:
+# 1. Add checkbox to toggle between non-hidden and all objects.
+#
 
 window_data_obj_copy <- function() {
-    # dataSets <- listDataSets()
-    dataSets <- objects(envir = .GlobalEnv)
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    active_ds <- ActiveDataSet()
-    initializeDialog(title = "Copy Object")
-
     # Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    update_new_name <- function(variables) {
-        new_name <-
-            getSelection(dataSet1Box) %>%
-            str_c("_copy") %>%
-            unique_obj_names(all_numbered = TRUE)
-
-        tclvalue(dsname) <- new_name
-    }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    dsname <- tclVar("")
-
-    dsnameFrame <- tkframe(top)
-    entryDsname <- ttkentry(dsnameFrame,
-                            width = "28",
-                            textvariable = dsname)
-
-    dataSet1Box <-
-        variableListBox2(
-            top,
-            dataSets,
-            listHeight = 9,
-            onRelease_fun = update_new_name,
-            title = "Object\n(pick one)",
-
-            initialSelection =
-                if (is.null(active_ds)) {
-                    NULL
-                } else {
-                    which(active_ds == dataSets) - 1
-                }
-        )
-
-    update_new_name()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
-        dsnameValue <- trim.blanks(tclvalue(dsname))
-        obj_name    <- getSelection(dataSet1Box)
+        # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        cursor_set_busy(top)
+        on.exit(cursor_set_idle(top))
 
-        closeDialog()
+        # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        obj_names     <- get_selection(var_y_box)
+        new_obj_names <- get_values(text_box_1)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (dsnameValue == obj_name) {
-            errorCondition(recall = window_data_obj_copy,
-                           message = gettext(
-                               domain = "R-RcmdrPlugin.EZR",
-                               "You must enter a different object name."
-                           ))
-            return()
-        }
-        if (dsnameValue == "") {
-            errorCondition(recall = window_data_obj_copy,
-                           message = gettext(
-                               domain = "R-RcmdrPlugin.EZR",
-                               "You must enter the name of an object."
-                           ))
-            return()
-        }
-        if (!is.valid.name(dsnameValue)) {
-            errorCondition(recall = window_data_obj_copy,
-                           message = paste0(
-                               "\"", dsnameValue, "\" ",
-                               gettext(
-                                   domain = "R-RcmdrPlugin.EZR",
-                                   "is not a valid name."
-                               )
-                           ))
-            return()
-        }
-        if (is.element(dsnameValue, listDataSets())) {
-            if ("no" == tclvalue(checkReplace(
-                dsnameValue,
-                gettext(domain = "R-RcmdrPlugin.EZR", "Object")))) {
-                window_data_obj_copy()
-                return()
-            }
-        }
+        # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (object_is_not_selected(obj_names, "object"))   {return()}
+
+        if (is_not_valid_name(new_obj_names))              {return()}
+        if (forbid_to_replace_object(new_obj_names))       {return()}
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Deselect active dataset if it should be copied
+        if (isTRUE(any(active_ds %in% obj_names))) {ActiveDataSet(NULL)}
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (length(obj_name) == 0) {
-            errorCondition(recall = window_data_obj_copy,
-                           message = gettext(
-                               domain = "R-RcmdrPlugin.EZR",
-                               "You must select an object."
-                           ))
-            return()
-        }
+        obj_names_str <- str_c(obj_names, collapse = ", ")
 
         # Construct the command ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        command <- str_glue(
+        command_0 <- str_glue("{new_obj_names} <- {obj_names}\n")
+        command   <- str_glue(
             "## Copy object \n",
-            "{dsnameValue} <- {obj_name}"
+            "{command_0}\n"
         )
 
-        doItAndPrint(command)
+        result <- justDoIt(command)
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (class(result)[1] != "try-error") {
+            logger(style_cmd(command))
 
-        # if (is.data.frame(get(dsnameValue, envir = .GlobalEnv))) {
-        #     activeDataSet(dsnameValue)
-        # }
+            # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            closeDialog()
+
+
+        } else {
+            logger_error(command, error_msg = result)
+            show_code_evaluation_error_message()
+            return()
+        }
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
         tkfocus(CommanderWindow())
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Announce about the success to run the function `onOk()`
+        TRUE
     }
-    # ========================================================================
-    OKCancelHelp()
-
-    # Title ------------------------------------------------------------------
-    fg_col <- Rcmdr::getRcmdr("title.color")
-
-    tkgrid(label_rcmdr(
-        top,
-        text = gettext_bs("Copy object"),
-        font = tkfont.create(weight = "bold", size = 9),
-        fg = fg_col),
-        pady = c(5, 9))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(getFrame(dataSet1Box))
+    update_new_name <- function(variables) {
+        tclvalue(text_box_1) <-
+            get_selection(var_y_box) %>%
+            unique_obj_names()
+    }
 
-    tkgrid(
-        labelRcmdr(dsnameFrame,
-                   fg = getRcmdr("title.color"),
-                   text = gettext(
-                       domain = "R-RcmdrPlugin.EZR",
-                       "Name of object's copy:  "
-                   )),
-        pady = c(5, 0),
-        sticky = "w"
+    update_obj_list <- function(variables) {
+        ws_objects <- objects(envir = .GlobalEnv, all.names = TRUE)
+        set_values(var_y_box,  ws_objects)
+        set_values(text_box_1, "")
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Initialize =============================================================
+    initializeDialog(title = "Copy Object")
+    bs_title(top, "Copy object")
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ws_objects <- objects(envir = .GlobalEnv, all.names = TRUE)
+    active_ds  <- ActiveDataSet()
+
+    # Widgets ================================================================
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    var_y_box <- bs_listbox(
+        parent       = top,
+        title        = "Object (select one)",
+        values       = ws_objects,
+        value        = active_ds,
+        selectmode   = "multiple",
+        height       = 9,
+        width        = 30,
+        on_keyboard  = "select",
+        on_release   = update_new_name,
+        selection    = active_ds,
+        tip  = str_c("Hold 'Ctrl' key and left-click mouse to deselect object.\n",
+                     "Use letters on keyboard for quicker navigation.")
+
     )
+    if (!is.null(active_ds)) {
+        tk_see(var_y_box, which(ws_objects %in% active_ds))
+    }
 
-    tkgrid(
-        entryDsname,
-        pady = c(0, 5)
-    )
+    tkgrid(var_y_box$frame, sticky = "w", padx = c(10, 0))
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    text_box_1 <- bs_tk_textbox(
+        parent = top,
+        width  = 43,
+        label  = "Name of object's copy:  ",
+        label_position = "above",
+        tip = "Enter a new name for the selected object.")
 
-    tkgrid(dsnameFrame, columnspan = 2)
-
-    tkgrid(buttonsFrame, columnspan = 2)
-
+    tkgrid(text_box_1$frame, sticky = "w", padx = c(10, 0))
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ok_cancel_help(apply = "window_data_obj_copy")
+    tkgrid(buttonsFrame, columnspan = 2, sticky = "w")
     dialogSuffix()
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    update_new_name()
 }
