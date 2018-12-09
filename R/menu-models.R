@@ -16,7 +16,7 @@ command_model_std_lm_coeffs <- function() {
         "coef() %>% as.data.frame() %>% set_names('std_coef') %>% \n",
         "rownames_to_column('term') %>% ",
         "dplyr::mutate(rank = min_rank(-abs(std_coef)),\n",
-        "                std_coef = round(std_coef, digits = 3))"
+        "              std_coef = round(std_coef, digits = 3))"
     ) %>%
         style_cmd() %>%
         doItAndPrint()
@@ -114,5 +114,6 @@ command_model_augment <- function() {
         "## Add model data to original data frame\n",
         "{.ds} <- broom::augment({.mod})\n"))
 
-    command_dataset_refresh()
+    # Refresh data
+    Rcmdr::activeDataSet(Rcmdr::ActiveDataSet(), flushModel = FALSE)
 }
