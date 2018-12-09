@@ -1,4 +1,6 @@
-
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 bs_tk_textbox <- function(
 
     parent = top,
@@ -82,6 +84,9 @@ bs_tk_textbox <- function(
 #' @export
 #' @keywords internal
 set_values.bs_tk_textbox <- function(obj, values, ...) {
+    if (is.null(value)) {
+        value <- ""
+    }
     tclvalue(obj$var_text) <- values
 }
 
@@ -89,22 +94,14 @@ set_values.bs_tk_textbox <- function(obj, values, ...) {
 #' @export
 #' @keywords internal
 `values<-.bs_tk_textbox` <- function(x, value) {
-    tclvalue(x$var_text) <- value
+    set_values(x, value)
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 `tclvalue<-.bs_tk_textbox` <- function(x, value) {
-    tclvalue(x$var_text) <- value
-}
-
-
-#' @rdname Helper-functions
-#' @export
-#' @keywords internal
-`values<-.bs_tk_textbox` <- function(x, value) {
-    tclvalue(x$var_text) <- value
+    set_values(x, value)
 }
 
 #' @rdname Helper-functions
