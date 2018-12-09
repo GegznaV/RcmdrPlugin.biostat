@@ -89,10 +89,3 @@ tk_widget_modify_names <- function(
         class = c("tk_widget_modify_names", "bs_tk_widget", "list")
     )
 }
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Helper-functions
-#' @export
-#' @keywords internal
-print.bs_tk_widget <- function(x, ...) {
-    summary(x, ...)
-}

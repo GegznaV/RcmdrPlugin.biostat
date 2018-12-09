@@ -104,3 +104,12 @@ set_yview <- function(obj, ...) {
     UseMethod("set_yview")
 }
 
+
+# Methods --------------------------------------------------------------------
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+print.bs_tk_widget <- function(x, ...) {
+    summary(x, ...)
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
