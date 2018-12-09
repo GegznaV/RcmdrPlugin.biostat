@@ -69,7 +69,7 @@ window_data_obj_delete <- function() {
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    dataSets  <- objects(envir = .GlobalEnv)
+    ws_objects  <- objects(envir = .GlobalEnv)
     active_ds <- ActiveDataSet()
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -79,18 +79,21 @@ window_data_obj_delete <- function() {
     dataSet1Box <- bs_listbox(
         parent       = top,
         title        = "Objects to delete\n(pick one or several)",
-        values       = dataSets,
+        values       = ws_objects,
+        value        = active_ds,
         selectmode   = "multiple",
         height       = 9,
         width        = 24,
-        value        =  active_ds,
-        tip  = str_c("Hold 'Ctrl' key and left-click \n",
-                     "mouse to select several or deselect. ")
+        on_keyboard  = "scroll",
+        tip  = str_c("Hold 'Ctrl' key and left-click mouse\n",
+                     "to select several objects or deselect.\n",
+                     "Use letters on keyboard for quicker \n",
+                     "navigation.")
 
     )
 
     if (!is.null(active_ds)) {
-        set_yview(dataSet1Box, which(dataSets %in% active_ds))
+        set_see(dataSet1Box, which(ws_objects %in% active_ds))
     }
 
     # dataSet1Box <- variableListBox2(
@@ -98,7 +101,7 @@ window_data_obj_delete <- function() {
     #
     #     listHeight = 9,
     #     top,
-    #     dataSets,
+    #     ws_objects,
     #     title = "Objects\n(pick one or several)",
     #
     #     initialSelection = NULL
