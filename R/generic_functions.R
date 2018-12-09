@@ -100,8 +100,15 @@ set_xview <- function(obj, ...) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-set_yview <- function(obj, ...) {
+set_yview <- function(obj, ind,  ...) {
     UseMethod("set_yview")
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+set_see <- function(obj, ind, ...) {
+    UseMethod("set_see")
 }
 
 
