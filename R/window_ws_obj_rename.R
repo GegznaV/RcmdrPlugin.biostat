@@ -2,7 +2,8 @@
 #' @export
 #' @keywords internal
 #'
-# Based on RcmdrPlugin.EZR::StatMedCopyDataset
+# TODO:
+# Add checkbox to toggle between non-hidden and all objects.
 
 window_data_obj_rename <- function() {
     # Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -16,11 +17,9 @@ window_data_obj_rename <- function() {
         obj_names     <- get_selection(var_y_box)
         new_obj_names <- get_values(text_box_1)
 
-        # closeDialog()
-
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (object_is_not_selected(obj_names, "object"))   {return()}
+        if (object_is_not_selected(obj_names))             {return()}
 
         if (is_not_valid_name(new_obj_names))              {return()}
         if (forbid_to_replace_object(new_obj_names))       {return()}
@@ -42,8 +41,6 @@ window_data_obj_rename <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (class(result)[1] != "try-error") {
             logger(style_cmd(command))
-
-            update_obj_list()
 
             # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             closeDialog()
@@ -86,6 +83,8 @@ window_data_obj_rename <- function() {
     active_ds  <- ActiveDataSet()
 
     # Widgets ================================================================
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     var_y_box <- bs_listbox(
         parent       = top,
         title        = "Object (select one)",
