@@ -5,25 +5,6 @@
 #' @export
 #' @keywords internal
 window_xxx <- function() {
-
-    # Initial values ---------------------------------------------------------
-
-    # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    ds     <- activeDataSet()
-    fg_col <- Rcmdr::getRcmdr("title.color")
-
-    # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_bs("xxx_title"))
-
-    tk_title(top, "xxx_title") # Title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    defaults <- list(
-        position = "first"
-    )
-    initial <- getDialog("window_xxx", defaults)
-
-
     # Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # ...
@@ -70,6 +51,8 @@ window_xxx <- function() {
         # if (is_empty_name(new_name))              {return()}
         # if (is_not_valid_name(new_name))          {return()}
         # if (forbid_to_replace_variable(new_name)) {return()}
+
+        # if (object_is_not_selected(new_name))     {return()}
         # if (forbid_to_replace_object(new_name))   {return()}
 
         # if (??? == "") {
@@ -129,7 +112,7 @@ window_xxx <- function() {
         }
 
         # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        closeDialog()
+        # closeDialog()
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         command_dataset_refresh()
@@ -141,6 +124,25 @@ window_xxx <- function() {
         TRUE
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     }
+
+    # Initial values ---------------------------------------------------------
+
+    # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ds     <- activeDataSet()
+    fg_col <- Rcmdr::getRcmdr("title.color")
+
+    # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    initializeDialog(title = gettext_bs("xxx_title"))
+
+    tk_title(top, "xxx_title") # Title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    defaults <- list(
+        position = "first"
+    )
+    initial <- getDialog("window_xxx", defaults)
+
+
 
 
     # ... Widgets ============================================================
