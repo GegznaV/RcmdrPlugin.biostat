@@ -3,7 +3,7 @@
 %   R/generic_functions.R, R/helper-functions.R, R/tcltk__bs_check_boxes.R,
 %   R/tcltk__bs_combobox.R, R/tcltk__bs_listbox.R, R/tcltk__variableListBox2.R,
 %   R/tcltk_commands.R, R/tcltk_elements.R, R/tcltk_ok_cancel_help__macro.R,
-%   R/tk_widget_modify_names.R, R/tk_widget_y_gr_boxes.R
+%   R/tk_widget_modify_names.R, R/tk_widget_textbox.R, R/tk_widget_y_gr_boxes.R
 \name{command_buttons_mode_rcmdr}
 \alias{command_buttons_mode_rcmdr}
 \alias{command_buttons_mode_biostat}
@@ -122,6 +122,13 @@
 \alias{ok_cancel_help}
 \alias{tk_widget_modify_names}
 \alias{print.bs_tk_widget}
+\alias{set_values.bs_tk_textbox}
+\alias{values<-.bs_tk_textbox}
+\alias{get_values.bs_tk_textbox}
+\alias{tk_disable.bs_tk_textbox}
+\alias{tk_normalize.bs_tk_textbox}
+\alias{tk_activate.bs_tk_textbox}
+\alias{tk_get_state.bs_tk_textbox}
 \alias{tk_widget_boxes_y_gr}
 \title{Helper functions for RcmdrPlugin.biostat.}
 \usage{
@@ -407,6 +414,22 @@ tk_widget_modify_names(parent = top,
   cmd_checkbox = function() { })
 
 \method{print}{bs_tk_widget}(x, ...)
+
+\method{set_values}{bs_tk_textbox}(obj, values, ...)
+
+\method{values}{bs_tk_textbox}(x) <- value
+
+\method{get_values}{bs_tk_textbox}(obj, ...)
+
+\method{tk_disable}{bs_tk_textbox}(obj, ..., foreground = "grey")
+
+\method{tk_normalize}{bs_tk_textbox}(obj, ...,
+  foreground = getRcmdr("title.color"))
+
+\method{tk_activate}{bs_tk_textbox}(obj, ...,
+  foreground = getRcmdr("title.color"))
+
+\method{tk_get_state}{bs_tk_textbox}(obj)
 
 tk_widget_boxes_y_gr(parent_frame = top, y_title = title_var_1,
   y_var_type = NA_character_, y_vars = NULL, y_initial = NULL,
