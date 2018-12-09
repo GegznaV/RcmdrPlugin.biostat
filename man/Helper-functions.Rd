@@ -308,7 +308,8 @@ bs_listbox(parent, values = variables_all(), value = NULL,
   on_release = function() { }, on_click_3 = function() { },
   on_double_click_3 = function() { }, on_triple_click_3 = function() {
   }, on_release_3 = function() { }, title_sticky = "w",
-  subtitle_sticky = title_sticky, bind_keyboard = TRUE, ...)
+  subtitle_sticky = title_sticky, on_keyboard = c("select",
+  "make-visible", "ignore"), ...)
 
 get_values_listbox(listbox)
 
