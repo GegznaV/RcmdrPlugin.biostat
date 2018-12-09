@@ -32,7 +32,7 @@ bs_listbox <-
 
            title_sticky = "w",
            subtitle_sticky = title_sticky,
-           on_keyboard = c("select", "make-visible", "ignore")
+           on_keyboard = c("select", "scroll", "ignore")
 
            , ...
 
@@ -140,7 +140,7 @@ bs_listbox <-
       tkbind(listbox, "<Control-ButtonPress-1>", toggle_single_selection)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (on_keyboard != "ignore") {
+    if (on_keyboard %in% c("select", "scroll")) {
       onLetter <- function(letter) {
         # Letter binding is good for read-only listboxes only
         #         # Letter binding is good for single-selection comboboxes:
@@ -172,13 +172,20 @@ bs_listbox <-
 
         # Make selection visible
 
-        # tkyview(listbox, next_ind - 1)         # 0 based index
-        tksee(listbox, next_ind - 1)             # 0 based index
 
-        if (on_keyboard == "select") {
-          # Reset selection
-          set_selection_listbox(listbox, next_ind) # 1 based index
-        }
+        switch(
+          on_keyboard,
+
+          "select" = {
+            # Reset selection
+            set_selection_listbox(listbox, next_ind) # 1 based index
+            tksee(listbox, next_ind - 1)             # 0 based index
+          },
+
+          "scroll" = {
+            tkyview(listbox, next_ind - 1)         # 0 based index
+          }
+        )
       }
 
       eval_glue('tkbind(listbox, "<{letters}>", function() onLetter("{letters}"))')
@@ -362,6 +369,17 @@ set_yview.listbox <- function(obj, ind, ...) {
   }
 
   tkyview(obj$listbox, ind, ...)
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+set_see.listbox <- function(obj, ind, ...) {
+  if (is.numeric(ind)) {
+    ind <- ind - 1
+  }
+
+  tksee(obj$listbox, ind, ...)
 }
 
 #' @rdname Helper-functions
