@@ -365,7 +365,10 @@ set_values.listbox <- function(obj, values, ..., clear = TRUE) {
 #' @keywords internal
 set_yview.listbox <- function(obj, ind, ...) {
   if (is.numeric(ind)) {
-    ind <- ind - 1
+    ind <- as.integer(ind) - 1
+
+  } else if (is.character(ind)) {
+    ind <- ind %in% get_values()
   }
 
   tkyview(obj$listbox, ind, ...)
@@ -374,13 +377,18 @@ set_yview.listbox <- function(obj, ind, ...) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-set_see.listbox <- function(obj, ind, ...) {
+# Ind must be either numeric or character.
+tk_see.listbox <- function(obj, ind, ...) {
   if (is.numeric(ind)) {
-    ind <- ind - 1
+    ind <- as.integer(ind) - 1
+
+  } else if (is.character(ind)) {
+    ind <- ind %in% get_values()
   }
 
   tksee(obj$listbox, ind, ...)
 }
+
 
 #' @rdname Helper-functions
 #' @export
