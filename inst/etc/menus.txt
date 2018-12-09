@@ -229,7 +229,7 @@ item	bs_var_fct_menu	command	"[???] Convert missing values into explicit level..
 menu	bs_var_num_menu	bs_varible_menu	""	""	""	""
 item	bs_varible_menu	cascade	"Numeric variables"	bs_var_num_menu	"activeDataSetP()"	""
 
-item	bs_var_num_menu	command	"Convert numeric into other types..."	window_num_convert	"numericP()"	"" # Character, factors, logical
+item	bs_var_num_menu	command	"Convert numeric variables into other types..."	window_num_convert	"numericP()"	"" # Character, factors, logical
 item	bs_var_num_menu	command	"[???] Convert numeric into formatted text..."	function_not_implemented	"FALSE & numericP()"	"" # Format and convert to text
 
 item	bs_var_num_menu	separator	""	""	""	""
