@@ -7,6 +7,7 @@
 \name{set_values.bs_tk_textbox}
 \alias{set_values.bs_tk_textbox}
 \alias{values<-.bs_tk_textbox}
+\alias{tclvalue<-.bs_tk_textbox}
 \alias{get_values.bs_tk_textbox}
 \alias{tk_disable.bs_tk_textbox}
 \alias{tk_normalize.bs_tk_textbox}
@@ -30,7 +31,7 @@
 \alias{add_selection}
 \alias{set_xview}
 \alias{set_yview}
-\alias{set_see}
+\alias{tk_see}
 \alias{print.bs_tk_widget}
 \alias{Helper-functions}
 \alias{get_active_ds}
@@ -66,6 +67,7 @@
 \alias{is_empty_name}
 \alias{is_not_empty_name}
 \alias{variable_is_not_selected}
+\alias{object_is_not_selected}
 \alias{are_not_valid_names}
 \alias{forbid_to_replace_variable}
 \alias{forbid_to_replace_variables}
@@ -109,7 +111,7 @@
 \alias{get_values.listbox}
 \alias{set_values.listbox}
 \alias{set_yview.listbox}
-\alias{set_see.listbox}
+\alias{tk_see.listbox}
 \alias{tk_disable.listbox}
 \alias{tk_normalize.listbox}
 \alias{tk_get_state.listbox}
@@ -137,6 +139,8 @@
 \method{set_values}{bs_tk_textbox}(obj, values, ...)
 
 \method{values}{bs_tk_textbox}(x) <- value
+
+\method{tclvalue}{bs_tk_textbox}(x) <- value
 
 \method{values}{bs_tk_textbox}(x) <- value
 
@@ -188,7 +192,7 @@ set_xview(obj, ...)
 
 set_yview(obj, ind, ...)
 
-set_see(obj, ind, ...)
+tk_see(obj, ind, ...)
 
 \method{print}{bs_tk_widget}(x, ...)
 
@@ -239,7 +243,7 @@ clean_str(str, ...)
 
 function_not_implemented()
 
-unique_obj_names(names = ActiveDataSet(), preffix = "", suffix = "",
+unique_obj_names(names, preffix = "", suffix = "",
   list_of_choices = objects(all.names = TRUE, envir = .GlobalEnv),
   all_numbered = FALSE)
 
@@ -268,6 +272,8 @@ is_empty_name(name)
 is_not_empty_name(name)
 
 variable_is_not_selected(obj, obj_type = "variable")
+
+object_is_not_selected(obj, obj_type = "object")
 
 are_not_valid_names(name)
 
@@ -370,7 +376,7 @@ set_selection_listbox(listbox, sel, clear = TRUE)
 
 \method{set_yview}{listbox}(obj, ind, ...)
 
-\method{set_see}{listbox}(obj, ind, ...)
+\method{tk_see}{listbox}(obj, ind, ...)
 
 \method{tk_disable}{listbox}(obj, ..., background = "grey95")
 
