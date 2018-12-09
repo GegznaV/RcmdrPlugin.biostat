@@ -32,17 +32,18 @@ bs_listbox <-
 
            title_sticky = "w",
            subtitle_sticky = title_sticky,
-           bind_keyboard = TRUE
+           on_keyboard = c("select", "make-visible", "ignore")
 
            , ...
 
 
-           )
+  )
   {
 
-    selectmode = match.arg(selectmode)
-    scroll     = match.arg(scroll)
-    autoscroll = match.arg(autoscroll)
+    selectmode  <- match.arg(selectmode)
+    scroll      <- match.arg(scroll)
+    autoscroll  <- match.arg(autoscroll)
+    on_keyboard <- match.arg(on_keyboard)
 
 
     if (selectmode == "multiple")
@@ -121,25 +122,29 @@ bs_listbox <-
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Adds ability to deselect in single-selection boxes
-    toggle_single_selection <- function() {
-      active   <- tclvalue_int(tkindex(listbox, "active"))
-      selected <- tclvalue_int_split(tkcurselection(listbox))
+    if (selectmode %in% c("single", "browse")) {
 
-      if (length(selected) == 0) {
-        tkselection.set(listbox, "active")
+      toggle_single_selection <- function() {
+        active   <- tclvalue_int(tkindex(listbox, "active"))
+        selected <- tclvalue_int_split(tkcurselection(listbox))
 
-      } else if (isTRUE(active %in% selected)) {
-        tkselection.clear(listbox, "active")
+        if (length(selected) == 0) {
+          tkselection.set(listbox, "active")
+
+        } else if (isTRUE(active %in% selected)) {
+          tkselection.clear(listbox, "active")
+        }
+
       }
 
-    }
-
-    if (selectmode == "single")
       tkbind(listbox, "<Control-ButtonPress-1>", toggle_single_selection)
+    }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (isTRUE(bind_keyboard)) {
+    if (on_keyboard != "ignore") {
       onLetter <- function(letter) {
         # Letter binding is good for read-only listboxes only
+        #         # Letter binding is good for single-selection comboboxes:
+        #        otherwise selecton should not be toggled.
 
         get_first_letter <- function(str) {
           tolower(substr(str, 1, 1))
@@ -164,9 +169,16 @@ bs_listbox <-
         if (is.na(next_ind)) {
           next_ind <- min(acceptable_inds)
         }
-        # Set selection and make selection visible
-        set_selection_listbox(listbox, next_ind) # 1 based index
-        tkyview(listbox, next_ind - 1)           # 0 based index
+
+        # Make selection visible
+
+        # tkyview(listbox, next_ind - 1)         # 0 based index
+        tksee(listbox, next_ind - 1)             # 0 based index
+
+        if (on_keyboard == "select") {
+          # Reset selection
+          set_selection_listbox(listbox, next_ind) # 1 based index
+        }
       }
 
       eval_glue('tkbind(listbox, "<{letters}>", function() onLetter("{letters}"))')
