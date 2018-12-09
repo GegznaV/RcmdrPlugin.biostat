@@ -314,7 +314,7 @@ item	bs_analysis_menu	cascade	"Association / Correlation"	bs_assoc_menu	""	""
 
 item	bs_assoc_menu	command "Correlation... [Rcmdr]"	correlationTest	"numericP(2)"	"packageAvailable('RcmdrMisc')"
 item	bs_assoc_menu	command "Correlation matrix... [Rcmdr]"	correlationMatrix	"numericP(2)"	"packageAvailable('RcmdrMisc')"
-item	bs_assoc_menu	command	"Pearson's correlation... [EZR]"	StatMedCorrelation	"activeDataSetP()"	""
+item	bs_assoc_menu	command	"Pearson's linear correlation... [EZR]"	StatMedCorrelation	"activeDataSetP()"	""
 item	bs_assoc_menu	command	"Spearman's/Kendall's rank correlation... [EZR]"	StatMedSpearman	"activeDataSetP()"	""
 item	bs_assoc_menu	separator	""	""	""	""
 item	bs_assoc_menu	command	"[???] Association between categorical variables..."	window_summary_count	"activeDataSetP()"	""
@@ -411,7 +411,7 @@ menu	bs_fit_models_menu	bs_analysis_menu	""	""	""	""
 item	bs_analysis_menu	cascade	"Models (fit)"	bs_fit_models_menu	""	""
 
 item	bs_fit_models_menu	command	"Linear regression... [EZR]"	StatMedLinearRegression	"activeDataSetP()"	""
-item	bs_fit_models_menu	command	"[???] Calibration (linear regression)..."	function_not_implemented	"activeDataSetP() && FALSE"	""
+# item	bs_fit_models_menu	command	"[???] Calibration (linear regression)..."	function_not_implemented	"activeDataSetP() && FALSE"	""
 
 
 # . ==========================================================================
@@ -419,15 +419,17 @@ item	bs_fit_models_menu	command	"[???] Calibration (linear regression)..."	funct
 menu	bs_models_menu	bs_analysis_menu	""	""	""	""
 item	bs_analysis_menu	cascade	"Models (analyze)"	bs_models_menu	""	""
 
-item	bs_models_menu	command	"Print model (basic results)"	command_model_print	"activeModelP()"	""
-item	bs_models_menu	command	"[???] Summary: print summary of the model"	function_not_implemented	"FALSE && activeModelP() "	""
+item	bs_models_menu	command	"Print: basic model's results"	command_model_print	"activeModelP()"	""
+item	bs_models_menu	command	"Summary: print base-R-style summary of the model"	command_model_summary	"activeModelP() "	""
 
-item	bs_models_menu	command	"[???] Glance: one-row summary of the model"	function_not_implemented	"FALSE && activeModelP() "	""
-item	bs_models_menu	command	"[???] Tidy: summarize model's statistical findings"	function_not_implemented	"FALSE && activeModelP() "	""
+item	bs_models_menu	command	"Glance: one-row summary of the model"	command_model_glance	"activeModelP() "	""
+item	bs_models_menu	command	"Tidy: summarize model's statistical findings"	command_model_tidy	"activeModelP() "	""
+item	bs_models_menu	command	"Standardized regression coefficients"	command_model_std_lm_coeffs	"modelClassP('lm')"	""
+item	bs_models_menu	command	"Show model's class"	command_model_get_class	"activeModelP()"	""
 
-item	bs_models_menu	command	"Print standardized regression coefficients"	command_std_lm_coeffs	"modelClassP('lm')"	""
-item	bs_models_menu	command	"[???] Augment: add modeled data to active dataset"	function_not_implemented	"FALSE && activeModelP() "	""
-item	bs_models_menu	command	"Show model's class"	command_get_model_class	"activeModelP()"	""
+
+item	bs_models_menu	separator	""	""	""	""
+item	bs_models_menu	command	"Augment: add modeled data to active dataset"	command_model_augment	"activeModelP() "	""
 
 
 # . ==========================================================================

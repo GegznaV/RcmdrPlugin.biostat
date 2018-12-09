@@ -39,9 +39,13 @@
 \alias{window_export_to_excel_old}
 \alias{window_export_to_textfile}
 \alias{dataset_import_excel}
-\alias{command_std_lm_coeffs}
-\alias{command_get_model_class}
+\alias{command_model_std_lm_coeffs}
+\alias{command_model_get_class}
 \alias{command_model_print}
+\alias{command_model_summary}
+\alias{command_model_glance}
+\alias{command_model_tidy}
+\alias{command_model_augment}
 \alias{open_new_plots_window}
 \alias{window_show_colors}
 \alias{command_rownames}
@@ -141,11 +145,19 @@ window_export_to_textfile()
 
 dataset_import_excel()
 
-command_std_lm_coeffs()
+command_model_std_lm_coeffs()
 
-command_get_model_class()
+command_model_get_class()
 
 command_model_print()
+
+command_model_summary()
+
+command_model_glance()
+
+command_model_tidy()
+
+command_model_augment()
 
 open_new_plots_window()
 
