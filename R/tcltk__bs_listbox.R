@@ -368,7 +368,7 @@ set_yview.listbox <- function(obj, ind, ...) {
     ind <- as.integer(ind) - 1
 
   } else if (is.character(ind)) {
-    ind <- ind %in% get_values()
+    ind <- ind %in% get_values(obj)
   }
 
   tkyview(obj$listbox, ind, ...)
@@ -383,7 +383,7 @@ tk_see.listbox <- function(obj, ind, ...) {
     ind <- as.integer(ind) - 1
 
   } else if (is.character(ind)) {
-    ind <- ind %in% get_values()
+    ind <- ind %in% get_values(obj)
   }
 
   tksee(obj$listbox, ind, ...)
