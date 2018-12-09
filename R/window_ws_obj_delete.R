@@ -69,8 +69,8 @@ window_data_obj_delete <- function() {
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    ws_objects  <- objects(envir = .GlobalEnv)
-    active_ds <- ActiveDataSet()
+    ws_objects <- objects(envir = .GlobalEnv)
+    active_ds  <- ActiveDataSet()
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = "Delete Objects")
@@ -93,19 +93,8 @@ window_data_obj_delete <- function() {
     )
 
     if (!is.null(active_ds)) {
-        set_see(dataSet1Box, which(ws_objects %in% active_ds))
+        tk_see(dataSet1Box, which(ws_objects %in% active_ds))
     }
-
-    # dataSet1Box <- variableListBox2(
-    #     selectmode = "multiple",
-    #
-    #     listHeight = 9,
-    #     top,
-    #     ws_objects,
-    #     title = "Objects\n(pick one or several)",
-    #
-    #     initialSelection = NULL
-    # )
 
     # ========================================================================
     OKCancelHelp()
