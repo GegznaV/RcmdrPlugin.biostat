@@ -10,7 +10,7 @@ version](http://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.
 version](https://img.shields.io/badge/GitHub-v0.0.21.9000-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
 [![Travis-CI Build
 Status](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat)
-[![Updated-on](https://img.shields.io/badge/Updated%20on-2018--12--03-yellowgreen.svg)](/commits/master)
+[![Updated-on](https://img.shields.io/badge/Updated%20on-2018--12--10-yellowgreen.svg)](/commits/master)
 
 -----
 
@@ -20,7 +20,7 @@ Status](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)](ht
 An *R Commander* Plugin for Basic (Bio)Statistical Routines  
 -->
 
-# An R Commander Plug-in for Data Analysis Tasks
+# An R Commander Plug-in for Basic Data Management and Analysis Tasks
 
 **RcmdrPlugin.biostat** is an
 [**Rcmdr**](https://cran.r-project.org/web/packages/Rcmdr/index.html)
