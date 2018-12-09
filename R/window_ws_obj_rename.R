@@ -5,107 +5,28 @@
 # Based on RcmdrPlugin.EZR::StatMedCopyDataset
 
 window_data_obj_rename <- function() {
-    # dataSets <- listDataSets()
-    dataSets  <- objects(envir = .GlobalEnv)
-    active_ds <- ActiveDataSet()
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = "Rename Object")
-
     # Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    update_new_name <- function(variables) {
-        tclvalue(dsname) <-
-            getSelection(var_y_box) %>%
-            unique_obj_names()
-    }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    dsname <- tclVar("")
-
-    dsnameFrame <- tkframe(top)
-    entryDsname <- ttkentry(dsnameFrame,
-                            width = "28",
-                            textvariable = dsname)
-
-    var_y_box <-
-        variableListBox2(
-            listHeight = 6,
-            top,
-            dataSets,
-            onRelease_fun = update_new_name,
-            title = "Object\n(pick one)",
-
-            initialSelection =
-                if (is.null(active_ds)) {
-                    NULL
-                } else {
-                    which(active_ds == dataSets) - 1
-                }
-        )
-
-    update_new_name()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
-        new_obj_names <- trim.blanks(tclvalue(dsname))
-        obj_names     <- getSelection(var_y_box)
+        # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        cursor_set_busy(top)
+        on.exit(cursor_set_idle(top))
 
-        closeDialog()
+        # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        obj_names     <- get_selection(var_y_box)
+        new_obj_names <- get_values(text_box_1)
+
+        # closeDialog()
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (any(new_obj_names %in% obj_names)) {
-            errorCondition(recall = window_data_obj_rename,
-                           message = gettext(domain = "R-RcmdrPlugin.EZR",
-                                             "You must enter a different object name."
-            ))
-            return()
-        }
+        # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (object_is_not_selected(obj_names, "object"))   {return()}
 
-        if (new_obj_names == "") {
-            errorCondition(
-                recall = window_data_obj_rename,
-                message = gettext(
-                    domain = "R-RcmdrPlugin.EZR",
-                    "You must enter the name of an object."
-                ))
-            return()
-        }
-
-        if (!is.valid.name(new_obj_names)) {
-            errorCondition(recall = window_data_obj_rename,
-                           message = paste(
-                               "\"", new_obj_names, "\" ",
-                               gettext(
-                                   domain = "R-RcmdrPlugin.EZR",
-                                   "is not a valid name."
-                               ),
-                               sep = ""
-                           ))
-            return()
-        }
-        if (is.element(new_obj_names, listDataSets())) {
-            if ("no" == tclvalue(checkReplace(
-                new_obj_names,
-                gettext(domain = "R-RcmdrPlugin.EZR", "Object")))) {
-
-                window_data_obj_rename()
-                return()
-            }
-        }
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (length(obj_names) == 0) {
-            errorCondition(recall = window_data_obj_rename,
-                           message = gettext(domain = "R-RcmdrPlugin.EZR",
-                                             "You must select an object."
-            ))
-            return()
-        }
-
+        if (is_not_valid_name(new_obj_names))              {return()}
+        if (forbid_to_replace_object(new_obj_names))       {return()}
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # Deselect active dataset if it should be deleted.
-        if (isTRUE(any(active_ds %in% obj_names))) {
-            ActiveDataSet(NULL)
-            ds_ind <- which(active_ds %in% obj_names)
-        }
-
+        # Deselect active dataset if it should be renamed
+        if (isTRUE(any(active_ds %in% obj_names))) {ActiveDataSet(NULL)}
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         obj_names_str <- str_c(obj_names, collapse = ", ")
 
@@ -117,46 +38,87 @@ window_data_obj_rename <- function() {
             "remove({obj_names_str})"
         )
 
-        doItAndPrint(command)
+        result <- justDoIt(command)
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (class(result)[1] != "try-error") {
+            logger(style_cmd(command))
 
-        if (length(ds_ind) > 0) {
-            activeDataSet(new_obj_names[ds_ind])
+            update_obj_list()
+
+            # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            closeDialog()
+
+
+        } else {
+            logger_error(command, error_msg = result)
+            show_code_evaluation_error_message()
+            return()
         }
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
         tkfocus(CommanderWindow())
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Announce about the success to run the function `onOk()`
+        TRUE
     }
-    # ========================================================================
-    OKCancelHelp()
-
-    # Title ------------------------------------------------------------------
-    fg_col <- Rcmdr::getRcmdr("title.color")
-
-    tkgrid(label_rcmdr(
-        top,
-        text = gettext_bs("Rename object"),
-        font = tkfont.create(weight = "bold", size = 9),
-        fg = fg_col),
-        pady = c(5, 9))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(getFrame(var_y_box))
+    update_new_name <- function(variables) {
+        tclvalue(text_box_1) <-
+            get_selection(var_y_box) %>%
+            unique_obj_names()
+    }
 
-    tkgrid(
-        labelRcmdr(dsnameFrame,
-                   fg = fg_col,
-                   text = gettext(
-                       domain = "R-RcmdrPlugin.EZR",
-                       "New name:  "
-                   )),
-        pady = c(5, 0),
-        sticky = "w"
+    update_obj_list <- function(variables) {
+        ws_objects <- objects(envir = .GlobalEnv, all.names = TRUE)
+        set_values(var_y_box,  ws_objects)
+        set_values(text_box_1, "")
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Initialize =============================================================
+    initializeDialog(title = "Rename Object")
+    bs_title(top, "Rename object")
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ws_objects <- objects(envir = .GlobalEnv, all.names = TRUE)
+    active_ds  <- ActiveDataSet()
+
+    # Widgets ================================================================
+    var_y_box <- bs_listbox(
+        parent       = top,
+        title        = "Object (select one)",
+        values       = ws_objects,
+        value        = active_ds,
+        selectmode   = "multiple",
+        height       = 9,
+        width        = 30,
+        on_keyboard  = "select",
+        on_release   = update_new_name,
+        selection    = active_ds,
+        tip  = str_c("Hold 'Ctrl' key and left-click mouse to deselect object.\n",
+                     "Use letters on keyboard for quicker navigation.")
+
     )
+    if (!is.null(active_ds)) {
+        tk_see(var_y_box, which(ws_objects %in% active_ds))
+    }
 
-    tkgrid(
-        entryDsname,
-        pady = c(0, 5)
-    )
+    tkgrid(var_y_box$frame, sticky = "w", padx = c(10, 0))
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    text_box_1 <- bs_tk_textbox(
+        parent = top,
+        width  = 43,
+        label  = "New name:  ",
+        label_position = "above",
+        tip = "Enter a new name for the selected object.")
 
-    tkgrid(dsnameFrame, columnspan = 2)
-    tkgrid(buttonsFrame, columnspan = 2)
+    tkgrid(text_box_1$frame, sticky = "w", padx = c(10, 0))
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ok_cancel_help(apply = "window_data_obj_rename")
+    tkgrid(buttonsFrame, columnspan = 2, sticky = "w")
     dialogSuffix()
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    update_new_name()
 }
