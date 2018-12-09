@@ -191,6 +191,9 @@ item	bs_varible_menu	command	"[???] Unite values into one column..."	function_no
 
 item	bs_varible_menu	separator	""	""	""	""
 
+item	bs_varible_menu	command	"Convert variable types (into nominal, ordinal, text)..."	window_convert_any	"activeDataSetP()"	"packageAvailable('tidyverse')"
+item	bs_varible_menu	command	"Convert logical variables into other types..."	window_lgl_convert	"logicalP()"	"packageAvailable('rlang') && packageAvailable('forcats')"
+
 # --- + Factor variables ------------------------------------------------------
 
 menu	bs_var_fct_menu	bs_varible_menu	""	""	""	""
@@ -238,21 +241,20 @@ item	bs_var_num_menu	command	"Log transformation..."	window_num_transform_log	"n
 item	bs_var_num_menu	command	"Z transformation / Standardization..."	window_num_transform_z	"numericP()"	""
 
 
-# --- + Text variables ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# --- + Text variables -------------------------------------------------------
 #
-# menu	bs_var_text_menu	bs_varible_menu	""	""	""	""
-# item	bs_varible_menu	cascade	"Text (character) variables: strings "	bs_var_text_menu	"activeDataSetP()"	""
-# item	bs_var_text_menu	command	"Convert text variables into..."	window_chr_convert	"characterP()"	"packageAvailable('tidyverse')"
-# item	bs_var_text_menu	command	"Convert all text variables into factors"	command_all_chr_to_fctr	"characterP()"	"packageAvailable('tidyverse')"
+menu	bs_var_text_menu	bs_varible_menu	""	""	""	""
+item	bs_varible_menu	cascade	"Text (character) variables"	bs_var_text_menu	"activeDataSetP()"	""
+item	bs_var_text_menu	command	"Convert text variables into other types..."	window_chr_convert	"characterP()"	"packageAvailable('tidyverse')"
+item	bs_var_text_menu	command	"Convert all text variables into factors"	command_all_chr_to_fctr	"characterP()"	"packageAvailable('tidyverse')"
 
-# --- + Other variables --------------------------------------------------------
+# --- + Other type variables -------------------------------------------------
 
-menu	bs_var_other_menu	bs_varible_menu	""	""	""	""
-item	bs_varible_menu	cascade	"Other variables "	bs_var_other_menu	"activeDataSetP()"	""
-item	bs_var_other_menu	command	"Convert all text variables into factors"	command_all_chr_to_fctr	"characterP()"	"packageAvailable('tidyverse')"
-item	bs_var_other_menu	command	"Convert text variables into other types..."	window_chr_convert	"characterP()"	"packageAvailable('tidyverse')"
-item	bs_var_other_menu	command	"Convert logical variables into other types..."	window_lgl_convert	"logicalP()"	"packageAvailable('rlang') && packageAvailable('forcats')"
-item	bs_var_other_menu	command	"Convert variables into nominal, ordinal, text..."	window_convert_any	"activeDataSetP()"	"packageAvailable('tidyverse')"
+# menu	bs_var_other_menu	bs_varible_menu	""	""	""	""
+# item	bs_varible_menu	cascade	"Other type variables "	bs_var_other_menu	"activeDataSetP()"	""
+# item	bs_var_other_menu	command	"Convert all text variables into factors"	command_all_chr_to_fctr	"characterP()"	"packageAvailable('tidyverse')"
+# item	bs_var_other_menu	command	"Convert text variables into other types..."	window_chr_convert	"characterP()"	"packageAvailable('tidyverse')"
+
 
 
 # . ==========================================================================
