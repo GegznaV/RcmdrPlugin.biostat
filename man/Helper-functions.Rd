@@ -4,7 +4,8 @@
 %   R/tcltk__bs_combobox.R, R/tcltk__bs_listbox.R, R/tcltk__variableListBox2.R,
 %   R/tcltk_commands.R, R/tcltk_elements.R, R/tcltk_ok_cancel_help__macro.R,
 %   R/tk_widget_modify_names.R, R/tk_widget_y_gr_boxes.R
-\name{set_values.bs_tk_textbox}
+\name{bs_tk_textbox}
+\alias{bs_tk_textbox}
 \alias{set_values.bs_tk_textbox}
 \alias{values<-.bs_tk_textbox}
 \alias{tclvalue<-.bs_tk_textbox}
@@ -136,13 +137,18 @@
 \alias{tk_widget_boxes_y_gr}
 \title{Helper functions for RcmdrPlugin.biostat.}
 \usage{
+bs_tk_textbox(parent = top, width = "28", value = "", label = "",
+  label_position = c("left", "above", "right", "none"),
+  label_color = getRcmdr("title.color"), padx = 0, pady = 5,
+  sticky = "w", main_frame = tkframe(parent),
+  text_frame = tkframe(main_frame), label_frame = tkframe(main_frame),
+  tip = "", ...)
+
 \method{set_values}{bs_tk_textbox}(obj, values, ...)
 
 \method{values}{bs_tk_textbox}(x) <- value
 
 \method{tclvalue}{bs_tk_textbox}(x) <- value
-
-\method{values}{bs_tk_textbox}(x) <- value
 
 \method{get_values}{bs_tk_textbox}(obj, ...)
 
