@@ -107,8 +107,8 @@ set_yview <- function(obj, ind,  ...) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-set_see <- function(obj, ind, ...) {
-    UseMethod("set_see")
+tk_see <- function(obj, ind, ...) {
+    UseMethod("tk_see")
 }
 
 
@@ -117,6 +117,6 @@ set_see <- function(obj, ind, ...) {
 #' @export
 #' @keywords internal
 print.bs_tk_widget <- function(x, ...) {
-    summary(x, ...)
+    print(summary(x, ...))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
