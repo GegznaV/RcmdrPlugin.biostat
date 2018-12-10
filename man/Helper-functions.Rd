@@ -62,6 +62,7 @@
 \alias{unique_colnames_2}
 \alias{variables_with_unique_values}
 \alias{variables_with_unique_values_P}
+\alias{safe_names}
 \alias{path_truncate}
 \alias{show_error_messages}
 \alias{is_not_valid_name}
@@ -269,6 +270,8 @@ unique_colnames_2(names = "", preffix = "", suffix = "",
 variables_with_unique_values()
 
 variables_with_unique_values_P(n = 1)
+
+safe_names(str)
 
 path_truncate(path, max_length = 30)
 
