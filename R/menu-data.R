@@ -24,6 +24,7 @@ command_dataset_refresh <- function() {
     Rcmdr::activateMenus()
 }
 
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export
