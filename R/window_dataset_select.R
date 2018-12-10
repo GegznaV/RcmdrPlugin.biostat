@@ -107,8 +107,8 @@ window_dataset_select <- function() {
     }
 
     # Initialize -------------------------------------------------------------
-    initializeDialog(title = gettext_bs("Select Dataset"))
-    tk_title(top, "Select a dataset")
+    initializeDialog(title = gettext_bs("Select & Explore Dataset"))
+    tk_title(top, "Select & Explore a Dataset")
 
     # Widgets ----------------------------------------------------------------
     var_ds_box <-
