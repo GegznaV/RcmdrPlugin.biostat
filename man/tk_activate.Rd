@@ -2,33 +2,22 @@
 % Please edit documentation in R/tcltk_commands.R
 \name{tk_activate}
 \alias{tk_activate}
-\alias{tk_get_state.default}
 \alias{tk_activate.default}
 \alias{tk_normalize.default}
 \alias{tk_read_only.default}
 \alias{tk_disable.default}
-\alias{tk_yview.default}
-\alias{tk_xview.default}
 \title{Activate/Disable TK Objects}
 \usage{
-\method{tk_get_state}{default}(tk_obj, ...)
+\method{tk_activate}{default}(obj, ...)
 
-\method{tk_activate}{default}(tk_obj, ...)
+\method{tk_normalize}{default}(obj, ...)
 
-\method{tk_normalize}{default}(tk_obj, ...)
+\method{tk_read_only}{default}(obj, ...)
 
-\method{tk_read_only}{default}(tk_obj, ...)
-
-\method{tk_disable}{default}(tk_obj, ...)
-
-\method{tk_disable}{default}(tk_obj, ...)
-
-tk_yview.default(obj, ind, ...)
-
-tk_xview.default(obj, ind, ...)
+\method{tk_disable}{default}(obj, ...)
 }
 \arguments{
-\item{tk_obj}{TK object.}
+\item{obj}{TK object.}
 
 \item{...}{other options to be passed to \code{tkconfigure}.}
 }
@@ -36,8 +25,8 @@ tk_xview.default(obj, ind, ...)
 Modify state of tk objects.
 }
 \examples{
-# tk_activate(tk_obj)
-# tk_disable(tk_obj)
+# tk_activate(obj)
+# tk_disable(obj)
 
 }
 \keyword{internal}
