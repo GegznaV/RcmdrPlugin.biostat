@@ -221,7 +221,7 @@ bs_listbox <-
            # scrollbar   = scrollbar,
            selectmode  = selectmode,
            varlist     = values),
-      class = "listbox"
+      class = c("listbox", "bs_tk_widget", "list")
     )
   }
 # ~~~~~~~~~~~~~~~~~~~~~ ======================================================
