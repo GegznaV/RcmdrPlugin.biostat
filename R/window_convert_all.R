@@ -1,10 +1,3 @@
-
-# TODO:
-#
-# Change interface for name input:
-#        + add separate window for name input
-#        + add boxes for prefix/suffix inputs.
-
 #' Rcmdr windows for variable class conversion
 #'
 #' @export
@@ -36,6 +29,7 @@ window_convert_all <- function() {
         }
     }
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     control_checkbox_activation <- function() {
 
         opt_1 <- tclvalue_chr(widget_2$var_radiobuttons)
@@ -64,7 +58,7 @@ window_convert_all <- function() {
                stop("Unrecognized option")
         )
     }
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_update_list_and_activation <- function() {
 
         tclvalue(into_Variable) <- "character"
@@ -169,7 +163,6 @@ window_convert_all <- function() {
         change_name_suffix()
     }
 
-
     # Function onOK ----------------------------------------------------------
     onOK <- function() {
         variables   <- get_selection(var_y_box)
@@ -179,6 +172,8 @@ window_convert_all <- function() {
         make_unique  <- tclvalue_lgl(widget_2$var_checkbox)
         prefix       <- tclvalue_chr(widget_2$var_prefix)
         suffix       <- tclvalue_chr(widget_2$var_suffix)
+
+        selected_type <- get_selection(var_type_box)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (variable_is_not_selected(variables, "variable")) {
             return()
@@ -215,12 +210,13 @@ window_convert_all <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         putDialog("window_convert_all",
                   list(
-                      variables    = variables    ,
-                      into         = into         ,
-                      names_action = names_action ,
-                      make_unique  = make_unique  ,
-                      prefix       = prefix       ,
-                      suffix       = suffix
+                      variables     = variables    ,
+                      into          = into         ,
+                      names_action  = names_action ,
+                      make_unique   = make_unique  ,
+                      prefix        = prefix       ,
+                      suffix        = suffix       ,
+                      selected_type = selected_type
                   )
         )
 
@@ -313,7 +309,7 @@ window_convert_all <- function() {
 
     # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     defaults <- list(
-        variables     = NULL,
+        # variables     = NULL,
         into          = "character",
         names_action  = "overwrite",
         make_unique   = FALSE,
@@ -324,19 +320,14 @@ window_convert_all <- function() {
 
     initial <- getDialog("window_convert_all", defaults)
 
-    if (!is.null(selected_type)) {
-        initial$selected_type <- selected_type
-    }
-
     # Widgets ----------------------------------------------------------------
-
 
     upper_frame     <- tk2frame(main_frame)
     variables_frame <- tk2frame(upper_frame)
 
     var_y_box <- bs_listbox(
         parent = variables_frame,
-        values = variables_all(), # <-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        values      = NULL, # <-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         height      = 7,
         width       = 35,
         selectmode  = "multiple",
@@ -366,7 +357,7 @@ window_convert_all <- function() {
     tkgrid(bs_label_b(type_frame, text = "Type filter: "), var_type_box$frame,
            sticky = "w")
 
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     into_outter_Frame <- tkframe(upper_frame)
     Rcmdr::radioButtons(
         into_outter_Frame,
