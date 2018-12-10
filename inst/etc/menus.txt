@@ -140,9 +140,9 @@ item	bs_rows_menu	command	"Arrange: sort rows..."	window_rows_arrange	"activeDat
 item	bs_rows_menu	command	"Filter: select rows that match conditions..."	window_rows_filter0	"activeDataSetP()"	"packageAvailable('dplyr')"
 item	bs_rows_menu	command	"Slice: select/remove rows by row index..."	window_rows_slice	"activeDataSetP()"	"packageAvailable('dplyr')"
 item	bs_rows_menu	separator	""	""	""	""
-item	bs_rows_menu	command	"Remove empty rows"	command_row_rm_empty_rows	"activeDataSetP()"	""
-item	bs_rows_menu	command	"[???] Remove rows with duplicated values..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
-item	bs_rows_menu	command	"[???] Remove rows with missing values..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
+item	bs_rows_menu	command	"Remove duplicated rows..."	window_rows_rm_duplicated	"activeDataSetP()"	"packageAvailable('tidyverse')"
+item	bs_rows_menu	command	"Remove empty rows"	command_rows_rm_empty_rows	"activeDataSetP()"	""
+item	bs_rows_menu	command	"Remove rows with missing values..."	window_rows_rm_with_na "activeDataSetP()"	"packageAvailable('tidyverse')"
 # item	bs_rows_menu	command	"[???] Fill missing values with..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
 # item	bs_rows_menu	command	"[???] Fill missing values in using the previous entry..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
 
@@ -438,8 +438,8 @@ item	bs_settings_menu	separator	""	""	""	""
 
 menu	bs_buttons_mode	bs_settings_menu	""	""	""	""
 item	bs_settings_menu	cascade	"Rcmdr buttons mode"	bs_buttons_mode	""	""
-item	bs_buttons_mode	command	"Usual (select only)"	command_buttons_mode_rcmdr	""	""
 item	bs_buttons_mode	command	"Extended (import, select, explore, etc.)"	command_buttons_mode_biostat	""	""
+item	bs_buttons_mode	command	"Usual (select only)"	command_buttons_mode_rcmdr	""	""
 
 # ---- Rcmdr windows ---------------------------------------------------------
 
