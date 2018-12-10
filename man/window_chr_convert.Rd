@@ -10,7 +10,8 @@ window_chr_convert()
 Rcmdr windows for variable class conversion
 }
 \seealso{
-Other conversion: \code{\link{window_convert_any}},
+Other conversion: \code{\link{window_convert_all}},
+  \code{\link{window_convert_any}},
   \code{\link{window_fct_convert}},
   \code{\link{window_lgl_convert}},
   \code{\link{window_num_convert}}

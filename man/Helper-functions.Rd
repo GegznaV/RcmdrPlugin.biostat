@@ -459,8 +459,8 @@ ok_cancel_help(window = top, helpSubject = NULL, model = FALSE,
 tk_widget_modify_names(parent = top,
   init_val_radiobuttons = c("overwrite", "modify"),
   init_val_checkbox = "0", init_val_prefix = "",
-  init_val_suffix = "", cmd_radiobuttons = function() { },
-  cmd_checkbox = function() { })
+  init_val_suffix = "", width = 37, cmd_radiobuttons = function() {
+  }, cmd_checkbox = function() { })
 
 tk_widget_boxes_y_gr(parent_frame = top, y_title = title_var_1,
   y_var_type = NA_character_, y_vars = NULL, y_initial = NULL,
