@@ -15,7 +15,7 @@ command_model_std_lm_coeffs <- function() {
         "lm.beta::lm.beta({.mod}) %>% \n ",
         "coef() %>% as.data.frame() %>% set_names('std_coef') %>% \n",
         "rownames_to_column('term') %>% ",
-        "dplyr::mutate(rank = min_rank(-abs(std_coef)),\n",
+        "dplyr::mutate(influence_rank = min_rank(-abs(std_coef)),\n",
         "              std_coef = round(std_coef, digits = 3))"
     ) %>%
         style_cmd() %>%
