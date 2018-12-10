@@ -14,7 +14,14 @@ NULL
 #' @export
 #' @keywords internal
 command_dataset_refresh <- function() {
-    Rcmdr::activeDataSet(Rcmdr::ActiveDataSet())
+
+    .ds <- Rcmdr::ActiveDataSet()
+
+    if (!is.null(.ds)) {
+        Rcmdr::activeDataSet(.ds)
+    }
+
+    Rcmdr::activateMenus()
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
