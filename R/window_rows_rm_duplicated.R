@@ -15,13 +15,12 @@ window_rows_rm_duplicated <- function() {
                    tk_disable(keep_all_Button)
                    tk_disable(keep_selected_Button)
                },
-                {
+               {
                    tk_normalize(var_y_box)
                    tk_normalize(keep_all_Button)
                    tk_normalize(keep_selected_Button)
-                   }
-               )
-
+               }
+        )
     }
     # Function onOK ----------------------------------------------------------
     onOK <- function() {
@@ -40,7 +39,7 @@ window_rows_rm_duplicated <- function() {
 
         # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (scope == "search_selected") {
-            if (variable_is_not_selected(new_name, "variable")) {return()}
+            if (variable_is_not_selected(vars_y, "variable")) {return()}
         }
 
         if (is_empty_name(new_name))            {return()}
@@ -190,10 +189,15 @@ window_rows_rm_duplicated <- function() {
     tkgrid(keep_Frame)
 
     # Name
+    init_name <-
+        str_c(.ds, "_unique_rows") %>%
+        str_trunc(50, ellipsis = "") %>%
+        unique_obj_names()
+
     name_box <- bs_tk_textbox(
         left_frame,
         width = 32,
-        value = unique_obj_names(.ds),
+        value = init_name,
         label = "New dataset's name:",
         label_position = "above"
     )
