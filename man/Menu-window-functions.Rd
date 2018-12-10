@@ -50,6 +50,7 @@
 \alias{open_new_plots_window}
 \alias{window_show_colors}
 \alias{command_rownames}
+\alias{command_rows_has_rownames}
 \alias{command_rows_rm_empty_rows}
 \alias{command_getwd}
 \alias{command_setwd}
@@ -167,6 +168,8 @@ open_new_plots_window()
 window_show_colors()
 
 command_rownames()
+
+command_rows_has_rownames()
 
 command_rows_rm_empty_rows()
 
