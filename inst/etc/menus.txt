@@ -133,8 +133,8 @@ item	bs_ds_class	command	"Change class to `data.table`"	command_dataset_as_dt	"a
 menu	bs_rows_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Rows (observations)"	bs_rows_menu	""	""
 
-item	bs_rows_menu	command	"Print row names"	command_rownames	"activeDataSetP()"	""
 item	bs_rows_menu	command	"Check row names"	command_rows_has_rownames	"activeDataSetP()"	"packageAvailable('tibble')"
+item	bs_rows_menu	command	"Print row names"	command_rownames	"activeDataSetP()"	""
 
 
 item	bs_rows_menu	separator	""	""	""	""
@@ -150,7 +150,7 @@ item	bs_rows_menu	command	"Remove rows with missing values..."	window_rows_rm_wi
 
 item	bs_rows_menu	separator	""	""	""	""
 item	bs_rows_menu	command	"Add column with row numbers"	window_rows_rowid_to_col	"activeDataSetP()"	"packageAvailable('tidyverse')"
-item	bs_rows_menu	command	"Create row names from column values..."	window_rows_col_to_rownames	"variables_with_unique_values_P()"	"packageAvailable('tibble')"
+item	bs_rows_menu	command	"Create row names from unique column values..."	window_rows_col_to_rownames	"variables_with_unique_values_P()"	"packageAvailable('tibble')"
 item	bs_rows_menu	command	"Move row names to column values..."	window_rows_rownames_to_col	"activeDataSetP()"	"packageAvailable('tibble')"
 
 
@@ -161,7 +161,7 @@ menu	bs_varible_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Variables (columns)"	bs_varible_menu	""	""
 
 item	bs_varible_menu	command	"Print variable (column) names"	command_colnames	"activeDataSetP()"	""
-item	bs_varible_menu	command	"Clean names (into snake case)"	command_clean_names	"activeDataSetP()"	"packageAvailable('dplyr') && packageAvailable('janitor')"
+item	bs_varible_menu	command	"Clean variable names (into snake case)"	command_clean_names	"activeDataSetP()"	"packageAvailable('dplyr') && packageAvailable('janitor')"
 item	bs_varible_menu	command	"Rename variables..."	window_variable_rename	"activeDataSetP()"	"packageAvailable('dplyr')"
 
 
@@ -193,21 +193,21 @@ item	bs_varible_menu	cascade	"Factors (categorical variables)"	bs_var_fct_menu	"
 item	bs_var_fct_menu	command	"Convert factors into nominal, ordinal, text..."	window_fct_convert	"factors_strict_P()"	""
 item	bs_var_fct_menu	separator	""	""	""	""
 
-item	bs_var_fct_menu	command	"[???] Create dummy variables..."	function_not_implemented	"FALSE & factorsP()"	""
-
-item	bs_var_fct_menu	separator	""	""	""	""
-item	bs_var_fct_menu	command	"[???] Add levels..."	function_not_implemented	"FALSE & factorsP()"	""
+# item	bs_var_fct_menu	command	"[???] Create dummy variables..."	function_not_implemented	"FALSE & factorsP()"	""
+#
+# item	bs_var_fct_menu	separator	""	""	""	""
+# item	bs_var_fct_menu	command	"[???] Add levels..."	function_not_implemented	"FALSE & factorsP()"	""
 # Collapse levels:
 #	Collapse levels manually
 #	Collapse least/most common levels into "other"
 #	Replace levels with "other"
-item	bs_var_fct_menu	command	'[???] Collapse/Merge levels...'	function_not_implemented	"FALSE & factors_strict_P()"	""
+# item	bs_var_fct_menu	command	'[???] Collapse/Merge levels...'	function_not_implemented	"FALSE & factors_strict_P()"	""
 item	bs_var_fct_menu	command	"Drop unused levels..."	window_factor_lvls_drop	"factors_strict_P()"	""
-item	bs_var_fct_menu	command	"[???] Remove levels"	function_not_implemented	"FALSE & factorsP()"	""
+# item	bs_var_fct_menu	command	"[???] Remove levels"	function_not_implemented	"FALSE & factorsP()"	""
 item	bs_var_fct_menu	command	"[???] Reorder levels automatically..."	function_not_implemented	"FALSE & factors_strict_P()"	""
 item	bs_var_fct_menu	command	"Reorder levels by hand..."	window_fct_lvls_reorder_manual	"factors_strict_P()"	""
-item	bs_var_fct_menu	separator	""	""	""	""
-item	bs_var_fct_menu	command	"[???] Convert missing values into explicit level..."	function_not_implemented	"FALSE & factors_strict_P()"	""
+# item	bs_var_fct_menu	separator	""	""	""	""
+# item	bs_var_fct_menu	command	"[???] Convert missing values into explicit level..."	function_not_implemented	"FALSE & factors_strict_P()"	""
 
 
 # --- + Logical variables ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -221,13 +221,13 @@ menu	bs_var_num_menu	bs_varible_menu	""	""	""	""
 item	bs_varible_menu	cascade	"Numeric variables"	bs_var_num_menu	"activeDataSetP()"	""
 
 item	bs_var_num_menu	command	"Convert numeric variables into other types..."	window_num_convert	"numericP()"	"" # Character, factors, logical
-item	bs_var_num_menu	command	"[???] Convert numeric into formatted text..."	function_not_implemented	"FALSE & numericP()"	"" # Format and convert to text
+# item	bs_var_num_menu	command	"[???] Convert numeric into formatted text..."	function_not_implemented	"FALSE & numericP()"	"" # Format and convert to text
+
+# item	bs_var_num_menu	separator	""	""	""	""
+# item	bs_var_num_menu	command	"[???] Bin/Categorize numeric values..."	function_not_implemented	"FALSE & numericP()"	"" # including `cut`, `if_else`,
 
 item	bs_var_num_menu	separator	""	""	""	""
-item	bs_var_num_menu	command	"[???] Bin/Categorize numeric values..."	function_not_implemented	"FALSE & numericP()"	"" # including `cut`, `if_else`,
-
-item	bs_var_num_menu	separator	""	""	""	""
-item	bs_var_num_menu	command	"Box-Cox transformation... [Rcmdr]"	function_not_implemented	"FALSE & numericP()"	""
+# item	bs_var_num_menu	command	"Box-Cox transformation... [Rcmdr]"	function_not_implemented	"FALSE & numericP()"	""
 item	bs_var_num_menu	command	"Log transformation..."	window_num_transform_log	"numericP()"	""
 item	bs_var_num_menu	command	"Z transformation / Standardization..."	window_num_transform_z	"numericP()"	""
 
@@ -393,7 +393,7 @@ item	bs_variability_menu	command	"Levene's / Brown-Forsythe's test... [Rcmdr]"	L
 menu	bs_distr_tests_menu	bs_analysis_menu	""	""	""	""
 item	bs_analysis_menu	cascade	"Tests (normality, distribution)"	bs_distr_tests_menu	""	""
 
-item	bs_distr_tests_menu	command	"Normality test..."	window_test_normality	"numericP()"	""
+item	bs_distr_tests_menu	command	"Normality test (univariate)..."	window_test_normality	"numericP()"	""
 
 
 # . ==========================================================================
