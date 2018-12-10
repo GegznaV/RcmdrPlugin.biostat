@@ -62,7 +62,6 @@ variables_lgl <- function() {
 #' @export
 variables_fct <- function() {
     list_objects_of_class("factor", envir = as.environment(get_active_ds()))
-
 }
 #' Factor-like variable names in active dataset
 #'
@@ -106,6 +105,31 @@ variables_fct2_like <- function() {
 #' @export
 variables_num <- function() {
     Numeric()
+}
+
+#' Numeric variable names in active dataset
+#'
+#' @keywords internal
+#' @export
+variables_int <- function() {
+    list_objects_of_class("integer", envir = as.environment(get_active_ds()))
+}
+
+#' Numeric variable names in active dataset
+#'
+#' @keywords internal
+#' @export
+variables_dbl <- function() {
+    setdiff(Numeric(), variables_int())
+}
+
+#' Numeric variable names in active dataset
+#'
+#' @keywords internal
+#' @export
+variables_oth <- function() {
+    setdiff(Variables(),
+            c(Numeric(), variables_chr(), variables_lgl(), variables_fct()))
 }
 
 
