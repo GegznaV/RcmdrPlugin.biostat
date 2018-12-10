@@ -96,10 +96,7 @@ window_data_obj_rename <- function() {
         on_keyboard  = "select",
         on_select    = update_new_name,
         selection    = active_ds,
-        tip  = str_c(
-            "Use letters on keyboard for quicker navigation. \n",
-            "Hold 'Ctrl' key and left-click mouse to \n",
-            "deselect an object.")
+        tip          = tip_single_ctrl_letters
 
     )
     if (!is.null(active_ds)) {
