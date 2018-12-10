@@ -459,6 +459,16 @@ variables_with_unique_values_P <- function(n = 1) {
     activeDataSetP() && length(variables_with_unique_values() >= n)
 }
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+# Adds `` arround string with name, if that name does not follow the rules for
+# R names.
+safe_names <- function(str) {
+    need_q <- (make.names(str) != str)
+    q <- ifelse(need_q, "`", "")
+    str_c(q, str, q)
+}
 
 
 # ___ Path / File ___ ========================================================
@@ -636,8 +646,8 @@ is_not_empty_name <- function(name) {
         return(FALSE)
 
     } else if (name == "") {
-        message  <- str_glue('The name must not be empty.\n',
-                             'Please, enter the name.')
+        message  <- str_glue('The name field must not be empty.\n',
+                             'Please, enter a name.')
         show_error_messages(message, message, title = "Empty Name")
 
         return(FALSE)
