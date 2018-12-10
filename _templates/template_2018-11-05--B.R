@@ -128,7 +128,7 @@ window_xxx <- function() {
     # Initial values ---------------------------------------------------------
 
     # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    ds     <- activeDataSet()
+    .ds     <- activeDataSet()
     fg_col <- Rcmdr::getRcmdr("title.color")
 
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -152,10 +152,17 @@ window_xxx <- function() {
     upper_frame <- tkframe(top)
 
     # Text entry box
-    name_variable <- tclVar(unique_colnames("row_number"))
-    name_frame    <- tkframe(upper_frame)
-    name_entry    <- ttkentry(name_frame, width = "28",
-                              textvariable = name_variable)
+    name_entry <- bs_tk_textbox(
+        parent = upper_frame,
+        width = 28,
+        value = unique_colnames("row_number"),
+        label = "Column name for row numbers:"
+    )
+
+    # name_variable <- tclVar(unique_colnames("row_number"))
+    # name_frame    <- tkframe(upper_frame)
+    # name_entry    <- ttkentry(name_frame, width = "28",
+    #                           textvariable = name_variable)
 
     # Radiobuttons horizontal
     rb_frame <- tkframe(upper_frame)
@@ -175,16 +182,17 @@ window_xxx <- function() {
 
     # Layout
     tkgrid(upper_frame, pady = c(0, 5))
-    tkgrid(name_frame, rb_frame, sticky = "w")
+    # tkgrid(name_frame, rb_frame, sticky = "w")
+    tkgrid(name_entry$frame, rb_frame, sticky = "w")
 
-    tkgrid(
-        label_rcmdr(
-            name_frame,
-            text = gettext_bs("Column name for row numbers:"),
-            foreground = getRcmdr("title.color")),
-        sticky = "w"
-    )
-    tkgrid(name_entry, sticky = "w")
+    # tkgrid(
+    #     label_rcmdr(
+    #         name_frame,
+    #         text = gettext_bs("Column name for row numbers:"),
+    #         foreground = getRcmdr("title.color")),
+    #     sticky = "w"
+    # )
+    # tkgrid(name_entry, sticky = "w")
     tkgrid(positionFrame, padx = c(15, 0))
 
 
