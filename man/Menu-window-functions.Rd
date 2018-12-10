@@ -12,8 +12,9 @@
 %   R/window_import_rds.R, R/window_import_text_delim.R,
 %   R/window_locale_set.R, R/window_model_select.R, R/window_rows_arrange.R,
 %   R/window_rows_col_to_rownames.R, R/window_rows_filter.R,
-%   R/window_rows_rowid_to_col.R, R/window_rows_rownames_to_col.R,
-%   R/window_rows_slice.R, R/window_summary_count.R, R/window_summary_skim.R,
+%   R/window_rows_rm_duplicated.R, R/window_rows_rowid_to_col.R,
+%   R/window_rows_rownames_to_col.R, R/window_rows_slice.R,
+%   R/window_summary_count.R, R/window_summary_skim.R,
 %   R/window_test_normality.R, R/window_variable_gather.R,
 %   R/window_variable_mutate.R, R/window_variable_recode.R,
 %   R/window_variable_rename.R, R/window_variable_select.R,
@@ -89,6 +90,7 @@
 \alias{window_rows_col_to_rownames}
 \alias{window_rows_filter0}
 \alias{window_rows_filter}
+\alias{window_rows_rm_duplicated}
 \alias{window_rows_rowid_to_col}
 \alias{window_rows_rownames_to_col}
 \alias{window_rows_slice}
@@ -246,6 +248,8 @@ window_rows_filter0(variables)
 
 window_rows_filter(new_dsname = NULL, init_conditions = NULL,
   incorrect_cond_msg = NULL)
+
+window_rows_rm_duplicated()
 
 window_rows_rowid_to_col()
 
