@@ -17,11 +17,8 @@ LazyData: true
 ByteCompile: false
 URL: https://GegznaV.github.io/RcmdrPlugin.biostat
 BugReports: https://github.com/GegznaV/RcmdrPlugin.biostat/issues
-Remotes:
-    GegznaV/biostat
 Depends:
     R (>= 3.3.0),
-    biostat (>= 0.0.18),
     tcltk,
     tcltk2 (>= 1.2-11),
     Rcmdr,
