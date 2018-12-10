@@ -34,7 +34,7 @@ item	biostat_menu	cascade	"Data"	bs_data_menu	""	""
 
 # ---- Refresh data -----------------------------------------------------------
 
-item	bs_data_menu	command	"Refresh active dataset"	command_dataset_refresh	"activeDataSetP()"	""
+item	bs_data_menu	command	"Refresh active dataset and menus"	command_dataset_refresh	"activeDataSetP()"	""
 item	bs_data_menu	command	"Select active dataset"	window_dataset_select	""	""
 
 
@@ -451,7 +451,7 @@ item	bs_settings_menu	command	"Change locale..."	window_locale_set	""	""
 # ---- Dataset button ---------------------------------------------------------
 item	bs_settings_menu	separator	""	""	""	""
 item	bs_settings_menu	command	"Rcmdr buttons mode: ordinary"	command_buttons_mode_rcmdr	""	""
-item	bs_settings_menu	command	"Rcmdr buttons mode: enhanded"	command_buttons_mode_biostat	""	""
+item	bs_settings_menu	command	"Rcmdr buttons mode: BioStat"	command_buttons_mode_biostat	""	""
 
 # ---- Rcmdr windows ---------------------------------------------------------
 item	bs_settings_menu	separator	""	""	""	""
