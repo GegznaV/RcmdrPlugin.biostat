@@ -188,7 +188,7 @@ bs_combobox <- function(
         varlist  = values
     )
 
-    class(result) <- "combobox"
+    class(result) <- c("combobox", "bs_tk_widget", "list")
     result
 }
 
