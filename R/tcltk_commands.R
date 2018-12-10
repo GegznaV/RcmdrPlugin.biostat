@@ -53,10 +53,11 @@ cursor_set_idle <- function(frame = NULL) {
 }
 
 # Get state -------------------------------------------------------------------
-#' @name tk_activate
+#' @rdname Helper-functions
+#' @keywords internal
 #' @export
-tk_get_state.default <- function(tk_obj, ...) {
-    tclvalue_chr(tkcget(tk_obj, "-state"))
+tk_get_state.default <- function(obj, ...) {
+    tclvalue_chr(tkcget(obj, "-state"))
 }
 
 
@@ -66,48 +67,52 @@ tk_get_state.default <- function(tk_obj, ...) {
 #'
 #' @description Modify state of tk objects.
 #'
-#' @param tk_obj TK object.
+#' @param obj TK object.
 #' @param ... other options to be passed to \code{tkconfigure}.
 #' @keywords internal
 #'
 #' @export
 #'
 #' @examples
-#' # tk_activate(tk_obj)
-#' # tk_disable(tk_obj)
+#' # tk_activate(obj)
+#' # tk_disable(obj)
 #'
-tk_activate.default <- function(tk_obj, ...) {
-    tkconfigure(tk_obj, state = "active", ...)
-}
-#' @name tk_activate
-#' @export
-tk_normalize.default <- function(tk_obj, ...) {
-    tkconfigure(tk_obj, state = "normal", ...)
-}
-#' @name tk_activate
-#' @export
-tk_read_only.default <- function(tk_obj, ...) {
-    tkconfigure(tk_obj, state = "readonly", ...)
-}
-#' @name tk_activate
-#' @export
-tk_disable.default <- function(tk_obj, ...) {
-    tkconfigure(tk_obj, state = "disabled", ...)
-}
-#' @name tk_activate
-#' @export
-tk_disable.default <- function(tk_obj, ...) {
-    tkconfigure(tk_obj, state = "disabled", ...)
+tk_activate.default <- function(obj, ...) {
+    tkconfigure(obj, state = "active", ...)
 }
 
 #' @name tk_activate
+#' @keywords internal
+#' @export
+tk_normalize.default <- function(obj, ...) {
+    tkconfigure(obj, state = "normal", ...)
+}
+
+#' @name tk_activate
+#' @keywords internal
+#' @export
+tk_read_only.default <- function(obj, ...) {
+    tkconfigure(obj, state = "readonly", ...)
+}
+
+#' @name tk_activate
+#' @keywords internal
+#' @export
+tk_disable.default <- function(obj, ...) {
+    tkconfigure(obj, state = "disabled", ...)
+}
+
+
+#' @rdname Helper-functions
+#' @keywords internal
 #' @export
 tk_yview.default <- function(obj, ind, ...) {
     tkyview(obj, ind, ...)
 
 }
 
-#' @name tk_activate
+#' @rdname Helper-functions
+#' @keywords internal
 #' @export
 tk_xview.default <- function(obj, ind, ...) {
     tkxview(obj, ind, ...)
@@ -115,15 +120,6 @@ tk_xview.default <- function(obj, ind, ...) {
 }
 
 # Get values -----------------------------------------------------------------
-
-#' @rdname Helper-functions
-#' @keywords internal
-#' @export
-
-#
-# TODO:
-# 1) senas `tclvalue_*` funkcijų versijas visame pakete pakeisti naujomis
-#    versijomis.
 
 #' @rdname Helper-functions
 #' @keywords internal
