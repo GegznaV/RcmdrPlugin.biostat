@@ -46,10 +46,10 @@ item	bs_data_menu	command	"Select active dataset"	window_dataset_select	""	""
 # item	bs_data_menu	command	"Rename active dataset..."	window_dataset_rename	"activeDataSetP()"	""
 
 item	bs_data_menu	separator	""	""	""	""
+item	bs_data_menu	command	"List objects in R workspace..."	command_list_objects	"objects_in_env_P()"	""
 item	bs_data_menu	command	"Copy object / active dataset..."	window_data_obj_copy	"objects_in_env_P()"	""
 item	bs_data_menu	command	"Delete object / active dataset... "	window_data_obj_delete	"objects_in_env_P()"	""
 item	bs_data_menu	command	"Rename object / active dataset..."	window_data_obj_rename	"objects_in_env_P()"	""
-item	bs_data_menu	command	"List objects in R workspace..."	command_list_objects	"objects_in_env_P()"	""
 
 
 
@@ -451,7 +451,7 @@ item	bs_settings_menu	command	"Change locale..."	window_locale_set	""	""
 # ---- Dataset button ---------------------------------------------------------
 item	bs_settings_menu	separator	""	""	""	""
 item	bs_settings_menu	command	"Rcmdr buttons mode: ordinary"	command_buttons_mode_rcmdr	""	""
-item	bs_settings_menu	command	"Rcmdr buttons mode: BioStat"	command_buttons_mode_biostat	""	""
+item	bs_settings_menu	command	"Rcmdr buttons mode: multi"	command_buttons_mode_biostat	""	""
 
 # ---- Rcmdr windows ---------------------------------------------------------
 item	bs_settings_menu	separator	""	""	""	""
