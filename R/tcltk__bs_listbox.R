@@ -407,7 +407,7 @@ tk_normalize.listbox <- function(obj, ..., background = "white") {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-tk_get_state.listbox <- function(obj) {
-  tk_get_state(obj$listbox)
+tk_get_state.listbox <- function(obj, ...) {
+  tk_get_state(obj$listbox, ...)
 }
 
