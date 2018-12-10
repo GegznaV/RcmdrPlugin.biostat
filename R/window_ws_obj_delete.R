@@ -90,7 +90,7 @@ window_data_obj_delete <- function() {
         width        = 30,
         on_keyboard  = "scroll",
         tip  = str_c("Hold 'Ctrl' key and left-click mouse\n",
-                     "to select several objects or deselect.\n",
+                     "to select several or deselect objects.\n",
                      "Use letters on keyboard for quicker \n",
                      "navigation.")
 
