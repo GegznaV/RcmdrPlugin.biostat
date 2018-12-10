@@ -5,8 +5,20 @@
 #' @export
 #' @keywords internal
 command_rownames <- function() {
-    doItAndPrint(str_glue("## Row names\n",
-                          "rownames({ActiveDataSet()})"))
+    doItAndPrint(str_glue(
+        "## Row names \n",
+        "rownames({ActiveDataSet()})"))
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+command_rows_has_rownames <- function() {
+    .ds <- ActiveDataSet()
+    library("tibble")
+    doItAndPrint(str_glue(
+        "## Does dataset '{.ds}' have real row names? \n",
+        "has_rownames({.ds})"))
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
