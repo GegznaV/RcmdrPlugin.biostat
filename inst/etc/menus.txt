@@ -4,8 +4,6 @@
 menu	biostat_menu	topMenu	""	""	""	""
 item	topMenu	cascade	"BioStat'19"	biostat_menu	""	""
 
-# item	biostat_menu	command	"Refresh"	command_dataset_refresh	"activeDataSetP()"	""
-
 
 # . ==========================================================================
 # ---- >>> File menu ---------------------------------------------------------
@@ -24,10 +22,8 @@ item	bs_file_menu	command	"Get information about file..."  command_get_file_info
 # item	bs_file_menu	command	"[???] Use absolute/relative path"  function_not_implemented	"FALSE"	""
 
 
-
 # . ===========================================================================
 # ---- >>> Data --------------------------------------------------------------
-
 menu	bs_data_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Data"	bs_data_menu	""	""
 
@@ -35,25 +31,16 @@ item	biostat_menu	cascade	"Data"	bs_data_menu	""	""
 # ---- Select data -----------------------------------------------------------
 # Refresh active dataset and menus
 item	bs_data_menu	command	"Refresh"	command_dataset_refresh	""	""
-item	bs_data_menu	command	"Select & explore active dataset"	window_dataset_select	""	""
+item	bs_data_menu	command	"Select active dataset (extended)"	window_dataset_select	""	""
 
 
 # --- Copy. delete, rename ---------------------------------------------------
 
-# item	bs_data_menu	separator	""	""	""	""
-# item	bs_data_menu	command	"Copy active dataset..."	window_dataset_copy	"activeDataSetP()"	""
-# item	bs_data_menu	command	"Delete active dataset..."	window_dataset_delete	"activeDataSetP()"	""
-# item	bs_data_menu	command	"Rename active dataset..."	window_dataset_rename	"activeDataSetP()"	""
-#
-# item	bs_data_menu	command	"Rename object / active dataset..."	window_data_obj_rename	"objects_in_env_P()"	""
-
 item	bs_data_menu	separator	""	""	""	""
 item	bs_data_menu	command	"List objects in R workspace..."	command_list_objects	""	""
 item	bs_data_menu	command	"Copy object / active dataset..."	window_data_obj_copy	""	""
-item	bs_data_menu	command	"Delete object / active dataset... "	window_data_obj_delete	"objects_in_env_P()"	""
+item	bs_data_menu	command	"Delete object / active dataset... "	window_data_obj_delete	""	""
 item	bs_data_menu	command	"Rename object / active dataset..."	window_data_obj_rename	""	""
-
-
 
 
 # ---- Preview / Print -------------------------------------------------------
@@ -87,7 +74,7 @@ item	import_menu	command	"Create a new dataset... [Rcmdr]"	window_dataset_new_rc
 # ---- Import data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 item	import_menu	separator	""	""	""	""
-item    import_menu      command         "Import from text file (.txt, .csv, .dat) or clipboard... [Rcmdr]"          window_import_text_delim                 ""          ""
+item    import_menu      command         "Import from text file (.txt, .csv, .dat) or clipboard..."          window_import_text_delim                 ""          ""
 # item    import_menu      command         "[???] Import from coppied text... "          function_not_implemented                 "FALSE"          ""
 
 item	import_menu	separator	""	""	""	""
@@ -451,8 +438,8 @@ item	bs_settings_menu	separator	""	""	""	""
 
 menu	bs_buttons_mode	bs_settings_menu	""	""	""	""
 item	bs_settings_menu	cascade	"Rcmdr buttons mode"	bs_buttons_mode	""	""
-item	bs_buttons_mode	command	"Select only (usual)"	command_buttons_mode_rcmdr	""	""
-item	bs_buttons_mode	command	"Select & explore"	command_buttons_mode_biostat	""	""
+item	bs_buttons_mode	command	"Usual (select only)"	command_buttons_mode_rcmdr	""	""
+item	bs_buttons_mode	command	"Extended (import, select, explore, etc.)"	command_buttons_mode_biostat	""	""
 
 # ---- Rcmdr windows ---------------------------------------------------------
 
