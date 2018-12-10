@@ -134,6 +134,8 @@ menu	bs_rows_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Rows (observations)"	bs_rows_menu	""	""
 
 item	bs_rows_menu	command	"Print row names"	command_rownames	"activeDataSetP()"	""
+item	bs_rows_menu	command	"Check row names"	command_rows_has_rownames	"activeDataSetP()"	"packageAvailable('tibble')"
+
 
 item	bs_rows_menu	separator	""	""	""	""
 item	bs_rows_menu	command	"Arrange: sort rows..."	window_rows_arrange	"activeDataSetP()"	""
