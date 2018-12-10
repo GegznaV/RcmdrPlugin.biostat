@@ -21,6 +21,7 @@ bs_listbox <-
            scroll     = c("both", "x", "y", "none"),
            autoscroll = c("x", "y", "both", "none"),
 
+           on_select         = function() {},
            on_click          = function() {},
            on_double_click   = function() {},
            on_triple_click   = function() {},
@@ -30,9 +31,9 @@ bs_listbox <-
            on_triple_click_3 = function() {},
            on_release_3      = function() {},
 
+           on_keyboard = c("select", "scroll", "ignore"),
            title_sticky = "w",
-           subtitle_sticky = title_sticky,
-           on_keyboard = c("select", "scroll", "ignore")
+           subtitle_sticky = title_sticky
 
            , ...
 
@@ -193,6 +194,9 @@ bs_listbox <-
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     bind_mouse_keys(listbox)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    tkbind(listbox, "<<ListboxSelect>>", on_select)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (!is.null(title)) {
       tkgrid(
