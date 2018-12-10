@@ -5,7 +5,7 @@
 #' @family conversion
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-window_convert_all <- function() {
+window_variable_convert_type <- function() {
     # Functions --------------------------------------------------------------
     change_name_suffix <- function() {
 
@@ -208,7 +208,7 @@ window_convert_all <- function() {
         }
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        putDialog("window_convert_all",
+        putDialog("window_variable_convert_type",
                   list(
                       variables     = variables    ,
                       into          = into         ,
@@ -318,7 +318,7 @@ window_convert_all <- function() {
         selected_type = "All"
     )
 
-    initial <- getDialog("window_convert_all", defaults)
+    initial <- getDialog("window_variable_convert_type", defaults)
 
     # Widgets ----------------------------------------------------------------
 
@@ -393,8 +393,8 @@ window_convert_all <- function() {
 
     # Finalize ---------------------------------------------------------------
     ok_cancel_help(helpSubject = "as.character",
-                   apply = "window_convert_all()",
-                   reset = "window_convert_all()")
+                   apply = "window_variable_convert_type()",
+                   reset = "window_variable_convert_type()")
     tkgrid(buttonsFrame, sticky = "ew", columnspan = 2)
     dialogSuffix(rows = 4, columns = 2, preventGrabFocus = TRUE)
 
