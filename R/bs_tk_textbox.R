@@ -138,6 +138,6 @@ tk_activate.bs_tk_textbox <- function(obj, ..., foreground = getRcmdr("title.col
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-tk_get_state.bs_tk_textbox <- function(obj) {
-    tk_get_state(obj$obj_text)
+tk_get_state.bs_tk_textbox <- function(obj, ...) {
+    tk_get_state(obj$obj_text, ...)
 }
