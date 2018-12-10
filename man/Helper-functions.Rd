@@ -119,6 +119,9 @@
 \alias{variableListBox2}
 \alias{cursor_set_busy}
 \alias{cursor_set_idle}
+\alias{tk_get_state.default}
+\alias{tk_yview.default}
+\alias{tk_xview.default}
 \alias{tclvalue_lgl}
 \alias{tclvalue_int}
 \alias{tclvalue_int_split}
@@ -160,7 +163,7 @@ bs_tk_textbox(parent = top, width = "28", value = "", label = "",
 \method{tk_activate}{bs_tk_textbox}(obj, ...,
   foreground = getRcmdr("title.color"))
 
-\method{tk_get_state}{bs_tk_textbox}(obj)
+\method{tk_get_state}{bs_tk_textbox}(obj, ...)
 
 command_buttons_mode_rcmdr()
 
@@ -338,7 +341,7 @@ get_selection_combobox(combobox)
 
 \method{tk_disable}{combobox}(obj, ...)
 
-\method{tk_get_state}{combobox}(obj)
+\method{tk_get_state}{combobox}(obj, ...)
 
 bs_listbox(parent, values = variables_all(), value = NULL,
   selection = NULL, selectmode = c("single", "extended", "browse",
@@ -388,7 +391,7 @@ set_selection_listbox(listbox, sel, clear = TRUE)
 
 \method{tk_normalize}{listbox}(obj, ..., background = "white")
 
-\method{tk_get_state}{listbox}(obj)
+\method{tk_get_state}{listbox}(obj, ...)
 
 variableListBox2(parentWindow, variableList = Variables(),
   bg = "white", selectmode = "single", export = "FALSE",
@@ -404,6 +407,12 @@ variableListBox2(parentWindow, variableList = Variables(),
 cursor_set_busy(frame = NULL)
 
 cursor_set_idle(frame = NULL)
+
+\method{tk_get_state}{default}(obj, ...)
+
+tk_yview.default(obj, ind, ...)
+
+tk_xview.default(obj, ind, ...)
 
 tclvalue_lgl(x)
 
