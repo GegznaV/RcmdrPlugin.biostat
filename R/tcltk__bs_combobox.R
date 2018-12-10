@@ -48,8 +48,8 @@ bs_combobox <- function(
     title_sticky        = "w",
     combobox_sticky     = "nw",
 
-    on_select          = function(){},
-    postcommand        = function(){},
+    on_select          = function() {},
+    postcommand        = function() {},
     on_click           = function() {},
     on_double_click    = function() {},
     on_triple_click    = function() {},
