@@ -10,13 +10,10 @@ command_rownames <- function() {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# TODO:
-#
-#
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-command_row_rm_empty_rows <- function() {
+command_rows_rm_empty_rows <- function() {
     Library("tidyverse")
 
     ds            <- ActiveDataSet()
