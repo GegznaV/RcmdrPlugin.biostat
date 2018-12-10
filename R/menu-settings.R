@@ -56,7 +56,7 @@ command_get_file_info <- function() {
 command_list_objects <- function() {
 
     # Inputs (not implemented) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    show_hidden <- FALSE
+    show_hidden <- TRUE
 
     if (show_hidden) {
         all_names <- "all.names = TRUE"
