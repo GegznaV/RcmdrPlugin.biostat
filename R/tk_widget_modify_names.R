@@ -5,10 +5,11 @@ tk_widget_modify_names <- function(
     parent = top,
     init_val_radiobuttons = c("overwrite", "modify"),
     init_val_checkbox = "0",
-    init_val_prefix = "",
-    init_val_suffix = "",
-    cmd_radiobuttons = function(){},
-    cmd_checkbox     = function(){}
+    init_val_prefix   = "",
+    init_val_suffix   = "",
+    width             = 37,
+    cmd_radiobuttons  = function(){},
+    cmd_checkbox      = function(){}
 ) {
     fg_col <- fg_col <- Rcmdr::getRcmdr("title.color")
     init_val_radiobuttons <- match.arg(init_val_radiobuttons)
@@ -42,10 +43,10 @@ tk_widget_modify_names <- function(
     lower_frame <- tkframe(main_frame)
 
     prefix_var   <- tclVar(init_val_prefix)
-    prefix_field <- ttkentry(lower_frame, width = "37", textvariable = prefix_var)
+    prefix_field <- ttkentry(lower_frame, width = width, textvariable = prefix_var)
 
     suffix_var   <- tclVar(init_val_suffix)
-    suffix_field <- ttkentry(lower_frame, width = "37", textvariable = suffix_var)
+    suffix_field <- ttkentry(lower_frame, width = width, textvariable = suffix_var)
 
 
     # Layout
