@@ -46,20 +46,20 @@
 # # }
 #
 #
-rmd_template_filename <- paste0(
-    dir(.libPaths(), pattern = "RcmdrPlugin.biostat", full.names = TRUE),
-    "/etc/biostat-RMarkdown-Template.Rmd"
-)
-#
-# ###! Rcmdr Options Begin !###
-options(Rcmdr = list(plugins = c("RcmdrPlugin.KMggplot2",
-                                 "RcmdrPlugin.EZR.2",
-                                 "RcmdrPlugin.biostat",
-                                 NULL),
-                     console.output = FALSE,
-                     use.rgl = FALSE,
-                     rmd.template = rmd_template_filename)
-        )
+# rmd_template_filename <- paste0(
+#     dir(.libPaths(), pattern = "RcmdrPlugin.biostat", full.names = TRUE),
+#     "/etc/biostat-RMarkdown-Template.Rmd"
+# )
+# #
+# # ###! Rcmdr Options Begin !###
+# options(Rcmdr = list(plugins = c("RcmdrPlugin.KMggplot2",
+#                                  "RcmdrPlugin.EZR.2",
+#                                  "RcmdrPlugin.biostat",
+#                                  NULL),
+#                      console.output = FALSE,
+#                      use.rgl = FALSE,
+#                      rmd.template = rmd_template_filename)
+#         )
 #
 # if (.Platform$OS.type == "windows") {
 #     Sys.setlocale(locale = "Lithuanian")
@@ -93,7 +93,7 @@ options(Rcmdr = list(plugins = c("RcmdrPlugin.KMggplot2",
 # message("--- Papildinys uzkrautas: RcmdrPlugin.biostat ---")
 
 
-nth <- Sys.setlocale(locale = "Lithuanian")
+# nth <- Sys.setlocale(locale = "Lithuanian")
 
 # options(blogdown.ext    = ".Rmd",
 #         blogdown.author = "Ą Ę Ė Į Š Č Ų")
