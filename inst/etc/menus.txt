@@ -4,7 +4,7 @@
 menu	biostat_menu	topMenu	""	""	""	""
 item	topMenu	cascade	"BioStat'19"	biostat_menu	""	""
 
-
+# item	biostat_menu	command	"Refresh"	command_dataset_refresh	"activeDataSetP()"	""
 
 
 # . ==========================================================================
@@ -32,10 +32,10 @@ menu	bs_data_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Data"	bs_data_menu	""	""
 
 
-# ---- Refresh data -----------------------------------------------------------
-
-item	bs_data_menu	command	"Refresh active dataset and menus"	command_dataset_refresh	"activeDataSetP()"	""
-item	bs_data_menu	command	"Select active dataset"	window_dataset_select	""	""
+# ---- Select data -----------------------------------------------------------
+# Refresh active dataset and menus
+item	bs_data_menu	command	"Refresh"	command_dataset_refresh	""	""
+item	bs_data_menu	command	"Select & explore active dataset"	window_dataset_select	""	""
 
 
 # --- Copy. delete, rename ---------------------------------------------------
@@ -44,12 +44,14 @@ item	bs_data_menu	command	"Select active dataset"	window_dataset_select	""	""
 # item	bs_data_menu	command	"Copy active dataset..."	window_dataset_copy	"activeDataSetP()"	""
 # item	bs_data_menu	command	"Delete active dataset..."	window_dataset_delete	"activeDataSetP()"	""
 # item	bs_data_menu	command	"Rename active dataset..."	window_dataset_rename	"activeDataSetP()"	""
+#
+# item	bs_data_menu	command	"Rename object / active dataset..."	window_data_obj_rename	"objects_in_env_P()"	""
 
 item	bs_data_menu	separator	""	""	""	""
-item	bs_data_menu	command	"List objects in R workspace..."	command_list_objects	"objects_in_env_P()"	""
-item	bs_data_menu	command	"Copy object / active dataset..."	window_data_obj_copy	"objects_in_env_P()"	""
+item	bs_data_menu	command	"List objects in R workspace..."	command_list_objects	""	""
+item	bs_data_menu	command	"Copy object / active dataset..."	window_data_obj_copy	""	""
 item	bs_data_menu	command	"Delete object / active dataset... "	window_data_obj_delete	"objects_in_env_P()"	""
-item	bs_data_menu	command	"Rename object / active dataset..."	window_data_obj_rename	"objects_in_env_P()"	""
+item	bs_data_menu	command	"Rename object / active dataset..."	window_data_obj_rename	""	""
 
 
 
@@ -438,25 +440,30 @@ menu	bs_settings_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Settings"	bs_settings_menu	""	""
 
 # ---- Manage locale ---------------------------------------------------------
-item	bs_settings_menu	command	"Show current locale"	command_get_locale	""	""
-item	bs_settings_menu	command	"Change locale..."	window_locale_set	""	""
+item	bs_settings_menu	command	"Locale..."	window_locale_set	""	""
+# command_get_locale
 
-# item	bs_settings_menu	separator	""	""	""	""
-# item	bs_settings_menu	command	"[x] Set locale to system's default"	command_set_locale_default	""	""
-# item	bs_settings_menu	command	"[x] Set locale to English"	command_set_locale_en	""	""
-# item	bs_settings_menu	command	"[x] Set locale to Lithuanian"	command_set_locale_lt	""	""
-# item	bs_settings_menu	command	"[x] Set locale to Russian"	command_set_locale_ru	""	""
+# ---- Rcmdr buttons ----------------------------------------------------------
 
-
-# ---- Dataset button ---------------------------------------------------------
 item	bs_settings_menu	separator	""	""	""	""
-item	bs_settings_menu	command	"Rcmdr buttons mode: ordinary"	command_buttons_mode_rcmdr	""	""
-item	bs_settings_menu	command	"Rcmdr buttons mode: multi"	command_buttons_mode_biostat	""	""
+# item	bs_settings_menu	command	"Rcmdr buttons mode: select only (usual)"	command_buttons_mode_rcmdr	""	""
+# item	bs_settings_menu	command	"Rcmdr buttons mode: select & explore"	command_buttons_mode_biostat	""	""
+
+menu	bs_buttons_mode	bs_settings_menu	""	""	""	""
+item	bs_settings_menu	cascade	"Rcmdr buttons mode"	bs_buttons_mode	""	""
+item	bs_buttons_mode	command	"Select only (usual)"	command_buttons_mode_rcmdr	""	""
+item	bs_buttons_mode	command	"Select & explore"	command_buttons_mode_biostat	""	""
 
 # ---- Rcmdr windows ---------------------------------------------------------
-item	bs_settings_menu	separator	""	""	""	""
-item	bs_settings_menu	command	"Rcmdr windows mode: 1 window"	command_use_1_window_rcmdr	""	""
-item	bs_settings_menu	command	"Rcmdr windows mode: 3 windows"	command_use_3_window_rcmdr	""	""
+
+# item	bs_settings_menu	separator	""	""	""	""
+# item	bs_settings_menu	command	"Rcmdr windows mode: 1 window"	command_use_1_window_rcmdr	""	""
+# item	bs_settings_menu	command	"Rcmdr windows mode: 3 windows"	command_use_3_window_rcmdr	""	""
+
+menu	bs_windows_mode	bs_settings_menu	""	""	""	""
+item	bs_settings_menu	cascade	"Rcmdr windows mode"	bs_windows_mode	""	""
+item	bs_windows_mode	command	"1 window (output to console)"	command_use_1_window_rcmdr	""	""
+item	bs_windows_mode	command	"3 windows (output to Rcmdr)"	command_use_3_window_rcmdr	""	""
 
 
 # . ==========================================================================
