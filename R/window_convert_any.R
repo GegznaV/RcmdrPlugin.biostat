@@ -21,9 +21,9 @@ window_convert_any <- function() {
 
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(
-        title = gettext_bs("Convert Variables into Other Classes"))
+        title = gettext_bs("Convert Variable Types"))
 
-    tk_title(top, "Convert variables")
+    tk_title(top, "Convert variable types")
 
     # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     defaults <- list(
