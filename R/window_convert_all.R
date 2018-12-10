@@ -65,31 +65,6 @@ window_convert_all <- function() {
         )
     }
 
-    cmd_update_list <- function() {
-        val_list <- switch(
-            get_selection(var_type_box),
-            "All"                     = variables_all(),
-            "Text (character)"        = variables_chr(),
-            "Numeric"                 = variables_num(),
-            "Integer (whole numbers)" = variables_int(),
-            "Real numbers"            = variables_dbl(),
-            "Factor"                  = variables_fct(),
-            "Logical"                 = variables_lgl(),
-            "Other"                   = variables_oth()
-        )
-
-        # Values can be set only in non-disabled modes
-        tk_normalize(var_y_box)
-        set_values(var_y_box, val_list)
-
-        # Enable/Diable
-        if (length(val_list) > 0) {
-            tk_normalize(var_y_box)
-        } else {
-            tk_disable(var_y_box)
-        }
-    }
-
     cmd_update_list_and_activation <- function() {
 
         tclvalue(into_Variable) <- "character"
