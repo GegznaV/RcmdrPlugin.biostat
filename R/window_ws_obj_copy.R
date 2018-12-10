@@ -90,14 +90,16 @@ window_data_obj_copy <- function() {
         title        = "Object (select one)",
         values       = ws_objects,
         value        = active_ds,
-        selectmode   = "multiple",
+        selectmode   = "single",
         height       = 9,
         width        = 30,
         on_keyboard  = "select",
-        on_release   = update_new_name,
+        on_select    = update_new_name,
         selection    = active_ds,
-        tip  = str_c("Hold 'Ctrl' key and left-click mouse to deselect object.\n",
-                     "Use letters on keyboard for quicker navigation.")
+        tip  = str_c(
+            "Use letters on keyboard for quicker navigation. \n",
+            "Hold 'Ctrl' key and left-click mouse to \n",
+            "deselect an object.")
 
     )
     if (!is.null(active_ds)) {
