@@ -308,8 +308,8 @@ tk_disable.combobox <- function(obj, ...) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-tk_get_state.combobox <- function(obj) {
-    tk_get_state(obj$combobox)
+tk_get_state.combobox <- function(obj, ...) {
+    tk_get_state(obj$combobox, ...)
 }
 
 
