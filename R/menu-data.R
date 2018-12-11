@@ -41,6 +41,33 @@ command_dataset_print <- function() {
     doItAndPrint(str_glue("print({ActiveDataSet()})"))
 }
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+command_dataset_print_as_df <- function() {
+    .ds <- ActiveDataSet()
+    doItAndPrint(str_glue("as.data.frame(print({.ds}))"))
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+command_dataset_print_as_dt <- function() {
+    .ds <- ActiveDataSet()
+    Library("data.table")
+    doItAndPrint(str_glue("as.data.table(print({.ds}))"))
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+command_dataset_print_as_tibble <- function() {
+    .ds <- ActiveDataSet()
+    Library("tibble")
+    doItAndPrint(str_glue("as_tibble(print({.ds}))"))
+}
+
 
 # Dataset's class ------------------------------------------------------------
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
