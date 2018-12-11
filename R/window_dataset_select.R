@@ -213,9 +213,9 @@ window_dataset_select <- function() {
         menu_i <- tk2menu(tk2menu(top), tearoff = FALSE)
         menu_f <- tk2menu(menu_i, tearoff = FALSE)
 
-        tkadd(menu_i, "command", label = "From clipboard", command = from_clipboard)
-        tkadd(menu_i, "command", label = "From package",   command = from_package)
         tkadd(menu_i, "cascade", label = "From file    " , menu = menu_f)
+        tkadd(menu_i, "command", label = "From package",   command = from_package)
+        tkadd(menu_i, "command", label = "From clipboard", command = from_clipboard)
 
 
         tkadd(menu_f, "command", label = "from Rds file (.Rds, .rds)..."	        , command = from_rds)
@@ -236,26 +236,6 @@ window_dataset_select <- function() {
                 tkwinfo("pointerx", top),
                 tkwinfo("pointery", top))
     }
-
-    # Print menus -----------------------------------------------------------
-    menu_print <- function() {
-        top <- top
-
-        menu_p <- tk2menu(tk2menu(top), tearoff = FALSE)
-
-        tkadd(menu_p, "command", label = "Print as Markdown table (engine: kable)",  command = window_dataset_print_as_kable)
-        tkadd(menu_p, "command", label = "Print as Markdown table (engine: pander)", command = window_dataset_print_as_md)
-        tkadd(menu_p, "separator")
-        tkadd(menu_p, "command", label = "Print as 'data.frame'",  command = command_dataset_print_as_df)
-        tkadd(menu_p, "command", label = "Print as 'data.table'",  command = command_dataset_print_as_dt)
-        tkadd(menu_p, "command", label = "Print as 'tibble'",      command = command_dataset_print_as_tibble)
-        tkadd(menu_p, "separator")
-        tkadd(menu_p, "command", label = "Print as R structure"  , command = to_r_structure)
-        tkpopup(menu_p,
-                tkwinfo("pointerx", top),
-                tkwinfo("pointery", top))
-    }
-
 
     # Export menus -----------------------------------------------------------
     menu_export <- function() {
@@ -279,7 +259,28 @@ window_dataset_select <- function() {
                 tkwinfo("pointery", top))
     }
 
-    # Initialize -------------------------------------------------------------
+
+    # Print menus -----------------------------------------------------------
+    menu_print <- function() {
+        top <- top
+
+        menu_p <- tk2menu(tk2menu(top), tearoff = FALSE)
+
+        tkadd(menu_p, "command", label = "Print as Markdown table (engine: kable)",  command = window_dataset_print_as_kable)
+        tkadd(menu_p, "command", label = "Print as Markdown table (engine: pander)", command = window_dataset_print_as_md)
+        tkadd(menu_p, "separator")
+        tkadd(menu_p, "command", label = "Print as 'data.frame'",  command = command_dataset_print_as_df)
+        tkadd(menu_p, "command", label = "Print as 'data.table'",  command = command_dataset_print_as_dt)
+        tkadd(menu_p, "command", label = "Print as 'tibble'",      command = command_dataset_print_as_tibble)
+        tkadd(menu_p, "separator")
+        tkadd(menu_p, "command", label = "Print as R structure"  , command = to_r_structure)
+        tkpopup(menu_p,
+                tkwinfo("pointerx", top),
+                tkwinfo("pointery", top))
+    }
+
+
+    # Initialize -------------- ----------------------------------------------
     initializeDialog(title = gettext_bs("Select & Explore Dataset"))
     tk_title(top, "Select & Explore a Dataset")
 
@@ -456,26 +457,24 @@ window_dataset_select <- function() {
         width =  11,
         command = function() {menu_import()})
 
-    p0 <- tk2button(
-        io_buttons_frame,
-        tip  = str_c("Print the selected",
-                     "dataset to the console.",
-                     sep = "\n"),
-        text = "Print",
-        width =  11,
-        command = function() {menu_print()})
-
     e0 <- tk2button(
         io_buttons_frame,
-        tip  = str_c("Export the selected",
-                     "dataset to a file.",
+        tip  = str_c("Export selected dataset to file.",
                      sep = "\n"),
         text = "Export",
         width =  11,
         command = function() {menu_export()})
 
+    p0 <- tk2button(
+        io_buttons_frame,
+        tip  = str_c("Print selected dataset to console.",
+                     sep = "\n"),
+        text = "Print",
+        width =  11,
+        command = function() {menu_print()})
+
     tkgrid(io_buttons_frame, sticky = "e", pady = c(10, 0))
-    tkgrid(c0, i0, p0, e0)
+    tkgrid(c0, i0, e0, p0)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
