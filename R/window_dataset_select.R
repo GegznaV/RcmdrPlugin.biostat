@@ -25,7 +25,7 @@ window_dataset_select <- function() {
         envir = parent.frame()
         button_obj <- c(
             "i1", "i2", "i3", "i4", "i5", "i6",
-            "e0"
+            "e0", "p0"
         )
 
         if (get_size(var_ds_box) == 0 || get_selection_length(var_ds_box) == 0) {
@@ -237,6 +237,26 @@ window_dataset_select <- function() {
                 tkwinfo("pointery", top))
     }
 
+    # Print menus -----------------------------------------------------------
+    menu_print <- function() {
+        top <- top
+
+        menu_p <- tk2menu(tk2menu(top), tearoff = FALSE)
+
+        tkadd(menu_p, "command", label = "Print as Markdown table (engine: kable)",  command = window_dataset_print_as_kable)
+        tkadd(menu_p, "command", label = "Print as Markdown table (engine: pander)", command = window_dataset_print_as_md)
+        tkadd(menu_p, "separator")
+        tkadd(menu_p, "command", label = "Print as 'data.frame'",  command = command_dataset_print_as_df)
+        tkadd(menu_p, "command", label = "Print as 'data.table'",  command = command_dataset_print_as_dt)
+        tkadd(menu_p, "command", label = "Print as 'tibble'",      command = command_dataset_print_as_tibble)
+        tkadd(menu_p, "separator")
+        tkadd(menu_p, "command", label = "Print as R structure"  , command = to_r_structure)
+        tkpopup(menu_p,
+                tkwinfo("pointerx", top),
+                tkwinfo("pointery", top))
+    }
+
+
     # Export menus -----------------------------------------------------------
     menu_export <- function() {
         top <- top
@@ -252,7 +272,7 @@ window_dataset_select <- function() {
         # tkadd(menu_e, "command", label = "to Word table..."                       , command = to_word)
         # tkadd(menu_e, "command", label = "to PowerPoint table..."                 , command = to_pptx)
         tkadd(menu_e, "separator")
-        tkadd(menu_e, "command", label = "print as R structure"                   , command = to_r_structure)
+        # tkadd(menu_e, "command", label = "print as R structure"                   , command = to_r_structure)
 
         tkpopup(menu_e,
                 tkwinfo("pointerx", top),
@@ -420,7 +440,7 @@ window_dataset_select <- function() {
         io_buttons_frame,
         text  = "Create new",
         tip   = "Create a new dataset.",
-        width =  15,
+        width =  11,
         command = function() {
             window_dataset_new_rcmdr()
             closeDialog()
@@ -433,8 +453,17 @@ window_dataset_select <- function() {
         tip   = str_c("Import a dataset from file",
                       "clipboard or R package.",
                       sep = "\n"),
-        width =  15,
+        width =  11,
         command = function() {menu_import()})
+
+    p0 <- tk2button(
+        io_buttons_frame,
+        tip  = str_c("Print the selected",
+                     "dataset to the console.",
+                     sep = "\n"),
+        text = "Print",
+        width =  11,
+        command = function() {menu_print()})
 
     e0 <- tk2button(
         io_buttons_frame,
@@ -442,11 +471,11 @@ window_dataset_select <- function() {
                      "dataset to a file.",
                      sep = "\n"),
         text = "Export",
-        width =  15,
+        width =  11,
         command = function() {menu_export()})
 
     tkgrid(io_buttons_frame, sticky = "e", pady = c(10, 0))
-    tkgrid(c0, i0, e0)
+    tkgrid(c0, i0, p0, e0)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
