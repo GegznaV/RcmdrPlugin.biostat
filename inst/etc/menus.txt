@@ -32,6 +32,8 @@ item	biostat_menu	cascade	"Data"	bs_data_menu	""	""
 # Refresh active dataset and menus
 item	bs_data_menu	command	"Refresh"	command_dataset_refresh	""	""
 item	bs_data_menu	command	"Select active dataset (extended)"	window_dataset_select	""	""
+item	bs_data_menu	command	"Preview active dataset (in a new window)"	command_dataset_view	"activeDataSetP()"	""
+item	bs_data_menu	command	"Change class of active dataset"	window_dataset_class	"activeDataSetP()"	""
 
 
 # --- Copy. delete, rename ---------------------------------------------------
@@ -41,14 +43,6 @@ item	bs_data_menu	command	"List objects in R workspace..."	command_list_objects	
 item	bs_data_menu	command	"Copy object / active dataset..."	window_data_obj_copy	""	""
 item	bs_data_menu	command	"Delete object / active dataset... "	window_data_obj_delete	""	""
 item	bs_data_menu	command	"Rename object / active dataset..."	window_data_obj_rename	""	""
-
-
-# ---- Preview / Print -------------------------------------------------------
-
-item	bs_data_menu	separator	""	""	""	""
-item	bs_data_menu	command	"Preview active dataset (in a new window)"	command_dataset_view	"activeDataSetP()"	""
-item	bs_data_menu	command	"Print active dataset"	command_dataset_print	"activeDataSetP()"	""
-item	bs_data_menu	command	"Print active dataset as Markdown table"	window_dataset_print_as_md	"activeDataSetP() && objects_in_env_P(n = 1)"	"packageAvailable('pander') || packageAvailable('knitr')"
 
 
 # ---- Join/Bind datasets ----------------------------------------------------
@@ -113,18 +107,18 @@ item	bs_export_menu	separator	""	""	""	""
 item	bs_export_menu	command	"[???] Save as MS Word table..."	function_not_implemented	"activeDataSetP()"	""
 
 
+# ---- +  Print --------------------------------------------------------------
 
+menu	bs_print_menu	bs_data_menu	""	""	""	""
+item	bs_data_menu	cascade	"Print active dataset to console"	bs_print_menu	"activeDataSetP()"	""
 
-# ---- + Manage Class of dataset ---------------------------------------------
-
-# item	bs_data_menu	separator	""	""	""	""
-menu	bs_ds_class	biostat_menu	""	""	""	""
-item	bs_data_menu	cascade	"Class of active dataset"	bs_ds_class	""	""
-
-item	bs_ds_class	command	"Show class of active dataset"	command_dataset_class	"activeDataSetP()"	""
-item	bs_ds_class	command	"Change class to `data.frame`"	command_dataset_as_df	"activeDataSetP()"	""
-item	bs_ds_class	command	"Change class to tibble (`tbl_df`)"	command_dataset_as_tibble	"activeDataSetP()"	"packageAvailable('tibble')"
-item	bs_ds_class	command	"Change class to `data.table`"	command_dataset_as_dt	"activeDataSetP()"	"packageAvailable('data.table')"
+item	bs_print_menu	command	"Print as Markdown table: kable"	window_dataset_print_as_kable	"activeDataSetP()"	"packageAvailable('knitr')"
+item	bs_print_menu	command	"Print as Markdown table: pander"	window_dataset_print_as_md	"activeDataSetP()"	"packageAvailable('pander')"
+item	bs_print_menu	separator	""	""	""	""
+# item	bs_print_menu	command	"Print (as is)"	command_dataset_print	"activeDataSetP()"	""
+item	bs_print_menu	command	"Print as 'data.frame'"	command_dataset_print_as_df	"activeDataSetP()"	""
+item	bs_print_menu	command	"Print as 'data.table'"	command_dataset_print_as_dt	"activeDataSetP()"	""
+item	bs_print_menu	command	"Print as 'tibble'"	command_dataset_print_as_tibble	"activeDataSetP()"	""
 
 
 # . ===========================================================================
@@ -182,8 +176,10 @@ item	bs_varible_menu	command	"[???] Unite values into one column..."	function_no
 
 item	bs_varible_menu	separator	""	""	""	""
 
-item	bs_varible_menu	command	"Convert type of variables..."	window_variable_convert_type	"activeDataSetP()"	"packageAvailable('tidyverse')"
+item	bs_varible_menu	command	"Convert variable types..."	window_variable_convert_type	"activeDataSetP()"	"packageAvailable('tidyverse')"
 item	bs_varible_menu	command	"Convert all text variables into factors"	command_all_chr_to_fctr	"characterP()"	"packageAvailable('tidyverse')"
+
+item	bs_varible_menu	separator	""	""	""	""
 
 
 # --- + Factor variables ------------------------------------------------------
