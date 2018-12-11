@@ -311,7 +311,7 @@ window_variable_convert_type <- function() {
     defaults <- list(
         # variables     = NULL,
         into          = "character",
-        names_action  = "overwrite",
+        names_action  = "modify",
         make_unique   = FALSE,
         prefix        = "",
         suffix        = "",
