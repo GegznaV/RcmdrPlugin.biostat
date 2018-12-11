@@ -251,7 +251,7 @@ window_dataset_select <- function() {
         tkadd(menu_e, "command", label = "to Excel file..."                       , command = to_excel)
         # tkadd(menu_e, "command", label = "to Word table..."                       , command = to_word)
         # tkadd(menu_e, "command", label = "to PowerPoint table..."                 , command = to_pptx)
-        tkadd(menu_e, "separator")
+        # tkadd(menu_e, "separator")
         # tkadd(menu_e, "command", label = "print as R structure"                   , command = to_r_structure)
 
         tkpopup(menu_e,
