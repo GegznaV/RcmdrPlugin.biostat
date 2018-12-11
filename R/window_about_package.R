@@ -19,7 +19,7 @@ window_about_package <- function() {
                    text = desc::desc_get("Title", descr_file))
 
     tkgrid(main_title_frame,
-           sticky = "w", pady = c(2, 15), padx = 25, columnspan = 4)
+           sticky = "w", pady = c(2, 15), padx = 25, columnspan = 5)
 
     tkconfigure(main_title_frame, cursor = "heart")       # Mouse cursor changes
 
@@ -65,7 +65,7 @@ window_about_package <- function() {
            sticky = "w",
            padx = 25,
            pady = c(0, 2),
-           columnspan = "2")
+           columnspan = "3")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     issues_link <- "https://github.com/GegznaV/RcmdrPlugin.biostat/issues"
@@ -79,9 +79,9 @@ window_about_package <- function() {
     tkbind(issues_frame_2, "<ButtonPress-1>", on_click_i) # Link is activated
     tkconfigure(issues_frame_2, cursor = "hand2")         # Mouse cursor changes
 
-    tkgrid(issues_frame_1, issues_frame_2, pady = c(0, 10), columnspan = "2")
+    tkgrid(issues_frame_1, issues_frame_2, pady = c(0, 10), columnspan = "3")
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(buttonsFrame, columnspan = "4", sticky = "")
+    tkgrid(buttonsFrame, columnspan = "5", sticky = "")
     dialogSuffix()
 }
