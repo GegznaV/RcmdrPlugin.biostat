@@ -72,10 +72,10 @@ NULL
         options(Rcmdr = updated_opts)
 
         if ("package:Rcmdr" %in% search()) {
-            if (!Rcmdr::getRcmdr("autoRestart")) {
-                Rcmdr::closeCommander(ask = FALSE, ask.save = TRUE)
-                Rcmdr::Commander()
-            }
+            # if (!Rcmdr::getRcmdr("autoRestart")) {
+            #     Rcmdr::closeCommander(ask = FALSE, ask.save = TRUE)
+            #     Rcmdr::Commander()
+            # }
 
         } else {
             Rcmdr::Commander()
