@@ -93,6 +93,7 @@
 \alias{window_import_rdata}
 \alias{window_import_rds}
 \alias{window_import_text_delim}
+\alias{window_import_text_delim_clipboard}
 \alias{window_import_text_delim0}
 \alias{command_get_locale}
 \alias{window_locale_set}
@@ -268,6 +269,8 @@ window_import_rdata()
 window_import_rds()
 
 window_import_text_delim()
+
+window_import_text_delim_clipboard()
 
 window_import_text_delim0(init_location = "local")
 
