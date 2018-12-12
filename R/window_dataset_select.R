@@ -20,6 +20,7 @@ window_dataset_select <- function() {
         }
     }
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_ds_selection_callback  <- function() {
 
         envir = parent.frame()
@@ -38,6 +39,7 @@ window_dataset_select <- function() {
         }
     }
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     to_pptx <- function(variables) {
 
         library(tidyverse)
