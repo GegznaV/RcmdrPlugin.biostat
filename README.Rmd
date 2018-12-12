@@ -32,17 +32,13 @@ knitr::opts_chunk$set(
 An *R Commander* Plugin for Basic (Bio)Statistical Routines  
 -->
 
-An R Commander Plug-in for Basic Data Analysis Tasks {#intro}
+An R Commander Plug-in for Basic Data Management and Analysis Tasks {#intro}
 ==============================================================================
 
-<center>
-<font color="red">
-The package **_RcmdrPlugin.biostat_** is still in its **development stage** and some functions are for demonstration and test purposes only as they may change in the future. Some menus are not fully functional yet.
-</font>
-</center>
+**RcmdrPlugin.biostat** is an [**Rcmdr**](https://cran.r-project.org/web/packages/Rcmdr/index.html) plug-in for the most common data wrangling, visualisation and analysis tasks using "tidyverse" family functions as well as functions from other packages.
 
 
-Documentation and more information available at http://gegznav.github.io/RcmdrPlugin.biostat/
+Documentation and more information available at http://gegznav.github.io/RcmdrPlugin.biostat
 
 
 ## Install the package {#install}
@@ -50,34 +46,26 @@ Documentation and more information available at http://gegznav.github.io/RcmdrPl
 To install a developement version of the package from `GitHub`:
 
 ```{r Install package, eval=FALSE}
-if (!"devtools" %in% installed.packages())
-        install.packages("devtools")
+if (!"devtools" %in% installed.packages())  install.packages("devtools")
 
+devtools::install_github("GegznaV/biostat")
 devtools::install_github("GegznaV/RcmdrPlugin.biostat")
 ```
 
 
 
-***
-
 # Other related packages {#related-packages}
 
 Other related packages:
 
-a. **biostat** is an `R` package that contains a collection of functions that 
-do some common statistical routines without writing too much code 
-([homepage](https://gegznav.github.io/biostat/));
-b. **RcmdrPlugin.EZR.2** -- an *R Commander* plugin for the most common statistical analyses (the same as *RcmdrPlugin.EZR*, except that *RcmdrPlugin.EZR.2* does not modify original *Rcmdr* menu so dramatically);
-c. **RcmdrPlugin.KMggplot2** -- an *R Commander* plugin for *ggplot2* graphics.
+a. **RcmdrPlugin.EZR.2** -- an *R Commander* plugin for the most common statistical analyses (the same as *RcmdrPlugin.EZR*, except that *RcmdrPlugin.EZR.2* does not modify original *Rcmdr* menu so dramatically);
+b. **RcmdrPlugin.KMggplot2** -- an *R Commander* plugin for *ggplot2* graphics.
 
 
 To install these packages, use the following code:
 
 
 ```{r Install other packages, eval=FALSE}
-# biostat
-devtools::install_github("GegznaV/biostat")
-
 # RcmdrPlugin.EZR.2
 devtools::install_github("GegznaV/RcmdrPlugin.EZR@unmodified_Rcmdr_menu")
 
@@ -85,21 +73,10 @@ devtools::install_github("GegznaV/RcmdrPlugin.EZR@unmodified_Rcmdr_menu")
 install.packages("RcmdrPlugin.KMggplot2")
 ```
 
+
 # Important
 
-Some of the functions in the package are based on and modified from functions 
-in packages *Rcmdr*, *RcmdrPlugin.EZR* and *RcmdrPlugin.KMggplot2*. All of 
-those packages are under GPL-2/GPL-3 license.
+Some of the functions in the package are based on and modified from functions in packages *Rcmdr*, *RcmdrPlugin.EZR* and *RcmdrPlugin.KMggplot2*.
+All of those packages are under GPL-2/GPL-3 license.
 
 ***
-
-<!-- [![Travis-CI Build Status]
-(https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)]
-(https://travis-ci.org/GegznaV/RcmdrPlugin.biostat) -->
-<!-- [![codecov.io]
-(https://codecov.io/github/GegznaV/RcmdrPlugin.biostat/coverage.svg?branch=master)]
-(https://codecov.io/github/GegznaV/RcmdrPlugin.biostat?branch=master) -->
-
-<!-- * * * -->
-
-<!--  <p align="right"> </p>     -->
