@@ -1,7 +1,7 @@
 #' @name RcmdrPlugin.biostat
 #' @docType package
 #'
-#' @title An R Commander Plug-in for Basic Data Management and Analysis Tasks
+#' @title R Commander Plug-in for Basic Data Management and Analysis Tasks
 #'
 #' @description
 #' \pkg{RcmdrPlugin.biostat} is an
