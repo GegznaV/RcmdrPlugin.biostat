@@ -52,7 +52,6 @@ devtools::install_github("GegznaV/RcmdrPlugin.biostat")
 ```
 
 
-
 ***
 
 # Other useful packages {#related-packages}
@@ -91,7 +90,7 @@ All of those packages are under GPL-2/GPL-3 license.
 
 
 
-```{r fig.height=12, fig.width=15, echo=FALSE, eval=FALSE}
+```{r fig.height=12, fig.width=15, echo=FALSE, include=FALSE}
 source("https://gist.githubusercontent.com/crsh/c906e93c260488e7363ea606243057c2/raw/f6f0fce38bc274446d205854ea35cfa03b9b1f7a/plot_dependencies.R")
 
 plot_dependencies()
@@ -102,7 +101,6 @@ plot_dependencies()
 ```{r eval=FALSE, include=FALSE}
 devtools::install_github("datastorm-open/DependenciesGraphs")
 devtools::install_github("ctesta01/QualtricsTools")
-
 ```
 
 
