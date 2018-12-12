@@ -13,7 +13,7 @@
 %   R/window_table_to_df.R, R/window_test_anova.R, R/window_test_normality.R,
 %   R/window_tmp.R, R/window_variable_gather.R, R/window_variable_mutate.R,
 %   R/window_variable_recode.R, R/window_variable_rename.R,
-%   R/window_variable_select.R
+%   R/window_variable_select.R, R/x_window_variable_recode.R
 \name{gettext_EZR}
 \alias{gettext_EZR}
 \alias{variables_with_unique_values_P}
@@ -37,7 +37,6 @@
 \alias{window_ci_prop_multi}
 \alias{window_ci_prop_binom}
 \alias{window_ci_boot}
-\alias{Menu-window-functions}
 \alias{window_distributions_descriptr}
 \alias{window_export_to_rds}
 \alias{window_export_to_rdata}
@@ -61,7 +60,6 @@
 \alias{command_rowid_to_col}
 \alias{window_col_to_rownames}
 \alias{window_col_to_rownames0}
-\alias{window_col_to_rownames}
 \alias{command_load_packages}
 \alias{command_getwd}
 \alias{command_get_locale}
@@ -111,6 +109,7 @@
 \alias{window_variable_rename}
 \alias{window_variable_select0}
 \alias{window_variable_select}
+\alias{window_variable_recode}
 \title{RcmdrPlugin.biostat functions for menus and windows.}
 \usage{
 gettext_EZR(...)
@@ -304,6 +303,10 @@ window_variable_rename()
 window_variable_select0(variables)
 
 window_variable_select(new_dsname = NULL, incorrect_cond_msg = NULL)
+
+gettext_EZR(...)
+
+window_variable_recode()
 }
 \description{
 Functions that open Rcmdr menus and windows windows.

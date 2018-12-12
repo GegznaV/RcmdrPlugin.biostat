@@ -12,4 +12,5 @@ Rcmdr window for log transformation
 \seealso{
 Other transformations: \code{\link{window_transform_z}}
 }
+\concept{transformations}
 \keyword{internal}

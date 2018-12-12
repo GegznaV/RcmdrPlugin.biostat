@@ -14,4 +14,5 @@ Other conversion: \code{\link{window_chr_convert}},
   \code{\link{window_lgl_convert}},
   \code{\link{window_num_convert}}
 }
+\concept{conversion}
 \keyword{internal}
