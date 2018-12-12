@@ -27,6 +27,7 @@ Imports:
     binom,
     boot,
     checkmate,
+    clipr,
     data.table,
     desc,
     DescTools,
