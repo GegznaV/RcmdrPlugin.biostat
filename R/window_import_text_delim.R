@@ -7,6 +7,14 @@ window_import_text_delim <- function() {
     window_import_text_delim0()
 }
 
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+# Based on function from "Rcmdr"
+window_import_text_delim_clipboard <- function() {
+    window_import_text_delim0(init_location = "clipboard")
+}
+
 
 
 #' @rdname Menu-window-functions
