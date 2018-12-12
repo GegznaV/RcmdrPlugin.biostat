@@ -272,6 +272,7 @@ window_dataset_select <- function() {
         tkadd(menu_p, "command", label = "Print as 'data.frame'",  command = command_dataset_print_as_df)
         tkadd(menu_p, "command", label = "Print as 'data.table'",  command = command_dataset_print_as_dt)
         tkadd(menu_p, "command", label = "Print as 'tibble'",      command = command_dataset_print_as_tibble)
+        tkadd(menu_p, "command", label = "Print top and bottom rows only", command = summary_head_tail)
         tkadd(menu_p, "separator")
         tkadd(menu_p, "command", label = "Print as R structure"  , command = to_r_structure)
         tkpopup(menu_p,
