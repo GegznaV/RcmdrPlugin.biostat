@@ -24,50 +24,84 @@ window_model_select <- function() {
         return()
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # ========================================================================
-    onOK <- function() {
+    # Functions --------------------------------------------------------------
+    cmd_model_selection_callback  <- function() {
 
-        model <- getSelection(modelsBox)
+        envir = parent.frame()
+        button_obj <- c(
+            "i1", "i2", "i3", "i4", "i5", "i7", "i8", "i9", "i10"
+        )
 
-        closeDialog()
+        if (get_size(var_model_box) == 0 || get_selection_length(var_model_box) == 0) {
+            # Disable buttons
+            eval_glue("tk_disable({button_obj})",   eval_envir = envir)
 
-        if (length(model) == 0) {
-            tkfocus(CommanderWindow())
-            return()
+        } else {
+            # Normalize buttons
+            eval_glue("tk_normalize({button_obj})", eval_envir = envir)
         }
 
-        dataSet <- as.character(get(model)$call$data)
-        if (length(dataSet) == 0) {
-            errorCondition(message = gettext_bs(
-                "There is no dataset associated with this model."))
-            return()
+        # Button "i6"
+        models_class <- class((get(ActiveModel(), envir = .GlobalEnv)))[1]
+        if (models_class == "lm") {
+            tk_normalize(i6)
+        } else {
+            tk_disable(i6)
         }
 
-        dataSets <- listDataSets()
-        if (!is.element(dataSet, dataSets)) {
-            errorCondition(
-                message = sprintf(
-                    gettext_bs(
-                        "The dataset associated with this model, %s, is not in memory."
-                    ),
-                    dataSet
-                ))
-            return()
-        }
 
-        if (is.null(.ds) || (dataSet != .ds))
-            activeDataSet(dataSet)
-
-        putRcmdr("modelWithSubset", "subset" %in% names(get(model)$call))
-        activeModel(model)
-        tkfocus(CommanderWindow())
     }
 
-    # ========================================================================
+
+    select_model  <- function() {
+        model <- get_selection(var_model_box)
+        if (ActiveModel() != model) {
+
+            if (length(model) == 0) {
+                tkfocus(CommanderWindow())
+                return()
+            }
+
+            dataSet <- as.character(get(model)$call$data)
+            if (length(dataSet) == 0) {
+                errorCondition(message = gettext_bs(
+                    "There is no dataset associated with this model."))
+                return()
+            }
+
+            dataSets <- listDataSets()
+            if (!is.element(dataSet, dataSets)) {
+                errorCondition(
+                    message = sprintf(
+                        gettext_bs(
+                            "The dataset associated with this model, %s, is not in memory."
+                        ),
+                        dataSet
+                    ))
+                return()
+            }
+
+            if (is.null(.ds) || (dataSet != .ds))
+                activeDataSet(dataSet)
+
+            putRcmdr("modelWithSubset", "subset" %in% names(get(model)$call))
+            activeModel(model)
+        }
+    }
+
+    onOK <- function() {
+        select_model()
+        closeDialog()
+        tkfocus(CommanderWindow())
+
+    }
+
+    # Initialize -------------------------------------------------------------
     initializeDialog(title = gettext_bs("Select Model"))
     tk_title(top, "Select a Model")
 
-    modelsBox <- bs_listbox(
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    var_model_box <- bs_listbox(
         parent       = top,
         values       = models,
         value        = .activeModel,
@@ -75,12 +109,15 @@ window_model_select <- function() {
         width        = c(47, Inf),
         title        = gettext_bs("Models (pick one)"),
         title_sticky = "",
-        # on_release      = cmd_ds_selection_callback,
-        on_double_click  = onOK)
+        on_release       = function() {
+            select_model()
+            cmd_model_selection_callback()
+        },
+        on_double_click  = onOK
+    )
 
-    tkgrid(getFrame(modelsBox), sticky = "e",  pady = c(10, 0))
+    tkgrid(getFrame(var_model_box), sticky = "e",  pady = c(10, 0))
 
-    # ========================================================================
     # Dataset info buttons ---------------------------------------------------
     info_buttons_frame <- tkframe(top)
     row_1 <- tkframe(info_buttons_frame)
@@ -167,7 +204,7 @@ window_model_select <- function() {
         command = function() {
             .mod <- activeModel()
             doItAndPrint(str_glue(
-                "## Basic diagnostic plots for model\n",
+                "## Basic diagnostic plots for model \n",
                 "old_par <- par(oma = c(0, 0, 3, 0), mfrow = c(2, 2)) \n",
                 "plot({.mod}) \n",
                 "par(oldpar)"))
@@ -185,7 +222,7 @@ window_model_select <- function() {
             Library("tidyverse")
             Library("ggfortify")
             doItAndPrint(str_glue(
-                '## Cooks distance (outlier if d > 1)\n',
+                '## Cooks distance (outlier if d > 1) \n',
                 'autoplot({.mod}, which = 4) + \n',
                 'geom_hline(yintercept = 1, color = "red", lty = 2) + \n',
                 'theme_bw()'))
@@ -203,7 +240,7 @@ window_model_select <- function() {
             Library("tidyverse")
             Library("ggfortify")
             doItAndPrint(str_glue(
-                "## Explore model's object",
+                "## Explore model's object \n",
                 'View({.mod})'))
         })
 
@@ -221,4 +258,7 @@ window_model_select <- function() {
     ok_cancel_help()
     tkgrid(buttonsFrame)
     dialogSuffix()
+
+
+    cmd_model_selection_callback()
 }
