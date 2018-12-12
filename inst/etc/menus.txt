@@ -4,6 +4,18 @@
 menu	biostat_menu	topMenu	""	""	""	""
 item	topMenu	cascade	"BioStat'19"	biostat_menu	""	""
 
+# . ===========================================================================
+menu	bs_online_menu	topMenu	""	""	""	""
+item	topMenu	cascade	"On-line"	bs_online_menu	""	""
+
+item	bs_online_menu	command	"Copy active dataset to clipboard"  copy_active_ds_to_clipboard 	"activeDataSetP()"	""
+item	bs_online_menu	separator	""	""	""	""
+item	bs_online_menu	command	"GeoGebra: probability calculator"  window_online_geogebra_probability 	""	""
+item	bs_online_menu	command	"G*Power: power analysis"  window_online_gpower	""	""
+item	bs_online_menu	command	"Multivariate normality tests"  window_online_mvn	""	""
+
+item	bs_online_menu	command	"Easy ROC"  window_online_easyROC	""	""
+item	bs_online_menu	command	"Time dependant ROC"  window_online_tdROC	""	""
 
 # . ==========================================================================
 # ---- >>> File menu ---------------------------------------------------------
@@ -311,9 +323,10 @@ item	bs_analysis_menu	cascade	"Tests"	bs_tests_menu	""	""
 # + ~ Normality tests --------------------------------------------------------
 
 menu	bs_distr_tests_menu	bs_tests_menu	""	""	""	""
-item	bs_tests_menu	cascade	"Normality/distribution tests"	bs_distr_tests_menu	""	""
+item	bs_tests_menu	cascade	"Normality / Distribution tests"	bs_distr_tests_menu	""	""
 
 item	bs_distr_tests_menu	command	"Normality test (univariate)..."	window_test_normality	"numericP()"	""
+item	bs_distr_tests_menu	command	"Normality test (multivariate; on-line)..."	window_online_mvn	"numericP()"	""
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
