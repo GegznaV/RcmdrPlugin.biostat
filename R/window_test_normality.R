@@ -2,33 +2,7 @@
 #' @export
 #' @keywords internal
 window_test_normality <- function() {
-    # Initialize -------------------------------------------------------------
-    .ds <- ActiveDataSet()
-
-    nrows <- getRcmdr("nrow") # nrows in active dataset
-    defaults <- list(
-        initial_y_var            = NULL,
-        initial_gr_var           = NULL,
-        initial_by_group         = FALSE,
-        initial_do_test          = TRUE,
-        initial_test             = if (nrows <= 5000) "shapiro.test" else "ad.test",
-        initial_bins             = gettext_bs("<auto>"),
-        initial_add_plot         = FALSE,
-        initial_plot_in_colors   = TRUE,
-        initial_new_plots_window = TRUE,
-        initial_keep_results     = FALSE,
-        initial_as_markdown      = FALSE,
-        initial_digits_p         = "3"
-    )
-
-    dialog_values <- getDialog("window_test_normality", defaults)
-
-    initializeDialog(title = gettext_bs("Test Normality by Group"))
-    tk_title(top, text = "Normality tests and normal QQ plots")
-
-
-    # Callback  functions-----------------------------------------------------
-
+    # Functions --------------------------------------------------------------
     cmd_onClick_by_group_checkbox <- function(){
         if (tclvalue_lgl(by_groupVariable) == FALSE) {
 
@@ -79,19 +53,19 @@ window_test_normality <- function() {
             tk_normalize(d5Button)
             tk_normalize(dmoreButton)
 
-            if (nrows <= 5000) {
-                tk_normalize(shapiro.testButton)
-                tk_normalize(sf.testButton)
-            } else {
-                # The test are not applicalble, if n > 5000
-                tk_disable(shapiro.testButton)
-                tk_disable(sf.testButton)
-            }
-
-            tk_normalize(ad.testButton)
-            tk_normalize(cvm.testButton)
-            tk_normalize(lillie.testButton)
-            tk_normalize(pearson.testButton)
+            # if (nrows <= 5000) {
+            #     tk_normalize(shapiro.testButton)
+            #     tk_normalize(sf.testButton)
+            # } else {
+            #     # The test are not applicalble, if n > 5000
+            #     tk_disable(shapiro.testButton)
+            #     tk_disable(sf.testButton)
+            # }
+            #
+            # tk_normalize(ad.testButton)
+            # tk_normalize(cvm.testButton)
+            # tk_normalize(lillie.testButton)
+            # tk_normalize(pearson.testButton)
 
             tk_activate(binsField)
 
@@ -108,170 +82,18 @@ window_test_normality <- function() {
             tk_disable(dmoreButton)
 
 
-            tk_disable(shapiro.testButton)
-            tk_disable(ad.testButton)
-            tk_disable(cvm.testButton)
-            tk_disable(lillie.testButton)
-            tk_disable(sf.testButton)
-            tk_disable(pearson.testButton)
+            # tk_disable(shapiro.testButton)
+            # tk_disable(ad.testButton)
+            # tk_disable(cvm.testButton)
+            # tk_disable(lillie.testButton)
+            # tk_disable(sf.testButton)
+            # tk_disable(pearson.testButton)
 
             tk_disable(binsField)
 
         }
     }
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Variables
-
-    # upper_frame <- labeled_frame(top, "Select variables")
-    upper_frame <- tkframe(top)
-
-    y_var_Box <- bs_listbox(
-        parent_window = upper_frame,
-        title = gettext_bs("Variable to test\n(pick one)"),
-        height =  6,
-        variable_list = variables_num(),
-        initial_selection = varPosn(dialog_values$initial_y_var, "numeric")
-    )
-
-    gr_var_Frame <- tkframe(upper_frame)
-
-    gr_var_Box <- bs_listbox(
-        gr_var_Frame,
-        title = gettext_bs("Groups variable\n(pick one, several or none)"),
-        select_mode = "multiple",
-        variable_list = variables_fct_like(),
-        height =  5,
-        initial_selection =  varPosn(dialog_values$initial_gr_var, "factor"),
-        on_release = cmd_onRelease_gr_var_Box)
-
-    bs_check_boxes(
-        gr_var_Frame,
-        frame = "by_group_Frame",
-        boxes = c("by_group"),
-        commands = list("by_group" = cmd_onClick_by_group_checkbox),
-        initialValues = c(dialog_values$initial_by_group),
-        # initialValues = (length(getSelection(gr_var_Box)) != 0),
-        labels = gettext_bs(c("Test by group"))
-    )
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    middle_frame <- tkframe(top)
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    numerical_options_frame <- tkframe(middle_frame)
-
-
-    bs_check_boxes(
-        numerical_options_frame,
-        title = "Numerical output options",
-        ttk   = TRUE,
-        frame = "numerical_middle_frame",
-        boxes = c("do_test",
-                  "keep_results",
-                  "as_markdown"),
-        initialValues = c(
-            dialog_values$initial_do_test,
-            dialog_values$initial_keep_results,
-            dialog_values$initial_as_markdown
-        ),
-        labels = gettext_bs(c(
-            "Normality test",
-            "Keep results in R memory",
-            "Print as Markdown table")),
-        commands = list(do_test = cmd_test_activation)
-    )
-
-    radioButtons_horizontal(
-        numerical_middle_frame,
-        # title = "Decimal digits to round p-values to: ",
-        title = "Round p-values to decimal digits: ",
-        # right.buttons = FALSE,
-        name = "digits_p",
-        # sticky_buttons = "w",
-        buttons = c("d2", "d3", "d4",  "d5", "dmore"),
-        values =  c("2",  "3",  "4",   "5",  "0"),
-        labels =  c("2  ","3  ","4  ", "5 ", "more"),
-        initialValue = dialog_values$initial_digits_p
-    )
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Choose test
-
-    choose_test_Frame <- labeled_frame(
-        middle_frame,
-        gettext_bs("Normality test"))
-
-    choose_test_inner_Frame <- tkframe(choose_test_Frame)
-
-    Rcmdr::radioButtons(
-        choose_test_inner_Frame,
-        name = "test",
-        buttons = c(if (nrows <= 5000) "shapiro.test",
-                    "ad.test",
-                    "cvm.test",
-                    "lillie.test",
-                    if (nrows <= 5000) "sf.test",
-                    "pearson.test"
-        ),
-        labels = c(
-            if (nrows <= 5000) gettext_bs("Shapiro-Wilk"),
-            gettext_bs("Anderson-Darling"),
-            gettext_bs("Cramer-von Mises"),
-            gettext_bs("Lilliefors (Kolmogorov-Smirnov)"),
-            if (nrows <= 5000) gettext_bs("Shapiro-Francia"),
-            gettext_bs("Pearson chi-square")
-        ),
-        initialValue = dialog_values$initial_test
-    )
-
-    binsVariable <- tclVar(dialog_values$initial_bins)
-    binsFrame    <- tkframe(choose_test_inner_Frame)
-    binsField    <- ttkentry(binsFrame, width = "8", textvariable = binsVariable)
-
-    tkgrid(
-        labelRcmdr(binsFrame,
-                   text = gettext_bs("Number of bins for\nPearson chi-square")),
-        binsField,
-        padx = 3,
-        sticky = "sw"
-    )
-
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    plot_options_frame <- tkframe(middle_frame)
-
-    bs_check_boxes(
-        plot_options_frame,
-        title = "Plot options",
-        ttk   = TRUE,
-        frame = "plot_middle_frame",
-        boxes = c("add_plot", "plot_in_colors", "new_plots_window"),
-        initialValues = c(
-            dialog_values$initial_add_plot,
-            dialog_values$initial_plot_in_colors,
-            dialog_values$initial_new_plots_window
-        ),
-        labels = gettext_bs(
-            c(  "Normal QQ-plot",
-                "Groups in color",
-                "Plot in a new window")
-        ),
-        commands = list("add_plot" = cmd_plot_activation)
-    )
-
-    cbox_1_lab <- bs_label_b(plot_middle_frame, text = "bandType")
-
-    cbox_1 <- bs_combobox(
-        parent_window = plot_middle_frame,
-        variable_list = c("< default >", "pointwise", "boot", "ks", "ts"))
-
-    # bandType = "boot"; B = ...
-    # conf =
-
-    tkgrid(cbox_1_lab)
-    tkgrid(cbox_1$frame)
-
-    # Functions --------------------------------------------------------------
     onOK <- function() {
         # Get values ---------------------------------------------------------
         by_group         <- tclvalue(by_groupVariable)
@@ -413,6 +235,22 @@ window_test_normality <- function() {
 
         # plot ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
+        # library(ggplot2)
+        # library(qqplotr)
+        # data("barley", package = "lattice")
+        #
+        # qqplot_1 <-
+        #     ggplot(data = barley, aes(sample = yield)) +
+        #     stat_qq_band(mapping = aes(fill = site), alpha = 0.5) +
+        #     stat_qq_line(color = "darkred", alpha = 0.8) +
+        #     stat_qq_point() +
+        #     facet_wrap(~site, scales = "free") +
+        #     theme_bw() +
+        #     labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
+        #
+        # qqplot_1
+
         if (add_plot == TRUE) {
 
             if (new_plots_window == TRUE) {
@@ -451,8 +289,229 @@ window_test_normality <- function() {
         # onOK [end] ---------------------------------------------------------
     }
 
-    # Title ------------------------------------------------------------------
+    # Title ---------------------------------- ------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
+
+
+    # Initialize -------------------------------------------------------------
+    .ds <- ActiveDataSet()
+
+    nrows <- getRcmdr("nrow") # nrows in active dataset
+    defaults <- list(
+        initial_y_var            = NULL,
+        initial_gr_var           = NULL,
+        initial_by_group         = FALSE,
+        initial_do_test          = TRUE,
+        initial_test             =
+            if (nrows <= 5000) {
+                "Shapiro-Wilk"
+            } else {
+                "Anderson-Darling"
+            },
+        initial_bins             = gettext_bs("<auto>"),
+        initial_add_plot         = FALSE,
+        initial_plot_in_colors   = TRUE,
+        initial_new_plots_window = TRUE,
+        initial_keep_results     = FALSE,
+        initial_as_markdown      = FALSE,
+        initial_digits_p         = "3"
+    )
+
+    dialog_values <- getDialog("window_test_normality", defaults)
+
+    initializeDialog(title = gettext_bs("Test Normality by Group"))
+    tk_title(top, text = "Normality tests and normal QQ plots")
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Variables
+
+    # upper_frame <- labeled_frame(top, "Select variables")
+    upper_frame <- tkframe(top)
+
+    y_var_Box <- bs_listbox(
+        parent    = upper_frame,
+        title     = gettext_bs("Variable to test\n(pick one)"),
+        height    =  6,
+        values    = variables_num(),
+        selection = varPosn(dialog_values$initial_y_var, "numeric")
+    )
+
+    gr_var_Frame <- tkframe(upper_frame)
+
+    gr_var_Box <- bs_listbox(
+        parent     = gr_var_Frame,
+        title      = gettext_bs("Groups variable\n(pick one, several or none)"),
+        selectmode = "multiple",
+        values     = variables_fct_like(),
+        height     = 5,
+        value      = dialog_values$initial_gr_var,
+        on_release = cmd_onRelease_gr_var_Box)
+
+    bs_check_boxes(
+        window          = gr_var_Frame,
+        frame           = "by_group_Frame",
+        boxes           = c("by_group"),
+        commands        = list("by_group" = cmd_onClick_by_group_checkbox),
+        initialValues   = c(dialog_values$initial_by_group),
+        # initialValues = (length(getSelection(gr_var_Box)) != 0),
+        labels          = gettext_bs(c("Test by group"))
+    )
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    middle_frame <- tkframe(top)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    numerical_options_frame <- tkframe(middle_frame)
+
+
+    bs_check_boxes(
+        numerical_options_frame,
+        title = "Numerical output options",
+        ttk   = TRUE,
+        frame = "numerical_middle_frame",
+        boxes = c("do_test",
+                  "keep_results",
+                  "as_markdown"),
+        initialValues = c(
+            dialog_values$initial_do_test,
+            dialog_values$initial_keep_results,
+            dialog_values$initial_as_markdown
+        ),
+        labels = gettext_bs(c(
+            "Normality test",
+            "Keep results in R memory",
+            "Print as Markdown table")),
+        commands = list(do_test = cmd_test_activation)
+    )
+
+
+    test_box <- bs_combobox(
+        numerical_middle_frame,
+        width = 29,
+        values = c(
+            if (nrows <= 5000) gettext_bs("Shapiro-Wilk"),
+            gettext_bs("Anderson-Darling"),
+            gettext_bs("Cramer-von Mises"),
+            gettext_bs("Lilliefors (Kolmogorov-Smirnov)"),
+            if (nrows <= 5000) gettext_bs("Shapiro-Francia"),
+            gettext_bs("Pearson chi-square")
+        ),
+        value = dialog_values$initial_test
+    )
+
+    tkgrid(test_box$frame)
+
+
+
+    binsFrame    <- tkframe(numerical_middle_frame)
+    binsVariable <- tclVar(dialog_values$initial_bins)
+    binsField    <- ttkentry(binsFrame, width = "8", textvariable = binsVariable)
+
+    tkgrid(
+        labelRcmdr(binsFrame,
+                   text = gettext_bs("Number of bins for\nPearson chi-square")),
+        binsField,
+        padx = 3,
+        sticky = "sw"
+    )
+
+    tkgrid(binsFrame, sticky = "nse", padx = c(8, 8), pady = c(0, 0))
+
+
+
+    radioButtons_horizontal(
+        numerical_middle_frame,
+        # title = "Decimal digits to round p-values to: ",
+        title = "Round p-values to decimal digits: ",
+        # right.buttons = FALSE,
+        name = "digits_p",
+        # sticky_buttons = "w",
+        buttons = c("d2", "d3", "d4",  "d5", "dmore"),
+        values =  c("2",  "3",  "4",   "5",  "0"),
+        labels =  c("2  ","3  ","4  ", "5 ", "more"),
+        initialValue = dialog_values$initial_digits_p
+    )
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Choose test
+
+    # choose_test_Frame <- labeled_frame(
+    #     middle_frame,
+    #     gettext_bs("Normality test"))
+    #
+    # choose_test_inner_Frame <- tkframe(choose_test_Frame)
+
+    # Rcmdr::radioButtons(
+    #     choose_test_inner_Frame,
+    #     name = "test",
+    #     buttons = c(if (nrows <= 5000) "shapiro.test",
+    #                 "ad.test",
+    #                 "cvm.test",
+    #                 "lillie.test",
+    #                 if (nrows <= 5000) "sf.test",
+    #                 "pearson.test"
+    #     ),
+    #     labels = c(
+    #         if (nrows <= 5000) gettext_bs("Shapiro-Wilk"),
+    #         gettext_bs("Anderson-Darling"),
+    #         gettext_bs("Cramer-von Mises"),
+    #         gettext_bs("Lilliefors (Kolmogorov-Smirnov)"),
+    #         if (nrows <= 5000) gettext_bs("Shapiro-Francia"),
+    #         gettext_bs("Pearson chi-square")
+    #     ),
+    #     initialValue = dialog_values$initial_test
+    # )
+    #
+    # binsVariable <- tclVar(dialog_values$initial_bins)
+    # binsFrame    <- tkframe(choose_test_inner_Frame)
+    # binsField    <- ttkentry(binsFrame, width = "8", textvariable = binsVariable)
+    #
+    # tkgrid(
+    #     labelRcmdr(binsFrame,
+    #                text = gettext_bs("Number of bins for\nPearson chi-square")),
+    #     binsField,
+    #     padx = 3,
+    #     sticky = "sw"
+    # )
+
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    plot_options_frame <- tkframe(middle_frame)
+
+    bs_check_boxes(
+        plot_options_frame,
+        title = "Plot options",
+        ttk   = TRUE,
+        frame = "plot_middle_frame",
+        boxes = c("add_plot", "plot_in_colors", "new_plots_window"),
+        initialValues = c(
+            dialog_values$initial_add_plot,
+            dialog_values$initial_plot_in_colors,
+            dialog_values$initial_new_plots_window
+        ),
+        labels = gettext_bs(
+            c(  "Normal QQ-plot",
+                "Groups in color",
+                "Plot in a new window")
+        ),
+        commands = list("add_plot" = cmd_plot_activation)
+    )
+
+    cbox_1_lab <- bs_label_b(plot_middle_frame, text = "bandType")
+
+    cbox_1 <- bs_combobox(
+        parent    = plot_middle_frame, title = "bandType",
+        values    = c("Point-wise (pointwise)",
+                      "Parametric bootstrap (boot)",
+                      "Kolmogorov-Smirnov (ks)",
+                      "Tail-sensitive (ts)"),
+        selection = 1)
+
+    # bandType = "boot"; B = ...
+    # conf =
+
+    tkgrid(cbox_1_lab)
+    tkgrid(cbox_1$frame)
+
 
     # Layout -----------------------------------------------------------------
 
@@ -466,17 +525,17 @@ window_test_normality <- function() {
 
     tkgrid(middle_frame, pady = c(5, 0), sticky = "we") #~~~~~~~~~~~~~~~~~~~~
     tkgrid(numerical_options_frame,
-           choose_test_Frame,
+           # choose_test_Frame,
            plot_options_frame, padx = c(0, 5), sticky = "nse")
 
     # Numerical options
     tkgrid(numerical_middle_frame, padx = c(5, 0), sticky = "ns")
     tkgrid(digits_pFrame, sticky = "swe")
 
-    # Choose test
-    tkgrid(choose_test_inner_Frame,   padx = c(0, 0), sticky = "nswe")
-    tkgrid(testFrame, sticky = "swe", padx = c(8, 8))
-    tkgrid(binsFrame, sticky = "nse", padx = c(8, 8), pady = c(0, 0))
+    # # Choose test
+    # tkgrid(choose_test_inner_Frame,   padx = c(0, 0), sticky = "nswe")
+    # tkgrid(testFrame, sticky = "swe", padx = c(8, 8))
+    # tkgrid(binsFrame, sticky = "nse", padx = c(8, 8), pady = c(0, 0))
 
     # plot_options_frame
     tkgrid(plot_middle_frame, padx = c(5, 0), sticky = "nwe")
@@ -497,3 +556,5 @@ window_test_normality <- function() {
     # cmd_plot_activation()
     # cmd_test_activation()
 }
+
+
