@@ -8,17 +8,27 @@ item	topMenu	cascade	"BioStat'19"	biostat_menu	""	""
 menu	bs_online_menu	topMenu	""	""	""	""
 item	topMenu	cascade	"On-line"	bs_online_menu	""	""
 
-item	bs_online_menu	command	"Copy active dataset to clipboard"  copy_active_ds_to_clipboard 	"activeDataSetP()"	""
-item	bs_online_menu	separator	""	""	""	""
-item	bs_online_menu	command	"GeoGebra: probability calculator"  window_online_geogebra_probability 	""	""
-item	bs_online_menu	command	"G*Power: power analysis"  window_online_gpower	""	""
-item	bs_online_menu	command	"Multivariate normality tests"  window_online_mvn	""	""
-item	bs_online_menu	command	"Image digitizer"  window_image_digitizer_online	""	""
 
+item	bs_online_menu	command	"Export active dataset to clipboard"  copy_active_ds_to_clipboard 	"activeDataSetP()"	""
+item	bs_online_menu	command	"Import active dataset from clipboard"  window_import_text_delim_clipboard 	""	""
 item	bs_online_menu	separator	""	""	""	""
-item	bs_online_menu	command	"Easy ROC"  window_online_easyROC	""	""
-item	bs_online_menu	command	"Time dependant ROC"  window_online_tdROC	""	""
 
+
+menu	bs_online_tools_menu	topMenu	""	""	""	""
+item	bs_online_menu	cascade	"On-line tools"	bs_online_tools_menu	""	""
+
+item	bs_online_tools_menu	command	"GeoGebra: probability calculator"  window_online_geogebra_probability 	""	""
+item	bs_online_tools_menu	command	"Multivariate normality tests"  window_online_mvn	""	""
+item	bs_online_tools_menu	command	"Image digitizer"  window_image_digitizer_online	""	""
+item	bs_online_tools_menu	separator	""	""	""	""
+item	bs_online_tools_menu	command	"Easy ROC"  window_online_easyROC	""	""
+item	bs_online_tools_menu	command	"Time dependant ROC"  window_online_tdROC	""	""
+
+
+menu	bs_websites_menu	topMenu	""	""	""	""
+item	bs_online_menu	cascade	"Websites"	bs_online_tools_menu	""	""
+
+item	bs_websites_menu	command	"G*Power: power analysis"  window_online_gpower	""	""
 
 # . ==========================================================================
 # ---- >>> File menu ---------------------------------------------------------
