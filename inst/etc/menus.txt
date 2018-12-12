@@ -36,7 +36,7 @@ item	bs_data_menu	command	"Preview active dataset (in a new window)"	command_dat
 item	bs_data_menu	command	"Change class of active dataset"	window_dataset_class	"activeDataSetP()"	""
 
 
-# --- Copy. delete, rename ---------------------------------------------------
+# --- Copy, delete, rename ---------------------------------------------------
 
 item	bs_data_menu	separator	""	""	""	""
 item	bs_data_menu	command	"List objects in R workspace..."	command_list_objects	""	""
@@ -303,12 +303,24 @@ item	bs_ci_menu	command	"[???] Bootstrap confidence intervals"	window_ci_boot	""
 # . ==========================================================================
 # ---- * Statistical tests ---------------------------------------------------
 
+menu	bs_tests_menu	bs_analysis_menu	""	""	""	""
+item	bs_analysis_menu	cascade	"Tests"	bs_tests_menu	""	""
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# + ~ Normality tests --------------------------------------------------------
+
+menu	bs_distr_tests_menu	bs_tests_menu	""	""	""	""
+item	bs_tests_menu	cascade	"Normality/distribution tests"	bs_distr_tests_menu	""	""
+
+item	bs_distr_tests_menu	command	"Normality test (univariate)..."	window_test_normality	"numericP()"	""
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # + ~ Central tendency tests -------------------------------------------------
 
-menu	bs_centers_menu	bs_analysis_menu	""	""	""	""
-item	bs_analysis_menu	cascade	"Tests (central tendency)"	bs_centers_menu	""	""
+menu	bs_centers_menu	bs_tests_menu	""	""	""	""
+item	bs_tests_menu	cascade	"Central tendency tests"	bs_centers_menu	""	""
 
 # item	bs_centers_menu command	"Single-sample t-test... [Rcmdr]"	singleSampleTTest	"numericP()"	""
 item	bs_centers_menu	command	"Single-sample t-test... [EZR]"	StatMedSingleSampleTTest	"activeDataSetP()"	""
@@ -346,8 +358,8 @@ item	bs_centers_menu	command	"ANCOVA... [EZR]"	StatMedANCOVA	"activeDataSetP()"	
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # + ~ Variability tests ------------------------------------------------------
 
-menu	bs_variability_menu	bs_analysis_menu	""	""	""	""
-item	bs_analysis_menu	cascade	"Tests (variability)"	bs_variability_menu	""	""
+menu	bs_variability_menu	bs_tests_menu	""	""	""	""
+item	bs_tests_menu	cascade	"Variability tests"	bs_variability_menu	""	""
 
 # item	bs_variability_menu	command	"Two-variances F test... [Rcmdr]"	twoVariancesFTest	"numericP() && twoLevelFactorsP()"	""
 item	bs_variability_menu	command	"Two-variances F-test... [EZR]"	StatMedFTest	"activeDataSetP()"	""
@@ -356,15 +368,6 @@ item	bs_variability_menu	command	"Two-variances F-test... [EZR]"	StatMedFTest	"a
 item	bs_variability_menu	command	"Bartlett's test... [EZR]"	StatMedBartlett	"activeDataSetP()"	""
 
 item	bs_variability_menu	command	"Levene's / Brown-Forsythe's test... [Rcmdr]"	LeveneTest	"numericP() && factorsP()"	""
-
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# + ~ Normality / Distribution tests -----------------------------------------
-
-menu	bs_distr_tests_menu	bs_analysis_menu	""	""	""	""
-item	bs_analysis_menu	cascade	"Tests (normality, distribution)"	bs_distr_tests_menu	""	""
-
-item	bs_distr_tests_menu	command	"Normality test (univariate)..."	window_test_normality	"numericP()"	""
 
 
 # . ==========================================================================
