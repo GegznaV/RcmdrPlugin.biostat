@@ -111,7 +111,7 @@ command_model_augment <- function() {
     Library("broom")
 
     doItAndPrint(str_glue(
-        "## Add model data to original data frame\n",
+        "## Add data from model to original data frame\n",
         "{.ds} <- broom::augment({.mod})\n"))
 
     # Refresh data
