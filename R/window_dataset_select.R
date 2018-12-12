@@ -243,14 +243,16 @@ window_dataset_select <- function() {
 
         menu_e <- tk2menu(tk2menu(top), tearoff = FALSE)
 
-        tkadd(menu_e, "command", label = "to Rds file (.Rds, .rds)..."	        ,   command = to_rds)
-        tkadd(menu_e, "command", label = "to R-data file (.RData, .Rda, .rda)..." , command = to_rdata)
+        tkadd(menu_e, "command", label = "To Rds file (.Rds, .rds)..."	        ,   command = to_rds)
+        tkadd(menu_e, "command", label = "To R-data file (.RData, .Rda, .rda)..." , command = to_rdata)
         tkadd(menu_e, "separator")
-        tkadd(menu_e, "command", label = "to text file (.txt, .csv, .dat, etc.)"  , command = to_text_file)
+        tkadd(menu_e, "command", label = "To text file (.txt, .csv, .dat, etc.)"  , command = to_text_file)
         tkadd(menu_e, "separator")
-        tkadd(menu_e, "command", label = "to Excel file..."                       , command = to_excel)
-        # tkadd(menu_e, "command", label = "to Word table..."                       , command = to_word)
-        # tkadd(menu_e, "command", label = "to PowerPoint table..."                 , command = to_pptx)
+        tkadd(menu_e, "command", label = "To Excel file..."                       , command = to_excel)
+        tkadd(menu_e, "separator")
+        tkadd(menu_e, "command", label = "To clipboard (as tab-delimited)..."     , command = copy_active_ds_to_clipboard)
+        # tkadd(menu_e, "command", label = "To Word table..."                       , command = to_word)
+        # tkadd(menu_e, "command", label = "To PowerPoint table..."                 , command = to_pptx)
         # tkadd(menu_e, "separator")
         # tkadd(menu_e, "command", label = "print as R structure"                   , command = to_r_structure)
 
