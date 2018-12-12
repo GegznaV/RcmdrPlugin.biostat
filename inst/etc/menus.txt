@@ -13,9 +13,12 @@ item	bs_online_menu	separator	""	""	""	""
 item	bs_online_menu	command	"GeoGebra: probability calculator"  window_online_geogebra_probability 	""	""
 item	bs_online_menu	command	"G*Power: power analysis"  window_online_gpower	""	""
 item	bs_online_menu	command	"Multivariate normality tests"  window_online_mvn	""	""
+item	bs_online_menu	command	"Image digitizer"  window_image_digitizer_online	""	""
 
+item	bs_online_menu	separator	""	""	""	""
 item	bs_online_menu	command	"Easy ROC"  window_online_easyROC	""	""
 item	bs_online_menu	command	"Time dependant ROC"  window_online_tdROC	""	""
+
 
 # . ==========================================================================
 # ---- >>> File menu ---------------------------------------------------------
@@ -397,6 +400,10 @@ item	bs_fit_models_menu	command	"Linear regression... [EZR]"	StatMedLinearRegres
 menu	bs_models_menu	bs_analysis_menu	""	""	""	""
 item	bs_analysis_menu	cascade	"Models (analyze)"	bs_models_menu	""	""
 
+
+
+item	bs_models_menu	command	"Select and explore a model"	window_model_select	"modelsP()"	""
+item	bs_models_menu	separator	""	""	""	""
 item	bs_models_menu	command	"Print: basic model's results"	command_model_print	"activeModelP()"	""
 item	bs_models_menu	command	"Summary: print base-R-style summary of the model"	command_model_summary	"activeModelP() "	""
 
