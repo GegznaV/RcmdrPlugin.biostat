@@ -29,7 +29,7 @@ window_model_select <- function() {
 
         envir = parent.frame()
         button_obj <- c(
-            "i1", "i2", "i3", "i4", "i5", "i7", "i8", "i9", "i10"
+            "i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10"
         )
 
         if (get_size(var_model_box) == 0 || get_selection_length(var_model_box) == 0) {
@@ -42,27 +42,26 @@ window_model_select <- function() {
         }
 
         # Button "i6"
-        models_class <- class((get(ActiveModel(), envir = .GlobalEnv)))[1]
-        if (models_class == "lm") {
+        model <- ActiveModel()
+        if (!is.null(model) && class((get(model, envir = .GlobalEnv)))[1] == "lm") {
             tk_normalize(i6)
         } else {
             tk_disable(i6)
         }
-
-
     }
 
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     select_model  <- function() {
-        model <- get_selection(var_model_box)
-        if (ActiveModel() != model) {
+        new_model <- get_selection(var_model_box)
+        cur_model <- ActiveModel()
+        if (is.null(cur_model) || cur_model != new_model) {
 
-            if (length(model) == 0) {
-                tkfocus(CommanderWindow())
+            if (length(new_model) == 0) {
+                # tkfocus(CommanderWindow())
                 return()
             }
 
-            dataSet <- as.character(get(model)$call$data)
+            dataSet <- as.character(get(new_model)$call$data)
             if (length(dataSet) == 0) {
                 errorCondition(message = gettext_bs(
                     "There is no dataset associated with this model."))
@@ -84,21 +83,21 @@ window_model_select <- function() {
             if (is.null(.ds) || (dataSet != .ds))
                 activeDataSet(dataSet)
 
-            putRcmdr("modelWithSubset", "subset" %in% names(get(model)$call))
-            activeModel(model)
+            putRcmdr("modelWithSubset", "subset" %in% names(get(new_model)$call))
+            activeModel(new_model)
         }
     }
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         select_model()
         closeDialog()
         tkfocus(CommanderWindow())
-
     }
 
     # Initialize -------------------------------------------------------------
-    initializeDialog(title = gettext_bs("Select Model"))
-    tk_title(top, "Select a Model")
+    initializeDialog(title = gettext_bs("Select & Explore Model"))
+    tk_title(top, "Select and explore a model")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     var_model_box <- bs_listbox(
