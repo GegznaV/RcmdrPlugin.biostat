@@ -47,7 +47,7 @@ command_dataset_print <- function() {
 #' @keywords internal
 command_dataset_print_as_df <- function() {
     .ds <- ActiveDataSet()
-    doItAndPrint(str_glue("as.data.frame(print({.ds}))"))
+    doItAndPrint(str_glue("print(as.data.frame({.ds}))"))
 }
 
 #' @rdname Menu-window-functions
@@ -56,7 +56,7 @@ command_dataset_print_as_df <- function() {
 command_dataset_print_as_dt <- function() {
     .ds <- ActiveDataSet()
     Library("data.table")
-    doItAndPrint(str_glue("as.data.table(print({.ds}))"))
+    doItAndPrint(str_glue("print(as.data.table({.ds}))"))
 }
 
 #' @rdname Menu-window-functions
@@ -65,7 +65,7 @@ command_dataset_print_as_dt <- function() {
 command_dataset_print_as_tibble <- function() {
     .ds <- ActiveDataSet()
     Library("tibble")
-    doItAndPrint(str_glue("as_tibble(print({.ds}))"))
+    doItAndPrint(str_glue("print(as_tibble({.ds}))"))
 }
 
 
