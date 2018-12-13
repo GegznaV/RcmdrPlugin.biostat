@@ -93,6 +93,11 @@ NULL
 
 }
 
+# if (Rcmdr::closeCommander(ask = TRUE, ask.save = TRUE) == "ok") {
+#     # stringr::str_subset(.packages(), "RcmdrPlugin")
+#     detach("package:RcmdrPlugin.EZR", unload = TRUE, force = TRUE)
+#     Rcmdr::Commander()
+# }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # add_plugins <-
