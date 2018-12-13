@@ -33,11 +33,13 @@ bs_check_boxes <- defmacro(
         ..initialValues <- if (is.null(initialValues)) rep("1", length(boxes)) else initialValues
         assign(frame,
                if (ttk) {
-                   ttklabelframe(window,
-                                 labelwidget = tklabel(window,
-                                                       text = title,
-                                                       font = "RcmdrTitleFont",
-                                                       foreground = getRcmdr("title.color")))
+                   ttklabelframe(
+                       window,
+                       labelwidget = tklabel(
+                           window,
+                           text = title,
+                           font = "RcmdrTitleFont",
+                           foreground = getRcmdr("title.color")))
                } else {
                    tkframe(window)
                }
