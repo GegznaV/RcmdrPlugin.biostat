@@ -83,10 +83,11 @@ window_data_obj_rename <- function() {
     active_ds  <- ActiveDataSet()
 
     # Widgets ================================================================
-
+    upper_frame <- tkframe(top)
+    tkgrid(upper_frame)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     var_y_box <- bs_listbox(
-        parent       = top,
+        parent       = upper_frame,
         title        = "Object (select one)",
         values       = ws_objects,
         value        = active_ds,
@@ -95,19 +96,18 @@ window_data_obj_rename <- function() {
         width        = 30,
         on_keyboard  = "select",
         on_select    = update_new_name,
-        selection    = active_ds,
         tip          = tip_single_ctrl_letters
-
     )
     if (!is.null(active_ds)) {
         tk_see(var_y_box, which(ws_objects %in% active_ds))
     }
 
+
     tkgrid(var_y_box$frame, sticky = "w", padx = c(10, 0))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     text_box_1 <- bs_tk_textbox(
-        parent = top,
-        width  = 43,
+        parent = upper_frame,
+        width  = 30,
         label  = "New name:  ",
         label_position = "above",
         tip = "Enter a new name for the selected object.")
@@ -115,7 +115,7 @@ window_data_obj_rename <- function() {
     tkgrid(text_box_1$frame, sticky = "w", padx = c(10, 0))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ok_cancel_help(apply = "window_data_obj_rename")
-    tkgrid(buttonsFrame, columnspan = 2, sticky = "w")
+    tkgrid(buttonsFrame, sticky = "w")
     dialogSuffix()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     update_new_name()
