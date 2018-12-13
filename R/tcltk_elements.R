@@ -51,13 +51,15 @@ labeled_frame <- function(parent, label = NULL, ...) {
 #' @export
 #' @keywords internal
 tk_title <- function(parent = top, text = "xxx_title", pady = c(5, 9),
-                     font = tkfont.create(weight = "bold", size = 9), ...) {
+                     font = tkfont.create(weight = "bold", size = 9),
+                     fg = Rcmdr::getRcmdr("title.color"),
+                     ...) {
   tkgrid(
     label_rcmdr(
       parent,
       text = gettext_bs(text),
       font = font,
-      fg = Rcmdr::getRcmdr("title.color")),
+      fg = fg),
     pady = pady,
     ...)
 }
