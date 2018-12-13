@@ -78,6 +78,8 @@ window_data_obj_delete <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = "Delete Objects")
+    tk_title(top, text = "Delete objects", fg = "darkred")
+
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     var_y_box <- bs_listbox(
@@ -86,10 +88,11 @@ window_data_obj_delete <- function() {
         values       = ws_objects,
         value        = active_ds,
         selectmode   = "multiple",
-        height       = 9,
+        height       = 8,
         width        = 30,
         on_keyboard  = "scroll",
-        tip          = tip_multiple_ctrl_letters
+        tip          = tip_multiple_ctrl_letters,
+        use_filter   = TRUE
 
     )
 
@@ -97,21 +100,12 @@ window_data_obj_delete <- function() {
         tk_see(var_y_box, which(ws_objects %in% active_ds))
     }
 
-    # ========================================================================
-    ok_cancel_help()
+    tkgrid(getFrame(var_y_box), pady = c(0, 5))
 
-    # Title ------------------------------------------------------------------
-    fg_col <- Rcmdr::getRcmdr("title.color")
 
-    tkgrid(label_rcmdr(
-        top,
-        text = gettext_bs("Delete objects"),
-        font = tkfont.create(weight = "bold", size = 9),
-        fg   = "darkred"),
-        pady = c(5, 9))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(getFrame(var_y_box), sticky = "e")
-
-    tkgrid(buttonsFrame, columnspan = 2, sticky = "ew")
+    ok_cancel_help(apply = "window_data_obj_delete")
+    tkgrid(buttonsFrame)
     dialogSuffix()
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
