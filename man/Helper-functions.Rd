@@ -112,6 +112,7 @@
 \alias{add_selection.listbox}
 \alias{get_values.listbox}
 \alias{set_values.listbox}
+\alias{set_values.listbox_with_filter}
 \alias{set_yview.listbox}
 \alias{tk_see.listbox}
 \alias{tk_disable.listbox}
@@ -352,9 +353,10 @@ bs_listbox(parent, values = variables_all(), value = NULL,
   height = getRcmdr("variable.list.height"),
   width = getRcmdr("variable.list.width"), enabled = TRUE,
   scroll = c("both", "x", "y", "none"), autoscroll = c("x", "y",
-  "both", "none"), on_select = function() { }, on_click = function() {
-  }, on_double_click = function() { }, on_triple_click = function() {
-  }, on_release = function() { }, on_click_3 = function() { },
+  "both", "none"), use_filter = FALSE, sticky = "nw",
+  on_select = function() { }, on_click = function() { },
+  on_double_click = function() { }, on_triple_click = function() { },
+  on_release = function() { }, on_click_3 = function() { },
   on_double_click_3 = function() { }, on_triple_click_3 = function() {
   }, on_release_3 = function() { }, on_keyboard = c("select", "scroll",
   "ignore"), title_sticky = "w", subtitle_sticky = title_sticky, ...)
@@ -384,6 +386,8 @@ set_selection_listbox(listbox, sel, clear = TRUE)
 \method{get_values}{listbox}(obj, vals, ...)
 
 \method{set_values}{listbox}(obj, values, ..., clear = TRUE)
+
+\method{set_values}{listbox_with_filter}(obj, values, ..., clear = TRUE)
 
 \method{set_yview}{listbox}(obj, ind, ...)
 
@@ -435,7 +439,8 @@ bs_label(..., fg = "black")
 labeled_frame(parent, label = NULL, ...)
 
 tk_title(parent = top, text = "xxx_title", pady = c(5, 9),
-  font = tkfont.create(weight = "bold", size = 9), ...)
+  font = tkfont.create(weight = "bold", size = 9),
+  fg = Rcmdr::getRcmdr("title.color"), ...)
 
 bs_title(parent = top, text, pady = c(5, 9),
   font = tkfont.create(weight = "bold", size = 9), ...)
