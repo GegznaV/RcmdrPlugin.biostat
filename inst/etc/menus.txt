@@ -9,8 +9,10 @@ menu	bs_online_menu	topMenu	""	""	""	""
 item	topMenu	cascade	"On-line"	bs_online_menu	""	""
 
 
-item	bs_online_menu	command	"Export active dataset to clipboard"  copy_active_ds_to_clipboard 	"activeDataSetP()"	""
-item	bs_online_menu	command	"Import active dataset from clipboard"  window_import_text_delim_clipboard 	""	""
+# active dataset
+
+item	bs_online_menu	command	"Export to clipboard"  copy_active_ds_to_clipboard 	"activeDataSetP()"	""
+item	bs_online_menu	command	"Import from clipboard"  window_import_text_delim_clipboard 	""	""
 item	bs_online_menu	separator	""	""	""	""
 
 
@@ -66,7 +68,7 @@ item	bs_data_menu	command	"Change class of active dataset"	window_dataset_class	
 item	bs_data_menu	separator	""	""	""	""
 item	bs_data_menu	command	"List objects in R workspace..."	command_list_objects	""	""
 item	bs_data_menu	command	"Copy object / active dataset..."	window_data_obj_copy	""	""
-item	bs_data_menu	command	"Delete object / active dataset... "	window_data_obj_delete	""	""
+item	bs_data_menu	command	"Delete objects / active dataset... "	window_data_obj_delete	""	""
 item	bs_data_menu	command	"Rename object / active dataset..."	window_data_obj_rename	""	""
 
 
