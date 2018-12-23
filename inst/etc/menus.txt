@@ -11,26 +11,34 @@ item	topMenu	cascade	"On-line"	bs_online_menu	""	""
 
 # active dataset
 
-item	bs_online_menu	command	"Export to clipboard"  copy_active_ds_to_clipboard 	"activeDataSetP()"	""
 item	bs_online_menu	command	"Import from clipboard"  window_import_text_delim_clipboard 	""	""
+item	bs_online_menu	command	"Export to clipboard"  copy_active_ds_to_clipboard 	"activeDataSetP()"	""
 item	bs_online_menu	separator	""	""	""	""
 
 
 menu	bs_online_tools_menu	topMenu	""	""	""	""
-item	bs_online_menu	cascade	"On-line tools"	bs_online_tools_menu	""	""
+item	bs_online_menu	cascade	"Applications on-line"	bs_online_tools_menu	""	""
 
 item	bs_online_tools_menu	command	"GeoGebra: probability calculator"  window_online_geogebra_probability 	""	""
-item	bs_online_tools_menu	command	"Multivariate normality tests"  window_online_mvn	""	""
 item	bs_online_tools_menu	command	"Image digitizer"  window_image_digitizer_online	""	""
-item	bs_online_tools_menu	separator	""	""	""	""
-item	bs_online_tools_menu	command	"Easy ROC"  window_online_easyROC	""	""
-item	bs_online_tools_menu	command	"Time dependant ROC"  window_online_tdROC	""	""
+item	bs_online_tools_menu	command	"Multivariate normality tests"  window_online_mvn	""	""
+# item	bs_online_tools_menu	separator	""	""	""	""
+# item	bs_online_tools_menu	command	"ROC analysis: Time dependant ROC"  window_online_tdROC	""	""
+item	bs_online_tools_menu	command	"ROC analysis: Easy ROC"  window_online_easyROC	""	""
+
+
+menu	bs_downlaod_menu	topMenu	""	""	""	""
+item	bs_online_menu	cascade	"Applications to download"	bs_downlaod_menu	""	""
+
+item	bs_downlaod_menu	command	"Cluster analysis: Orange"  window_online_orange	""	""
+item	bs_downlaod_menu	command	"Power analysis: G*Power"  window_online_gpower	""	""
 
 
 menu	bs_websites_menu	topMenu	""	""	""	""
-item	bs_online_menu	cascade	"Websites"	bs_online_tools_menu	""	""
+item	bs_online_menu	cascade	"Websites"	bs_websites_menu	""	""
 
-item	bs_websites_menu	command	"G*Power: power analysis"  window_online_gpower	""	""
+item	bs_websites_menu	command	"Extensions for ggplot2"  window_online_ggplot2_ext	""	""
+item	bs_websites_menu	command	"Plotly for R"  window_online_plotly	""	""
 
 # . ==========================================================================
 # ---- >>> File menu ---------------------------------------------------------
