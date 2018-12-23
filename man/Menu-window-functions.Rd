@@ -72,9 +72,12 @@
 \alias{open_online_tool}
 \alias{window_online_geogebra_probability}
 \alias{window_online_mvn}
-\alias{window_online_gpower}
 \alias{window_online_easyROC}
 \alias{window_online_tdROC}
+\alias{window_online_gpower}
+\alias{window_online_orange}
+\alias{window_online_plotly}
+\alias{window_online_ggplot2_ext}
 \alias{window_ci_mean}
 \alias{window_dataset_bind_cols}
 \alias{window_dataset_bind_rows}
@@ -226,13 +229,17 @@ window_online_geogebra_probability()
 
 window_online_mvn()
 
-window_online_gpower()
-
 window_online_easyROC()
 
 window_online_tdROC()
 
-window_online_tdROC()
+window_online_gpower()
+
+window_online_orange()
+
+window_online_plotly()
+
+window_online_ggplot2_ext()
 
 window_ci_mean()
 
