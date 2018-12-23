@@ -23,6 +23,7 @@ label_rcmdr <- function(..., fg = NULL) {
 bs_label_b <- function(..., fg = Rcmdr::getRcmdr("title.color")) {
   if (is.null(fg)) ttklabel(...) else ttklabel(..., foreground = fg)
 }
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Helper-functions
 #' @export
