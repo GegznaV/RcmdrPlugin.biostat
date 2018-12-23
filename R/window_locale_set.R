@@ -249,7 +249,7 @@ window_locale_set <- function() {
         text = "Get current locale",
         tip  = str_c(
             "Click to select current locale. \n",
-            "Double-click to print it in console."
+            "Double-click to print locale in console."
             ),
         command = cmd_get_locale)
 
