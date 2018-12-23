@@ -37,19 +37,25 @@ summary_head_tail <- function() {
     Library("tidyverse")
     Library("data.table")
 
-    # Note if dataset has row names
-    note_txt <-
+    doItAndPrint(command)
+
+    keep_rownames_txt <-
         if (tibble::has_rownames(ds)) {
-            str_c(str_glue("# NOTE: Dataset '{.ds}' has row names, which are not displayed."), "\n")
+            rn <- unique_colnames("row_names")
+            str_glue('keep.rownames = "{rn}"')
+
         } else {
             ""
         }
 
-    doItAndPrint(str_glue(
+    str_glue(
         "## Top and bottom rows\n",
-        "{note_txt}",
-        "{.ds} %>% as.data.table() %>% print(topn = 5, nrows = 10)"
-    ))
+        "{.ds} %>% \n",
+        "as.data.table({keep_rownames_txt}) %>% \n",
+        "print(topn = 5, nrows = 10)"
+    ) %>%
+        style_cmd() %>%
+        doItAndPrint()
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
