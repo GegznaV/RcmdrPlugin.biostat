@@ -36,6 +36,9 @@ open_online_tool <- function(url = NULL, copy_to_clipboard = FALSE) {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# Online apps ------------ ---------------------------------------------------
+
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
@@ -53,13 +56,6 @@ window_online_mvn  <- function() {
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_online_gpower  <- function() {
-    open_online_tool("http://www.gpower.hhu.de/")
-}
-
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
 window_online_easyROC  <- function() {
     open_online_tool("http://www.biosoft.hacettepe.edu.tr/easyROC/", TRUE)
 }
@@ -71,9 +67,37 @@ window_online_tdROC  <- function() {
     open_online_tool("http://www.biosoft.hacettepe.edu.tr/tdROC/")
 }
 
+
+# Download ------------ ------------------------------------------------------
+
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_online_tdROC  <- function() {
+window_online_gpower  <- function() {
+    open_online_tool("http://www.gpower.hhu.de/")
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_orange  <- function() {
+    open_online_tool("https://orange.biolab.si//")
+}
+
+
+# Other ------------ ---------------------------------------------------------
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_plotly  <- function() {
     open_online_tool("https://plot.ly/ggplot2/")
 }
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_ggplot2_ext <- function() {
+    open_online_tool("http://www.ggplot2-exts.org/gallery/")
+}
+
