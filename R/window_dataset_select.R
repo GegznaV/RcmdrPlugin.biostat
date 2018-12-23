@@ -404,9 +404,6 @@ window_dataset_select <- function() {
             ds_factors <-
                 purrr::map_lgl(eval_glue("{.ds_1}", envir_eval = .GlobalEnv),
                                ~inherits(., "factor"))
-            get(.ds_1)
-            print(.ds_1)
-            print(ds_factors)
 
             if (any(ds_factors)) {
                 doItAndPrint(style_cmd(str_glue(
