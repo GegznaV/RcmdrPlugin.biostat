@@ -55,8 +55,18 @@ command_dataset_print_as_df <- function() {
 #' @keywords internal
 command_dataset_print_as_dt <- function() {
     .ds <- ActiveDataSet()
+    ds <- eval_text(.ds, envir = .GlobalEnv)
+
     Library("data.table")
-    doItAndPrint(str_glue("print(as.data.table({.ds}))"))
+
+    if (tibble::has_rownames(ds)) {
+        rn <- unique_colnames("rownames")
+        command <- str_glue('print(as.data.table({.ds}, keep.rownames = "{rn}"))')
+
+    } else {
+        command <- str_glue("print(as.data.table({.ds}))")
+    }
+    doItAndPrint(command)
 }
 
 #' @rdname Menu-window-functions
@@ -65,7 +75,7 @@ command_dataset_print_as_dt <- function() {
 command_dataset_print_as_tibble <- function() {
     .ds <- ActiveDataSet()
     Library("tibble")
-    doItAndPrint(str_glue("print(as_tibble({.ds}))"))
+    doItAndPrint(str_glue('print(as_tibble({.ds}))'))
 }
 
 
