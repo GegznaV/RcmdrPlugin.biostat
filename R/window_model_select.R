@@ -206,7 +206,7 @@ window_model_select <- function() {
                 "## Basic diagnostic plots for model \n",
                 "old_par <- par(oma = c(0, 0, 3, 0), mfrow = c(2, 2)) \n",
                 "plot({.mod}) \n",
-                "par(oldpar)"))
+                "par(old_par)"))
         })
 
     i9 <- tk2button(
