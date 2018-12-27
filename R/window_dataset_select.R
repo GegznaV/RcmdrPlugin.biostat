@@ -131,7 +131,7 @@ window_dataset_select <- function() {
         closeDialog()
         window_import_rdata()
         # window_dataset_select()
-        }
+    }
 
     from_text_file <- function() {
         closeDialog()
@@ -146,16 +146,19 @@ window_dataset_select <- function() {
     }
 
 
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     to_rds <- function() {
-        closeDialog()
-        window_export_to_rds()
+        .ds_1 <- get_selection(var_ds_box)
+        # closeDialog()
+        window_export_to_rds_0(ds_name = .ds_1)
+        # window_export_to_rds()
         # window_dataset_select()
     }
 
     to_rdata <- function() {
-        closeDialog()
-        window_export_to_rdata()
+        .ds_1 <- get_selection(var_ds_box)
+        # closeDialog()
+        window_export_to_rdata_0(.ds_1)
         # window_dataset_select()
     }
 
@@ -170,30 +173,50 @@ window_dataset_select <- function() {
     }
 
     to_text_file <- function() {
-        closeDialog()
-        window_export_to_textfile()
+        .ds_1 <- get_selection(var_ds_box)
+
+        # closeDialog()
+        window_export_to_textfile(.ds_1)
         # window_dataset_select()
     }
 
     to_excel <- function() {
-        closeDialog()
-        window_export_to_excel()
+        .ds_1 <- get_selection(var_ds_box)
+
+        # closeDialog()
+        window_export_to_excel(.ds_1)
         # window_dataset_select()
     }
 
     to_word <- function() {
+        .ds_1 <- get_selection(var_ds_box)
+
         closeDialog()
         # window_export_
         # window_dataset_select()
     }
 
     to_pptx <- function() {
+        .ds_1 <- get_selection(var_ds_box)
+
         closeDialog()
         # window_export_
         # window_dataset_select()
     }
 
+    # Create menus -----------------------------------------------------------
+    menu_create <- function() {
+        top <- top
 
+        menu_i <- tk2menu(tk2menu(top), tearoff = FALSE)
+        tkadd(menu_i, "command",
+              label = "Create a dataset (Rcmdr style)",
+              command = window_dataset_new_rcmdr)
+
+        tkpopup(menu_i,
+                tkwinfo("pointerx", top),
+                tkwinfo("pointery", top))
+    }
     # Import menus -----------------------------------------------------------
 
     # "From clipboard..."     , 'window_import_text_delim0(init_location = "clipboard")'
@@ -201,7 +224,7 @@ window_dataset_select <- function() {
     #
     # "Import from text file (.txt, .csv, .dat, etc.)"   , "window_import_text_delim"
     # "Import from Excel file..."                        , "window_import_excel"
-    # "Import from Rds file (.Rds, .rds)..."	           , "window_import_rds"
+    # "Import from Rds file (.Rds, .rds)..."	         , "window_import_rds"
     # "Import from R-data file (.RData, .Rda, .rda)..."  , "window_import_rdata"
     # "Import from SPSS data file..."                    , "importSPSS"
     # "Import from SAS xport file..."                    , "importSAS"
@@ -215,9 +238,9 @@ window_dataset_select <- function() {
         menu_i <- tk2menu(tk2menu(top), tearoff = FALSE)
         menu_f <- tk2menu(menu_i, tearoff = FALSE)
 
+        tkadd(menu_i, "command", label = "From clipboard", command = from_clipboard)
         tkadd(menu_i, "cascade", label = "From file    " , menu = menu_f)
         tkadd(menu_i, "command", label = "From package",   command = from_package)
-        tkadd(menu_i, "command", label = "From clipboard", command = from_clipboard)
 
 
         tkadd(menu_f, "command", label = "from Rds file (.Rds, .rds)..."	        , command = from_rds)
@@ -228,11 +251,11 @@ window_dataset_select <- function() {
         tkadd(menu_f, "command", label = "from Excel file..."                       , command = from_excel)
 
         # tkadd(menu_f, "separator")
-        # tkadd(menu_f, "command", label = "from SPSS data file..."                   , command = function() {importSPSS()})
-        # tkadd(menu_f, "command", label = "from SAS xport file..."                   , command = function() {importSAS()})
-        # tkadd(menu_f, "command", label = "from SAS b7dat file..."                   , command = function() {importSASb7dat()})
-        # tkadd(menu_f, "command", label = "from STATA data file..."                  , command = function() {importSTATA()})
-        # tkadd(menu_f, "command", label = "from Minitab data file..."                , command = function() {importMinitab()})
+        # tkadd(menu_f, "command", label = "from SPSS data file...",    command = function() {importSPSS()})
+        # tkadd(menu_f, "command", label = "from SAS xport file...",    command = function() {importSAS()})
+        # tkadd(menu_f, "command", label = "from SAS b7dat file...",    command = function() {importSASb7dat()})
+        # tkadd(menu_f, "command", label = "from STATA data file...",   command = function() {importSTATA()})
+        # tkadd(menu_f, "command", label = "from Minitab data file...", command = function() {importMinitab()})
 
         tkpopup(menu_i,
                 tkwinfo("pointerx", top),
@@ -240,23 +263,46 @@ window_dataset_select <- function() {
     }
 
     # Export menus -----------------------------------------------------------
+
+
     menu_export <- function() {
         top <- top
 
+        # [???] pritaikyti meniu ne aktyviajam DS, o pasirinktam DS.
+        selected_ds <- get_selection(var_ds_box)
+
         menu_e <- tk2menu(tk2menu(top), tearoff = FALSE)
 
-        tkadd(menu_e, "command", label = "To Rds file (.Rds, .rds)..."	        ,   command = to_rds)
-        tkadd(menu_e, "command", label = "To R-data file (.RData, .Rda, .rda)..." , command = to_rdata)
+        tkadd(menu_e, "command", label = "To clipboard (as tab-delimited)...",
+              command = function() {
+                  export_to_clipboard(selected_ds, sep = "\t")
+              })
+        tkadd(menu_e, "command", label = "To clipboard (as comma-separated, csv)...",
+              command = function() {
+                  export_to_clipboard(selected_ds, sep = ",")
+              })
         tkadd(menu_e, "separator")
-        tkadd(menu_e, "command", label = "To text file (.txt, .csv, .dat, etc.)"  , command = to_text_file)
+        tkadd(menu_e, "command", label = "To Rds file (.Rds, .rds)...",
+              command = to_rds)
+
+        tkadd(menu_e, "command", label = "To R-data file (.RData, .Rda, .rda)...",
+              command = to_rdata)
+
         tkadd(menu_e, "separator")
-        tkadd(menu_e, "command", label = "To Excel file..."                       , command = to_excel)
+        tkadd(menu_e, "command", label = "To text file (.txt, .csv, etc.)",
+              command = function() {
+                  to_text_file(selected_ds)
+              })
+
         tkadd(menu_e, "separator")
-        tkadd(menu_e, "command", label = "To clipboard (as tab-delimited)..."     , command = copy_active_ds_to_clipboard)
-        # tkadd(menu_e, "command", label = "To Word table..."                       , command = to_word)
-        # tkadd(menu_e, "command", label = "To PowerPoint table..."                 , command = to_pptx)
+        tkadd(menu_e, "command", label = "To Excel file...",
+              command = function() {
+                  to_excel(selected_ds)
+              })
+
         # tkadd(menu_e, "separator")
-        # tkadd(menu_e, "command", label = "print as R structure"                   , command = to_r_structure)
+        # tkadd(menu_e, "command", label = "To Word table..." , command = to_word)
+        # tkadd(menu_e, "command", label = "To PowerPoint table...", command = to_pptx)
 
         tkpopup(menu_e,
                 tkwinfo("pointerx", top),
@@ -267,6 +313,9 @@ window_dataset_select <- function() {
     # Print menus -----------------------------------------------------------
     menu_print <- function() {
         top <- top
+
+        # [???] pritaikyti meniu ne aktyviajam DS, o pasirinktam DS.
+        selected_ds <- get_selection(var_ds_box)
 
         menu_p <- tk2menu(tk2menu(top), tearoff = FALSE)
 
@@ -451,6 +500,10 @@ window_dataset_select <- function() {
 
         })
 
+    tkbind(c0, "<ButtonPress-3>", menu_create)
+
+
+
     i0 <- tk2button(
         io_buttons_frame,
         text  = "Import",
@@ -460,6 +513,10 @@ window_dataset_select <- function() {
         width =  11,
         command = function() {menu_import()})
 
+    tkbind(i0, "<ButtonPress-3>", menu_import)
+
+
+
     e0 <- tk2button(
         io_buttons_frame,
         tip  = str_c("Export selected dataset to file.",
@@ -468,6 +525,14 @@ window_dataset_select <- function() {
         width =  11,
         command = function() {menu_export()})
 
+    tkbind(e0, "<ButtonPress-3>", function() {
+        if (!disabled(e0)) {
+            menu_export()
+        }
+    })
+
+
+
     p0 <- tk2button(
         io_buttons_frame,
         tip  = str_c("Print selected dataset to console.",
@@ -475,6 +540,12 @@ window_dataset_select <- function() {
         text = "Print",
         width =  11,
         command = function() {menu_print()})
+
+    tkbind(p0, "<ButtonPress-3>", function() {
+        if (!disabled(p0)) {
+            menu_print()
+        }
+    })
 
     tkgrid(io_buttons_frame, sticky = "e", pady = c(10, 0))
     tkgrid(c0, i0, e0, p0)
