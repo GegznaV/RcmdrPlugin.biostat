@@ -39,7 +39,9 @@
 \alias{command_dataset_as_tibble}
 \alias{command_dataset_as_dt}
 \alias{window_export_to_rds}
+\alias{window_export_to_rds_0}
 \alias{window_export_to_rdata}
+\alias{window_export_to_rdata_0}
 \alias{window_export_to_excel_old}
 \alias{window_export_to_textfile}
 \alias{dataset_import_excel}
@@ -68,7 +70,8 @@
 \alias{command_colnames}
 \alias{command_clean_names}
 \alias{command_all_chr_to_fctr}
-\alias{copy_active_ds_to_clipboard}
+\alias{export_to_clipboard_active_ds_tab}
+\alias{export_to_clipboard}
 \alias{open_online_tool}
 \alias{window_online_geogebra_probability}
 \alias{window_online_mvn}
@@ -163,7 +166,11 @@ command_dataset_as_dt()
 
 window_export_to_rds()
 
+window_export_to_rds_0(ds_name = activeDataSet())
+
 window_export_to_rdata()
+
+window_export_to_rdata_0(ds_name = activeDataSet())
 
 window_export_to_excel_old()
 
@@ -221,7 +228,9 @@ command_clean_names()
 
 command_all_chr_to_fctr()
 
-copy_active_ds_to_clipboard()
+export_to_clipboard_active_ds_tab()
+
+export_to_clipboard(ds_name = ActiveDataSet(), sep = ",")
 
 open_online_tool(url = NULL, copy_to_clipboard = FALSE)
 
