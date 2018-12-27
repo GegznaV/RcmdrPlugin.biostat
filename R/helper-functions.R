@@ -554,8 +554,10 @@ extract_path <- function(str) {
 #' @keywords internal
 #' @export
 extract_filename <- function(str) {
-    sub("(.*\\/)([^.]+)(\\.[[:alnum:]]+$)", "\\2", str)
+    str %>% fs::path_file() %>% fs::path_ext_remove()
+    # sub("(.*\\/)([^.]+)(\\.[[:alnum:]]+$)", "\\2", str)
 }
+
 
 #' @rdname extract-fileparts
 #' @keywords internal
@@ -565,6 +567,12 @@ extract_extension <- function(str) {
 }
 
 
+#' @rdname extract-fileparts
+#' @keywords internal
+#' @export
+path_ext_set_2 <- function(path, ext) {
+    fs::path(fs::path_dir(path), fs::path_ext_set(fs::path_file(path), ext = ext))
+}
 
 
 # ___ Check ___ ==============================================================
@@ -870,6 +878,28 @@ forbid_to_replace_object <- function(name, envir = .GlobalEnv) {
 
     } else if (name %in% objects(envir = envir, all.names = TRUE)) {
         msg_box_confirm_to_replace(name, "Object") == "no"
+
+    } else {
+        FALSE
+    }
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+forbid_to_replace_file <- function(name) {
+    # Checks if file exists
+    #
+    # Returns FALSE if:
+    #     - file does not exist.
+    #     - file exists but user agrees to overvrite (replace) it.
+    #
+    # Othervise returns TRUE
+
+    name <- fs::path_file(name)
+
+    if (fs::file_exists(name)) {
+        msg_box_confirm_to_replace(name, "File") == "no"
 
     } else {
         FALSE
