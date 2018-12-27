@@ -74,6 +74,7 @@
 \alias{forbid_to_replace_variable}
 \alias{forbid_to_replace_variables}
 \alias{forbid_to_replace_object}
+\alias{forbid_to_replace_file}
 \alias{show_code_evaluation_error_message}
 \alias{nonFactorsP}
 \alias{class_ggplot_P}
@@ -295,6 +296,8 @@ forbid_to_replace_variable(name)
 forbid_to_replace_variables(name)
 
 forbid_to_replace_object(name, envir = .GlobalEnv)
+
+forbid_to_replace_file(name)
 
 show_code_evaluation_error_message()
 
