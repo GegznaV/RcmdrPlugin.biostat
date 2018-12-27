@@ -5,113 +5,88 @@
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_export_to_rds <- function() {
-    file_name <- ""
-    while (TRUE) {
-        break_cycle <- "yes"
+window_export_to_rds  <- function() {
+    window_export_to_rds_0(ds_name = activeDataSet())
+}
 
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        file_name <- tclvalue(tkgetSaveFile(
-            title = "Save data to R file '.Rds'",
-            initialfile =
-                if (nchar(trimws(file_name)) > 0) {
-                    extract_filename(file_name)
-                } else {
-                    activeDataSet()
-                },
-            filetypes = "{ {Rds file} {.Rds .RDS .rds} } { {All Files} * }"))
 
-        # If canceled
-        if (nchar(trimws(file_name)) == 0) {
-            Message("Operation canceled, object was not saved.",
-                    type = "warning")
-            return()
-        }
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_export_to_rds_0 <- function(ds_name = activeDataSet()) {
+    file_name <- ds_name
+    .ds <- safe_names(ds_name)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    file_name <- get_filename_to_save(
+        title = "Save data to Rds file.",
+        file_name = file_name,
+        filetypes = "{ {Rds file} {.rds} } { {All Files} * }",
+        defaultextension = "rds"
+    )
 
-        # Add extension if missing
-        if (!grepl("\\.[Rr][Dd][Ss]$", file_name)) {
-            # Add extension
-            file_name <- paste0(file_name, ".Rds")
-
-            # Check if a file with the same name exists
-            if (file.exists(file_name))
-                break_cycle <- tclvalue(Rcmdr::checkReplace(
-                    str_glue('"{file_name}"'), type = "File"))
-        }
-
-        # Exit the cycle, if everything is selected correctly
-        if (break_cycle == "yes") {
-            break
-        }
+    # If canceled
+    if (nchar(file_name) == 0) {
+        Message("Canceled. Object was not saved.", type = "warning")
+        return()
     }
 
     # Change these lines: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     make_relative = TRUE
 
     if (make_relative) {
+        # file_name <- fs::path_rel(file_name)
         file_name <- make_relative_path(file_name)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     command <- str_glue("## Save data to 'Rds' file\n",
-                        'saveRDS({activeDataSet()}, file = "{file_name}")')
+                        'saveRDS({.ds}, file = "{file_name}")')
     doItAndPrint(command)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_export_to_rdata <- function() {
-    file_name <- ""
-    while (TRUE) {
-        break_cycle <- "yes"
-
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        file_name <- tclvalue(tkgetSaveFile(
-            title = "Save data to R file '.RData'",
-            initialfile =
-                if (nchar(trimws(file_name)) > 0) {
-                    extract_filename(file_name)
-                } else {
-                    activeDataSet()
-                },
-            filetypes = "{ {RData file} {.Rdata .RData .Rda} } { {All Files} * }"))
+window_export_to_rdata  <- function() {
+    window_export_to_rdata_0(ds_name = activeDataSet())
+}
 
 
-        # If canceled
-        if (nchar(trimws(file_name)) == 0) {
-            Message("Operation canceled, object was not saved.",
-                    type = "warning")
-            return()
-        }
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_export_to_rdata_0 <- function(ds_name = activeDataSet()) {
+    file_name <- ds_name
+    .ds <- safe_names(ds_name)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    file_name <- get_filename_to_save(
+        title = "Save data to R Data file",
+        file_name = file_name,
+        filetypes = "{ {RData file} {.RData} } { {All Files} * }",
+        defaultextension = "RData"
+    )
 
-        # Add extension if missing
-        if (!grepl("\\.[Rr][Dd][Aa]([Tt][Aa])?$", file_name)) {
-            # Add extension
-            file_name <- paste0(file_name, ".RData")
-
-            # Check if a file with the same name exists
-            if (file.exists(file_name))
-                break_cycle <- tclvalue(Rcmdr::checkReplace(
-                    str_glue('"{file_name}"'), type = "File"))
-        }
-
-        # Exit the cycle, if everything is selected correctly
-        if (break_cycle == "yes") {
-            break
-        }
+    # If canceled
+    if (nchar(file_name) == 0) {
+        Message("Canceled. Object was not saved.", type = "warning")
+        return(NULL)
     }
 
     # Change these lines: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     make_relative = TRUE
 
     if (make_relative) {
+        # file_name <- fs::path_rel(file_name)
         file_name <- make_relative_path(file_name)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    command <- str_glue("## Save data to 'RData' file\n",
-                        'save({activeDataSet()}, file = "{file_name}")') %>%
+    command <- str_glue(
+        "## Save data to 'RData' file\n",
+        'save({.ds}, file = "{file_name}")') %>%
         style_cmd()
+
     doItAndPrint(command)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
@@ -312,12 +287,12 @@ window_export_to_textfile <- function() {
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         command <- str_glue("## Save data to text file \n",
-                        "write.table({dsname}, file = '{saveFile}', \n",
-                        "sep = '{sep}', \n",
-                        "col.names = {col}, \n",
-                        "row.names = {row}, \n",
-                        "quote = {quote}, \n",
-                        "na = '{missing}')") %>%
+                            "write.table({dsname}, file = '{saveFile}', \n",
+                            "sep = '{sep}', \n",
+                            "col.names = {col}, \n",
+                            "row.names = {row}, \n",
+                            "quote = {quote}, \n",
+                            "na = '{missing}')") %>%
             style_cmd()
 
         justDoIt(command)
