@@ -22,20 +22,30 @@
 #' @import purrr
 #' @import nortest
 #' @import RcmdrPlugin.EZR
+
 # @import Rcmdr
 # @import biostat
 
-
 NULL
 
-# .onLoad <- function(...){
-#
-# }
 
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .onAttach <- function(libname, pkgname) {
     if (!interactive()) {
         return()
+    }
+
+    # Functions
+    is_open_commander <- function() {
+        if (!"package:Rcmdr" %in% search()) {
+            return(FALSE)
+        }
+
+        rez <- try(Rcmdr::CommanderWindow(), silent = TRUE)
+        if (inherits(rez, "try-error")) {
+            rez <- NULL
+        }
+        is.null(rez)
     }
 
     # Current options
@@ -46,14 +56,14 @@ NULL
         Rcmdr_opts <- list(plugins = NULL)
     }
 
+    # Plugins to add
     add_plugins <- "RcmdrPlugin.biostat"
 
     # Add plugins in certain order
     plugins <- c(
         setdiff(Rcmdr_opts$plugins, add_plugins),
-        rev(sort(add_plugins)))
-
-    # plugins <- unique(c(Rcmdr_opts$plugins, pkgname))
+        rev(sort(add_plugins))
+    )
 
     # Open 3-window Rcmdr, if options is not defined
     if (is.null(Rcmdr_opts$console.output)) {
@@ -63,21 +73,17 @@ NULL
         console.output <- Rcmdr_opts$console.output
     }
 
-    updated_opts <- utils::modifyList(
-        Rcmdr_opts,
-        list(plugins = plugins, console.output = console.output))
+    updated_opts <-
+        utils::modifyList(
+            Rcmdr_opts,
+            list(plugins = plugins, console.output = console.output)
+        )
 
     if (!identical(Rcmdr_opts, updated_opts)) {
         # Set new options and restart R Commander
         options(Rcmdr = updated_opts)
 
-        if ("package:Rcmdr" %in% search()) {
-            # if (!Rcmdr::getRcmdr("autoRestart")) {
-            #     Rcmdr::closeCommander(ask = FALSE, ask.save = TRUE)
-            #     Rcmdr::Commander()
-            # }
-
-        } else {
+        if (!is_open_commander()) {
             Rcmdr::Commander()
         }
     }
@@ -93,31 +99,9 @@ NULL
 
 }
 
-# if (Rcmdr::closeCommander(ask = TRUE, ask.save = TRUE) == "ok") {
-#     # stringr::str_subset(.packages(), "RcmdrPlugin")
-#     detach("package:RcmdrPlugin.EZR", unload = TRUE, force = TRUE)
-#     Rcmdr::Commander()
-# }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-# add_plugins <-
-#     unname(grep("RcmdrPlugin.(KMggplot2|EZR.2|biostat)",
-#                 installed.packages()[ , 1],
-#                 value = TRUE))
-
-# # Enamble enhanced Dataset button
-# res <- try(Rcmdr::getRcmdr("dataSetLabel"), silent = TRUE)
-#
-# if (!inherits(res, "try-error")) {
-#     tkconfigure(res,
-#                 # foreground = "darkred",
-#                 image = "::image::bs_dataset",
-#                 compound = "left",
-#                 command = window_dataset_select)
-# }
-
-# # Change theme, if not set
-# if (is.null(options()$Rcmdr$theme)) {
-#     tcltk2::tk2theme("clearlooks")
-# }
+restart_commander <- function() {
+    Rcmdr::closeCommander(ask = FALSE, ask.save = TRUE)
+    Rcmdr::Commander()
+}
 
