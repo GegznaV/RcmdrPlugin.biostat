@@ -27,7 +27,7 @@ command_model_std_lm_coeffs <- function() {
 #' @keywords internal
 command_model_get_class <- function() {
     doItAndPrint(str_glue(
-        "## The class(es) of the model\n",
+        "## The class of the model\n",
         "class({ActiveModel()})"))
 }
 
