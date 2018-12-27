@@ -315,7 +315,7 @@ item	bs_assoc_menu	command	"Pearson's linear correlation... [EZR]"	StatMedCorrel
 item	bs_assoc_menu	command	"Spearman's/Kendall's rank correlation... [EZR]"	StatMedSpearman	"activeDataSetP()"	""
 item	bs_assoc_menu	separator	""	""	""	""
 item	bs_assoc_menu	command	"[???] Association between categorical variables..."	window_summary_count	"activeDataSetP()"	""
-item	bs_assoc_menu	command	"[???] Kappa... [EZR]"	function_not_implemented	"activeDataSetP()"	""
+# item	bs_assoc_menu	command	"[???] Kappa... [EZR]"	function_not_implemented	"activeDataSetP()"	""
 
 
 
