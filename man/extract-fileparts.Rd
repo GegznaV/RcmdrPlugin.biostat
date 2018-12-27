@@ -5,6 +5,7 @@
 \alias{extract-fileparts}
 \alias{extract_filename}
 \alias{extract_extension}
+\alias{path_ext_set_2}
 \title{Extract file parts.}
 \usage{
 extract_path(str)
@@ -12,6 +13,8 @@ extract_path(str)
 extract_filename(str)
 
 extract_extension(str)
+
+path_ext_set_2(path, ext)
 }
 \arguments{
 \item{str}{(character) Path to file (with filename and extension).}
