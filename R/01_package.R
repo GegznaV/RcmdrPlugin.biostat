@@ -21,8 +21,8 @@
 #' @import stringr
 #' @import purrr
 #' @import nortest
-#' @import RcmdrPlugin.EZR
 
+# @import RcmdrPlugin.EZR
 # @import Rcmdr
 # @import biostat
 
