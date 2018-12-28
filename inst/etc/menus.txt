@@ -249,15 +249,15 @@ item	bs_plots_menu	command	"Open a new window for plots"	open_new_plots_window	"
 
 
 item	bs_plots_menu	separator	""	""	""	""
-item	bs_plots_menu	command	"Open image digtizer (in web browser)..."	window_image_digitizer_online	""	""
+item	bs_plots_menu	command	"Digitize image (offline)..."	window_plots_image_digitizer	""	"packageAvailable('digitizeR')"
+item	bs_plots_menu	command	"Digitize image (online)..."	window_online_image_digitizer	""	""
 # item	import_menu	command	"Digitize image..."	window_dataset_digitizer_web	""	"packageAvailable('digitizeR')"
 
 
 
 item	bs_plots_menu	separator	""	""	""	""
 # item	bs_plots_menu	command	"[???] Visualize color names & color codes (example)"	window_show_colors	""	""
-item	bs_plots_menu	command	"[???] Save editable plot..."	function_not_implemented	"FALSE"	""
-
+item	bs_plots_menu	command	"[???] Save editable plot..."	function_not_implemented	"FALSE"	"packageAvailable('officer') && packageAvailable('rvg')"
 
 
 # . ===========================================================================
@@ -433,43 +433,6 @@ item	bs_windows_mode	command	"1 window (output to console)"	command_use_1_window
 item	bs_windows_mode	command	"3 windows (output to Rcmdr)"	command_use_3_window_rcmdr	""	""
 
 
-# . ===========================================================================
-menu	bs_online_menu	biostat_menu	""	""	""	""
-item	biostat_menu	cascade	"On-line"	bs_online_menu	""	""
-
-
-# active dataset
-
-item	bs_online_menu	command	"Import from clipboard"  window_import_text_delim_clipboard 	""	""
-item	bs_online_menu	command	"Export to clipboard"  export_to_clipboard_active_ds_tab 	"activeDataSetP()"	""
-item	bs_online_menu	separator	""	""	""	""
-
-
-menu	bs_online_tools_menu	topMenu	""	""	""	""
-item	bs_online_menu	cascade	"Applications on-line"	bs_online_tools_menu	""	""
-
-item	bs_online_tools_menu	command	"GeoGebra: probability calculator"  window_online_geogebra_probability 	""	""
-item	bs_online_tools_menu	command	"Image digitizer"  window_image_digitizer_online	""	""
-item	bs_online_tools_menu	command	"Multivariate normality tests"  window_online_mvn	""	""
-# item	bs_online_tools_menu	separator	""	""	""	""
-# item	bs_online_tools_menu	command	"ROC analysis: Time dependant ROC"  window_online_tdROC	""	""
-item	bs_online_tools_menu	command	"ROC analysis: Easy ROC"  window_online_easyROC	""	""
-
-
-menu	bs_downlaod_menu	topMenu	""	""	""	""
-item	bs_online_menu	cascade	"Applications to download"	bs_downlaod_menu	""	""
-
-item	bs_downlaod_menu	command	"Cluster analysis: Orange"  window_online_orange	""	""
-item	bs_downlaod_menu	command	"Power analysis: G*Power"  window_online_gpower	""	""
-
-
-menu	bs_websites_menu	topMenu	""	""	""	""
-item	bs_online_menu	cascade	"Websites"	bs_websites_menu	""	""
-
-item	bs_websites_menu	command	"Extensions for ggplot2"  window_online_ggplot2_ext	""	""
-item	bs_websites_menu	command	"Plotly for R"  window_online_plotly	""	""
-
-
 # . ==========================================================================
 # ---- >>> About -------------------------------------------------------------
 menu	bs_about_menu	biostat_menu	""	""	""	""
@@ -481,3 +444,79 @@ item	bs_about_menu	command 'About package "RcmdrPlugin.biostat"'	window_about_pa
 item	bs_about_menu	separator	""	""	""	""
 item	bs_about_menu	command	"Print session information: devtools style"	command_session_info_devtools	""	""
 item	bs_about_menu	command	"Print session information: base R style"	command_session_info_utils	""	""
+
+
+# . ===========================================================================
+# ---- >>> Tools: Online menu -------------------------------------------------
+
+item	toolsMenu	separator	""	""	""	""
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+menu	bs_online_menu	toolsMenu	""	""	""	""
+item	toolsMenu	cascade	"On-line tools [BioStat]"	bs_online_menu	""	""
+
+
+# active dataset
+
+# item	bs_online_menu	command	"Import from clipboard"  window_import_text_delim_clipboard 	""	""
+# item	bs_online_menu	command	"Export to clipboard"  export_to_clipboard_active_ds_tab 	"activeDataSetP()"	""
+# item	bs_online_menu	separator	""	""	""	""
+
+
+menu	bs_online_tools_menu	topMenu	""	""	""	""
+item	bs_online_menu	cascade	"Applications"	bs_online_tools_menu	""	""
+
+item	bs_online_tools_menu	command	"Import data from image: WebPlotDigitizer"  window_online_image_digitizer	""	""
+item	bs_online_tools_menu	command	"Multivariate normality tests"  window_online_mvn	""	""
+item	bs_online_tools_menu	command	"Probability calculator: GeoGebra"  window_online_geogebra_probability 	""	""
+item	bs_online_tools_menu	command	"ROC analysis: Easy ROC"  window_online_easyROC	""	""
+# item	bs_online_tools_menu	separator	""	""	""	""
+# item	bs_online_tools_menu	command	"ROC analysis: Time dependant ROC"  window_online_tdROC	""	""
+
+
+menu	bs_downlaod_menu	topMenu	""	""	""	""
+item	bs_online_menu	cascade	"Applications to download"	bs_downlaod_menu	""	""
+
+item	bs_downlaod_menu	command	"Basic Excel R toolkit: BERT"  window_online_bert	""	""
+item	bs_downlaod_menu	command	"Cluster analysis: Orange"  window_online_orange	""	""
+item	bs_downlaod_menu	command	"Power analysis: G*Power"  window_online_gpower	""	""
+item	bs_downlaod_menu	command	"Probability calculator: GeoGebra Classic 6"  window_online_geogebra_download	""	""
+item	bs_downlaod_menu	command	"Scientific data analysis: PAST"  window_online_past_download	""	""
+# item	bs_downlaod_menu	separator	""	""	""	""
+
+
+
+menu	bs_forums_menu	topMenu	""	""	""	""
+item	bs_online_menu	cascade	"Forums"	bs_forums_menu	""	""
+
+item	bs_forums_menu	command	"Stack Overflow (for programmers, R users)"  window_online_stackoverflow	""	""
+item	bs_forums_menu	command	"Cross Validated (for data analysis, statistics)"  window_online_crossvalidated	""	""
+
+
+
+menu	bs_r_ext_menu	topMenu	""	""	""	""
+item	bs_online_menu	cascade	"R extensions"	bs_r_ext_menu	""	""
+
+item	bs_r_ext_menu	command	"Tidyverse"  window_online_tidyverse	""	""
+
+item	bs_r_ext_menu	separator	""	""	""	""
+item	bs_r_ext_menu	command	"Extensions for ggplot2"  window_online_ggplot2_ext	""	""
+item	bs_r_ext_menu	command	"Plotly for R"  window_online_plotly	""	""
+
+
+
+menu	bs_r_news_menu	topMenu	""	""	""	""
+item	bs_online_menu	cascade	"R news & turorials"	bs_r_news_menu	""	""
+
+item	bs_r_news_menu	command	"Bookdown (books about R)"  window_online_bookdown	""	""
+item	bs_r_news_menu	command	"STHDA website (tutorials)"  window_online_sthda	""	""
+item	bs_r_news_menu	separator	""	""	""	""
+
+item	bs_r_news_menu	command	"R Bloggers (tutorials, news)"  window_online_r_bloggers	""	""
+item	bs_r_news_menu	command	"R Weekly (news, tutorials)"  window_online_rweekly	""	""
+item	bs_r_news_menu	separator	""	""	""	""
+
+item	bs_r_news_menu	command	"R project (news, downloads)"  window_online_r_project	""	""
+item	bs_r_news_menu	command	"RStudio learning (tutorials)"  window_online_rstudio_learning	""	""
+
+
