@@ -1,4 +1,3 @@
-
 get_filename_to_save <- function(
     file_name = "",
     filetypes = "{ {All Files} * }",
