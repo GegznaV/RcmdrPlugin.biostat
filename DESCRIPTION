@@ -21,8 +21,8 @@ Depends:
     R (>= 3.3.0),
     tcltk,
     tcltk2 (>= 1.2-11),
-    Rcmdr,
-    RcmdrPlugin.EZR
+    RcmdrPlugin.EZR,
+    Rcmdr
 Imports:
     binom,
     boot,
