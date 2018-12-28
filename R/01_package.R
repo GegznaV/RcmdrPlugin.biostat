@@ -35,19 +35,6 @@ NULL
         return()
     }
 
-    # Functions
-    is_open_commander <- function() {
-        if (!"package:Rcmdr" %in% search()) {
-            return(FALSE)
-        }
-
-        rez <- try(Rcmdr::CommanderWindow(), silent = TRUE)
-        if (inherits(rez, "try-error")) {
-            rez <- NULL
-        }
-        is.null(rez)
-    }
-
     # Current options
     Rcmdr_opts <- options()$Rcmdr
 
@@ -83,7 +70,7 @@ NULL
         # Set new options and restart R Commander
         options(Rcmdr = updated_opts)
 
-        if (!is_open_commander()) {
+        if (!"package:Rcmdr" %in% search()) {
             Rcmdr::Commander()
         }
     }
