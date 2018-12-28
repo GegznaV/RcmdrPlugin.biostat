@@ -10,12 +10,20 @@ bs_tk_textbox <- function(
     label_position = c("left", "above", "right", "none"),
     label_color = getRcmdr("title.color"),
     padx = 0,
-    pady = 5,
+    pady = 0,     # pady = 5,
     sticky = "w",
     main_frame  = tkframe(parent),
     text_frame  = tkframe(main_frame),
     label_frame = tkframe(main_frame),
     tip = "",
+    on_click           = function() {},
+    on_double_click    = function() {},
+    on_triple_click    = function() {},
+    on_release         = function() {},
+    on_click_3         = function() {},
+    on_double_click_3  = function() {},
+    on_triple_click_3  = function() {},
+    on_release_3       = function() {},
     ...
 
 ) {
@@ -66,6 +74,10 @@ bs_tk_textbox <- function(
         tkgrid(obj_text,  sticky = sticky)
     }
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    bind_mouse_keys(obj_text)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     structure(list(
         frame       = main_frame,
         frame_text  = text_frame,
@@ -84,8 +96,8 @@ bs_tk_textbox <- function(
 #' @export
 #' @keywords internal
 set_values.bs_tk_textbox <- function(obj, values, ...) {
-    if (is.null(value)) {
-        value <- ""
+    if (is.null(values)) {
+        values <- ""
     }
     tclvalue(obj$var_text) <- values
 }
