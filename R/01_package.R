@@ -9,22 +9,22 @@
 #' plug-in for the most common data wrangling, visualisation and analysis tasks
 #' using "tidyverse" family functions as well as functions from other packages.
 #'
-#' @importFrom glue glue
-#' @importFrom dplyr glimpse is_grouped_df
-#' @importFrom magrittr "%>%"  "%<>%"  "%T>%"  "%$%"
-#' @importFrom Rcmdr activeDataSet
-#' @importFrom graphics plot
-#' @importFrom stats p.adjust.methods C
-#' @importFrom utils browseURL packageVersion data installed.packages modifyList
-#' @import tcltk
+#' @rawNamespace import(tcltk, except = c(tkfocus, tclvalue, ttkentry))
+#' @import Rcmdr
 #' @import tcltk2
 #' @import stringr
 #' @import purrr
 #' @import nortest
+#' @importFrom glue glue
+#' @importFrom dplyr glimpse is_grouped_df
+#' @importFrom magrittr "%>%"  "%<>%"  "%T>%"  "%$%"
+#' @importFrom graphics plot
+#' @importFrom stats p.adjust.methods C
+#' @importFrom utils browseURL packageVersion data installed.packages modifyList
 
-# @import RcmdrPlugin.EZR
-# @import Rcmdr
+# @importFrom Rcmdr activeDataSet
 # @import biostat
+# @import RcmdrPlugin.EZR
 
 NULL
 
