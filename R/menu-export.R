@@ -336,6 +336,27 @@ window_export_to_textfile <- function() {
     dialogSuffix()
 }
 
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+export_to_clipboard <- function(ds_name = ActiveDataSet(), sep = ",") {
+    try(
+        clipr::write_clip(get(ds_name, envir = .GlobalEnv), sep = sep),
+        silent = TRUE
+    )
+}
+
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+export_to_clipboard_active_ds_tab <- function() {
+    try(
+        clipr::write_clip(get(ActiveDataSet(), envir = .GlobalEnv), sep = "\t"),
+        silent = TRUE)
+}
+
+# ===========  . =================================================================
 # work around for bug in Tk getSaveFile  # (Form Rcmdr)
 removeRedundantExtension <- function(file) {
     find.ext <- regexpr("\\.(?:.(?!\\.))+$", file, perl = TRUE)
