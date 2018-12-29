@@ -145,10 +145,14 @@
 \usage{
 bs_tk_textbox(parent = top, width = "28", value = "", label = "",
   label_position = c("left", "above", "right", "none"),
-  label_color = getRcmdr("title.color"), padx = 0, pady = 5,
+  label_color = getRcmdr("title.color"), padx = 0, pady = 0,
   sticky = "w", main_frame = tkframe(parent),
   text_frame = tkframe(main_frame), label_frame = tkframe(main_frame),
-  tip = "", ...)
+  tip = "", on_click = function() { }, on_double_click = function() {
+  }, on_triple_click = function() { }, on_release = function() { },
+  on_click_3 = function() { }, on_double_click_3 = function() { },
+  on_triple_click_3 = function() { }, on_release_3 = function() { },
+  ...)
 
 \method{set_values}{bs_tk_textbox}(obj, values, ...)
 
