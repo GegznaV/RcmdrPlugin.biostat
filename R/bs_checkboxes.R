@@ -88,16 +88,21 @@ bs_checkboxes <- function(
         commands)
 
     # Manage `tips` ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (length(tips) > 0 && !all(names(tips) %in% boxes)) {
+    if (is.null(names(tips)) && (length(tips) == length(boxes))) {
+        tips <- as.list(tips)
+
+    } else if (length(tips) > 0 && !all(names(tips) %in% boxes)) {
         stop(
             "Argument `tips` must be a named list of strings.  ",
             "The element names must be a subset of: ",
             paste(boxes, collapse = ", "), ". Unrecognized names: ",
             paste(setdiff(names(tips), boxes), collapse = ", "), "."
         )
+
+    } else {
+        tips <- modifyList(map(boxes_list, function(x) default_tip), tips)
     }
 
-    tips <- modifyList(map(boxes_list, function(x) default_tip), tips)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     values <-
