@@ -284,7 +284,7 @@ window_import_from_text_delim <- function() {
 
                 # Red font:
                 tktag.add(f00_txt, "tmp", "1.0", "end")
-                tktag.configure(f00_txt, "tmp", foreground = "red")
+                tktag.configure(f00_txt, "tmp", foreground = "red", justify = "center")
 
 
             } else {
