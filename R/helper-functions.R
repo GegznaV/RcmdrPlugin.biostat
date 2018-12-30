@@ -574,6 +574,12 @@ path_ext_set_2 <- function(path, ext) {
     fs::path(fs::path_dir(path), fs::path_ext_set(fs::path_file(path), ext = ext))
 }
 
+#' @rdname extract-fileparts
+#' @keywords internal
+#' @export
+is_url <- function(str) {
+    str_detect(str, "^(http://|https://|ftp://|ftps://)")
+}
 
 # ___ Check ___ ==============================================================
 #' @rdname Helper-functions
