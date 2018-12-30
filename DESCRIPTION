@@ -62,6 +62,5 @@ Suggests:
     extrafont,
     knitr,
     rmarkdown,
-    rvg,
-    digitizeR
+    rvg
 RoxygenNote: 6.1.1
