@@ -1,6 +1,105 @@
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
+bs_entry <- function(
+
+    parent = top,
+    width = "28",
+    value = "",
+    label = "",
+    label_position = c("left", "above", "right", "none"),
+    label_color = getRcmdr("title.color"),
+    padx = 0,
+    pady = 0,     # pady = 5,
+    sticky = "w",
+    sticky_label = sticky,
+    sticky_text  = sticky,
+    main_frame  = tk2frame(parent),
+    text_frame  = tk2frame(main_frame),
+    label_frame = tk2frame(main_frame),
+    tip       = "",
+    label_tip = "",
+    on_click           = function() {},
+    on_double_click    = function() {},
+    on_triple_click    = function() {},
+    on_release         = function() {},
+    on_click_3         = function() {},
+    on_double_click_3  = function() {},
+    on_triple_click_3  = function() {},
+    on_release_3       = function() {},
+    ...
+
+) {
+    label_position <- match.arg(label_position)
+
+    var_text <- tclVar(value)
+
+    obj_text <- tk2entry(
+        parent       = text_frame,
+        tip          = tip,
+        width        = width,
+        textvariable = var_text,
+        ...
+    )
+
+    obj_label <- tk2label(
+        parent     = label_frame,
+        text       = gettext_bs(label),
+        foreground = label_color,
+        tip        = label_tip
+    )
+
+    if (nchar(label) > 0) {
+
+        switch(label_position,
+               "above" = {
+                   if (length(pady) == 1) {
+                       pady <- c(pady, pady)
+                   }
+                   tkgrid(label_frame, sticky = sticky, padx = padx, pady = c(pady[1], 0))
+                   tkgrid(text_frame,  sticky = sticky, padx = padx, pady = c(0, pady[2]))
+                   tkgrid(obj_text,    sticky = sticky_text)
+               },
+
+               "left" = {
+                   tkgrid(label_frame, text_frame, sticky = sticky,
+                          padx = padx, pady = pady)
+                   tkgrid(obj_text, sticky = sticky_text, padx = c(5, 0))
+               },
+
+               "right" = {
+                   tkgrid(text_frame, label_frame, sticky = sticky,
+                          padx = padx, pady = pady)
+                   tkgrid(obj_text, sticky = sticky_text, padx = c(0, 5))
+               }
+        )
+        tkgrid(obj_label, sticky = sticky_label)
+
+    } else {
+        tkgrid(text_frame, sticky = sticky, padx = padx, pady = pady)
+        tkgrid(obj_text,  sticky = sticky_text)
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    bind_mouse_keys(obj_text)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    structure(list(
+        frame       = main_frame,
+        frame_text  = text_frame,
+        frame_label = label_frame,
+
+        var_text  = var_text,
+        obj_text  = obj_text,
+        obj_label = obj_label
+    ),
+    class = c("bs_tk_textbox", "bs_tk_widget", "list"))
+}
+
+# ============================================================================
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 bs_tk_textbox <- function(
 
     parent = top,
