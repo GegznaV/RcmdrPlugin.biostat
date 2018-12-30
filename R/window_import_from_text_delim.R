@@ -259,6 +259,8 @@ window_import_from_text_delim <- function() {
         if (fs::file_exists(filename) || is_url(filename)) {
             ds_contents <- data.table::fread(filename, data.table = FALSE)
 
+            op <- options(width = 10000)
+
             ds_preview <-
                 capture.output(
                     print(tibble::as_tibble(ds_contents),
@@ -267,6 +269,9 @@ window_import_from_text_delim <- function() {
                 str_subset("^(?!# A tibble.*)") %>%
                 str_replace( "^# \\.\\.\\. with.*",
                              "... Other rows are not shown ...")
+
+            options(op)
+
 
             if (length(ds_preview) <= 1) {
                 # If no preview available
