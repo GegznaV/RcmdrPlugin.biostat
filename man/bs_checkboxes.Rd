@@ -8,7 +8,7 @@ bs_checkboxes(parent = top, boxes, labels = boxes, title = NULL,
   values = NULL, default_value = "0", commands = list(),
   default_command = function() { }, tips = list(), default_tip = "",
   border = FALSE, layout = c("vertical", "horizontal"),
-  buttons_sticky = "w", title_sticky = "w")
+  sticky_buttons = "e", sticky_title = "w")
 }
 \arguments{
 \item{parent}{Parent frame.}
@@ -36,9 +36,9 @@ The names must match the values of "boxes".}
 
 \item{layout}{(string) One of "vertical" (default) and "horizontal".}
 
-\item{buttons_sticky}{(string) `sticky` option for buttons.}
+\item{sticky_buttons}{(string) `sticky` option for buttons.}
 
-\item{title_sticky}{(string) `sticky` option for title (if no border is used).}
+\item{sticky_title}{(string) `sticky` option for title (if no border is used).}
 }
 \value{
 A named list with fields `frame` (frame with the checkboxes),
@@ -62,9 +62,7 @@ tcltk::tkgrid(boxes_2$frame)
 
 
 top <- tcltk::tktoplevel()
-boxes_3 <- bs_checkboxes(top, c("A", "B", "C"), layout = "h",
-                         title = "Buttons", buttons_sticky = "")
+boxes_3 <- bs_checkboxes(top, c("A", "B", "C"), layout = "h", title = "Buttons")
 tcltk::tkgrid(boxes_3$frame)
-
 
 }

@@ -140,7 +140,6 @@
 \alias{tk_title}
 \alias{bs_title}
 \alias{radioButtons_horizontal}
-\alias{radiobuttons_env}
 \alias{ok_cancel_help}
 \alias{tk_widget_modify_names}
 \alias{tk_widget_boxes_y_gr}
@@ -474,13 +473,6 @@ radioButtons_horizontal(window = top, name = stop("name not supplied"),
   initialValue = ..values[1], labels = stop("labels not supplied"),
   title = NULL, title.color = NULL, right.buttons = FALSE,
   command = function() { }, sticky_title = "w", sticky_buttons = "e")
-
-radiobuttons_env(window = top, name = stop("name not supplied"),
-  buttons = stop("buttons not supplied"), values = NULL,
-  initialValue = ..values[1], labels = stop("labels not supplied"),
-  title = "", title.color = getRcmdr("title.color"),
-  right.buttons = FALSE, command = function() { },
-  env = parent.frame())
 
 ok_cancel_help(window = top, helpSubject = NULL, model = FALSE,
   reset = NULL, apply = NULL, helpPackage = NULL, sticky = "w",
