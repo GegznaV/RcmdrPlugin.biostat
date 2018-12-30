@@ -167,5 +167,52 @@ bs_checkboxes <- function(
         var   = structure(vars, names = boxes),
         obj   = structure(objs, names = boxes)
     ),
-    class = c("bs_check_boxes", "bs_tk_widget", "list"))
+    class = c("bs_checkboxes", "bs_tk_buttonset", "bs_tk_widget", "list"))
 }
+
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+get_values.bs_checkboxes <- function(obj, ...) {
+    map(obj$var, tclvalue_lgl)
+}
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.set_values <- function(obj_list, values, FUN) {
+
+    if (all(names(values) %in% names(obj_list))) {
+
+        to_modify <- obj_list[names(values)]
+        new_vals <- modifyList(map(to_modify, tclvalue_lgl), values)
+        pmap(list(to_modify, new_vals), FUN)
+
+    } else {
+        stop("Possibly misspelled names: ",
+             setdiff(names(values), names(obj_list)) %>% str_c(collapse = ", "),
+             ".",
+             call. = FALSE
+        )
+    }
+}
+
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+set_values.bs_checkboxes <- function(obj, values, ...) {
+
+    if (!missing(values)) {
+        checkmate::assert_list(values)
+
+    } else {
+        values <- list(...)
+    }
+
+    .set_values(obj$var, values, function(.x, .y) tclvalue(.x) <- .y)
+
+}
+
