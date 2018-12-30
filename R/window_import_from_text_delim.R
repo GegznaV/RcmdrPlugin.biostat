@@ -329,21 +329,16 @@ window_import_from_text_delim <- function() {
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     update_name <- function(variables) {
-
         filename <- get_values(f1_ent_1_2)
-
         if (filename != "") {
-
             new_name <-
                 filename %>%
                 fs::path_file() %>%
                 fs::path_ext_remove() %>%
                 clean_str() %>%
                 unique_df_name()
-
             set_values(f1_ent_2_2, new_name)
         }
-
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     update_all <- function() {
@@ -372,54 +367,6 @@ window_import_from_text_delim <- function() {
     )
     initial <- getDialog("window_import_from_text_delim", defaults)
 
-
-
-
-
-    # initialize values
-    cb <- NULL
-
-    nrows <- 50
-
-    dec0 <- c(".", ",")
-    dec1 <- c("Period ( . )", "Comma ( , )")
-
-    sep0 <- c("auto", " ", "\t", ",", ";", "|", NA)
-    sep1 <- c("Auto", "White space ( )", "Tab ( \\t )", "Comma ( , )", "Semicolon ( ; )", "Pipe ( | )", "Custom\u2026")
-
-    nas0 <- c("NA", "na", "N/A", "n/a", NA)
-    nas1 <- c("NA", "na", "N/A", "n/a", "Custom\u2026")
-
-    quo0 <- c("\"", "'", "", NA)
-    quo1 <- c("Double ( \" )", "Single ( \' )", "None", "Custom\u2026" )
-
-    max1  <- c("All",  "Custom\u2026")
-    skip1 <- c("Auto", "Custom\u2026")
-
-    # com0 <- c("#", "!", "\\", "~", NA)
-    # com1 <- c(
-    #     "#",
-    #     "!",
-    #     "\\\\",
-    #     "~",
-    #     "Custom\u2026"
-    # )
-
-    enc0 <- c("unknown", "UTF-8", "Latin-1")
-    enc1 <- enc0
-
-    # assign variables linked to Tk widgets
-    table_var   <- tclArray()
-
-
-    # nrow_var    <- tclVar()
-    # source_var  <- tclVar()
-    # sep_var     <- tclVar()
-    # nas_var     <- tclVar()
-    # com_var     <- tclVar()
-    # tt_done_var <- tclVar(0)
-    # skip_var    <- tclVar(FALSE)
-    # str_as_fact_var <- tclVar(0)
 
     # ... Widgets ============================================================
     # Widgets ----------------------------------------------------------------
@@ -452,6 +399,30 @@ window_import_from_text_delim <- function() {
 
 
     # frame 3, import parameters ------------ ---------------------------------
+
+
+    # initialize values
+    cb <- NULL
+
+    nrows <- 50
+
+    dec0 <- c(".", ",")
+    dec1 <- c("Period ( . )", "Comma ( , )")
+
+    sep0 <- c("auto", " ", "\t", ",", ";", "|", NA)
+    sep1 <- c("Auto", "White space ( )", "Tab ( \\t )", "Comma ( , )", "Semicolon ( ; )", "Pipe ( | )", "Custom\u2026")
+
+    nas0 <- c("NA", "na", "N/A", "n/a", "#N/A", "?", "", NA)
+    nas1 <- c("NA", "na", "N/A", "n/a", "#N/A", "?", "", "Custom\u2026")
+
+    quo0 <- c("\"", "'", "", NA)
+    quo1 <- c("Double ( \" )", "Single ( \' )", "None", "Custom\u2026" )
+
+    max1  <- c("All",  "Custom\u2026")
+    skip1 <- c("Auto", "Custom\u2026")
+
+    enc0 <- c("unknown", "UTF-8", "Latin-1")
+    enc1 <- enc0
 
     head1 = c("Auto", "Yes", "No")
     out1 = c("Data frame", "Data table")
@@ -501,7 +472,7 @@ window_import_from_text_delim <- function() {
     f3_lab_dec  <- tk2label(f3, text = "Decimal")
     f3_lab_sep  <- tk2label(f3, text = "Separator")
     f3_lab_skip <- tk2label(f3, text = "Skip lines")
-    f3_lab_max  <- tk2label(f3, text = "Max lines")
+    f3_lab_max  <- tk2label(f3, text = "Max. lines")
     f3_lab_na   <- tk2label(f3, text = "NA string")
     f3_lab_enc  <- tk2label(f3, text = "Encoding")
     f3_lab_quo  <- tk2label(f3, text = "Quote")
@@ -563,7 +534,6 @@ window_import_from_text_delim <- function() {
         padx = c(2, 0)
     )
 
-
     list(f3_ent_sep, f3_ent_skip, f3_ent_max, f3_ent_na, f3_ent_quo) %>%
         walk(tk_disable)
 
@@ -571,38 +541,53 @@ window_import_from_text_delim <- function() {
     f3_opts <- bs_checkboxes(
         parent = f3,
         boxes = c("check_names",
-                  "stringsAsFactors",
                   "strip_white",
-                  "blank_lines_skip"
-                  # , "fill"
+                  "blank_lines_skip",
+                  "fill",
+                  "logical01",
+                  "stringsAsFactors"
         ),
-        values = c(0, 0, 1, 0),
+        values = c(0, 1, 0, 0, 0, 0),
         # commands      = list("check_locale_" = cmd_checkbox),
         labels = gettext_bs(c(
-            "Check names",
-            "Convert strings to factors",
+            "Check and adjust names",
             "Strip leading and tailing spaces",
-            "Skip empty lines"
+            "Skip empty lines",
+            "Fill unequal length rows",
+            "Read 0/1 as FALSE/TRUE",
+            "Convert strings to factors"
         )),
 
         tips = list(
             "check_names" = str_c(
-                "Check variable names to ensure that they   \n",
-                "are syntactically valid variable names. If \n",
-                "necessary they are adjusted (by `make.names`)."),
-
-            "stringsAsFactors" = str_c(
-                "Convert strings (text variables) \n",
-                "to factors (categorical variables)."),
+                "Check variable names to ensure that they are syntactically \n",
+                "valid variable names. If necessary they are adjusted\n",
+                "(by function `make.names`)."
+            ),
 
             "strip_white" = str_c(
                 "Strip leading and trailing  \n",
-                "whitespaces of unquoted fields."),
+                "whitespaces of unquoted fields."
+            ),
 
             "blank_lines_skip" = str_c(
                 "Empty lines in the input are ignored."
-            )
-            # , "fill"
+            ),
+
+            "fill" = str_c(
+                "In case the rows have unequal length,\n",
+                "blank fields are implicitly filled."
+            ),
+
+            "logical01" = str_c(
+                "A column containing only 0s and 1s will be \n",
+                "read as logical, otherwise as integer."
+            ),
+
+            "stringsAsFactors" = str_c(
+                "Convert strings (text variables) \n",
+                "to factors (categorical variables).")
+
         ),
     )
 
@@ -620,8 +605,7 @@ window_import_from_text_delim <- function() {
 
     bs_label_b(f0, text = "Dataset") %>% tkgrid()
     f00_txt <- bs_text(f0, width = 70, height = 11, wrap = "none", undo = FALSE,
-                      state = "disabled", font = text_font)
-
+                       state = "disabled", font = text_font)
 
 
     tkgrid(f3, f0, sticky = "nsw", padx = c(0, 5), pady = c(0, 15))
