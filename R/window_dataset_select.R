@@ -135,6 +135,12 @@ window_dataset_select <- function() {
 
     from_text_file <- function() {
         closeDialog()
+        window_import_from_text_delim()
+        # window_dataset_select()
+    }
+
+    from_text_file2 <- function() {
+        closeDialog()
         window_import_text_delim()
         # window_dataset_select()
     }
@@ -246,6 +252,7 @@ window_dataset_select <- function() {
         tkadd(menu_f, "command", label = "from Rds file (.Rds, .rds)..."	        , command = from_rds)
         tkadd(menu_f, "command", label = "from R-data file (.RData, .Rda, .rda)..." , command = from_rdata)
         tkadd(menu_f, "separator")
+        tkadd(menu_f, "command", label = "from text file (.txt, .csv, .dat, etc.) [Rcmdr]"  , command = from_text_file2)
         tkadd(menu_f, "command", label = "from text file (.txt, .csv, .dat, etc.)"  , command = from_text_file)
         tkadd(menu_f, "separator")
         tkadd(menu_f, "command", label = "from Excel file..."                       , command = from_excel)
