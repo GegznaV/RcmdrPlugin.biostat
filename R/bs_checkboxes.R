@@ -57,7 +57,7 @@ bs_checkboxes <- function(
     default_tip     = "",
     border          = FALSE,
     layout          = c("vertical", "horizontal"),
-    sticky_buttons  = "e",
+    sticky_buttons  = "w",
     sticky_title    = "w"
 )
 {
@@ -169,8 +169,6 @@ bs_checkboxes <- function(
     ),
     class = c("bs_checkboxes", "bs_tk_buttonset", "bs_tk_widget", "list"))
 }
-
-
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Helper-functions
