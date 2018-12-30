@@ -53,13 +53,13 @@ bs_radiobuttons <- function(
     value           = buttons[1],
     variable        = NULL,
     title           = NULL,
-    commands        = list(),          # named list of functions
+    commands        = list(),       # named list of functions
     default_command = function() {},
-    tips            = list(), # named list of strings
+    tips            = list(),       # named list of strings
     default_tip     = "",
     border          = FALSE,
     layout          = c("vertical", "horizontal"),
-    sticky_buttons  = "e",
+    sticky_buttons  = "w",
     sticky_title    = "w"
 )
 {
