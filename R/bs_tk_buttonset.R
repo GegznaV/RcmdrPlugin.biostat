@@ -1,5 +1,17 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+# # Examples -----------------------------------------------------------------
+#
+# top <- tcltk::tktoplevel()
+# boxes_3 <- bs_checkboxes(top, c("A", "B", "C"), layout = "h",
+#                         title = "Buttons")
+# tcltk::tkgrid(boxes_3$frame)
+#
+# tk_disable(boxes_3, "A")              # disables box "A".
+# tk_disable(boxes_3, .which = 3)       # disables box No. 3.
+# tk_disable(boxes_3, .which = c("A"))  # disables box "A".
+# tk_disable(boxes_3)                   # disables all boxes.
+
 .check_change_state <- function(obj, ..., .which) {
     if (is.null(.which)) {
         if (length(list(...)) == 0) {
@@ -25,7 +37,6 @@
 
     .which
 }
-
 
 #' @rdname Helper-functions
 #' @export
