@@ -7,11 +7,13 @@ item	topMenu	cascade	"BioStat'19"	biostat_menu	""	""
 # . ==========================================================================
 # ---- >>> File menu ---------------------------------------------------------
 menu	bs_file_menu	biostat_menu	""	""	""	""
-item	biostat_menu	cascade	"File"	bs_file_menu	""	""
+item	biostat_menu	cascade	"File & Session"	bs_file_menu	""	""
 
+# ---- Manage locale ---------------------------------------------------------
+item	bs_file_menu	command	"Locale..."	window_locale_set	""	""
 
 # ---- Manage Working directory ----------------------------------------------
-# item	bs_file_menu	separator	""	""	""	""
+item	bs_file_menu	separator	""	""	""	""
 item	bs_file_menu	command	"Print path to working directory"  command_getwd	""	""
 item	bs_file_menu	command	"Change working directory..."  command_setwd	""	""
 item	bs_file_menu	command	"Open working directory"  command_openwd	""	"packageAvailable('fs')"
@@ -20,6 +22,10 @@ item	bs_file_menu	separator	""	""	""	""
 item	bs_file_menu	command	"Get information about file..."  command_get_file_info	""	"packageAvailable('fs')"
 # item	bs_file_menu	command	"[???] Use absolute/relative path"  function_not_implemented	"FALSE"	""
 
+# ---- Session information ---------------------------------------------------
+item	bs_file_menu	separator	""	""	""	""
+item	bs_file_menu	command	"Print session information: devtools style"	command_session_info_devtools	""	""
+item	bs_file_menu	command	"Print session information: base R style"	command_session_info_utils	""	""
 
 # . ===========================================================================
 # ---- >>> Data --------------------------------------------------------------
@@ -67,7 +73,8 @@ item	import_menu	command	"Create a new dataset... [Rcmdr]"	window_dataset_new_rc
 # ---- Import data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 item	import_menu	separator	""	""	""	""
-item    import_menu      command         "Import from text file (.txt, .csv, .dat) or clipboard..."          window_import_text_delim                 ""          ""
+item    import_menu      command         "Import from text file (.txt, .csv, .dat) or clipboard... [Rcmdr]"          window_import_text_delim                 ""          ""
+item    import_menu      command         "Import from text file (.txt, .csv, .dat)..."          window_import_from_text_delim                 ""          ""
 # item    import_menu      command         "[???] Import from coppied text... "          function_not_implemented                 "FALSE"          ""
 
 item	import_menu	separator	""	""	""	""
@@ -401,18 +408,39 @@ item	bs_models_menu	separator	""	""	""	""
 item	bs_models_menu	command	"Augment: add modeled data to active dataset"	command_model_augment	"activeModelP() "	""
 
 
-# . ==========================================================================
-# ---- >>> Settings menu -----------------------------------------------------
-menu	bs_settings_menu	biostat_menu	""	""	""	""
-item	biostat_menu	cascade	"Settings"	bs_settings_menu	""	""
+# # . ==========================================================================
+# # ---- >>> Session menu -----------------------------------------------------
+# menu	bs_session_menu	biostat_menu	""	""	""	""
+# item	biostat_menu	cascade	"Session"	bs_session_menu	""	""
+#
+# # ---- Manage locale ---------------------------------------------------------
+# item	bs_session_menu	command	"Locale..."	window_locale_set	""	""
+# # command_get_locale
 
-# ---- Manage locale ---------------------------------------------------------
-item	bs_settings_menu	command	"Locale..."	window_locale_set	""	""
-# command_get_locale
+
+# . ==========================================================================
+# ---- >>> About -------------------------------------------------------------
+menu	bs_about_menu	biostat_menu	""	""	""	""
+item	biostat_menu	cascade	"About"	bs_about_menu	""	""
+
+# item	bs_about_menu	command 'About package "RcmdrPlugin.biostat"'	window_about_package	""	""
+item	bs_about_menu	command "About BioStat'19"	window_about_package	""	""
+
+
+# . ===========================================================================
+# ---- >>> Tools: ------------------------------------------------------------
+item	toolsMenu	separator	""	""	""	""
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ---- >>> Tools: Settings menu ----------------------------------------------
+menu	bs_settings_menu	toolsMenu	""	""	""	""
+item	toolsMenu	cascade	"Settings"	bs_settings_menu	""	""
+
 
 # ---- Rcmdr buttons ----------------------------------------------------------
 
-item	bs_settings_menu	separator	""	""	""	""
+# item	bs_settings_menu	separator	""	""	""	""
 # item	bs_settings_menu	command	"Rcmdr buttons mode: select only (usual)"	command_buttons_mode_rcmdr	""	""
 # item	bs_settings_menu	command	"Rcmdr buttons mode: select & explore"	command_buttons_mode_biostat	""	""
 
@@ -433,24 +461,11 @@ item	bs_windows_mode	command	"1 window (output to console)"	command_use_1_window
 item	bs_windows_mode	command	"3 windows (output to Rcmdr)"	command_use_3_window_rcmdr	""	""
 
 
-# . ==========================================================================
-# ---- >>> About -------------------------------------------------------------
-menu	bs_about_menu	biostat_menu	""	""	""	""
-item	biostat_menu	cascade	"About"	bs_about_menu	""	""
-
-item	bs_about_menu	command 'About package "RcmdrPlugin.biostat"'	window_about_package	""	""
-
-# ---- Session information ---------------------------------------------------
-item	bs_about_menu	separator	""	""	""	""
-item	bs_about_menu	command	"Print session information: devtools style"	command_session_info_devtools	""	""
-item	bs_about_menu	command	"Print session information: base R style"	command_session_info_utils	""	""
 
 
 # . ===========================================================================
 # ---- >>> Tools: Online menu -------------------------------------------------
 
-item	toolsMenu	separator	""	""	""	""
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 menu	bs_online_menu	toolsMenu	""	""	""	""
 item	toolsMenu	cascade	"On-line tools [BioStat]"	bs_online_menu	""	""
