@@ -17,6 +17,7 @@ ok_cancel_help <- Rcmdr::defmacro(
     apply       = NULL,
     helpPackage = NULL,
     sticky      = "w",
+    ok_label    = "OK",
     expr = {
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -46,7 +47,7 @@ ok_cancel_help <- Rcmdr::defmacro(
         memory <- getRcmdr("retain.selections")
 
         button.strings <- c(
-            gettext_bs("OK"),
+            gettext_bs(ok_label),
             gettext_bs("Cancel"),
             if (!is.null(helpSubject))     gettext_bs("Help"),
             if (!is.null(reset) && memory) gettext_bs("Reset"),
@@ -105,7 +106,7 @@ ok_cancel_help <- Rcmdr::defmacro(
         }
 
         OKbutton <- buttonRcmdr(rightButtonsBox,
-                                text       = gettext_bs("OK"),
+                                text       = gettext_bs(ok_label),
                                 foreground = "darkgreen",
                                 width      = width,
                                 command    = OnOK,
