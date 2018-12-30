@@ -8,7 +8,7 @@ bs_radiobuttons(parent = top, buttons, labels = buttons,
   value = buttons[1], variable = NULL, title = NULL,
   commands = list(), default_command = function() { }, tips = list(),
   default_tip = "", border = FALSE, layout = c("vertical",
-  "horizontal"), sticky_buttons = "e", sticky_title = "w")
+  "horizontal"), sticky_buttons = "w", sticky_title = "w")
 }
 \arguments{
 \item{parent}{Parent frame.}
