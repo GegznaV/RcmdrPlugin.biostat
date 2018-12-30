@@ -27,6 +27,25 @@ item	bs_file_menu	separator	""	""	""	""
 item	bs_file_menu	command	"Print session information: devtools style"	command_session_info_devtools	""	""
 item	bs_file_menu	command	"Print session information: base R style"	command_session_info_utils	""	""
 
+
+item	bs_file_menu	separator	""	""	""	""
+# ---- Rcmdr windows ---------------------------------------------------------
+
+menu	bs_windows_mode	bs_file_menu	""	""	""	""
+item	bs_file_menu	cascade	"Rcmdr windows mode"	bs_windows_mode	""	""
+item	bs_windows_mode	command	"1 window (output to console)"	command_use_1_window_rcmdr	""	""
+item	bs_windows_mode	command	"3 windows (output to Rcmdr)"	command_use_3_window_rcmdr	""	""
+
+
+# ---- Rcmdr buttons ----------------------------------------------------------
+
+menu	bs_buttons_mode	bs_file_menu	""	""	""	""
+item	bs_file_menu	cascade	"Rcmdr buttons mode"	bs_buttons_mode	""	""
+item	bs_buttons_mode	command	"Usual (select only)"	command_buttons_mode_rcmdr	""	""
+item	bs_buttons_mode	command	"Extended (import, select, explore, etc.)"	command_buttons_mode_biostat	""	""
+
+
+
 # . ===========================================================================
 # ---- >>> Data --------------------------------------------------------------
 menu	bs_data_menu	biostat_menu	""	""	""	""
@@ -432,34 +451,34 @@ item	bs_about_menu	command "About BioStat'19"	window_about_package	""	""
 item	toolsMenu	separator	""	""	""	""
 
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# ---- >>> Tools: Settings menu ----------------------------------------------
-menu	bs_settings_menu	toolsMenu	""	""	""	""
-item	toolsMenu	cascade	"Settings"	bs_settings_menu	""	""
+# # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# # ---- >>> Tools: Settings menu ----------------------------------------------
+# menu	bs_settings_menu	toolsMenu	""	""	""	""
+# item	toolsMenu	cascade	"Settings"	bs_settings_menu	""	""
+#
 
-
-# ---- Rcmdr buttons ----------------------------------------------------------
-
-# item	bs_settings_menu	separator	""	""	""	""
-# item	bs_settings_menu	command	"Rcmdr buttons mode: select only (usual)"	command_buttons_mode_rcmdr	""	""
-# item	bs_settings_menu	command	"Rcmdr buttons mode: select & explore"	command_buttons_mode_biostat	""	""
-
-menu	bs_buttons_mode	bs_settings_menu	""	""	""	""
-item	bs_settings_menu	cascade	"Rcmdr buttons mode"	bs_buttons_mode	""	""
-item	bs_buttons_mode	command	"Extended (import, select, explore, etc.)"	command_buttons_mode_biostat	""	""
-item	bs_buttons_mode	command	"Usual (select only)"	command_buttons_mode_rcmdr	""	""
-
-# ---- Rcmdr windows ---------------------------------------------------------
-
-# item	bs_settings_menu	separator	""	""	""	""
-# item	bs_settings_menu	command	"Rcmdr windows mode: 1 window"	command_use_1_window_rcmdr	""	""
-# item	bs_settings_menu	command	"Rcmdr windows mode: 3 windows"	command_use_3_window_rcmdr	""	""
-
-menu	bs_windows_mode	bs_settings_menu	""	""	""	""
-item	bs_settings_menu	cascade	"Rcmdr windows mode"	bs_windows_mode	""	""
-item	bs_windows_mode	command	"1 window (output to console)"	command_use_1_window_rcmdr	""	""
-item	bs_windows_mode	command	"3 windows (output to Rcmdr)"	command_use_3_window_rcmdr	""	""
-
+# # ---- Rcmdr windows ---------------------------------------------------------
+#
+# # item	bs_settings_menu	separator	""	""	""	""
+# # item	bs_settings_menu	command	"Rcmdr windows mode: 1 window"	command_use_1_window_rcmdr	""	""
+# # item	bs_settings_menu	command	"Rcmdr windows mode: 3 windows"	command_use_3_window_rcmdr	""	""
+#
+# menu	bs_windows_mode	bs_file_menu	""	""	""	""
+# item	bs_file_menu	cascade	"Rcmdr windows mode"	bs_windows_mode	""	""
+# item	bs_windows_mode	command	"1 window (output to console)"	command_use_1_window_rcmdr	""	""
+# item	bs_windows_mode	command	"3 windows (output to Rcmdr)"	command_use_3_window_rcmdr	""	""
+#
+#
+# # ---- Rcmdr buttons ----------------------------------------------------------
+#
+# # item	bs_settings_menu	separator	""	""	""	""
+# # item	bs_settings_menu	command	"Rcmdr buttons mode: select only (usual)"	command_buttons_mode_rcmdr	""	""
+# # item	bs_settings_menu	command	"Rcmdr buttons mode: select & explore"	command_buttons_mode_biostat	""	""
+#
+# menu	bs_buttons_mode	bs_file_menu	""	""	""	""
+# item	bs_file_menu	cascade	"Rcmdr buttons mode"	bs_buttons_mode	""	""
+# item	bs_buttons_mode	command	"Extended (import, select, explore, etc.)"	command_buttons_mode_biostat	""	""
+# item	bs_buttons_mode	command	"Usual (select only)"	command_buttons_mode_rcmdr	""	""
 
 
 
