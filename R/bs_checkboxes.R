@@ -17,8 +17,8 @@
 #' @param default_tip (string) a default tip.
 #' @param border (logical) Flag if the frame should have a border.
 #' @param layout (string) One of "vertical" (default) and "horizontal".
-#' @param buttons_sticky (string) `sticky` option for buttons.
-#' @param title_sticky (string) `sticky` option for title (if no border is used).
+#' @param sticky_buttons (string) `sticky` option for buttons.
+#' @param sticky_title (string) `sticky` option for title (if no border is used).
 #'
 #' @return A named list with fields `frame` (frame with the checkboxes),
 #'  `var` (tcl/tk variables for each box),
@@ -40,11 +40,10 @@
 #'
 #'
 #' top <- tcltk::tktoplevel()
-#' boxes_3 <- bs_checkboxes(top, c("A", "B", "C"), layout = "h",
-#'                          title = "Buttons", buttons_sticky = "")
+#' boxes_3 <- bs_checkboxes(top, c("A", "B", "C"), layout = "h", title = "Buttons")
 #' tcltk::tkgrid(boxes_3$frame)
 #'
-#'
+
 bs_checkboxes <- function(
     parent          = top,
     boxes,
@@ -58,8 +57,8 @@ bs_checkboxes <- function(
     default_tip     = "",
     border          = FALSE,
     layout          = c("vertical", "horizontal"),
-    buttons_sticky  = "w",
-    title_sticky    = "w"
+    sticky_buttons  = "e",
+    sticky_title    = "w"
 )
 {
     checkmate::assert_string(title, null.ok = TRUE)
@@ -68,6 +67,7 @@ bs_checkboxes <- function(
     checkmate::assert_list(tips)
     checkmate::assert_string(default_tip)
     checkmate::assert_flag(border)
+
     layout <- match.arg(layout)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -135,7 +135,7 @@ bs_checkboxes <- function(
         }
 
     if (!is.null(title) && !border) {
-        tkgrid(bs_label_b(frame, text = title), sticky = title_sticky)
+        tkgrid(bs_label_b(frame, text = title), sticky = sticky_title)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     objs <- pmap(
@@ -148,24 +148,24 @@ bs_checkboxes <- function(
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     switch(layout,
-        vertical = {
-            walk(objs, tkgrid, sticky = buttons_sticky)
-        },
+           vertical = {
+               walk(objs, tkgrid, sticky = sticky_buttons)
+           },
 
-        horizontal = {
-            buttons_str <- paste0("objs[[", seq_along(objs), "]]",
-                                  collapse = ", ")
-            eval_glue('tkgrid({buttons_str}, sticky = buttons_sticky)')
-        },
+           horizontal = {
+               buttons_str <- paste0("objs[[", seq_along(objs), "]]",
+                                     collapse = ", ")
+               eval_glue('tkgrid({buttons_str}, sticky = sticky_buttons)')
+           },
 
-        stop("Unrecognized layout: ", layout)
+           stop("Unrecognized layout: ", layout)
     )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     structure(list(
         frame = frame,
-        var  = structure(vars, names = boxes),
-        obj  = structure(vars, names = boxes)
+        var   = structure(vars, names = boxes),
+        obj   = structure(objs, names = boxes)
     ),
     class = c("bs_check_boxes", "bs_tk_widget", "list"))
 }
