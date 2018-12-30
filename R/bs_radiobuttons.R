@@ -176,5 +176,21 @@ bs_radiobuttons <- function(
         var   = variable,
         obj   = structure(objs, names = buttons)
     ),
-    class = c("bs_radiobuttons", "bs_tk_widget", "list"))
+    class = c("bs_radiobuttons", "bs_tk_buttonset", "bs_tk_widget", "list"))
 }
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+get_values.bs_radiobuttons <- function(obj, ...) {
+    tclvalue_chr(obj$var)
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+set_values.bs_radiobuttons <- function(obj, values, ...) {
+    tclvalue(obj$var) <- values
+}
+
