@@ -43,5 +43,5 @@ window_show_colors <- function() {
 #' @export
 #' @keywords internal
 window_plots_image_digitizer <- function() {
-    digitizeR::wpd.launch()
+    # digitizeR::wpd.launch()
 }
