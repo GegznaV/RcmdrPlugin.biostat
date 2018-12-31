@@ -30,3 +30,24 @@ bs_text <- function(parent, ..., undo = TRUE) {
 
     obj_txt
 }
+
+
+# Replace contents of text box widget
+set_values.tk2text <- function(obj, values, ...) {
+    init_state = tk_get_state(obj)
+
+    if (init_state == "disabled") {
+        tk_normalize(obj)
+    }
+
+    tkdelete(obj, "1.0", "end")
+    tkinsert(obj, "1.0", values)
+
+    if (init_state == "disabled") {
+        tk_disable(obj)
+    }
+}
+
+get_values.tk2text <- function(obj, ...) {
+    tclvalue_chr(tkget(obj, "1.0", "end"))
+}
