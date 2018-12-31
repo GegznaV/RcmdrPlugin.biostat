@@ -289,7 +289,7 @@ window_import_from_text_delim <- function() {
 
         suppressWarnings(
             ds_contents <- try(
-                data.table::fread(input, data.table = FALSE),
+                data.table::fread(input, data.table = FALSE, encoding = "UTF-8"),
                 silent = TRUE)
         )
 
@@ -422,6 +422,7 @@ window_import_from_text_delim <- function() {
         # set_values(f3_txt_2, "")
         set_values(f2_but_from, "clipboard")
         tk_disable(f1_ent_1_2)
+        tk_disable(f1_but_1_4)
         tk_normalize(f3_txt_1)
 
         update_name()
@@ -435,6 +436,7 @@ window_import_from_text_delim <- function() {
 
         set_values(f2_but_from, "file")
         tk_normalize(f1_ent_1_2)
+        tk_normalize(f1_but_1_4)
         tk_disable(f3_txt_1)
 
         update_name()
@@ -512,11 +514,13 @@ window_import_from_text_delim <- function() {
                                 set_mode_file_url()
                                 get_path_to_file()
                             },
-                            tip = "Browse file on your computer.")
+                            tip = "Choose file to import.")
 
     f1_but_1_4 <- tk2button(f1, width = 8, text = "Update",
                             command = update_all,
-                            tip = "Update preview and name of data set.")
+                            tip = str_c(
+                                "Read file (URL) and update\n",
+                                "preview of dataset."))
 
     f1_txt_2_1 <- bs_label_b(f1, text = "Name: ")
     f1_ent_2_2 <- bs_entry(
