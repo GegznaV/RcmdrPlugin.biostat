@@ -72,6 +72,11 @@ NULL
 
         if (!"package:Rcmdr" %in% search()) {
             Rcmdr::Commander()
+        } else {
+            if (!Rcmdr::getRcmdr("autoRestart")) {
+                Rcmdr::closeCommander(ask = FALSE, ask.save = TRUE)
+                Rcmdr::Commander()
+            }
         }
     }
 
