@@ -437,11 +437,23 @@ item	bs_models_menu	command	"Augment: add modeled data to active dataset"	comman
 # # command_get_locale
 
 
+# . ==========================================================================
+# ---- >>> About -------------------------------------------------------------
+menu	bs_about_menu	biostat_menu	""	""	""	""
+item	biostat_menu	cascade	"About"	bs_about_menu	""	""
+
+# item	bs_about_menu	command 'About package "RcmdrPlugin.biostat"'	window_about_package	""	""
+item	bs_about_menu	command "About BioStat'19"	window_about_package	""	""
+item	bs_about_menu	command "Homepage"	window_online_homepage	""	""
+item	bs_about_menu	command "Bug report, feedback"	window_online_bug_report	""	""
+
+
+
 # . ===========================================================================
 # ---- >>> Online menu -------------------------------------------------------
 
 menu	bs_online_menu	biostat_menu	""	""	""	""
-item	biostat_menu	cascade	"On-line"	bs_online_menu	""	""
+item	biostat_menu	cascade	"Online resources"	bs_online_menu	""	""
 
 
 # active dataset
@@ -451,16 +463,27 @@ item	biostat_menu	cascade	"On-line"	bs_online_menu	""	""
 # item	bs_online_menu	separator	""	""	""	""
 
 
+# ---- +  Apps (online) -------------------------------------------------------
+
 menu	bs_online_tools_menu	topMenu	""	""	""	""
 item	bs_online_menu	cascade	"Applications"	bs_online_tools_menu	""	""
 
 item	bs_online_tools_menu	command	"Import data from image: WebPlotDigitizer"  window_online_image_digitizer	""	""
-item	bs_online_tools_menu	command	"Multivariate normality tests"  window_online_mvn	""	""
+item	bs_online_tools_menu	command	"Multivariate normality tests: MVN"  window_online_mvn	""	""
 item	bs_online_tools_menu	command	"Probability calculator: GeoGebra"  window_online_geogebra_probability 	""	""
 item	bs_online_tools_menu	command	"ROC analysis: Easy ROC"  window_online_easyROC	""	""
-# item	bs_online_tools_menu	separator	""	""	""	""
 # item	bs_online_tools_menu	command	"ROC analysis: Time dependant ROC"  window_online_tdROC	""	""
 
+# item	bs_online_tools_menu	separator	""	""	""	""
+
+menu	bs_online_lists_menu	topMenu	""	""	""	""
+item	bs_online_tools_menu	cascade	"Lists of applications"	bs_online_lists_menu	""	""
+
+item	bs_online_lists_menu	command	"statpages.info"  window_online_statpages	""	""
+
+
+
+# ---- +  Apps to download  ---------------------------------------------------
 
 menu	bs_downlaod_menu	topMenu	""	""	""	""
 item	bs_online_menu	cascade	"Applications to download"	bs_downlaod_menu	""	""
@@ -473,14 +496,39 @@ item	bs_downlaod_menu	command	"Scientific data analysis: PAST"  window_online_pa
 # item	bs_downlaod_menu	separator	""	""	""	""
 
 
+# ---- +  Books --------------------------------------------------------------
+
+menu	bs_r_books_menu	topMenu	""	""	""	""
+item	bs_online_menu	cascade	"Books"	bs_r_books_menu	""	""
+
+item	bs_r_books_menu	command	"Bookdown (library of books about R)"  window_online_bookdown	""	""
+
+item	bs_r_books_menu	separator	""	""	""	""
+
+item	bs_r_books_menu	command	"R for Data Science"  window_online_r4ds	""	""
+item	bs_r_books_menu	command	"Advanced R (2nd ed.)"  window_online_advanced_r_2ed	""	""
+item	bs_r_books_menu	command	"R Markdown"  window_online_rmd	""	""
+
+item	bs_r_books_menu	separator	""	""	""	""
+
+item	bs_r_books_menu	command	"Handbook of Biological Statistics (HBS)"  window_online_biostathandbook	""	""
+item	bs_r_books_menu	command	"An R Companion for HBS"  window_online_rcompanion	""	""
+item	bs_r_books_menu	command	"SAEPE in R (by S. Mangiafico)"  window_online_rcompanion_handbook	""	""
+item	bs_r_books_menu	separator	""	""	""	""
+item	bs_r_books_menu	command	"Introduction to Statistical Learning"  window_online_isl	""	""
+item	bs_r_books_menu	command	"Elements of Statistical Learning"  window_online_esl	""	""
+
+
+# ---- +  Forums -------------------------------------------------------------
 
 menu	bs_forums_menu	topMenu	""	""	""	""
 item	bs_online_menu	cascade	"Forums"	bs_forums_menu	""	""
 
-item	bs_forums_menu	command	"Stack Overflow (for programmers, R users)"  window_online_stackoverflow	""	""
-item	bs_forums_menu	command	"Cross Validated (for data analysis, statistics)"  window_online_crossvalidated	""	""
+item	bs_forums_menu	command	"Stack Overflow (programming, R)"  window_online_stackoverflow	""	""
+item	bs_forums_menu	command	"Cross Validated (data analysis, statistics)"  window_online_crossvalidated	""	""
 
 
+# ---- +  R extensions -------------------------------------------------------
 
 menu	bs_r_ext_menu	topMenu	""	""	""	""
 item	bs_online_menu	cascade	"R extensions"	bs_r_ext_menu	""	""
@@ -488,15 +536,16 @@ item	bs_online_menu	cascade	"R extensions"	bs_r_ext_menu	""	""
 item	bs_r_ext_menu	command	"Tidyverse"  window_online_tidyverse	""	""
 
 item	bs_r_ext_menu	separator	""	""	""	""
-item	bs_r_ext_menu	command	"Extensions for ggplot2"  window_online_ggplot2_ext	""	""
-item	bs_r_ext_menu	command	"Plotly for R"  window_online_plotly	""	""
+item	bs_r_ext_menu	command	"Extensions for ggplot2 (plots)"  window_online_ggplot2_ext	""	""
+item	bs_r_ext_menu	command	"Plotly for R (interactive plots)"  window_online_plotly	""	""
 
 
+# ---- +  R news & turorials -------------------------------------------------
 
 menu	bs_r_news_menu	topMenu	""	""	""	""
 item	bs_online_menu	cascade	"R news & turorials"	bs_r_news_menu	""	""
 
-item	bs_r_news_menu	command	"Bookdown (books about R)"  window_online_bookdown	""	""
+item	bs_r_news_menu	command	"R Cheat sheets"  window_online_r_chearsheets	""	""
 item	bs_r_news_menu	command	"STHDA website (tutorials)"  window_online_sthda	""	""
 item	bs_r_news_menu	separator	""	""	""	""
 
@@ -509,13 +558,7 @@ item	bs_r_news_menu	command	"RStudio learning (tutorials)"  window_online_rstudi
 
 
 
-# . ==========================================================================
-# ---- >>> About -------------------------------------------------------------
-menu	bs_about_menu	biostat_menu	""	""	""	""
-item	biostat_menu	cascade	"About"	bs_about_menu	""	""
 
-# item	bs_about_menu	command 'About package "RcmdrPlugin.biostat"'	window_about_package	""	""
-item	bs_about_menu	command "About BioStat'19"	window_about_package	""	""
 
 
 # . ===========================================================================
