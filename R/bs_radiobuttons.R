@@ -27,6 +27,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{\donttest{
 #'
 #' top <- tcltk::tktoplevel()
 #'
@@ -45,6 +46,7 @@
 #'                          title = "Buttons", sticky_buttons = "")
 #' tcltk::tkgrid(buttons_3$frame)
 #'
+#' }}
 
 bs_radiobuttons <- function(
     parent          = top,

@@ -27,6 +27,9 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{\donttest{
+#'
+#' library(RcmdrPlugin.biostat)
 #'
 #' top <- tcltk::tktoplevel()
 #'
@@ -40,9 +43,11 @@
 #'
 #'
 #' top <- tcltk::tktoplevel()
-#' boxes_3 <- bs_checkboxes(top, c("A", "B", "C"), layout = "h", title = "Buttons")
+#' boxes_3 <- bs_checkboxes(top, c("A", "B", "C"),
+#'                         layout = "h", title = "Buttons")
 #' tcltk::tkgrid(boxes_3$frame)
 #'
+#'}}
 
 bs_checkboxes <- function(
     parent          = top,

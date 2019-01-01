@@ -49,6 +49,9 @@ A named list with fields `frame` (frame with the checkboxes),
 Checkboxes widget with command functions and tips when mouse is over the box.
 }
 \examples{
+\dontrun{\donttest{
+
+library(RcmdrPlugin.biostat)
 
 top <- tcltk::tktoplevel()
 
@@ -62,7 +65,9 @@ tcltk::tkgrid(boxes_2$frame)
 
 
 top <- tcltk::tktoplevel()
-boxes_3 <- bs_checkboxes(top, c("A", "B", "C"), layout = "h", title = "Buttons")
+boxes_3 <- bs_checkboxes(top, c("A", "B", "C"),
+                        layout = "h", title = "Buttons")
 tcltk::tkgrid(boxes_3$frame)
 
+}}
 }
