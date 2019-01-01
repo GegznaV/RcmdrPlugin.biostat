@@ -1,4 +1,4 @@
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
@@ -15,9 +15,9 @@ command_buttons_mode_rcmdr <- function() {
                 image = "::image::modelIcon",
                 compound = "left",
                 command  = selectActiveModel)
-
 }
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
@@ -60,9 +60,10 @@ selectActiveDataSet <- function() {
         return()
     }
     initializeDialog(title = gettextRcmdr("Select Data Set"))
-    dataSetsBox <- variableListBox(top, dataSets,
-                                   title = gettextRcmdr("Data Sets (pick one)"),
-                                   initialSelection = if (is.null(.activeDataSet)) NULL else which(.activeDataSet == dataSets) - 1
+    dataSetsBox <- variableListBox(
+        top, dataSets,
+        title = gettextRcmdr("Data Sets (pick one)"),
+        initialSelection = if (is.null(.activeDataSet)) NULL else which(.activeDataSet == dataSets) - 1
     )
     onOK <- function() {
         selection <- getSelection(dataSetsBox)
