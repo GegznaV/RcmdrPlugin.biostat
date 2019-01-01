@@ -101,9 +101,11 @@
 \alias{class_ggplot_P}
 \alias{list_objects_ggplot}
 \alias{objects_in_env_P}
-\alias{command_use_1_window_rcmdr}
-\alias{command_use_3_window_rcmdr}
-\alias{command_use_rcmdr_windows}
+\alias{command_rcmdr_restart}
+\alias{is_console_output}
+\alias{command_rcmdr_use_1_window}
+\alias{command_rcmdr_use_3_windows}
+\alias{command_rcmdr_set_output_mode}
 \alias{get_values_combobox}
 \alias{set_values_combobox}
 \alias{get_selection_ind_combobox}
@@ -385,11 +387,15 @@ list_objects_ggplot(envir = .GlobalEnv)
 
 objects_in_env_P(n = 1, envir = .GlobalEnv, ...)
 
-command_use_1_window_rcmdr()
+command_rcmdr_restart()
 
-command_use_3_window_rcmdr()
+is_console_output()
 
-command_use_rcmdr_windows(console.output = NULL)
+command_rcmdr_use_1_window()
+
+command_rcmdr_use_3_windows()
+
+command_rcmdr_set_output_mode(console.output = NULL)
 
 get_values_combobox(combobox)
 
