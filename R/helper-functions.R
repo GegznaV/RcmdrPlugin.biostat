@@ -1093,22 +1093,36 @@ make_red_text <- function(P, W, S, v) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-command_use_1_window_rcmdr <- function() {
-    command_use_rcmdr_windows(console.output = TRUE)
+command_rcmdr_restart <- function() {
+    Rcmdr::closeCommander(ask = FALSE, ask.save = TRUE)
+    Rcmdr::Commander()
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-command_use_3_window_rcmdr <- function() {
-    command_use_rcmdr_windows(console.output = FALSE)
+is_console_output <- function() {
+    isTRUE(options()$Rcmdr$console.output)
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-command_use_rcmdr_windows <- function(console.output = NULL) {
+command_rcmdr_use_1_window <- function() {
+    command_rcmdr_set_output_mode(console.output = TRUE)
+}
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+command_rcmdr_use_3_windows <- function() {
+    command_rcmdr_set_output_mode(console.output = FALSE)
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+command_rcmdr_set_output_mode <- function(console.output = NULL) {
     # Current options
     Rcmdr_opts <- options()$Rcmdr
 
@@ -1122,13 +1136,6 @@ command_use_rcmdr_windows <- function(console.output = NULL) {
     if (!identical(Rcmdr_opts, updated_opts)) {
         # Set new options and restart R Commander
         options(Rcmdr = updated_opts)
-
-        if (!getRcmdr("autoRestart")) {
-            closeCommander(ask = FALSE, ask.save = TRUE)
-            Commander()
-
-        } else {
-            Commander()
-        }
+        command_rcmdr_restart()
     }
 }
