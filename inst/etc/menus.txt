@@ -4,6 +4,8 @@
 menu	biostat_menu	topMenu	""	""	""	""
 item	topMenu	cascade	"BioStat'19"	biostat_menu	""	""
 
+item	biostat_menu	command	"Extend buttons"  command_buttons_mode_biostat 	""	""
+
 # . ==========================================================================
 # ---- >>> File menu ---------------------------------------------------------
 menu	bs_file_menu	biostat_menu	""	""	""	""
@@ -29,21 +31,22 @@ item	bs_file_menu	command	"Print session information: base R style"	command_sess
 
 
 item	bs_file_menu	separator	""	""	""	""
-# ---- Rcmdr windows ---------------------------------------------------------
 
-menu	bs_windows_mode	bs_file_menu	""	""	""	""
-item	bs_file_menu	cascade	"Rcmdr windows mode"	bs_windows_mode	""	""
-item	bs_windows_mode	command	"1 window (output to console)"	command_use_1_window_rcmdr	""	""
-item	bs_windows_mode	command	"3 windows (output to Rcmdr)"	command_use_3_window_rcmdr	""	""
+# ---- Rcmdr -----------------------------------------------------------------
+menu	bs_rcmdr_menu	bs_file_menu	""	""	""	""
+item	bs_file_menu	cascade	"Rcmdr"	bs_rcmdr_menu	""	""
 
+item	bs_rcmdr_menu	command	"Buttons: extended (import, select, explore, etc.)"	command_buttons_mode_biostat	""	""
+item	bs_rcmdr_menu	command	"Buttons: usual (select only)"	command_buttons_mode_rcmdr	""	""
 
-# ---- Rcmdr buttons ----------------------------------------------------------
+item	bs_rcmdr_menu	separator	""	""	""	""
+item	bs_rcmdr_menu	command	"1 window mode (output to console)"	command_rcmdr_use_1_window	"!is_console_output()"	""
+item	bs_rcmdr_menu	command	"3 windows mode (output to Rcmdr)"	command_rcmdr_use_3_windows	"is_console_output()"	""
 
-menu	bs_buttons_mode	bs_file_menu	""	""	""	""
-item	bs_file_menu	cascade	"Rcmdr buttons mode"	bs_buttons_mode	""	""
-item	bs_buttons_mode	command	"Usual (select only)"	command_buttons_mode_rcmdr	""	""
-item	bs_buttons_mode	command	"Extended (import, select, explore, etc.)"	command_buttons_mode_biostat	""	""
-
+item	bs_rcmdr_menu	separator	""	""	""	""
+item	bs_rcmdr_menu	command	"Restart Commander"	command_rcmdr_restart	""	""
+item	bs_rcmdr_menu	command	"Close Commander"	CloseCommander	""	""
+item	bs_rcmdr_menu	command	"Close R"	closeCommanderAndR	""	""
 
 
 # . ===========================================================================
@@ -426,17 +429,6 @@ item	bs_models_menu	command	"Show model's class"	command_model_get_class	"active
 item	bs_models_menu	separator	""	""	""	""
 item	bs_models_menu	command	"Augment: add modeled data to active dataset"	command_model_augment	"activeModelP() "	""
 
-
-# # . ==========================================================================
-# # ---- >>> Session menu -----------------------------------------------------
-# menu	bs_session_menu	biostat_menu	""	""	""	""
-# item	biostat_menu	cascade	"Session"	bs_session_menu	""	""
-#
-# # ---- Manage locale ---------------------------------------------------------
-# item	bs_session_menu	command	"Locale..."	window_locale_set	""	""
-# # command_get_locale
-
-
 # . ==========================================================================
 # ---- >>> About -------------------------------------------------------------
 menu	bs_about_menu	biostat_menu	""	""	""	""
@@ -448,19 +440,11 @@ item	bs_about_menu	command "Homepage"	window_online_homepage	""	""
 item	bs_about_menu	command "Bug report, feedback"	window_online_bug_report	""	""
 
 
-
 # . ===========================================================================
 # ---- >>> Online menu -------------------------------------------------------
 
 menu	bs_online_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Online resources"	bs_online_menu	""	""
-
-
-# active dataset
-
-# item	bs_online_menu	command	"Import from clipboard"  window_import_text_delim_clipboard 	""	""
-# item	bs_online_menu	command	"Export to clipboard"  export_to_clipboard_active_ds_tab 	"activeDataSetP()"	""
-# item	bs_online_menu	separator	""	""	""	""
 
 
 # ---- +  Apps (online) -------------------------------------------------------
@@ -556,41 +540,3 @@ item	bs_r_news_menu	separator	""	""	""	""
 item	bs_r_news_menu	command	"R project (news, downloads)"  window_online_r_project	""	""
 item	bs_r_news_menu	command	"RStudio learning (tutorials)"  window_online_rstudio_learning	""	""
 
-
-
-
-
-
-# . ===========================================================================
-# ---- >>> Tools: ------------------------------------------------------------
-# item	toolsMenu	separator	""	""	""	""
-
-
-# # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# # ---- >>> Tools: Settings menu ----------------------------------------------
-# menu	bs_settings_menu	toolsMenu	""	""	""	""
-# item	toolsMenu	cascade	"Settings"	bs_settings_menu	""	""
-#
-
-# # ---- Rcmdr windows ---------------------------------------------------------
-#
-# # item	bs_settings_menu	separator	""	""	""	""
-# # item	bs_settings_menu	command	"Rcmdr windows mode: 1 window"	command_use_1_window_rcmdr	""	""
-# # item	bs_settings_menu	command	"Rcmdr windows mode: 3 windows"	command_use_3_window_rcmdr	""	""
-#
-# menu	bs_windows_mode	bs_file_menu	""	""	""	""
-# item	bs_file_menu	cascade	"Rcmdr windows mode"	bs_windows_mode	""	""
-# item	bs_windows_mode	command	"1 window (output to console)"	command_use_1_window_rcmdr	""	""
-# item	bs_windows_mode	command	"3 windows (output to Rcmdr)"	command_use_3_window_rcmdr	""	""
-#
-#
-# # ---- Rcmdr buttons ----------------------------------------------------------
-#
-# # item	bs_settings_menu	separator	""	""	""	""
-# # item	bs_settings_menu	command	"Rcmdr buttons mode: select only (usual)"	command_buttons_mode_rcmdr	""	""
-# # item	bs_settings_menu	command	"Rcmdr buttons mode: select & explore"	command_buttons_mode_biostat	""	""
-#
-# menu	bs_buttons_mode	bs_file_menu	""	""	""	""
-# item	bs_file_menu	cascade	"Rcmdr buttons mode"	bs_buttons_mode	""	""
-# item	bs_buttons_mode	command	"Extended (import, select, explore, etc.)"	command_buttons_mode_biostat	""	""
-# item	bs_buttons_mode	command	"Usual (select only)"	command_buttons_mode_rcmdr	""	""
