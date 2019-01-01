@@ -75,26 +75,38 @@
 \alias{command_all_chr_to_fctr}
 \alias{open_online_tool}
 \alias{window_online_geogebra_probability}
+\alias{window_online_statpages}
 \alias{window_online_image_digitizer}
 \alias{window_online_mvn}
 \alias{window_online_easyROC}
 \alias{window_online_tdROC}
+\alias{window_online_bert}
 \alias{window_online_gpower}
 \alias{window_online_orange}
 \alias{window_online_geogebra_download}
 \alias{window_online_past_download}
-\alias{window_online_bert}
+\alias{window_online_tidyverse}
 \alias{window_online_plotly}
 \alias{window_online_ggplot2_ext}
-\alias{window_online_tidyverse}
+\alias{window_online_r_chearsheets}
 \alias{window_online_sthda}
-\alias{window_online_bookdown}
 \alias{window_online_rweekly}
 \alias{window_online_r_bloggers}
 \alias{window_online_r_project}
 \alias{window_online_rstudio_learning}
+\alias{window_online_isl}
+\alias{window_online_esl}
+\alias{window_online_bookdown}
+\alias{window_online_biostathandbook}
+\alias{window_online_rcompanion}
+\alias{window_online_rcompanion_handbook}
+\alias{window_online_r4ds}
+\alias{window_online_advanced_r_2ed}
+\alias{window_online_rmd}
 \alias{window_online_stackoverflow}
 \alias{window_online_crossvalidated}
+\alias{window_online_homepage}
+\alias{window_online_bug_report}
 \alias{window_ci_mean}
 \alias{window_dataset_bind_cols}
 \alias{window_dataset_bind_rows}
@@ -252,6 +264,8 @@ open_online_tool(url = NULL, copy_to_clipboard = FALSE)
 
 window_online_geogebra_probability()
 
+window_online_statpages(variables)
+
 window_online_image_digitizer(variables)
 
 window_online_mvn()
@@ -259,6 +273,8 @@ window_online_mvn()
 window_online_easyROC()
 
 window_online_tdROC()
+
+window_online_bert()
 
 window_online_gpower()
 
@@ -268,17 +284,15 @@ window_online_geogebra_download()
 
 window_online_past_download()
 
-window_online_bert()
+window_online_tidyverse()
 
 window_online_plotly()
 
 window_online_ggplot2_ext()
 
-window_online_tidyverse()
+window_online_r_chearsheets()
 
 window_online_sthda()
-
-window_online_bookdown()
 
 window_online_rweekly()
 
@@ -288,9 +302,31 @@ window_online_r_project()
 
 window_online_rstudio_learning()
 
+window_online_isl()
+
+window_online_esl()
+
+window_online_bookdown()
+
+window_online_biostathandbook()
+
+window_online_rcompanion()
+
+window_online_rcompanion_handbook()
+
+window_online_r4ds()
+
+window_online_advanced_r_2ed()
+
+window_online_rmd()
+
 window_online_stackoverflow()
 
 window_online_crossvalidated()
+
+window_online_homepage()
+
+window_online_bug_report()
 
 window_ci_mean()
 
