@@ -34,7 +34,7 @@ open_online_tool <- function(url = NULL, copy_to_clipboard = FALSE) {
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# Online apps ------------ ---------------------------------------------------
+# Online apps ----------------------------------------------------------------
 
 #' @rdname Menu-window-functions
 #' @export
@@ -47,10 +47,16 @@ window_online_geogebra_probability  <- function() {
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
+window_online_statpages  <- function(variables) {
+    open_online_tool("http://statpages.info/")
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
 window_online_image_digitizer  <- function(variables) {
     open_online_tool("https://apps.automeris.io/wpd/")
 }
-
 
 #' @rdname Menu-window-functions
 #' @export
@@ -74,7 +80,16 @@ window_online_tdROC  <- function() {
 }
 
 
-# Download ------------ ------------------------------------------------------
+
+
+# Download -------------------------------------------------------------------
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_bert <- function() {
+    open_online_tool("https://bert-toolkit.com/")
+}
 
 #' @rdname Menu-window-functions
 #' @export
@@ -104,14 +119,16 @@ window_online_past_download  <- function() {
     open_online_tool("https://folk.uio.no/ohammer/past/")
 }
 
+
+# R extensions ---------------------------------------------------------------
+
+
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_online_bert <- function() {
-    open_online_tool("https://bert-toolkit.com/")
+window_online_tidyverse <- function() {
+    open_online_tool("https://www.tidyverse.org/")
 }
-
-# Other ------------ ---------------------------------------------------------
 
 #' @rdname Menu-window-functions
 #' @export
@@ -127,15 +144,14 @@ window_online_ggplot2_ext <- function() {
     open_online_tool("http://www.ggplot2-exts.org/gallery/")
 }
 
+# News and tutorials ---------------------------------------------------------
+
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_online_tidyverse <- function() {
-    open_online_tool("https://www.tidyverse.org/")
+window_online_r_chearsheets  <- function() {
+    open_online_tool("https://www.rstudio.com/resources/cheatsheets/")
 }
-
-
-# News and tutorials ------------ ---------------------------------------------
 
 #' @rdname Menu-window-functions
 #' @export
@@ -143,14 +159,6 @@ window_online_tidyverse <- function() {
 window_online_sthda  <- function() {
     open_online_tool("http://www.sthda.com/english/")
 }
-
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-window_online_bookdown <- function() {
-    open_online_tool("https://bookdown.org/")
-}
-
 
 #' @rdname Menu-window-functions
 #' @export
@@ -166,7 +174,6 @@ window_online_r_bloggers  <- function() {
     open_online_tool("https://www.r-bloggers.com/")
 }
 
-
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
@@ -181,9 +188,73 @@ window_online_rstudio_learning  <- function() {
     open_online_tool("https://www.rstudio.com/online-learning/")
 }
 
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_isl  <- function() {
+    open_online_tool("http://www-bcf.usc.edu/~gareth/ISL/")
+}
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_esl  <- function() {
+    open_online_tool("https://web.stanford.edu/~hastie/ElemStatLearn/")
+}
 
 
+# Books ----------------------------------------------------------------------
 
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_bookdown <- function() {
+    open_online_tool("https://bookdown.org/")
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_biostathandbook <- function() {
+    open_online_tool("http://www.biostathandbook.com/")
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_rcompanion <- function() {
+    open_online_tool("http://rcompanion.org/rcompanion/")
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_rcompanion_handbook <- function() {
+    open_online_tool("http://rcompanion.org/handbook/")
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_r4ds <- function() {
+    open_online_tool("https://r4ds.had.co.nz/")
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_advanced_r_2ed <- function() {
+    open_online_tool("https://adv-r.hadley.nz/")
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_rmd <- function() {
+    open_online_tool("https://bookdown.org/yihui/rmarkdown/")
+}
+
+
+# Forums ---------------------------------------------------------------------
 
 #' @rdname Menu-window-functions
 #' @export
@@ -199,3 +270,22 @@ window_online_stackoverflow  <- function() {
 window_online_crossvalidated  <- function() {
     open_online_tool("https://stats.stackexchange.com/questions/tagged/r")
 }
+
+
+# About ----------------------------------------------------------------------
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_homepage <- function() {
+    open_online_tool("https://gegznav.github.io/RcmdrPlugin.biostat/")
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_bug_report <- function() {
+    open_online_tool("https://github.com/GegznaV/RcmdrPlugin.biostat/issues")
+}
+
+
