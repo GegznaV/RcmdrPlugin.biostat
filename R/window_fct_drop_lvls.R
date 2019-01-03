@@ -41,15 +41,15 @@ window_factor_lvls_drop <- function() {
             return()
         }
         response <-
-            tclvalue(
-                RcmdrTkmessageBox(
-                    message = gettext_bs("Drop unused factor levels\nPlease confirm."),
-                    icon = "warning",
-                    type = "okcancel",
-                    default = "cancel"
-                )
+            tk_messageBox(
+                parent = top,
+                caption = "Drop Unused Levels",
+                message = gettext_bs("Unused factor levels will be dropped.\nDo you agree?"),
+                icon = "warning",
+                type = "yesno",
+                default = "no"
             )
-        if (response == "cancel") {
+        if (response != "yes") {
             onCancel()
             return()
         }
