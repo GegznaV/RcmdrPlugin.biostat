@@ -189,9 +189,164 @@ onOK <- function() {
 #' @export
 #' @keywords internal
 window_import_from_text_delim <- function() {
-    # Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    # ...
+    # Functions ==============================================================
+    # Validation -------------------------------------------------------------
+    make_red_text_reset_val <- function(to = "Inf") {
+        function(P, W, S, v, s) {
+            tcl("after", "idle", function() {tkconfigure(W, validate = v)})
+            tkconfigure(W, foreground = "red2")
+            tkdelete(W, "0", "end")
+            tkinsert(W, "0", to)
+
+            tcl("expr", "TRUE")
+        }
+    }
+
+    # Get values -------------------------------------------------------------
+    get_header <- function() {
+        val <- get_selection(f2_box_head)
+        switch(val,
+               "Auto" = "auto",
+               "Yes"  = TRUE,
+               "No"   = FALSE,
+               stop("Value '", val, "' is unknown (f2_box_head)."))
+    }
+
+    get_header_code <- function() {
+        val <- get_selection(f2_box_head)
+        switch(val,
+               "Auto" = "",
+               "Yes"  = ", header = TRUE",
+               "No"   = ", header = FALSE",
+               stop("Value '", val, "' is unknown (f2_box_head)."))
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_dec <- function() {
+        val <- get_selection(f2_box_dec)
+        switch(val,
+               "Default"      = ".",
+               "Period ( . )" = ".",
+               "Comma ( , )"  = ",",
+               stop("Value '", val, "' is unknown (f2_box_dec)."))
+    }
+
+    get_dec_code <- function() {
+        val <- get_selection(f2_box_dec)
+        switch(val, "Default" = "", str_c(', dec = "', get_dec(), '"'))
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_sep <- function() {
+        val <- get_selection(f2_box_sep)
+        switch(val,
+               "Auto"            = "auto",
+               "White space ( )" = " ",
+               "Tab ( \\t )"     = "\t",
+               "Comma ( , )"     = ",",
+               "Semicolon ( ; )" = ";",
+               "Pipe ( | )"      = "|",
+               "Custom\u2026"    = get_values(f2_ent_sep),
+               stop("Value '", val, "' is unknown (f2_box_sep)."))
+    }
+    get_sep_code <- function() {
+        val <- get_selection(f2_box_sep)
+        switch(val, "Auto" = "", str_c(', sep = "', get_sep(), '"'))
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_skip <- function() {
+        # get_values(f2_box_skip)
+        val <- get_selection(f2_box_skip)
+        switch(val,
+               "Auto"            = "__auto__",
+               "Custom\u2026"    = as.numeric(get_values(f2_ent_skip)),
+               stop("Value '", val, "' is unknown (f2_box_skip)."))
+    }
+    get_skip_code <- function() {
+        val <- get_selection(f2_box_skip)
+        switch(val,
+               "Auto" = "",
+               str_c(', skip = ', get_skip())
+               # str_c(', skip = "', get_skip(), '"')
+        )
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_nrows_max <- function() {
+        if (get_selection(f2_box_max) == "All") {
+            Inf
+        } else {
+            as.numeric(get_values(f2_ent_max))
+        }
+    }
+    get_nrows_max_code <- function() {
+        if (get_selection(f2_box_max) == "All") {
+            ""
+        } else {
+            str_c(", nrows = ", get_nrows_max())
+        }
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Select value for f3_box_nrow box ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_nrow_input_preview <- function() {
+        val <- get_selection(f3_box_nrow)
+        switch(val,
+               "All"    = Inf,
+               "10"     = 10,
+               "100"    = 100,
+               "1 000"  = 1000,
+               "10 000" = 10000,
+               stop("Value '", val, "' is unknown (f3_box_nrow)."))
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # get_na_str <- function() {
+    #     val <- get_selection(f2_box_sep)
+    #     switch(val,
+    #            "Auto"            = "auto",
+    #            "White space ( )" = " ",
+    #            "Tab ( \\t )"     = "\t",
+    #            "Comma ( , )"     = ",",
+    #            "Semicolon ( ; )" = ";",
+    #            "Pipe ( | )"      = "|",
+    #            "Custom\u2026"    = get_values(f2_ent_sep),
+    #            stop("Value '", val, "' is unknown (f2_box_sep)."))
+    # }
+    # get_sep_code <- function() {
+    #     val <- get_selection(f2_box_sep)
+    #     switch(val, "Auto" = "", str_c(', sep = "', get_sep(), '"'))
+    # }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # get_quote <- function() {
+    #     val <- get_selection(f2_box_sep)
+    #     switch(val,
+    #            "Auto"            = "auto",
+    #            "White space ( )" = " ",
+    #            "Tab ( \\t )"     = "\t",
+    #            "Comma ( , )"     = ",",
+    #            "Semicolon ( ; )" = ";",
+    #            "Pipe ( | )"      = "|",
+    #            "Custom\u2026"    = get_values(f2_ent_sep),
+    #            stop("Value '", val, "' is unknown (f2_box_sep)."))
+    # }
+    # get_sep_code <- function() {
+    #     val <- get_selection(f2_box_sep)
+    #     switch(val, "Auto" = "", str_c(', sep = "', get_sep(), '"'))
+    # }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_encoding <- function() {
+        get_selection(f2_box_enc)
+    }
+    get_encoding_code <- function() {
+        val <- get_selection(f2_box_enc)
+        switch(val, "unknown" = "", str_c(', encoding = "', get_encoding(), '"'))
+    }
+
+
+    # ... --------------------------------------------------------------------
+
 
 
 
@@ -249,13 +404,13 @@ window_import_from_text_delim <- function() {
         filename <- get_values(f1_ent_1_2)
 
         if (fs::is_file(filename) || is_url(filename)) {
-
+            n_rows <- min(get_nrow_input_preview(), get_nrows_max())
+            n_rows <- if (is.infinite(n_rows)) -1L else n_rows
             file_contents <-
-                readr::read_lines(filename, n_max = 1000) %>%
+                readr::read_lines(filename, n_max = n_rows) %>%
                 str_c(collapse = "\n")
 
             set_values(f3_txt_1, file_contents)
-
 
         }
 
@@ -264,11 +419,13 @@ window_import_from_text_delim <- function() {
             set_values(f3_txt_1, "")
 
             tk_messageBox(
-                "ok",
+                parent = top,
+                type = "ok",
+                icon = "warning",
                 message = str_c(
-                    'The file was not found. Check if\n',
-                    'the name and the path are correct.'),
-                caption = "Not Found")
+                    'The file was not found. Check if the name and \n',
+                    'the path in the box "File, URL" are correct.'),
+                caption = "File Not Found")
         }
     }
 
@@ -289,7 +446,29 @@ window_import_from_text_delim <- function() {
 
         suppressWarnings(
             ds_contents <- try(
-                data.table::fread(input, data.table = FALSE, encoding = "UTF-8"),
+                data.table::fread(
+                    input,
+                    header       = get_header(),
+                    dec          = get_dec(),
+                    sep          = get_sep(),
+                    skip         = get_skip(),
+                    nrows        = min(get_nrow_input_preview(), get_nrows_max()), # ???,
+                    # na.strings = get_na_str(),
+                    # quote      = get_quote(),
+                    encoding     = get_encoding(),
+                    data.table   = FALSE, # get_df_vs_dt()
+
+                    check.names      = get_values(f2_opts, "check_names")$check_names,
+                    # ...
+                    fill             = get_values(f2_opts, "fill")$fill,
+                    logical01        = get_values(f2_opts, "logical01")$logical01,
+                    stringsAsFactors = get_values(f2_opts, "stringsAsFactors")$stringsAsFactors
+                    # skip = get_values(f2_opts, "check_names")$check_names,
+
+
+
+
+                ),
                 silent = TRUE)
         )
 
@@ -366,7 +545,7 @@ window_import_from_text_delim <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Update dataset preview if autopreview is enabled
     auto_update_df <- function() {
-        if (get_values(f2_opts)$auto_pteview) {
+        if (get_values(f2_opts)$auto_pteview && get_values(f3_txt_1) != "") {
             update_df_preview()
         }
     }
@@ -423,7 +602,13 @@ window_import_from_text_delim <- function() {
         set_values(f2_but_from, "clipboard")
         tk_disable(f1_ent_1_2)
         tk_disable(f1_but_1_4)
+        tk_disable(f3_box_nrow)
+
         tk_normalize(f3_txt_1)
+        tkbind(f3_txt_1, "<Return>", update_df_preview)
+        tcltk2::tip(f3_txt_1) <- str_c(
+            "You may edit the contents.",
+            "Press 'Enter' to update preview.")
 
         update_name()
 
@@ -437,10 +622,17 @@ window_import_from_text_delim <- function() {
         set_values(f2_but_from, "file")
         tk_normalize(f1_ent_1_2)
         tk_normalize(f1_but_1_4)
+        tk_normalize(f3_box_nrow)
+
+        tkbind(f3_txt_1, "<Return>", update_df_preview)
         tk_disable(f3_txt_1)
+
+        tcltk2::tip(f3_txt_1) <- "Preview of input file contents."
 
         update_name()
     }
+
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Enable import options entry boxes.
     enable_entry <- function(txt, default = "") {
@@ -582,7 +774,26 @@ window_import_from_text_delim <- function() {
         layout  = "horizontal",
 
         commands = list(
-            "file"      = set_mode_file_url,
+            "file" = function() {
+                if (get_values(f3_txt_1) != "") {
+                    ans <- tk_messageBox(
+                        parent = top,
+                        type = "yesno",
+                        default = "no",
+                        message = str_c(
+                            'The contents of Input window will be deleted. \n',
+                            'Do you agree?'),
+                        caption = "Clear Input")
+
+                    if (ans != "yes") {
+                        set_values(f2_but_from, "clipboard")
+                        return()
+                    }
+                }
+                clear_preview()
+                set_mode_file_url()
+            },
+
             "clipboard" = set_mode_clipboard
         ),
 
@@ -632,23 +843,75 @@ window_import_from_text_delim <- function() {
     tip_box_out  <- "Class of imported data set."
 
 
-    f2_box_head <- bs_combobox(f2, width = 13, values = head1, tip = tip_box_head, selection = 1, on_select = function() {auto_update_df()})
-    f2_box_dec  <- bs_combobox(f2, width = 13, values = dec1,  tip = tip_box_dec,  selection = 1, on_select = function() {auto_update_df()})
-    f2_box_sep  <- bs_combobox(f2, width = 13, values = sep1,  tip = tip_box_sep,  selection = 1, on_select = function() {enable_entry("sep", "||"); auto_update_df()})
-    f2_box_skip <- bs_combobox(f2, width = 13, values = skip1, tip = tip_box_skip, selection = 1, on_select = function() {enable_entry("skip", "0"); auto_update_df()})
-    f2_box_max  <- bs_combobox(f2, width = 13, values = max1,  tip = tip_box_max,  selection = 1, on_select = function() {enable_entry("max",  "0"); auto_update_df()})
-    f2_box_na   <- bs_combobox(f2, width = 13, values = nas1,  tip = tip_box_na,   selection = 1, on_select = function() {enable_entry("na",   "?"); auto_update_df()})
-    f2_box_quo  <- bs_combobox(f2, width = 13, values = quo1,  tip = tip_box_quo,  selection = 1, on_select = function() {enable_entry("quo",  "\""); auto_update_df()})
-    f2_box_enc  <- bs_combobox(f2, width = 13, values = enc1,  tip = tip_box_enc,  selection = 1, on_select = function() {auto_update_df()})
-    f2_box_out  <- bs_combobox(f2, width = 13, values = out1,  tip = tip_box_out,  selection = 1, on_select = function() {auto_update_df()})
+    f2_box_head <- bs_combobox(
+        f2, width = 13, values = head1, tip = tip_box_head,
+        selection = 1, on_select = function() {auto_update_df()})
+
+    f2_box_dec  <- bs_combobox(
+        f2, width = 13, values = dec1,  tip = tip_box_dec,
+        selection = 1, on_select = function() {auto_update_df()})
+
+    f2_box_sep  <- bs_combobox(
+        f2, width = 13, values = sep1,  tip = tip_box_sep,
+        selection = 1, on_select = function() {enable_entry("sep", "-"); auto_update_df()})
+
+    f2_box_skip <- bs_combobox(
+        f2, width = 13, values = skip1, tip = tip_box_skip,
+        selection = 1, on_select = function() {enable_entry("skip", "0"); auto_update_df()})
+
+    f2_box_max  <- bs_combobox(
+        f2, width = 13, values = max1,  tip = tip_box_max,
+        selection = 1, on_select = function() {enable_entry("max",  "0"); auto_update_df()})
+
+    f2_box_na   <- bs_combobox(
+        f2, width = 13, values = nas1,  tip = tip_box_na,
+        selection = 1, on_select = function() {enable_entry("na",   "?"); auto_update_df()})
+
+    f2_box_quo  <- bs_combobox(
+        f2, width = 13, values = quo1,  tip = tip_box_quo,
+        selection = 1, on_select = function() {enable_entry("quo",  "\""); auto_update_df()})
+
+    f2_box_enc  <- bs_combobox(
+        f2, width = 13, values = enc1,  tip = tip_box_enc,
+        selection = 1, on_select = function() {auto_update_df()})
+
+    f2_box_out  <- bs_combobox(
+        f2, width = 13, values = out1,  tip = tip_box_out,
+        selection = 1, on_select = function() {auto_update_df()})
 
     tip_ent <- "Double click to enable."
     # f2_ent_dec  <- bs_entry(f2, width = 4)
-    f2_ent_sep  <- bs_entry(f2, width = 4, tip = tip_ent, on_double_click = function() {select_custom("sep", "||");  auto_update_df()}, on_key_release = auto_update_df)
-    f2_ent_skip <- bs_entry(f2, width = 4, tip = tip_ent, on_double_click = function() {select_custom("skip", "0");  auto_update_df()}, on_key_release = auto_update_df)
-    f2_ent_max  <- bs_entry(f2, width = 4, tip = tip_ent, on_double_click = function() {select_custom("max",  "0");  auto_update_df()}, on_key_release = auto_update_df)
-    f2_ent_na   <- bs_entry(f2, width = 4, tip = tip_ent, on_double_click = function() {select_custom("na",   "?");  auto_update_df()}, on_key_release = auto_update_df)
-    f2_ent_quo  <- bs_entry(f2, width = 4, tip = tip_ent, on_double_click = function() {select_custom("quo",  "\""); auto_update_df()}, on_key_release = auto_update_df)
+    f2_ent_sep  <- bs_entry(
+        f2, width = 4, tip = tip_ent,
+        on_double_click = function() {select_custom("sep", "|");  auto_update_df()},
+        on_key_release = auto_update_df)
+
+    f2_ent_skip <- bs_entry(
+        f2, width = 4, tip = tip_ent,
+        on_double_click = function() {select_custom("skip", "0");  auto_update_df()},
+        on_key_release = auto_update_df,
+        validate = "focus",
+        validatecommand = validate_pos_int,
+        invalidcommand  = make_red_text_reset_val(to = "0"))
+
+    f2_ent_max  <- bs_entry(
+        f2, width = 4, tip = tip_ent,
+        on_double_click = function() {select_custom("max", "0");  auto_update_df()},
+        on_key_release = auto_update_df,
+        validate = "focus",
+        validatecommand = validate_int_0_inf,
+        invalidcommand  = make_red_text_reset_val(to = "Inf"))
+
+
+    f2_ent_na   <- bs_entry(
+        f2, width = 4, tip = tip_ent,
+        on_double_click = function() {select_custom("na",   "?");  auto_update_df()},
+        on_key_release = auto_update_df)
+
+    f2_ent_quo  <- bs_entry(
+        f2, width = 4, tip = tip_ent,
+        on_double_click = function() {select_custom("quo",  "\""); auto_update_df()},
+        on_key_release = auto_update_df)
     # f2_ent_enc  <- bs_entry(f2, width = 4)
 
     tkgrid(f2_lab_head, f2_box_head$frame, "x",               pady = c(2, 0))
@@ -758,9 +1021,24 @@ window_import_from_text_delim <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f3_but <- tk2frame(f3)
+    f3_but_w <- tk2frame(f3_but)
+    f3_but_e <- tk2frame(f3_but)
+
+    f3_lab_1 <- bs_label(f3_but_w, text = "Preview rows")
+    f3_box_nrow <- bs_combobox(
+        f3_but_w,
+        width = 6,
+        values = c("All", "10", "100", "1 000", "10 000"),
+        tip = "Number of input file rows to preview.",
+        selection = 1,
+        on_select = function() {
+            # update only if "File, URL" entry is not empty
+            if (get_values(f1_ent_1_2) != "")
+                update_input_text()
+        })
 
     f3_but_1 <- tk2button(
-        f3_but,
+        f3_but_e,
         width = 8,
         text = "Paste",
         command = function() {
@@ -770,18 +1048,26 @@ window_import_from_text_delim <- function() {
         },
         tip = "Paste data from clipboard.")
 
-    f3_but_2 <- tk2button(f3_but, width = 8, text = "Clear",
+    f3_but_2 <- tk2button(f3_but_e, width = 8, text = "Clear",
                           command = clear_preview,
                           tip = "Clear input text.")
 
-    f3_but_3 <- tk2button(f3_but, width = 8, text = "Refresh",
+    f3_but_3 <- tk2button(f3_but_e, width = 8, text = "Refresh",
                           command = function() {
                               update_df_preview()
                           },
                           tip = "Refresh dataset preview.")
 
-    tkgrid(f3_but, sticky = "e", columnspan = 2)
+    tkgrid(f3_but, sticky = "ew", columnspan = 2)
+    tkgrid.columnconfigure(f3_but, 1, weight = 1)
+
+    tkgrid(f3_but_w, f3_but_e, sticky = "e", pady = c(2, 4))
+
+    tkgrid(f3_lab_1, f3_box_nrow$frame,  sticky = "w")
     tkgrid(f3_but_1, f3_but_2, f3_but_3, sticky = "e")
+
+    tkgrid.configure(f3_lab_1, padx = c(10, 2))
+    tkgrid.configure(f3_but_3, padx = c(0, 10))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     bs_label_b(f3, text = "Dataset") %>% tkgrid()
