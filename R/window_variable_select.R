@@ -73,29 +73,37 @@ window_variable_select <- function(new_dsname = NULL,
         if (new_dsname != activeDataSet()) {
 
             if (new_dsname %in% listDataSets()) {
-                if ("no" == tclvalue(checkReplace(new_dsname,
-                                                  gettext_bs("Data set")))) {
-                    window_variable_select(new_dsname     = new_dsname,
-                                           incorrect_cond_msg =
-                                               glue('Chose other name than "{new_dsname}".'))
+                if ("no" == tclvalue(checkReplace(
+                    new_dsname,
+                    gettext_bs("Data set")))) {
+                    window_variable_select(
+                        new_dsname = new_dsname,
+                        incorrect_cond_msg =
+                            glue('Chose other name than "{new_dsname}".'))
                     return()
                 }
             }
 
         } else {
-            response <- tclvalue(
-                RcmdrTkmessageBox(
+            response <-
+                tk_messageBox(
+                    parent = top,
+                    caption = "Modify Dataset",
                     message =
                         sprintf(
-                            gettext_bs("Variable(s):\nExplicitly selected to include: %d\nExplicitly selected to remove: %d\nPlease confirm to modify your dataset."),
+                            gettext_bs(str_c(
+                                "Variable(s):\n",
+                                "Explicitly selected to include: %d\n",
+                                "Explicitly selected to remove: %d\n",
+                                "Do you agree to modify your dataset?")),
                             length(var_select), length(var_delete)
                         ),
                     icon    = "warning",
-                    type    = "okcancel",
-                    default = "cancel"
+                    type    = "yesno",
+                    default = "no"
                 )
-            )
-            if (response == "cancel") {
+
+            if (response == "no") {
                 onCancel()
                 return()
             }
