@@ -34,9 +34,10 @@ window_import_rdata <- function() {
             "\n\nDo you want to proceed?"
            )
 
-        choice <- tk_messageBox("yesno", warn_msg,
-                                "Do you want to proceed?",
-                                default = "no")
+        choice <- tk_messageBox(parent = top, type = "yesno", default = "no",
+                                message = warn_msg,
+                                caption = "Do you want to proceed?"
+        )
 
         if (choice == "no") {
             Message("Data import was canceled.", type = "warn")
