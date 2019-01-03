@@ -19,7 +19,6 @@ command_get_locale <- function() {
 window_locale_set <- function() {
 
     # Functions --------------------------------------------------------------
-
     cmd_control_activation <- function() {
 
         switch(tclvalue_chr(options_Variable),
@@ -246,7 +245,7 @@ window_locale_set <- function() {
     show_locale_frame <- tk2frame(options_outer_frame)
     b1 <- tk2button(
         show_locale_frame,
-        text = "Get current locale",
+        text = "Show current locale",
         tip  = str_c(
             "Click to select current locale. \n",
             "Double-click to print locale in console."
@@ -264,11 +263,14 @@ window_locale_set <- function() {
         width           = c(43, Inf),
         selectmode      = "single",
         on_release      = cmd_update_textentry,
-        on_double_click = cmd_update_textentry,
+        on_double_click = onOK,
+        # on_triple_click = onOK,
         tip = str_c(
             "Short names of locales.\n",
             "NOTE: some of the listed locales may \n",
-            "not be available on your computer. "
+            "not be available on your computer. \n",
+            'Click and release to update "Locale" box. \n',
+            'Double-click to set the selected locale.'
         )
     )
 
