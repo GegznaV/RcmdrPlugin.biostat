@@ -82,7 +82,8 @@ window_dataset_select <- function() {
         on.exit(cursor_set_idle(top))
 
         if (length(dataSets) == 0) {
-            RcmdrTkmessageBox(
+            tk_messageBox(
+                parent = top,
                 "There are no datasets in R memory.\nPlease, create or import a dataset.",
                 icon = "warning",
                 title = "No Dataset Found in R",
@@ -93,10 +94,12 @@ window_dataset_select <- function() {
 
 
         if (get_selection_length(var_ds_box) == 0) {
-            RcmdrTkmessageBox("Please, select a dataset.",
-                              title = "Dataset Not Selected",
-                              icon = "warning",
-                              type = "ok")
+            tk_messageBox(
+                parent = top,
+                "Please, select a dataset.",
+                caption = "Dataset Not Selected",
+                icon = "warning",
+                type = "ok")
             return()
         }
 
