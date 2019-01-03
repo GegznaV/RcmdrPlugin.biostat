@@ -286,6 +286,7 @@ window_import_from_text_delim <- function() {
             str_c(", nrows = ", get_nrows_max())
         }
     }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Select value for f3_box_nrow box ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_nrow_input_preview <- function() {
@@ -297,6 +298,18 @@ window_import_from_text_delim <- function() {
                "1 000"  = 1000,
                "10 000" = 10000,
                stop("Value '", val, "' is unknown (f3_box_nrow)."))
+    }
+
+    get_nrow_ds_preview <- function() {
+        val <- get_selection(f3_box_nrow_2)
+        switch(val,
+               "All"    = Inf,
+               "8"      = 8,
+               "10"     = 10,
+               "100"    = 100,
+               "1 000"  = 1000,
+               "10 000" = 10000,
+               stop("Value '", val, "' is unknown (f3_box_nrow_2)."))
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -486,7 +499,9 @@ window_import_from_text_delim <- function() {
             op <- options(width = 10000)
             ds_preview <-
                 capture.output(
-                    print(tibble::as_tibble(ds_contents), width = Inf,  n = 8)
+                    print(tibble::as_tibble(ds_contents),
+                          width = Inf,
+                          n = get_nrow_ds_preview())
                 ) %>%
                 str_subset("^(?!# A tibble.*)") %>%
                 str_replace( "^# \\.\\.\\. with.*",
@@ -1037,6 +1052,18 @@ window_import_from_text_delim <- function() {
                 update_input_text()
         })
 
+    f3_box_nrow_2 <- bs_combobox(
+        f3_but_w,
+        width = 3,
+        values = c("8", "100", "All"),
+        tip = "Number of dataset rows to preview.",
+        selection = 1,
+        on_select = function() {
+            # update only if "Input" entry is not empty
+            if (get_values(f3_txt_1) != "")
+                update_df_preview()
+        })
+
     f3_but_1 <- tk2button(
         f3_but_e,
         width = 8,
@@ -1063,9 +1090,10 @@ window_import_from_text_delim <- function() {
 
     tkgrid(f3_but_w, f3_but_e, sticky = "e", pady = c(2, 4))
 
-    tkgrid(f3_lab_1, f3_box_nrow$frame,  sticky = "w")
+    tkgrid(f3_lab_1, f3_box_nrow$frame, f3_box_nrow_2$frame,  sticky = "w")
     tkgrid(f3_but_1, f3_but_2, f3_but_3, sticky = "e")
 
+    tkgrid.configure(f3_box_nrow_2$frame, padx = c(2, 2))
     tkgrid.configure(f3_lab_1, padx = c(10, 2))
     tkgrid.configure(f3_but_3, padx = c(0, 10))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
