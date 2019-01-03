@@ -1069,7 +1069,6 @@ is_numeric_str <- function(str) {
     str_detect(str, "^(-|\\+)?((\\.?\\d+)|(\\d+\\.\\d+)|(\\d+\\.?))$")
 }
 
-
 validate_num_0_0.5 <- function(P, W) {
     # P - value
     res <-
@@ -1086,6 +1085,40 @@ validate_num_0_0.5 <- function(P, W) {
         return(tcl("expr", "FALSE"))
     }
 }
+
+
+is_pos_integer_str <- function(str) {
+    str_detect(str, "^\\d+$")
+}
+
+validate_pos_int <- function(P, W) {
+    # P - value
+    res <- is_pos_integer_str(P)
+
+    if (res == TRUE) {
+        tkconfigure(W, foreground = "black")
+        return(tcl("expr", "TRUE"))
+    } else {
+        return(tcl("expr", "FALSE"))
+    }
+}
+
+is_integer_0_inf <- function(str) {
+    str_detect(str, "^(\\d+|[Ii]nf)$")
+}
+
+validate_int_0_inf <- function(P, W) {
+    # P - value
+    res <- is_integer_0_inf(P)
+
+    if (res == TRUE) {
+        tkconfigure(W, foreground = "black")
+        return(tcl("expr", "TRUE"))
+    } else {
+        return(tcl("expr", "FALSE"))
+    }
+}
+
 
 make_red_text <- function(P, W, S, v) {
     tkconfigure(W, foreground = "red2")
