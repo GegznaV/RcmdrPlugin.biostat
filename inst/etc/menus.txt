@@ -449,19 +449,19 @@ item	biostat_menu	cascade	"Online resources"	bs_online_menu	""	""
 
 # ---- +  Apps (online) -------------------------------------------------------
 
-menu	bs_online_tools_menu	topMenu	""	""	""	""
-item	bs_online_menu	cascade	"Applications"	bs_online_tools_menu	""	""
+menu	bs_online_apps_menu	bs_online_menu	""	""	""	""
+item	bs_online_menu	cascade	"Applications online"	bs_online_apps_menu	""	""
 
-item	bs_online_tools_menu	command	"Import data from image: WebPlotDigitizer"  window_online_image_digitizer	""	""
-item	bs_online_tools_menu	command	"Multivariate normality tests: MVN"  window_online_mvn	""	""
-item	bs_online_tools_menu	command	"Probability calculator: GeoGebra"  window_online_geogebra_probability 	""	""
-item	bs_online_tools_menu	command	"ROC analysis: Easy ROC"  window_online_easyROC	""	""
-# item	bs_online_tools_menu	command	"ROC analysis: Time dependant ROC"  window_online_tdROC	""	""
+item	bs_online_apps_menu	command	"Import data from image: WebPlotDigitizer"  window_online_image_digitizer	""	""
+item	bs_online_apps_menu	command	"Multivariate normality tests: MVN"  window_online_mvn	""	""
+item	bs_online_apps_menu	command	"Probability calculator: GeoGebra"  window_online_geogebra_probability 	""	""
+item	bs_online_apps_menu	command	"ROC analysis: Easy ROC"  window_online_easyROC	""	""
+# item	bs_online_apps_menu	command	"ROC analysis: Time dependant ROC"  window_online_tdROC	""	""
 
-# item	bs_online_tools_menu	separator	""	""	""	""
+# item	bs_online_apps_menu	separator	""	""	""	""
 
 menu	bs_online_lists_menu	topMenu	""	""	""	""
-item	bs_online_tools_menu	cascade	"Lists of applications"	bs_online_lists_menu	""	""
+item	bs_online_apps_menu	cascade	"Lists of applications"	bs_online_lists_menu	""	""
 
 item	bs_online_lists_menu	command	"statpages.info"  window_online_statpages	""	""
 
@@ -477,7 +477,13 @@ item	bs_downlaod_menu	command	"Cluster analysis: Orange"  window_online_orange	"
 item	bs_downlaod_menu	command	"Power analysis: G*Power"  window_online_gpower	""	""
 item	bs_downlaod_menu	command	"Probability calculator: GeoGebra Classic 6"  window_online_geogebra_download	""	""
 item	bs_downlaod_menu	command	"Scientific data analysis: PAST"  window_online_past_download	""	""
-# item	bs_downlaod_menu	separator	""	""	""	""
+
+
+item	bs_downlaod_menu	separator	""	""	""	""
+item	bs_downlaod_menu	command	"R project"  window_online_r_project	""	""
+item	bs_downlaod_menu	command	"Microsoft R open"  window_online_mro	""	""
+item	bs_downlaod_menu	command	"RStudio"  window_online_rstudio	""	""
+
 
 
 # ---- +  Books --------------------------------------------------------------
@@ -512,21 +518,34 @@ item	bs_forums_menu	command	"Stack Overflow (programming, R)"  window_online_sta
 item	bs_forums_menu	command	"Cross Validated (data analysis, statistics)"  window_online_crossvalidated	""	""
 
 
-# ---- +  R extensions -------------------------------------------------------
+# + Tidyverse -------------------------------------------------------------
 
-menu	bs_r_ext_menu	topMenu	""	""	""	""
-item	bs_online_menu	cascade	"R extensions"	bs_r_ext_menu	""	""
+menu	bs_tidyverse_menu	bs_online_menu	""	""	""	""
+item	bs_online_menu	cascade	"Tidyverse"	bs_tidyverse_menu	""	""
 
-item	bs_r_ext_menu	command	"Tidyverse"  window_online_tidyverse	""	""
+item	bs_tidyverse_menu	command	"Tidyverse homepage"  window_online_tidyverse	""	""
+item	bs_tidyverse_menu	command	"Package 'dplyr' (data manipulation)"  window_online_dplyr	""	""
+item	bs_tidyverse_menu	command	"Package 'readxl' (import data from Excel)"  window_online_readxl	""	""
 
-item	bs_r_ext_menu	separator	""	""	""	""
-item	bs_r_ext_menu	command	"Extensions for ggplot2 (plots)"  window_online_ggplot2_ext	""	""
-item	bs_r_ext_menu	command	"Plotly for R (interactive plots)"  window_online_plotly	""	""
+
+# + Plotting --------------------------------------------------------------
+menu	bs_online_plots_menu	bs_online_menu	""	""	""	""
+item	bs_online_menu	cascade	"R plots"	bs_online_plots_menu	""	""
+
+
+item	bs_online_plots_menu	command	"Package 'ggplot2' (plots)"  window_online_ggplot2	""	""
+item	bs_online_plots_menu	command	"Package 'ggstatsplot' (plots)"  window_online_ggstatsplot	""	""
+item	bs_online_plots_menu	command	"Package 'ggpubr' (plots)"  window_online_ggpubr	""	""
+item	bs_online_plots_menu	command	"Extensions for ggplot2 (plots)"  window_online_ggplot2_ext	""	""
+
+item	bs_online_plots_menu	separator	""	""	""	""
+
+item	bs_online_plots_menu	command	"Plotly for R (interactive plots)"  window_online_plotly	""	""
 
 
 # ---- +  R news & turorials -------------------------------------------------
 
-menu	bs_r_news_menu	topMenu	""	""	""	""
+menu	bs_r_news_menu	bs_online_menu	""	""	""	""
 item	bs_online_menu	cascade	"R news & turorials"	bs_r_news_menu	""	""
 
 item	bs_r_news_menu	command	"R Cheat sheets"  window_online_r_chearsheets	""	""
@@ -537,6 +556,6 @@ item	bs_r_news_menu	command	"R Bloggers (tutorials, news)"  window_online_r_blog
 item	bs_r_news_menu	command	"R Weekly (news, tutorials)"  window_online_rweekly	""	""
 item	bs_r_news_menu	separator	""	""	""	""
 
-item	bs_r_news_menu	command	"R project (news, downloads)"  window_online_r_project	""	""
 item	bs_r_news_menu	command	"RStudio learning (tutorials)"  window_online_rstudio_learning	""	""
+
 
