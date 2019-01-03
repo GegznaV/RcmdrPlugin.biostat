@@ -8,18 +8,19 @@ open_online_tool <- function(url = NULL, copy_to_clipboard = FALSE) {
     checkmate::assert_logical(copy_to_clipboard)
 
     if (!pingr::is_online()) {
-        open_browser <- tclvalue_chr(
-            RcmdrTkmessageBox(
-                str_c(
-                    "You are offline now, but this feature requires \n",
-                    "an Internet connection. Open the tool in a web \n",
-                    "browser anyway?"
+        open_browser <-
+            tk_messageBox(
+                parent = top,
+                message = str_c(
+                    "This feature requires an Internet connection but your\n",
+                    "computer is offline now. Do you want to open the tool\n",
+                    "or website in a web browser anyway?"
                 ),
-
                 icon  = "warning",
-                title = "No Internet Connection",
-                type  = "yesno")
-        )
+                caption = "No Internet Connection",
+                type  = "yesno",
+                default = "no")
+
     } else {
         choice <- "yes"
     }
@@ -87,6 +88,27 @@ window_online_tdROC  <- function() {
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
+window_online_r_project  <- function() {
+    open_online_tool("https://www.r-project.org/")
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_mro  <- function() {
+    open_online_tool("https://mran.microsoft.com/download/")
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_rstudio  <- function() {
+    open_online_tool("https://www.rstudio.com/products/rstudio/download/")
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
 window_online_bert <- function() {
     open_online_tool("https://bert-toolkit.com/")
 }
@@ -127,7 +149,73 @@ window_online_past_download  <- function() {
 #' @export
 #' @keywords internal
 window_online_tidyverse <- function() {
-    open_online_tool("https://www.tidyverse.org/")
+    open_online_tool("https://www.tidyverse.org/packages/")
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_dplyr <- function() {
+    open_online_tool("https://dplyr.tidyverse.org/")
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_tidyr <- function() {
+    open_online_tool("https://tidyr.tidyverse.org/")
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_magrittr <- function() {
+    open_online_tool("https://magrittr.tidyverse.org/")
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_readr <- function() {
+    open_online_tool("https://readr.tidyverse.org/")
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_readxl <- function() {
+    open_online_tool("https://readxl.tidyverse.org/")
+}
+
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_purrr <- function() {
+    open_online_tool("https://purrr.tidyverse.org/")
+}
+
+# Plotting -------------------------------------------------------------------
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_ggplot2 <- function() {
+    open_online_tool("https://ggplot2.tidyverse.org/")
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_ggstatsplot  <- function() {
+    open_online_tool("https://indrajeetpatil.github.io/ggstatsplot/")
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_ggpubr  <- function() {
+    open_online_tool("https://rpkgs.datanovia.com/ggpubr/")
 }
 
 #' @rdname Menu-window-functions
@@ -174,12 +262,6 @@ window_online_r_bloggers  <- function() {
     open_online_tool("https://www.r-bloggers.com/")
 }
 
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-window_online_r_project  <- function() {
-    open_online_tool("https://www.r-project.org/")
-}
 
 #' @rdname Menu-window-functions
 #' @export
