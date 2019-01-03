@@ -1107,16 +1107,16 @@ window_import_from_text_delim <- function() {
                 update_df_preview()
         })
 
+
     f3_but_1 <- tk2button(
         f3_but_e,
         width = 8,
-        text = "Paste",
-        command = function() {
-            set_mode_clipboard()
-            set_values(f3_txt_1, str_c(clipr::read_clip(), collapse = "\n"))
-            update_df_preview()
-        },
-        tip = "Clear input and paste data from clipboard.")
+        text = "Locale",
+        command = window_locale_set,
+        tip = str_c(
+            "Change current locale. \n",
+            "Useful if pasting text \n",
+            "results in encoding issues."))
 
     f3_but_2 <- tk2button(f3_but_e, width = 8, text = "Clear",
                           command = clear_preview,
@@ -1128,17 +1128,28 @@ window_import_from_text_delim <- function() {
                           },
                           tip = "Refresh dataset preview.")
 
+    f3_but_4 <- tk2button(
+        f3_but_e,
+        width = 8,
+        text = "Paste",
+        command = function() {
+            set_mode_clipboard()
+            set_values(f3_txt_1, read_clipboard())
+            update_df_preview()
+        },
+        tip = "Clear input and paste data from clipboard.")
+
     tkgrid(f3_but, sticky = "ew", columnspan = 2)
     tkgrid.columnconfigure(f3_but, 1, weight = 1)
 
     tkgrid(f3_but_w, f3_but_e, sticky = "e", pady = c(2, 4))
 
     tkgrid(f3_lab_nrows, f3_box_nrow_1$frame, f3_box_nrow_2$frame,  sticky = "w")
-    tkgrid(f3_but_1, f3_but_2, f3_but_3, sticky = "e")
+    tkgrid(f3_but_1, f3_but_2, f3_but_3, f3_but_4, sticky = "e")
 
     tkgrid.configure(f3_box_nrow_2$frame, padx = c(2, 2))
     tkgrid.configure(f3_lab_nrows, padx = c(10, 2))
-    tkgrid.configure(f3_but_3, padx = c(0, 10))
+    tkgrid.configure(f3_but_4, padx = c(0, 10))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     bs_label_b(f3, text = "Dataset") %>% tkgrid()
