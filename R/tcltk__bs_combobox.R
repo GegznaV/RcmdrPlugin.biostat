@@ -36,17 +36,17 @@
 # @export
 
 bs_combobox <- function(
-    parent       = top,
-    values       = variables_all(),
-    export              = "FALSE",
-    state               = c("readonly", "normal", "disabled"),
-    # default_text      = "<no variable selected>",
-    # selection = gettext_bs(default_text),
-    value               = NULL,
-    selection           = NULL,
-    title               = NULL,
-    title_sticky        = "w",
-    combobox_sticky     = "nw",
+    parent             = top,
+    values             = variables_all(),
+    export             = "FALSE",
+    state              = c("readonly", "normal", "disabled"),
+    # default_text     = "<no variable selected>",
+    # selection        = gettext_bs(default_text),
+    value              = NULL,
+    selection          = NULL,
+    title              = NULL,
+    title_sticky       = "w",
+    combobox_sticky    = "nw",
 
     on_select          = function() {},
     postcommand        = function() {},
