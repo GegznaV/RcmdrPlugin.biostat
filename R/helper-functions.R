@@ -333,6 +333,21 @@ tk_label_blue <- function(...) {
 }
 
 
+#' Read text from clipboard
+#'
+#' @return A string.
+#' @export
+#'
+#' @examples
+#' read_clipboard()
+read_clipboard <- function() {
+    str <- try(silent = TRUE,
+        tcltk::tclvalue(tcltk::.Tcl("selection get -selection CLIPBOARD"))
+    )
+
+    if (!inherits(str, "try-error")) str else ""
+}
+
 # ___ Vectors  ___ ===========================================================
 #' @rdname Helper-functions
 #' @export
