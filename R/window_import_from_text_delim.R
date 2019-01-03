@@ -190,6 +190,11 @@ onOK <- function() {
 #' @keywords internal
 window_import_from_text_delim <- function() {
 
+    # Fonts ------------------------------------------------------------------
+    font_consolas_italic  <- tkfont.create(family = "Consolas", size = 8, slant = "italic")
+    font_consolas_bold    <- tkfont.create(family = "Consolas", size = 8, weight = "bold")
+    font_consolas_regular <- tkfont.create(family = "Consolas", size = 8)
+
     # Functions ==============================================================
     # Validation -------------------------------------------------------------
     make_red_text_reset_val <- function(to = "Inf") {
@@ -288,16 +293,16 @@ window_import_from_text_delim <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Select value for f3_box_nrow box ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Select value for f3_box_nrow_1 box ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_nrow_input_preview <- function() {
-        val <- get_selection(f3_box_nrow)
+        val <- get_selection(f3_box_nrow_1)
         switch(val,
                "All"    = Inf,
                "10"     = 10,
+               "50"     = 50,
                "100"    = 100,
-               "1 000"  = 1000,
-               "10 000" = 10000,
-               stop("Value '", val, "' is unknown (f3_box_nrow)."))
+               "1000"   = 1000,
+               stop("Value '", val, "' is unknown (f3_box_nrow_1)."))
     }
 
     get_nrow_ds_preview <- function() {
@@ -305,10 +310,8 @@ window_import_from_text_delim <- function() {
         switch(val,
                "All"    = Inf,
                "8"      = 8,
-               "10"     = 10,
                "100"    = 100,
-               "1 000"  = 1000,
-               "10 000" = 10000,
+               "1000"   = 1000,
                stop("Value '", val, "' is unknown (f3_box_nrow_2)."))
     }
 
@@ -437,7 +440,8 @@ window_import_from_text_delim <- function() {
                 icon = "warning",
                 message = str_c(
                     'The file was not found. Check if the name and \n',
-                    'the path in the box "File, URL" are correct.'),
+                    'the path in the box "File, URL" are correct and\n.',
+                    'not empty.'),
                 caption = "File Not Found")
         }
     }
@@ -509,8 +513,26 @@ window_import_from_text_delim <- function() {
             options(op)
 
             if (length(ds_preview) <= 1) {
-                err_msg <-
-                    "Either file format, input text or import options are incorrect."
+
+                switch(
+                    get_values(f2_but_from),
+                    "file" = {
+                        err_msg <- str_c(
+                            "Possible reasons:\n",
+                            " - file is not a text file (incorrect format);\n",
+                            " - file is empty;\n",
+                            " - import options are incorrect.")
+                    },
+
+                    "clipboard" = {
+                        err_msg <- str_c(
+                            "Possible reasons:\n",
+                            " - input is empty;\n",
+                            " - input contains one row and 'Header' is not 'No';\n",
+                            " - other import options are incorrect.")
+                    },
+                    stop("Unrecognized value of 'f2_but_from'")
+                )
             }
         }
 
@@ -529,9 +551,6 @@ window_import_from_text_delim <- function() {
 
             set_values(f3_txt_2, ds_preview)
 
-            # Change colors
-            font_italic <- tkfont.create(slant = "italic", size = 8, family = "Consolas")
-            font_bold   <- tkfont.create(weight = "bold",  size = 8, family = "Consolas")
 
             # Variable names
             tktag.add(f3_txt_2, "h1", "1.0", "2.0")
@@ -539,20 +558,32 @@ window_import_from_text_delim <- function() {
                             # background = "#EFEFEF",
                             background = "white",
                             foreground = "blue",
-                            font = font_bold)
+                            font = font_consolas_bold)
 
             # Variable types
             tktag.add(f3_txt_2, "h2", "2.0", "3.0")
             tktag.configure(f3_txt_2, "h2",
                             foreground = "grey50",
-                            font = font_italic)
+                            font = font_consolas_italic)
 
 
             # Information
-            tktag.add(f3_txt_2, "las", "11.0", "end")
-            tktag.configure(f3_txt_2, "las",
-                            foreground = "grey50",
-                            font = font_italic)
+            nrow_2 <- get_selection(f3_box_nrow_2) #
+
+            if (nrow_2 == "All") {
+                # Remove grey shade
+                tktag.remove(f3_txt_2, "info",  "1.0", "end")
+
+            } else {
+                # Add grey shade
+                pos <- as.integer(nrow_2) + 3
+                pos_start <- str_glue("{pos}.0")
+                pos_end   <- str_glue("{pos}.0 + 1 line")
+                tktag.add(f3_txt_2, "info", pos_start, pos_end)
+                tktag.configure(f3_txt_2, "info",
+                                foreground = "grey50",
+                                font = font_consolas_italic)
+            }
         }
 
     }
@@ -617,13 +648,20 @@ window_import_from_text_delim <- function() {
         set_values(f2_but_from, "clipboard")
         tk_disable(f1_ent_1_2)
         tk_disable(f1_but_1_4)
-        tk_disable(f3_box_nrow)
+
+        set_selection(f3_box_nrow_1, "All")
+        tk_disable(f3_box_nrow_1)
+
+        tkconfigure(f3_lab_1, text = "Input from Clipboard (editable)")
+        # nchar("(editable)")
+        # tktag.add(f3_lab_1, "info_ed", "end - 10", "end")
+
 
         tk_normalize(f3_txt_1)
-        tkbind(f3_txt_1, "<Return>", update_df_preview)
         tcltk2::tip(f3_txt_1) <- str_c(
-            "You may edit the contents.",
-            "Press 'Enter' to update preview.")
+            "Editable text from clipboard. \n",
+            "To update dataset's preview bellow, press\n",
+            "Ctrl+S or enable automatic update.")
 
         update_name()
 
@@ -637,12 +675,15 @@ window_import_from_text_delim <- function() {
         set_values(f2_but_from, "file")
         tk_normalize(f1_ent_1_2)
         tk_normalize(f1_but_1_4)
-        tk_normalize(f3_box_nrow)
 
-        tkbind(f3_txt_1, "<Return>", update_df_preview)
+        tk_normalize(f3_box_nrow_1)
+        set_selection(f3_box_nrow_1, 50)
+
+
+        tkconfigure(f3_lab_1, text = "Input File")
         tk_disable(f3_txt_1)
 
-        tcltk2::tip(f3_txt_1) <- "Preview of input file contents."
+        tcltk2::tip(f3_txt_1) <- "Preview of input file contents.\nNot editable."
 
         update_name()
     }
@@ -961,32 +1002,43 @@ window_import_from_text_delim <- function() {
     f2_opts <- bs_checkboxes(
         parent = f2,
         boxes = c("check_names",
+                  "stringsAsFactors",
+                  "logical01",
                   "strip_white",
                   "blank_lines_skip",
                   "fill",
-                  "logical01",
-                  "stringsAsFactors",
                   "auto_pteview"
         ),
         default_command = auto_update_df,
         # commands = list(auto_pteview = function(){}),
-        values = c(0, 1, 0, 0, 0, 0, 1),
+        values = c(0, 0, 0, 1, 0, 0, 1),
         # commands      = list("check_locale_" = cmd_checkbox),
         labels = gettext_bs(c(
             "Check and adjust names",
+            "Convert strings to factors",
+            "Read 0/1 as FALSE/TRUE",
             "Strip leading and tailing spaces",
             "Skip empty lines",
             "Fill unequal length rows",
-            "Read 0/1 as FALSE/TRUE",
-            "Convert strings to factors",
             "Automatically update preview"
         )),
 
         tips = list(
             "check_names" = str_c(
                 "Check variable names to ensure that they are syntactically \n",
-                "valid variable names. If necessary they are adjusted\n",
-                "(by function `make.names`)."
+                "valid variable names (start with a letter, do not contain \n",
+                "and other special symbols. If necessary the names are  \n",
+                "adjusted by function 'make.names'."
+            ),
+
+            "stringsAsFactors" = str_c(
+                "Convert strings (text variables) \n",
+                "to factors (categorical variables)."
+            ),
+
+            "logical01" = str_c(
+                "A column containing only 0s and 1s will be \n",
+                "read as logical, otherwise as integer."
             ),
 
             "strip_white" = str_c(
@@ -1001,16 +1053,6 @@ window_import_from_text_delim <- function() {
             "fill" = str_c(
                 "In case the rows have unequal length,\n",
                 "blank fields are implicitly filled."
-            ),
-
-            "logical01" = str_c(
-                "A column containing only 0s and 1s will be \n",
-                "read as logical, otherwise as integer."
-            ),
-
-            "stringsAsFactors" = str_c(
-                "Convert strings (text variables) \n",
-                "to factors (categorical variables)."
             ),
 
             "auto_pteview" = str_c(
@@ -1030,7 +1072,8 @@ window_import_from_text_delim <- function() {
 
 
 
-    bs_label_b(f3, text = "Input") %>% tkgrid()
+    f3_lab_1 <- bs_label_b(f3, text = "Input")
+    tkgrid(f3_lab_1)
     f3_txt_1 <- bs_text(f3, width = 70, height = 11, wrap = "none",
                         undo = TRUE, state = "disabled", font = text_font)
 
@@ -1039,12 +1082,12 @@ window_import_from_text_delim <- function() {
     f3_but_w <- tk2frame(f3_but)
     f3_but_e <- tk2frame(f3_but)
 
-    f3_lab_1 <- bs_label(f3_but_w, text = "Preview rows")
-    f3_box_nrow <- bs_combobox(
+    f3_lab_nrows <- bs_label(f3_but_w, text = "Preview rows")
+    f3_box_nrow_1 <- bs_combobox(
         f3_but_w,
-        width = 6,
-        values = c("All", "10", "100", "1 000", "10 000"),
-        tip = "Number of input file rows to preview.",
+        width = 4,
+        values = c("50", "100", "1000", "All"),
+        tip = "Number of input file rows to preview.\n(Window above).",
         selection = 1,
         on_select = function() {
             # update only if "File, URL" entry is not empty
@@ -1056,7 +1099,7 @@ window_import_from_text_delim <- function() {
         f3_but_w,
         width = 3,
         values = c("8", "100", "All"),
-        tip = "Number of dataset rows to preview.",
+        tip = "Number of dataset rows to preview.\n(Window below).",
         selection = 1,
         on_select = function() {
             # update only if "Input" entry is not empty
@@ -1073,7 +1116,7 @@ window_import_from_text_delim <- function() {
             set_values(f3_txt_1, str_c(clipr::read_clip(), collapse = "\n"))
             update_df_preview()
         },
-        tip = "Paste data from clipboard.")
+        tip = "Clear input and paste data from clipboard.")
 
     f3_but_2 <- tk2button(f3_but_e, width = 8, text = "Clear",
                           command = clear_preview,
@@ -1090,11 +1133,11 @@ window_import_from_text_delim <- function() {
 
     tkgrid(f3_but_w, f3_but_e, sticky = "e", pady = c(2, 4))
 
-    tkgrid(f3_lab_1, f3_box_nrow$frame, f3_box_nrow_2$frame,  sticky = "w")
+    tkgrid(f3_lab_nrows, f3_box_nrow_1$frame, f3_box_nrow_2$frame,  sticky = "w")
     tkgrid(f3_but_1, f3_but_2, f3_but_3, sticky = "e")
 
     tkgrid.configure(f3_box_nrow_2$frame, padx = c(2, 2))
-    tkgrid.configure(f3_lab_1, padx = c(10, 2))
+    tkgrid.configure(f3_lab_nrows, padx = c(10, 2))
     tkgrid.configure(f3_but_3, padx = c(0, 10))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1149,6 +1192,15 @@ window_import_from_text_delim <- function() {
 
 
     # Interactive bindings ---------------------------------------------------
+    tkbind(f3_txt_1, "<Control-s>",       update_df_preview)
+    tkbind(f3_txt_1, "<Triple-Button-3>", update_df_preview)
+
+    tkbind(f3_txt_1, "<<Copy>>",     auto_update_df)
+    tkbind(f3_txt_1, "<<Paste>>",    auto_update_df)
+    tkbind(f3_txt_1, "<<Undo>>",     auto_update_df)
+    tkbind(f3_txt_1, "<<Redo>>",     auto_update_df)
+    tkbind(f3_txt_1, "<KeyRelease>", auto_update_df)
+
 
 }
 
