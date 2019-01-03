@@ -80,19 +80,30 @@
 \alias{window_online_mvn}
 \alias{window_online_easyROC}
 \alias{window_online_tdROC}
+\alias{window_online_r_project}
+\alias{window_online_mro}
+\alias{window_online_rstudio}
 \alias{window_online_bert}
 \alias{window_online_gpower}
 \alias{window_online_orange}
 \alias{window_online_geogebra_download}
 \alias{window_online_past_download}
 \alias{window_online_tidyverse}
+\alias{window_online_dplyr}
+\alias{window_online_tidyr}
+\alias{window_online_magrittr}
+\alias{window_online_readr}
+\alias{window_online_readxl}
+\alias{window_online_purrr}
+\alias{window_online_ggplot2}
+\alias{window_online_ggstatsplot}
+\alias{window_online_ggpubr}
 \alias{window_online_plotly}
 \alias{window_online_ggplot2_ext}
 \alias{window_online_r_chearsheets}
 \alias{window_online_sthda}
 \alias{window_online_rweekly}
 \alias{window_online_r_bloggers}
-\alias{window_online_r_project}
 \alias{window_online_rstudio_learning}
 \alias{window_online_isl}
 \alias{window_online_esl}
@@ -274,6 +285,12 @@ window_online_easyROC()
 
 window_online_tdROC()
 
+window_online_r_project()
+
+window_online_mro()
+
+window_online_rstudio()
+
 window_online_bert()
 
 window_online_gpower()
@@ -286,6 +303,24 @@ window_online_past_download()
 
 window_online_tidyverse()
 
+window_online_dplyr()
+
+window_online_tidyr()
+
+window_online_magrittr()
+
+window_online_readr()
+
+window_online_readxl()
+
+window_online_purrr()
+
+window_online_ggplot2()
+
+window_online_ggstatsplot()
+
+window_online_ggpubr()
+
 window_online_plotly()
 
 window_online_ggplot2_ext()
@@ -297,8 +332,6 @@ window_online_sthda()
 window_online_rweekly()
 
 window_online_r_bloggers()
-
-window_online_r_project()
 
 window_online_rstudio_learning()
 
