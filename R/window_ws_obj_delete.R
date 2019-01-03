@@ -15,25 +15,29 @@ window_data_obj_delete <- function() {
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (object_is_not_selected(obj_names))   {return()}
+        if (object_is_not_selected(obj_names))   {
+            return()
+        }
 
         obj_names_str <- str_c(obj_names, collapse = ", ")
 
         if (length(obj_names) == 1) {
-            msg <- str_glue(
-                "Do you agree to DELETE object",
-                '\n"{obj_names_str}" permanently?')
+            msg <- str_glue("Do you agree to DELETE object",
+                            '\n"{obj_names_str}" permanently?')
 
         } else {
             msg <- str_glue(
                 "Do you agree to DELETE {length(obj_names)} following ",
                 "objects permanently: \n\n",
-                "{obj_names_str}")
+                "{obj_names_str}"
+            )
         }
 
         option <-
             tk_messageBox(
-                "yesno",
+                parent = top,
+                type = "yesno",
+                default = "no",
                 caption = "Delete objects:",
                 message = msg
             )
@@ -42,7 +46,6 @@ window_data_obj_delete <- function() {
             return()
 
         } else {
-
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             # Deselect active dataset if it should be deleted.
             if (isTRUE(any(active_ds %in% obj_names))) {
@@ -51,17 +54,14 @@ window_data_obj_delete <- function() {
 
             # Construct the command ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             command <-
-                str_glue(
-                    "## Delete objects \n",
-                    "remove({obj_names_str})"
-                ) %>%
+                str_glue("## Delete objects \n",
+                         "remove({obj_names_str})") %>%
                 style_cmd()
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             doItAndPrint(command)
 
-            Message(
-                str_c("The object(s) were deleted: \n", obj_names_str),
-                type = "warn")
+            Message(str_c("The object(s) were deleted: \n", obj_names_str),
+                    type = "warn")
         }
 
         closeDialog()
