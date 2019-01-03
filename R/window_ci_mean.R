@@ -244,7 +244,7 @@ window_ci_mean <- function() {
         width    = "5",
         label    = "(fraction to trim, 0 – 0.5): ",
         validate = "key",
-        validatecommand = validate_num_0_0.5 ,
+        validatecommand = validate_num_0_0.5,
         invalidcommand  = make_red_text
     )
 
