@@ -587,11 +587,14 @@ is_url <- function(str) {
 #' @keywords internal
 # show_error_messages <- function(message, message2 = message, title = "") {
 #     Message(message = message,  type = "error")
-#     RcmdrTkmessageBox(message2, icon = "error", title = title, type = "ok")
+#     tk_messageBox(parent = top, message2, icon = "error",
+#                  caption = title, type = "ok")
 # }
 show_error_messages <- function(message, popup_msg = message, title = "Error") {
     Message(message = message, type = "error")
-    RcmdrTkmessageBox(popup_msg, icon = "error", title = title, type = "ok")
+    # RcmdrTkmessageBox(popup_msg, icon = "error", title = title, type = "ok")
+    tk_messageBox(parent = top, message = popup_msg, caption = title,
+                  type = "ok", icon = "error")
 }
 
 # + Valid name ---------------------------------------------------------------
@@ -795,13 +798,14 @@ are_not_valid_names <- function(name) {
 msg_box_confirm_to_replace <- function(name, type = "Variable") {
     Type <- stringr::str_to_title(type)
 
-    tclvalue(RcmdrTkmessageBox(
-        title = str_glue("Overwrite {Type}"),
+    tk_messageBox(
+        parent = top,
+        caption = 'str_glue("Overwrite {Type}")',
         message = sprintf('%s "%s" already exists.\n\nDo you agree to OVERWRITE the %s?',
                           Type, name, tolower(type)),
         icon = "warning",
         type = "yesno",
-        default = "no"))
+        default = "no")
 }
 
 #' @rdname msg_box_confirm_to_replace
@@ -810,15 +814,16 @@ msg_box_confirm_to_replace_all <- function(name, type = "Variables") {
     Type <- stringr::str_to_title(type)
     vars <- str_c(name, collapse = "\n")
 
-    tclvalue(RcmdrTkmessageBox(
-        title = str_glue("Overwrite All {Type}"),
+    tk_messageBox(
+        parent = top,
+        caption = str_glue("Overwrite All {Type}"),
         message = str_glue(
             'The following {tolower(type)} already exist:\n\n',
             '{vars}\n\n',
             'Do you agree to OVERWRITE ALL the {tolower(type)}?'),
         icon = "warning",
         type = "yesno",
-        default = "no"))
+        default = "no")
 }
 
 #' @rdname Helper-functions
