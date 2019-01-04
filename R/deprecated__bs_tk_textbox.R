@@ -40,7 +40,7 @@ bs_tk_textbox <- function(
         ...
     )
 
-    obj_label <- label_rcmdr(
+    obj_label <- bs_label(
         parent     = label_frame,
         text       = gettext_bs(label),
         foreground = label_color

@@ -312,7 +312,7 @@ window_locale_set <- function() {
 
     tkgrid(locale_frame, sticky = "w", pady = c(5, 0))
     tkgrid(
-        label_rcmdr(
+        bs_label(
             locale_frame,
             text = gettext_bs("Locale:"),
             foreground = getRcmdr("title.color")),

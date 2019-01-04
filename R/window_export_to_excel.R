@@ -127,15 +127,15 @@ window_export_to_excel <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ds_name_var   <- tclVar(ds)
     ds_name_frame <- tkframe(upper_l_frame)
-    ds_name_label <- label_rcmdr(ds_name_frame, textvariable = ds_name_var)
+    ds_name_label <- bs_label(ds_name_frame, textvariable = ds_name_var)
 
     dir_name_var   <- tclVar(getwd())
     # dir_name_frame <- tkframe(upper_l_frame)
-    # dir_name_label <- label_rcmdr(dir_name_frame, textvariable = dir_name_var)
+    # dir_name_label <- bs_label(dir_name_frame, textvariable = dir_name_var)
 
     file_name_var   <- tclVar(str_c(file_name, ".xlsx"))
     file_name_frame <- tkframe(upper_l_frame)
-    file_name_entry <- label_rcmdr(file_name_frame, textvariable = file_name_var)
+    file_name_entry <- bs_label(file_name_frame, textvariable = file_name_var)
 
     sheet_name_var   <- tclVar(str_trunc(ds, 30))
     sheet_name_frame <- tkframe(upper_l_frame)
@@ -284,7 +284,7 @@ window_export_to_excel <- function() {
     # Grid of widgets ========================================================
 
     # Title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(label_rcmdr(
+    tkgrid(bs_label(
         top,
         text = gettext_bs("Export data to Excel file"),
         font = tkfont.create(weight = "bold", size = 9),

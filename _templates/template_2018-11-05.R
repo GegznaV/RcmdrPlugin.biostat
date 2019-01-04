@@ -152,7 +152,7 @@
 #     # Grid of widgets ========================================================
 #
 #     # Title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#     tkgrid(label_rcmdr(
+#     tkgrid(bs_label(
 #         top,
 #         text = gettext_bs("xxx_title"),
 #         font = tkfont.create(weight = "bold", size = 9),
@@ -164,7 +164,7 @@
 #     tkgrid(name_frame, rb_frame, sticky = "w")
 #
 #     tkgrid(
-#         label_rcmdr(
+#         bs_label(
 #             name_frame,
 #             text = gettext_bs("Column name for row numbers:"),
 #             foreground = getRcmdr("title.color")),

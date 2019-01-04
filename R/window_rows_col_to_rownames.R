@@ -51,7 +51,7 @@ window_rows_col_to_rownames <- function(new_dsname = NULL,
     OKCancelHelp(helpSubject = "column_to_rownames", helpPackage = "tibble")
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(label_rcmdr(
+    tkgrid(bs_label(
         top,
         text = gettext_bs("Move column values to row names"),
         font = tkfont.create(weight = "bold", size = 9),

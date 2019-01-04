@@ -186,7 +186,7 @@ window_xxx <- function() {
     tkgrid(name_entry$frame, rb_frame, sticky = "w")
 
     # tkgrid(
-    #     label_rcmdr(
+    #     bs_label(
     #         name_frame,
     #         text = gettext_bs("Column name for row numbers:"),
     #         foreground = getRcmdr("title.color")),

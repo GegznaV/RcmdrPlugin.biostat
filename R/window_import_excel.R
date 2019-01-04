@@ -242,13 +242,12 @@ window_import_excel <- function() {
     # Title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     fg_col <- Rcmdr::getRcmdr("title.color")
 
-    tkgrid(label_rcmdr(
+    tkgrid(bs_label(
         top,
         text = gettext_bs("Import data from Excel file"),
         font = tkfont.create(weight = "bold", size = 9),
-        fg = fg_col
-    ),
-    pady = c(5, 9)
+        fg = fg_col),
+        pady = c(5, 9)
     )
     # Grid ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(upper_frame, sticky = "e")
@@ -259,7 +258,7 @@ window_import_excel <- function() {
     # on_click <- function() {select_xl_file()}
 
 
-    file_label <- label_rcmdr(upper_l_frame, text = "File: ",  fg = fg_col)
+    file_label <- bs_label(upper_l_frame, text = "File: ",  fg = fg_col)
     tkgrid(file_label,
            sticky = "e", pady = c(2.5, 5))
     tkgrid(bs_label_b(upper_l_frame, text = "Sheet: "),
@@ -271,7 +270,7 @@ window_import_excel <- function() {
 
     # upper_r_frame ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     fname_frame <- tkframe(upper_r_frame)
-    fname_label <- label_rcmdr(fname_frame, text = xl_file)
+    fname_label <- bs_label(fname_frame, text = xl_file)
     tkgrid(fname_frame, sticky = "ews", pady = c(5, 5))
 
     tkgrid(fname_label, sticky = "w")

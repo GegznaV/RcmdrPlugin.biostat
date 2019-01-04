@@ -78,12 +78,14 @@ window_dataset_bind_rows <- function() {
     initializeDialog(title = gettext_bs("Bind rows of datasets"))
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(label_rcmdr(
-        top,
-        text = gettext_bs("Bind rows of datasets"),
-        font = tkfont.create(weight = "bold", size = 9),
-        fg = fg_col),
-        pady = c(5, 15), columnspan = 3)
+    tkgrid(
+        bs_label(
+            top,
+            text = gettext_bs("Bind rows of datasets"),
+            font = tkfont.create(weight = "bold", size = 9),
+            fg = fg_col),
+        pady = c(5, 15),
+        columnspan = 3)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Widgets ----------------------------------------------------------------
     new_ds_name_variable <- tclVar(
@@ -114,8 +116,8 @@ window_dataset_bind_rows <- function() {
                             buttons = c("id_names", "id_numeric","id_none"),
                             values  = c("id_names", "id_numeric","id_none"),
                             labels  =  gettext_bs(c("Names  ",
-                                                     "Numeric (1, 2, ...) ",
-                                                     "Do not use ID")),
+                                                    "Numeric (1, 2, ...) ",
+                                                    "Do not use ID")),
                             command = choose_id_fun
                             # initialValue = dialog_values$which_names,
     )

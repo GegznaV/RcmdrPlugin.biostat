@@ -176,7 +176,7 @@ window_rows_filter <- function(new_dsname = NULL,
                  )
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(label_rcmdr(
+    tkgrid(bs_label(
         top,
         text = gettext_bs("Filter: create a subset of rows that match conditions"),
         font = tkfont.create(weight = "bold", size = 9),

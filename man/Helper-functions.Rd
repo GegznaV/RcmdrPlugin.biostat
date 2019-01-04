@@ -155,7 +155,7 @@
 \alias{tclvalue_int_split}
 \alias{tclvalue_chr}
 \alias{tclvalue_chr_split}
-\alias{label_rcmdr}
+\alias{bs_label}
 \alias{ok_cancel_help}
 \alias{tk_widget_modify_names}
 \alias{tk_widget_boxes_y_gr}
@@ -517,7 +517,7 @@ tclvalue_chr(x, trim = TRUE, ...)
 
 tclvalue_chr_split(x)
 
-label_rcmdr(..., fg = NULL)
+bs_label(..., fg = NULL)
 
 ok_cancel_help(window = top, helpSubject = NULL, model = FALSE,
   reset = NULL, apply = NULL, helpPackage = NULL, sticky = "w",

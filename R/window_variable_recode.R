@@ -554,7 +554,7 @@ window_variable_recode0 <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(label_rcmdr(
+    tkgrid(bs_label(
         top,
         text = gettext_bs("Recode variable values"),
         font = tkfont.create(weight = "bold", size = 9),
@@ -563,8 +563,8 @@ window_variable_recode0 <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(selected_var_frame) # selected_variable
     tkgrid(
-        label_rcmdr(selected_var_frame, text = "Selected variable: "),
-        label_rcmdr(selected_var_frame,
+        bs_label(selected_var_frame, text = "Selected variable: "),
+        bs_label(selected_var_frame,
                     textvariable = selected_variable,
                     font = tkfont.create(weight = "bold", size = 8),
                     fg = "darkred"),
@@ -578,13 +578,13 @@ window_variable_recode0 <- function() {
 
     tkgrid(upper_frame, sticky = "nw")
     tkgrid(getFrame(variablesBox),
-           label_rcmdr(upper_frame, text = "  "),
+           bs_label(upper_frame, text = "  "),
            recodesFrame, sticky = "nw")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # tkgrid()
 
-    tkgrid(label_rcmdr(
+    tkgrid(bs_label(
         variablesFrame,
         fg = getRcmdr("title.color"),
         text = gettext_bs("Name for recoded variable: ")),
@@ -593,7 +593,7 @@ window_variable_recode0 <- function() {
     tkgrid(newVariable, sticky = "w")
 
     tkgrid(
-        label_rcmdr(variable_type_frame,
+        bs_label(variable_type_frame,
                     text = gettext_bs("Convert variable into: "),
                     fg = getRcmdr("title.color")),
         sticky = "w",
@@ -603,7 +603,7 @@ window_variable_recode0 <- function() {
     tkgrid(recode_intoFrame, sticky = "w")
 
     tkgrid(
-        label_rcmdr(
+        bs_label(
             recodesFrame,
             text = gettext_bs(
                 "Enter recode directives\n(one directive per row; change order of rows, if needed)"),
@@ -627,7 +627,7 @@ window_variable_recode0 <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid_text <- function(text = "", frame = examples_frame, fg = "black",
                             sticky = "w", padx = 10, pady = 0, ...) {
-        tkgrid(label_rcmdr(frame, text = gettext_bs(text), fg = fg),
+        tkgrid(bs_label(frame, text = gettext_bs(text), fg = fg),
                sticky = sticky, padx = padx, pady = pady, ...)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

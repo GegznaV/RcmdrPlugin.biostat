@@ -97,7 +97,7 @@ window_rows_rowid_to_col <- function() {
     OKCancelHelp(helpSubject = "mutate", helpPackage = "dplyr")
 
     # Title ------------------------------------------------------------------
-    tkgrid(label_rcmdr(
+    tkgrid(bs_label(
         top,
         text = gettext_bs("Create column with row numbers"),
         font = tkfont.create(weight = "bold", size = 9),
@@ -108,7 +108,7 @@ window_rows_rowid_to_col <- function() {
     tkgrid(name_frame, rb_frame, sticky = "w")
 
     tkgrid(
-        label_rcmdr(
+        bs_label(
             name_frame,
             text = gettext_bs("Column name for row numbers:"),
             foreground = getRcmdr("title.color")),

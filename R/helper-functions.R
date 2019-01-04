@@ -329,7 +329,7 @@ logger_error <- function(command = NULL, error_msg = NULL) {
 #' @export
 #' @keywords internal
 tk_label_blue <- function(...) {
-    label_rcmdr(..., foreground = getRcmdr("title.color"))
+    bs_label(..., foreground = getRcmdr("title.color"))
 }
 
 

@@ -244,7 +244,7 @@ window_variable_gather <- function() {
 
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(label_rcmdr(
+    tkgrid(bs_label(
         top,
         text = gettext_bs("Gather columns into key-value pairs: convert dataset into long format"),
         font = tkfont.create(weight = "bold", size = 9),
@@ -266,19 +266,19 @@ window_variable_gather <- function() {
     tkgrid(lower_frame, pady = c(20, 0))
 
 
-    tkgrid(label_rcmdr(lower_frame, text = gettext_bs("Output dataset name:        "),
+    tkgrid(bs_label(lower_frame, text = gettext_bs("Output dataset name:        "),
                        fg = fg_col),
            dataset_nameField,
            sticky = "w",
            pady = 2)
 
-    tkgrid(label_rcmdr(lower_frame, text = gettext_bs("Key column name:  "),
+    tkgrid(bs_label(lower_frame, text = gettext_bs("Key column name:  "),
                        fg = fg_col),
            key_colnameField,
            sticky = "w",
            pady = 2)
 
-    tkgrid(label_rcmdr(lower_frame, text = gettext_bs("Value column name:"),
+    tkgrid(bs_label(lower_frame, text = gettext_bs("Value column name:"),
                        fg = fg_col),
            values_colnameField,
            sticky = "w",

@@ -9,7 +9,7 @@ window_dataset_join <- function() {
     initializeDialog(title = gettext_bs("Join Two Datasets"))
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(label_rcmdr(
+    tkgrid(bs_label(
         top,
         text = gettext_bs("Join two datasets"),
         font = tkfont.create(weight = "bold", size = 9),
@@ -350,15 +350,15 @@ window_dataset_join <- function() {
     )
 
     tkgrid(getFrame(v_x1),
-           label_rcmdr(var_names_Frame, text = " = "),
+           bs_label(var_names_Frame, text = " = "),
            getFrame(v_y1), sticky = "n", pady = c(0, 5))
 
     tkgrid(getFrame(v_x2),
-           label_rcmdr(var_names_Frame, text = " = "),
+           bs_label(var_names_Frame, text = " = "),
            getFrame(v_y2), sticky = "n", pady = c(0, 5))
 
     tkgrid(getFrame(v_x3),
-           label_rcmdr(var_names_Frame, text = " = "),
+           bs_label(var_names_Frame, text = " = "),
            getFrame(v_y3), sticky = "n", pady = c(0, 5))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(var_names_Frame, sticky = "w", pady = c(0, 5),  columnspan = 3)

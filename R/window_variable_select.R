@@ -161,20 +161,20 @@ window_variable_select <- function(new_dsname = NULL, incorrect_cond_msg = NULL)
     OKCancelHelp(helpSubject = "select", helpPackage = "dplyr")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(
-        label_rcmdr(top,
+        bs_label(top,
                     # fg = getRcmdr("title.color"),
                     text = gettext_bs("Choose either variables to include, or variables to remove. ")),
         pady = c(0, 10))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(upper_frame, columnspan = 3, sticky = "n")
     tkgrid(getFrame(var_select_box),
-           label_rcmdr(upper_frame, text = "       "),
+           bs_label(upper_frame, text = "       "),
            getFrame(var_delete_box))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(lower_frame, sticky = "n", columnspan = 3)
 
     tkgrid(
-        label_rcmdr(lower_frame,
+        bs_label(lower_frame,
                     fg = getRcmdr("title.color"),
                     text = gettext_bs("Name for modified dataset \n(with selected and without removed variables) ")),
         pady = c(15, 0),

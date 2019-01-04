@@ -56,7 +56,7 @@ window_rows_rownames_to_col <- function(){
 
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(label_rcmdr(
+    tkgrid(bs_label(
         top,
         text = gettext_bs("Move row names to column"),
         font = tkfont.create(weight = "bold", size = 9),
@@ -66,7 +66,7 @@ window_rows_rownames_to_col <- function(){
     tkgrid(name_frame, sticky = "w")
 
     tkgrid(
-        label_rcmdr(
+        bs_label(
             name_frame,
             text = gettext_bs("Column name for row names:"),
             foreground = getRcmdr("title.color")),

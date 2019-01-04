@@ -307,8 +307,8 @@ window_export_to_textfile <- function() {
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
 
-    tkgrid(label_rcmdr(
-        top,
+    tkgrid(bs_label(
+        parent = top,
         text = gettext_bs("Save data to text file"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col),

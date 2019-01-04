@@ -18,7 +18,7 @@ window_dataset_bind_cols <- function() {
     initializeDialog(title = gettext_bs("Bind columns of datasets"))
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(label_rcmdr(
+    tkgrid(bs_label(
         top,
         text = gettext_bs("Bind columns of datasets"),
         font = tkfont.create(weight = "bold", size = 9),
