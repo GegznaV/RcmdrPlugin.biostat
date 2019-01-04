@@ -92,12 +92,11 @@ window_dataset_select <- function() {
             return()
         }
 
-
         if (get_selection_length(var_ds_box) == 0) {
             tk_messageBox(
-                parent = top,
+                # parent = top,
                 "Please, select a dataset.",
-                caption = "Dataset Not Selected",
+                title = "Dataset Not Selected",
                 icon = "warning",
                 type = "ok")
             return()
