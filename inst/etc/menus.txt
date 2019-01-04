@@ -26,16 +26,18 @@ item	bs_file_menu	separator	""	""	""	""
 item	bs_file_menu	command	"Get information about file..."  command_get_file_info	""	"packageAvailable('fs')"
 # item	bs_file_menu	command	"[???] Use absolute/relative path"  function_not_implemented	"FALSE"	""
 
-# ---- Rcmdr windows:1 vs. 3 -------------------------------------------------
-
-item	bs_file_menu	separator	""	""	""	""
-item	bs_file_menu	command	"Output to console (1 window)"	command_rcmdr_use_1_window	"!is_console_output()"	""
-item	bs_file_menu	command	"Output to Rcmdr (3 windows)"	command_rcmdr_use_3_windows	"is_console_output()"	""
 
 # ---- Session information ---------------------------------------------------
 item	bs_file_menu	separator	""	""	""	""
 item	bs_file_menu	command	"Print session information: devtools style"	command_session_info_devtools	""	""
 item	bs_file_menu	command	"Print session information: base R style"	command_session_info_utils	""	""
+
+
+# ---- Rcmdr windows: 1 vs. 3 ------------------------------------------------
+
+item	bs_file_menu	separator	""	""	""	""
+item	bs_file_menu	command	"Output to console (1 window)"	command_rcmdr_use_1_window	"!is_console_output()"	""
+item	bs_file_menu	command	"Output to Rcmdr (3 windows)"	command_rcmdr_use_3_windows	"is_console_output()"	""
 
 
 # ---- Close, Restart --------------------------------------------------------
