@@ -4,7 +4,8 @@
 menu	biostat_menu	topMenu	""	""	""	""
 item	topMenu	cascade	"BioStat'19"	biostat_menu	""	""
 
-item	biostat_menu	command	"BS buttons"  command_buttons_mode_biostat 	""	""
+item	biostat_menu	command	"Buttons mode: BS"  command_buttons_mode_biostat 	""	""
+
 
 # . ==========================================================================
 # ---- >>> File menu ---------------------------------------------------------
@@ -20,9 +21,16 @@ item	bs_file_menu	command	"Print path to working directory"  command_getwd	""	""
 item	bs_file_menu	command	"Change working directory..."  command_setwd	""	""
 item	bs_file_menu	command	"Open working directory"  command_openwd	""	"packageAvailable('fs')"
 
+# ---- File info -------------------------------------------------------------
 item	bs_file_menu	separator	""	""	""	""
 item	bs_file_menu	command	"Get information about file..."  command_get_file_info	""	"packageAvailable('fs')"
 # item	bs_file_menu	command	"[???] Use absolute/relative path"  function_not_implemented	"FALSE"	""
+
+# ---- Rcmdr windows:1 vs. 3 -------------------------------------------------
+
+item	bs_file_menu	separator	""	""	""	""
+item	bs_file_menu	command	"Output to console (1 window)"	command_rcmdr_use_1_window	"!is_console_output()"	""
+item	bs_file_menu	command	"Output to Rcmdr (3 windows)"	command_rcmdr_use_3_windows	"is_console_output()"	""
 
 # ---- Session information ---------------------------------------------------
 item	bs_file_menu	separator	""	""	""	""
@@ -38,19 +46,21 @@ item	bs_file_menu	command	"Close Commander"	CloseCommander	""	""
 item	bs_file_menu	command	"Close R"	closeCommanderAndR	""	""
 
 
-item	bs_file_menu	separator	""	""	""	""
 
 
 # ---- Rcmdr settings --------------------------------------------------------
-menu	bs_rcmdr_menu	bs_file_menu	""	""	""	""
-item	bs_file_menu	cascade	"Rcmdr settings"	bs_rcmdr_menu	""	""
 
-item	bs_rcmdr_menu	command	"Buttons: BS (import, select, explore, etc.)"	command_buttons_mode_biostat	""	""
-item	bs_rcmdr_menu	command	"Buttons: usual (select only)"	command_buttons_mode_rcmdr	""	""
+# item	bs_file_menu	separator	""	""	""	""
 
-item	bs_rcmdr_menu	separator	""	""	""	""
-item	bs_rcmdr_menu	command	"1 window mode (output to console)"	command_rcmdr_use_1_window	"!is_console_output()"	""
-item	bs_rcmdr_menu	command	"3 windows mode (output to Rcmdr)"	command_rcmdr_use_3_windows	"is_console_output()"	""
+# menu	bs_rcmdr_menu	bs_file_menu	""	""	""	""
+# item	bs_file_menu	cascade	"Rcmdr settings"	bs_rcmdr_menu	""	""
+#
+# item	bs_rcmdr_menu	command	"Buttons: BS (import, select, explore, etc.)"	command_buttons_mode_biostat	""	""
+# item	bs_rcmdr_menu	command	"Buttons: usual (select only)"	command_buttons_mode_rcmdr	""	""
+#
+# item	bs_rcmdr_menu	separator	""	""	""	""
+# item	bs_rcmdr_menu	command	"1 window mode (output to console)"	command_rcmdr_use_1_window	"!is_console_output()"	""
+# item	bs_rcmdr_menu	command	"3 windows mode (output to Rcmdr)"	command_rcmdr_use_3_windows	"is_console_output()"	""
 
 # . ===========================================================================
 # ---- >>> Data --------------------------------------------------------------
@@ -60,6 +70,7 @@ item	biostat_menu	cascade	"Data"	bs_data_menu	""	""
 
 # ---- Select data -----------------------------------------------------------
 # Refresh active dataset and menus
+
 item	bs_data_menu	command	"Refresh"	command_dataset_refresh	""	""
 item	bs_data_menu	command	"Select active dataset"	window_dataset_select	""	""
 item	bs_data_menu	command	"Preview active dataset (in a new window)"	command_dataset_view	"activeDataSetP()"	""
