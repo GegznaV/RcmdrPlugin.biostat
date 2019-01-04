@@ -5,8 +5,8 @@
 %   R/deprecated__bs_tk_textbox.R, R/deprecated__radiobuttons_horizintal.R,
 %   R/generic_functions.R, R/helper-functions.R, R/tcltk__bs_combobox.R,
 %   R/tcltk__bs_listbox.R, R/tcltk__variableListBox2.R, R/tcltk_commands.R,
-%   R/tcltk_elements.R, R/tcltk_ok_cancel_help__macro.R,
-%   R/tk_widget_modify_names.R, R/tk_widget_y_gr_boxes.R
+%   R/tcltk_ok_cancel_help__macro.R, R/tk_widget_modify_names.R,
+%   R/tk_widget_y_gr_boxes.R
 \name{get_values.bs_checkboxes}
 \alias{get_values.bs_checkboxes}
 \alias{set_values.bs_checkboxes}
@@ -155,7 +155,6 @@
 \alias{tclvalue_int_split}
 \alias{tclvalue_chr}
 \alias{tclvalue_chr_split}
-\alias{bs_label}
 \alias{ok_cancel_help}
 \alias{tk_widget_modify_names}
 \alias{tk_widget_boxes_y_gr}
@@ -233,7 +232,7 @@ bs_tk_textbox(parent = top, width = "28", value = "", label = "",
   on_triple_click_3 = function() { }, on_release_3 = function() { },
   ...)
 
-\method{set_values}{bs_tk_textbox}(obj, values, ...)
+\method{set_values}{bs_tk_textbox}(obj, values, ..., add = FALSE)
 
 \method{values}{bs_tk_textbox}(x) <- value
 
@@ -516,8 +515,6 @@ tclvalue_int_split(x)
 tclvalue_chr(x, trim = TRUE, ...)
 
 tclvalue_chr_split(x)
-
-bs_label(..., fg = NULL)
 
 ok_cancel_help(window = top, helpSubject = NULL, model = FALSE,
   reset = NULL, apply = NULL, helpPackage = NULL, sticky = "w",
