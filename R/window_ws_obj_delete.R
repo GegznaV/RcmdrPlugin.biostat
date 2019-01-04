@@ -1,38 +1,41 @@
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-#'
 
 window_data_obj_delete <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    update_list_of_objects <- function(variables) {
-        obj_class <- get_selection(class_filter_box)
+    get_list_of_objs <- function() {
         hidden    <- get_values(include_hidden_box)$hidden
-        # hidden <- TRUE
+        obj_class <- get_selection(class_filter_box)
 
-        new_vals <- switch(
+        switch(
             obj_class,
-            "All"              = get_obj_names(all.names = hidden),
-            "Data frame"       = get_obj_names(all.names = hidden, "data.frame"),
-            "Matrix"           = get_obj_names(all.names = hidden, "matrix"),
-            "List"             = get_obj_names(all.names = hidden, "list"),
-            "Table"            = get_obj_names(all.names = hidden, "table"),
-            "ggplot"           = get_obj_names(all.names = hidden, "ggplot"),
-            "gg except ggplot" = get_obj_names(all.names = hidden,
-                                               "gg", exclude_class = "ggplot"),
-            "Function"         = get_obj_names(all.names = hidden, "function"),
-            "Other"            = get_obj_names(
+            "All"                = get_obj_names(all.names = hidden),
+            "Data frame"         = get_obj_names(all.names = hidden, "data.frame"),
+            "Matrix"             = get_obj_names(all.names = hidden, "matrix"),
+            "List"               = get_obj_names(all.names = hidden, "list"),
+            "Table"              = get_obj_names(all.names = hidden, "table"),
+            "lm, glm, htest"     = get_obj_names(all.names = hidden, c("lm", "glm", "htest")),
+            "ggplot"             = get_obj_names(all.names = hidden, "ggplot"),
+            "ggplot, gg"         = get_obj_names(all.names = hidden, c("ggplot", "gg")),
+            "gg (except ggplot)" = get_obj_names(all.names = hidden,
+                                                "gg", exclude_class = "ggplot"),
+            "Function"           = get_obj_names(all.names = hidden, "function"),
+            "Other"              = get_obj_names(
                 all.names = hidden,
                 exclude_class = c("data.frame", "ggplot", "gg", "function",
+                                  "lm", "glm", "htest",
                                   "matrix", "list", "table"))
         )
+    }
 
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    update_list_of_objects <- function() {
+        new_vals <- get_list_of_objs()
         set_values(var_y_box, new_vals)
     }
 
-
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         cursor_set_busy(top)
@@ -114,23 +117,24 @@ window_data_obj_delete <- function() {
         parent       = top,
         title        = "Objects to delete\n(pick one or several)",
         values       = ws_objects,
-        value        = active_ds,
+        # value        = active_ds,
         selectmode   = "multiple",
         height       = 8,
         width        = c(30, Inf),
         on_keyboard  = "scroll",
-        tip          = tip_multiple_ctrl_letters,
+        tip          = "Hold 'Ctrl' key to deselect \nor select several objects.",
         use_filter   = TRUE,
-        filter_label = "Names filter"
+        filter_label = "Object name filter"
     )
 
     class_filter_box <- bs_combobox(
         parent = var_y_box$frame,
-        title  = "Class filter",
+        title  = "Object class filter",
         width  = 30 - 2, # Get width var_y_box
         value  = "Data frame",
-        values = c("All", "Data frame", "Matrix", "List", "Table", "ggplot",
-                   "gg except ggplot", "Function", "Other"),
+        values = c("Data frame", "Matrix", "List", "Table", "ggplot, gg",
+                   "lm, glm, htest", "Function", "Other", "All"),
+        tip = "",
         on_select = update_list_of_objects
     )
 
@@ -153,6 +157,7 @@ window_data_obj_delete <- function() {
     update_list_of_objects()
 
     if (!is.null(active_ds)) {
-        tk_see(var_y_box, which(ws_objects %in% active_ds))
+        set_selection(var_y_box, active_ds)
+        tk_see(var_y_box, which(get_list_of_objs() %in% active_ds))
     }
 }
