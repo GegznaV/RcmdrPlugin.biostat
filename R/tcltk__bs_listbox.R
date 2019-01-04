@@ -21,6 +21,7 @@ bs_listbox <-
            scroll     = c("both", "x", "y", "none"),
            autoscroll = c("x", "y", "both", "none"),
            use_filter = FALSE,
+           filter_label = "Filter",
            sticky     = "nw",
 
            on_select         = function() {},
@@ -227,21 +228,24 @@ bs_listbox <-
       cmd_update_list <- function() {
 
         s_txt <- get_values(text_box_1)
-
         if (str_length(s_txt) == 0) {
           new_list <- values_env$all_values
 
         } else {
+          # ignore_case <- !tclvalue_lgl(case_Variable)
+          ignore_case <- !tclvalue_lgl(options$var$case)
 
-          ignore_case <- !tclvalue_lgl(case_Variable)
-
+          # filter_fun <- switch(
+          #   tclvalue_chr(regex_Variable), #
+          #   "0" = stringr::fixed,
+          #   "1" = stringr::regex
+          # )
 
           filter_fun <- switch(
-            tclvalue_chr(regex_Variable), #
+            tclvalue_chr(options$var$regex), #
             "0" = stringr::fixed,
             "1" = stringr::regex
           )
-
 
           s_filter <- filter_fun(s_txt, ignore_case = ignore_case)
           rez <- try(silent = TRUE, {# To prevet from invalid regular exressions
@@ -262,27 +266,36 @@ bs_listbox <-
         cmd_update_list()
       }
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      text_box_1 <- bs_tk_textbox(
+      text_box_1 <- bs_entry(
         parent = frame,
         width = width,
-        label = "Filter:",
+        label = filter_label,
         label_position = "above")
 
+      # bs_check_boxes(
+      #   frame,
+      #   frame         = "options_frame",
+      #   boxes         = c("case_", "regex_"),
+      #   initialValues = c(0, 0),
+      #   labels        = c("Match case", "Regex"),
+      #   commands = list("case_"  = cmd_update_list,
+      #                   "regex_" = cmd_update_list)
+      # )
 
-      bs_check_boxes(
-        frame,
-        frame           = "options_frame",
-        boxes           = c("case_", "regex_"),
-        initialValues   = c(0, 0),
-        labels          = c("Match case", "Regex"),
-        commands = list("case_"  = cmd_update_list,
-                        "regex_" = cmd_update_list)
-
+      options <- bs_checkboxes(
+        parent = frame,
+        boxes  = c("case"  = "Match case",
+                   "regex" = "Regex"),
+        values = c(0, 0),
+        layout = "horizontal",
+        commands = list("case"  = cmd_update_list,
+                        "regex" = cmd_update_list)
       )
 
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       tkgrid(text_box_1$frame, sticky = sticky)
-      tkgrid(options_frame,    sticky = sticky)
+      # tkgrid(options_frame,    sticky = sticky)
+      tkgrid(options$frame,    sticky = sticky)
 
       # tkgrid.forget(text_box_1$frames)
 
@@ -293,21 +306,23 @@ bs_listbox <-
       add_class <- "listbox_with_filter"
 
     } else {
-      add_class     <- NULL
-      text_box_1    <- NULL
-      options_frame <- NULL
+      add_class  <- NULL
+      text_box_1 <- NULL
+      options    <- NULL
     }
 
     # Output ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     structure(
-      list(frame        = frame,
-           listbox      = listbox,
-           # scrollbar   = scrollbar,
-           selectmode   = selectmode,
-           varlist      = values,
-           values_env   = values_env,
-           filter_obj   = text_box_1,
-           frame_filter_opts = options_frame),
+      list(frame      = frame,
+           listbox    = listbox,
+           # scrollbar = scrollbar,
+           selectmode  = selectmode,
+           varlist     = values,
+           values_env  = values_env,
+           filter  = list(
+             entry = text_box_1,
+             opts  = options)
+           ),
       class = c(add_class, "listbox", "bs_tk_widget", "list")
     )
   }
@@ -456,13 +471,18 @@ set_values.listbox <- function(obj, values, ..., clear = TRUE) {
 #' @export
 #' @keywords internal
 set_values.listbox_with_filter <- function(obj, values, ..., clear = TRUE) {
+  # Set new set of possible values
   if (clear == TRUE) {
     obj$values_env$all_values <- values
   } else {
     obj$values_env$all_values <- c(obj$values_env$all_values, values)
   }
 
+  # Set listbox values
   set_values_listbox(obj$listbox, values = values, ..., clear = clear)
+
+  # Clear filter box
+  set_values(var_y_box$filter$entry, "")
 }
 
 #' @rdname Helper-functions
