@@ -19,7 +19,7 @@ window_data_obj_delete <- function() {
             "ggplot"             = get_obj_names(all.names = hidden, "ggplot"),
             "ggplot, gg"         = get_obj_names(all.names = hidden, c("ggplot", "gg")),
             "gg (except ggplot)" = get_obj_names(all.names = hidden,
-                                                "gg", exclude_class = "ggplot"),
+                                                 "gg", exclude_class = "ggplot"),
             "Function"           = get_obj_names(all.names = hidden, "function"),
             "Other"              = get_obj_names(
                 all.names = hidden,
