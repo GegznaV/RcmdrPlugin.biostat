@@ -12,8 +12,10 @@ window_factor_lvls_drop <- function() {
     initializeDialog(title = gettext_bs("Drop Unused Factor Levels"))
     allfactorsVariable <- tclVar("0")
     allFrame <- tkframe(top)
-    allfactorsCheckBox <-
-        ttkcheckbutton(allFrame, variable = allfactorsVariable)
+    allfactorsCheckBox <- ttkcheckbutton(
+        allFrame,
+        variable = allfactorsVariable
+    )
     variablesBox <- variableListBox2(
         top,
         variables_fct(),
@@ -42,7 +44,7 @@ window_factor_lvls_drop <- function() {
         }
         response <-
             tk_messageBox(
-                parent = top,
+                # parent = top,
                 caption = "Drop Unused Levels",
                 message = gettext_bs("Unused factor levels will be dropped.\nDo you agree?"),
                 icon = "warning",
@@ -80,19 +82,17 @@ window_factor_lvls_drop <- function() {
         pady = c(5, 9))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     OKCancelHelp(helpSubject = "droplevels")
+
+    tkgrid(getFrame(variablesBox), sticky = "nw")
+
     tkgrid(allfactorsCheckBox,
            labelRcmdr(
                allFrame,
-               text = gettext_bs("all factors")
+               text = gettext_bs("All factor variables")
            ),
-           sticky = "w")
-    tkgrid(allFrame, sticky = "w")
-    tkgrid(labelRcmdr(
-        top,
-        text = gettext_bs("OR"),
-        fg = "red"
-    ), sticky = "w")
-    tkgrid(getFrame(variablesBox), sticky = "nw")
+           sticky = "w", pady = c(2, 0))
+    tkgrid(allFrame, sticky = "ew")
+
     tkgrid(buttonsFrame, sticky = "w")
     dialogSuffix()
 }
