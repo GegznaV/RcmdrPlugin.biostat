@@ -13,42 +13,18 @@
 
 # ============================================================================
 window_import_excel <- function() {
-
-    # Initial values ---------------------------------------------------------
-    # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    xl_file       <- ""
-    worksheets    <- ""
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    dir_name_var  <- tclVar(getwd())
-    file_name_var <- tclVar(xl_file)
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # defaults      <- list(
-    #     initial_??? = "???",
-    #     initial_??? = "???",
-    #     initial_??? = "???",
-    #     initial_??? = "???",
-    # )
-    # dialog_values <- getDialog("window_import_excel", defaults)
-
-
-    # if (length(worksheets) > 1) {
-    #     worksheet <- tk_select.list(worksheets, title = gettext_bs("Select one table"))
-    # } else {
-    #     worksheet <- worksheets
-    # }
-
     # Functions --------------------------------------------------------------
     select_xl_file <- function() {
         xl_file <- tclvalue(
             tkgetOpenFile(
-                title = "Choose Excel File to Import",
+                parent = CommanderWindow(),
+                title  = "Choose Excel File to Import",
                 filetypes = str_c(
-                    '{{MS Excel files} {.xls .xlsx}} ',
-                    '{{All Files} *}'
-                    ),
-                parent     = CommanderWindow(),
+                    '{{Excel files} {.xls .xlsx}} ',
+                    '{{All Files} *}',
+                    '{{Excel xls files} {.xls}} ',
+                    '{{Excel xlsx files} {.xlsx}} '
+                ),
                 initialdir = tclvalue_chr(dir_name_var)
             ))
         # Update Excel worksheeds information ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -73,7 +49,6 @@ window_import_excel <- function() {
             worksheets
         }
 
-
         # Update initial dir ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tclvalue(dir_name_var) <- extract_path(xl_file)
 
@@ -88,56 +63,6 @@ window_import_excel <- function() {
         tclvalue(dsname) <- unique_df_name(clean_str(extract_filename(xl_file)))
     }
 
-    # correct_worksheet_selection <- function() {
-    #     # Do not allow select last empty option
-    #     if (tclvalue(worksheet_box$combovar) == "") {
-    #         tclvalue(worksheet_box$combovar) <- worksheets[1]
-    #     }
-    # }
-
-    # Frames and widgets -----------------------------------------------------
-    # Initialize ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_bs("Import from Excel"))
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    upper_frame   <- tkframe(top)
-    upper_l_frame <- tkframe(upper_frame)
-    upper_r_frame <- tkframe(upper_frame)
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    worksheet_box <-
-        inputComboBox(
-            upper_r_frame,
-            variableList     = worksheets,
-            initialSelection = worksheets[1],
-            # onSelect_fun     = correct_worksheet_selection,
-            width = 36
-        )
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    dsname      <- tclVar(unique_df_name("new_data", all_numbered = TRUE))
-    entryDsname <- ttkentry(upper_r_frame, width = "39", textvariable = dsname)
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    checkBoxFrame <- tkframe(top)
-    variableNames <- tclVar("1")
-    variableNamesCheckBox <- ttkcheckbutton(checkBoxFrame,
-                                            variable = variableNames)
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    rowNames <- tclVar("0")
-    rowNamesCheckBox <- ttkcheckbutton(checkBoxFrame, variable = rowNames)
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    stringsAsFactors <- tclVar("1")
-    stringsAsFactorsCheckBox <-
-        ttkcheckbutton(checkBoxFrame,
-                       variable = stringsAsFactors
-        )
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    lower_frame <- tkframe(top)
-
-    missingFrame    <- tkframe(lower_frame)
-    missingVariable <- tclVar(gettext_bs("<empty cell>"))
-    missingEntry    <- ttkentry(missingFrame,
-                                width = "12",
-                                textvariable = missingVariable)
     # onOK ===================================================================
     onOK <- function() {
         # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -235,6 +160,82 @@ window_import_excel <- function() {
         }
         tkfocus(CommanderWindow())
     }
+
+    # correct_worksheet_selection <- function() {
+    #     # Do not allow select last empty option
+    #     if (tclvalue(worksheet_box$combovar) == "") {
+    #         tclvalue(worksheet_box$combovar) <- worksheets[1]
+    #     }
+    # }
+
+    # Initial values ---------------------------------------------------------
+    # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    xl_file       <- ""
+    worksheets    <- ""
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    dir_name_var  <- tclVar(getwd())
+    file_name_var <- tclVar(xl_file)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # defaults      <- list(
+    #     initial_??? = "???",
+    #     initial_??? = "???",
+    #     initial_??? = "???",
+    #     initial_??? = "???",
+    # )
+    # dialog_values <- getDialog("window_import_excel", defaults)
+
+
+    # if (length(worksheets) > 1) {
+    #     worksheet <- tk_select.list(worksheets, title = gettext_bs("Select one table"))
+    # } else {
+    #     worksheet <- worksheets
+    # }
+
+    # Frames and widgets -----------------------------------------------------
+    # Initialize ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    initializeDialog(title = gettext_bs("Import from Excel"))
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    upper_frame   <- tkframe(top)
+    upper_l_frame <- tkframe(upper_frame)
+    upper_r_frame <- tkframe(upper_frame)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    worksheet_box <- bs_combobox(
+        parent = upper_r_frame,
+        values = worksheets,
+        value  = worksheets[1],
+        tip = "Choose worksheet to import data from.",
+        # onSelect_fun     = correct_worksheet_selection,
+        width = 36
+    )
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    dsname      <- tclVar(unique_df_name("new_data", all_numbered = TRUE))
+    entryDsname <- ttkentry(upper_r_frame, width = "39", textvariable = dsname)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    checkBoxFrame <- tkframe(top)
+    variableNames <- tclVar("1")
+    variableNamesCheckBox <- ttkcheckbutton(
+        checkBoxFrame,
+        variable = variableNames)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    rowNames <- tclVar("0")
+    rowNamesCheckBox <- ttkcheckbutton(checkBoxFrame, variable = rowNames)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    stringsAsFactors <- tclVar("1")
+    stringsAsFactorsCheckBox <-
+        ttkcheckbutton(checkBoxFrame,
+                       variable = stringsAsFactors
+        )
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    lower_frame <- tkframe(top)
+
+    missingFrame    <- tkframe(lower_frame)
+    missingVariable <- tclVar(gettext_bs("<empty cell>"))
+    missingEntry    <- ttkentry(missingFrame,
+                                width = "12",
+                                textvariable = missingVariable)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Grid of widgets ========================================================
 
@@ -261,18 +262,21 @@ window_import_excel <- function() {
     file_label <- label_rcmdr(upper_l_frame, text = "File: ",  fg = fg_col)
     tkgrid(file_label,
            sticky = "e", pady = c(2.5, 5))
-    tkgrid(label_rcmdr(upper_l_frame, text = "Sheet: ", fg = fg_col),
+    tkgrid(bs_label_b(upper_l_frame, text = "Sheet: "),
            sticky = "e", pady = c(0, 2.5))
-    tkgrid(label_rcmdr(upper_l_frame, text = "Name: ",  fg = fg_col),
+    tkgrid(bs_label_b(upper_l_frame, text = "Range: "),
+           sticky = "e", pady = c(0, 2.5))
+    tkgrid(bs_label_b(upper_l_frame, text = "Name: "),
            sticky = "e", pady = c(5, 5))
 
     # upper_r_frame ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     fname_frame <- tkframe(upper_r_frame)
     fname_label <- label_rcmdr(fname_frame, text = xl_file)
-    tkgrid(fname_frame, sticky = "ew", pady = c(5, 5))
+    tkgrid(fname_frame, sticky = "ews", pady = c(5, 5))
 
     tkgrid(fname_label, sticky = "w")
     tkgrid(getFrame(worksheet_box), sticky = "w")
+    tkgrid(entryDsname, sticky = "w", pady = 5)
     tkgrid(entryDsname, sticky = "w", pady = 5)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     button_get_file_frame <- tkframe(lower_frame)
@@ -284,12 +288,9 @@ window_import_excel <- function() {
     # tkgrid(button_get_file, sticky = "e", pady = c(0, 0))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(variableNamesCheckBox,
-           labelRcmdr(
-               checkBoxFrame,
-               text = gettext_bs("Variable names in first row of spreadsheet")
-           ),
-           sticky = "w"
-    )
+           bs_label(checkBoxFrame, text = "First row as column names"),
+           sticky = "w")
+
     tkgrid(rowNamesCheckBox,
            labelRcmdr(
                checkBoxFrame,
