@@ -4,7 +4,7 @@
 menu	biostat_menu	topMenu	""	""	""	""
 item	topMenu	cascade	"BioStat'19"	biostat_menu	""	""
 
-item	biostat_menu	command	"Extend buttons"  command_buttons_mode_biostat 	""	""
+item	biostat_menu	command	"BS buttons"  command_buttons_mode_biostat 	""	""
 
 # . ==========================================================================
 # ---- >>> File menu ---------------------------------------------------------
@@ -36,7 +36,7 @@ item	bs_file_menu	separator	""	""	""	""
 menu	bs_rcmdr_menu	bs_file_menu	""	""	""	""
 item	bs_file_menu	cascade	"Rcmdr"	bs_rcmdr_menu	""	""
 
-item	bs_rcmdr_menu	command	"Buttons: extended (import, select, explore, etc.)"	command_buttons_mode_biostat	""	""
+item	bs_rcmdr_menu	command	"Buttons: BS (import, select, explore, etc.)"	command_buttons_mode_biostat	""	""
 item	bs_rcmdr_menu	command	"Buttons: usual (select only)"	command_buttons_mode_rcmdr	""	""
 
 item	bs_rcmdr_menu	separator	""	""	""	""
@@ -58,7 +58,7 @@ item	biostat_menu	cascade	"Data"	bs_data_menu	""	""
 # ---- Select data -----------------------------------------------------------
 # Refresh active dataset and menus
 item	bs_data_menu	command	"Refresh"	command_dataset_refresh	""	""
-item	bs_data_menu	command	"Select active dataset (extended)"	window_dataset_select	""	""
+item	bs_data_menu	command	"Select active dataset"	window_dataset_select	""	""
 item	bs_data_menu	command	"Preview active dataset (in a new window)"	command_dataset_view	"activeDataSetP()"	""
 item	bs_data_menu	command	"Change class of active dataset"	window_dataset_class	"activeDataSetP()"	""
 
@@ -66,10 +66,10 @@ item	bs_data_menu	command	"Change class of active dataset"	window_dataset_class	
 # --- Copy, delete, rename ---------------------------------------------------
 
 item	bs_data_menu	separator	""	""	""	""
-item	bs_data_menu	command	"List objects in R workspace..."	command_list_objects	""	""
-item	bs_data_menu	command	"Copy object / active dataset..."	window_data_obj_copy	""	""
-item	bs_data_menu	command	"Delete objects / active dataset... "	window_data_obj_delete	""	""
-item	bs_data_menu	command	"Rename object / active dataset..."	window_data_obj_rename	""	""
+item	bs_data_menu	command	"List objects in R workspace"	command_list_objects	""	""
+item	bs_data_menu	command	"Copy object (dataset)..."	window_data_obj_copy	""	""
+item	bs_data_menu	command	"Delete object (dataset)... "	window_data_obj_delete	""	""
+item	bs_data_menu	command	"Rename object (dataset)..."	window_data_obj_rename	""	""
 
 
 # ---- Join/Bind datasets ----------------------------------------------------
