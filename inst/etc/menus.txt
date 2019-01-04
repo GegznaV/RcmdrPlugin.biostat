@@ -30,11 +30,20 @@ item	bs_file_menu	command	"Print session information: devtools style"	command_se
 item	bs_file_menu	command	"Print session information: base R style"	command_session_info_utils	""	""
 
 
+# ---- Close, Restart --------------------------------------------------------
+
+item	bs_file_menu	separator	""	""	""	""
+item	bs_file_menu	command	"Restart Commander"	command_rcmdr_restart	""	""
+item	bs_file_menu	command	"Close Commander"	CloseCommander	""	""
+item	bs_file_menu	command	"Close R"	closeCommanderAndR	""	""
+
+
 item	bs_file_menu	separator	""	""	""	""
 
-# ---- Rcmdr -----------------------------------------------------------------
+
+# ---- Rcmdr settings --------------------------------------------------------
 menu	bs_rcmdr_menu	bs_file_menu	""	""	""	""
-item	bs_file_menu	cascade	"Rcmdr"	bs_rcmdr_menu	""	""
+item	bs_file_menu	cascade	"Rcmdr settings"	bs_rcmdr_menu	""	""
 
 item	bs_rcmdr_menu	command	"Buttons: BS (import, select, explore, etc.)"	command_buttons_mode_biostat	""	""
 item	bs_rcmdr_menu	command	"Buttons: usual (select only)"	command_buttons_mode_rcmdr	""	""
@@ -42,12 +51,6 @@ item	bs_rcmdr_menu	command	"Buttons: usual (select only)"	command_buttons_mode_r
 item	bs_rcmdr_menu	separator	""	""	""	""
 item	bs_rcmdr_menu	command	"1 window mode (output to console)"	command_rcmdr_use_1_window	"!is_console_output()"	""
 item	bs_rcmdr_menu	command	"3 windows mode (output to Rcmdr)"	command_rcmdr_use_3_windows	"is_console_output()"	""
-
-item	bs_rcmdr_menu	separator	""	""	""	""
-item	bs_rcmdr_menu	command	"Restart Commander"	command_rcmdr_restart	""	""
-item	bs_rcmdr_menu	command	"Close Commander"	CloseCommander	""	""
-item	bs_rcmdr_menu	command	"Close R"	closeCommanderAndR	""	""
-
 
 # . ===========================================================================
 # ---- >>> Data --------------------------------------------------------------
