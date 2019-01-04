@@ -17,8 +17,7 @@ window_variable_select0  <- function(variables) {
 #' @keywords internal
 # new_dsname (character) - data frame name
 # incorrect_cond_msg (character) - Message for incorrect expression.
-window_variable_select <- function(new_dsname = NULL,
-                                   incorrect_cond_msg = NULL) {
+window_variable_select <- function(new_dsname = NULL, incorrect_cond_msg = NULL) {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = gettext_bs("Select/Remove variables from data set"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -87,7 +86,8 @@ window_variable_select <- function(new_dsname = NULL,
         } else {
             response <-
                 tk_messageBox(
-                    parent = top,
+                    # parent = top,
+                    parent = CommanderWindow(),
                     caption = "Modify Dataset",
                     message =
                         sprintf(
