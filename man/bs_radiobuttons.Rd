@@ -4,24 +4,24 @@
 \alias{bs_radiobuttons}
 \title{Radiobuttons widget.}
 \usage{
-bs_radiobuttons(parent = top, buttons, labels = buttons,
-  value = buttons[1], variable = NULL, title = NULL,
-  commands = list(), default_command = function() { }, tips = list(),
-  default_tip = "", border = FALSE, layout = c("vertical",
-  "horizontal"), sticky_buttons = "w", sticky_title = "w")
+bs_radiobuttons(parent = top, buttons, value = buttons[1],
+  title = NULL, variable = NULL, labels = NULL, commands = list(),
+  default_command = function() { }, tips = list(), default_tip = "",
+  border = FALSE, layout = c("vertical", "horizontal"),
+  sticky_buttons = "w", sticky_title = "w")
 }
 \arguments{
 \item{parent}{Parent frame.}
 
 \item{buttons}{(vector of strings) Value names for each radiobutton.}
 
-\item{labels}{(vector of strings) Labels for each radiobutton.}
-
 \item{value}{(string) Initial value. One of `buttons` values.}
+
+\item{title}{Title for the set of radiobuttons.}
 
 \item{variable}{Tcl/Tk variable. Is `NULL`, a new variable will be created.}
 
-\item{title}{Title for the set of radiobuttons.}
+\item{labels}{(vector of strings) Labels for each radiobutton.}
 
 \item{commands}{A named list of commands (functions) for radiobutton. The names must match the values of "buttons".}
 
