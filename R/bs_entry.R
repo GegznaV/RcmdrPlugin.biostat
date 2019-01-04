@@ -104,10 +104,15 @@ bs_entry <- function(
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-set_values.bs_entry <- function(obj, values, ...) {
-    if (is.null(values)) {
+set_values.bs_entry <- function(obj, values, ..., add = FALSE) {
+    if (missing(values) || is.null(values)) {
         values <- ""
     }
+
+    if (isTRUE(add)) {
+        values <- str_c(get_values(obj), values)
+    }
+
     tclvalue(obj$var_text) <- values
 }
 
