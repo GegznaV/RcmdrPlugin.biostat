@@ -79,7 +79,26 @@ bs_title <- function(parent = top, text, pady = c(5, 9),
 #' @rdname TclTk-helper-functions
 #' @export
 #' @keywords internal
+tcl_get_parent <- function(obj) {
+  tkwinfo("parent", obj)
+}
+
+# Commands -------------------------------------------------------------------
+#' @rdname TclTk-helper-functions
+#' @export
+#' @keywords internal
 tcl_get_children <- function(obj) {
+    tkwinfo("children", obj) %>%
+    tclvalue() %>%
+    str_split(" ") %>%
+    .[[1]]
+}
+
+# Commands -------------------------------------------------------------------
+#' @rdname TclTk-helper-functions
+#' @export
+#' @keywords internal
+tcl_get_siblings <- function(obj) {
   tkwinfo("parent", obj) %>%
     tkwinfo("children", .) %>%
     tclvalue() %>%
