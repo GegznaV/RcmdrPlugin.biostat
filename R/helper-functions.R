@@ -342,7 +342,7 @@ tk_label_blue <- function(...) {
 #' read_clipboard()
 read_clipboard <- function() {
     str <- try(silent = TRUE,
-        tcltk::tclvalue(tcltk::.Tcl("selection get -selection CLIPBOARD"))
+               tcltk::tclvalue(tcltk::.Tcl("selection get -selection CLIPBOARD"))
     )
 
     if (!inherits(str, "try-error")) str else ""
@@ -408,6 +408,43 @@ function_not_implemented <- function() {
     doItAndPrint(text)
     Message(msg, type = "warning")
 }
+
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+# Get object names by class
+#
+# @param name - name of dataset before suffix and preffix are added.
+get_obj_names <-  function(
+    include_class  = NULL,
+    exclude_class  = NULL,
+    include2_class = NULL,
+    all.names = TRUE,
+    envir = globalenv()) {
+
+
+    all_variable_names <- objects(envir, all.names = all.names)
+
+    if (length(all_variable_names) > 0) {
+        objs <- mget(all_variable_names, envir = envir)
+
+        if (!is.null(include_class)) {
+            objs <- purrr::keep(objs, ~inherits(.x, include_class))
+        }
+
+        if (!is.null(exclude_class)) {
+            objs <- purrr::discard(objs, ~inherits(.x, exclude_class))
+        }
+
+        if (!is.null(include2_class)) {
+            objs <- purrr::keep(objs, ~inherits(.x, include2_class))
+        }
+
+        names(objs)
+    }
+}
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Helper-functions
@@ -605,10 +642,11 @@ is_url <- function(str) {
 #     tk_messageBox(parent = top, message2, icon = "error",
 #                  caption = title, type = "ok")
 # }
-show_error_messages <- function(message, popup_msg = message, title = "Error") {
+show_error_messages <- function(message, popup_msg = message, title = "Error",
+                                parent = top) {
     Message(message = message, type = "error")
     # RcmdrTkmessageBox(popup_msg, icon = "error", title = title, type = "ok")
-    tk_messageBox(parent = top, message = popup_msg, caption = title,
+    tk_messageBox(parent = parent, message = popup_msg, caption = title,
                   type = "ok", icon = "error")
 }
 
@@ -810,11 +848,11 @@ are_not_valid_names <- function(name) {
 #' \dontrun{\donttest{
 #' msg_box_confirm_to_replace()
 #' }}
-msg_box_confirm_to_replace <- function(name, type = "Variable") {
+msg_box_confirm_to_replace <- function(name, type = "Variable", parent = top) {
     Type <- stringr::str_to_title(type)
 
     tk_messageBox(
-        parent = top,
+        parent = parent,
         caption = 'str_glue("Overwrite {Type}")',
         message = sprintf('%s "%s" already exists.\n\nDo you agree to OVERWRITE the %s?',
                           Type, name, tolower(type)),
@@ -825,12 +863,12 @@ msg_box_confirm_to_replace <- function(name, type = "Variable") {
 
 #' @rdname msg_box_confirm_to_replace
 #' @export
-msg_box_confirm_to_replace_all <- function(name, type = "Variables") {
+msg_box_confirm_to_replace_all <- function(name, type = "Variables", parent = top) {
     Type <- stringr::str_to_title(type)
     vars <- str_c(name, collapse = "\n")
 
     tk_messageBox(
-        parent = top,
+        parent = parent,
         caption = str_glue("Overwrite All {Type}"),
         message = str_glue(
             'The following {tolower(type)} already exist:\n\n',
