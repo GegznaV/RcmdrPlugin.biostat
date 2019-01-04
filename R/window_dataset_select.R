@@ -114,7 +114,7 @@ window_dataset_select <- function() {
 
     from_clipboard <- function() {
         closeDialog()
-        window_import_text_delim0(init_location = "clipboard")
+        window_import_from_clipboard()
     }
 
     from_package <- function() {
@@ -137,13 +137,7 @@ window_dataset_select <- function() {
 
     from_text_file <- function() {
         closeDialog()
-        window_import_from_text_delim()
-        # window_dataset_select()
-    }
-
-    from_text_file2 <- function() {
-        closeDialog()
-        window_import_text_delim()
+        window_import_from_text()
         # window_dataset_select()
     }
 
@@ -227,10 +221,10 @@ window_dataset_select <- function() {
     }
     # Import menus -----------------------------------------------------------
 
-    # "From clipboard..."     , 'window_import_text_delim0(init_location = "clipboard")'
+    # "From clipboard..."     , 'window_import_from_clipboard()'
     # "From R package... "    , "window_import_from_pkg"
     #
-    # "Import from text file (.txt, .csv, .dat, etc.)"   , "window_import_text_delim"
+    # "Import from text file (.txt, .csv, .dat, etc.)"   , "window_import_from_text"
     # "Import from Excel file..."                        , "window_import_excel"
     # "Import from Rds file (.Rds, .rds)..."	         , "window_import_rds"
     # "Import from R-data file (.RData, .Rda, .rda)..."  , "window_import_rdata"
@@ -246,18 +240,17 @@ window_dataset_select <- function() {
         menu_i <- tk2menu(tk2menu(top), tearoff = FALSE)
         menu_f <- tk2menu(menu_i, tearoff = FALSE)
 
-        tkadd(menu_i, "command", label = "From clipboard", command = from_clipboard)
-        tkadd(menu_i, "cascade", label = "From file    " , menu = menu_f)
-        tkadd(menu_i, "command", label = "From package",   command = from_package)
+        tkadd(menu_i, "cascade", label = "From file    " ,    menu = menu_f)
+        tkadd(menu_i, "command", label = "From clipboard...", command = from_clipboard)
+        tkadd(menu_i, "command", label = "From package...",   command = from_package)
 
 
-        tkadd(menu_f, "command", label = "from Rds file (.Rds, .rds)..."	        , command = from_rds)
-        tkadd(menu_f, "command", label = "from R-data file (.RData, .Rda, .rda)..." , command = from_rdata)
-        tkadd(menu_f, "separator")
-        tkadd(menu_f, "command", label = "from text file (.txt, .csv, .dat, etc.) [Rcmdr]"  , command = from_text_file2)
-        tkadd(menu_f, "command", label = "from text file (.txt, .csv, .dat, etc.)"  , command = from_text_file)
+        tkadd(menu_f, "command", label = "from text file (.txt, .csv, .dat, .tab)..."  , command = from_text_file)
         tkadd(menu_f, "separator")
         tkadd(menu_f, "command", label = "from Excel file..."                       , command = from_excel)
+        tkadd(menu_f, "separator")
+        tkadd(menu_f, "command", label = "from Rds file (.Rds, .rds)..."	        , command = from_rds)
+        tkadd(menu_f, "command", label = "from R-data file (.RData, .Rda, .rda)..." , command = from_rdata)
 
         # tkadd(menu_f, "separator")
         # tkadd(menu_f, "command", label = "from SPSS data file...",    command = function() {importSPSS()})
@@ -278,36 +271,41 @@ window_dataset_select <- function() {
         top <- top
 
         # [???] pritaikyti meniu ne aktyviajam DS, o pasirinktam DS.
-        selected_ds <- get_selection(var_ds_box)
+
 
         menu_e <- tk2menu(tk2menu(top), tearoff = FALSE)
 
         tkadd(menu_e, "command", label = "To clipboard (as tab-delimited)...",
               command = function() {
+                  selected_ds <- get_selection(var_ds_box)
                   export_to_clipboard(selected_ds, sep = "\t")
               })
         tkadd(menu_e, "command", label = "To clipboard (as comma-separated, csv)...",
               command = function() {
+                  selected_ds <- get_selection(var_ds_box)
                   export_to_clipboard(selected_ds, sep = ",")
               })
-        tkadd(menu_e, "separator")
-        tkadd(menu_e, "command", label = "To Rds file (.Rds, .rds)...",
-              command = to_rds)
-
-        tkadd(menu_e, "command", label = "To R-data file (.RData, .Rda, .rda)...",
-              command = to_rdata)
 
         tkadd(menu_e, "separator")
-        tkadd(menu_e, "command", label = "To text file (.txt, .csv, etc.)",
+        tkadd(menu_e, "command", label = "To text file (.txt, .csv)...",
               command = function() {
+                  selected_ds <- get_selection(var_ds_box)
                   to_text_file(selected_ds)
               })
 
         tkadd(menu_e, "separator")
         tkadd(menu_e, "command", label = "To Excel file...",
               command = function() {
+                  selected_ds <- get_selection(var_ds_box)
                   to_excel(selected_ds)
               })
+
+        tkadd(menu_e, "separator")
+        tkadd(menu_e, "command", label = "To Rds file (.Rds, .rds)...",
+              command = to_rds)
+
+        tkadd(menu_e, "command", label = "To R-data file (.RData, .Rda, .rda)...",
+              command = to_rdata)
 
         # tkadd(menu_e, "separator")
         # tkadd(menu_e, "command", label = "To Word table..." , command = to_word)
@@ -516,7 +514,7 @@ window_dataset_select <- function() {
     i0 <- tk2button(
         io_buttons_frame,
         text  = "Import",
-        tip   = str_c("Import a dataset from file",
+        tip   = str_c("Import a dataset from file,",
                       "clipboard or R package.",
                       sep = "\n"),
         width =  11,
