@@ -355,6 +355,7 @@ window_import_from_text_delim <- function() {
     get_encoding <- function() {
         get_selection(f2_box_enc)
     }
+
     get_encoding_code <- function() {
         val <- get_selection(f2_box_enc)
         switch(val, "unknown" = "", str_c(', encoding = "', get_encoding(), '"'))
@@ -649,6 +650,9 @@ window_import_from_text_delim <- function() {
         tk_disable(f1_ent_1_2)
         tk_disable(f1_but_1_4)
 
+        tkconfigure(f3_but_1, default = "active")
+
+
         set_selection(f3_box_nrow_1, "All")
         tk_disable(f3_box_nrow_1)
 
@@ -659,7 +663,7 @@ window_import_from_text_delim <- function() {
 
         tk_normalize(f3_txt_1)
         tcltk2::tip(f3_txt_1) <- str_c(
-            "Editable text from clipboard. \n",
+            "Editable text. \n",
             "To update dataset's preview bellow, press\n",
             "Ctrl+S or enable automatic update.")
 
@@ -679,6 +683,7 @@ window_import_from_text_delim <- function() {
         tk_normalize(f3_box_nrow_1)
         set_selection(f3_box_nrow_1, 50)
 
+        tkconfigure(f3_but_1, default = "normal")
 
         tkconfigure(f3_lab_1, text = "Input File")
         tk_disable(f3_txt_1)
@@ -1075,8 +1080,10 @@ window_import_from_text_delim <- function() {
     f3_lab_1 <- bs_label_b(f3, text = "Input")
     tkgrid(f3_lab_1)
     f3_txt_1 <- bs_text(f3, width = 70, height = 11, wrap = "none",
+                        autoseparators = TRUE,
                         undo = TRUE, state = "disabled", font = text_font)
 
+    tkconfigure(f3_txt_1, setgrid = TRUE)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f3_but <- tk2frame(f3)
     f3_but_w <- tk2frame(f3_but)
@@ -1111,12 +1118,13 @@ window_import_from_text_delim <- function() {
     f3_but_1 <- tk2button(
         f3_but_e,
         width = 8,
-        text = "Locale",
-        command = window_locale_set,
-        tip = str_c(
-            "Change current locale. \n",
-            "Useful if pasting text \n",
-            "results in encoding issues."))
+        text = "Paste",
+        command = function() {
+            set_mode_clipboard()
+            set_values(f3_txt_1, read_clipboard(), add = TRUE)
+            update_df_preview()
+        },
+        tip = "Clear input and paste data from clipboard.")
 
     f3_but_2 <- tk2button(f3_but_e, width = 8, text = "Clear",
                           command = clear_preview,
@@ -1131,13 +1139,13 @@ window_import_from_text_delim <- function() {
     f3_but_4 <- tk2button(
         f3_but_e,
         width = 8,
-        text = "Paste",
-        command = function() {
-            set_mode_clipboard()
-            set_values(f3_txt_1, read_clipboard())
-            update_df_preview()
-        },
-        tip = "Clear input and paste data from clipboard.")
+        text = "Locale",
+        command = window_locale_set,
+        tip = str_c(
+            "Change current locale. \n",
+            "Useful if pasting text \n",
+            "results in encoding issues."))
+
 
     tkgrid(f3_but, sticky = "ew", columnspan = 2)
     tkgrid.columnconfigure(f3_but, 1, weight = 1)
@@ -1211,7 +1219,6 @@ window_import_from_text_delim <- function() {
     tkbind(f3_txt_1, "<<Undo>>",     auto_update_df)
     tkbind(f3_txt_1, "<<Redo>>",     auto_update_df)
     tkbind(f3_txt_1, "<KeyRelease>", auto_update_df)
-
 
 }
 
