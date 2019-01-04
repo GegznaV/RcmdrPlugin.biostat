@@ -15,29 +15,31 @@ label_rcmdr <- function(..., fg = NULL) {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Helper-functions
+#' @rdname TclTk-helper-functions
 #' @export
 #' @keywords internal
 # Label for R Commander
 # see also: labelRcmdr
 bs_label_b <- function(..., fg = Rcmdr::getRcmdr("title.color")) {
-  if (is.null(fg)) ttklabel(...) else ttklabel(..., foreground = fg)
+  bs_label(..., fg = fg)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Helper-functions
+#' @rdname TclTk-helper-functions
 #' @export
 #' @keywords internal
 # Label for R Commander
 # see also: labelRcmdr
-bs_label <- function(..., fg = "black") {
+bs_label <- function(..., fg = NULL) {
   if (is.null(fg)) ttklabel(...) else ttklabel(..., foreground = fg)
 }
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Helper-functions
+#' @rdname TclTk-helper-functions
 #' @export
 #' @keywords internal
 labeled_frame <- function(parent, label = NULL, ...) {
+  # [???] needs review
   ttklabelframe(parent = parent,
                 labelwidget = tklabel(
                   parent,
@@ -48,7 +50,7 @@ labeled_frame <- function(parent, label = NULL, ...) {
   )
 }
 
-#' @rdname Helper-functions
+#' @rdname TclTk-helper-functions
 #' @export
 #' @keywords internal
 tk_title <- function(parent = top, text = "xxx_title", pady = c(5, 9),
@@ -56,7 +58,7 @@ tk_title <- function(parent = top, text = "xxx_title", pady = c(5, 9),
                      fg = Rcmdr::getRcmdr("title.color"),
                      ...) {
   tkgrid(
-    label_rcmdr(
+    bs_label(
       parent,
       text = gettext_bs(text),
       font = font,
@@ -65,13 +67,13 @@ tk_title <- function(parent = top, text = "xxx_title", pady = c(5, 9),
     ...)
 }
 
-#' @rdname Helper-functions
+#' @rdname TclTk-helper-functions
 #' @export
 #' @keywords internal
 bs_title <- function(parent = top, text, pady = c(5, 9),
                      font = tkfont.create(weight = "bold", size = 9), ...) {
   tkgrid(
-    label_rcmdr(
+    bs_label(
       parent,
       text = gettext_bs(text),
       font = font,
@@ -80,101 +82,17 @@ bs_title <- function(parent = top, text, pady = c(5, 9),
     ...)
 }
 
-# Radio buttons ==============================================================
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Helper-functions
+
+
+# Commands -------------------------------------------------------------------
+#' @rdname TclTk-helper-functions
 #' @export
 #' @keywords internal
+tcl_get_children <- function(obj) {
+  tkwinfo("parent", obj) %>%
+    tkwinfo("children", .) %>%
+    tclvalue() %>%
+    str_split(" ") %>%
+    .[[1]]
+}
 
-# This function modified based on code by Liviu Andronic (13 Dec 09) and on code by Milan Bouchet-Valat (29 Jun 12):
-radioButtons_horizontal <- defmacro(
-  window = top,
-  name,
-  buttons,
-  values = NULL,
-  initialValue = ..values[1],
-  labels,
-  title = NULL,
-  title.color = NULL,
-  right.buttons = FALSE,
-  command = function() {},
-  sticky_title = "w",
-  sticky_buttons = "e",
-  expr =
-    {
-      ..values <- if (is.null(values)) buttons else values
-
-      ..frame <- paste0(name, "Frame")
-      assign(..frame, tkframe(window))
-
-      ..variable <- paste0(name, "Variable")
-      assign(..variable, tclVar(initialValue))
-
-
-      # if (title != "") {
-      #     tkgrid(labelRcmdr(eval_(..frame),
-      #                       text = title,
-      #                       foreground = title.color,
-      #                       font = "RcmdrTitleFont"),
-      #            columnspan = 2,
-      #            sticky = "w")
-      # }
-
-      if (!is.null(title)) {
-        title_label <- label_rcmdr(eval_(..frame), text = title, fg = title.color)
-        tkgrid(title_label, sticky = sticky_title)
-      }
-
-      buttons_pan_Frame <- tkframe(eval_(..frame))
-
-      ..current_buttons <- paste0(buttons, "Button")
-      for (i in 1:length(buttons)) {
-        # ..button <- paste0(buttons[i], "Button")
-        ..button <- ..current_buttons[i]
-        assign(..button,
-               ttkradiobutton(
-                 buttons_pan_Frame,
-                 # eval_(..frame),
-                 variable = eval_(..variable),
-                 value = ..values[i],
-                 text = labels[i],
-                 command = command
-               ))
-      }
-      ..buttons_str <- paste0(..current_buttons, collapse = ", ")
-
-      eval_glue('tkgrid({..buttons_str})')
-      tkgrid(buttons_pan_Frame, sticky = sticky_buttons)
-
-
-      # tkgrid(eval_(..button), sticky = "w")
-      # logger(paste(names(as.list(environment())), collapse = ", "))
-      #
-      # for (i in 1:length(buttons)) {
-      #     ..button <- paste0(buttons[i], "Button")
-      #
-      #     if (right.buttons) {
-      #         assign(..button,
-      #                ttkradiobutton(eval_(..frame),
-      #                               variable = eval_(..variable),
-      #                               value = ..values[i],
-      #                               command = command))
-      #
-      #         tkgrid(labelRcmdr(eval_(..frame),
-      #                           text = labels[i],
-      #                           justify = "left"),
-      #                eval_(..button), sticky = "w")
-      #
-      #     } else {
-      #         assign(..button,
-      #                ttkradiobutton(eval_(..frame),
-      #                               variable = eval_(..variable),
-      #                               value = ..values[i],
-      #                               text = labels[i],
-      #                               command = command))
-      #
-      #         tkgrid(eval_(..button), sticky = "w")
-      #     }
-      # }
-    }
-)
