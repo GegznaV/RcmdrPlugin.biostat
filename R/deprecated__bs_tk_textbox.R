@@ -97,7 +97,7 @@ bs_tk_textbox <- function(
 #' @export
 #' @keywords internal
 set_values.bs_tk_textbox <- function(obj, values, ..., add = FALSE) {
-    if (missing(values) && is.null(values)) {
+    if (missing(values) || is.null(values)) {
         values <- ""
     }
 
