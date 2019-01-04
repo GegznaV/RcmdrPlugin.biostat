@@ -12,7 +12,7 @@ title_gr_0_n <- "Groups variable \n(pick one, several or none)"
 
 tip_multiple_ctrl_letters  = str_c(
     "Hold 'Ctrl' key and left-click mouse\n",
-    "to select several or deselect objects.\n",
+    "to deselect or select several objects.\n",
     "Use letters on keyboard for quicker \n",
     "navigation.")
 
