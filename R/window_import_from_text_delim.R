@@ -440,7 +440,7 @@ window_import_from_text_delim <- function() {
                 icon = "warning",
                 message = str_c(
                     'The file was not found. Check if the name and \n',
-                    'the path in the box "File, URL" are correct and\n.',
+                    'the path in the box "File, URL" are correct and\n',
                     'not empty.'),
                 caption = "File Not Found")
         }
