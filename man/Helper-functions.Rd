@@ -2,9 +2,10 @@
 % Please edit documentation in R/bs_checkboxes.R, R/bs_entry.R,
 %   R/bs_radiobuttons.R, R/bs_text.R, R/bs_tk_buttonset.R,
 %   R/command_buttons_mode.R, R/deprecated__bs_check_boxes.R,
-%   R/deprecated__bs_tk_textbox.R, R/generic_functions.R, R/helper-functions.R,
-%   R/tcltk__bs_combobox.R, R/tcltk__bs_listbox.R, R/tcltk__variableListBox2.R,
-%   R/tcltk_commands.R, R/tcltk_elements.R, R/tcltk_ok_cancel_help__macro.R,
+%   R/deprecated__bs_tk_textbox.R, R/deprecated__radiobuttons_horizintal.R,
+%   R/generic_functions.R, R/helper-functions.R, R/tcltk__bs_combobox.R,
+%   R/tcltk__bs_listbox.R, R/tcltk__variableListBox2.R, R/tcltk_commands.R,
+%   R/tcltk_elements.R, R/tcltk_ok_cancel_help__macro.R,
 %   R/tk_widget_modify_names.R, R/tk_widget_y_gr_boxes.R
 \name{get_values.bs_checkboxes}
 \alias{get_values.bs_checkboxes}
@@ -39,6 +40,7 @@
 \alias{tk_normalize.bs_tk_textbox}
 \alias{tk_activate.bs_tk_textbox}
 \alias{tk_get_state.bs_tk_textbox}
+\alias{radioButtons_horizontal}
 \alias{tk_get_state}
 \alias{tk_activate}
 \alias{tk_disable}
@@ -154,12 +156,6 @@
 \alias{tclvalue_chr}
 \alias{tclvalue_chr_split}
 \alias{label_rcmdr}
-\alias{bs_label_b}
-\alias{bs_label}
-\alias{labeled_frame}
-\alias{tk_title}
-\alias{bs_title}
-\alias{radioButtons_horizontal}
 \alias{ok_cancel_help}
 \alias{tk_widget_modify_names}
 \alias{tk_widget_boxes_y_gr}
@@ -254,6 +250,12 @@ bs_tk_textbox(parent = top, width = "28", value = "", label = "",
   foreground = getRcmdr("title.color"))
 
 \method{tk_get_state}{bs_tk_textbox}(obj, ...)
+
+radioButtons_horizontal(window = top, name = stop("name not supplied"),
+  buttons = stop("buttons not supplied"), values = NULL,
+  initialValue = ..values[1], labels = stop("labels not supplied"),
+  title = NULL, title.color = NULL, right.buttons = FALSE,
+  command = function() { }, sticky_title = "w", sticky_buttons = "e")
 
 tk_get_state(obj, ...)
 
@@ -516,25 +518,6 @@ tclvalue_chr(x, trim = TRUE, ...)
 tclvalue_chr_split(x)
 
 label_rcmdr(..., fg = NULL)
-
-bs_label_b(..., fg = Rcmdr::getRcmdr("title.color"))
-
-bs_label(..., fg = "black")
-
-labeled_frame(parent, label = NULL, ...)
-
-tk_title(parent = top, text = "xxx_title", pady = c(5, 9),
-  font = tkfont.create(weight = "bold", size = 9),
-  fg = Rcmdr::getRcmdr("title.color"), ...)
-
-bs_title(parent = top, text, pady = c(5, 9),
-  font = tkfont.create(weight = "bold", size = 9), ...)
-
-radioButtons_horizontal(window = top, name = stop("name not supplied"),
-  buttons = stop("buttons not supplied"), values = NULL,
-  initialValue = ..values[1], labels = stop("labels not supplied"),
-  title = NULL, title.color = NULL, right.buttons = FALSE,
-  command = function() { }, sticky_title = "w", sticky_buttons = "e")
 
 ok_cancel_help(window = top, helpSubject = NULL, model = FALSE,
   reset = NULL, apply = NULL, helpPackage = NULL, sticky = "w",
