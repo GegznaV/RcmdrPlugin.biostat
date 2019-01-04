@@ -38,7 +38,6 @@
 bs_combobox <- function(
     parent             = top,
     values             = variables_all(),
-    export             = "FALSE",
     state              = c("readonly", "normal", "disabled"),
     # default_text     = "<no variable selected>",
     # selection        = gettext_bs(default_text),
@@ -63,6 +62,7 @@ bs_combobox <- function(
     width              = 20,
     height             = 8,
     on_keyboard        = c("select", "ignore"),
+    export             = "FALSE",
 
     ...)
 {
