@@ -125,7 +125,7 @@ onOK <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    putDialog("window_import_from_text_delim", list(
+    putDialog("window_import_from_text", list(
         initial_position = which_position
     ))
 
@@ -188,7 +188,16 @@ onOK <- function() {
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_import_from_text_delim <- function() {
+window_import_from_clipboard <- function() {
+    win <- window_import_from_text()
+    win$set_mode_clipboard()
+    win$paste_from_clipboard()
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_import_from_text <- function() {
 
     # Fonts ------------------------------------------------------------------
     font_consolas_italic  <- tkfont.create(family = "Consolas", size = 8, slant = "italic")
@@ -747,7 +756,7 @@ window_import_from_text_delim <- function() {
     defaults <- list(
         position = "first"
     )
-    initial <- getDialog("window_import_from_text_delim", defaults)
+    initial <- getDialog("window_import_from_text", defaults)
 
 
     # ... Widgets ============================================================
@@ -1200,8 +1209,8 @@ window_import_from_text_delim <- function() {
 
     # Help topic
     ok_cancel_help(helpSubject = "fread", helpPackage = "data.table",
-                   reset = "window_import_from_text_delim()",
-                   # apply = "window_import_from_text_delim()",
+                   reset = "window_import_from_text()",
+                   # apply = "window_import_from_text()",
                    ok_label = "Import")
 
     tkgrid(buttonsFrame, sticky = "ew")
@@ -1220,5 +1229,16 @@ window_import_from_text_delim <- function() {
     tkbind(f3_txt_1, "<<Redo>>",     auto_update_df)
     tkbind(f3_txt_1, "<KeyRelease>", auto_update_df)
 
+
+    # Output -----------------------------------------------------------------
+    # Functions to modify state of the widget
+    invisible(
+        list(
+            set_mode_clipboard   = set_mode_clipboard,
+            set_mode_file_url    = set_mode_file_url,
+            paste_from_clipboard = function() {
+                set_values(f3_txt_1, read_clipboard(), add = TRUE)
+            })
+    )
 }
 
