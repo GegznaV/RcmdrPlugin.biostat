@@ -52,7 +52,7 @@
 bs_checkboxes <- function(
     parent          = top,
     boxes,
-    labels          = boxes,
+    labels          = NULL,
     title           = NULL,
     values          = NULL,
     default_value   = "0",
@@ -66,6 +66,8 @@ bs_checkboxes <- function(
     sticky_title    = "w"
 )
 {
+    checkmate::assert_character(boxes)
+    checkmate::assert_character(labels, null.ok = TRUE)
     checkmate::assert_string(title, null.ok = TRUE)
     checkmate::assert_list(commands)
     checkmate::assert_function(default_command)
@@ -74,6 +76,24 @@ bs_checkboxes <- function(
     checkmate::assert_flag(border)
 
     layout <- match.arg(layout)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    if (is.null(names(boxes))) {
+        if (is.null(labels)) {
+            labels <- boxes
+        }
+
+    } else {
+        # If 'boxes' is a named vector,
+        # values are treated as 'labels' and
+        # names as 'boxes'
+        if (!is.null(labels)) {
+            warning("Values of 'labels' are ignored as 'boxes' is a named vector.")
+        }
+
+        labels <- unname(boxes)
+        boxes <- names(boxes)
+    }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     boxes_list <- structure(boxes, names = boxes)
