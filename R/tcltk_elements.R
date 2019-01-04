@@ -4,15 +4,6 @@
 # #' @keywords internal
 # NULL
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Helper-functions
-#' @export
-#' @keywords internal
-# Label for R Commander
-# see also: labelRcmdr
-label_rcmdr <- function(..., fg = NULL) {
-  if (is.null(fg)) ttklabel(...) else ttklabel(..., foreground = fg)
-}
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname TclTk-helper-functions
