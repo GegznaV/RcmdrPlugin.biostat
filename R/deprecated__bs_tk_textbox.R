@@ -96,10 +96,15 @@ bs_tk_textbox <- function(
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-set_values.bs_tk_textbox <- function(obj, values, ...) {
-    if (is.null(values)) {
+set_values.bs_tk_textbox <- function(obj, values, ..., add = FALSE) {
+    if (missing(values) && is.null(values)) {
         values <- ""
     }
+
+    if (isTRUE(add)) {
+        values <- str_c(get_values(obj), values)
+    }
+
     tclvalue(obj$var_text) <- values
 }
 
@@ -107,14 +112,14 @@ set_values.bs_tk_textbox <- function(obj, values, ...) {
 #' @export
 #' @keywords internal
 `values<-.bs_tk_textbox` <- function(x, value) {
-    set_values(x, value)
+    set_values(x, values = value)
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 `tclvalue<-.bs_tk_textbox` <- function(x, value) {
-    set_values(x, value)
+    set_values(x, values = value)
 }
 
 #' @rdname Helper-functions
