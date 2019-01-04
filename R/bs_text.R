@@ -33,15 +33,21 @@ bs_text <- function(parent, ..., undo = TRUE) {
 
 
 # Replace contents of text box widget
-set_values.tk2text <- function(obj, values, ...) {
-    init_state = tk_get_state(obj)
+set_values.tk2text <- function(obj, values, ..., add = FALSE) {
+    init_state <- tk_get_state(obj)
 
     if (init_state == "disabled") {
         tk_normalize(obj)
     }
 
-    tkdelete(obj, "1.0", "end")
-    tkinsert(obj, "1.0", values)
+    if (isTRUE(add)) {
+        tkinsert(obj, "end", values)
+
+    } else {
+        tkdelete(obj, "1.0", "end")
+        tkinsert(obj, "1.0", values)
+    }
+
 
     if (init_state == "disabled") {
         tk_disable(obj)
