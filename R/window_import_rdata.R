@@ -10,10 +10,10 @@ window_import_rdata <- function() {
     initial_dir <- getwd()
 
     file <- tclvalue(tkgetOpenFile(
-        title = "Choose RData File to Import",
+        title = "Choose R-data File to Import",
         initialdir  = initial_dir,
         multiple = FALSE,
-        filetypes = gettext_bs("{ {R Data Files} {.RData .rda .Rda .RDA .Rdata } } { {All Files} * }")))
+        filetypes = gettext_bs("{ {R-data Files} {.RData .Rda} } { {All Files} * }")))
 
     if (file == "") {
         tkfocus(CommanderWindow())
@@ -34,9 +34,10 @@ window_import_rdata <- function() {
             "\n\nDo you want to proceed?"
            )
 
-        choice <- tk_messageBox(parent = top, type = "yesno", default = "no",
-                                message = warn_msg,
-                                caption = "Do you want to proceed?"
+        choice <- tk_messageBox(
+          parent = CommanderWindow(), type = "yesno", default = "no",
+          message = warn_msg,
+          caption = "Do you want to proceed?"
         )
 
         if (choice == "no") {
@@ -46,9 +47,8 @@ window_import_rdata <- function() {
       }
 
     # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    setBusyCursor()
-    on.exit(setIdleCursor())
-
+    cursor_set_busy()
+    on.exit(cursor_set_idle())
 
     # Change these lines [!!!]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     make_relative = TRUE
@@ -60,7 +60,7 @@ window_import_rdata <- function() {
 
 
     command <- str_glue(
-        '## Import data from RData file\n',
+        '## Import data from R-data file\n',
         'load("{file}")'
     )
 
