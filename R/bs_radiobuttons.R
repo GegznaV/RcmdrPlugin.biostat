@@ -51,10 +51,10 @@
 bs_radiobuttons <- function(
     parent          = top,
     buttons,
-    labels          = buttons,
     value           = buttons[1],
-    variable        = NULL,
     title           = NULL,
+    variable        = NULL,
+    labels          = NULL,
     commands        = list(),       # named list of functions
     default_command = function() {},
     tips            = list(),       # named list of strings
@@ -73,6 +73,28 @@ bs_radiobuttons <- function(
     checkmate::assert_flag(border)
 
     layout <- match.arg(layout)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    if (is.null(names(buttons))) {
+        if (is.null(labels)) {
+            labels <- buttons
+        }
+
+    } else {
+        # If 'buttons' is a named vector,
+        # values are treated as 'labels' and
+        # names as 'buttons'
+        if (!is.null(labels)) {
+            warning("Values of 'labels' are ignored as 'buttons' is a named vector.")
+        }
+        if (value == buttons[1]) {
+            value <- names(value)
+
+        }
+
+        labels  <- unname(buttons)
+        buttons <- names(buttons)
+    }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     buttons_list <- structure(buttons, names = buttons)
