@@ -271,7 +271,8 @@ command_clean_names()
 
 command_all_chr_to_fctr()
 
-open_online_tool(url = NULL, copy_to_clipboard = FALSE)
+open_online_tool(url = NULL, copy_to_clipboard = FALSE,
+  parent = CommanderWindow())
 
 window_online_geogebra_probability()
 

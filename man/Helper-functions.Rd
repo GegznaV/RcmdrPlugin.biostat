@@ -77,6 +77,7 @@
 \alias{correct_row_index}
 \alias{clean_str}
 \alias{function_not_implemented}
+\alias{get_obj_names}
 \alias{unique_obj_names}
 \alias{unique_df_name}
 \alias{unique_colnames}
@@ -333,6 +334,9 @@ clean_str(str, ...)
 
 function_not_implemented()
 
+get_obj_names(include_class = NULL, exclude_class = NULL,
+  include2_class = NULL, all.names = TRUE, envir = globalenv())
+
 unique_obj_names(names, preffix = "", suffix = "",
   list_of_choices = objects(all.names = TRUE, envir = .GlobalEnv),
   all_numbered = FALSE)
@@ -355,7 +359,8 @@ safe_names(str)
 
 path_truncate(path, max_length = 30)
 
-show_error_messages(message, popup_msg = message, title = "Error")
+show_error_messages(message, popup_msg = message, title = "Error",
+  parent = top)
 
 is_not_valid_name(name)
 
@@ -433,10 +438,10 @@ bs_listbox(parent, values = variables_all(), value = NULL,
   height = getRcmdr("variable.list.height"),
   width = getRcmdr("variable.list.width"), enabled = TRUE,
   scroll = c("both", "x", "y", "none"), autoscroll = c("x", "y",
-  "both", "none"), use_filter = FALSE, sticky = "nw",
-  on_select = function() { }, on_click = function() { },
-  on_double_click = function() { }, on_triple_click = function() { },
-  on_release = function() { }, on_click_3 = function() { },
+  "both", "none"), use_filter = FALSE, filter_label = "Filter",
+  sticky = "nw", on_select = function() { }, on_click = function() {
+  }, on_double_click = function() { }, on_triple_click = function() {
+  }, on_release = function() { }, on_click_3 = function() { },
   on_double_click_3 = function() { }, on_triple_click_3 = function() {
   }, on_release_3 = function() { }, on_keyboard = c("select", "scroll",
   "ignore"), title_sticky = "w", subtitle_sticky = title_sticky, ...)
