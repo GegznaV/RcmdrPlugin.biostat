@@ -46,22 +46,6 @@ item	bs_file_menu	command	"Close Commander"	CloseCommander	""	""
 item	bs_file_menu	command	"Close R"	closeCommanderAndR	""	""
 
 
-
-
-# ---- Rcmdr settings --------------------------------------------------------
-
-# item	bs_file_menu	separator	""	""	""	""
-
-# menu	bs_rcmdr_menu	bs_file_menu	""	""	""	""
-# item	bs_file_menu	cascade	"Rcmdr settings"	bs_rcmdr_menu	""	""
-#
-# item	bs_rcmdr_menu	command	"Buttons: BS (import, select, explore, etc.)"	command_buttons_mode_biostat	""	""
-# item	bs_rcmdr_menu	command	"Buttons: usual (select only)"	command_buttons_mode_rcmdr	""	""
-#
-# item	bs_rcmdr_menu	separator	""	""	""	""
-# item	bs_rcmdr_menu	command	"1 window mode (output to console)"	command_rcmdr_use_1_window	"!is_console_output()"	""
-# item	bs_rcmdr_menu	command	"3 windows mode (output to Rcmdr)"	command_rcmdr_use_3_windows	"is_console_output()"	""
-
 # . ===========================================================================
 # ---- >>> Data --------------------------------------------------------------
 menu	bs_data_menu	biostat_menu	""	""	""	""
@@ -109,9 +93,8 @@ item	import_menu	command	"Create a new dataset... [Rcmdr]"	window_dataset_new_rc
 # ---- Import data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 item	import_menu	separator	""	""	""	""
-item    import_menu      command         "Import from text file (.txt, .csv, .dat) or clipboard... [Rcmdr]"          window_import_text_delim                 ""          ""
-item    import_menu      command         "Import from text file (.txt, .csv, .dat)..."          window_import_from_text_delim                 ""          ""
-# item    import_menu      command         "[???] Import from coppied text... "          function_not_implemented                 "FALSE"          ""
+item    import_menu      command         "Import from clipboard... "          window_import_from_clipboard                 "FALSE"          ""
+item    import_menu      command         "Import from text file (.txt, .csv, .dat)..."   window_import_from_text   ""  ""
 
 item	import_menu	separator	""	""	""	""
 item    import_menu      command         "Import from Excel file..."     window_import_excel    ""     "packageAvailable('readxl')"
