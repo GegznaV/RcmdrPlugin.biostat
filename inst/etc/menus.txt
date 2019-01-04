@@ -68,7 +68,7 @@ item	bs_data_menu	command	"Change class of active dataset"	window_dataset_class	
 item	bs_data_menu	separator	""	""	""	""
 item	bs_data_menu	command	"List objects in R workspace"	command_list_objects	""	""
 item	bs_data_menu	command	"Copy object (dataset)..."	window_data_obj_copy	""	""
-item	bs_data_menu	command	"Delete object (dataset)... "	window_data_obj_delete	""	""
+item	bs_data_menu	command	"Delete object (dataset)..."	window_data_obj_delete	""	""
 item	bs_data_menu	command	"Rename object (dataset)..."	window_data_obj_rename	""	""
 
 
