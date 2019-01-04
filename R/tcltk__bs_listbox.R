@@ -482,7 +482,7 @@ set_values.listbox_with_filter <- function(obj, values, ..., clear = TRUE) {
   set_values_listbox(obj$listbox, values = values, ..., clear = clear)
 
   # Clear filter box
-  set_values(var_y_box$filter$entry, "")
+  set_values(obj$filter$entry, "")
 }
 
 #' @rdname Helper-functions
