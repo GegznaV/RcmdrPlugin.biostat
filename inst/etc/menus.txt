@@ -195,6 +195,15 @@ item	bs_varible_menu	command	"Select/Remove variables..."	window_variable_select
 item	bs_varible_menu	command	"Mutate: compute a variable..."	window_variable_mutate0	"activeDataSetP()"	"packageAvailable('dplyr')"
 item	bs_varible_menu	command	"Recode variable values..."	window_variable_recode0	"activeDataSetP()"	"packageAvailable('dplyr')"
 
+# Type conversion ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+item	bs_varible_menu	separator	""	""	""	""
+
+item	bs_varible_menu	command	"Convert variable types..."	window_variable_convert_type	"activeDataSetP()"	"packageAvailable('tidyverse')"
+item	bs_varible_menu	command	"Convert all text variables into factors"	command_all_chr_to_fctr	"characterP()"	"packageAvailable('tidyverse')"
+
+
+# Reshape ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 item	bs_varible_menu	separator	""	""	""	""
 item	bs_varible_menu	command	"Gather columns into long format dataset..."	window_variable_gather	"activeDataSetP()"	"packageAvailable('tidyr')"
@@ -202,13 +211,6 @@ item	bs_varible_menu	command	"[???] Spread columns into wide format dataset..."	
 item	bs_varible_menu	command	"[???] Separate one value into multiple columns..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
 item	bs_varible_menu	command	"[???] Unite values into one column..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
 
-
-# For each variable type ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-item	bs_varible_menu	separator	""	""	""	""
-
-item	bs_varible_menu	command	"Convert variable types..."	window_variable_convert_type	"activeDataSetP()"	"packageAvailable('tidyverse')"
-item	bs_varible_menu	command	"Convert all text variables into factors"	command_all_chr_to_fctr	"characterP()"	"packageAvailable('tidyverse')"
 
 item	bs_varible_menu	separator	""	""	""	""
 
