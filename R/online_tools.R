@@ -3,14 +3,15 @@
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-open_online_tool <- function(url = NULL, copy_to_clipboard = FALSE) {
+open_online_tool <- function(url = NULL, copy_to_clipboard = FALSE,
+                             parent = CommanderWindow()) {
     checkmate::assert_string(url, null.ok = TRUE)
     checkmate::assert_logical(copy_to_clipboard)
 
     if (!pingr::is_online()) {
         open_browser <-
             tk_messageBox(
-                parent = top,
+                parent = parent,
                 message = str_c(
                     "This feature requires an Internet connection but your\n",
                     "computer is offline now. Do you want to open the tool\n",
