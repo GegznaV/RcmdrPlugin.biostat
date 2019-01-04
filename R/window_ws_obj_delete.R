@@ -5,6 +5,34 @@
 
 window_data_obj_delete <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    update_list_of_objects <- function(variables) {
+        obj_class <- get_selection(class_filter_box)
+        hidden    <- get_values(include_hidden_box)$hidden
+        # hidden <- TRUE
+
+        new_vals <- switch(
+            obj_class,
+            "All"              = get_obj_names(all.names = hidden),
+            "Data frame"       = get_obj_names(all.names = hidden, "data.frame"),
+            "Matrix"           = get_obj_names(all.names = hidden, "matrix"),
+            "List"             = get_obj_names(all.names = hidden, "list"),
+            "Table"            = get_obj_names(all.names = hidden, "table"),
+            "ggplot"           = get_obj_names(all.names = hidden, "ggplot"),
+            "gg except ggplot" = get_obj_names(all.names = hidden,
+                                               "gg", exclude_class = "ggplot"),
+            "Function"         = get_obj_names(all.names = hidden, "function"),
+            "Other"            = get_obj_names(
+                all.names = hidden,
+                exclude_class = c("data.frame", "ggplot", "gg", "function",
+                                  "matrix", "list", "table"))
+        )
+
+
+        set_values(var_y_box, new_vals)
+    }
+
+
+
     onOK <- function() {
         # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         cursor_set_busy(top)
@@ -36,9 +64,10 @@ window_data_obj_delete <- function() {
         option <-
             tk_messageBox(
                 parent = top,
-                type = "yesno",
+                caption = "Delete Objects",
+                type    = "yesno",
                 default = "no",
-                caption = "Delete objects:",
+                icon    = "warning",
                 message = msg
             )
         if (option != "yes") {
@@ -72,14 +101,13 @@ window_data_obj_delete <- function() {
         TRUE
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    ws_objects <- objects(envir = .GlobalEnv)
+    # Widgets ----------------------------------------------------------------
+    ws_objects <- objects(envir = .GlobalEnv, all.names = TRUE)
     active_ds  <- ActiveDataSet()
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = "Delete Objects")
     tk_title(top, text = "Delete objects", fg = "darkred")
-
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     var_y_box <- bs_listbox(
@@ -89,23 +117,42 @@ window_data_obj_delete <- function() {
         value        = active_ds,
         selectmode   = "multiple",
         height       = 8,
-        width        = 30,
+        width        = c(30, Inf),
         on_keyboard  = "scroll",
         tip          = tip_multiple_ctrl_letters,
-        use_filter   = TRUE
-
+        use_filter   = TRUE,
+        filter_label = "Names filter"
     )
 
-    if (!is.null(active_ds)) {
-        tk_see(var_y_box, which(ws_objects %in% active_ds))
-    }
+    class_filter_box <- bs_combobox(
+        parent = var_y_box$frame,
+        title  = "Class filter",
+        width  = 30 - 2, # Get width var_y_box
+        value  = "Data frame",
+        values = c("All", "Data frame", "Matrix", "List", "Table", "ggplot",
+                   "gg except ggplot", "Function", "Other"),
+        on_select = update_list_of_objects
+    )
+
+    include_hidden_box <- bs_checkboxes(
+        parent = var_y_box$frame,
+        boxes = c(hidden = "Show hidden objects"),
+        values = 0,
+        commands = c(hidden = update_list_of_objects)
+    )
 
     tkgrid(getFrame(var_y_box), pady = c(0, 5))
-
+    tkgrid(class_filter_box$frame, sticky = "w")
+    tkgrid(include_hidden_box$frame, sticky = "w")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ok_cancel_help(apply = "window_data_obj_delete")
     tkgrid(buttonsFrame)
     dialogSuffix()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    update_list_of_objects()
+
+    if (!is.null(active_ds)) {
+        tk_see(var_y_box, which(ws_objects %in% active_ds))
+    }
 }
