@@ -5,7 +5,7 @@
 window_data_obj_delete <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_list_of_objs <- function() {
-        hidden    <- get_values(include_hidden_box)$hidden
+        hidden    <- get_values(include_hidden_box, "hidden")
         obj_class <- get_selection(class_filter_box)
 
         switch(
