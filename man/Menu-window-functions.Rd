@@ -18,8 +18,7 @@
 %   R/window_rows_slice.R, R/window_summary_count.R, R/window_summary_skim.R,
 %   R/window_test_normality.R, R/window_variable_gather.R,
 %   R/window_variable_mutate.R, R/window_variable_recode.R,
-%   R/window_variable_rename.R, R/window_variable_select.R,
-%   R/window_ws_obj_delete.R
+%   R/window_variable_rename.R, R/window_variable_select.R
 \name{active_dataset}
 \alias{active_dataset}
 \alias{window_ci_mean__0}
@@ -453,8 +452,6 @@ window_variable_rename()
 window_variable_select0(variables)
 
 window_variable_select(new_dsname = NULL, incorrect_cond_msg = NULL)
-
-window_data_obj_delete()
 }
 \description{
 Functions that open Rcmdr menus and windows windows.
