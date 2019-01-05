@@ -373,25 +373,10 @@ window_import_from_text <- function() {
 
     # ... --------------------------------------------------------------------
 
+    paste_from_clipboard = function() {
+        set_values(f3_txt_1, read_clipboard(), add = TRUE)
+    }
 
-
-
-
-    # # Replace contents of text box widget
-    # tk_replace <- function(obj, txt = "") {
-    #     init_state = tk_get_state(obj)
-    #
-    #     if (init_state == "disabled") {
-    #         tk_normalize(obj)
-    #     }
-    #
-    #     tkdelete(obj, "1.0", "end")
-    #     tkinsert(obj, "1.0", txt)
-    #
-    #     if (init_state == "disabled") {
-    #         tk_disable(obj)
-    #     }
-    # }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_path_to_file <- function() {
         initialdir <- get_values(f1_ent_1_2) %>% fs::path_dir()
@@ -485,12 +470,12 @@ window_import_from_text <- function() {
                     encoding     = get_encoding(),
                     data.table   = FALSE, # get_df_vs_dt()
 
-                    check.names      = get_values(f2_opts, "check_names")$check_names,
+                    check.names      = get_values(f2_opts, "check_names"),
                     # ...
-                    fill             = get_values(f2_opts, "fill")$fill,
-                    logical01        = get_values(f2_opts, "logical01")$logical01,
-                    stringsAsFactors = get_values(f2_opts, "stringsAsFactors")$stringsAsFactors
-                    # skip = get_values(f2_opts, "check_names")$check_names,
+                    fill             = get_values(f2_opts, "fill"),
+                    logical01        = get_values(f2_opts, "logical01"),
+                    stringsAsFactors = get_values(f2_opts, "stringsAsFactors")
+                    # skip = get_values(f2_opts, "check_names"),
 
 
 
@@ -601,7 +586,7 @@ window_import_from_text <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Update dataset preview if autopreview is enabled
     auto_update_df <- function() {
-        if (get_values(f2_opts)$auto_pteview && get_values(f3_txt_1) != "") {
+        if (get_values(f2_opts, "auto_preview") && get_values(f3_txt_1) != "") {
             update_df_preview()
         }
     }
@@ -771,12 +756,31 @@ window_import_from_text <- function() {
     f1_txt_1_1 <- bs_label_b(f1, text = "File, URL: ")
     f1_ent_1_2 <- bs_entry(
         f1, width = 82, sticky = "we", tip = "Path to file or URL.")
-    f1_but_1_3 <- tk2button(f1, width = 8, text = "Browse",
-                            command = function() {
-                                set_mode_file_url()
-                                get_path_to_file()
-                            },
-                            tip = "Choose file to import.")
+    f1_but_1_3 <- tk2button(
+        f1,
+        width = 8,
+        text = "Browse",
+        command = function() {
+
+            if (get_values(f3_txt_1) != "") {
+                ans <- tk_messageBox(
+                    parent = top,
+                    type = "yesno",
+                    default = "no",
+                    message = str_c(
+                        'The contents of Input window will be deleted. \n',
+                        'Do you agree?'),
+                    caption = "Clear Input")
+
+                if (ans != "yes") {
+                    return()
+                }
+            }
+
+            set_mode_file_url()
+            get_path_to_file()
+        },
+        tip = "Choose file to import.")
 
     f1_but_1_4 <- tk2button(f1, width = 8, text = "Update",
                             command = update_all,
@@ -840,7 +844,9 @@ window_import_from_text <- function() {
 
     f2_but_from <- bs_radiobuttons(
         parent  = f2a,
-        buttons = c("file", "clipboard"),
+        buttons = c("file"      = "File, URL",
+                    "clipboard" = "Clipboard"),
+
         layout  = "horizontal",
 
         commands = list(
@@ -866,10 +872,6 @@ window_import_from_text <- function() {
 
             "clipboard" = set_mode_clipboard
         ),
-
-        labels  = gettext_bs(c(
-            "File, URL",
-            "Clipboard")),
 
         tips = list(
             "file" = str_c(
@@ -1021,10 +1023,10 @@ window_import_from_text <- function() {
                   "strip_white",
                   "blank_lines_skip",
                   "fill",
-                  "auto_pteview"
+                  "auto_preview"
         ),
         default_command = auto_update_df,
-        # commands = list(auto_pteview = function(){}),
+        # commands = list(auto_preview = function(){}),
         values = c(0, 0, 0, 1, 0, 0, 1),
         # commands      = list("check_locale_" = cmd_checkbox),
         labels = gettext_bs(c(
@@ -1069,7 +1071,7 @@ window_import_from_text <- function() {
                 "blank fields are implicitly filled."
             ),
 
-            "auto_pteview" = str_c(
+            "auto_preview" = str_c(
                 "Turn off for big data files."
             )
 
@@ -1130,8 +1132,12 @@ window_import_from_text <- function() {
         text = "Paste",
         command = function() {
             set_mode_clipboard()
-            set_values(f3_txt_1, read_clipboard(), add = TRUE)
-            update_df_preview()
+            paste_from_clipboard()
+
+            if (get_values(f2_opts, "auto_preview")) {
+                update_df_preview()
+            }
+
         },
         tip = "Clear input and paste data from clipboard.")
 
@@ -1236,9 +1242,7 @@ window_import_from_text <- function() {
         list(
             set_mode_clipboard   = set_mode_clipboard,
             set_mode_file_url    = set_mode_file_url,
-            paste_from_clipboard = function() {
-                set_values(f3_txt_1, read_clipboard(), add = TRUE)
-            })
+            paste_from_clipboard = paste_from_clipboard)
     )
 }
 
