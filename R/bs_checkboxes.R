@@ -211,7 +211,7 @@ bs_checkboxes <- function(
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-get_values.bs_checkboxes <- function(obj, ..., simplify = TRUE) {
+get_values.bs_checkboxes <- function(obj, ..., simplify = TRUE, rm_names = simplify) {
     opts <- c(...)
     len <- length(opts)
 
@@ -222,13 +222,20 @@ get_values.bs_checkboxes <- function(obj, ..., simplify = TRUE) {
             map
         }
 
-    if (len == 0) {
-        map_fun(obj$var, tclvalue_lgl)
+    res <-
+        if (len == 0) {
+            map_fun(obj$var, tclvalue_lgl)
 
+        } else {
+            map_fun(obj$var[opts], tclvalue_lgl)
+        }
+
+    if (isTRUE(rm_names)) {
+        unname(res)
     } else {
-        map_fun(obj$var[opts], tclvalue_lgl)
-
+        res
     }
+
 }
 
 
