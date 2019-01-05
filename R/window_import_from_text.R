@@ -1149,7 +1149,7 @@ window_import_from_text <- function() {
                           command = function() {
                               update_df_preview()
                           },
-                          tip = "Refresh dataset preview.")
+                          tip = "Refresh dataset's preview.")
 
     f3_but_4 <- tk2button(
         f3_but_e,
@@ -1158,8 +1158,8 @@ window_import_from_text <- function() {
         command = window_locale_set,
         tip = str_c(
             "Change current locale. \n",
-            "Useful if pasting text \n",
-            "results in encoding issues."))
+            "Useful if pasting text results in encoding issues. \n",
+            "It could be useful to select correct Enconding too."))
 
 
     tkgrid(f3_but, sticky = "ew", columnspan = 2)
