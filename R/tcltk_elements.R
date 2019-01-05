@@ -1,8 +1,7 @@
-# #' @name Helper-functions
-# #' @title Helper functions for RcmdrPlugin.biostat.
-# #' @description Helper functions for package \pkg{RcmdrPlugin.biostat}.
-# #' @keywords internal
-# NULL
+#' @name TclTk-helper-functions
+#' @title Helper functions for Tcl/Tk.
+#' @keywords internal
+NULL
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
