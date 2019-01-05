@@ -157,7 +157,7 @@
 \alias{tk_widget_boxes_y_gr}
 \title{Helper functions for RcmdrPlugin.biostat.}
 \usage{
-\method{get_values}{bs_checkboxes}(obj, ...)
+\method{get_values}{bs_checkboxes}(obj, ..., simplify = TRUE)
 
 \method{set_values}{bs_checkboxes}(obj, values, ...)
 
