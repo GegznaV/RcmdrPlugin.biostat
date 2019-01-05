@@ -118,5 +118,6 @@ tk_see <- function(obj, ind, ...) {
 #' @keywords internal
 print.bs_tk_widget <- function(x, ...) {
     print(summary(x, ...))
+    cat("Class: ", str_c(class(x), collapse = ", "))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
