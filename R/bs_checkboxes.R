@@ -47,6 +47,18 @@
 #'                         layout = "h", title = "Buttons")
 #' tcltk::tkgrid(boxes_3$frame)
 #'
+#'
+#' set_values(boxes_3, B = TRUE, C = TRUE)
+#'
+#' new_vals <- c(A = TRUE, B = FALSE)
+#' set_values(boxes_3, new_vals)
+#'
+#'
+#' get_values(boxes_3)
+#' get_values(boxes_3, "B")
+#' get_values(boxes_3, simplify = FALSE)
+#'
+#'
 #'}}
 
 bs_checkboxes <- function(
@@ -199,8 +211,24 @@ bs_checkboxes <- function(
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-get_values.bs_checkboxes <- function(obj, ...) {
-    map(obj$var, tclvalue_lgl)
+get_values.bs_checkboxes <- function(obj, ..., simplify = TRUE) {
+    opts <- c(...)
+    len <- length(opts)
+
+    map_fun <-
+        if (isTRUE(simplify)) {
+            map_lgl
+        } else {
+            map
+        }
+
+    if (len == 0) {
+        map_fun(obj$var, tclvalue_lgl)
+
+    } else {
+        map_fun(obj$var[opts], tclvalue_lgl)
+
+    }
 }
 
 
@@ -229,13 +257,12 @@ get_values.bs_checkboxes <- function(obj, ...) {
 set_values.bs_checkboxes <- function(obj, values, ...) {
 
     if (!missing(values)) {
-        checkmate::assert_list(values)
+        values <- as.list(values)
 
     } else {
         values <- list(...)
     }
 
-    .set_values(obj$var, values, function(.x, .y) tclvalue(.x) <- .y)
-
+    invisible(.set_values(obj$var, values, function(.x, .y) tclvalue(.x) <- .y))
 }
 
