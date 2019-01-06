@@ -633,6 +633,12 @@ is_url <- function(str) {
     str_detect(str, "^(http://|https://|ftp://|ftps://)")
 }
 
+
+#' @rdname extract-fileparts
+#' @keywords internal
+#' @export
+do_nothing <- function() {}
+
 # ___ Check ___ ==============================================================
 #' @rdname Helper-functions
 #' @export
