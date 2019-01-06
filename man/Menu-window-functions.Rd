@@ -140,8 +140,8 @@
 \alias{window_import_rdata}
 \alias{window_import_rds}
 \alias{command_get_locale}
-\alias{window_locale_set_0}
 \alias{window_locale_set}
+\alias{window_locale_set_0}
 \alias{window_model_select}
 \alias{window_rows_arrange}
 \alias{window_rows_arrange_tmp}
@@ -405,9 +405,9 @@ window_import_rds()
 
 command_get_locale()
 
-window_locale_set_0(patent = top)
-
 window_locale_set()
+
+window_locale_set_0(parent = CommanderWindow())
 
 window_model_select()
 
