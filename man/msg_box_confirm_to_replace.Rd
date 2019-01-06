@@ -5,9 +5,11 @@
 \alias{msg_box_confirm_to_replace_all}
 \title{Message box to confirm replacement}
 \usage{
-msg_box_confirm_to_replace(name, type = "Variable", parent = top)
+msg_box_confirm_to_replace(name, type = "Variable",
+  parent = CommanderWindow())
 
-msg_box_confirm_to_replace_all(name, type = "Variables", parent = top)
+msg_box_confirm_to_replace_all(name, type = "Variables",
+  parent = CommanderWindow())
 }
 \arguments{
 \item{name}{string - name of the object to repace.}
