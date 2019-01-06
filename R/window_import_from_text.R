@@ -1,9 +1,13 @@
 # TODO:
-#  update_preview_ds() (line "# Get initial input")
+#  1. update_preview_ds() (line "# Get initial input")
 #  may unnecessarily read data from file or URL on every preview update.
 #  This may be issue if file is big or is read from URL.
 #  Some of read from file actions may be prevented.
-
+#
+#  2. Highlight "Update" button if update from file is necessary.
+#
+#  3. Buttons to paste and clear URL.
+#  4. Buttons to paste and clear name entry.
 
 
 #' @rdname Menu-window-functions
@@ -16,6 +20,7 @@ window_import_from_clipboard <- function() {
     win$update_preview_ds()
 }
 
+
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
@@ -24,8 +29,11 @@ window_import_from_text <- function() {
     txt_trunc   <- "... Other rows are not shown ..."
     txt_not_all <- "... More rows may be present in the file ..."
 
-
     # Functions ==============================================================
+    # ------------------------------------------------------------------------
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     # ~ Validation -----------------------------------------------------------
     make_red_text_reset_val <- function(to = "Inf") {
         function(P, W, S, v, s) {
@@ -251,12 +259,19 @@ window_import_from_text <- function() {
         }
     }
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Shortcut function
+    get_import_mode <- function(variables) {
+        get_import_mode()
+    }
 
 
     # ~ Read data ------------------------------------------------------------
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Open file select dialogue
     get_path_to_file <- function() {
-        initialdir <- get_values(f1_ent_1_2) %>% fs::path_dir()
+        initialdir <- read_path_to_file() %>% fs::path_dir()
 
         if (initialdir == "" || !fs::dir_exists(initialdir)) {
             initialdir <- getwd()
@@ -286,26 +301,77 @@ window_import_from_text <- function() {
         }
     }
 
+    # Read value of file name entry box
+    read_path_to_file <- function() {
+        get_values(f1_ent_1_2)
+    }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Paste data from clipboard
     paste_from_clipboard = function(add = TRUE) {
         set_values(f3_txt_1, read_clipboard(), add = add)
     }
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    read_input <- function(from = get_values(f2_but_from), nrows = get_nrows_to_import()) {
-        from <- match.arg(from, c("file", "clipboard"))
-        switch(
-            from,
-            get_values(f2_but_from),
-            "file" = {
-                input <- get_values(f1_ent_1_2)
-            },
+    previous_input             <- tclVar("") # TODO: [???] is this variable necessary?
 
-            "clipboard" = {
-                input <- get_values(f3_txt_1) %>% str_c("\n")
-            }
-        )
+    previous_file              <- tclVar("")
+    previous_nrows_to_preview  <- tclVar("")
+
+    # Check if "previous_value" changed, update it and return TRUE or FALSE
+    need_update_input_from_file <- function() {
+
+        if (get_import_mode() != "file") {
+            return(FALSE)
+        }
+
+        changed_file             <- FALSE
+        changed_nrows_to_preview <- FALSE
+
+        current_nrows_to_preview <- get_selection(f3_box_nrow_1)
+        changed_nrows_to_preview <-
+            tclvalue_chr(previous_nrows_to_preview) != current_nrows_to_preview
+
+        if (changed_nrows_to_read) {
+            tclvalue(previous_nrows_to_preview) <- current_nrows_to_preview
+        }
+
+        current_path_to_file <- read_path_to_file()
+        changed_file <- tclvalue_chr(previous_file) != current_path_to_file
+        if (changed_file) {
+            tclvalue(previous_file) <- current_path_to_file
+        }
+
+        any(changed_nrows_to_preview, changed_file)
+    }
+
+    #   changed_input <- FALSE
+    # , "clipboard" = {
+    #     current_input <- read_input_window()
+    #     changed_input <- tclvalue_chr(previous_input) != current_input
+    #     if (changed_input) {
+    #         tclvalue(previous_input) <- current_input
+    #     }
+    #     }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_input_contents <- function(from = get_import_mode(),
+                                   nrows = get_nrows_to_import(),
+                                   input = NULL) {
+
+        if (is.null(input)) {
+            from <- match.arg(from, c("file", "clipboard"))
+            switch(
+                from,
+
+                "file" = {
+                    input <- read_path_to_file()
+                },
+
+                "clipboard" = {
+                    input <- read_input_window() %>% str_c("\n")
+                }
+            )
+        }
 
         data.table::fread(
             input,
@@ -327,6 +393,13 @@ window_import_from_text <- function() {
         )
     }
 
+    read_input_window <- function() {
+        get_values(f3_txt_1)
+    }
+
+
+    # ~ Preview --------------------------------------------------------------
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Format fread error for display
     parse_fread_error <- function(err) {
@@ -336,8 +409,6 @@ window_import_from_text <- function() {
             str_replace("\\. ", ".\n") %>%
             str_trim()
     }
-
-    # ~ Preview --------------------------------------------------------------
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Clear both preview windows
@@ -350,30 +421,28 @@ window_import_from_text <- function() {
     # Update contents of input window from file or URL
     update_input_from_file <- function() {
 
-        check_file(
+        check_file(on_success = function() {
+            filename <- read_path_to_file()
 
-            on_success = function() {
-                filename <- get_values(f1_ent_1_2)
+            n_rows <- min(get_nrows_preview_input(), get_nrows_to_import())
+            n_rows <- if (is.infinite(n_rows)) -1L else n_rows
 
-                n_rows <- min(get_nrows_preview_input(), get_nrows_to_import())
-                n_rows <- if (is.infinite(n_rows)) -1L else n_rows
+            # Read file contents
+            file_contents <- readr::read_lines(filename, n_max = n_rows)
 
-                # Read file contents
-                file_contents <- readr::read_lines(filename, n_max = n_rows)
+            # Set values
+            set_values(f3_txt_1, str_c(file_contents, collapse = "\n"))
 
-                # Set values
-                set_values(f3_txt_1, str_c(file_contents, collapse = "\n"))
-
-                # Add colors to tabs
-                tktag_add(file_contents, pattern = "\t", obj = f3_txt_1, tag = "tab")
-            })
+            # Add colors to tabs
+            tktag_add(file_contents, pattern = "\t", obj = f3_txt_1, tag = "tab")
+        })
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Check, if file exist or is URL
     # Return TRUE on success
     #        FALSE on failure.
     check_file <- function(on_success = function() {}, on_failure = function() {}) {
-        filename <- get_values(f1_ent_1_2)
+        filename <- read_path_to_file()
 
         if (fs::is_file(filename) || is_url(filename)) {
             on_success()
@@ -387,7 +456,7 @@ window_import_from_text <- function() {
             tk_messageBox(
                 parent = top,
                 type = "ok",
-                icon = "warning",
+                icon = "error",
                 message = str_c(
                     'The file was not found. Check if the name and \n',
                     'the path in the box "File, URL" are correct and\n',
@@ -400,6 +469,14 @@ window_import_from_text <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Turn off auto updates for URLs
+    turn_off_autoupdate_for_url <- function(variables) {
+        if (is_url(read_path_to_file())) {
+            set_values(f2_opts, auto_read_file = FALSE)
+        }
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Update contents of dataset preview window
     update_preview_ds <- function() {
 
@@ -407,7 +484,16 @@ window_import_from_text <- function() {
 
         # Get initial input
         suppressWarnings({
-            ds_contents <- try(read_input(nrows = nrows_allowed), silent = TRUE)
+
+            if (need_update_input_from_file()) {
+                from <- "file"
+            } else {
+                from <- "clipboard"
+            }
+
+            ds_contents <- try(
+                get_input_contents(from = from, nrows = nrows_allowed),
+                silent = TRUE)
         })
 
         err_msg <- NULL
@@ -447,7 +533,7 @@ window_import_from_text <- function() {
                     options(op)
                 },
                 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                "DT" = {
+                "Data table"= {
 
                     topn <-
                         if (is.infinite(nrow_preview_ds)) {
@@ -487,7 +573,7 @@ window_import_from_text <- function() {
             if (length(ds_preview) <= 1) {
 
                 switch(
-                    get_values(f2_but_from),
+                    get_import_mode(),
                     "file" = {
                         err_msg <- str_c(
                             "Possible reasons:\n",
@@ -538,7 +624,7 @@ window_import_from_text <- function() {
                 },
 
                 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                "DT" = {
+                "Data table"= {
                     # Variable names
                     tktag.add(f3_txt_2, "var_names", "1.0", "2.0")
 
@@ -578,9 +664,20 @@ window_import_from_text <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Update dataset preview if autopreview is enabled
+    # [???]
     auto_update_preview_ds <- function() {
-        if (get_values(f2_opts, "auto_preview") && get_values(f3_txt_1) != "") {
+        if (read_input_window() != "") {
+            update_preview_ds()
+        }
+    }
+
+    # Update dataset preview if autopreview is enabled
+    auto_update_from_file <- function() {
+        if (get_values(f2_opts, "auto_read_file") && read_input_window() != "") {
+
+            # TODO [???]:
+            # - Add message box with warning about file downloading
+            # - Maube auto download box is unnesessary now
             update_preview_ds()
         }
     }
@@ -590,9 +687,9 @@ window_import_from_text <- function() {
     update_name_entry <- function(variables) {
 
         switch(
-            get_values(f2_but_from),
+            get_import_mode(),
             "file" = {
-                filename <- get_values(f1_ent_1_2)
+                filename <- read_path_to_file()
                 if (filename != "") {
                     new_name <-
                         filename %>%
@@ -612,7 +709,7 @@ window_import_from_text <- function() {
                 }
             },
 
-            stop("Unknown option: ", get_values(f2_but_from))
+            stop("Unknown option: ", get_import_mode())
         )
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -651,12 +748,14 @@ window_import_from_text <- function() {
             'To update window "Dataset", press Ctrl+S \n',
             "or enable automatic updates.")
 
+        tclvalue(previous_file) <- ""
+
         update_name_entry()
 
     }
 
     set_mode_file_url <- function() {
-        if (get_values(f2_but_from) != "file") {
+        if (get_import_mode() != "file") {
             clear_preview()
         }
 
@@ -804,7 +903,7 @@ window_import_from_text <- function() {
 
         # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         new_name  <- get_values(f1_ent_2_2)
-        from      <- get_values(f2_but_from)
+        from      <- get_import_mode()
 
         # Reset widget properties before checking ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # tkconfigure(name_entry, foreground = "black")
@@ -838,7 +937,7 @@ window_import_from_text <- function() {
 
             # ~~ From file --------------------------------------------------------
             "file" = {
-                file_name <- get_values(f1_ent_1_2)
+                file_name <- read_path_to_file()
 
                 # Check ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -894,7 +993,7 @@ window_import_from_text <- function() {
 
             "clipboard" = {
 
-                input_text <- get_values(f3_txt_1)
+                input_text <- read_input_window()
 
                 # Check ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -916,7 +1015,7 @@ window_import_from_text <- function() {
                 # Beggin import data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
                 suppressWarnings({
-                    ds_contents <- try(read_input(), silent = TRUE)
+                    ds_contents <- try(get_input_contents(), silent = TRUE)
                 })
 
                 if (inherits(ds_contents, "try-error")) {
@@ -1013,11 +1112,12 @@ window_import_from_text <- function() {
         text = "Browse",
         command = function() {
 
-            if (get_values(f2_but_from) == "clipboard" && get_values(f3_txt_1) != "") {
+            if (get_import_mode() == "clipboard" && read_input_window() != "") {
                 ans <- tk_messageBox(
                     parent = top,
                     type = "yesno",
                     default = "no",
+                    icon = "warning",
                     message = str_c(
                         'The contents of Input window will be deleted. \n',
                         'Do you agree?'),
@@ -1077,7 +1177,7 @@ window_import_from_text <- function() {
 
         commands = list(
             "file" = function() {
-                if (get_values(f3_txt_1) != "") {
+                if (read_input_window() != "") {
                     ans <- tk_messageBox(
                         parent = top,
                         type = "yesno",
@@ -1125,7 +1225,7 @@ window_import_from_text <- function() {
     f2_lab_na   <- tk2label(f2, text = "NA string")
     f2_lab_enc  <- tk2label(f2, text = "Encoding")
     f2_lab_quo  <- tk2label(f2, text = "Quote")
-    f2_lab_out  <- tk2label(f2, text = "Return")
+    f2_lab_out  <- tk2label(f2, text = "Import as")
 
     tip_box_head <- "First row has column names."
     tip_box_dec  <- "Separator for decimal part \nof a number: 10.4 vs. 10,4."
@@ -1258,10 +1358,10 @@ window_import_from_text <- function() {
                   "strip_white",
                   "blank_lines_skip",
                   "fill",
-                  "auto_preview"
+                  "auto_read_file"
         ),
         default_command = auto_update_preview_ds,
-        values = c(0, 0, 0, 1, 0, 0, 1),
+        values = c(0, 0, 0, 1, 0, 0, 0),
         labels = gettext_bs(c(
             "Make valid variable names",
             "Convert strings to factors",
@@ -1269,7 +1369,7 @@ window_import_from_text <- function() {
             "Strip leading and tailing spaces",
             "Skip empty lines",
             "Fill unequal length rows",
-            "Automatically update preview"
+            "Auto update from file, URL"
         )),
 
         tips = list(
@@ -1304,7 +1404,7 @@ window_import_from_text <- function() {
                 "blank fields are implicitly filled."
             ),
 
-            "auto_preview" = str_c(
+            "auto_read_file" = str_c(
                 "Turn off for big data files \n",
                 "or if data is on the Internet."
             )
@@ -1346,7 +1446,7 @@ window_import_from_text <- function() {
         values = c("100", "1000", "All"),
         tip = "Max. number of rows to read from file for preview.",
         selection = 1,
-        on_select = auto_update_preview_ds)
+        on_select = auto_update_from_file)
 
     f3_box_nrow_2 <- bs_combobox(
         f3_but_w,
@@ -1358,8 +1458,8 @@ window_import_from_text <- function() {
 
     f3_box_type <- bs_combobox(
         f3_but_w,
-        width = 9,
-        values = c("Tibble", "DT", "Structure"),
+        width = 10,
+        values = c("Data table", "Tibble", "Structure"),
         tip = str_c(
             "Type of preview: \n",
             " - Tibble (tbl): column types and simplified values of the top rows.\n",
@@ -1376,7 +1476,7 @@ window_import_from_text <- function() {
             set_mode_clipboard()
             paste_from_clipboard(add = FALSE)
 
-            if (get_values(f2_opts, "auto_preview")) {
+            if (get_values(f2_opts, "auto_read_file")) {
                 update_preview_ds()
             }
         },
@@ -1478,6 +1578,7 @@ window_import_from_text <- function() {
     # Interactive bindings ---------------------------------------------------
 
     tkbind(f3_txt_1, "<Control-s>",       update_preview_ds)
+    tkbind(f3_txt_1, "<Control-S>",       update_preview_ds)
     tkbind(f3_txt_1, "<Triple-Button-3>", update_preview_ds)
 
     # tkbind(f3_txt_1, "<Control-Shift-Z>",  "<<Redo>>")
@@ -1486,6 +1587,16 @@ window_import_from_text <- function() {
     tkbind(f3_txt_1, "<<Undo>>",     auto_update_preview_ds)
     tkbind(f3_txt_1, "<<Redo>>",     auto_update_preview_ds)
     tkbind(f3_txt_1, "<KeyRelease>", auto_update_preview_ds)
+
+    tkbind(f3_txt_1, "<Control-v>",  set_mode_clipboard)
+    tkbind(f3_txt_1, "<Control-V>",  set_mode_clipboard)
+
+
+    # Prevents from closing window accidentally
+    tkbind(top, "<Return>", function() {})
+
+    # Turn offs autoupdate for URL's
+    # tkbind(f1_ent_1_2$obj_text, "<FocusOut>", turn_off_autoupdate_for_url)
 
     # Output -----------------------------------------------------------------
     # Functions to modify state of the widget
