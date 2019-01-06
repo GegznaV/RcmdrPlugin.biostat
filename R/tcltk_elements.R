@@ -21,7 +21,7 @@ bs_label_b <- function(..., fg = Rcmdr::getRcmdr("title.color")) {
 # Label for R Commander
 # see also: labelRcmdr
 bs_label <- function(..., fg = NULL) {
-  if (is.null(fg)) ttklabel(...) else ttklabel(..., foreground = fg)
+  if (is.null(fg)) tk2label(...) else tk2label(..., foreground = fg)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
