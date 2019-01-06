@@ -12,11 +12,18 @@ command_get_locale <- function() {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 window_locale_set <- function() {
+    window_locale_set_0()
+}
+
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_locale_set_0 <- function(parent = CommanderWindow()) {
 
     # Functions --------------------------------------------------------------
     cmd_control_activation <- function() {
@@ -192,7 +199,7 @@ window_locale_set <- function() {
         closeDialog()
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        tkfocus(CommanderWindow())
+        tkfocus(parent)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
