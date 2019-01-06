@@ -405,7 +405,7 @@ safe_names(str)
 path_truncate(path, max_length = 30)
 
 show_error_messages(message, popup_msg = message, title = "Error",
-  parent = top)
+  parent = CommanderWindow())
 
 is_not_valid_name(name)
 
