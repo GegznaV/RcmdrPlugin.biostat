@@ -639,11 +639,11 @@ is_url <- function(str) {
 #' @keywords internal
 # show_error_messages <- function(message, message2 = message, title = "") {
 #     Message(message = message,  type = "error")
-#     tk_messageBox(parent = top, message2, icon = "error",
+#     tk_messageBox(parent = CommanderWindow(), message2, icon = "error",
 #                  caption = title, type = "ok")
 # }
 show_error_messages <- function(message, popup_msg = message, title = "Error",
-                                parent = top) {
+                                parent = CommanderWindow()) {
     Message(message = message, type = "error")
     # RcmdrTkmessageBox(popup_msg, icon = "error", title = title, type = "ok")
     tk_messageBox(parent = parent, message = popup_msg, caption = title,
@@ -848,7 +848,8 @@ are_not_valid_names <- function(name) {
 #' \dontrun{\donttest{
 #' msg_box_confirm_to_replace()
 #' }}
-msg_box_confirm_to_replace <- function(name, type = "Variable", parent = top) {
+msg_box_confirm_to_replace <- function(name, type = "Variable",
+                                       parent = CommanderWindow()) {
     Type <- stringr::str_to_title(type)
 
     tk_messageBox(
@@ -863,7 +864,8 @@ msg_box_confirm_to_replace <- function(name, type = "Variable", parent = top) {
 
 #' @rdname msg_box_confirm_to_replace
 #' @export
-msg_box_confirm_to_replace_all <- function(name, type = "Variables", parent = top) {
+msg_box_confirm_to_replace_all <- function(name, type = "Variables",
+                                           parent = CommanderWindow()) {
     Type <- stringr::str_to_title(type)
     vars <- str_c(name, collapse = "\n")
 
