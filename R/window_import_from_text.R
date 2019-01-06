@@ -287,8 +287,9 @@ window_import_from_text <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    paste_from_clipboard = function() {
-        set_values(f3_txt_1, read_clipboard(), add = TRUE)
+    # Paste data from clipboard
+    paste_from_clipboard = function(add = TRUE) {
+        set_values(f3_txt_1, read_clipboard(), add = add)
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -795,7 +796,7 @@ window_import_from_text <- function() {
         tktag_add(str, pattern, obj, tag, all = FALSE)
     }
 
-    # ~ onOK -----------------------------------------------------------------
+    # ~ onOK -------------------------------- --------------------------------
     onOK <- function() {
         # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         cursor_set_busy(top)
@@ -821,6 +822,8 @@ window_import_from_text <- function() {
             return()
         }
 
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        new_name <- safe_names(new_name)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -896,7 +899,7 @@ window_import_from_text <- function() {
                 # Check ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
                 # If no imput is present
-                if (input_text != "") {
+                if (input_text == "") {
                     ans <- tk_messageBox(
                         parent = top,
                         type = "ok",
@@ -938,7 +941,6 @@ window_import_from_text <- function() {
                                       str_c(new_name, " <- structure(list(\n"))
                     )
             }
-
         )
 
         # ~~ Apply commands ------------------------------------------------------
@@ -1372,13 +1374,13 @@ window_import_from_text <- function() {
         text = "Paste",
         command = function() {
             set_mode_clipboard()
-            paste_from_clipboard()
+            paste_from_clipboard(add = FALSE)
 
             if (get_values(f2_opts, "auto_preview")) {
                 update_preview_ds()
             }
         },
-        tip = "Paste data from clipboard.")
+        tip = "Clear input and paste data from clipboard.")
 
     f3_but_2 <- tk2button(f3_but_e, width = 8, text = "Clear",
                           command = clear_preview,
@@ -1392,7 +1394,7 @@ window_import_from_text <- function() {
         f3_but_e,
         width = 8,
         text = "Locale",
-        command = window_locale_set,
+        command = function() {window_locale_set_0(top)},
         tip = str_c(
             "Change current locale. \n",
             "Useful if pasting text results in encoding issues. \n",
