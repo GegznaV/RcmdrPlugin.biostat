@@ -1,188 +1,9 @@
-# fread(
-#     input,
-#     sep              = "auto",
-#     dec              = c(".", ","),
-#     quote            = c("\"", "'", "")
-#
-#     header           = c("auto", TRUE, FALSE)
-#     skip             = "__auto__",
-#     nrows            = Inf,
-#
-#     check.names      = FALSE,
-#
-#     na.strings       = "NA",  # due to change to ""; see NEWS
-#     encoding         = c("unknown", "UTF-8", "Latin-1")
-#
-#     strip.white      = TRUE,
-#     fill             = FALSE,
-#     blank.lines.skip = FALSE,
-#
-#     stringsAsFactors = FALSE,
-#     data.table       = TRUE
+# TODO:
+#  update_preview_ds() (line "# Get initial input")
+#  may unnecessarily read data from file or URL on every preview update.
+#  This may be issue if file is big or is read from URL.
+#  Some of read from file actions may be prevented.
 
-# ============================================================================
-# select           = NULL,
-# drop             = NULL,
-# colClasses       = NULL,
-# integer64        = getOption("datatable.integer64", "integer64"),
-
-# col.names,
-# key              = NULL,
-# index            = NULL,
-# showProgress     = getOption("datatable.showProgress", interactive()),
-# nThread          = getDTthreads(verbose),
-# logical01        = getOption("datatable.logical01", FALSE)  # due to change to TRUE; see NEWS
-# verbose          = getOption("datatable.verbose", FALSE),
-# file,
-# text,
-# cmd,
-# sep2           ="auto",
-# )
-
-
-# txt <- paste(
-#     "Comments located above data records and header lines will be preserved;",
-#     "all other comments are ignored."
-# )
-# f2_lab_4_1 <- ttklabel(f2, text = txt, foreground = "#A40802")
-
-
-# input,
-# sep              = "auto",
-# dec              = c(".", ",")
-# quote            = c("\"", "'", "")
-
-# skip             = "__auto__"
-# nrows            = Inf
-
-
-# na.strings       = "NA",  # due to change to ""; see NEWS
-# encoding         = c("unknown", "UTF-8", "Latin-1")
-
-# check.names      = FALSE
-# strip.white      = TRUE
-# fill             = FALSE
-# blank.lines.skip = FALSE
-# stringsAsFactors = FALSE
-#
-# header           = c("auto", TRUE, FALSE)
-# data.table       = TRUE
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-onOK <- function() {
-    # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    cursor_set_busy(top)
-    on.exit(cursor_set_idle(top))
-
-    # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    new_name       <- tclvalue_chr(name_variable)
-    which_position <- tclvalue_chr(positionVariable)
-
-    # Reset widget properties before checking ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    # tkconfigure(name_entry, foreground = "black")
-
-    # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (is_empty_name(new_name)) {
-        return()
-    }
-
-    if (is_not_valid_name(new_name)) {
-        return()
-    }
-
-    if (forbid_to_replace_variables(new_name)) {
-        return()
-    }
-
-    if (variable_is_not_selected(new_name, "variable")) {
-        return()
-    }
-
-    if (variable_is_not_selected(new_name, "group variable")) {
-        return()
-    }
-
-    # if (forbid_to_replace_object(new_name)) {
-    #     return()
-    # }
-
-    # if (is_empty_name(new_name))              {return()}
-    # if (is_not_valid_name(new_name))          {return()}
-    # if (forbid_to_replace_variable(new_name)) {return()}
-
-    # if (object_is_not_selected(new_name))     {return()}
-    # if (forbid_to_replace_object(new_name))   {return()}
-
-    # if (??? == "") {
-    # show_error_messages(
-    #     "No ???  was selected.\nPlease select a ???.",
-    #     title = "")
-    # return()
-    # }
-
-    #
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    putDialog("window_import_from_text", list(
-        initial_position = which_position
-    ))
-
-    # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    cmd_position <-
-        switch(which_position,
-               "first" = str_glue(
-                   "%>% \n dplyr::select({new_name}, everything())"),
-               "last" = "")
-
-    cmd_ungroup <- if (is_grouped_df(ds)) "ungroup() %>% \n" else ""
-
-    command <- str_glue(
-        '## Add column with row numbers \n',
-        "{ds} <- {ds} %>% \n",
-        "{cmd_ungroup}",
-        "dplyr::mutate({new_name} = 1:n())",
-        "{cmd_position}")
-
-    # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Library("tidyverse")
-
-    # doItAndPrint(command)
-    result <- justDoIt(command)
-
-    # result <- try_command(command)
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (class(result)[1] != "try-error") {
-        logger(style_cmd(command))
-        # doItAndPrint(style_cmd(command))
-
-        activeDataSet(ds, flushModel = FALSE, flushDialogMemory = FALSE)
-
-        # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        closeDialog()
-
-
-    } else {
-        logger_error(command, error_msg = result)
-        show_code_evaluation_error_message()
-        return()
-    }
-
-    # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # closeDialog()
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    command_dataset_refresh()
-    tkfocus(CommanderWindow())
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Announce about the success to run the function `onOk()`
-    TRUE
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-}
 
 
 #' @rdname Menu-window-functions
@@ -192,7 +13,7 @@ window_import_from_clipboard <- function() {
     win <- window_import_from_text()
     win$set_mode_clipboard()
     win$paste_from_clipboard()
-    win$update_df_preview()
+    win$update_preview_ds()
 }
 
 #' @rdname Menu-window-functions
@@ -200,13 +21,12 @@ window_import_from_clipboard <- function() {
 #' @keywords internal
 window_import_from_text <- function() {
 
-    # Fonts ------------------------------------------------------------------
-    font_consolas_italic  <- tkfont.create(family = "Consolas", size = 8, slant = "italic")
-    font_consolas_bold    <- tkfont.create(family = "Consolas", size = 8, weight = "bold")
-    font_consolas_regular <- tkfont.create(family = "Consolas", size = 8)
+    txt_trunc   <- "... Other rows are not shown ..."
+    txt_not_all <- "... More rows may be present in the file ..."
+
 
     # Functions ==============================================================
-    # Validation -------------------------------------------------------------
+    # ~ Validation -----------------------------------------------------------
     make_red_text_reset_val <- function(to = "Inf") {
         function(P, W, S, v, s) {
             tcl("after", "idle", function() {tkconfigure(W, validate = v)})
@@ -218,7 +38,7 @@ window_import_from_text <- function() {
         }
     }
 
-    # Get values -------------------------------------------------------------
+    # ~ Get values -----------------------------------------------------------
     get_header <- function() {
         val <- get_selection(f2_box_head)
         switch(val,
@@ -228,7 +48,7 @@ window_import_from_text <- function() {
                stop("Value '", val, "' is unknown (f2_box_head)."))
     }
 
-    get_header_code <- function() {
+    get_code_header <- function() {
         val <- get_selection(f2_box_head)
         switch(val,
                "Auto" = "",
@@ -247,9 +67,9 @@ window_import_from_text <- function() {
                stop("Value '", val, "' is unknown (f2_box_dec)."))
     }
 
-    get_dec_code <- function() {
+    get_code_dec <- function() {
         val <- get_selection(f2_box_dec)
-        switch(val, "Default" = "", str_c(', dec = "', get_dec(), '"'))
+        switch(val, "Default" = "", str_c(',\n dec = "', get_dec(), '"'))
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_sep <- function() {
@@ -264,9 +84,14 @@ window_import_from_text <- function() {
                "Custom\u2026"    = get_values(f2_ent_sep),
                stop("Value '", val, "' is unknown (f2_box_sep)."))
     }
-    get_sep_code <- function() {
+    get_code_sep <- function() {
         val <- get_selection(f2_box_sep)
-        switch(val, "Auto" = "", str_c(', sep = "', get_sep(), '"'))
+
+
+        switch(val,
+               "Auto" = "",
+               "Tab ( \\t )" = str_c(', sep = "\\t"'),
+               str_c(', sep = "', get_sep(), '"'))
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_skip <- function() {
@@ -277,7 +102,7 @@ window_import_from_text <- function() {
                "Custom\u2026"    = as.numeric(get_values(f2_ent_skip)),
                stop("Value '", val, "' is unknown (f2_box_skip)."))
     }
-    get_skip_code <- function() {
+    get_code_skip <- function() {
         val <- get_selection(f2_box_skip)
         switch(val,
                "Auto" = "",
@@ -287,42 +112,31 @@ window_import_from_text <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    get_nrows_max <- function() {
+    get_nrows_to_import <- function() {
         if (get_selection(f2_box_max) == "All") {
             Inf
         } else {
             as.numeric(get_values(f2_ent_max))
         }
     }
-    get_nrows_max_code <- function() {
+    get_code_nrows <- function() {
         if (get_selection(f2_box_max) == "All") {
             ""
         } else {
-            str_c(", nrows = ", get_nrows_max())
+            str_c(", nrows = ", get_nrows_to_import())
         }
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Select value for f3_box_nrow_1 box ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    get_nrow_input_preview <- function() {
+    get_nrows_preview_input <- function() {
         val <- get_selection(f3_box_nrow_1)
-        switch(val,
-               "All"    = Inf,
-               "10"     = 10,
-               "50"     = 50,
-               "100"    = 100,
-               "1000"   = 1000,
-               stop("Value '", val, "' is unknown (f3_box_nrow_1)."))
+        switch(val, "All" = Inf, as.integer(val))
     }
 
-    get_nrow_ds_preview <- function() {
+    get_nrows_preview_ds <- function() {
         val <- get_selection(f3_box_nrow_2)
-        switch(val,
-               "All"    = Inf,
-               "8"      = 8,
-               "100"    = 100,
-               "1000"   = 1000,
-               stop("Value '", val, "' is unknown (f3_box_nrow_2)."))
+        switch(val, "All" = Inf, as.integer(val))
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -335,12 +149,12 @@ window_import_from_text <- function() {
                "Custom\u2026" = get_values(f2_ent_na),
                val)
     }
-    get_na_str_code <- function() {
+    get_code_na_str <- function() {
         val <- get_selection(f2_box_na)
         switch(val,
                "Default" = "",
-               "None"    =  str_c(', na.strings = NULL'),
-               str_c(', na.strings = "', get_sep(), '"')
+               "None"    =  str_c(',\n na.strings = NULL'),
+               str_c(',\n na.strings = "', get_na_str(), '"')
         )
     }
 
@@ -354,7 +168,7 @@ window_import_from_text <- function() {
                "Custom\u2026"    = get_values(f2_ent_quo),
                stop("Value '", val, "' is unknown (f2_box_quo)."))
     }
-    get_quote_code <- function() {
+    get_code_quote <- function() {
         val <- get_selection(f2_box_quo)
         switch(val, "Double ( \" )" = "", str_c(', quote = "', get_quote(), '"'))
     }
@@ -364,7 +178,7 @@ window_import_from_text <- function() {
         get_selection(f2_box_enc)
     }
 
-    get_encoding_code <- function() {
+    get_code_encoding <- function() {
         val <- get_selection(f2_box_enc)
         switch(val, "unknown" = "", str_c(', encoding = "', get_encoding(), '"'))
     }
@@ -377,16 +191,69 @@ window_import_from_text <- function() {
                "Data table" = TRUE,
                stop("Value '", val, "' is unknown (f2_box_out)."))
     }
-    get_df_vs_dt_code <- function() {
-        str_c(', data.table = ', get_df_vs_dt())
+    get_code_df_vs_dt <- function() {
+        str_c(',\n data.table = ', get_df_vs_dt())
     }
 
-    # ... --------------------------------------------------------------------
-
-    paste_from_clipboard = function() {
-        set_values(f3_txt_1, read_clipboard(), add = TRUE)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # check.names      = get_values(f2_opts, "check_names"),
+    get_code_check_names <- function() {
+        val <- get_values(f2_opts, "check_names")
+        if (isTRUE(val)) {
+            str_c(',\n check.names = ', val)
+        } else {
+            ""
+        }
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_code_stringsAsFactors <- function() {
+        val <- get_values(f2_opts, "stringsAsFactors")
+        if (isTRUE(val)) {
+            str_c(', stringsAsFactors = ', val)
+        } else {
+            ""
+        }
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_code_logical01 <- function() {
+        val <- get_values(f2_opts, "logical01")
+        if (isTRUE(val)) {
+            str_c(', logical01 = ', val)
+        } else {
+            ""
+        }
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_code_strip_white <- function() {
+        val <- get_values(f2_opts, "strip_white")
+        if (isTRUE(val)) {
+            ""
+        } else {
+            str_c(',\n strip.white = ', val)
+        }
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_code_blank_lines_skip <- function() {
+        val <- get_values(f2_opts, "blank_lines_skip")
+        if (isTRUE(val)) {
+            str_c(', blank.lines.skip = ', val)
+        } else {
+            ""
+        }
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_code_fill <- function() {
+        val <- get_values(f2_opts, "fill")
+        if (isTRUE(val)) {
+            str_c(', fill = ', val)
+        } else {
+            ""
+        }
     }
 
+
+
+    # ~ Read data ------------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_path_to_file <- function() {
         initialdir <- get_values(f1_ent_1_2) %>% fs::path_dir()
@@ -420,22 +287,99 @@ window_import_from_text <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    update_input_text <- function() {
+    paste_from_clipboard = function() {
+        set_values(f3_txt_1, read_clipboard(), add = TRUE)
+    }
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    read_input <- function(from = get_values(f2_but_from), nrows = get_nrows_to_import()) {
+        from <- match.arg(from, c("file", "clipboard"))
+        switch(
+            from,
+            get_values(f2_but_from),
+            "file" = {
+                input <- get_values(f1_ent_1_2)
+            },
+
+            "clipboard" = {
+                input <- get_values(f3_txt_1) %>% str_c("\n")
+            }
+        )
+
+        data.table::fread(
+            input,
+            header       = get_header(),
+            dec          = get_dec(),
+            sep          = get_sep(),
+            skip         = get_skip(),
+            nrows        = nrows,
+            na.strings   = get_na_str(),
+            quote        = get_quote(),
+            encoding     = get_encoding(),
+            data.table   = get_df_vs_dt(),
+            check.names      = get_values(f2_opts, "check_names"),
+            stringsAsFactors = get_values(f2_opts, "stringsAsFactors"),
+            logical01        = get_values(f2_opts, "logical01"),
+            strip.white      = get_values(f2_opts, "strip_white"),
+            blank.lines.skip = get_values(f2_opts, "blank_lines_skip"),
+            fill             = get_values(f2_opts, "fill")
+        )
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Format fread error for display
+    parse_fread_error <- function(err) {
+        err %>%
+            str_replace("Error in .*\n", "") %>%
+            str_replace("(does not exist)", "\n\\1") %>%
+            str_replace("\\. ", ".\n") %>%
+            str_trim()
+    }
+
+    # ~ Preview --------------------------------------------------------------
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Clear both preview windows
+    clear_preview <- function() {
+        set_values(f3_txt_1, "")
+        set_values(f3_txt_2, "")
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Update contents of input window from file or URL
+    update_input_from_file <- function() {
+
+        check_file(
+
+            on_success = function() {
+                filename <- get_values(f1_ent_1_2)
+
+                n_rows <- min(get_nrows_preview_input(), get_nrows_to_import())
+                n_rows <- if (is.infinite(n_rows)) -1L else n_rows
+
+                # Read file contents
+                file_contents <- readr::read_lines(filename, n_max = n_rows)
+
+                # Set values
+                set_values(f3_txt_1, str_c(file_contents, collapse = "\n"))
+
+                # Add colors to tabs
+                tktag_add(file_contents, pattern = "\t", obj = f3_txt_1, tag = "tab")
+            })
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Check, if file exist or is URL
+    # Return TRUE on success
+    #        FALSE on failure.
+    check_file <- function(on_success = function() {}, on_failure = function() {}) {
         filename <- get_values(f1_ent_1_2)
 
         if (fs::is_file(filename) || is_url(filename)) {
-            n_rows <- min(get_nrow_input_preview(), get_nrows_max())
-            n_rows <- if (is.infinite(n_rows)) -1L else n_rows
-            file_contents <-
-                readr::read_lines(filename, n_max = n_rows) %>%
-                str_c(collapse = "\n")
+            on_success()
 
-            set_values(f3_txt_1, file_contents)
+            return(TRUE)
 
-        }
-
-        else {
+        } else {
             # Delete text
             set_values(f3_txt_1, "")
 
@@ -449,90 +393,93 @@ window_import_from_text <- function() {
                     'not empty.'),
                 caption = "File Not Found")
         }
+
+        on_failure()
+        return(FALSE)
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Update contents of dataset preview window
-    update_df_preview <- function() {
+    update_preview_ds <- function() {
 
-        switch(
-            get_values(f2_but_from),
-            "file" = {
-                input <- get_values(f1_ent_1_2)
-            },
+        nrows_allowed <- min(get_nrows_to_import(), get_nrows_preview_input())
 
-            "clipboard" = {
-                input <- get_values(f3_txt_1) %>% str_c("\n")
-            }
-        )
-
+        # Get initial input
         suppressWarnings({
-
-            ds_contents <- try(
-                data.table::fread(
-                    input,
-                    header       = get_header(),
-                    dec          = get_dec(),
-                    sep          = get_sep(),
-                    skip         = get_skip(),
-                    nrows        = min(get_nrow_input_preview(), get_nrows_max()),
-                    na.strings   = get_na_str(),
-                    quote        = get_quote(),
-                    encoding     = get_encoding(),
-                    data.table   = get_df_vs_dt(),
-                    check.names      = get_values(f2_opts, "check_names"),
-                    stringsAsFactors = get_values(f2_opts, "stringsAsFactors"),
-                    logical01        = get_values(f2_opts, "logical01"),
-                    strip.white      = get_values(f2_opts, "strip_white"),
-                    blank.lines.skip = get_values(f2_opts, "blank_lines_skip"),
-                    fill             = get_values(f2_opts, "fill")
-                )
-                , silent = TRUE)
+            ds_contents <- try(read_input(nrows = nrows_allowed), silent = TRUE)
         })
 
         err_msg <- NULL
 
         if (inherits(ds_contents, "try-error")) {
-            err_msg <-
-                ds_contents %>%
-                str_replace("Error in .*\n", "") %>%
-                str_replace("(does not exist)", "\n\\1") %>%
-                str_replace("\\. ", ".\n") %>%
-                str_trim()
+            err_msg <- parse_fread_error(ds_contents)
 
         } else {
 
+            # Generate contents for preview
+            nrows_from_file <- nrow(ds_contents)
+            nrow_preview_ds <- get_nrows_preview_ds()
+
             switch(
-                get_values(prew_opts),
-                "A" = {
+                get_selection(f3_box_type),
+                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                "Tibble" = {
+
+                    # if (nrows_from_file > nrow_preview_ds) {
+                    #     nrow_preview_ds <- nrow_preview_ds - 1
+                    # }
+
                     op <- options(width = 10000)
                     ds_preview <-
                         capture.output(
                             print(tibble::as_tibble(ds_contents),
                                   width = Inf,
-                                  n = get_nrow_ds_preview())
+                                  n = nrow_preview_ds)
                         ) %>%
                         str_subset("^(?!# A tibble.*)") %>%
-                        str_replace( "^# \\.\\.\\. with.*",
-                                     "... Other rows are not shown ...")
+                        str_replace( "^# \\.\\.\\. with.*", txt_trunc)
+
+                    if (nrows_allowed == nrows_from_file) {
+                        ds_preview <-  c(ds_preview, txt_not_all)
+                    }
+
                     options(op)
                 },
+                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                "DT" = {
 
-                "B" = {
+                    topn <-
+                        if (is.infinite(nrow_preview_ds)) {
+                            nrows_from_file
+                        } else {
+                            floor(nrow_preview_ds/2)
+                        }
 
                     op <- options(width = 10000)
                     ds_preview <-
                         capture.output(
-                            print(base::as.data.frame(ds_contents),
-                                  max = get_nrow_ds_preview())
-                        ) %>%
-                        str_c("... Other rows are not shown ...") # [???] Fix this
-                    # Should be checked, if needed
+                            print(data.table::as.data.table(ds_contents),
+                                  col.names = "top",
+                                  # class = TRUE,
+                                  topn  = topn,
+                                  nrows = nrows_from_file)
+                        )
+
+                    if (nrows_allowed == nrows_from_file) {
+                        ds_preview <- c(ds_preview, txt_not_all)
+                    }
+
                     options(op)
                 },
+                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                "Structure" = {
+                    ds_preview <- capture.output(glimpse(ds_contents, width = 74))
 
-                "C" = {
-                    ds_preview <- capture.output(glimpse(ds_contents, width = 85))
+
+                    if (get_selection(f3_box_nrow_1) != "All" && nrows_allowed <= nrows_from_file) {
+                        ds_preview <-
+                            str_replace(ds_preview, "(?<=^Observations: )(.*)", "\\1 or more")
+                    }
                 }
             )
 
@@ -560,69 +507,86 @@ window_import_from_text <- function() {
             }
         }
 
-
         if (!is.null(err_msg)) {
             # If no preview available
             set_values(f3_txt_2, str_c("Error! \n\n", err_msg))
+
             # Red font:
-            tktag.add(f3_txt_2, "tmp", "1.0", "end")
-            tktag.configure(f3_txt_2, "tmp", foreground = "red3")
+            tktag.add(f3_txt_2, "error", "1.0", "end")
 
         } else {
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             # Regular preview
+            set_values(f3_txt_2, str_c(ds_preview, collapse = "\n"))
 
-            ds_preview <- str_c(ds_preview, collapse = "\n")
+            # Add colors:
+            switch(
+                get_selection(f3_box_type),
+                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                "Tibble" = {
+                    # Variable names
+                    tktag.add(f3_txt_2, "var_names", "1.0", "2.0")
 
-            set_values(f3_txt_2, ds_preview)
+                    # Variable types
+                    tktag.add(f3_txt_2, "var_types", "2.0", "3.0")
+                    tktag_add(ds_preview[1:2], "\\<chr\\>", f3_txt_2, "red4")
 
+                    # Info message
+                    tktag_add_row(ds_preview, txt_trunc,   f3_txt_2, "info")
+                    tktag_add_row(ds_preview, txt_not_all, f3_txt_2, "info")
+                },
 
-            # Variable names
-            tktag.add(f3_txt_2, "h1", "1.0", "2.0")
-            tktag.configure(f3_txt_2, "h1",
-                            # background = "#EFEFEF",
-                            background = "white",
-                            foreground = "blue",
-                            font = font_consolas_bold)
+                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                "DT" = {
+                    # Variable names
+                    tktag.add(f3_txt_2, "var_names", "1.0", "2.0")
 
-            # Variable types
-            tktag.add(f3_txt_2, "h2", "2.0", "3.0")
-            tktag.configure(f3_txt_2, "h2",
-                            foreground = "grey50",
-                            font = font_consolas_italic)
+                    # Variable types
+                    # tktag.add(f3_txt_2, "var_types", "2.0", "3.0")
+                    # tktag_add(ds_preview[1:2], "\\<cha?r\\>", f3_txt_2, "red4")
 
+                    # Info message
+                    tktag_add_row(ds_preview, "^\\s*---\\s*$", f3_txt_2, "red")
 
-            # Information
-            nrow_2 <- get_selection(f3_box_nrow_2) #
+                    # Info message
+                    tktag_add_row(ds_preview, txt_trunc,   f3_txt_2, "info")
+                    tktag_add_row(ds_preview, txt_not_all, f3_txt_2, "info")
 
-            if (nrow_2 == "All") {
-                # Remove grey shade
-                tktag.remove(f3_txt_2, "info",  "1.0", "end")
+                },
 
-            } else {
-                # Add grey shade
-                pos <- as.integer(nrow_2) + 3
-                pos_start <- str_glue("{pos}.0")
-                pos_end   <- str_glue("{pos}.0 + 1 line")
-                tktag.add(f3_txt_2, "info", pos_start, pos_end)
-                tktag.configure(f3_txt_2, "info",
-                                foreground = "grey50",
-                                font = font_consolas_italic)
-            }
+                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                "Structure" = {
+                    # Variable names
+                    # tktag_add_row(ds_preview, "^Variables: ", f3_txt_2, "var_names")
+
+                    tktag_add_first(ds_preview, "(?<=\\$).*?(?=\\<)",
+                                    f3_txt_2, "var_names")
+
+                    # Variable types
+                    tktag_add_first(ds_preview, "^\\$", f3_txt_2, "var_types")
+                    tktag_add_first(ds_preview, "\\.\\.\\.$", f3_txt_2, "var_types")
+                    tktag_add_first(ds_preview, "\\<.*?\\>", f3_txt_2, "var_types")
+                    tktag_add_first(ds_preview, "\\<chr\\>", f3_txt_2, "red4")
+
+                    # Observations
+                    tktag_add_row(ds_preview, "^Observations: ", f3_txt_2, "grey")
+                }
+                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            )
         }
-
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Update dataset preview if autopreview is enabled
-    auto_update_df <- function() {
+    auto_update_preview_ds <- function() {
         if (get_values(f2_opts, "auto_preview") && get_values(f3_txt_1) != "") {
-            update_df_preview()
+            update_preview_ds()
         }
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Update contents of dataset entry box.
-    update_name <- function(variables) {
+    update_name_entry <- function(variables) {
 
         switch(
             get_values(f2_but_from),
@@ -653,16 +617,12 @@ window_import_from_text <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Update input preview, dataset (DS) preview, and DS name boxes.
     update_all <- function() {
-        update_name()
-        update_df_preview()
-        update_input_text()
+        update_name_entry()
+        update_preview_ds()
+        update_input_from_file()
     }
 
-    # Clear both preview windows
-    clear_preview <- function() {
-        set_values(f3_txt_1, "")
-        set_values(f3_txt_2, "")
-    }
+    #  ~ ... -----------------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Select data import mode:
     # - from clipboard, enter data maually
@@ -679,7 +639,7 @@ window_import_from_text <- function() {
         set_selection(f3_box_nrow_1, "All")
         tk_disable(f3_box_nrow_1)
 
-        tkconfigure(f3_lab_1, text = "Input from Clipboard (editable)")
+        tkconfigure(f3_lab_1, text = "Input (editable text from clipboard)")
         # nchar("(editable)")
         # tktag.add(f3_lab_1, "info_ed", "end - 10", "end")
 
@@ -687,10 +647,10 @@ window_import_from_text <- function() {
         tk_normalize(f3_txt_1)
         tcltk2::tip(f3_txt_1) <- str_c(
             "Editable text. \n",
-            "To update dataset's preview bellow, press\n",
-            "Ctrl+S or enable automatic update.")
+            'To update window "Dataset", press Ctrl+S \n',
+            "or enable automatic updates.")
 
-        update_name()
+        update_name_entry()
 
     }
 
@@ -704,21 +664,24 @@ window_import_from_text <- function() {
         tk_normalize(f1_but_1_4)
 
         tk_normalize(f3_box_nrow_1)
-        set_selection(f3_box_nrow_1, 50)
+        set_selection(f3_box_nrow_1, 100)
 
         tkconfigure(f3_but_1, default = "normal")
 
-        tkconfigure(f3_lab_1, text = "Input File")
+        tkconfigure(f3_lab_1, text = "Input (preview file contents)")
         tk_disable(f3_txt_1)
 
-        tcltk2::tip(f3_txt_1) <- "Preview of input file contents.\nNot editable."
+        tcltk2::tip(f3_txt_1) <- str_c(
+            "Preview of input file contents.\n",
+            "Not editable.\n",
+            "Grey shading represents tabs.")
 
-        update_name()
+        update_name_entry()
     }
 
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Enable import options entry boxes.
+    # Enable import options entry boxes and auto_update_preview_ds().
     # txt     - ending of widget's name
     # default - default value on activation/normalization
     # tip_active  - tip in active/normal mode
@@ -745,15 +708,18 @@ window_import_from_text <- function() {
                 tk2tip(obj_2$obj_text, tip_disabled)
             }
         }
+
+        auto_update_preview_ds()
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Change combobox selection to "Custom..."
+    # Change combobox selection to "Custom..." and auto_update_preview_ds().
     # txt     - ending of widget's name
     # default - default value on activation/normalization
     # tip_active - tip in active/normal mode
 
-    select_custom <- function(txt, default = "", tip_active = "") {
+    set_custom <- function(txt, default = "", tip_active = "") {
+
         obj_1 <- get(str_glue("f2_box_{txt}"), envir = parent.frame())
         obj_2 <- get(str_glue("f2_ent_{txt}"), envir = parent.frame())
 
@@ -767,49 +733,285 @@ window_import_from_text <- function() {
         set_selection(obj_1, "Custom\u2026")
         tk_normalize(obj_2)
 
+        auto_update_preview_ds()
+    }
+    # ~ TCL/TK tags ----------------------------------------------------------
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Add tk text tags to rows that match pattern
+    tktag_add_row  <- function(str, pattern, obj, tag) {
+        # Find row
+        info_row <- str_which(str, pattern)
+        if (length(info_row) == 0)
+            return()
+
+        # Indices
+        pos_start <- str_glue("{info_row}.0")
+        pos_end   <- str_glue("{info_row}.0 + 1 line")
+
+        # Set tags
+        for (i in 1:length(info_row))
+            tktag.add(obj, tag, pos_start[i], pos_end[i])
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Add tk text tags to places that match pattern
+    tktag_add <- function(str, pattern, obj, tag, all = TRUE) {
+        # Find row
+        # info_row <-
+
+        if (isTRUE(all)) {
+            mat <-
+                str_locate_all(str, pattern) %>%
+                setNames(seq_along(.)) %>%
+                discard(~nrow(.) < 1) %>%
+                map(as.data.frame) %>%
+                dplyr::bind_rows(.id = "row")
+
+        } else {
+            mat <-
+                str_locate(str, pattern) %>%
+                as.data.frame() %>%
+                dplyr::mutate(row = dplyr::row_number()) %>%
+                dplyr::filter(!is.na(start))
+        }
+
+        if (nrow(mat) == 0)
+            return()
+
+        pos <-
+            mat %>%
+            dplyr::mutate(start = start - 1) %>%
+            dplyr::transmute(
+                start = str_glue("{row}.{start}"),
+                end   = str_glue("{row}.{end}"))
+
+        # Set tags
+        for (i in 1:nrow(pos))
+            tktag.add(obj, tag, pos$start[i], pos$end[i])
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Add tk text tags to places that match pattern
+    # First occurance in each row only.
+    tktag_add_first <- function(str, pattern, obj, tag) {
+        tktag_add(str, pattern, obj, tag, all = FALSE)
+    }
+
+    # ~ onOK -----------------------------------------------------------------
+    onOK <- function() {
+        # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        cursor_set_busy(top)
+        on.exit(cursor_set_idle(top))
+
+        # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        new_name  <- get_values(f1_ent_2_2)
+        from      <- get_values(f2_but_from)
+
+        # Reset widget properties before checking ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # tkconfigure(name_entry, foreground = "black")
+
+        # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (is_empty_name(new_name)) {
+            return()
+        }
+
+        if (is_not_valid_name(new_name)) {
+            return()
+        }
+
+        if (forbid_to_replace_object(new_name)) {
+            return()
+        }
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # putDialog("window_import_from_text", list(
+        #     initial_position = which_position
+        # ))
+
+        # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        switch(
+            from,
+
+            # ~~ From file --------------------------------------------------------
+            "file" = {
+                file_name <- get_values(f1_ent_1_2)
+
+                # Check ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+                # Check if file exists or is URL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                if (!check_file()) {
+                    return()
+                }
+
+                # If URL, check if internet connection is present.
+                if (is_url(file_name) && !pingr::is_online()) {
+                    tk_messageBox(
+                        parent = top,
+                        message = str_c(
+                            "It seems that your file is on the Internet, but you are offline.\n",
+                            "Please, check Internet connection."
+                        ),
+                        icon  = "warning",
+                        caption = "No Internet Connection",
+                        type  = "ok")
+
+                    return()
+                }
+
+                #  Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+                Library("data.table")
+
+                command <- str_glue(
+                    '## Import data from text file \n',
+                    '{new_name} <- data.table::fread(\n',
+                    '"{file_name}"',
+                    get_code_dec(),
+                    get_code_sep(),
+                    get_code_header(),
+                    get_code_skip(),
+                    get_code_nrows(),
+                    get_code_encoding(),
+                    get_code_na_str(),
+                    get_code_quote(),
+                    get_code_check_names() ,
+                    get_code_stringsAsFactors() ,
+                    get_code_logical01(),
+                    get_code_strip_white(),
+                    get_code_blank_lines_skip(),
+                    get_code_fill(),
+                    get_code_df_vs_dt(),
+                    ")"
+                )
+            },
+
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # ~~ From clipboard --------------------------------------------------
+
+            "clipboard" = {
+
+                input_text <- get_values(f3_txt_1)
+
+                # Check ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+                # If no imput is present
+                if (input_text != "") {
+                    ans <- tk_messageBox(
+                        parent = top,
+                        type = "ok",
+                        icon = "error",
+                        message = str_c(
+                            "There is no data to import. \n",
+                            "Did you paste it from clipboard?"
+                        ),
+                        caption = "No Data To Import")
+
+                    return()
+                }
+
+                # Beggin import data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+                suppressWarnings({
+                    ds_contents <- try(read_input(), silent = TRUE)
+                })
+
+                if (inherits(ds_contents, "try-error")) {
+
+                    err_msg <- parse_fread_error(ds_contents)
+                    tk_messageBox(
+                        parent = top,
+                        message = err_msg,
+                        icon  = "error",
+                        caption = "File Reading Error",
+                        type  = "ok")
+
+                    return()
+                }
+
+                # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+                command <-
+                    c("## Data from clipboard \n\n",
+                      capture.output(dput(ds_contents)) %>%
+                          str_replace("structure\\(list\\(",
+                                      str_c(new_name, " <- structure(list(\n"))
+                    )
+            }
+
+        )
+
+        # ~~ Apply commands ------------------------------------------------------
+        result <- justDoIt(command)
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (class(result)[1] != "try-error") {
+            switch(
+                from,
+                "file"      = logger(style_cmd(command)),
+                "clipboard" = logger(str_c(command, collapse = "\n")) # Styling is slow
+            )
+
+            activeDataSet(new_name, flushModel = FALSE, flushDialogMemory = FALSE)
+
+            # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            closeDialog()
 
 
-    # Function onOK ----------------------------------------------------------
-    onOK <- function() {}
+        } else {
+            logger_error(command, error_msg = result)
+            show_code_evaluation_error_message()
+            return()
+        }
+
+        # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # closeDialog()
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        command_dataset_refresh()
+        tkfocus(CommanderWindow())
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Announce about the success to run the function `onOk()`
+        TRUE
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    }
+
+
     # Initial values ---------------------------------------------------------
 
     # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # .ds     <- activeDataSet()
-    fg_col <- Rcmdr::getRcmdr("title.color")
 
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_bs("Import Data from Text"))
-
-    tk_title(top, "Import Data from Text") # Title ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    initializeDialog(title = gettext_bs("Import Data from Text"),
+                     suppress.window.resize.buttons = FALSE)
+    tk_title(top, "Import Data from Text")
 
     # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    defaults <- list(
-        position = "first"
-    )
-    initial <- getDialog("window_import_from_text", defaults)
+    # defaults <- list(
+    #     position = "first"
+    # )
+    # initial <- getDialog("window_import_from_text", defaults)
 
 
-    # ... Widgets ============================================================
-    # Widgets ----------------------------------------------------------------
+    # Widgets ================== =============================================
 
     # Frame 1, choose file and name ------------------------------------------
     f1 <- tk2frame(top)
 
     tkgrid.columnconfigure(f1, 1, weight = 1)
-    tkgrid(f1, padx = 10, sticky = "ew")
+    tkgrid(f1, padx = 10, sticky = "e")
 
     f1_txt_1_1 <- bs_label_b(f1, text = "File, URL: ")
     f1_ent_1_2 <- bs_entry(
-        f1, width = 82, sticky = "we", tip = "Path to file or URL.")
+        f1, width = 87, sticky = "we", tip = "Path to file or URL.")
     f1_but_1_3 <- tk2button(
         f1,
         width = 8,
         text = "Browse",
         command = function() {
 
-            if (get_values(f3_txt_1) != "") {
+            if (get_values(f2_but_from) == "clipboard" && get_values(f3_txt_1) != "") {
                 ans <- tk_messageBox(
                     parent = top,
                     type = "yesno",
@@ -837,27 +1039,27 @@ window_import_from_text <- function() {
 
     f1_txt_2_1 <- bs_label_b(f1, text = "Name: ")
     f1_ent_2_2 <- bs_entry(
-        f1, width = 82,  sticky = "we", tip = "Create a name for the dataset.")
+        f1, width = 87,  sticky = "ew", tip = "Create a name for the dataset.")
 
 
     tkgrid(f1_txt_1_1, f1_ent_1_2$frame, f1_but_1_3, f1_but_1_4, pady = c(10, 2))
     tkgrid(f1_txt_2_1, f1_ent_2_2$frame, "x",        "x",        pady = c(0,  10))
 
-
-    # tkgrid.configure(f1_ent_1_2$frame, columnspan = 2, padx = 2)
-    # tkgrid.configure(f1_ent_2_2$frame, columnspan = 2, padx = 2)
+    tkgrid.configure(f1_ent_1_2$frame, padx = 2)
+    tkgrid.configure(f1_ent_2_2$frame, padx = 2)
 
     tkgrid.configure(f1_txt_1_1, f1_txt_2_1, sticky = "e")
     tkgrid.configure(f1_ent_1_2$frame, f1_ent_2_2$frame, sticky = "w")
 
-    # ~~ Middle frame ~~ -----------------------------------------------------
+
+    # Middle frame -----------------------------------------------------------
+
     f_middle <- tk2frame(top)
     tkgrid(f_middle, sticky = "w")
 
 
-    # Frame 2, parameters ------------ ---------------------------------------
+    # Frame 2, parameters ----------------------------------------------------
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f2 <- tk2labelframe(f_middle, relief = "flat",
                         borderwidth = 5, padding = 5, text = "Import options")
 
@@ -869,7 +1071,6 @@ window_import_from_text <- function() {
         parent  = f2a,
         buttons = c("file"      = "File, URL",
                     "clipboard" = "Clipboard"),
-
         layout  = "horizontal",
 
         commands = list(
@@ -937,86 +1138,86 @@ window_import_from_text <- function() {
     tip_enable <- "Double click to enter custom value."
 
 
-    # initialize values
+    # Possible options ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     dec1  <- c("Period ( . )", "Comma ( , )") # "Default"
-    sep1  <- c("Auto", "White space ( )", "Tab ( \\t )", "Comma ( , )",
-               "Semicolon ( ; )", "Pipe ( | )", "Custom\u2026")
+    sep1  <- c("Auto", "Tab ( \\t )", "Comma ( , )", "Semicolon ( ; )",
+               "White space ( )", "Pipe ( | )", "Custom\u2026")
     nas1  <- c("Default", "Empty", "None",  "NA",  "na", "N/A", "n/a", "#N/A",
                "?", "(?)", "!", "Custom\u2026")
     quo1  <- c("Double ( \" )", "Single ( \' )", "None", "Custom\u2026" )
     max1  <- c("All",  "Custom\u2026")
     skip1 <- c("Auto", "Custom\u2026")
-    enc0  <- c("unknown", "UTF-8", "Latin-1")
+    enc1  <- c( "UTF-8", "Latin-1", "unknown")
     head1 <- c("Auto", "No", "Yes")
     out1  <- c("Data frame", "Data table")
 
     f2_box_head <- bs_combobox(
         f2, width = 13, values = head1, tip = tip_box_head,
-        selection = 1, on_select = function() {auto_update_df()})
+        selection = 1, on_select = function() {auto_update_preview_ds()})
 
     f2_box_dec  <- bs_combobox(
         f2, width = 13, values = dec1,  tip = tip_box_dec,
-        selection = 1, on_select = function() {auto_update_df()})
+        selection = 1, on_select = function() {auto_update_preview_ds()})
 
     f2_box_sep  <- bs_combobox(
         f2, width = 13, values = sep1,  tip = tip_box_sep,
-        selection = 1, on_select = function() {enable_entry("sep", "-", tip_enable, ""); auto_update_df()})
+        selection = 1, on_select = function() {enable_entry("sep", "-", tip_enable, "")})
 
     f2_box_skip <- bs_combobox(
         f2, width = 13, values = skip1, tip = tip_box_skip,
-        selection = 1, on_select = function() {enable_entry("skip", "0", tip_enable, ""); auto_update_df()})
+        selection = 1, on_select = function() {enable_entry("skip", "0", tip_enable, "")})
 
     f2_box_max  <- bs_combobox(
         f2, width = 13, values = max1,  tip = tip_box_max,
-        selection = 1, on_select = function() {enable_entry("max",  "0", tip_enable, ""); auto_update_df()})
+        selection = 1, on_select = function() {enable_entry("max",  "0", tip_enable, "")})
 
     f2_box_na   <- bs_combobox(
         f2, width = 13, values = nas1,  tip = tip_box_na,
-        selection = 1, on_select = function() {enable_entry("na",   "?", tip_enable, ""); auto_update_df()})
+        selection = 1, on_select = function() {enable_entry("na",   "?", tip_enable, "")})
 
     f2_box_quo  <- bs_combobox(
         f2, width = 13, values = quo1,  tip = tip_box_quo,
-        selection = 1, on_select = function() {enable_entry("quo",  "\"", tip_enable, ""); auto_update_df()})
+        selection = 1, on_select = function() {enable_entry("quo",  "\"", tip_enable, "")})
 
     f2_box_enc  <- bs_combobox(
         f2, width = 13, values = enc1,  tip = tip_box_enc,
-        selection = 1, on_select = function() {auto_update_df()})
+        selection = 1, on_select = function() {auto_update_preview_ds()})
 
     f2_box_out  <- bs_combobox(
         f2, width = 13, values = out1,  tip = tip_box_out,
-        selection = 1, on_select = function() {auto_update_df()})
+        selection = 1, on_select = function() {auto_update_preview_ds()})
 
     f2_ent_sep  <- bs_entry(
         f2, width = 4, tip = tip_enable,
-        on_double_click = function() {select_custom("sep", "|");  auto_update_df()},
-        on_key_release = auto_update_df)
+        on_double_click = function() {set_custom("sep", "|")},
+        on_key_release = auto_update_preview_ds)
 
     f2_ent_skip <- bs_entry(
         f2, width = 4, tip = tip_enable,
-        on_double_click = function() {select_custom("skip", "0");  auto_update_df()},
-        on_key_release = auto_update_df,
+        on_double_click = function() {set_custom("skip", "0")},
+        on_key_release = auto_update_preview_ds,
         validate = "focus",
         validatecommand = validate_pos_int,
         invalidcommand  = make_red_text_reset_val(to = "0"))
 
     f2_ent_max  <- bs_entry(
         f2, width = 4, tip = tip_enable,
-        on_double_click = function() {select_custom("max", "0");  auto_update_df()},
-        on_key_release = auto_update_df,
+        on_double_click = function() {set_custom("max", "0")},
+        on_key_release = auto_update_preview_ds,
         validate = "focus",
         validatecommand = validate_int_0_inf,
         invalidcommand  = make_red_text_reset_val(to = "Inf"))
 
     f2_ent_na   <- bs_entry(
         f2, width = 4, tip = tip_enable,
-        on_double_click = function() {select_custom("na",   "?");  auto_update_df()},
-        on_key_release = auto_update_df)
+        on_double_click = function() {set_custom("na",   "?")},
+        on_key_release = auto_update_preview_ds)
 
     f2_ent_quo  <- bs_entry(
         f2, width = 4, tip = tip_enable,
-        on_double_click = function() {select_custom("quo",  "\""); auto_update_df()},
-        on_key_release = auto_update_df)
+        on_double_click = function() {set_custom("quo",  "\"")},
+        on_key_release = auto_update_preview_ds)
 
     tkgrid(f2_lab_head, f2_box_head$frame, "x",               pady = c(2, 0))
     tkgrid(f2_lab_dec,  f2_box_dec$frame,  "x",               pady = c(2, 0))
@@ -1057,10 +1258,8 @@ window_import_from_text <- function() {
                   "fill",
                   "auto_preview"
         ),
-        default_command = auto_update_df,
-        # commands = list(auto_preview = function(){}),
+        default_command = auto_update_preview_ds,
         values = c(0, 0, 0, 1, 0, 0, 1),
-        # commands      = list("check_locale_" = cmd_checkbox),
         labels = gettext_bs(c(
             "Make valid variable names",
             "Convert strings to factors",
@@ -1104,7 +1303,8 @@ window_import_from_text <- function() {
             ),
 
             "auto_preview" = str_c(
-                "Turn off for big data files."
+                "Turn off for big data files \n",
+                "or if data is on the Internet."
             )
 
         ),
@@ -1113,36 +1313,15 @@ window_import_from_text <- function() {
     tkgrid(f2_opts$frame, padx = c(3, 0), pady = c(4, 2), columnspan = 3, sticky = "w")
 
 
-    f2_p_o <- tk2frame(f2)
-    tkgrid(f2_p_o, columnspan = 3,  sticky = "w")
+    # Frames 3, Preview ------------------------------------------------------
 
-    f2_lab_pre <- bs_label_b(f2_p_o, text = "Preview option:")
-    prew_opts <- bs_radiobuttons(
-        parent = f2_p_o,
-        buttons = c("A", "B", "C"),
-        layout = "horizontal",
-        default_command = update_df_preview
-    )
-
-    tkgrid(
-        f2_lab_pre,
-        prew_opts$frame,
-        padx = c(3, 0), pady = c(4, 2),  sticky = "w")
-
-    # tkgrid.configure(prew_opts$frame, columnspan = 2)
-
-
-
-    # Frames 3, Preview ------------ --------------------------------
     text_font <- tkfont.create(size = 8, family = "Consolas")
 
     f3 <- tk2labelframe(f_middle, relief = "flat", text = "Preview")
 
-
-
-
     f3_lab_1 <- bs_label_b(f3, text = "Input")
     tkgrid(f3_lab_1)
+
     f3_txt_1 <- bs_text(f3, width = 70, height = 11, wrap = "none",
                         autoseparators = TRUE,
                         undo = TRUE, state = "disabled", font = text_font)
@@ -1153,31 +1332,39 @@ window_import_from_text <- function() {
     f3_but_w <- tk2frame(f3_but)
     f3_but_e <- tk2frame(f3_but)
 
-    f3_lab_nrows <- bs_label(f3_but_w, text = "Preview rows")
+    f3_lab_nrows <- bs_label(f3_but_w, text = "Preview:", tip = str_c(
+        "Preview options: number ow rows to\n",
+        "display in each window and preview\n",
+        "type."
+    ))
+
     f3_box_nrow_1 <- bs_combobox(
         f3_but_w,
         width = 4,
-        values = c("50", "100", "1000", "All"),
-        tip = "Number of input file rows to preview.\n(Window above).",
+        values = c("100", "1000", "All"),
+        tip = "Max. number of rows to read from file for preview.",
         selection = 1,
-        on_select = function() {
-            # update only if "File, URL" entry is not empty
-            if (get_values(f1_ent_1_2) != "")
-                update_input_text()
-        })
+        on_select = auto_update_preview_ds)
 
     f3_box_nrow_2 <- bs_combobox(
         f3_but_w,
         width = 3,
-        values = c("8", "100", "All"),
-        tip = "Number of dataset rows to preview.\n(Window below).",
+        values = c("8", "10", "100", "All"),
+        tip = "Number of data rows to show in window below.",
         selection = 1,
-        on_select = function() {
-            # update only if "Input" entry is not empty
-            if (get_values(f3_txt_1) != "")
-                update_df_preview()
-        })
+        on_select = auto_update_preview_ds)
 
+    f3_box_type <- bs_combobox(
+        f3_but_w,
+        width = 9,
+        values = c("Tibble", "DT", "Structure"),
+        tip = str_c(
+            "Type of preview: \n",
+            " - Tibble (tbl): column types and simplified values of the top rows.\n",
+            " - Data table (DT): top and bottom rows. \n",
+            " - Structure (str): column names, types and a few values"),
+        selection = 1,
+        on_select = auto_update_preview_ds)
 
     f3_but_1 <- tk2button(
         f3_but_e,
@@ -1188,21 +1375,18 @@ window_import_from_text <- function() {
             paste_from_clipboard()
 
             if (get_values(f2_opts, "auto_preview")) {
-                update_df_preview()
+                update_preview_ds()
             }
-
         },
-        tip = "Clear input and paste data from clipboard.")
+        tip = "Paste data from clipboard.")
 
     f3_but_2 <- tk2button(f3_but_e, width = 8, text = "Clear",
                           command = clear_preview,
-                          tip = "Clear input text.")
+                          tip = "Clear input text and dataset's preview.")
 
     f3_but_3 <- tk2button(f3_but_e, width = 8, text = "Refresh",
-                          command = function() {
-                              update_df_preview()
-                          },
-                          tip = "Refresh dataset's preview.")
+                          command = update_preview_ds,
+                          tip = "Update dataset's preview.")
 
     f3_but_4 <- tk2button(
         f3_but_e,
@@ -1212,15 +1396,17 @@ window_import_from_text <- function() {
         tip = str_c(
             "Change current locale. \n",
             "Useful if pasting text results in encoding issues. \n",
-            "It could be useful to select correct Enconding too."))
-
+            'It could be useful to select correct "Enconding" too.'))
 
     tkgrid(f3_but, sticky = "ew", columnspan = 2)
     tkgrid.columnconfigure(f3_but, 1, weight = 1)
 
     tkgrid(f3_but_w, f3_but_e, sticky = "e", pady = c(2, 4))
 
-    tkgrid(f3_lab_nrows, f3_box_nrow_1$frame, f3_box_nrow_2$frame,  sticky = "w")
+    tkgrid(f3_lab_nrows,
+           f3_box_nrow_1$frame, f3_box_nrow_2$frame, f3_box_type$frame,
+           sticky = "w")
+
     tkgrid(f3_but_1, f3_but_2, f3_but_3, f3_but_4, sticky = "e")
 
     tkgrid.configure(f3_box_nrow_2$frame, padx = c(2, 2))
@@ -1229,67 +1415,75 @@ window_import_from_text <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     bs_label_b(f3, text = "Dataset") %>% tkgrid()
-    f3_txt_2 <- bs_text(f3, width = 70, height = 11, wrap = "none",
-                        undo = FALSE, state = "disabled", font = text_font)
-
+    f3_txt_2 <- bs_text(f3, width = 75, height = 11, wrap = "none",
+                        undo = FALSE, state = "disabled", font = text_font,
+                        tip = str_c(
+                            "Types of variables: \n",
+                            " - <int> whole numbers (integers);\n",
+                            ' - <dbl> real numbers ("double");\n',
+                            " - <chr> character (text) variables;\n",
+                            " - <fct> factors (categorical variables);\n",
+                            " - <ord> ordinal factors;\n",
+                            " - <lgl> logical values."
+                        ))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(f2, f3, sticky = "nsw", padx = c(0, 5), pady = c(0, 15))
 
-
-
-
-
-    # # Frame 4 ---- -----------------------------------------------------------
-    # f4 <- tk2frame(top)
-    #
-    # f1_but_4_1 <- tk2button(f4, width = 8, text = "Paste", # command = update_all,
-    #                         tip = "Paste data from clipboard.")
-    #
-    # f1_but_4_2 <- tk2button(f4, width = 8, text = "Clear", # command = update_all,
-    #                         tip = "Clear input text")
-    #
-    #
-    #
-    # tkgrid(f4,  sticky = "e")
-    # tkgrid(f1_but_4_1, f1_but_4_2)
-    #
-    # tkgrid.columnconfigure(f4, 1, weight = 1)
-    #
-    #
-    # tkgrid.configure(f1_but_3_4, sticky = "e")
-    # tkgrid.configure(f1_but_3_3, sticky = "e")
-    # tkgrid.configure(f1_txt_3_1, sticky = "w")
-    # tkgrid.configure(f1_from$frame, sticky = "w")
-
-    # ====... =================== ============================================
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     # Finalize ---------------------------------------------------------------
 
     # Help topic
     ok_cancel_help(helpSubject = "fread", helpPackage = "data.table",
                    reset = "window_import_from_text()",
-                   # apply = "window_import_from_text()",
                    ok_label = "Import")
 
     tkgrid(buttonsFrame, sticky = "ew")
     dialogSuffix()
+
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Apply initial configuration functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Fonts ------------------------------------------------------------------
+    font_consolas_italic  <- tkfont.create(family = "Consolas", size = 8, slant = "italic")
+    font_consolas_bold    <- tkfont.create(family = "Consolas", size = 8, weight = "bold")
+    font_consolas_regular <- tkfont.create(family = "Consolas", size = 8)
+
+
+    # Configuration ----------------------------------------------------------
+
+    tktag.configure(f3_txt_1, "tab", background = "grey95")
+
+    tktag.configure(f3_txt_2, "var_names",
+                    foreground = "blue",
+                    font = font_consolas_bold)
+
+    tktag.configure(f3_txt_2, "var_types",
+                    foreground = "grey50",
+                    font = font_consolas_italic)
+
+    tktag.configure(f3_txt_2, "info",
+                    foreground = "grey50",
+                    font = font_consolas_italic)
+
+    tktag.configure(f3_txt_2, "error", foreground = "red3")
+
+    tktag.configure(f3_txt_2, "grey",  foreground = "grey50")
+    tktag.configure(f3_txt_2, "green", foreground = "green")
+    tktag.configure(f3_txt_2, "red",   foreground = "red")
+    tktag.configure(f3_txt_2, "red3",  foreground = "red3")
+    tktag.configure(f3_txt_2, "red4",  foreground = "red4")
 
 
     # Interactive bindings ---------------------------------------------------
-    tkbind(f3_txt_1, "<Control-s>",       update_df_preview)
-    tkbind(f3_txt_1, "<Triple-Button-3>", update_df_preview)
 
+    tkbind(f3_txt_1, "<Control-s>",       update_preview_ds)
+    tkbind(f3_txt_1, "<Triple-Button-3>", update_preview_ds)
 
     # tkbind(f3_txt_1, "<Control-Shift-Z>",  "<<Redo>>")
-    tkbind(f3_txt_1, "<<Copy>>",     auto_update_df)
-    tkbind(f3_txt_1, "<<Paste>>",    auto_update_df)
-    tkbind(f3_txt_1, "<<Undo>>",     auto_update_df)
-    tkbind(f3_txt_1, "<<Redo>>",     auto_update_df)
-    tkbind(f3_txt_1, "<KeyRelease>", auto_update_df)
-
+    tkbind(f3_txt_1, "<<Copy>>",     auto_update_preview_ds)
+    tkbind(f3_txt_1, "<<Paste>>",    auto_update_preview_ds)
+    tkbind(f3_txt_1, "<<Undo>>",     auto_update_preview_ds)
+    tkbind(f3_txt_1, "<<Redo>>",     auto_update_preview_ds)
+    tkbind(f3_txt_1, "<KeyRelease>", auto_update_preview_ds)
 
     # Output -----------------------------------------------------------------
     # Functions to modify state of the widget
@@ -1298,7 +1492,7 @@ window_import_from_text <- function() {
             set_mode_clipboard   = set_mode_clipboard,
             set_mode_file_url    = set_mode_file_url,
             paste_from_clipboard = paste_from_clipboard,
-            update_df_preview    = update_df_preview
+            update_preview_ds    = update_preview_ds
         )
     )
 }
