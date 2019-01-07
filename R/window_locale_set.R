@@ -72,8 +72,10 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
 
         # message(str_c(sel_ind, txt, pattern, sep = "\t"))
         if (!is.na(sel_ind)) {
-            set_selection(var_y_box, sel_ind)
-            tk_see(       var_y_box, sel_ind)
+            # set_selection(var_y_box, sel_ind)
+            # tk_see(var_y_box, sel_ind)
+
+            set_yview(var_y_box, sel_ind)
         }
     }
 
@@ -194,9 +196,6 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
             show_code_evaluation_error_message()
             return()
         }
-
-        # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        closeDialog()
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkfocus(parent)
