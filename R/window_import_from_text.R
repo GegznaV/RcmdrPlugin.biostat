@@ -8,6 +8,7 @@
 #
 #  3. Buttons to paste and clear URL.
 #  4. Buttons to paste and clear name entry.
+#  5. Make buttons narrower.
 
 
 #' @rdname Menu-window-functions
@@ -262,7 +263,7 @@ window_import_from_text <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Shortcut function
     get_import_mode <- function(variables) {
-        get_import_mode()
+        get_values(f2_but_from)
     }
 
 
@@ -1458,7 +1459,7 @@ window_import_from_text <- function() {
 
     f3_box_type <- bs_combobox(
         f3_but_w,
-        width = 10,
+        width = 9,
         values = c("Data table", "Tibble", "Structure"),
         tip = str_c(
             "Type of preview: \n",
