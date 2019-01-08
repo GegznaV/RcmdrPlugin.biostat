@@ -30,24 +30,35 @@ window_import_from_text <- function() {
     txt_trunc   <- "... Other rows are not shown ..."
     txt_not_all <- "... More rows may be present in the file ..."
 
-    # Functions ==============================================================
-    # ------------------------------------------------------------------------
+    previous_input             <- tclVar("") # TODO: [???] is this variable necessary?
 
+    previous_file              <- tclVar("")
+    previous_nrows_to_preview  <- tclVar("")
+
+
+    #   changed_input <- FALSE
+    # , "clipboard" = {
+    #     current_input <- read_input_window()
+    #     changed_input <- tclvalue_chr(previous_input) != current_input
+    #     if (changed_input) {
+    #         tclvalue(previous_input) <- current_input
+    #     }
+    #     }
+
+
+
+    # Functions ==============================================================
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    # ~ Validation -----------------------------------------------------------
-    make_red_text_reset_val <- function(to = "Inf") {
-        function(P, W, S, v, s) {
-            tcl("after", "idle", function() {tkconfigure(W, validate = v)})
-            tkconfigure(W, foreground = "red2")
-            tkdelete(W, "0", "end")
-            tkinsert(W, "0", to)
+    # ~ Read import options --------------------------------------------------
 
-            tcl("expr", "TRUE")
-        }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Shortcut function
+    get_import_mode <- function(variables) {
+        get_values(f2_but_from)
     }
 
-    # ~ Get values -----------------------------------------------------------
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_header <- function() {
         val <- get_selection(f2_box_head)
         switch(val,
@@ -149,6 +160,21 @@ window_import_from_text <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_quote <- function() {
+        val <- get_selection(f2_box_quo)
+        switch(val,
+               "Double ( \" )" = '"',
+               "Single ( ' )"  = "'" ,
+               "None"          = "",
+               "Custom\u2026"    = get_values(f2_ent_quo),
+               stop("Value '", val, "' is unknown (f2_box_quo)."))
+    }
+    get_code_quote <- function() {
+        val <- get_selection(f2_box_quo)
+        switch(val, "Double ( \" )" = "", str_c(', quote = "', get_quote(), '"'))
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_na_str <- function() {
         val <- get_selection(f2_box_na)
         switch(val,
@@ -165,21 +191,6 @@ window_import_from_text <- function() {
                "None"    =  str_c(',\n na.strings = NULL'),
                str_c(',\n na.strings = "', get_na_str(), '"')
         )
-    }
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    get_quote <- function() {
-        val <- get_selection(f2_box_quo)
-        switch(val,
-               "Double ( \" )" = '"',
-               "Single ( ' )"  = "'" ,
-               "None"          = "",
-               "Custom\u2026"    = get_values(f2_ent_quo),
-               stop("Value '", val, "' is unknown (f2_box_quo)."))
-    }
-    get_code_quote <- function() {
-        val <- get_selection(f2_box_quo)
-        switch(val, "Double ( \" )" = "", str_c(', quote = "', get_quote(), '"'))
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -260,15 +271,9 @@ window_import_from_text <- function() {
         }
     }
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Shortcut function
-    get_import_mode <- function(variables) {
-        get_values(f2_but_from)
-    }
 
 
-    # ~ Read data ------------------------------------------------------------
-
+    # ~ File -----------------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Open file select dialogue
     get_path_to_file <- function() {
@@ -308,16 +313,58 @@ window_import_from_text <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Paste data from clipboard
-    paste_from_clipboard = function(add = TRUE) {
-        set_values(f3_txt_1, read_clipboard(), add = add)
+    # Check, if file exist or is URL
+    # Return TRUE on success
+    #        FALSE on failure.
+    check_file_name <- function(on_success = do_nothing, on_failure = do_nothing) {
+        filename <- read_path_to_file()
+
+        if (fs::is_file(filename) || is_url(filename)) {
+            on_success()
+            return(TRUE)
+
+        } else {
+            # Delete text
+            clear_input_window()
+
+            tk_messageBox(
+                parent = top,
+                type = "ok",
+                icon = "error",
+                message = str_c(
+                    'The file was not found. Check if the name and \n',
+                    'the path in the box "File, URL" are correct and\n',
+                    'not empty.'),
+                caption = "File Not Found")
+        }
+
+        on_failure()
+        return(FALSE)
     }
 
-    previous_input             <- tclVar("") # TODO: [???] is this variable necessary?
 
-    previous_file              <- tclVar("")
-    previous_nrows_to_preview  <- tclVar("")
+    # ~ Input window ---------------------------------------------------------
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    read_input_window <- function() {
+        get_values(f3_txt_1)
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    write_input_window <- function(contents, ...) {
+        set_values(f3_txt_1, values = contents, ...)
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    clear_input_window <- function() {
+        write_input_window("")
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Paste data from clipboard
+    paste_from_clipboard = function(add = TRUE) {
+        write_input_window(read_clipboard(), add = add)
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Check if "previous_value" changed, update it and return TRUE or FALSE
     need_update_input_from_file <- function() {
 
@@ -328,52 +375,58 @@ window_import_from_text <- function() {
         changed_file             <- FALSE
         changed_nrows_to_preview <- FALSE
 
+        current_path_to_file     <- read_path_to_file()
         current_nrows_to_preview <- get_selection(f3_box_nrow_1)
+
+        changed_file <- tclvalue_chr(previous_file) != current_path_to_file
+
         changed_nrows_to_preview <-
             tclvalue_chr(previous_nrows_to_preview) != current_nrows_to_preview
-
-        if (changed_nrows_to_preview) {
-            tclvalue(previous_nrows_to_preview) <- current_nrows_to_preview
-        }
-
-        current_path_to_file <- read_path_to_file()
-        changed_file <- tclvalue_chr(previous_file) != current_path_to_file
-        if (changed_file) {
-            tclvalue(previous_file) <- current_path_to_file
-        }
 
         any(changed_nrows_to_preview, changed_file)
     }
 
-    #   changed_input <- FALSE
-    # , "clipboard" = {
-    #     current_input <- read_input_window()
-    #     changed_input <- tclvalue_chr(previous_input) != current_input
-    #     if (changed_input) {
-    #         tclvalue(previous_input) <- current_input
-    #     }
-    #     }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    update_previous_values <- function(variables) {
+        tclvalue(previous_nrows_to_preview) <- get_selection(f3_box_nrow_1)
+        tclvalue(previous_file)             <- read_path_to_file()
+    }
+
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    get_input_contents <- function(from = get_import_mode(),
-                                   nrows = get_nrows_to_import(),
-                                   input = NULL) {
+    # Update contents of input window from file or URL, if needed.
+    # force = TRUE, force update.
+    update_input_from_file <- function(force = FALSE) {
 
-        if (is.null(input)) {
-            from <- match.arg(from, c("file", "clipboard"))
-            switch(
-                from,
+        if (force || (get_import_mode() == "file" && need_update_input_from_file())) {
 
-                "file" = {
-                    input <- read_path_to_file()
-                },
+            check_file_name(on_success = function() {
+                filename <- read_path_to_file()
 
-                "clipboard" = {
-                    input <- read_input_window() %>% str_c("\n")
-                }
-            )
+                n_rows <- min(get_nrows_preview_input(), get_nrows_to_import())
+                n_rows <- if (is.infinite(n_rows)) -1L else n_rows
+
+                # Read file contents
+                file_contents <- readr::read_lines(filename, n_max = n_rows)
+
+                # Set values
+                write_input_window(str_c(file_contents, collapse = "\n"))
+
+                # Add colors to tabs
+                tktag_add(file_contents, pattern = "\t", obj = f3_txt_1, tag = "tab")
+
+                # Update previous values
+                update_previous_values()
+            })
         }
+    }
 
+
+    # ~ Read data ------------------------------------------------------------
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # `fread` with options from dialogue window
+    do_fread <- function(input, nrows = get_nrows_to_import()) {
         data.table::fread(
             input,
             header       = get_header(),
@@ -394,12 +447,33 @@ window_import_from_text <- function() {
         )
     }
 
-    read_input_window <- function() {
-        get_values(f3_txt_1)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    read_data_from_input <- function() {
+        do_fread(input = read_input_window())
     }
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    read_data_from_source <- function(source = get_import_mode(),
+                                      nrows = get_nrows_to_import(),
+                                      input = NULL) {
 
-    # ~ Preview --------------------------------------------------------------
+        if (is.null(input)) {
+            source <- match.arg(source, c("file", "clipboard"))
+            switch(
+                source,
+
+                "file" = {
+                    input <- read_path_to_file()
+                },
+
+                "clipboard" = {
+                    input <- read_input_window() %>% str_c("\n")
+                }
+            )
+        }
+
+        do_fread(input, nrows = nrows)
+    }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Format fread error for display
@@ -411,62 +485,13 @@ window_import_from_text <- function() {
             str_trim()
     }
 
+    # ~ Preview --------------------------------------------------------------
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Clear both preview windows
     clear_preview <- function() {
-        set_values(f3_txt_1, "")
+        clear_input_window()
         set_values(f3_txt_2, "")
-    }
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Update contents of input window from file or URL
-    update_input_from_file <- function() {
-
-        check_file(on_success = function() {
-            filename <- read_path_to_file()
-
-            n_rows <- min(get_nrows_preview_input(), get_nrows_to_import())
-            n_rows <- if (is.infinite(n_rows)) -1L else n_rows
-
-            # Read file contents
-            file_contents <- readr::read_lines(filename, n_max = n_rows)
-
-            # Set values
-            set_values(f3_txt_1, str_c(file_contents, collapse = "\n"))
-
-            # Add colors to tabs
-            tktag_add(file_contents, pattern = "\t", obj = f3_txt_1, tag = "tab")
-        })
-    }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Check, if file exist or is URL
-    # Return TRUE on success
-    #        FALSE on failure.
-    check_file <- function(on_success = function() {}, on_failure = function() {}) {
-        filename <- read_path_to_file()
-
-        if (fs::is_file(filename) || is_url(filename)) {
-            on_success()
-
-            return(TRUE)
-
-        } else {
-            # Delete text
-            set_values(f3_txt_1, "")
-
-            tk_messageBox(
-                parent = top,
-                type = "ok",
-                icon = "error",
-                message = str_c(
-                    'The file was not found. Check if the name and \n',
-                    'the path in the box "File, URL" are correct and\n',
-                    'not empty.'),
-                caption = "File Not Found")
-        }
-
-        on_failure()
-        return(FALSE)
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -493,7 +518,7 @@ window_import_from_text <- function() {
             }
 
             ds_contents <- try(
-                get_input_contents(from = from, nrows = nrows_allowed),
+                read_data_from_source(from = from, nrows = nrows_allowed),
                 silent = TRUE)
         })
 
@@ -721,11 +746,15 @@ window_import_from_text <- function() {
         update_input_from_file()
     }
 
-    #  ~ ... -----------------------------------------------------------------
+
+
+    # ~ Change state ---------------------------------------------------------
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Select data import mode:
     # - from clipboard, enter data maually
     # - from file, URL
+
     set_mode_clipboard <- function() {
         # set_values(f3_txt_2, "")
         set_values(f2_but_from, "clipboard")
@@ -754,7 +783,7 @@ window_import_from_text <- function() {
         update_name_entry()
 
     }
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     set_mode_file_url <- function() {
         if (get_import_mode() != "file") {
             clear_preview()
@@ -819,7 +848,7 @@ window_import_from_text <- function() {
     # default - default value on activation/normalization
     # tip_active - tip in active/normal mode
 
-    set_custom <- function(txt, default = "", tip_active = "") {
+    set_to_custom <- function(txt, default = "", tip_active = "") {
 
         obj_1 <- get(str_glue("f2_box_{txt}"), envir = parent.frame())
         obj_2 <- get(str_glue("f2_ent_{txt}"), envir = parent.frame())
@@ -836,9 +865,31 @@ window_import_from_text <- function() {
 
         auto_update_preview_ds()
     }
+
+    # ~ Input validation -----------------------------------------------------
+
+    make_red_text_reset_val <- function(to = "Inf") {
+        function(P, W, S, v, s) {
+            tcl("after", "idle", function() {tkconfigure(W, validate = v)})
+            tkconfigure(W, foreground = "red2")
+            tkdelete(W, "0", "end")
+            tkinsert(W, "0", to)
+
+            tcl("expr", "TRUE")
+        }
+    }
+
+
     # ~ TCL/TK tags ----------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Add tk text tags to rows that match pattern
+
+
+# @param str (character vector) strings to check
+# @param pattern (string) Pattern to search for
+# @param obj Tcl/Tk object
+# @param tag (string) Tag to add
+
     tktag_add_row  <- function(str, pattern, obj, tag) {
         # Find row
         info_row <- str_which(str, pattern)
@@ -943,7 +994,7 @@ window_import_from_text <- function() {
                 # Check ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
                 # Check if file exists or is URL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                if (!check_file()) {
+                if (!check_file_name()) {
                     return()
                 }
 
@@ -1016,7 +1067,7 @@ window_import_from_text <- function() {
                 # Beggin import data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
                 suppressWarnings({
-                    ds_contents <- try(get_input_contents(), silent = TRUE)
+                    ds_contents <- try(read_data_from_source(), silent = TRUE)
                 })
 
                 if (inherits(ds_contents, "try-error")) {
@@ -1293,12 +1344,12 @@ window_import_from_text <- function() {
 
     f2_ent_sep  <- bs_entry(
         f2, width = 4, tip = tip_enable,
-        on_double_click = function() {set_custom("sep", "|")},
+        on_double_click = function() {set_to_custom("sep", "|")},
         on_key_release = auto_update_preview_ds)
 
     f2_ent_skip <- bs_entry(
         f2, width = 4, tip = tip_enable,
-        on_double_click = function() {set_custom("skip", "0")},
+        on_double_click = function() {set_to_custom("skip", "0")},
         on_key_release = auto_update_preview_ds,
         validate = "focus",
         validatecommand = validate_pos_int,
@@ -1306,7 +1357,7 @@ window_import_from_text <- function() {
 
     f2_ent_max  <- bs_entry(
         f2, width = 4, tip = tip_enable,
-        on_double_click = function() {set_custom("max", "0")},
+        on_double_click = function() {set_to_custom("max", "0")},
         on_key_release = auto_update_preview_ds,
         validate = "focus",
         validatecommand = validate_int_0_inf,
@@ -1314,12 +1365,12 @@ window_import_from_text <- function() {
 
     f2_ent_na   <- bs_entry(
         f2, width = 4, tip = tip_enable,
-        on_double_click = function() {set_custom("na",   "?")},
+        on_double_click = function() {set_to_custom("na",   "?")},
         on_key_release = auto_update_preview_ds)
 
     f2_ent_quo  <- bs_entry(
         f2, width = 4, tip = tip_enable,
-        on_double_click = function() {set_custom("quo",  "\"")},
+        on_double_click = function() {set_to_custom("quo",  "\"")},
         on_key_release = auto_update_preview_ds)
 
     tkgrid(f2_lab_head, f2_box_head$frame, "x",               pady = c(2, 0))
