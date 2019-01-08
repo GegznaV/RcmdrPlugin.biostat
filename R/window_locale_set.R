@@ -23,6 +23,8 @@ window_locale_set <- function() {
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
+
+# str_split(cur_loc_all, pattern = ";")[[1]]
 window_locale_set_0 <- function(parent = CommanderWindow()) {
 
     # Functions --------------------------------------------------------------
@@ -33,7 +35,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
                    set_values(var_y_box, "")
                    tk_disable(var_y_box)
                    tk_disable(locale_entry)
-                   tclvalue(locale_variable) <- "System's default"
+                   set_values(locale_entry, "System's default")
 
                    tk_disable(check_locale_CheckBox)
                    tclvalue(check_locale_Variable) <- "0"
@@ -43,7 +45,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
                    tk_normalize(var_y_box)
                    set_values(var_y_box, values = locales)
                    tk_activate(locale_entry)
-                   tclvalue(locale_variable) <- ""
+                   set_values(locale_entry, "")
                    tk_activate(check_locale_CheckBox)
                    tclvalue(check_locale_Variable) <- "1"
                }
@@ -51,53 +53,67 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    cmd_update_textentry <- function() {
-        tclvalue(locale_variable) <- get_selection(var_y_box)
+    cmd_update_locale_entry <- function() {
+        set_values(locale_entry, get_selection(var_y_box))
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    cmd_clear_textentry <- function() {
-        tclvalue(locale_variable) <- ""
+    cmd_clear_locale_entry <- function() {
+        set_values(locale_entry, "")
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    cmd_update_selection_0 <- function(txt = NULL) {
+    cmd_update_yview_to <- function(txt = NULL) {
         if (is.null(txt)) {
-            txt <- tclvalue_chr(locale_variable)
+            txt <- get_values(locale_entry)
         }
         # \Q ...\E  escape regular expression
         pattern <- stringr::regex(str_c("^\\Q", txt, "\\E"), ignore_case = TRUE)
         str     <- tolower(get_values(var_y_box))
         sel_ind <- stringr::str_which(str, pattern)[1]
 
-        # message(str_c(sel_ind, txt, pattern, sep = "\t"))
         if (!is.na(sel_ind)) {
             # set_selection(var_y_box, sel_ind)
             # tk_see(var_y_box, sel_ind)
 
+            set_selection(var_y_box, "", clear = TRUE)
             set_yview(var_y_box, sel_ind)
         }
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    cmd_update_selection <- function() {
-        cmd_update_selection_0(NULL)
+    cmd_update_yview <- function() {
+        cmd_update_yview_to(NULL)
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_get_locale <- function() {
 
-       cur_loc <- Sys.getlocale()
+        cur_loc_all <- Sys.getlocale()
 
-       tclvalue(locale_variable) <- cur_loc
+        if (.Platform$OS.type == "windows") {
+            pattern <-
+                "^LC_COLLATE=(.*?);LC_CTYPE=(.*?);LC_MONETARY=(.*?);LC_NUMERIC=C;LC_TIME=(.*?)$"
 
-       if (.Platform$OS.type == "windows") {
-           txt <- str_extract(cur_loc, "(?<=\\=).*?(?=(\\.|;|_))")
-       } else {
-           txt <- str_sub(cur_loc, 1, 5)
-       }
+            # 'cur_loc' must be informative enough
+            cur_loc <-
+                cur_loc_all %>%
+                str_match(pattern) %>%
+                as.vector() %>%
+                .[-1] %>%
+                unique() %>%
+                str_c(sep = "; ")
 
-       cmd_update_selection_0(txt = txt)
+            # 'loc_to_view' must be short enough
+            loc_to_view <- str_extract(cur_loc_all, "(?<=\\=).*?(?=(\\.|;|_))")
+
+        } else {
+            cur_loc <- cur_loc_all
+            loc_to_view <- str_sub(cur_loc_all, 1, 5)
+        }
+
+        set_values(locale_entry, cur_loc)
+        cmd_update_yview_to(loc_to_view)
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -120,7 +136,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
         on.exit(cursor_set_idle(top))
 
         # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        locale_value <- tclvalue_chr(locale_variable)
+        locale_value <- get_values(locale_entry)
         opt          <- tclvalue_chr(options_Variable)
         check_locale <- tclvalue_lgl(check_locale_Variable)
         hide_output  <- tclvalue_lgl(hide_output_Variable)
@@ -131,12 +147,12 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
         }
 
         if (check_locale && (opt != "default")) {
-           # Default locale does not pass this function (on Windows)
+            # Default locale does not pass this function (on Windows)
 
             suppressWarnings({
                 initial_locale <- Sys.getlocale()
 
-                # On error the string for new locale is empty (on Windows)
+                # On error, the string for new locale is empty (on Windows)
                 desired_locale  <- Sys.setlocale(locale = locale_value)
                 real_locale     <- Sys.getlocale()
 
@@ -149,7 +165,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
                         title = "Locale Not Changed",
                         message = str_glue(
                             "It seems that locale '{locale_value}' cannot be \n",
-                            "used on your computer. Try another locale."))
+                            "used on your computer. Please, try another loacle."))
                     return()
                 }
             })
@@ -176,7 +192,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
         command <- str_glue(
             '## Change locale to {txt_locale_set} \n',
             "{cmd_locale_set}",
-            )
+        )
 
         # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -187,20 +203,19 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
         if (class(result)[1] != "try-error") {
             doItAndPrint(style_cmd(command))
 
+
+            this_parent <- tcl_get_parent(top)
+
             # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             closeDialog()
 
+            tkfocus(parent)
 
         } else {
             logger_error(command, error_msg = result)
             show_code_evaluation_error_message()
             return()
         }
-
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        tkfocus(parent)
-        tkraise(parent)
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Announce about the success to run the function `onOk()`
@@ -222,7 +237,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
     }
 
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_bs("Change Locale"))
+    initialize_dialog(title = gettext_bs("Change Locale"), parent = parent)
 
     tk_title(top, "Change locale") # Title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -256,7 +271,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
         tip  = str_c(
             "Click to select current locale. \n",
             "Double-click to print locale in console."
-            ),
+        ),
         command = cmd_get_locale)
 
 
@@ -267,9 +282,10 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
         values          = locales,
         value           = NULL,
         height          = 7,
-        width           = c(43, Inf),
+        width           = c(44, Inf),
         selectmode      = "single",
-        on_release      = cmd_update_textentry,
+        on_keyboard_fun = cmd_update_locale_entry,
+        on_release      = cmd_update_locale_entry,
         on_double_click = onOK,
         # on_triple_click = onOK,
         tip = str_c(
@@ -283,17 +299,19 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
 
     # Text entry box
     # locale_variable <- tclVar(Sys.getlocale())
-    locale_variable <- tclVar("")
-    locale_frame    <- tkframe(upper_frame)
-    locale_entry    <- tk2entry(
-        locale_frame,
+
+    locale_entry <- bs_entry(
+        parent = upper_frame,
+        label_position = "above",
+        label = "Locale:",
         tip = str_c(
             "Enter either short or full name of locale.\n",
             "Double-right-click to clear entry."
         ),
-        width = "46",
-        textvariable = locale_variable)
-
+        width = 46,
+        on_key_release    = cmd_update_yview,
+        on_double_click_3 = cmd_clear_locale_entry
+    )
 
     # Check box
     bs_check_boxes(upper_frame,
@@ -309,23 +327,15 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
 
     # Layout
 
-    tkgrid(upper_frame, sticky = "s", padx = c(10, 10))
+    tkgrid(upper_frame, sticky = "sew", padx = c(10, 10))
 
     tkgrid(options_outer_frame, sticky = "s")
     tkgrid(options_Frame, show_locale_frame, sticky = "s")
-    tkgrid(b1, padx = c(18, 0), sticky = "se")
+    tkgrid(b1, padx = c(18, 0))
 
-    tkgrid(getFrame(var_y_box),  pady = c(5, 0))
+    tkgrid(getFrame(var_y_box),  pady = c(5, 0), sticky = "w")
 
-    tkgrid(locale_frame, sticky = "w", pady = c(5, 0))
-    tkgrid(
-        bs_label(
-            locale_frame,
-            text = gettext_bs("Locale:"),
-            foreground = getRcmdr("title.color")),
-        sticky = "w"
-    )
-    tkgrid(locale_entry, pady = c(5, 5), sticky = "w")
+    tkgrid(locale_entry$frame, sticky = "w", pady = c(5, 0))
 
     tkgrid(check_locale_frame, sticky = "sw")
 
@@ -336,11 +346,8 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
     dialogSuffix()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Interactive bindings ---------------------------------------------------
-    tkbind(locale_entry, "<KeyRelease>",      cmd_update_selection)
-    tkbind(locale_entry, "<Double-Button-3>", cmd_clear_textentry)
 
-    tkbind(b1,           "<Double-Button-1>", cmd_print_current_locale)
-
+    tkbind(b1, "<Double-Button-1>", cmd_print_current_locale)
 
     # Apply initial configuration functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_control_activation()
