@@ -4,7 +4,7 @@
 menu	biostat_menu	topMenu	""	""	""	""
 item	topMenu	cascade	"BioStat'19"	biostat_menu	""	""
 
-item	biostat_menu	command	"Buttons mode: BS"  command_buttons_mode_biostat 	""	""
+item	biostat_menu	command	"Mode: BioStat"  command_buttons_mode_biostat 	""	""
 
 
 # . ==========================================================================
