@@ -332,7 +332,7 @@ window_import_from_text <- function() {
         changed_nrows_to_preview <-
             tclvalue_chr(previous_nrows_to_preview) != current_nrows_to_preview
 
-        if (changed_nrows_to_read) {
+        if (changed_nrows_to_preview) {
             tclvalue(previous_nrows_to_preview) <- current_nrows_to_preview
         }
 
@@ -548,7 +548,7 @@ window_import_from_text <- function() {
                         capture.output(
                             print(data.table::as.data.table(ds_contents),
                                   col.names = "top",
-                                  # class = TRUE,
+                                  class = TRUE,
                                   topn  = topn,
                                   nrows = nrows_from_file)
                         )
@@ -1430,10 +1430,23 @@ window_import_from_text <- function() {
                         undo = TRUE, state = "disabled", font = text_font)
 
     tkconfigure(f3_txt_1, setgrid = TRUE)
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f3_but <- tk2frame(f3)
     f3_but_w <- tk2frame(f3_but)
     f3_but_e <- tk2frame(f3_but)
+
+    # tkgrid.rowconfigure(f3_but, 0, weight = 1)
+    # tkgrid.configure(f3_txt_1, sticky = "ew")
+    # tkgrid.configure(f3_txt_2, sticky = "ew")
+
+    # tkgrid.columnconfigure(f3, 0, weight = 1)
+    # tkgrid.columnconfigure(f3, 1, weight = 1)
+    # tkgrid.columnconfigure(f3_txt_1, 0, weight = 1)
+    # tkgrid.columnconfigure(f3_txt_1, 1, weight = 1)
+    # tkgrid.columnconfigure(f3_txt_2, 0, weight = 1)
+    # tkgrid.columnconfigure(f3_txt_2, 1, weight = 1)
+
 
     f3_lab_nrows <- bs_label(f3_but_w, text = "Preview:", tip = str_c(
         "Preview options: number ow rows to\n",
@@ -1495,7 +1508,7 @@ window_import_from_text <- function() {
         f3_but_e,
         width = 8,
         text = "Locale",
-        command = function() {window_locale_set_0(top)},
+        command = function() {window_locale_set_0(parent = top)},
         tip = str_c(
             "Change current locale. \n",
             "Useful if pasting text results in encoding issues. \n",
@@ -1540,9 +1553,7 @@ window_import_from_text <- function() {
                    reset = "window_import_from_text()",
                    ok_label = "Import")
 
-    tkgrid(buttonsFrame, sticky = "ew")
-    dialogSuffix()
-
+    dialogSuffix(resizable = TRUE, grid.buttons = TRUE)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Fonts ------------------------------------------------------------------
