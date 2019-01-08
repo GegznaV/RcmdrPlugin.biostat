@@ -24,17 +24,18 @@ bs_listbox <-
            filter_label = "Filter",
            sticky     = "nw",
 
-           on_select         = function() {},
-           on_click          = function() {},
-           on_double_click   = function() {},
-           on_triple_click   = function() {},
-           on_release        = function() {},
-           on_click_3        = function() {},
-           on_double_click_3 = function() {},
-           on_triple_click_3 = function() {},
-           on_release_3      = function() {},
+           on_select         = do_nothing,
+           on_click          = do_nothing,
+           on_double_click   = do_nothing,
+           on_triple_click   = do_nothing,
+           on_release        = do_nothing,
+           on_click_3        = do_nothing,
+           on_double_click_3 = do_nothing,
+           on_triple_click_3 = do_nothing,
+           on_release_3      = do_nothing,
 
            on_keyboard = c("select", "scroll", "ignore"),
+           on_keyboard_fun = do_nothing,
            title_sticky = "w",
            subtitle_sticky = title_sticky
 
@@ -191,6 +192,7 @@ bs_listbox <-
             tkyview(listbox, next_ind - 1)         # 0 based index
           }
         )
+        on_keyboard_fun()
       }
 
       eval_glue('tkbind(listbox, "<{letters}>", function() onLetter("{letters}"))')
