@@ -141,7 +141,10 @@ ok_cancel_help <- Rcmdr::defmacro(
             image        = "::image::cancelIcon",
             compound     = "left"
         )
+        # END: cancel --------------------------------------------------------
 
+
+        # START: help --------------------------------------------------------
         if (!is.null(helpSubject)) {
             onHelp <- function() {
                 if (GrabFocus() && (!WindowsP())) tkgrab.release(window)
@@ -161,7 +164,7 @@ ok_cancel_help <- Rcmdr::defmacro(
                 compound      = "left"
             )
         }
-        # END: cancel --------------------------------------------------------
+        # END: help ----------------------------------------------------------
 
         # START: reset -------------------------------------------------------
         if (!is.null(reset) && memory) {
@@ -306,7 +309,7 @@ ok_cancel_help <- Rcmdr::defmacro(
 
         tkgrid.columnconfigure(buttonsFrame, 0, weight = 1)
         tkgrid.columnconfigure(buttonsFrame, 1, weight = 1)
-        tkgrid.configure(leftButtonsBox, sticky = "w")
+        tkgrid.configure(leftButtonsBox,  sticky = "w")
         tkgrid.configure(rightButtonsBox, sticky = "e")
     }
 )
