@@ -30,6 +30,6 @@ initialize_dialog <- defmacro(
             }
         }
         tkwm.geometry(window, position)
-        if (suppress.window.resize.buttons) tkwm.transient(window, CommanderWindow())
+        if (suppress.window.resize.buttons) tkwm.transient(window, parent)
     }
 )
