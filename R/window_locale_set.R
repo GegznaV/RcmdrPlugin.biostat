@@ -210,6 +210,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
             closeDialog()
 
             tkfocus(parent)
+            tkraise(parent)
 
         } else {
             logger_error(command, error_msg = result)
