@@ -29,6 +29,8 @@
 NULL
 
 
+biostat_env <- new.env()
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .onAttach <- function(libname, pkgname) {
     if (!interactive()) {
@@ -42,6 +44,8 @@ NULL
     if (is.null(Rcmdr_opts)) {
         Rcmdr_opts <- list(plugins = NULL)
     }
+
+    # TODO: getRcmdr("messages.height")  <----------- [???]
 
     # Plugins to add
     add_plugins <- "RcmdrPlugin.biostat"
@@ -90,6 +94,8 @@ NULL
         file = system.file("etc", "model.png", package = "RcmdrPlugin.biostat"))
 
 }
+
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 restart_commander <- function() {
