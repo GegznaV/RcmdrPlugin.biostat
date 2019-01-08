@@ -199,12 +199,13 @@ bs_listbox(parent, values = variables_all(), value = NULL,
   width = getRcmdr("variable.list.width"), enabled = TRUE,
   scroll = c("both", "x", "y", "none"), autoscroll = c("x", "y",
   "both", "none"), use_filter = FALSE, filter_label = "Filter",
-  sticky = "nw", on_select = function() { }, on_click = function() {
-  }, on_double_click = function() { }, on_triple_click = function() {
-  }, on_release = function() { }, on_click_3 = function() { },
-  on_double_click_3 = function() { }, on_triple_click_3 = function() {
-  }, on_release_3 = function() { }, on_keyboard = c("select", "scroll",
-  "ignore"), title_sticky = "w", subtitle_sticky = title_sticky, ...)
+  sticky = "nw", on_select = do_nothing, on_click = do_nothing,
+  on_double_click = do_nothing, on_triple_click = do_nothing,
+  on_release = do_nothing, on_click_3 = do_nothing,
+  on_double_click_3 = do_nothing, on_triple_click_3 = do_nothing,
+  on_release_3 = do_nothing, on_keyboard = c("select", "scroll",
+  "ignore"), on_keyboard_fun = do_nothing, title_sticky = "w",
+  subtitle_sticky = title_sticky, ...)
 
 get_values_listbox(listbox)
 
