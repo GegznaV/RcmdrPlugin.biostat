@@ -84,17 +84,26 @@ biostat_env <- new.env()
         }
     }
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Create icons
-    tcltk::tkimage.create(
-        "photo", "::image::bs_dataset",
-        file = system.file("etc", "list.png", package = "RcmdrPlugin.biostat"))
 
-    tcltk::tkimage.create(
-        "photo", "::image::bs_model",
-        file = system.file("etc", "model.png", package = "RcmdrPlugin.biostat"))
+    bs_tkimage_create <- function(name, file, package = "RcmdrPlugin.biostat") {
+        tcltk::tkimage.create(
+            "photo", name,
+            file = system.file("etc", file, package = package))
+    }
+
+    bs_tkimage_create("::image::bs_dataset"  , "icons/list.png")
+    bs_tkimage_create("::image::bs_model"    , "icons/model.png")
+
+    bs_tkimage_create("::image::bs_locale"   , "icons/locale.png")
+    bs_tkimage_create("::image::bs_down"     , "icons/down-blue.png")
+    bs_tkimage_create("::image::bs_delete"   , "icons/delete.png")
+    bs_tkimage_create("::image::bs_paste"    , "icons/paste.png")
+    bs_tkimage_create("::image::bs_refresh"  , "icons/refresh.png")
+    bs_tkimage_create("::image::bs_file_open", "icons/document-open.png")
 
 }
-
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
