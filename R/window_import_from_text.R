@@ -6,22 +6,6 @@
 #  8. Enable more than one NA string.
 
 
-tkgrid.columnconfigure(f1_ent_2_2$obj_text, 0, weight = 1)
-tkgrid.columnconfigure(f1_ent_2_2$frame,    1, weight = 1)
-tkgrid.columnconfigure(f1_ent_1_2$obj_text, 0, weight = 1)
-tkgrid.columnconfigure(f1_ent_1_2$frame,    1, weight = 1)
-
-
-tkgrid.columnconfigure(top, 0, weight = 1)
-tkgrid.columnconfigure(top, 1, weight = 1)
-tkgrid.columnconfigure(top, 2, weight = 1)
-tkgrid.columnconfigure(top, 3, weight = 1)
-
-.Tcl("update idletasks")
-
-
-
-
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
@@ -374,11 +358,11 @@ window_import_from_text <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     read_input_window <- function() {
-        get_values(f3_txt_input) %>% str_c("\n")
+        get_values(f3_input) %>% str_c("\n")
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     write_input_window <- function(contents, ...) {
-        set_values(f3_txt_input, values = contents, ...)
+        set_values(f3_input, values = contents, ...)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     clear_input_window <- function() {
@@ -387,7 +371,7 @@ window_import_from_text <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     write_dataset_window <- function(contents, ...) {
-        set_values(f3_txt_dataset, values = contents, ...)
+        set_values(f3_dataset, values = contents, ...)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     clear_dataset_window <- function() {
@@ -488,14 +472,14 @@ window_import_from_text <- function() {
                     "directory \\(\'" = "directory \n\\(\'"))
 
             write_input_window(err_msg)
-            tktag.add(f3_txt_input, "bold",  "1.0", "2.0")
-            tktag.add(f3_txt_input, "error", "1.0", "end")
+            tktag.add(f3_input$text, "bold",  "1.0", "2.0")
+            tktag.add(f3_input$text, "error", "1.0", "end")
 
         } else {
             write_input_window(str_c(file_contents, collapse = "\n"))
 
             # Add colors to tabs
-            tktag_add(file_contents, pattern = "\t", obj = f3_txt_input, tag = "tab")
+            tktag_add(file_contents, pattern = "\t", obj = f3_input$text, tag = "tab")
         }
     }
 
@@ -629,8 +613,8 @@ window_import_from_text <- function() {
             write_dataset_window(str_c("Error! \n\n", err_msg))
 
             # Red font:
-            tktag.add(f3_txt_dataset, "bold",  "1.0", "end")
-            tktag.add(f3_txt_dataset, "error", "1.0", "end")
+            tktag.add(f3_dataset$text, "bold",  "1.0", "end")
+            tktag.add(f3_dataset$text, "error", "1.0", "end")
 
         } else {
             # Write contents:
@@ -639,8 +623,8 @@ window_import_from_text <- function() {
             # Format contents:
 
             # Info messages
-            tktag_add_row(ds_preview, txt_trunc,   f3_txt_dataset, "info")
-            tktag_add_row(ds_preview, txt_not_all, f3_txt_dataset, "info")
+            tktag_add_row(ds_preview, txt_trunc,   f3_dataset$text, "info")
+            tktag_add_row(ds_preview, txt_not_all, f3_dataset$text, "info")
 
             pattern_num <- "(?<=\\<)(num|int|dbl)(?=\\>)"
             pattern_chr <- "(?<=\\<)cha?r(?=\\>)"
@@ -651,35 +635,35 @@ window_import_from_text <- function() {
                 "Tibble" = ,
                 "Data table" = {
                     # Variable names
-                    tktag.add(f3_txt_dataset, "var_names", "1.0", "2.0")
+                    tktag.add(f3_dataset$text, "var_names", "1.0", "2.0")
 
                     # Variable types
-                    tktag.add(f3_txt_dataset, "var_types", "2.0", "3.0")
-                    tktag_add(ds_preview[1:2], pattern_chr, f3_txt_dataset, "chr")
-                    tktag_add(ds_preview[1:2], pattern_num, f3_txt_dataset, "num")
+                    tktag.add(f3_dataset$text, "var_types", "2.0", "3.0")
+                    tktag_add(ds_preview[1:2], pattern_chr, f3_dataset$text, "chr")
+                    tktag_add(ds_preview[1:2], pattern_num, f3_dataset$text, "num")
 
                     # Separator
-                    tktag_add_row(ds_preview, "^\\s*---\\s*$", f3_txt_dataset, "red")
+                    tktag_add_row(ds_preview, "^\\s*---\\s*$", f3_dataset$text, "red")
 
                 },
 
                 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 "Structure" = {
                     # Variable names
-                    # tktag_add_row(ds_preview, "^Variables: ", f3_txt_dataset, "var_names")
+                    # tktag_add_row(ds_preview, "^Variables: ", f3_dataset$text, "var_names")
 
                     tktag_add_first(ds_preview, "(?<=\\$).*?(?=\\<)",
-                                    f3_txt_dataset, "var_names")
+                                    f3_dataset$text, "var_names")
 
                     # Variable types
-                    tktag_add_first(ds_preview, "^\\$",       f3_txt_dataset, "var_types")
-                    tktag_add_first(ds_preview, "\\.\\.\\.$", f3_txt_dataset, "var_types")
-                    tktag_add_first(ds_preview, "\\<.*?\\>",  f3_txt_dataset, "var_types")
-                    tktag_add_first(ds_preview, pattern_chr,  f3_txt_dataset, "chr")
-                    tktag_add_first(ds_preview, pattern_num,  f3_txt_dataset, "num")
+                    tktag_add_first(ds_preview, "^\\$",       f3_dataset$text, "var_types")
+                    tktag_add_first(ds_preview, "\\.\\.\\.$", f3_dataset$text, "var_types")
+                    tktag_add_first(ds_preview, "\\<.*?\\>",  f3_dataset$text, "var_types")
+                    tktag_add_first(ds_preview, pattern_chr,  f3_dataset$text, "chr")
+                    tktag_add_first(ds_preview, pattern_num,  f3_dataset$text, "num")
 
                     # Observations
-                    tktag_add_row(ds_preview, "^Observations: \\d+ or more", f3_txt_dataset, "grey")
+                    tktag_add_row(ds_preview, "^Observations: \\d+ or more", f3_dataset$text, "grey")
                 }
                 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             )
@@ -748,9 +732,9 @@ window_import_from_text <- function() {
         # clear_dataset_window()
         set_values(f2_but_from, "clipboard")
         tk_disable(f1_ent_1_2)
+        tk_disable(f1_but_1_3)
         tk_disable(f1_but_1_4)
         tk_disable(f1_but_1_5)
-        tk_disable(f1_but_1_6)
 
         tkconfigure(f3_but_1, default = "active", state = "active")
         # image = "::image::bs_paste2"
@@ -759,10 +743,10 @@ window_import_from_text <- function() {
         set_selection(f3_box_nrow_1, "All")
         tk_disable(f3_box_nrow_1)
 
-        tkconfigure(f3_lab_input, text = "Input (editable text from clipboard)")
+        tkconfigure(f3_input$label, text = "Input (editable text from clipboard)")
 
-        tk_normalize(f3_txt_input)
-        tcltk2::tip(f3_txt_input) <- str_c(
+        tk_normalize(f3_input)
+        tcltk2::tip(f3_input$text) <- str_c(
             "Editable text. \n",
             'To update window "Dataset", press Ctrl+S \n',
             "or enable automatic updates.")
@@ -781,9 +765,9 @@ window_import_from_text <- function() {
 
         set_values(f2_but_from, "file")
         tk_normalize(f1_ent_1_2)
+        tk_normalize(f1_but_1_3)
         tk_normalize(f1_but_1_4)
         tk_normalize(f1_but_1_5)
-        tk_normalize(f1_but_1_6)
         highlight_update_button()
 
         tk_normalize(f3_box_nrow_1)
@@ -791,10 +775,10 @@ window_import_from_text <- function() {
 
         tkconfigure(f3_but_1, default = "normal")
 
-        tkconfigure(f3_lab_input, text = "Input (file contents preview)")
-        tk_disable(f3_txt_input)
+        tkconfigure(f3_input$label, text = "Input (file contents preview)")
+        tk_disable(f3_input)
 
-        tcltk2::tip(f3_txt_input) <- str_c(
+        tcltk2::tip(f3_input$text) <- str_c(
             "Preview of input file contents.\n",
             "Not editable.\n",
             "Grey shading represents tabs.")
@@ -862,14 +846,14 @@ window_import_from_text <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     highlight_update_button <- function() {
         if (is_file_name_missing()) {
-            tk_disable(f1_but_1_6)
+            tk_disable(f1_but_1_3)
         } else {
-            tk_normalize(f1_but_1_6)
+            tk_normalize(f1_but_1_3)
             if (need_update_from_file()) {
-                tk_activate(f1_but_1_6)
-                tkconfigure(f1_but_1_6, default = "active")
+                tk_activate(f1_but_1_3)
+                tkconfigure(f1_but_1_3, default = "active")
             } else {
-                tkconfigure(f1_but_1_6, default = "normal")
+                tkconfigure(f1_but_1_3, default = "normal")
             }
         }
     }
@@ -1060,7 +1044,7 @@ window_import_from_text <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Add tags to highlight tab symbols in input window
     highlight_input_tabs <- function() {
-        tktag_add_obj(f3_txt_input, tag = "tab", "\t")
+        tktag_add_obj(f3_input$text, tag = "tab", "\t")
     }
 
     # ~ onOK -------------------------------- --------------------------------
@@ -1253,7 +1237,8 @@ window_import_from_text <- function() {
     # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_bs("Import Data from Text"))
+    initializeDialog(title = gettext_bs("Import Data from Text"),
+                     suppress.window.resize.buttons = FALSE)
     tk_title(top, "Import Data from Text")
 
     # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1265,21 +1250,18 @@ window_import_from_text <- function() {
 
     # Widgets ================== =============================================
 
-    # Frame 1, choose file and name ------------------------------------------
+    # F1, Frame 1, choose file and name --------------------------------------
     f1 <- tk2frame(top)
-
-    tkgrid(f1, padx = 10, sticky = "ew")
-    tkgrid.columnconfigure(f1, 0, weight = 0) # Labels
-    tkgrid.columnconfigure(f1, 1, weight = 1) # Text entries
-
 
     f1_lab_1_1 <- bs_label_b(f1, text = "File, URL: ")
     f1_ent_1_2 <- bs_entry(
-        f1, width = 82, sticky = "we", tip = "Path to file or URL.",
+        f1, width = 90, sticky = "we", tip = "Path to file or URL.",
         on_key_release = highlight_update_button)
 
-    f1_but_1_3 <- tk2button(
-        f1,
+    f1_but_1 <- tk2frame(f1)
+
+    f1_but_1_6 <- tk2button(
+        f1_but_1,
         # width = 7,
         # text = "Browse",
         image = "::image::bs_file_open",
@@ -1295,8 +1277,8 @@ window_import_from_text <- function() {
         tip = "Choose file to import."
     )
 
-    f1_but_1_4 <- tk2button(
-        f1,
+    f1_but_1_3 <- tk2button(
+        f1_but_1,
         # width = 7,
         # text = "Paste",
         image = "::image::bs_paste",
@@ -1311,8 +1293,8 @@ window_import_from_text <- function() {
         tip = "Paste file name or URL."
     )
 
-    f1_but_1_5 <- tk2button(
-        f1,
+    f1_but_1_4 <- tk2button(
+        f1_but_1,
         # width = 7,
         # text = "Delete",
         image = "::image::bs_delete",
@@ -1323,8 +1305,8 @@ window_import_from_text <- function() {
         tip = "Clear file name or URL."
     )
 
-    f1_but_1_6 <- tk2button(
-        f1,
+    f1_but_1_5 <- tk2button(
+        f1_but_1,
         # width = 6,
         # text = "Update",
         # compound = "right",
@@ -1335,30 +1317,15 @@ window_import_from_text <- function() {
 
     f1_lab_2_1 <- bs_label_b(f1, text = "Name: ")
     f1_ent_2_2 <- bs_entry(
-        f1, width = 82,  sticky = "ew", tip = "Create a name for the dataset.")
+        f1, width = 90,  sticky = "ew", tip = "Create a name for the dataset.")
 
 
-    tkgrid(f1_lab_1_1, f1_ent_1_2$frame, f1_but_1_3, f1_but_1_4, f1_but_1_5,
-           f1_but_1_6, pady = c(10, 2))
-    tkgrid(f1_lab_2_1, f1_ent_2_2$frame, pady = c(0,  10))
-
-    tkgrid.configure(f1_lab_1_1, f1_lab_2_1, sticky = "e")
-    tkgrid.configure(f1_ent_1_2$frame, f1_ent_2_2$frame, sticky = "ew", padx = 2)
-
-    tkgrid.columnconfigure(f1_ent_1_2$frame_text, 0, weight = 2, minsize = 20)
-    tkgrid.columnconfigure(f1_ent_2_2$frame_text, 0, weight = 2, minsize = 20)
-
-
-
-    # Middle frame -----------------------------------------------------------
+    # F2-3, Middle frame -----------------------------------------------------
 
     f_middle <- tk2frame(top)
-    tkgrid(f_middle, sticky = "news")
-    tkgrid.columnconfigure(f_middle, 0, weight = 0)
-    tkgrid.columnconfigure(f_middle, 1, weight = 1)
 
 
-    # Frame 2, parameters ----------------------------------------------------
+    # F2, Frame 2, parameters ------------------------------------------------
 
     f2 <- tk2labelframe(f_middle, relief = "flat",
                         borderwidth = 5, padding = 5, text = "Import options")
@@ -1596,25 +1563,27 @@ window_import_from_text <- function() {
            padx = c(3, 0), pady = c(4, 2), columnspan = 3, sticky = "w")
 
 
-    # Frames 3, Preview ------------------------------------------------------
+    # F3, Frame 3, Preview ---------------------------------------------------
 
     text_font <- tkfont.create(size = 8, family = "Consolas")
 
     f3 <- tk2labelframe(f_middle, relief = "flat", text = "Preview")
 
-    f3_lab_input <- bs_label_b(f3, text = "Input")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # f3_lab_input <- bs_label_b(f3, text = "Input")
 
-    f3_txt_input <- bs_text(f3, width = 70, height = 11, wrap = "none",
-                            autoseparators = TRUE, undo = TRUE,
-                            state = "disabled", font = text_font)
-
+    f3_input <- bs_text(
+        f3, width = 70, height = 11, wrap = "none",
+        autoseparators = TRUE, undo = TRUE,
+        state = "disabled", font = text_font,
+        label = "Input")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f3_but <- tk2frame(f3)
     f3_but_w <- tk2frame(f3_but)
     f3_but_e <- tk2frame(f3_but)
 
-    f3_lab_nrows <- bs_label(f3_but_w, text = "Preview:", tip = str_c(
+    f3_lab_nrows <- bs_label(f3_but_w, text = "Options:", tip = str_c(
         "Preview options: number ow rows to\n",
         "display in each window and preview\n",
         "type."
@@ -1705,11 +1674,12 @@ window_import_from_text <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    f3_lab_dataset <- bs_label_b(f3, text = "Dataset")
+    # f3_lab_dataset <- bs_label_b(f3, text = "Dataset")
 
-    f3_txt_dataset <- bs_text(
+    f3_dataset <- bs_text(
         f3, width = 75, height = 11, wrap = "none",
         undo = FALSE, state = "disabled", font = text_font,
+        label = "Dataset",
         tip = str_c(
             "Types of variables: \n",
             " - <int> whole numbers (integers);\n",
@@ -1721,56 +1691,44 @@ window_import_from_text <- function() {
         ))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    # Grid -------------------------------------------------------------------
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(f1, padx = 10, sticky = "we")
+
+    tkgrid(f1_lab_1_1, f1_ent_1_2$frame, f1_but_1, pady = c(10, 2),  sticky = "we")
+    tkgrid(f1_lab_2_1, f1_ent_2_2$frame,           pady = c(0,  10), sticky = "we")
+
+    tkgrid(f1_but_1_3, f1_but_1_4, f1_but_1_5, f1_but_1_6, sticky = "e")
+
+    tkgrid.configure(f1_lab_1_1, f1_lab_2_1,             sticky = "e")
+    tkgrid.configure(f1_ent_1_2$frame, f1_ent_2_2$frame, sticky = "we", padx = 2)
+    tkgrid.configure(
+        f1_ent_1_2$frame_text,  f1_ent_2_2$frame_text,
+        f1_ent_1_2$obj_text,    f1_ent_2_2$obj_text,
+        sticky = "we")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(f_middle, sticky = "news")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(f2, f3, sticky = "nsw", padx = c(0, 5), pady = c(0, 15))
-    tkgrid(f3_lab_input)
-
-
+    tkgrid.configure(f2, sticky = "ns")
+    tkgrid.configure(f3, sticky = "news")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(f3_input$frame,  sticky = "news")
     tkgrid(f3_but, sticky = "ew", columnspan = 2)
-    tkgrid(f3_but_w, f3_but_e, sticky = "e", pady = c(2, 4))
+    tkgrid(f3_dataset$frame, sticky = "news")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(f3_but_w, f3_but_e, sticky = "ew", pady = c(2, 4))
 
     tkgrid(f3_lab_nrows, f3_box_nrow_1$frame, f3_box_nrow_2$frame,
            f3_box_type$frame, sticky = "w")
 
     tkgrid(f3_but_1, f3_but_2, f3_but_3, f3_but_4, sticky = "e")
-
-    tkgrid(f3_lab_dataset)
-
-    tkgrid.configure(f3, sticky = "ew")
-    tkgrid.columnconfigure(f3, 0, weight = 1)
-    tkgrid.columnconfigure(f3, 1, weight = 0)
-
-
-    # tkgrid.rowconfigure(f3_but, 0, weight = 1)
-
-    # tkgrid.columnconfigure(f3, 0, weight = 1)
-    # tkgrid.columnconfigure(f3, 1, weight = 1)
-    # tkgrid.columnconfigure(f3_txt_input, 0, weight = 1)
-    # tkgrid.columnconfigure(f3_txt_input, 1, weight = 1)
-    # tkgrid.columnconfigure(f3_txt_dataset, 0, weight = 1)
-    # tkgrid.columnconfigure(f3_txt_dataset, 1, weight = 1)
-
-
-
-    tkgrid.columnconfigure(f3_but, 1, weight = 1)
-
-
-
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid.configure(f3_lab_nrows,        padx = c(10, 2))
     tkgrid.configure(f3_box_nrow_2$frame, padx = c(2, 2))
-    tkgrid.configure(f3_lab_nrows, padx = c(10, 2))
-    tkgrid.configure(f3_but_4, padx = c(0, 10))
+    tkgrid.configure(f3_but_4,            padx = c(0, 10))
 
-
-
-
-
-
-
-
-    tkconfigure(f3_txt_input, setgrid = TRUE)
-
-    tkgrid.configure(f3_txt_input, sticky = "ew")
-    tkgrid.configure(f3_txt_dataset, sticky = "ew")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Finalize ---------------------------------------------------------------
@@ -1780,7 +1738,7 @@ window_import_from_text <- function() {
                    reset = "window_import_from_text()",
                    ok_label = "Import")
 
-    dialogSuffix(grid.buttons = TRUE)
+    dialogSuffix(grid.buttons = TRUE, resizable = TRUE)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Fonts ------------------------------------------------------------------
@@ -1794,56 +1752,93 @@ window_import_from_text <- function() {
     set_values(f1_ent_2_2, unique_obj_names("dataset", all_numbered = TRUE))
     highlight_update_button()
 
-    tktag.configure(f3_txt_input, "tab",   background = "grey95")
-    tktag.configure(f3_txt_input, "grey",  foreground = "grey50")
-    tktag.configure(f3_txt_input, "error", foreground = "red3")
-    tktag.configure(f3_txt_input, "bold",  font = font_consolas_bold)
+    # Configure text tags ----------------------------------------------------
 
-    tktag.configure(f3_txt_dataset, "var_names",
+    tktag.configure(f3_input$text, "tab",   background = "grey95")
+    tktag.configure(f3_input$text, "grey",  foreground = "grey50")
+    tktag.configure(f3_input$text, "error", foreground = "red3")
+    tktag.configure(f3_input$text, "bold",  font = font_consolas_bold)
+
+    tktag.configure(f3_dataset$text, "var_names",
                     foreground = "blue",
                     font = font_consolas_bold)
 
-    tktag.configure(f3_txt_dataset, "var_types",
+    tktag.configure(f3_dataset$text, "var_types",
                     foreground = "grey50",
                     font = font_consolas_italic)
 
-    tktag.configure(f3_txt_dataset, "info",
+    tktag.configure(f3_dataset$text, "info",
                     foreground = "grey50",
                     font = font_consolas_italic)
 
-    tktag.configure(f3_txt_dataset, "error", foreground = "red3")
-    tktag.configure(f3_txt_dataset, "bold", font = font_consolas_bold)
+    tktag.configure(f3_dataset$text, "error", foreground = "red3")
+    tktag.configure(f3_dataset$text, "bold", font = font_consolas_bold)
+
+    tktag.configure(f3_dataset$text, "grey",  foreground = "grey50")
+    tktag.configure(f3_dataset$text, "green", foreground = "green")
+    tktag.configure(f3_dataset$text, "red",   foreground = "red")
+    tktag.configure(f3_dataset$text, "red3",  foreground = "red3")
+    tktag.configure(f3_dataset$text, "red4",  foreground = "red4")
+
+    tktag.configure(f3_dataset$text, "chr",  foreground = "tomato4")
+    tktag.configure(f3_dataset$text, "fct",  foreground = "red4")
+    tktag.configure(f3_dataset$text, "lgl",  foreground = "red4")
+    tktag.configure(f3_dataset$text, "num",  foreground = "green4")
 
 
-    tktag.configure(f3_txt_dataset, "grey",  foreground = "grey50")
-    tktag.configure(f3_txt_dataset, "green", foreground = "green")
-    tktag.configure(f3_txt_dataset, "red",   foreground = "red")
-    tktag.configure(f3_txt_dataset, "red3",  foreground = "red3")
-    tktag.configure(f3_txt_dataset, "red4",  foreground = "red4")
+    # Make resizable window --------------------------------------------------
 
-    tktag.configure(f3_txt_dataset, "chr",  foreground = "tomato4")
-    tktag.configure(f3_txt_dataset, "fct",  foreground = "red4")
-    tktag.configure(f3_txt_dataset, "lgl",  foreground = "red4")
-    tktag.configure(f3_txt_dataset, "num",  foreground = "green4")
+    tkgrid.rowconfigure(top, 0, weight = 0)                # Title
+    tkgrid.rowconfigure(top, 1, weight = 0, minsize = 2)   # F1 frame
+    tkgrid.rowconfigure(top, 2, weight = 1)                # Middle frame
+    tkgrid.rowconfigure(top, 3, weight = 0, minsize = 2)   # Buttons
+
+    tkgrid.rowconfigure(f_middle, 0, weight = 1)
+    tkgrid.rowconfigure(f3,       0, weight = 1)
+    tkgrid.rowconfigure(f3,       2, weight = 1)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    tkgrid.columnconfigure(top, 0, weight = 1, minsize = 50)
+
+    tkgrid.columnconfigure(f1, 0, weight = 0) # Labels
+    tkgrid.columnconfigure(f1, 1, weight = 1) # Text entries
+    tkgrid.columnconfigure(f1, 2, weight = 0) # Buttons
+
+    tkgrid.columnconfigure(f1_ent_1_2$frame_text, 0, weight = 1, minsize = 20)
+    tkgrid.columnconfigure(f1_ent_2_2$frame_text, 0, weight = 1, minsize = 20)
+    tkgrid.columnconfigure(f1_ent_1_2$obj_text,   0, weight = 1, minsize = 20)
+    tkgrid.columnconfigure(f1_ent_2_2$obj_text,   0, weight = 1, minsize = 20)
+
+    tkgrid.columnconfigure(f_middle, 0, weight = 0)
+    tkgrid.columnconfigure(f_middle, 1, weight = 1)
+
+    tkgrid.columnconfigure(f3,       0, weight = 1)
+
+    tkgrid.columnconfigure(f3_but,   0, weight = 1)
+    tkgrid.columnconfigure(f3_but,   1, weight = 0)
+    tkgrid.columnconfigure(f3_but_w, 0, weight = 0)
+    tkgrid.columnconfigure(f3_but_e, 0, weight = 1)
+
 
     # Interactive bindings ---------------------------------------------------
 
-    tkbind(f3_txt_input, "<Control-s>",       refresh_dataset_window)
-    tkbind(f3_txt_input, "<Control-S>",       refresh_dataset_window)
-    tkbind(f3_txt_input, "<Triple-Button-3>", refresh_dataset_window)
+    tkbind(f3_input$text, "<Control-s>",       refresh_dataset_window)
+    tkbind(f3_input$text, "<Control-S>",       refresh_dataset_window)
+    tkbind(f3_input$text, "<Triple-Button-3>", refresh_dataset_window)
 
-    # tkbind(f3_txt_input, "<<Copy>>",     refresh_dataset_window)
-    # tkbind(f3_txt_input, "<Control-Shift-Z>",  "<<Redo>>")
-    tkbind(f3_txt_input, "<<Paste>>",    function() {
+    # tkbind(f3_input$text, "<<Copy>>",     refresh_dataset_window)
+    # tkbind(f3_input$text, "<Control-Shift-Z>",  "<<Redo>>")
+    tkbind(f3_input$text, "<<Paste>>",    function() {
         refresh_dataset_window()
         highlight_input_tabs()
     })
-    tkbind(f3_txt_input, "<<Undo>>",     refresh_dataset_window)
-    tkbind(f3_txt_input, "<<Redo>>",     refresh_dataset_window)
-    tkbind(f3_txt_input, "<KeyRelease>", refresh_dataset_window)
+    tkbind(f3_input$text, "<<Undo>>",     refresh_dataset_window)
+    tkbind(f3_input$text, "<<Redo>>",     refresh_dataset_window)
+    tkbind(f3_input$text, "<KeyRelease>", refresh_dataset_window)
 
-    tkbind(f3_txt_input, "<Control-v>",  set_mode_clipboard)
-    tkbind(f3_txt_input, "<Control-V>",  set_mode_clipboard)
+    tkbind(f3_input$text, "<Control-v>",  set_mode_clipboard)
+    tkbind(f3_input$text, "<Control-V>",  set_mode_clipboard)
 
     # Prevents from closing window accidentally
     tkbind(top, "<Return>", do_nothing)
