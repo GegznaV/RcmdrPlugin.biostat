@@ -1,11 +1,10 @@
 # TODO:
 #  2. Highlight "Update" button if update from file is necessary.
 #
-#  3. Buttons to paste and clear URL.
-#  4. Buttons to paste and clear name entry.
 #  5. Make buttons narrower.
 #  6. Add context menus with (clear, paste, clear and paste, cut, copy)
 #  7. Make this menu usable for small monitors / low resolution.
+#  8. Enable more than one NA string.
 
 
 #' @rdname Menu-window-functions
@@ -734,6 +733,8 @@ window_import_from_text <- function() {
         # clear_dataset_window()
         set_values(f2_but_from, "clipboard")
         tk_disable(f1_ent_1_2)
+        tk_disable(f1_but_1_3a)
+        tk_disable(f1_but_1_3b)
         tk_disable(f1_but_1_4)
 
         tkconfigure(f3_but_1, default = "active")
@@ -754,6 +755,7 @@ window_import_from_text <- function() {
             "or enable automatic updates.")
 
         tclvalue(previous_file_name) <- ""
+        biostat_env$possibly_more_rows <- NULL
 
         update_name_entry()
 
@@ -766,6 +768,8 @@ window_import_from_text <- function() {
 
         set_values(f2_but_from, "file")
         tk_normalize(f1_ent_1_2)
+        tk_normalize(f1_but_1_3a)
+        tk_normalize(f1_but_1_3b)
         tk_normalize(f1_but_1_4)
         highlight_update_button()
 
@@ -1077,9 +1081,9 @@ window_import_from_text <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # putDialog("window_import_from_text", list(
-        #     initial_position = which_position
-        # ))
+        putDialog("window_import_from_text", list(
+            preview_ds_type = get_selection(f3_box_type)
+        ))
 
         # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1240,10 +1244,10 @@ window_import_from_text <- function() {
     tk_title(top, "Import Data from Text")
 
     # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # defaults <- list(
-    #     position = "first"
-    # )
-    # initial <- getDialog("window_import_from_text", defaults)
+    defaults <- list(
+        preview_ds_type = "Data table"
+    )
+    initial <- getDialog("window_import_from_text", defaults)
 
 
     # Widgets ================== =============================================
@@ -1256,13 +1260,13 @@ window_import_from_text <- function() {
 
     f1_txt_1_1 <- bs_label_b(f1, text = "File, URL: ")
     f1_ent_1_2 <- bs_entry(
-        f1, width = 87, sticky = "we", tip = "Path to file or URL.",
+        f1, width = 82, sticky = "we", tip = "Path to file or URL.",
         on_key_release = highlight_update_button)
 
     f1_but_1_3 <- tk2button(
         f1,
-        width = 7,
-        text = "Browse",
+        # width = 7,
+        # text = "Browse",
         image = "::image::bs_file_open",
         command = function() {
 
@@ -1278,11 +1282,14 @@ window_import_from_text <- function() {
 
     f1_but_1_3a <- tk2button(
         f1,
-        width = 7,
+        # width = 7,
         image = "::image::bs_paste",
         command = function() {
             set_values(f1_ent_1_2,
                        str_c(read_path_to_file(), read_clipboard()))
+            tkicursor(f1_ent_1_2$obj_text, "end")
+            tkxview.moveto(f1_ent_1_2$obj_text, "1")
+
             highlight_update_button()
         },
         tip = "Paste file name or URL."
@@ -1290,7 +1297,7 @@ window_import_from_text <- function() {
 
     f1_but_1_3b <- tk2button(
         f1,
-        width = 7,
+        # width = 7,
         image = "::image::bs_delete",
         command = function() {
             set_values(f1_ent_1_2, "")
@@ -1301,7 +1308,7 @@ window_import_from_text <- function() {
 
     f1_but_1_4 <- tk2button(
         f1,
-        width = 7,
+        width = 6,
         text = "Update",
         image = "::image::bs_down",
         compound = "right",
@@ -1311,7 +1318,7 @@ window_import_from_text <- function() {
 
     f1_txt_2_1 <- bs_label_b(f1, text = "Name: ")
     f1_ent_2_2 <- bs_entry(
-        f1, width = 87,  sticky = "ew", tip = "Create a name for the dataset.")
+        f1, width = 82,  sticky = "ew", tip = "Create a name for the dataset.")
 
 
     tkgrid(f1_txt_1_1, f1_ent_1_2$frame, f1_but_1_3, f1_but_1_3a, f1_but_1_3b,
@@ -1632,9 +1639,9 @@ window_import_from_text <- function() {
         tip = str_c(
             "Type of preview: \n",
             " - Tibble (tbl): column types and simplified values of the top rows.\n",
-            " - Data table (DT): top and bottom rows. \n",
+            " - Data table: top and bottom rows. \n",
             " - Structure (str): column names, types and a few values"),
-        selection = 1,
+        value = initial$preview_ds_type,
         on_select = refresh_dataset_window)
 
     f3_but_1 <- tk2button(
