@@ -1,9 +1,7 @@
 # TODO:
 #
-#  6. Add context menus with (clear, paste, clear and paste, cut, copy)
-#  7. Make this menu usable for small monitors / low resolution.
-#     Make window resizable
-#  8. Enable more than one NA string.
+#  1. Add context menus with (clear, paste, clear and paste, cut, copy)
+#  2. Enable more than one NA string.
 
 
 #' @rdname Menu-window-functions
@@ -40,7 +38,6 @@ window_import_from_text <- function() {
 
     # ~ Read import options --------------------------------------------------
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Shortcut function
     get_import_mode <- function(variables) {
         get_values(f2_but_from)
@@ -1788,6 +1785,9 @@ window_import_from_text <- function() {
 
     # Make resizable window --------------------------------------------------
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Rows (height)
+
     tkgrid.rowconfigure(top, 0, weight = 0)                # Title
     tkgrid.rowconfigure(top, 1, weight = 0, minsize = 2)   # F1 frame
     tkgrid.rowconfigure(top, 2, weight = 1)                # Middle frame
@@ -1798,6 +1798,7 @@ window_import_from_text <- function() {
     tkgrid.rowconfigure(f3,       2, weight = 1)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Columns (width)
 
     tkgrid.columnconfigure(top, 0, weight = 1, minsize = 50)
 
