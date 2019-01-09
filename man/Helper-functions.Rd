@@ -84,6 +84,7 @@
 \alias{eval_text}
 \alias{style_cmd}
 \alias{try_command}
+\alias{is_try_error}
 \alias{gettext_ezr}
 \alias{gettext_bs}
 \alias{s2u}
@@ -249,7 +250,7 @@ set_selection_listbox(listbox, sel, clear = TRUE)
 
 \method{set_values}{bs_radiobuttons}(obj, values, ...)
 
-bs_text(parent, ..., undo = TRUE)
+bs_text(parent, ..., label = "", undo = TRUE)
 
 \method{tk_activate}{bs_tk_buttonset}(obj, ..., .which = NULL)
 
@@ -355,6 +356,8 @@ eval_text(x, envir = parent.frame(), ...)
 style_cmd(command, indent_by = 4, ...)
 
 try_command(x)
+
+is_try_error(obj)
 
 gettext_ezr(...)
 
