@@ -745,8 +745,8 @@ window_import_from_text <- function() {
         tk_normalize(f3_input)
         tcltk2::tip(f3_input$text) <- str_c(
             "Editable text. \n",
-            'To update window "Dataset", press Ctrl+S \n',
-            "or enable automatic updates.")
+            'Grey shading represents tabs.\n',
+            'Press Ctrl+S to highlight tabs.')
 
         tclvalue(previous_file_name) <- ""
         biostat_env$possibly_more_rows <- NULL
@@ -843,16 +843,22 @@ window_import_from_text <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     highlight_update_button <- function() {
         if (is_file_name_missing()) {
-            tk_disable(f1_but_1_3)
+            tk_disable(f1_but_1_5)
         } else {
-            tk_normalize(f1_but_1_3)
+            tk_normalize(f1_but_1_5)
             if (need_update_from_file()) {
-                tk_activate(f1_but_1_3)
-                tkconfigure(f1_but_1_3, default = "active")
+                tk_activate(f1_but_1_5)
+                tkconfigure(f1_but_1_5, default = "active")
             } else {
-                tkconfigure(f1_but_1_3, default = "normal")
+                tkconfigure(f1_but_1_5, default = "normal")
             }
         }
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    refresh_ds_show_tabs <-  function() {
+        refresh_dataset_window()
+        highlight_input_tabs()
     }
 
     # ~ Input validation -----------------------------------------------------
@@ -1184,7 +1190,7 @@ window_import_from_text <- function() {
                 # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
                 command <-
-                    c("## Data from clipboard \n\n",
+                    c("## Data from clipboard \n",
                       capture.output(dput(ds_contents)) %>%
                           str_replace("structure\\(list\\(",
                                       str_c(new_name, " <- structure(list(\n"))
@@ -1257,23 +1263,6 @@ window_import_from_text <- function() {
 
     f1_but_1 <- tk2frame(f1)
 
-    f1_but_1_6 <- tk2button(
-        f1_but_1,
-        # width = 7,
-        # text = "Browse",
-        image = "::image::bs_file_open",
-        command = function() {
-
-            if (allow_switch_to_file_mode2() == "no") {
-                return()
-            }
-
-            set_mode_file_url()
-            get_path_to_file()
-        },
-        tip = "Choose file to import."
-    )
-
     f1_but_1_3 <- tk2button(
         f1_but_1,
         # width = 7,
@@ -1310,6 +1299,23 @@ window_import_from_text <- function() {
         image = "::image::bs_down",
         command = update_all,
         tip = str_c("Read file (URL) and update preview.")
+    )
+
+    f1_but_1_6 <- tk2button(
+        f1_but_1,
+        # width = 7,
+        # text = "Browse",
+        image = "::image::bs_file_open",
+        command = function() {
+
+            if (allow_switch_to_file_mode2() == "no") {
+                return()
+            }
+
+            set_mode_file_url()
+            get_path_to_file()
+        },
+        tip = "Choose file to import."
     )
 
     f1_lab_2_1 <- bs_label_b(f1, text = "Name: ")
@@ -1408,11 +1414,11 @@ window_import_from_text <- function() {
 
     f2_box_head <- bs_combobox(
         f2, width = 13, values = head1, tip = tip_box_head,
-        selection = 1, on_select = function() {refresh_dataset_window()})
+        selection = 1, on_select = refresh_dataset_window)
 
     f2_box_dec  <- bs_combobox(
         f2, width = 13, values = dec1,  tip = tip_box_dec,
-        selection = 1, on_select = function() {refresh_dataset_window()})
+        selection = 1, on_select = refresh_dataset_window)
 
     f2_box_sep  <- bs_combobox(
         f2, width = 13, values = sep1,  tip = tip_box_sep,
@@ -1436,11 +1442,11 @@ window_import_from_text <- function() {
 
     f2_box_enc  <- bs_combobox(
         f2, width = 13, values = enc1,  tip = tip_box_enc,
-        selection = 1, on_select = function() {refresh_dataset_window()})
+        selection = 1, on_select = refresh_dataset_window)
 
     f2_box_out  <- bs_combobox(
         f2, width = 13, values = out1,  tip = tip_box_out,
-        selection = 1, on_select = function() {refresh_dataset_window()})
+        selection = 1, on_select = refresh_dataset_window)
 
     f2_ent_sep  <- bs_entry(
         f2, width = 4, tip = tip_enable,
@@ -1599,7 +1605,7 @@ window_import_from_text <- function() {
     f3_box_nrow_2 <- bs_combobox(
         f3_but_w,
         width = 3,
-        values = c("6", "8", "10", "100", "All"),
+        values = c("6", "8", "10", "14", "50", "100", "All"),
         tip = str_c("Max. number of rows to \n",
                     "preview in window below."),
         selection = 2,
@@ -1645,12 +1651,12 @@ window_import_from_text <- function() {
         # text = "Refresh",
         image = "::image::bs_refresh",
         command = function() {
-            refresh_dataset_window()
             if (get_import_mode() == "file") {
                 refresh_input_window()
             } else {
                 highlight_input_tabs()
             }
+            refresh_dataset_window()
         },
 
         tip = str_c("Refresh: update preview and highligth tabs.")
@@ -1664,9 +1670,9 @@ window_import_from_text <- function() {
         image = "::image::bs_locale",
         command = function() {window_locale_set_0(parent = top)},
         tip = str_c(
-            "Change current locale. \n",
+            "Change locale. \n",
             "Useful if pasting text results in encoding issues. \n",
-            'It could be useful to select correct "Enconding" too.'))
+            'It is useful to select correct "Enconding" too.'))
 
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1696,7 +1702,7 @@ window_import_from_text <- function() {
     tkgrid(f1_lab_1_1, f1_ent_1_2$frame, f1_but_1, pady = c(10, 2),  sticky = "we")
     tkgrid(f1_lab_2_1, f1_ent_2_2$frame,           pady = c(0,  10), sticky = "we")
 
-    tkgrid(f1_but_1_3, f1_but_1_4, f1_but_1_5, f1_but_1_6, sticky = "e")
+    tkgrid(f1_but_1_5, f1_but_1_3, f1_but_1_4, f1_but_1_6, sticky = "e")
 
     tkgrid.configure(f1_lab_1_1, f1_lab_2_1,             sticky = "e")
     tkgrid.configure(f1_ent_1_2$frame, f1_ent_2_2$frame, sticky = "we", padx = 2)
@@ -1824,16 +1830,13 @@ window_import_from_text <- function() {
 
     # Interactive bindings ---------------------------------------------------
 
-    tkbind(f3_input$text, "<Control-s>",       refresh_dataset_window)
-    tkbind(f3_input$text, "<Control-S>",       refresh_dataset_window)
+    tkbind(f3_input$text, "<Control-s>",       refresh_ds_show_tabs)
+    tkbind(f3_input$text, "<Control-S>",       refresh_ds_show_tabs)
     tkbind(f3_input$text, "<Triple-Button-3>", refresh_dataset_window)
 
     # tkbind(f3_input$text, "<<Copy>>",     refresh_dataset_window)
     # tkbind(f3_input$text, "<Control-Shift-Z>",  "<<Redo>>")
-    tkbind(f3_input$text, "<<Paste>>",    function() {
-        refresh_dataset_window()
-        highlight_input_tabs()
-    })
+    tkbind(f3_input$text, "<<Paste>>",    refresh_ds_show_tabs)
     tkbind(f3_input$text, "<<Undo>>",     refresh_dataset_window)
     tkbind(f3_input$text, "<<Redo>>",     refresh_dataset_window)
     tkbind(f3_input$text, "<KeyRelease>", refresh_dataset_window)
