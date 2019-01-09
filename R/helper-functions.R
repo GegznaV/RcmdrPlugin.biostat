@@ -255,6 +255,13 @@ try_command <- function(x) {
     # On error returns class "try-error" as `justDoIt()` does
 }
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+is_try_error <- function(obj) {
+    inherits(obj, "try-error")
+}
+
 # ___ Translate ___ ==========================================================
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
