@@ -1,26 +1,31 @@
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-bs_text <- function(parent, ..., undo = TRUE) {
-    obj_txt <- tk2text(
-        parent,
-        ...,
-        undo = undo,
-        xscrollcommand = function(...) tkset(obj_xsc, ...),
-        yscrollcommand = function(...) tkset(obj_ysc, ...))
+bs_text <- function(parent, ..., label = "", undo = TRUE) {
+
+    frame <- tk2frame(parent)
+
+    obj_label <- bs_label_b(frame, text = label)
+
+    obj_txt <- tk2text(frame, undo = undo, ...)
 
     obj_xsc <- tk2scrollbar(
-        parent,
+        frame,
         orient = "horizontal",
         command = function(...) tkxview(obj_txt, ...)
     )
 
     obj_ysc <- tk2scrollbar(
-        parent,
+        frame,
         orient = "vertical",
         command = function(...) tkyview(obj_txt, ...)
     )
 
+    tkconfigure(obj_txt,
+                xscrollcommand = function(...) tkset(obj_xsc, ...),
+                yscrollcommand = function(...) tkset(obj_ysc, ...))
+
+    tkgrid(obj_label)
     tkgrid(obj_txt, obj_ysc)
     tkgrid(obj_xsc, "x")
 
@@ -28,10 +33,25 @@ bs_text <- function(parent, ..., undo = TRUE) {
     tkgrid.configure(obj_xsc, sticky = "we",   padx = c(10,  0))
     tkgrid.configure(obj_ysc, sticky = "ns",   padx = c(0,  10))
 
-    obj_txt
+    tkgrid.columnconfigure(frame, 0, weight = 1)
+    tkgrid.columnconfigure(frame, 1, weight = 0)
+
+    tkgrid.rowconfigure(frame, 0, weight = 1,  minsize = 1)
+    tkgrid.rowconfigure(frame, 1, weight = 10, minsize = 3)
+    tkgrid.rowconfigure(frame, 2, weight = 0)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    structure(list(
+        frame = frame,
+        label    = obj_label,
+        text     = obj_txt,
+        x_scroll = obj_xsc,
+        y_scroll = obj_ysc
+    ),
+    class = c("bs_text", "bs_tk_widget", "list"))
 }
 
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Replace contents of text box widget
 set_values.tk2text <- function(obj, values, ..., add = FALSE) {
     init_state <- tk_get_state(obj)
@@ -48,7 +68,6 @@ set_values.tk2text <- function(obj, values, ..., add = FALSE) {
         tkinsert(obj, "1.0", values)
     }
 
-
     if (init_state == "disabled") {
         tk_disable(obj)
     }
@@ -56,4 +75,21 @@ set_values.tk2text <- function(obj, values, ..., add = FALSE) {
 
 get_values.tk2text <- function(obj, ...) {
     tclvalue_chr(tkget(obj, "1.0", "end"))
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+set_values.bs_text <- function(obj, values, ..., add = FALSE) {
+    set_values(obj$text, values, ..., add = add)
+}
+
+get_values.bs_text <- function(obj, ...) {
+    get_values(obj$text, ...)
+}
+
+tk_normalize.bs_text <- function(obj, ...) {
+    tk_normalize(obj$text, ...)
+}
+
+tk_disable.bs_text <- function(obj, ...) {
+    tk_disable(obj$text, ...)
 }
