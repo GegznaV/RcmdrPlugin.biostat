@@ -27,7 +27,7 @@ window_import_excel <- function() {
                 ),
                 initialdir = tclvalue_chr(dir_name_var)
             ))
-        # Update Excel worksheeds information ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Update Excel worksheeds information ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         if (xl_file == "") {
             # tkfocus(CommanderWindow())
