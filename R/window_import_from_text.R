@@ -2,6 +2,7 @@
 #
 #  1. Add context menus with (clear, paste, clear and paste, cut, copy)
 #  2. Enable more than one NA string.
+#  3. Add warnig, if file name changed, and contents did not.
 
 
 #' @rdname Menu-window-functions
@@ -412,10 +413,10 @@ window_import_from_text <- function() {
         switch(
             get_import_mode(),
             file = {
-                if (need_update_from_file()) {
-                    read_text_from_file()
-                    highlight_update_button()
-                }
+                # if (need_update_from_file()) {
+                #     read_text_from_file()
+                #     highlight_update_button()
+                # }
 
                 biostat_env$file_contents
 
@@ -1063,6 +1064,12 @@ window_import_from_text <- function() {
         # Reset widget properties before checking ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # tkconfigure(name_entry, foreground = "black")
 
+        # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        putDialog("window_import_from_text", list(
+            preview_ds_type = get_selection(f3_box_type)
+        ))
+
+
         # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (is_empty_name(new_name)) {
             return()
@@ -1079,11 +1086,6 @@ window_import_from_text <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         new_name <- safe_names(new_name)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-        # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        putDialog("window_import_from_text", list(
-            preview_ds_type = get_selection(f3_box_type)
-        ))
 
         # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1614,11 +1616,11 @@ window_import_from_text <- function() {
     f3_box_type <- bs_combobox(
         f3_but_w,
         width = 9,
-        values = c("Tibble", "Data table", "Structure"),
+        values = c("Data table", "Tibble", "Structure"),
         tip = str_c(
             "Type of preview: \n",
-            " - Tibble (tbl): simplified values of the top rows.\n",
             " - Data table: top and bottom rows. \n",
+            " - Tibble (tbl): compact display of the top rows.\n",
             " - Structure (str): column names, column types and a few values."),
         value = initial$preview_ds_type,
         on_select = refresh_dataset_window)
@@ -1659,7 +1661,8 @@ window_import_from_text <- function() {
             refresh_dataset_window()
         },
 
-        tip = str_c("Refresh: update preview and highligth tabs.")
+        tip = str_c("Refresh Dataset's window and ",
+                    "highligth tabs in Input window.")
     )
 
     f3_but_4 <- tk2button(
