@@ -428,12 +428,12 @@ window_import_from_text <- function() {
     read_text_from_file <- function() {
         filename <- read_path_to_file()
 
-        n_rows <- get_nrows_preview_input()
-        n_rows <- if (is.infinite(n_rows)) -1L else n_rows
+        n_rows       <- get_nrows_preview_input()
+        n_rows_readr <- if (is.infinite(n_rows)) -1L else n_rows
 
         # Read data
         file_contents <- try(
-            readr::read_lines(filename, n_max = n_rows),
+            readr::read_lines(filename, n_max = n_rows_readr),
             silent = TRUE)
 
         biostat_env$file_contents       <- file_contents
@@ -1595,7 +1595,7 @@ window_import_from_text <- function() {
     f3_box_nrow_1 <- bs_combobox(
         f3_but_w,
         width = 4,
-        values = c("10", "100", "1000", "All"),
+        values = c("10", "100", "1000", "5000", "9999", "All"),
         tip = str_c(
             "Max. number of rows to read from file for preview.\n",
             "Changing this option does not automatically update the preview."),
