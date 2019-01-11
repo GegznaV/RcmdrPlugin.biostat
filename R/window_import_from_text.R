@@ -1307,7 +1307,7 @@ window_import_from_text <- function() {
         f1_but_1,
         # width = 7,
         # text = "Browse",
-        image = "::image::bs_file_open",
+        image = "::image::bs_open_file",
         command = function() {
 
             if (allow_switch_to_file_mode2() == "no") {
