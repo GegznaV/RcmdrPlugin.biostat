@@ -79,7 +79,9 @@ bs_title <- function(parent = top, text, pady = c(5, 9),
 #' @export
 #' @keywords internal
 tcl_get_parent <- function(obj) {
-  tkwinfo("parent", obj)
+
+  obj$env$parent
+  # tkwinfo("parent", obj)
 }
 
 # Commands -------------------------------------------------------------------
@@ -87,11 +89,13 @@ tcl_get_parent <- function(obj) {
 #' @export
 #' @keywords internal
 tcl_get_children <- function(obj) {
-    tkwinfo("children", obj) %>%
-    tclvalue() %>%
-    str_split(" ") %>%
-    .[[1]]
+    tkwinfo("children", obj) %>% tclvalue() %>% tcl_str_split()
 }
+
+tcl_str_split <- function(str) {
+  str_split(str, " ")[[1]]
+}
+
 
 # Commands -------------------------------------------------------------------
 #' @rdname TclTk-helper-functions
