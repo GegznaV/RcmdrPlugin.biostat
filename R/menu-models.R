@@ -5,21 +5,43 @@
 #' @keywords internal
 command_model_std_lm_coeffs <- function() {
     .mod <- activeModel()
+    .ds  <- activeDataSet()
+
+    obj <-
+        str_glue("{.ds}_{.mod}") %>%
+        str_trunc(width = 40, ellipsis = "") %>%
+        str_c("_std_tidy") %>%
+        unique_obj_names()
 
     Library("tidyverse")
     Library("lm.beta")
-    str_glue(
-        "## Standardized regression coefficients\n",
-        "# (rounded to 3 decimal places)\n\n",
+    Library("broom")
 
-        "lm.beta::lm.beta({.mod}) %>% \n ",
-        "coef() %>% as.data.frame() %>% set_names('std_coef') %>% \n",
-        "rownames_to_column('term') %>% ",
-        "dplyr::mutate(influence_rank = min_rank(-abs(std_coef)),\n",
-        "              std_coef = round(std_coef, digits = 3))"
+    str_glue(
+        "## Statistical findings of the model\n",
+        "# std_estimate \u2014 standardized coefficients\n",
+
+        "{obj} <- \n {.mod} %>% \n ",
+        "lm.beta::lm.beta() %>% \n ",
+        "broom::tidy() \n\n",
+        "{obj}"
+
     ) %>%
         style_cmd() %>%
         doItAndPrint()
+
+    # str_glue(
+    #     "## Standardized regression coefficients\n",
+    #     "# (rounded to 3 decimal places)\n\n",
+    #
+    #     "lm.beta::lm.beta({.mod}) %>% \n ",
+    #     "coef() %>% as.data.frame() %>% set_names('std_coef') %>% \n",
+    #     "rownames_to_column('term') %>% ",
+    #     "dplyr::mutate(influence_rank = min_rank(-abs(std_coef)),\n",
+    #     "              std_coef = round(std_coef, digits = 3))"
+    # ) %>%
+    #     style_cmd() %>%
+    #     doItAndPrint()
 }
 
 #' @rdname Menu-window-functions
