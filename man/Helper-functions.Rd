@@ -46,7 +46,7 @@
 \alias{tk_normalize.bs_tk_buttonset}
 \alias{tk_disable.bs_tk_buttonset}
 \alias{tk_get_state.bs_tk_buttonset}
-\alias{command_buttons_mode_biostat}
+\alias{set_biostat_mode}
 \alias{bs_check_boxes}
 \alias{bs_tk_textbox}
 \alias{set_values.bs_tk_textbox}
@@ -260,7 +260,7 @@ bs_text(parent, ..., label = "", undo = TRUE)
 
 \method{tk_get_state}{bs_tk_buttonset}(obj, ..., .out = "list")
 
-command_buttons_mode_biostat()
+set_biostat_mode()
 
 bs_check_boxes(window = top, frame = stop("frame not supplied"),
   boxes = stop("boxes not supplied"), initialValues = NULL,
