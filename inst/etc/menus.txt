@@ -4,7 +4,7 @@
 menu	biostat_menu	topMenu	""	""	""	""
 item	topMenu	cascade	"BioStat'19"	biostat_menu	""	""
 
-item	biostat_menu	command	"Mode: BioStat"  command_buttons_mode_biostat 	""	""
+item	biostat_menu	command	"Mode: BioStat"  set_biostat_mode 	""	""
 
 
 # . ==========================================================================
@@ -95,8 +95,8 @@ item	import_menu	command	"Create a new dataset... [Rcmdr]"	window_dataset_new_rc
 # ---- Import data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 item	import_menu	separator	""	""	""	""
-item    import_menu      command         "Import from clipboard... "          window_import_from_clipboard                 "FALSE"          ""
-item    import_menu      command         "Import from text file (.txt, .csv, .dat)..."   window_import_from_text   ""  ""
+item    import_menu      command         "Import from clipboard... "          window_import_from_clipboard         ""  ""
+item    import_menu      command         "Import from text file (.txt, .csv, .dat, .tab)..."   window_import_from_text   ""  ""
 
 item	import_menu	separator	""	""	""	""
 item    import_menu      command         "Import from Excel file..."     window_import_excel    ""     "packageAvailable('readxl')"
