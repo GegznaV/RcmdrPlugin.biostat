@@ -4,13 +4,13 @@
 menu	biostat_menu	topMenu	""	""	""	""
 item	topMenu	cascade	"BioStat'19"	biostat_menu	""	""
 
-item	biostat_menu	command	"Mode: BioStat"  set_biostat_mode 	""	""
+item	biostat_menu	command	"Mode: BioStat"  set_biostat_mode 	"!is_biostat_mode()"	""
 
 
 # . ==========================================================================
 # ---- >>> File menu ---------------------------------------------------------
 menu	bs_file_menu	biostat_menu	""	""	""	""
-item	biostat_menu	cascade	"File & Session"	bs_file_menu	""	""
+item	biostat_menu	cascade	"Session"	bs_file_menu	""	""
 
 # ---- Manage locale ---------------------------------------------------------
 item	bs_file_menu	command	"Locale..."	window_locale_set	""	""
@@ -22,8 +22,8 @@ item	bs_file_menu	command	"Change working directory..."  command_setwd	""	""
 item	bs_file_menu	command	"Open working directory"  command_openwd	""	"packageAvailable('fs')"
 
 # ---- File info -------------------------------------------------------------
-item	bs_file_menu	separator	""	""	""	""
-item	bs_file_menu	command	"Get information about file..."  command_get_file_info	""	"packageAvailable('fs')"
+# item	bs_file_menu	separator	""	""	""	""
+# item	bs_file_menu	command	"Get information about file..."  command_get_file_info	""	"packageAvailable('fs')"
 # item	bs_file_menu	command	"[???] Use absolute/relative path"  function_not_implemented	"FALSE"	""
 
 
@@ -36,8 +36,8 @@ item	bs_file_menu	command	"Print session information: base R style"	command_sess
 # ---- Rcmdr windows: 1 vs. 3 ------------------------------------------------
 
 item	bs_file_menu	separator	""	""	""	""
-item	bs_file_menu	command	"Output to console (1 window)"	command_rcmdr_use_1_window	"!is_console_output()"	""
-item	bs_file_menu	command	"Output to Rcmdr (3 windows)"	command_rcmdr_use_3_windows	"is_console_output()"	""
+item	bs_file_menu	command	"Output to console (1 window mode)"	command_rcmdr_use_1_window	"!is_console_output()"	""
+item	bs_file_menu	command	"Output to Rcmdr (3 windows mode)"	command_rcmdr_use_3_windows	"is_console_output()"	""
 
 
 # ---- Close, Restart --------------------------------------------------------
