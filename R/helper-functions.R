@@ -399,6 +399,17 @@ clean_str <- function(str, ...) {
 #' @keywords internal
 function_not_implemented <- function() {
 
+    top <- CommanderWindow()
+
+    tk_messageBox(
+        parent = top,
+        "The function is not implemented yet!",
+        icon = "warning",
+        title = "No Function Yet",
+        type = "ok")
+
+    return()
+
     x = NULL
     doItAndPrint("## ~~~ Not implemented yet! ~~~\n")
 
@@ -1006,6 +1017,50 @@ show_code_evaluation_error_message <- function() {
         title = "Code Evaluation Error")
 }
 
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+dataset_not_persent <- function() {
+    top      <- CommanderWindow()
+    dataSets <- listDataSets()
+
+    if (length(dataSets) == 0) {
+        tk_messageBox(
+            parent = top,
+            "There are no datasets in R memory.\nPlease, create or import a dataset.",
+            icon = "warning",
+            title = "No Datasets in R",
+            type = "ok")
+
+        return(TRUE)
+
+    } else {
+        return(FALSE)
+    }
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+active_dataset_not_persent <- function() {
+    top <- CommanderWindow()
+    .ds <- ActiveDataSet()
+
+    if (is.null(.ds)) {
+        tk_messageBox(
+            parent = top,
+            "There is no active dataset. \nPlease, select one.",
+            icon = "warning",
+            title = "Active Dataset Not Selected",
+            type = "ok")
+
+        return(TRUE)
+
+    } else {
+        return(FALSE)
+    }
+}
 
 # + Class --------------------------------------------------------------------
 
