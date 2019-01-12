@@ -9,7 +9,7 @@ window_dataset_new_rcmdr <- function() {
     # Window to choose dataset's name
 
     initializeDialog(title = gettext_bs("Create a New Dataset"))
-    dsname <- tclVar(unique_df_name("new_dataset"))
+    dsname <- tclVar(unique_df_name("dataset", all_numbered = TRUE))
     entryDsname <- ttkentry(top, width = "30", textvariable = dsname)
 
     onOK <- function() {
@@ -73,11 +73,12 @@ window_dataset_new_rcmdr <- function() {
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     OKCancelHelp(helpSubject = "editDataset")
-    tkgrid(labelRcmdr(top,
-                      text = gettext_bs("Enter dataset's name:   ")),
-           entryDsname,
-           pady = c(5, 5),
-           sticky = "e")
+    tkgrid(labelRcmdr(
+        top,
+        text = gettext_bs("Enter dataset's name:   ")),
+        entryDsname,
+        pady = c(5, 5),
+        sticky = "e")
 
     tkgrid(buttonsFrame, columnspan = "2", sticky = "ew")
     tkgrid.configure(entryDsname, sticky = "w")
