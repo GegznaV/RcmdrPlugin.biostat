@@ -2,13 +2,12 @@
 #' @export
 #' @keywords internal
 is_biostat_mode <- function() {
+    # This test is based on the title of commander window
     str <- tclvalue(tkwm.title(CommanderWindow()))
     isTRUE(stringr::str_detect(str, "(BioStat mode)"))
 }
 
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
@@ -154,6 +153,8 @@ set_biostat_mode <- function() {
     tkwm.title(.rcmdr, paste0(gettextRcmdr("R Commander"), " (BioStat mode)"))
     tcl("wm", "iconphoto", .rcmdr, "-default", "::image::bs_r_logo_g")
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    command_dataset_refresh()
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
