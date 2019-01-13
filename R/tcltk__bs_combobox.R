@@ -47,16 +47,17 @@ bs_combobox <- function(
     title_sticky       = "w",
     combobox_sticky    = "nw",
 
-    on_select          = function() {},
-    postcommand        = function() {},
-    on_click           = function() {},
-    on_double_click    = function() {},
-    on_triple_click    = function() {},
-    on_release         = function() {},
-    on_click_3         = function() {},
-    on_double_click_3  = function() {},
-    on_triple_click_3  = function() {},
-    on_release_3       = function() {},
+    on_select          = do_nothing,
+    postcommand        = do_nothing,
+    on_click           = do_nothing,
+    on_double_click    = do_nothing,
+    on_triple_click    = do_nothing,
+    on_release         = do_nothing,
+    on_click_3         = do_nothing,
+    on_double_click_3  = do_nothing,
+    on_triple_click_3  = do_nothing,
+    on_release_3       = do_nothing,
+
     tip                = gettext_bs(
         "For quicker search, press the \nfirst letter of variable name\non your keyboard."),
     width              = 20,
@@ -64,8 +65,23 @@ bs_combobox <- function(
     on_keyboard        = c("select", "ignore"),
     export             = "FALSE",
 
+
+    label          = "",
+    label_position = c("left", "above", "right", "none"),
+    label_color    = getRcmdr("title.color"),
+    padx           = 0,
+    pady           = 0,     # pady = 5,
+    sticky         = "w",
+    sticky_label   = sticky,
+    sticky_text    = sticky,
+    main_frame     = tk2frame(parent),
+    combobox_frame = tk2frame(main_frame),
+    label_frame    = tk2frame(main_frame),
+    label_tip      = "",
+
     ...)
 {
+    label_position <- match.arg(label_position)
 
     state       <- match.arg(state)
     on_keyboard <- match.arg(on_keyboard)
@@ -166,7 +182,51 @@ bs_combobox <- function(
     }) # on change of selected value
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    if (!is.null(title)) {
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    obj_label <- tk2label(
+        parent     = label_frame,
+        text       = gettext_bs(label),
+        foreground = label_color,
+        tip        = label_tip
+    )
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    if (is.null(title)) {
+
+        if (nchar(label) > 0) {
+
+            switch(label_position,
+                   "above" = {
+                       if (length(pady) == 1) {
+                           pady <- c(pady, pady)
+                       }
+                       tkgrid(label_frame, sticky = sticky, padx = padx, pady = c(pady[1], 0))
+                       tkgrid(combobox_frame,   sticky = sticky, padx = padx, pady = c(0, pady[2]))
+                       tkgrid(combobox,    sticky = sticky_text)
+                   },
+
+                   "left" = {
+                       tkgrid(label_frame, combobox_frame, sticky = sticky,
+                              padx = padx, pady = pady)
+                       tkgrid(combobox, sticky = sticky_text, padx = c(5, 0))
+                   },
+
+                   "right" = {
+                       tkgrid(combobox_frame, label_frame, sticky = sticky,
+                              padx = padx, pady = pady)
+                       tkgrid(combobox, sticky = sticky_text, padx = c(0, 5))
+                   }
+            )
+            tkgrid(obj_label, sticky = sticky_label)
+
+        } else {
+            tkgrid(combobox_frame, sticky = sticky, padx = padx, pady = pady)
+            tkgrid(combobox,  sticky = sticky_text)
+        }
+
+    # TODO: Old verson to be removed # [???]
+    } else if (!is.null(title)) {
         tkgrid(labelRcmdr(frame,
                           text = title,
                           fg   = getRcmdr("title.color"),
@@ -176,6 +236,7 @@ bs_combobox <- function(
 
     tkgrid(combobox, sticky = combobox_sticky)
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     result <- list(
         frame    = frame,
         obj      = combobox,
@@ -184,8 +245,11 @@ bs_combobox <- function(
         combobox = combobox,
         combovar = combovar,
 
+        varlist  = values,
 
-        varlist  = values
+        frame_combobox  = combobox_frame,
+        frame_label     = label_frame,
+        obj_label       = obj_label
     )
 
     class(result) <- c("combobox", "bs_tk_widget", "list")
