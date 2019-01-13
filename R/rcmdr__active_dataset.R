@@ -102,7 +102,15 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
     type = "note")
 
   if (any(badnames)) {
-    Message(message = "Some variable names were corrected.", type = "warning")
+    if (ans == "yes") {
+      Message(message = "Some variable names were corrected.", type = "warning")
+
+    } else {
+      Message(
+        message = paste0("Some variable names are not standard and this ",
+                         "may cause issues working in R Commander."),
+        type = "warning")
+    }
   }
 
   RcmdrTclSet("dataSetName", paste(" ", dsname, " "))
