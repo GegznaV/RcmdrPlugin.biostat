@@ -7,7 +7,7 @@ is_biostat_mode <- function() {
     isTRUE(stringr::str_detect(str, "(BioStat mode)"))
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Biostat mode ---------------------------------------------------------------
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
@@ -35,29 +35,17 @@ set_biostat_mode <- function() {
     pare <- tcl_get_parent(getRcmdr("dataSetLabel"))
 
     # New buttons
-    b_dir <- tk2button(
-        pare,
-        tip = "Open working directory.",
-        image = "::image::bs_open_dir",
-        command = menu_dir)
-
     b_in <- tk2button(
         pare,
         tip = "Import dataset",
         image = "::image::bs_import",
-        command = menu_import)
+        command = bs_mode_menu_import)
 
     b_out <- tk2button(
         pare,
         tip = "Export dataset",
         image = "::image::bs_export",
-        command = menu_export)
-
-    # b_print <- tk2button(
-    #     pare,
-    #     tip = "Print dataset to console/output window",
-    #     image = "::image::bs_to_console",
-    #     command = menu_print)
+        command = bs_mode_menu_export)
 
     b_refresh <- tk2button(
         pare,
@@ -75,7 +63,7 @@ set_biostat_mode <- function() {
         pare,
         tip = "Plots",
         image = "::image::bs_plot",
-        command = menu_plots)
+        command = bs_mode_menu_plots)
 
     b_analysis <- tk2button(
         pare,
@@ -83,11 +71,11 @@ set_biostat_mode <- function() {
         image = "::image::bs_analyse",
         command = function_not_implemented)
 
-    b_settings <- tk2button(
+    b_session <- tk2button(
         pare,
-        tip     = "Settings",
+        tip     = "Session and settings",
         image   = "::image::bs_settings",
-        command = function_not_implemented)
+        command = bs_mode_menu_session)
 
 
     # Existing buttons
@@ -116,24 +104,24 @@ set_biostat_mode <- function() {
     if (length(but_view) > 0) {
         tkgrid.forget(but_view)
 
-        tkconfigure(but_view, command = menu_print)
+        tkconfigure(but_view, command = bs_mode_menu_print)
         # Add tooltip
         .Tcl(str_glue('tooltip::tooltip {but_view} "Preview & print dataset"'))
     }
 
     if (length(but_edit) > 0) {
         tkgrid.forget(but_edit)
-        # Add tooltip
-        .Tcl(str_glue('tooltip::tooltip {but_edit} "Edit dataset"'))
     }
 
     # New layout
-    tkgrid(logo, lab_data, but_data, b_dir, b_in, b_out, but_view,
-           # but_edit,
-           b_summary, b_plots, b_analysis, b_settings, b_refresh,
+    tkgrid(logo, lab_data, but_data,
+           b_in, b_out, but_view,
+           # b_manage_dataset,
+           # b_summary,
+           b_plots,
+           # b_analysis,
+           b_session, b_refresh,
            lab_model, but_model)
-
-    # tkcget(but_edit, "-command")
 
     tkgrid.configure(pare, pady = c(4, 3))
 
@@ -227,7 +215,7 @@ to_word <- function(variables) {
 # "Import from STATA data file..."                   , "importSTATA"
 # "Import from Minitab data file..."                 , "importMinitab"
 
-menu_import <- function() {
+bs_mode_menu_import <- function() {
 
     top <- CommanderWindow()
 
@@ -273,7 +261,6 @@ menu_import <- function() {
           image    = "::image::editIcon",
           command  = window_dataset_edit_rcmdr)
 
-
     tkadd(menu_f, "command",
           label    = "from Text file (.txt, .csv, .dat, .tab)...",
           compound = "left",
@@ -314,8 +301,9 @@ menu_import <- function() {
             tkwinfo("pointery", top))
 }
 
+
 # Export menus -----------------------------------------------------------
-menu_export <- function() {
+bs_mode_menu_export <- function() {
     .ds <- ActiveDataSet()
     if (is.null(.ds)) {
         command_dataset_refresh()
@@ -357,7 +345,8 @@ menu_export <- function() {
 
     tkadd(menu_e, "separator")
 
-    tkadd(menu_e, "command", label = "Export to text file (.txt, .csv)...",
+    tkadd(menu_e, "command",
+          label    = "Export to text file (.txt, .csv)...",
           compound = "left",
           image    = "::image::bs_text",
           command  = window_export_to_textfile)
@@ -386,6 +375,7 @@ menu_export <- function() {
           command  = window_export_to_rdata)
 
     tkadd(menu_e, "separator")
+
     tkadd(menu_e, "command",
           label    = "Export to Word table...",
           compound = "left",
@@ -403,9 +393,8 @@ menu_export <- function() {
             tkwinfo("pointery", top))
 }
 
-
 # View and print menus -------------------------------------------------------
-menu_print <- function() {
+bs_mode_menu_print <- function() {
 
     .ds <- ActiveDataSet()
     if (is.null(.ds)) {
@@ -490,9 +479,8 @@ menu_print <- function() {
             tkwinfo("pointery", top))
 }
 
-
 # Plot menus -----------------------------------------------------------
-menu_plots <- function() {
+bs_mode_menu_plots <- function() {
 
     top <- CommanderWindow()
 
@@ -518,30 +506,106 @@ menu_plots <- function() {
             tkwinfo("pointerx", top),
             tkwinfo("pointery", top))
 }
-# File menus -----------------------------------------------------------
-menu_dir <- function() {
+
+# Session menus -----------------------------------------------------------
+bs_mode_menu_session <- function() {
 
     top <- CommanderWindow()
 
-    menu_p <- tk2menu(tk2menu(top), tearoff = FALSE)
+    menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
+    menu_wd <- tk2menu(menu_p, tearoff = FALSE)
+    menu_ws <- tk2menu(menu_p, tearoff = FALSE)
+    menu_s  <- tk2menu(menu_p, tearoff = FALSE)
+
 
     tkadd(menu_p, "command",
+          compound = "left",
+          image    = "::image::bs_locale",
+          label    = "Locale...",
+          command  = window_locale_set)
+
+
+    tkadd(menu_p, "separator")
+
+    tkadd(menu_p, "cascade",
+          label    = "Working directory",
           compound = "left",
           image    = "::image::bs_folder",
-          label    = "Print path to working directory",
+          menu     = menu_wd)
+
+    tkadd(menu_wd, "command",
+          compound = "left",
+          image    = "::image::bs_folder",
+          label    = "Print path",
           command  = command_getwd)
 
-    tkadd(menu_p, "command",
+    tkadd(menu_wd, "command",
           compound = "left",
           image    = "::image::bs_set_wd",
-          label    = "Change working directory",
+          label    = "Change",
           command  = command_setwd)
 
-    tkadd(menu_p, "command",
+    tkadd(menu_wd, "command",
+          label    = "Open",
           compound = "left",
           image    = "::image::bs_open_wd",
-          label    = "Open working directory",
           command  = command_openwd)
+
+
+
+    tkadd(menu_p, "separator")
+
+    tkadd(menu_p, "cascade",
+          label    = "Workspace / Environment",
+          compound = "left",
+          image    = "::image::bs_folder",
+          menu     = menu_ws)
+
+    tkadd(menu_ws, "command",
+          # compound = "left",
+          # image    = "::image::bs_folder",
+          label    = "List objects in R workspace",
+          command  = command_list_objects)
+
+    tkadd(menu_ws, "command",
+          label    = "Copy object (dataset)...",
+          # compound = "left",
+          # image    = "::image::bs_set_wd",
+          command  = window_data_obj_copy)
+
+    tkadd(menu_ws, "command",
+          label    = "Delete object (dataset)...",
+          # compound = "left",
+          # image    = "::image::bs_open_wd",
+          command  = window_data_obj_delete)
+
+    tkadd(menu_ws, "command",
+          label    = "Rename object (dataset)...",
+          # compound = "left",
+          # image    = "::image::bs_open_wd",
+          command  = window_data_obj_rename)
+
+
+    tkadd(menu_p, "separator")
+
+    tkadd(menu_p, "cascade",
+          label    = "Session",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          menu     = menu_s)
+
+    tkadd(menu_s, "command",
+          label    = "Session information: base R style",
+          # compound = "left",
+          # image    = "::image::bs_open_wd",
+          command  = command_session_info_utils)
+
+    tkadd(menu_s, "command",
+          label    = "Session information: Devtools style",
+          # compound = "left",
+          # image    = "::image::bs_open_wd",
+          command  = command_session_info_devtools)
+
 
     tkpopup(menu_p,
             tkwinfo("pointerx", top),
