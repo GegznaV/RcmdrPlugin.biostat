@@ -7,47 +7,6 @@ item	topMenu	cascade	"BioStat'19"	biostat_menu	""	""
 item	biostat_menu	command	"Mode: BioStat"  set_biostat_mode 	"!is_biostat_mode()"	""
 
 
-# . ==========================================================================
-# ---- >>> File menu ---------------------------------------------------------
-menu	bs_session_menu	biostat_menu	""	""	""	""
-item	biostat_menu	cascade	"Session"	bs_session_menu	""	""
-
-# ---- Manage locale ---------------------------------------------------------
-item	bs_session_menu	command	"Locale..."	window_locale_set	""	""
-
-# ---- Manage Working directory ----------------------------------------------
-item	bs_session_menu	separator	""	""	""	""
-item	bs_session_menu	command	"Print path to working directory"  command_getwd	""	""
-item	bs_session_menu	command	"Change working directory..."  command_setwd	""	""
-item	bs_session_menu	command	"Open working directory"  command_openwd	""	"packageAvailable('fs')"
-
-# ---- File info -------------------------------------------------------------
-# item	bs_session_menu	separator	""	""	""	""
-# item	bs_session_menu	command	"Get information about file..."  command_get_file_info	""	"packageAvailable('fs')"
-# item	bs_session_menu	command	"[???] Use absolute/relative path"  function_not_implemented	"FALSE"	""
-
-
-# ---- Session information ---------------------------------------------------
-item	bs_session_menu	separator	""	""	""	""
-item	bs_session_menu	command	"Print session information: devtools style"	command_session_info_devtools	""	""
-item	bs_session_menu	command	"Print session information: base R style"	command_session_info_utils	""	""
-
-
-# ---- Rcmdr windows: 1 vs. 3 ------------------------------------------------
-
-item	bs_session_menu	separator	""	""	""	""
-item	bs_session_menu	command	"Output to console (1 window mode)"	command_rcmdr_use_1_window	"!is_console_output()"	""
-item	bs_session_menu	command	"Output to Rcmdr (3 windows mode)"	command_rcmdr_use_3_windows	"is_console_output()"	""
-
-
-# ---- Close, Restart --------------------------------------------------------
-
-item	bs_session_menu	separator	""	""	""	""
-item	bs_session_menu	command	"Restart Commander"	command_rcmdr_restart	""	""
-item	bs_session_menu	command	"Close Commander"	CloseCommander	""	""
-item	bs_session_menu	command	"Close R"	closeCommanderAndR	""	""
-
-
 # . ===========================================================================
 # ---- >>> Data --------------------------------------------------------------
 menu	bs_data_menu	biostat_menu	""	""	""	""
@@ -429,6 +388,49 @@ item	bs_models_menu	command	"Show model's class"	command_model_get_class	"active
 
 item	bs_models_menu	separator	""	""	""	""
 item	bs_models_menu	command	"Augment: add modeled data to active dataset"	command_model_augment	"activeModelP() "	""
+
+
+# . ==========================================================================
+# ---- >>> Session menu ------------------------------------------------------
+menu	bs_session_menu	biostat_menu	""	""	""	""
+item	biostat_menu	cascade	"Session"	bs_session_menu	""	""
+
+# ---- Manage locale ---------------------------------------------------------
+item	bs_session_menu	command	"Locale..."	window_locale_set	""	""
+
+# ---- Manage Working directory ----------------------------------------------
+item	bs_session_menu	separator	""	""	""	""
+item	bs_session_menu	command	"Print path to working directory"  command_getwd	""	""
+item	bs_session_menu	command	"Change working directory..."  command_setwd	""	""
+item	bs_session_menu	command	"Open working directory"  command_openwd	""	"packageAvailable('fs')"
+
+# ---- File info -------------------------------------------------------------
+# item	bs_session_menu	separator	""	""	""	""
+# item	bs_session_menu	command	"Get information about file..."  command_get_file_info	""	"packageAvailable('fs')"
+# item	bs_session_menu	command	"[???] Use absolute/relative path"  function_not_implemented	"FALSE"	""
+
+
+# ---- Session information ---------------------------------------------------
+item	bs_session_menu	separator	""	""	""	""
+item	bs_session_menu	command	"Print session information: devtools style"	command_session_info_devtools	""	""
+item	bs_session_menu	command	"Print session information: base R style"	command_session_info_utils	""	""
+
+
+# ---- Rcmdr windows: 1 vs. 3 ------------------------------------------------
+
+item	bs_session_menu	separator	""	""	""	""
+item	bs_session_menu	command	"Output to console (1 window mode)"	command_rcmdr_use_1_window	"!is_console_output()"	""
+item	bs_session_menu	command	"Output to Rcmdr (3 windows mode)"	command_rcmdr_use_3_windows	"is_console_output()"	""
+
+
+# ---- Close, Restart --------------------------------------------------------
+
+item	bs_session_menu	separator	""	""	""	""
+item	bs_session_menu	command	"Restart Commander"	command_rcmdr_restart	""	""
+item	bs_session_menu	command	"Close Commander"	CloseCommander	""	""
+item	bs_session_menu	command	"Close R"	closeCommanderAndR	""	""
+
+
 
 # . ==========================================================================
 # ---- >>> About -------------------------------------------------------------
