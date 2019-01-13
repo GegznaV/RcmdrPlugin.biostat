@@ -37,9 +37,9 @@ set_biostat_mode <- function() {
     # New buttons
     b_dir <- tk2button(
         pare,
-        tip = "Open working directory.\nRight-click for more options.",
+        tip = "Open working directory.",
         image = "::image::bs_open_dir",
-        command = command_openwd)
+        command = menu_dir)
 
     b_in <- tk2button(
         pare,
@@ -90,9 +90,10 @@ set_biostat_mode <- function() {
         command = function_not_implemented)
 
 
+    # Existing buttons
     sibl <- tcl_get_siblings(getRcmdr("dataSetLabel"))
-    img  <- map_chr(sibl, ~tcltk::tclvalue(tkcget(.x, "-image")))
-    txt  <- map_chr(sibl, ~tcltk::tclvalue(tkcget(.x, "-text")))
+    img  <- purrr::map_chr(sibl, ~tcltk::tclvalue(tkcget(.x, "-image")))
+    txt  <- purrr::map_chr(sibl, ~tcltk::tclvalue(tkcget(.x, "-text")))
 
     logo      <- sibl[img == "::image::RlogoIcon"]
     but_edit  <- sibl[img == "::image::editIcon"]
@@ -117,27 +118,20 @@ set_biostat_mode <- function() {
 
         tkconfigure(but_view, command = menu_print)
         # Add tooltip
-        .Tcl(str_glue('tooltip::tooltip {but_view} "Preview dataset"'))
+        .Tcl(str_glue('tooltip::tooltip {but_view} "Preview & print dataset"'))
     }
 
     if (length(but_edit) > 0) {
         tkgrid.forget(but_edit)
         # Add tooltip
         .Tcl(str_glue('tooltip::tooltip {but_edit} "Edit dataset"'))
-
-        # New layout
-        tkgrid(logo, lab_data, but_data, b_dir, b_in, b_out, but_view,
-               but_edit, # < ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-               b_summary, b_plots, b_analysis, b_settings, b_refresh,
-               lab_model, but_model)
-
-    } else {
-        # New layout without "Edit" button
-        tkgrid(logo, lab_data, but_data, b_dir, b_in, b_out, but_view,
-               # but_edit, # < ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-               b_summary, b_plots, b_analysis, b_settings, b_refresh,
-               lab_model, but_model)
     }
+
+    # New layout
+    tkgrid(logo, lab_data, but_data, b_dir, b_in, b_out, but_view,
+           # but_edit,
+           b_summary, b_plots, b_analysis, b_settings, b_refresh,
+           lab_model, but_model)
 
     # tkcget(but_edit, "-command")
 
@@ -242,25 +236,25 @@ menu_import <- function() {
 
 
     tkadd(menu_i, "cascade",
-          label    = "From file    ",
+          label    = "Import from file    ",
           compound = "left",
           image    = "::image::bs_open_file",
           menu     = menu_f)
 
     tkadd(menu_i, "command",
-          label    = "From clipboard...",
+          label    = "Import from clipboard...",
           compound = "left",
           image    = "::image::bs_paste",
           command  = window_import_from_clipboard)
 
     tkadd(menu_i, "command",
-          label    = "From package...",
+          label    = "Import from R package...",
           compound = "left",
           image    = "::image::bs_package",
           command  = window_import_from_pkg)
 
     tkadd(menu_i, "command",
-          label    = "From image (online)...",
+          label    = "Import from plot (online)...",
           compound = "left",
           image    = "::image::bs_chart",
           command  = window_online_image_digitizer)
@@ -272,6 +266,13 @@ menu_import <- function() {
           compound = "left",
           image    = "::image::bs_new_doc",
           command  = window_dataset_new_rcmdr)
+
+    tkadd(menu_i, "command",
+          label    = "Edit active dataset...",
+          compound = "left",
+          image    = "::image::editIcon",
+          command  = window_dataset_edit_rcmdr)
+
 
     tkadd(menu_f, "command",
           label    = "from Text file (.txt, .csv, .dat, .tab)...",
@@ -314,7 +315,6 @@ menu_import <- function() {
 }
 
 # Export menus -----------------------------------------------------------
-
 menu_export <- function() {
     .ds <- ActiveDataSet()
     if (is.null(.ds)) {
@@ -330,7 +330,7 @@ menu_export <- function() {
 
 
     tkadd(menu_e, "cascade",
-          label    = "From file    ",
+          label    = "Import from file    ",
           compound = "left",
           image    = "::image::bs_open_file",
           menu     = menu_c)
@@ -357,7 +357,7 @@ menu_export <- function() {
 
     tkadd(menu_e, "separator")
 
-    tkadd(menu_e, "command", label = "To text file (.txt, .csv)...",
+    tkadd(menu_e, "command", label = "Export to text file (.txt, .csv)...",
           compound = "left",
           image    = "::image::bs_text",
           command  = window_export_to_textfile)
@@ -367,33 +367,33 @@ menu_export <- function() {
     tkadd(menu_e, "command",
           compound = "left",
           image    = "::image::bs_excel",
-          label    = "To Excel file (.xlsx)...",
+          label    = "Export to Excel file (.xlsx)...",
 
           command = window_export_to_excel)
 
     tkadd(menu_e, "separator")
 
     tkadd(menu_e, "command",
-          label    = "To Rds file (.rds)...",
+          label    = "Export to Rds file (.rds)...",
           compound = "left",
           image    = "::image::bs_r",
           command  = window_export_to_rds)
 
     tkadd(menu_e, "command",
-          label    = "To R-data file (.RData)...",
+          label    = "Export to R-data file (.RData)...",
           compound = "left",
           image    = "::image::bs_r",
           command  = window_export_to_rdata)
 
     tkadd(menu_e, "separator")
     tkadd(menu_e, "command",
-          label    = "To Word table...",
+          label    = "Export to Word table...",
           compound = "left",
           image    = "::image::bs_word",
           command  = to_word)
 
     tkadd(menu_e, "command",
-          label    = "To PowerPoint table...",
+          label    = "Export to PowerPoint table...",
           compound = "left",
           image    = "::image::bs_pptx",
           command  = to_pptx)
@@ -404,7 +404,7 @@ menu_export <- function() {
 }
 
 
-# Print menus -----------------------------------------------------------
+# View and print menus -------------------------------------------------------
 menu_print <- function() {
 
     .ds <- ActiveDataSet()
@@ -419,7 +419,6 @@ menu_print <- function() {
     menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
     menu_md <- tk2menu(menu_p, tearoff = FALSE)
     menu_ds <- tk2menu(menu_p, tearoff = FALSE)
-
 
     view_style <- if (.Platform$GUI == "RStudio") "RStudio" else "R"
 
@@ -444,8 +443,13 @@ menu_print <- function() {
           image    = "::image::bs_md",
           menu     = menu_md)
 
-    tkadd(menu_md, "command", label = "Engine: kable",  command = window_dataset_print_as_kable)
-    tkadd(menu_md, "command", label = "Engine: pander", command = window_dataset_print_as_md)
+    tkadd(menu_md, "command",
+          label = "Engine: kable",
+          command = window_dataset_print_as_kable)
+
+    tkadd(menu_md, "command",
+          label = "Engine: pander",
+          command = window_dataset_print_as_md)
 
     # tkadd(menu_p, "separator")
 
@@ -455,12 +459,23 @@ menu_print <- function() {
           # image    = "::image::bs_open_file",
           menu     = menu_ds)
 
-    tkadd(menu_ds, "command", label = "as 'data.frame'",  command = command_dataset_print_as_df)
-    tkadd(menu_ds, "command", label = "as 'data.table'",  command = command_dataset_print_as_dt)
-    tkadd(menu_ds, "command", label = "as 'tibble'",      command = command_dataset_print_as_tibble)
+    tkadd(menu_ds, "command",
+          label   = "as 'data.frame'",
+          command = command_dataset_print_as_df)
+
+    tkadd(menu_ds, "command",
+          label   = "as 'data.table'",
+          command = command_dataset_print_as_dt)
+
+    tkadd(menu_ds, "command",
+          label   = "as 'tibble'",
+          command = command_dataset_print_as_tibble)
 
     # tkadd(menu_ds, "separator")
-    tkadd(menu_p, "command", label = "Print top and bottom rows", command = summary_head_tail)
+    #
+    tkadd(menu_p, "command",
+          label   = "Print top and bottom rows",
+          command = summary_head_tail)
 
     # tkadd(menu_p, "separator")
 
@@ -476,7 +491,7 @@ menu_print <- function() {
 }
 
 
-# Print menus -----------------------------------------------------------
+# Plot menus -----------------------------------------------------------
 menu_plots <- function() {
 
     top <- CommanderWindow()
@@ -498,6 +513,35 @@ menu_plots <- function() {
           command  = function_not_implemented)
 
     # tkadd(menu_p, "separator")
+
+    tkpopup(menu_p,
+            tkwinfo("pointerx", top),
+            tkwinfo("pointery", top))
+}
+# File menus -----------------------------------------------------------
+menu_dir <- function() {
+
+    top <- CommanderWindow()
+
+    menu_p <- tk2menu(tk2menu(top), tearoff = FALSE)
+
+    tkadd(menu_p, "command",
+          compound = "left",
+          image    = "::image::bs_folder",
+          label    = "Print path to working directory",
+          command  = command_getwd)
+
+    tkadd(menu_p, "command",
+          compound = "left",
+          image    = "::image::bs_set_wd",
+          label    = "Change working directory",
+          command  = command_setwd)
+
+    tkadd(menu_p, "command",
+          compound = "left",
+          image    = "::image::bs_open_wd",
+          label    = "Open working directory",
+          command  = command_openwd)
 
     tkpopup(menu_p,
             tkwinfo("pointerx", top),
