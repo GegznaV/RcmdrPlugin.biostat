@@ -37,8 +37,6 @@ summary_head_tail <- function() {
     Library("tidyverse")
     Library("data.table")
 
-    doItAndPrint(command)
-
     keep_rownames_txt <-
         if (tibble::has_rownames(ds)) {
             rn <- unique_colnames("row_names")
