@@ -525,10 +525,27 @@ bs_mode_menu_session <- function() {
           command  = window_locale_set)
 
 
-    tkadd(menu_p, "separator")
+    tkadd(menu_p, "cascade",
+          label    = "Session",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          menu     = menu_s)
+
+    tkadd(menu_s, "command",
+          label    = "Print session information: base R style",
+          # compound = "left",
+          # image    = "::image::bs_open_wd",
+          command  = command_session_info_utils)
+
+    tkadd(menu_s, "command",
+          label    = "Print session information: devtools style",
+          # compound = "left",
+          # image    = "::image::bs_open_wd",
+          command  = command_session_info_devtools)
+
 
     tkadd(menu_p, "cascade",
-          label    = "Working directory",
+          label    = "Working directory (WD)",
           compound = "left",
           image    = "::image::bs_folder",
           menu     = menu_wd)
@@ -536,29 +553,29 @@ bs_mode_menu_session <- function() {
     tkadd(menu_wd, "command",
           compound = "left",
           image    = "::image::bs_folder",
-          label    = "Print path",
+          label    = "Print path to WD",
           command  = command_getwd)
 
     tkadd(menu_wd, "command",
           compound = "left",
           image    = "::image::bs_set_wd",
-          label    = "Change",
+          label    = "Change WD",
           command  = command_setwd)
 
     tkadd(menu_wd, "command",
-          label    = "Open",
+          label    = "Open WD",
           compound = "left",
           image    = "::image::bs_open_wd",
           command  = command_openwd)
 
 
 
-    tkadd(menu_p, "separator")
+    # tkadd(menu_p, "separator")
 
     tkadd(menu_p, "cascade",
           label    = "Workspace / Environment",
-          compound = "left",
-          image    = "::image::bs_folder",
+          # compound = "left",
+          # image    = "::image::bs_folder",
           menu     = menu_ws)
 
     tkadd(menu_ws, "command",
@@ -568,43 +585,22 @@ bs_mode_menu_session <- function() {
           command  = command_list_objects)
 
     tkadd(menu_ws, "command",
-          label    = "Copy object (dataset)...",
+          label    = "Delete object (dataset)...",
+          compound = "left",
+          image    = "::image::bs_delete",
+          command  = window_data_obj_delete)
+
+    tkadd(menu_ws, "command",
+          label    = "Duplicate object (dataset)...",
           # compound = "left",
           # image    = "::image::bs_set_wd",
           command  = window_data_obj_copy)
-
-    tkadd(menu_ws, "command",
-          label    = "Delete object (dataset)...",
-          # compound = "left",
-          # image    = "::image::bs_open_wd",
-          command  = window_data_obj_delete)
 
     tkadd(menu_ws, "command",
           label    = "Rename object (dataset)...",
           # compound = "left",
           # image    = "::image::bs_open_wd",
           command  = window_data_obj_rename)
-
-
-    tkadd(menu_p, "separator")
-
-    tkadd(menu_p, "cascade",
-          label    = "Session",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          menu     = menu_s)
-
-    tkadd(menu_s, "command",
-          label    = "Session information: base R style",
-          # compound = "left",
-          # image    = "::image::bs_open_wd",
-          command  = command_session_info_utils)
-
-    tkadd(menu_s, "command",
-          label    = "Session information: Devtools style",
-          # compound = "left",
-          # image    = "::image::bs_open_wd",
-          command  = command_session_info_devtools)
 
 
     tkpopup(menu_p,
