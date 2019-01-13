@@ -267,7 +267,7 @@ window_variable_convert_type <- function() {
                 paste("#   ", new_names, collapse = "\n"), "\n\n\n")
 
             logger(paste0(msg, style_cmd(command), collapse = "\n"))
-            activeDataSet(ds, flushDialogMemory = FALSE)
+            active_dataset(ds, flushDialogMemory = FALSE)
 
             # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             closeDialog()
@@ -297,7 +297,7 @@ window_variable_convert_type <- function() {
     # Initial values ---------------------------------------------------------
 
     # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    ds     <- activeDataSet()
+    ds     <- active_dataset()
     fg_col <- Rcmdr::getRcmdr("title.color")
 
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

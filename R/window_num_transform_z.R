@@ -50,7 +50,7 @@ window_num_transform_z <- function() {
             return()
         }
 
-       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         new_names <- paste0(prefix, variables, suffix) %>% make.names()
 
         # Chech for errors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -100,7 +100,7 @@ window_num_transform_z <- function() {
         result <- justDoIt(command)
 
         if (class(result)[1] !=  "try-error")
-            activeDataSet(.ds, flushModel = FALSE)
+            active_dataset(.ds, flushModel = FALSE)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         msg <- glue("#---  ", gettext_bs("Z transformation"), "  ---#\n\n",

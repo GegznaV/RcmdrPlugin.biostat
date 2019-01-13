@@ -8,7 +8,7 @@
 #
 #     # Initial values ---------------------------------------------------------
 #     # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#     ds     <- activeDataSet()
+#     ds     <- active_dataset()
 #     fg_col <- Rcmdr::getRcmdr("title.color")
 #
 #     # Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -123,7 +123,7 @@
 #         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #         if (class(result)[1] != "try-error") {
 #             logger(style_cmd(command))
-#             activeDataSet(ds, flushModel = FALSE, flushDialogMemory = FALSE)
+#             active_dataset(ds, flushModel = FALSE, flushDialogMemory = FALSE)
 #
 #             # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #             closeDialog()

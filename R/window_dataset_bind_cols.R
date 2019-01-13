@@ -43,7 +43,7 @@ window_dataset_bind_cols <- function() {
                                   textvariable = new_ds_name_variable)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     dataSets       <- listDataSets()
-    .activeDataSet <- ActiveDataSet()
+    .activeDataSet <- active_dataset()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
     ds_1_box <-
@@ -169,7 +169,7 @@ window_dataset_bind_cols <- function() {
 
         doItAndPrint(command)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        activeDataSet(new_ds_name)
+        active_dataset(new_ds_name)
         tkfocus(CommanderWindow())
     }
     # Layout -----------------------------------------------------------------

@@ -25,7 +25,7 @@ window_dataset_edit_rcmdr <- function() {
             }
             else {
                 logger(command, rmd = FALSE)
-                activeDataSet(.ds)
+                active_dataset(.ds)
             }
         }
         else {

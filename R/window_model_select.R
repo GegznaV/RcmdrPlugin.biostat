@@ -81,7 +81,7 @@ window_model_select <- function() {
             }
 
             if (is.null(.ds) || (dataSet != .ds))
-                activeDataSet(dataSet)
+                active_dataset(dataSet)
 
             putRcmdr("modelWithSubset", "subset" %in% names(get(new_model)$call))
             activeModel(new_model)

@@ -83,7 +83,7 @@ window_rows_rm_duplicated <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (class(result)[1] != "try-error") {
             logger(style_cmd(command))
-            activeDataSet(new_name, flushDialogMemory = TRUE)
+            active_dataset(new_name, flushDialogMemory = TRUE)
 
             # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             closeDialog()
@@ -105,7 +105,7 @@ window_rows_rm_duplicated <- function() {
     # Initial values ---------------------------------------------------------
 
     # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    .ds     <- activeDataSet()
+    .ds    <- active_dataset()
     fg_col <- Rcmdr::getRcmdr("title.color")
 
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

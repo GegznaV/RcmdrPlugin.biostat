@@ -13,7 +13,7 @@ window_rows_rowid_to_col <- function() {
 
     initializeDialog(title = gettext_bs("Create Row Numbers"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    ds     <- activeDataSet()
+    ds     <- active_dataset()
     fg_col <- Rcmdr::getRcmdr("title.color")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)

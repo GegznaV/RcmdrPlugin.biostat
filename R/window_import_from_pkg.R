@@ -146,7 +146,6 @@ window_import_from_pkg <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
   onDatasetSelect <- function() {
     tclvalue(dsname) <-
       datasets[as.numeric(tkcurselection(datasetBox)) + 1]
@@ -245,7 +244,7 @@ window_import_from_pkg <- function() {
         )
         return()
       }
-      activeDataSet(dsnameValue)
+      active_dataset(dsnameValue)
       tkfocus(CommanderWindow())
     }
     else {
@@ -281,7 +280,7 @@ window_import_from_pkg <- function() {
       result <- justDoIt(command)
       logger(command)
       if (class(result)[1] != "try-error") {
-        activeDataSet(datasetName)
+        active_dataset(datasetName)
       }
       tkfocus(CommanderWindow())
     }

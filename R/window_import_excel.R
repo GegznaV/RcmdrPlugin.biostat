@@ -156,7 +156,7 @@ window_import_excel <- function() {
 
         if (class(result)[1] != "try-error") {
             # gassign(new_ds_name, result)
-            activeDataSet(new_ds_name)
+            active_dataset(new_ds_name)
         }
         tkfocus(CommanderWindow())
     }

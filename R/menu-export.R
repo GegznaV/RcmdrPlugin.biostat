@@ -6,14 +6,14 @@
 #' @export
 #' @keywords internal
 window_export_to_rds  <- function() {
-    window_export_to_rds_0(ds_name = activeDataSet())
+    window_export_to_rds_0(ds_name = active_dataset())
 }
 
 
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_export_to_rds_0 <- function(ds_name = activeDataSet()) {
+window_export_to_rds_0 <- function(ds_name = active_dataset()) {
     file_name <- ds_name
     .ds <- safe_names(ds_name)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -49,7 +49,7 @@ window_export_to_rds_0 <- function(ds_name = activeDataSet()) {
 #' @export
 #' @keywords internal
 window_export_to_rdata  <- function() {
-    window_export_to_rdata_0(ds_name = activeDataSet())
+    window_export_to_rdata_0(ds_name = active_dataset())
 }
 
 
@@ -57,7 +57,7 @@ window_export_to_rdata  <- function() {
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_export_to_rdata_0 <- function(ds_name = activeDataSet()) {
+window_export_to_rdata_0 <- function(ds_name = active_dataset()) {
     file_name <- ds_name
     .ds <- safe_names(ds_name)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -116,7 +116,7 @@ window_export_to_excel_old <- function() {
                 if (nchar(trimws(file_name)) > 0) {
                     extract_filename(file_name)
                 } else {
-                    activeDataSet()
+                    active_dataset()
                 },
             filetypes = "{ {Excel file} {.xlsx} } { {All Files} * }"))
 
@@ -161,21 +161,21 @@ window_export_to_excel_old <- function() {
     #         ""
     #     }
     #
-    # sheet_name <- unique_obj_names(str_glue("{activeDataSet()} {Sys.Date()}"),
+    # sheet_name <- unique_obj_names(str_glue("{active_dataset()} {Sys.Date()}"),
     #                                list_of_choices = sheet_names_list)
 
     sheet_name <-
-        str_c(str_trunc(activeDataSet(), 19, ellipsis = ""),
+        str_c(str_trunc(active_dataset(), 19, ellipsis = ""),
               Sys.Date(), sep = " ")
 
-    has_rownames <- tibble::has_rownames(get(activeDataSet(),
+    has_rownames <- tibble::has_rownames(get(active_dataset(),
                                              envir = .GlobalEnv))
 
     file_overwrite <- TRUE
 
     command <-
         str_glue("## Save data to Excel file\n",
-                 "openxlsx::write.xlsx({activeDataSet()}, \n",
+                 "openxlsx::write.xlsx({active_dataset()}, \n",
                  'file = "{file_name}", \n',
                  'sheetName = "{sheet_name}", \n',
                  "rowNames  = {has_rownames}, \n",
@@ -201,9 +201,9 @@ window_export_to_excel_old <- function() {
 #' @keywords internal
 window_export_to_textfile <- function() {
 
-    dsname <- activeDataSet()
+    dsname <- active_dataset()
     has_rownames <-
-        tibble::has_rownames(get(activeDataSet(), envir = .GlobalEnv))
+        tibble::has_rownames(get(active_dataset(), envir = .GlobalEnv))
 
 
     initializeDialog(title = gettext_bs("Save Data to Text File"))

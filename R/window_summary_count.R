@@ -173,7 +173,7 @@ window_summary_count <- function() {
     # Choose model name ------------------------------------------------------
     main_frame_b <- tkframe(main_frame)
 
-    initial_model_name      <- unique_obj_names(activeDataSet(),
+    initial_model_name      <- unique_obj_names(active_dataset(),
                                                 suffix       = "_freq_table",
                                                 all_numbered = TRUE)
     model_name_var          <- tclVar(initial_model_name)

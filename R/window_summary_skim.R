@@ -183,7 +183,7 @@ window_summary_skim <- function() {
         )
 
         # calculations -------------------------------------------------------
-        .activeDataSet <- ActiveDataSet()
+        .ds <- active_dataset_0()
         Library("skimr")
 
         if (length(y_var) > 1) {
@@ -220,7 +220,7 @@ window_summary_skim <- function() {
             "skimr::skim_with(numeric = list(hist = NULL),\n",
             "                 integer = list(hist = NULL)) \n\n",
             "{model_name_Value} <- \n",
-            "{.activeDataSet} %>% {grouping} skimr::skim({y_var})\n",
+            "{.ds} %>% {grouping} skimr::skim({y_var})\n",
             "summary({model_name_Value})\n",
             "print({model_name_Value})\n",
             keep_model_command))

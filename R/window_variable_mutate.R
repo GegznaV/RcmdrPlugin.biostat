@@ -50,7 +50,7 @@ window_variable_mutate <- function(var_name = NULL,
     }
 
     # Dialog -----------------------------------------------------------------
-    dataSet <- activeDataSet()
+    dataSet <- active_dataset()
     initializeDialog(
         title = gettext_bs("Mutate: create new or replace existing variable"))
 
@@ -168,7 +168,7 @@ window_variable_mutate <- function(var_name = NULL,
         result <- justDoIt(command)
 
         if (class(result)[1] !=  "try-error") {
-            activeDataSet(dataSet, flushModel = FALSE)
+            active_dataset(dataSet, flushModel = FALSE)
         } else {
             # If expression results in error
             Message(message = gettext_bs("Error in the expression!"),

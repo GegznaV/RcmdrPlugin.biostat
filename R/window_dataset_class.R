@@ -28,7 +28,7 @@ window_dataset_class <- function() {
     # Initial values ---------------------------------------------------------
 
     # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    .ds     <- activeDataSet()
+    .ds     <- active_dataset()
     fg_col <- Rcmdr::getRcmdr("title.color")
 
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

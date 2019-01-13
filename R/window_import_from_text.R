@@ -1210,7 +1210,7 @@ window_import_from_text <- function() {
                 "clipboard" = logger(str_c(command, collapse = "\n")) # Styling is slow
             )
 
-            activeDataSet(new_name, flushModel = FALSE, flushDialogMemory = FALSE)
+            active_dataset(new_name, flushModel = FALSE, flushDialogMemory = FALSE)
 
             # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             closeDialog()

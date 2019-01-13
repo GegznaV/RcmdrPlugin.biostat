@@ -35,8 +35,8 @@ window_variable_rename <- function() {
             return()
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        .activeDataSet <- ActiveDataSet()
-        unordered_names <- names(get(.activeDataSet))
+        .ds  <- active_dataset_0()
+        unordered_names <- names(get(.ds))
         which_variables <- match(old_names, unordered_names)
 
         # Subdialog ----------------------------------------------------------
@@ -70,7 +70,7 @@ window_variable_rename <- function() {
             }
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             # Check duplicated names
-            all_names <- names(get(.activeDataSet))
+            all_names <- names(get(.ds))
             all_names[which_variables] <- new_names
             if (any(duplicated(all_names))) {
                 errorCondition(
@@ -85,7 +85,7 @@ window_variable_rename <- function() {
             command <-
                 glue("## Rename variables\n",
                      '# `new_name` = `old_name`\n\n',
-                     "{.activeDataSet} <- {.activeDataSet} %>% \n",
+                     "{.ds} <- {.ds} %>% \n",
                      'dplyr::rename(',
                      paste(glue('`{new_names}` = `{old_names}`'), collapse = ", \n"),
                      ')') %>%
@@ -95,7 +95,7 @@ window_variable_rename <- function() {
             logger(command)
 
             if (class(result)[1] !=  "try-error")
-                activeDataSet(.activeDataSet, flushModel = FALSE)
+                active_dataset(.ds, flushModel = FALSE)
 
             tkfocus(CommanderWindow())
         }

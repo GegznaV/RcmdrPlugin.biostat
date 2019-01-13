@@ -7,7 +7,7 @@
 #' @export
 #' @keywords internal
 window_rows_slice <- function(){
-    dataSet <- activeDataSet()
+    dataSet <- active_dataset()
 
     initializeDialog(title = gettext_bs("Select / Remove rows by position"))
 
@@ -84,7 +84,7 @@ window_rows_slice <- function(){
 
         command <- str_glue(
             "## ", gettext_bs("Select/Remove rows by index"), "\n",
-            "{new_dsname} <- {activeDataSet()} %>% \n",
+            "{new_dsname} <- {active_dataset()} %>% \n",
             "dplyr::slice({index})") %>%
             style_cmd()
 
@@ -93,7 +93,7 @@ window_rows_slice <- function(){
         result <- justDoIt(command)
 
         if (class(result)[1] !=  "try-error")
-            activeDataSet(new_dsname)
+            active_dataset(new_dsname)
 
         tkfocus(CommanderWindow())
     }
@@ -113,8 +113,7 @@ window_rows_slice <- function(){
     tkgrid(row_number_frame)
     tkgrid(
         bs_label(row_number_frame, text = "Number of rows in the dataset: "),
-        bs_label(row_number_frame, text = nrow(get(activeDataSet())),
-                    fg = "darkred"),
+        bs_label(row_number_frame, text = getRcmdr("nrow"), fg = "darkred"),
         sticky = "sw"
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

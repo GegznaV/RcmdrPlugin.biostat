@@ -99,7 +99,7 @@ window_xxx <- function() {
             logger(style_cmd(command))
             # doItAndPrint(style_cmd(command))
 
-            activeDataSet(ds, flushModel = FALSE, flushDialogMemory = FALSE)
+            active_dataset(ds, flushModel = FALSE, flushDialogMemory = FALSE)
 
             # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             closeDialog()
@@ -128,7 +128,7 @@ window_xxx <- function() {
     # Initial values ---------------------------------------------------------
 
     # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    .ds     <- activeDataSet()
+    .ds    <- active_dataset() # active_dataset_0()
     fg_col <- Rcmdr::getRcmdr("title.color")
 
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

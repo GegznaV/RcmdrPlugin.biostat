@@ -14,7 +14,7 @@ window_export_to_excel <- function() {
 
     # Initial values ---------------------------------------------------------
     # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    ds     <- activeDataSet()
+    ds     <- active_dataset()
     fg_col <- Rcmdr::getRcmdr("title.color")
 
     file_name <- unique_colnames(
@@ -240,8 +240,8 @@ window_export_to_excel <- function() {
 
         # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        has_rownames <- tibble::has_rownames(get(activeDataSet(),
-                                                 envir = .GlobalEnv))
+        has_rownames <- tibble::has_rownames(
+            get(active_dataset(), envir = .GlobalEnv))
 
         file_overwrite <- TRUE
 

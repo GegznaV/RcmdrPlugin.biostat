@@ -76,7 +76,7 @@ window_... <- function() {
     # Choose model name ------------------------------------------------------
     UpdateModelNumber()
 
-    modelName <- tclVar(paste0(activeDataSet(),"_freq_table_", getRcmdr("modelNumber")))
+    modelName <- tclVar(paste0(active_dataset(),"_freq_table_", getRcmdr("modelNumber"))) # [???] unique_obj_name()
     model_boxlFrame <- tkframe(main_top_frame)
     model <- ttkentry(model_boxlFrame, width = "20", textvariable = modelName)
 
@@ -186,7 +186,7 @@ window_... <- function() {
         )
 
         # calculations -------------------------------------------------------
-        .activeDataSet <- ActiveDataSet()
+        .activeDataSet <- active_dataset_0()
         Library("tidyverse")
 
         if (length(y_var) > 1) {

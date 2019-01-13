@@ -74,7 +74,7 @@ window_import_rdata <- function() {
     # }
 
     if (length(dsname) == 1) {
-        activeDataSet(dsname)
+      active_dataset(dsname)
 
     } else {
         Message(

@@ -4,7 +4,7 @@
 window_dataset_join <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     dataSets <- listDataSets()
-    .activeDataSet <- ActiveDataSet()
+    .activeDataSet <- active_dataset_0()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = gettext_bs("Join Two Datasets"))
     # Title ------------------------------------------------------------------
@@ -317,7 +317,7 @@ window_dataset_join <- function() {
 
         rez <- doItAndPrint(command)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        activeDataSet(ds_name)
+        active_dataset(ds_name)
         tkfocus(CommanderWindow())
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -5,7 +5,7 @@
 #' @keywords internal
 command_model_std_lm_coeffs <- function() {
     .mod <- activeModel()
-    .ds  <- activeDataSet()
+    .ds  <- active_dataset()
 
     obj <-
         str_glue("{.ds}_{.mod}") %>%
@@ -80,7 +80,7 @@ command_model_summary <- function() {
 #' @keywords internal
 command_model_glance <- function() {
 
-    .ds  <- activeDataSet()
+    .ds  <- active_dataset()
     .mod <- activeModel()
 
     obj <-
@@ -103,7 +103,7 @@ command_model_glance <- function() {
 #' @keywords internal
 command_model_tidy <- function() {
 
-    .ds  <- activeDataSet()
+    .ds  <- active_dataset()
     .mod <- activeModel()
 
     obj <-
@@ -126,7 +126,7 @@ command_model_tidy <- function() {
 #' @keywords internal
 command_model_augment <- function() {
 
-    .ds  <- activeDataSet()
+    .ds  <- active_dataset()
     .mod <- activeModel()
 
     Library("tidyverse")
@@ -137,5 +137,5 @@ command_model_augment <- function() {
         "{.ds} <- broom::augment({.mod})\n"))
 
     # Refresh data
-    Rcmdr::activeDataSet(Rcmdr::ActiveDataSet(), flushModel = FALSE)
+    active_dataset(Rcmdr::ActiveDataSet(), flushModel = FALSE)
 }

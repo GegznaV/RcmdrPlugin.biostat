@@ -105,7 +105,7 @@ window_import_rds <- function() {
     doItAndPrint(command)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (inherits(get(object_name, envir = .GlobalEnv), "data.frame"))
-        activeDataSet(object_name)
+        active_dataset(object_name)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkfocus(CommanderWindow())
 }

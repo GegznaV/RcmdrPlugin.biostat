@@ -3,7 +3,7 @@
 #' @export
 #' @keywords internal
 window_rows_rownames_to_col <- function(){
-    ds <- activeDataSet()
+    ds <- active_dataset()
 
     initializeDialog(title = gettext_bs("Move row names to column"))
 

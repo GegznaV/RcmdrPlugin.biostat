@@ -61,8 +61,8 @@ window_rows_arrange <- function() {
             y
         }
 
-        dataSet    <- activeDataSet()
-        new_dsname <- activeDataSet()
+        dataSet    <- active_dataset()  # [???]
+        new_dsname <- active_dataset()
 
         command <- glue(
             "## Sort rows \n",
@@ -74,7 +74,7 @@ window_rows_arrange <- function() {
 
         if (class(result)[1] !=  "try-error") {
             # Change active dataset
-            activeDataSet(new_dsname, flushModel = FALSE)
+            active_dataset(new_dsname, flushModel = FALSE)
 
         } else {
             # If evaluation of conditions results in error

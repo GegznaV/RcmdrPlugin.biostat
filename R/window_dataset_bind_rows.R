@@ -123,7 +123,7 @@ window_dataset_bind_rows <- function() {
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     dataSets       <- listDataSets()
-    .activeDataSet <- ActiveDataSet()
+    .activeDataSet <- active_dataset()
 
     ds_1_box <-
         variableListBox2(
@@ -266,7 +266,7 @@ window_dataset_bind_rows <- function() {
 
         doItAndPrint(command)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        activeDataSet(new_ds_name)
+        active_dataset(new_ds_name)
         tkfocus(CommanderWindow())
     }
     # Layout -----------------------------------------------------------------

@@ -106,7 +106,7 @@ window_num_transform_log <- function() {
             return()
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        .activeDataSet <- ActiveDataSet()
+        .activeDataSet <- active_dataset_0()
 
         new_names <- paste0(prefix, variables, suffix) %>% make.names()
 
@@ -130,47 +130,48 @@ window_num_transform_log <- function() {
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         command <- switch(fun_type,
-               # Use base R functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-               "Base_R" = {
-                   tans_txt <- glue("{new_names} <- {log_txt}({variables})")
+                          # Use base R functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                          "Base_R" = {
+                              tans_txt <- glue("{new_names} <- {log_txt}({variables})")
 
-                   glue("{.activeDataSet} <- within({.activeDataSet}, {{\n",
-                        "{paste(tans_txt, collapse ='\n')} \n",
-                        "}})\n")
-               },
+                              glue("{.activeDataSet} <- within({.activeDataSet}, {{\n",
+                                   "{paste(tans_txt, collapse ='\n')} \n",
+                                   "}})\n")
+                          },
 
-               # Use Tidyverse functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-               "Tidyverse" = {
-                   Library("tidyverse")
+                          # Use Tidyverse functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                          "Tidyverse" = {
+                              Library("tidyverse")
 
-                   tans_txt <- glue("{new_names} = {log_txt}({variables})")
+                              tans_txt <- glue("{new_names} = {log_txt}({variables})")
 
-                   if (length(tans_txt) == 1) {
-                       glue("{.activeDataSet} <- {.activeDataSet} %>%\n",
-                            "dplyr::mutate({tans_txt})\n")
+                              if (length(tans_txt) == 1) {
+                                  glue("{.activeDataSet} <- {.activeDataSet} %>%\n",
+                                       "dplyr::mutate({tans_txt})\n")
 
-                   } else {
-                       glue("{.activeDataSet} <- {.activeDataSet} %>%\n",
-                            'dplyr::mutate(\n{paste0(tans_txt, collapse = ",\n")}\n',
-                            ')\n')
-                   }
+                              } else {
+                                  glue("{.activeDataSet} <- {.activeDataSet} %>%\n",
+                                       'dplyr::mutate(\n{paste0(tans_txt, collapse = ",\n")}\n',
+                                       ')\n')
+                              }
 
-               },
-               # default
-               stop("Unrecognized option:", fun_type)
-               )
+                          },
+                          # default
+                          stop("Unrecognized option:", fun_type)
+        )
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         command <- style_cmd(command)
 
         result <- justDoIt(command)
 
         if (class(result)[1] != "try-error")
-            activeDataSet(.activeDataSet, flushModel = FALSE)
+            active_dataset(.activeDataSet, flushModel = FALSE)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        msg <- glue("#---  ", gettext_bs("Logarithmic transformation"), "  ---#\n\n",
-                    "# ", gettext_bs("New variable(s):"), " \n",
-                    paste("#   ", new_names, collapse = "\n"), "\n\n\n")
+        msg <- str_glue(
+            "#---  ", gettext_bs("Logarithmic transformation"), "  ---#\n\n",
+            "# ", gettext_bs("New variable(s):"), " \n",
+            paste("#   ", new_names, collapse = "\n"), "\n\n\n")
 
         logger(paste0(msg, command, collapse = "\n"))
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

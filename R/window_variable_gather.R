@@ -129,7 +129,7 @@ window_variable_gather <- function() {
         # --------------------------------------------------------------------
         putDialog("window_variable_gather",
                   list(# initial_y_var  = y_var,
-                      # initial_dsname      = glue("{activeDataSet()}_long"),
+                      # initial_dsname      = glue("{active_dataset()}_long"),
                       initial_key_colname   = key_colname,
                       initial_value_colname = value_colname,
                       initial_gather_all    = gather_all,
@@ -225,7 +225,7 @@ window_variable_gather <- function() {
 
         command <- glue(
             "## Convert to long-format data frame \n",
-            '{dsname} <- {activeDataSet()} %>% \n',
+            '{dsname} <- {active_dataset()} %>% \n',
             'tidyr::gather(key = "{key_colname}", value = "{value_colname}"',
             '{variables}{opts_text}',
             ')') %>%
@@ -235,7 +235,7 @@ window_variable_gather <- function() {
 
         result <- justDoIt(command)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (class(result)[1] !=  "try-error") activeDataSet(dsname)
+        if (class(result)[1] !=  "try-error") active_dataset(dsname)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkfocus(CommanderWindow())
     }

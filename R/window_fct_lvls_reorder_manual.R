@@ -64,7 +64,7 @@ window_fct_lvls_reorder_manual <- function() {
                 return()
             }
         }
-        .activeDataSet <- ActiveDataSet()
+        .activeDataSet <- active_dataset_0()
         old.levels <-
             eval(parse(
                 text = paste("levels(", .activeDataSet, "$", variable, ")",
@@ -124,7 +124,7 @@ window_fct_lvls_reorder_manual <- function() {
             logger(command)
 
             if (class(result)[1] !=  "try-error")
-                activeDataSet(.activeDataSet, flushModel = FALSE)
+                active_dataset(.activeDataSet, flushModel = FALSE)
         }
         subOKCancelHelp()
         tkgrid(

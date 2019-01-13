@@ -8,7 +8,7 @@
 #' @export
 #' @keywords internal
 window_factor_lvls_drop <- function() {
-    dataSet <- activeDataSet()
+    dataSet <- active_dataset()
     initializeDialog(title = gettext_bs("Drop Unused Factor Levels"))
     allfactorsVariable <- tclVar("0")
     allFrame <- tkframe(top)
@@ -66,7 +66,7 @@ window_factor_lvls_drop <- function() {
             }
         }
         doItAndPrint(command)
-        activeDataSet(dataSet,
+        active_dataset(dataSet,
                       flushModel = FALSE,
                       flushDialogMemory = FALSE)
         tkfocus(CommanderWindow())

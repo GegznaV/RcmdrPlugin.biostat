@@ -44,7 +44,7 @@ window_variable_select <- function(new_dsname = NULL, incorrect_cond_msg = NULL)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     lower_frame <- tkframe(top)
 
-    if (is.null(new_dsname))  new_dsname <- unique_df_name(activeDataSet())
+    if (is.null(new_dsname))  new_dsname <- unique_df_name(active_dataset())
 
     new_dsname_variable <- tclVar(new_dsname)
     new_dsname_field    <- ttkentry(lower_frame,
@@ -69,7 +69,7 @@ window_variable_select <- function(new_dsname = NULL, incorrect_cond_msg = NULL)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Check if dataset name already exists ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        if (new_dsname != activeDataSet()) {
+        if (new_dsname != active_dataset()) {
 
             if (new_dsname %in% listDataSets()) {
                 if ("no" == tclvalue(checkReplace(
@@ -140,7 +140,7 @@ window_variable_select <- function(new_dsname = NULL, incorrect_cond_msg = NULL)
         variables <- stringr::str_c(to_select, to_reorder, to_delete, sep = ", ")
 
         command <- glue("## Select, reorder, remove variables \n",
-                        "{new_dsname} <- {activeDataSet()} %>% \n",
+                        "{new_dsname} <- {active_dataset()} %>% \n",
                         "dplyr::select({variables})") %>%
             style_cmd()
 
@@ -148,7 +148,7 @@ window_variable_select <- function(new_dsname = NULL, incorrect_cond_msg = NULL)
 
         if (class(result)[1] !=  "try-error") {
             # Change active dataset
-            activeDataSet(new_dsname, flushModel = FALSE)
+            active_dataset(new_dsname, flushModel = FALSE)
         }
 
         tkfocus(CommanderWindow())

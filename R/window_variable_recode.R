@@ -322,7 +322,7 @@ window_variable_recode0 <- function() {
     insert_template <- function(template = "1") {
         active_variable  <- getSelection(variablesBox)
         var_val          <- get_active_ds()[[active_variable]]
-        # var_val        <- eval_glue("{activeDataSet()}${active_variable}")
+        # var_val        <- eval_glue("{active_dataset()}${active_variable}")
 
         get_active_ds()[[active_variable]]
 
@@ -519,7 +519,7 @@ window_variable_recode0 <- function() {
                    ordered_factor <- ""
                })
 
-        dataSet <- activeDataSet()
+        dataSet <- active_dataset()
 
         command <- str_glue(
             "## ", gettext_bs("Recode variable values"), "\n\n",
@@ -535,7 +535,7 @@ window_variable_recode0 <- function() {
         if (class(result)[1] != "try-error") {
             closeDialog()
             logger(style_cmd(command))
-            activeDataSet(dataSet, flushModel = FALSE, flushDialogMemory = FALSE)
+            active_dataset(dataSet, flushModel = FALSE, flushDialogMemory = FALSE)
 
         } else {
             logger_error(command, error_msg = result)

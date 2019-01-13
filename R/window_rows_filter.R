@@ -145,7 +145,7 @@ window_rows_filter <- function(new_dsname = NULL,
         Library("dplyr")
         command <- glue(
             "## Select rows that match conditions \n",
-            "{new_dsname} <- {activeDataSet()} %>% \n",
+            "{new_dsname} <- {active_dataset()} %>% \n",
                         "dplyr::filter({conditions})") %>%
             style_cmd()
 
@@ -153,7 +153,7 @@ window_rows_filter <- function(new_dsname = NULL,
 
         if (class(result)[1] !=  "try-error") {
             # Change active dataset
-            activeDataSet(new_dsname, flushModel = FALSE)
+            active_dataset(new_dsname, flushModel = FALSE)
 
         } else {
             # If evaluation of conditions results in error
