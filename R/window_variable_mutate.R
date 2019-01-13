@@ -128,8 +128,8 @@ window_variable_mutate <- function(var_name = NULL,
 
             Message(message = msg, type = "error")
             window_variable_mutate(var_name = make.names(newVar),
-                                    init_express = express,
-                                    incorrect_expr_msg = msg)
+                                   init_express = express,
+                                   incorrect_expr_msg = msg)
             return()
         }
 
@@ -141,8 +141,8 @@ window_variable_mutate <- function(var_name = NULL,
             Message(message = gettext_bs("No expression was specified!"),
                     type = "error")
             window_variable_mutate(var_name = newVar,
-                                    init_express = express,
-                                    incorrect_expr_msg = "No expression was specified!")
+                                   init_express = express,
+                                   incorrect_expr_msg = "No expression was specified!")
             return()
         }
 
@@ -154,7 +154,7 @@ window_variable_mutate <- function(var_name = NULL,
                 window_variable_mutate(var_name = newVar,
                                        init_express = express,
                                        incorrect_expr_msg =
-   glue('Chose other name than "{newVar}".'))
+                                           glue('Chose other name than "{newVar}".'))
                 return()
             }
         }
@@ -172,10 +172,10 @@ window_variable_mutate <- function(var_name = NULL,
         } else {
             # If expression results in error
             Message(message = gettext_bs("Error in the expression!"),
-                                          type = "error")
+                    type = "error")
             window_variable_mutate(var_name = newVar,
-                                    init_express = express,
-                                    incorrect_expr_msg = "The expression contains error(s) or is invalid!")
+                                   init_express = express,
+                                   incorrect_expr_msg = "The expression contains error(s) or is invalid!")
             return()
         }
 
@@ -183,7 +183,7 @@ window_variable_mutate <- function(var_name = NULL,
         command <-
             # glue("## ", gettext_bs("Create/Replace a variable:"), " {newVar}\n",
             glue("## ", gettext_bs("Compute a variable:"), " {newVar}\n",
-                                   style_cmd(command))
+                 style_cmd(command))
         logger(command)
 
         tkfocus(CommanderWindow())
@@ -193,7 +193,7 @@ window_variable_mutate <- function(var_name = NULL,
     OKCancelHelp(helpSubject = "mutate", helpPackage = "dplyr",
                  reset = "window_variable_mutate"
                  # , apply = "window_variable_mutate"
-                 )
+    )
 
     tkgrid(var_box_Frame, sticky = "nw")
 
@@ -203,7 +203,7 @@ window_variable_mutate <- function(var_name = NULL,
     tkgrid_text <- function(text = "", frame = examples_Frame, fg = "black",
                             sticky = "w", padx = 20, pady = 0, ...) {
         tkgrid(labelRcmdr(frame, text = gettext_bs(text), fg = fg),
-                sticky = sticky, padx = padx, pady = pady, ...)
+               sticky = sticky, padx = padx, pady = pady, ...)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid_text("\nExamples of expressions", fg = getRcmdr("title.color"))
@@ -227,14 +227,14 @@ window_variable_mutate <- function(var_name = NULL,
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(
         labelRcmdr(computeFrame,
-                      fg = getRcmdr("title.color"),
-                      text = gettext_bs("New variable name")),
+                   fg = getRcmdr("title.color"),
+                   text = gettext_bs("New variable name")),
         labelRcmdr(computeFrame, text = "   "),
         labelRcmdr(computeFrame,
                    fg = getRcmdr("title.color"),
                    text = gettext_bs("Expression to compute")),
-           pady = c(15, 0),
-           sticky = "nw")
+        pady = c(15, 0),
+        sticky = "nw")
 
     tkgrid(newVariable,
            labelRcmdr(computeFrame, text = " = "),
