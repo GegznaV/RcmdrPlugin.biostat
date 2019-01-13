@@ -10,7 +10,7 @@ NULL
 #' @keywords internal
 # Get contents of active dataset
 get_active_ds <- function() {
-    globalenv()[[activeDataSet()]]
+    globalenv()[[active_dataset_0()]]
 }
 
 #' @rdname Helper-functions
@@ -348,8 +348,9 @@ tk_label_blue <- function(...) {
 #' @examples
 #' read_clipboard()
 read_clipboard <- function() {
-    str <- try(silent = TRUE,
-               tcltk::tclvalue(tcltk::.Tcl("selection get -selection CLIPBOARD"))
+    str <- try(
+        silent = TRUE,
+        tcltk::tclvalue(tcltk::.Tcl("selection get -selection CLIPBOARD"))
     )
 
     if (!inherits(str, "try-error")) str else ""
@@ -502,7 +503,7 @@ unique_obj_names <- function(names,
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-unique_df_name <- function(names = ActiveDataSet(),
+unique_df_name <- function(names = active_dataset_0(),
                            preffix = "",
                            suffix = "",
                            list_of_choices = objects(all.names = TRUE, envir = .GlobalEnv),
@@ -539,7 +540,7 @@ unique_colnames_2 <- function(names = "",
 #' @keywords internal
 variables_with_unique_values <- function() {
 
-    ds <- get(activeDataSet(), envir = .GlobalEnv)
+    ds <- get(active_dataset(), envir = .GlobalEnv)
     not_duplicated_cols <- purrr::map_lgl(ds, ~!any(duplicated(.)))
     (not_duplicated_cols[not_duplicated_cols == TRUE]) %>%
         names() %>%
@@ -1045,7 +1046,7 @@ dataset_not_persent <- function() {
 #' @keywords internal
 active_dataset_not_persent <- function() {
     top <- CommanderWindow()
-    .ds <- ActiveDataSet()
+    .ds <- active_dataset_0()
 
     if (is.null(.ds)) {
         tk_messageBox(
@@ -1109,7 +1110,7 @@ objects_in_env_P <- function(n = 1, envir = .GlobalEnv, ...) {
 #' @export
 characterP <- function(n = 1) {
     activeDataSetP() &&
-        (sum(eval_glue("mapply(is.character, {activeDataSet()})")) >= n)
+        (sum(eval_glue("mapply(is.character, {active_dataset()})")) >= n)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1124,7 +1125,7 @@ characterP <- function(n = 1) {
 #' @export
 factors_strict_P <- function(n = 1) {
     activeDataSetP() &&
-        (sum(eval_glue("mapply(is.factor, {activeDataSet()})")) >= n)
+        (sum(eval_glue("mapply(is.factor, {active_dataset()})")) >= n)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Does active dataset contain logicals?
@@ -1137,7 +1138,7 @@ factors_strict_P <- function(n = 1) {
 #' @export
 logicalP <- function(n = 1) {
     activeDataSetP() &&
-        (sum(eval_glue("mapply(is.logical, {activeDataSet()})")) >= n)
+        (sum(eval_glue("mapply(is.logical, {active_dataset()})")) >= n)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1161,7 +1162,7 @@ variablesP <- function(n = 1) {
 #' @export
 first_class_is_dataframeP <- function() {
     activeDataSetP() &&
-        (eval_glue("class({activeDataSet()})[1]") == "data.frame")
+        (eval_glue("class({active_dataset()})[1]") == "data.frame")
 }
 #' [!] Is the first class the same as in brackets?
 #'
@@ -1170,7 +1171,7 @@ first_class_is_dataframeP <- function() {
 #' @export
 first_class_isP <- function(df_class) {
     activeDataSetP() &&
-        (eval_glue("class({activeDataSet()})[1]") == df_class)
+        (eval_glue("class({active_dataset()})[1]") == df_class)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Chech the class of the active model in Rcmdr
