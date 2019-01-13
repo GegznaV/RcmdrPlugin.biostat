@@ -170,7 +170,7 @@ active_dataset_0 <- function(name) {
                          sep = ""
         )
         window <- justDoIt(command)
-        open.showData.windows[[ActiveDataSet()]] <- window
+        open.showData.windows[[active_dataset_0()]] <- window
         putRcmdr("open.showData.windows", open.showData.windows)
       }
     }

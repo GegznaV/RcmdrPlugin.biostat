@@ -26,7 +26,7 @@ window_data_obj_copy <- function() {
         if (forbid_to_replace_object(new_obj_names))       {return()}
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Deselect active dataset if it should be copied
-        if (isTRUE(any(active_ds %in% obj_names))) {ActiveDataSet(NULL)}
+        if (isTRUE(any(active_ds %in% obj_names))) {active_dataset_0(NULL)}
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         obj_names_str <- str_c(obj_names, collapse = ", ")
 
@@ -80,7 +80,7 @@ window_data_obj_copy <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ws_objects <- objects(envir = .GlobalEnv, all.names = TRUE)
-    active_ds  <- ActiveDataSet()
+    active_ds  <- active_dataset_0()
 
     # Widgets ================================================================
     upper_frame <- tkframe(top)

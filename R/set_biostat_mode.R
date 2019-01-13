@@ -154,7 +154,7 @@ set_biostat_mode <- function() {
 
 to_r_structure <- function() {
     # .ds <- get_selection(var_ds_box)
-    .ds <- ActiveDataSet()
+    .ds <- active_dataset_0()
 
     doItAndPrint(str_glue(
         "## Export as R structure ('{.ds}')\n",
@@ -313,7 +313,7 @@ bs_mode_menu_import <- function() {
 
 # Export menus -----------------------------------------------------------
 bs_mode_menu_export <- function() {
-    .ds <- ActiveDataSet()
+    .ds <- active_dataset_0()
     if (is.null(.ds)) {
         command_dataset_refresh()
         active_dataset_not_persent()
@@ -338,7 +338,7 @@ bs_mode_menu_export <- function() {
           compound = "left",
           image    = "::image::bs_copy",
           command  = function() {
-              .ds <- ActiveDataSet()
+              .ds <- active_dataset_0()
               export_to_clipboard(.ds, sep = "\t")
           })
 
@@ -347,7 +347,7 @@ bs_mode_menu_export <- function() {
           compound = "left",
           image    = "::image::bs_copy",
           command  = function() {
-              .ds <- ActiveDataSet()
+              .ds <- active_dataset_0()
               export_to_clipboard(.ds, sep = ",")
           })
 
@@ -410,7 +410,7 @@ bs_mode_menu_export <- function() {
 # View and print menus -------------------------------------------------------
 bs_mode_menu_print <- function() {
 
-    .ds <- ActiveDataSet()
+    .ds <- active_dataset_0()
     if (is.null(.ds)) {
         command_dataset_refresh()
         active_dataset_not_persent()

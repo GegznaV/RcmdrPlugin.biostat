@@ -137,5 +137,5 @@ command_model_augment <- function() {
         "{.ds} <- broom::augment({.mod})\n"))
 
     # Refresh data
-    active_dataset(Rcmdr::ActiveDataSet(), flushModel = FALSE)
+    command_dataset_refresh_0(flushModel = FALSE)
 }

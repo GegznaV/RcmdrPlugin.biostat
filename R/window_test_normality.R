@@ -294,7 +294,7 @@ window_test_normality <- function() {
 
 
     # Initialize -------------------------------------------------------------
-    .ds <- ActiveDataSet()
+    .ds <- active_dataset_0()
 
     nrows <- getRcmdr("nrow") # nrows in active dataset
     defaults <- list(

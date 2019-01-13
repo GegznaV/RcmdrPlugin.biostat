@@ -391,7 +391,7 @@ unique_obj_names(names, preffix = "", suffix = "",
   list_of_choices = objects(all.names = TRUE, envir = .GlobalEnv),
   all_numbered = FALSE)
 
-unique_df_name(names = ActiveDataSet(), preffix = "", suffix = "",
+unique_df_name(names = active_dataset_0(), preffix = "", suffix = "",
   list_of_choices = objects(all.names = TRUE, envir = .GlobalEnv),
   all_numbered = FALSE)
 

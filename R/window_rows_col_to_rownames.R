@@ -32,13 +32,15 @@ window_rows_col_to_rownames <- function(new_dsname = NULL,
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         col_name <- getSelection(y_var_box)
+
+        .ds <- active_dataset_0()
+
         closeDialog()
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Library("tibble")
         command <- glue(
             "## ", gettext_bs("Move column values to row names"), "\n",
-            '{ActiveDataSet()} <- ',
-            'tibble::column_to_rownames({ActiveDataSet()}, var = "{col_name}")'
+            '{.ds} <- tibble::column_to_rownames({.ds}, var = "{col_name}")'
         ) %>%
             style_cmd()
 

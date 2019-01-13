@@ -7,14 +7,14 @@
 command_rownames <- function() {
     doItAndPrint(str_glue(
         "## Row names \n",
-        "rownames({ActiveDataSet()})"))
+        "rownames({active_dataset_0()})"))
 }
 
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 command_rows_has_rownames <- function() {
-    .ds <- ActiveDataSet()
+    .ds <- active_dataset_0()
     library("tibble")
     doItAndPrint(str_glue(
         "## Does dataset '{.ds}' have real row names? \n",
@@ -28,7 +28,7 @@ command_rows_has_rownames <- function() {
 command_rows_rm_empty_rows <- function() {
     Library("tidyverse")
 
-    ds            <- ActiveDataSet()
+    ds            <- active_dataset_0()
     empty_row_var <- unique_obj_names("empty_rows")
 
     dim_before <- eval_glue("dim({ds})", envir_eval = .GlobalEnv)

@@ -213,7 +213,7 @@ window_export_to_excel_old()
 
 window_export_to_textfile()
 
-export_to_clipboard(ds_name = ActiveDataSet(), sep = ",")
+export_to_clipboard(ds_name = active_dataset_0(), sep = ",")
 
 export_to_clipboard_active_ds_tab()
 

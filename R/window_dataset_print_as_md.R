@@ -13,7 +13,7 @@ window_dataset_print_as_md <- function() {
     use_caption <- TRUE
 
     if (use_caption) {
-        caption_text <- str_glue("Dataset `{ActiveDataSet()}`")
+        caption_text <- str_glue("Dataset `{active_dataset_0()}`")
         tbl_caption  <- str_glue(',\n caption = "{caption_text}" ')
 
     } else {
@@ -30,7 +30,7 @@ window_dataset_print_as_md <- function() {
         '## Dataset as Markdown table \n',
         # '# The dataset printed in a from that will be converted \n',
         # '# to a table in an R Markdown report. \n',
-        '{ActiveDataSet()} %>% \n',
+        '{active_dataset_0()} %>% \n',
         '    pander::pander(missing = "", style = "{tbl_style}"',
         '    {tbl_caption}',
         '    )') %>%
@@ -48,7 +48,7 @@ window_dataset_print_as_kable <- function() {
     use_caption <- TRUE
 
     if (use_caption) {
-        caption_text <- str_glue("Dataset `{ActiveDataSet()}`")
+        caption_text <- str_glue("Dataset `{active_dataset_0()}`")
         tbl_caption  <- str_glue(',\n caption = "{caption_text}" ')
 
     } else {
@@ -65,7 +65,7 @@ window_dataset_print_as_kable <- function() {
         '## Dataset as Markdown table \n',
         # '# The dataset printed in a from that will be converted \n',
         # '# to a table in an R Markdown report. \n',
-        '{ActiveDataSet()} %>% \n',
+        '{active_dataset_0()} %>% \n',
         '    knitr::kable(',
         'digits = {getOption("digits")}, format = "pandoc"{tbl_caption})') %>%
         style_cmd()

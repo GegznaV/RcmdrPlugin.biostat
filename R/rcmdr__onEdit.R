@@ -2,7 +2,7 @@
 # This function is based on function `onEdit` from package `Rcmdr` 2.5-1
 
 window_dataset_edit_rcmdr <- function() {
-    .ds <- ActiveDataSet()
+    .ds <- active_dataset_0()
 
     if (is.null(.ds)) {
         active_dataset_not_persent()

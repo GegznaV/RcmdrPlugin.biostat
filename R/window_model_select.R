@@ -5,7 +5,7 @@
 
 window_model_select <- function() {
     models       <- listAllModels()
-    .ds          <- ActiveDataSet()
+    .ds          <- active_dataset_0()
     .activeModel <- ActiveModel()
 
     # if ((length(models) == 1) && !is.null(.activeModel)) {

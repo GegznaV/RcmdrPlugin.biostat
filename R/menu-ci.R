@@ -216,8 +216,8 @@ window_ci_boot <- function() {
 
     conf_level = 0.95
 
-    # strata <- eval_glue("{activeDataSet()}[['{Factors()[1]}']]")
-    x <- eval_glue("{activeDataSet()}[['{Numeric()[1]}']]")
+    # strata <- eval_glue("{active_dataset()}[['{Factors()[1]}']]")
+    x <- eval_glue("{active_dataset()}[['{Numeric()[1]}']]")
 
     statistic <- function(x, i) {
         mean(x[i])

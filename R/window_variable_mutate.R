@@ -161,7 +161,7 @@ window_variable_mutate <- function(var_name = NULL,
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         Library("tidyverse")
-        # command <- glue("{dataSet}${newVar} <- with({ActiveDataSet()}, {express})")
+        # command <- glue("{dataSet}${newVar} <- with({active_dataset_0()}, {express})")
         command <- glue("{dataSet} <- {dataSet} %>% \n",
                         "mutate({newVar} = {express})")
 

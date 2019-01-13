@@ -11,7 +11,7 @@
 command_colnames <- function() {
     doItAndPrint(str_glue(
         "## Column names\n",
-        "colnames({ActiveDataSet()})"))
+        "colnames({active_dataset_0()})"))
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -26,10 +26,12 @@ command_clean_names <- function() {
     # Library("forcats")
     # Library("dplyr")
 
+    .ds <- active_dataset_0()
+
     command <-
         str_glue(
             "## Clean names (to sanke case)\n",
-            "{ActiveDataSet()} <- {ActiveDataSet()} %>% \n",
+            "{.ds} <- {.ds} %>% \n",
             'janitor::clean_names(case = "snake")'
         ) %>%
         style_cmd()
@@ -47,7 +49,7 @@ command_clean_names <- function() {
 #' @keywords internal
 command_all_chr_to_fctr <- function() {
 
-    .ds <- ActiveDataSet()
+    .ds <- active_dataset_0()
 
     Library("tidyverse")
     Library("forcats")

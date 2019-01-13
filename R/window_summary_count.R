@@ -259,7 +259,7 @@ window_summary_count <- function() {
         )
 
         # calculations -------------------------------------------------------
-        .ds <- ActiveDataSet()
+        .ds <- active_dataset_0()
 
         Library("tidyverse")
 

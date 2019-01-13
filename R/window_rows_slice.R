@@ -180,13 +180,13 @@ window_rows_slice <- function(){
 #     doItAndPrint(str_glue(
 #
 #         '\n# Select the first row: \n',
-#         '# new_df <- dplyr::slice({ActiveDataSet()}, 1) \n',
+#         '# new_df <- dplyr::slice({active_dataset_0()}, 1) \n',
 #         '\n# Select the last row: \n',
-#         '# new_df <- dplyr::slice({ActiveDataSet()}, n()) \n',
+#         '# new_df <- dplyr::slice({active_dataset_0()}, n()) \n',
 #         '\n# Select several adjacent rows: \n',
-#         '# new_df <- dplyr::slice({ActiveDataSet()}, 5:n()) \n',
+#         '# new_df <- dplyr::slice({active_dataset_0()}, 5:n()) \n',
 #         '\n# Use negative indices to drop rows: \n',
-#         '# new_df <- dplyr::slice({ActiveDataSet()}, -5:-n()) \n'
+#         '# new_df <- dplyr::slice({active_dataset_0()}, -5:-n()) \n'
 #
 #     ))
 #

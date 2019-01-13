@@ -14,16 +14,20 @@ NULL
 #' @export
 #' @keywords internal
 command_dataset_refresh <- function() {
+    command_dataset_refresh_0()
+}
+
+command_dataset_refresh_0 <- function(...) {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    .ds <- Rcmdr::ActiveDataSet()
+    .ds <- active_dataset_0()
 
     if (isTRUE(!.ds %in% ls(envir = .GlobalEnv))) {
         # If ds is deleted
-        Rcmdr::ActiveDataSet(NULL)
+        active_dataset_0(NULL)
 
     } else if (!is.null(.ds)) {
         # If ds is present
-        active_dataset(.ds)
+        active_dataset(.ds, ...)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     activate_menus()
@@ -39,7 +43,7 @@ activate_menus <- function() {
     # Activate buttons in BioStat mode
     if (is_biostat_mode()) {
 
-        if (!is.null(ActiveDataSet())) {
+        if (!is.null(active_dataset_0())) {
             tk_normalize(getRcmdr("button_export"))
             tk_normalize(getRcmdr("button_view"))
 
@@ -56,8 +60,8 @@ activate_menus <- function() {
 #' @export
 #' @keywords internal
 command_dataset_view <- function() {
-    justDoIt(str_glue("View({ActiveDataSet()})"))
-    logger(str_glue("## View({ActiveDataSet()})"))
+    justDoIt(str_glue("View({active_dataset_0()})"))
+    logger(str_glue("## View({active_dataset_0()})"))
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -65,7 +69,7 @@ command_dataset_view <- function() {
 #' @export
 #' @keywords internal
 command_dataset_print <- function() {
-    doItAndPrint(str_glue("print({ActiveDataSet()})"))
+    doItAndPrint(str_glue("print({active_dataset_0()})"))
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -73,7 +77,7 @@ command_dataset_print <- function() {
 #' @export
 #' @keywords internal
 command_dataset_print_as_df <- function() {
-    .ds <- ActiveDataSet()
+    .ds <- active_dataset_0()
     doItAndPrint(str_glue("print(as.data.frame({.ds}))"))
 }
 
@@ -81,7 +85,7 @@ command_dataset_print_as_df <- function() {
 #' @export
 #' @keywords internal
 command_dataset_print_as_dt <- function() {
-    .ds <- ActiveDataSet()
+    .ds <- active_dataset_0()
     ds <- eval_text(.ds, envir = .GlobalEnv)
 
     Library("data.table")
@@ -100,7 +104,7 @@ command_dataset_print_as_dt <- function() {
 #' @export
 #' @keywords internal
 command_dataset_print_as_tibble <- function() {
-    .ds <- ActiveDataSet()
+    .ds <- active_dataset_0()
     Library("tibble")
     doItAndPrint(str_glue('print(as_tibble({.ds}))'))
 }
@@ -113,7 +117,7 @@ command_dataset_print_as_tibble <- function() {
 #' @keywords internal
 command_dataset_class <- function() {
     doItAndPrint(str_glue("## The R class of the dataset\n",
-                          "class({ActiveDataSet()})"))
+                          "class({active_dataset_0()})"))
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -121,9 +125,10 @@ command_dataset_class <- function() {
 #' @export
 #' @keywords internal
 command_dataset_as_df <- function() {
+    .ds <- active_dataset_0()
     doItAndPrint(str_glue(
         "## Change class of the dataset to `data.frame`\n",
-        "{ActiveDataSet()} <- as.data.frame({ActiveDataSet()})"))
+        "{.ds} <- as.data.frame({.ds})"))
     command_dataset_refresh()
 }
 
@@ -132,10 +137,12 @@ command_dataset_as_df <- function() {
 #' @export
 #' @keywords internal
 command_dataset_as_tibble <- function() {
+    .ds <- active_dataset_0()
+
     Library("tibble")
     doItAndPrint(str_glue(
         "## Change class of the dataset to `tibble`\n",
-        "{ActiveDataSet()} <- as_tibble({ActiveDataSet()})"))
+        "{.ds} <- as_tibble({.ds})"))
     command_dataset_refresh()
 }
 
@@ -144,10 +151,12 @@ command_dataset_as_tibble <- function() {
 #' @export
 #' @keywords internal
 command_dataset_as_dt <- function() {
+    .ds <- active_dataset_0()
+
     Library("data.table")
     doItAndPrint(str_glue(
         "## Change class of the dataset to `data.table`\n",
-        "{ActiveDataSet()} <- data.table({ActiveDataSet()})"))
+        "{.ds} <- data.table({.ds})"))
     command_dataset_refresh()
 }
 

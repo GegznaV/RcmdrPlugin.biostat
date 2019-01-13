@@ -4,7 +4,7 @@
 window_dataset_select <- function() {
 
     dataSets <- listDataSets()
-    .ds      <- ActiveDataSet()
+    .ds      <- active_dataset_0()
 
     # Functions --------------------------------------------------------------
     cmd_refresh_listbox  <- function(variables) {
@@ -228,8 +228,8 @@ window_dataset_select <- function() {
     cmd_ds_selection_callback()
     cmd_refresh_listbox()
 
-    if (!isTRUE(ActiveDataSet() %in% ls(all.names = TRUE, envir = .GlobalEnv))) {
-        ActiveDataSet(NULL)
+    if (!isTRUE(active_dataset_0() %in% ls(all.names = TRUE, envir = .GlobalEnv))) {
+        active_dataset_0(NULL)
     }
 
 }

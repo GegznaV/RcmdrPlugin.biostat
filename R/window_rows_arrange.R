@@ -107,18 +107,22 @@ window_rows_arrange <- function() {
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
+#
+# TODO: [???]
 window_rows_arrange_tmp <- function() {
     Library("tidyverse")
+
+    .ds <- active_dataset_0()
 
     doItAndPrint(
         str_glue(
             '## Examples of code \n\n',
 
             '# Sort rows ascending: \n',
-            '# new_df <- dplyr::arrange({ActiveDataSet()}, {listVariables()[1]}) \n\n',
+            '# new_df <- dplyr::arrange({.ds}, {listVariables()[1]}) \n\n',
 
             '# Sort rows descending:: \n',
-            '# new_df <- dplyr::arrange({ActiveDataSet()}, desc({listVariables()[1]})) \n'
+            '# new_df <- dplyr::arrange({.ds}, desc({listVariables()[1]})) \n'
         )
     )
 

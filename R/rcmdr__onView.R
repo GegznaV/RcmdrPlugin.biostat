@@ -2,7 +2,7 @@
 # This function is based on function `onView` from package `Rcmdr` 2.5-1
 
 window_dataset_view_rcmdr <- function() {
-    .ds <- ActiveDataSet()
+    .ds <- active_dataset_0()
 
     if (is.null(.ds)) {
         active_dataset_not_persent()

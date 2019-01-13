@@ -4,7 +4,7 @@
 #' @keywords internal
 
 # This row deletes row names:
-# # new_df <- tibble::rowid_to_column({ActiveDataSet()}, var = "rows_id")
+# # new_df <- tibble::rowid_to_column({active_dataset_0()}, var = "rows_id")
 
 window_rows_rowid_to_col <- function() {
     # Initialize -------------------------------------------------------------

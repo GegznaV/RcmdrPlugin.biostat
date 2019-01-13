@@ -6,7 +6,7 @@
 #' @keywords internal
 command_dataset_dim <- function() {
     doItAndPrint(str_glue("## Number of rows and columns\n",
-                          "dim({ActiveDataSet()})"))
+                          "dim({active_dataset_0()})"))
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -19,7 +19,7 @@ command_glimpse <- function() {
     command <-
         str_glue(
             "## Structure of dataset \n",
-            "dplyr::glimpse({ActiveDataSet()})"
+            "dplyr::glimpse({active_dataset_0()})"
         ) %>%
         style_cmd()
 
@@ -31,7 +31,7 @@ command_glimpse <- function() {
 #' @export
 #' @keywords internal
 summary_head_tail <- function() {
-    .ds <- ActiveDataSet()
+    .ds <- active_dataset_0()
      ds <- eval_text(.ds, envir = .GlobalEnv)
 
     Library("tidyverse")
