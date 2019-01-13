@@ -13,105 +13,42 @@ menu	bs_data_menu	biostat_menu	""	""	""	""
 item	biostat_menu	cascade	"Data"	bs_data_menu	""	""
 
 
-# ---- Select data -----------------------------------------------------------
+# --- + Dataset --------------------------------------------------------------
+
+menu	bs_active_ds_menu	bs_data_menu	""	""	""	""
+item	bs_data_menu	cascade	"Active dataset"	bs_active_ds_menu	"activeDataSetP()"	""
+
+item	bs_active_ds_menu	command	"View active dataset"	command_dataset_view	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"Change class of active dataset"	window_dataset_class	"activeDataSetP()"	""
+
+
+# --- + > Print ---------------------------------------------------
+
+item	bs_active_ds_menu	separator	""	""	""	""
+item	bs_active_ds_menu	command	"Print as Markdown table: kable"	window_dataset_print_as_kable	"activeDataSetP()"	"packageAvailable('knitr')"
+item	bs_active_ds_menu	command	"Print as Markdown table: pander"	window_dataset_print_as_md	"activeDataSetP()"	"packageAvailable('pander')"
+
+item	bs_active_ds_menu	separator	""	""	""	""
+item	bs_active_ds_menu	command	"Print top and bottom rows"	summary_head_tail	"activeDataSetP()"	""
+
+item	bs_active_ds_menu	separator	""	""	""	""
+item	bs_active_ds_menu	command	"Print as 'data.frame'"	command_dataset_print_as_df	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"Print as 'data.table'"	command_dataset_print_as_dt	"activeDataSetP()"	""
+item	bs_active_ds_menu	command	"Print as 'tibble'"	command_dataset_print_as_tibble	"activeDataSetP()"	""
+# item	bs_active_ds_menu	command	"Print (as is)"	command_dataset_print	"activeDataSetP()"	""
+
+# ---- + > Select active DS --------------------------------------------------
 # Refresh active dataset and menus
 
-item	bs_data_menu	command	"Refresh"	command_dataset_refresh	""	""
-item	bs_data_menu	command	"Select active dataset"	window_dataset_select	""	""
-item	bs_data_menu	command	"Preview active dataset (in a new window)"	command_dataset_view	"activeDataSetP()"	""
-item	bs_data_menu	command	"Change class of active dataset"	window_dataset_class	"activeDataSetP()"	""
+item	bs_active_ds_menu	separator	""	""	""	""
+item	bs_active_ds_menu	command	"Select active dataset"	window_dataset_select	""	""
+item	bs_active_ds_menu	command	"Refresh"	command_dataset_refresh	""	""
 
 
-# --- Copy, delete, rename ---------------------------------------------------
+# --- + Rows (Manage observations) -------------------------------------------
 
-item	bs_data_menu	separator	""	""	""	""
-item	bs_data_menu	command	"List objects in R workspace"	command_list_objects	""	""
-item	bs_data_menu	command	"Delete object (dataset)..."	window_data_obj_delete	""	""
-item	bs_data_menu	command	"Duplicate object (dataset)..."	window_data_obj_copy	""	""
-item	bs_data_menu	command	"Rename object (dataset)..."	window_data_obj_rename	""	""
-
-
-# ---- Join/Bind datasets ----------------------------------------------------
-
-item	bs_data_menu	separator	""	""	""	""
-item	bs_data_menu	command	"Join two datasets by matching rows..."	window_dataset_join	"dataSetsP(2)"	"packageAvailable('dplyr')"
-item	bs_data_menu	command	"Bind rows of several datasets..."	window_dataset_bind_rows	"dataSetsP(2)"	"packageAvailable('dplyr')"
-item	bs_data_menu	command	"Bind columns of several datasets..."	window_dataset_bind_cols	"dataSetsP(2)"	"packageAvailable('dplyr')"
-
-
-# ---- + Import Data  --------------------------------------------------------
-
-item	bs_data_menu	separator	""	""	""	""
-menu	import_menu	bs_data_menu	""	""	""	""
-item	bs_data_menu	cascade	"Import / Create data"	import_menu	""	""
-
-
-# ---- Create data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-item	import_menu	command	"Create a new dataset... [Rcmdr]"	window_dataset_new_rcmdr	""	""
-
-
-# ---- Import data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-item	import_menu	separator	""	""	""	""
-item    import_menu      command         "Import from clipboard... "          window_import_from_clipboard         ""  ""
-item    import_menu      command         "Import from text file (.txt, .csv, .dat, .tab)..."   window_import_from_text   ""  ""
-
-item	import_menu	separator	""	""	""	""
-item    import_menu      command         "Import from Excel file..."     window_import_excel    ""     "packageAvailable('readxl')"
-
-item	import_menu	separator	""	""	""	""
-item	import_menu	command	"Import from Rds file (.Rds, .rds)..."	window_import_rds	""	""
-item	import_menu	command	"Import from R data file (.RData, .Rda, .rda)..."	window_import_rdata	""	""
-item    import_menu    command    "Import from R package... "     window_import_from_pkg    ""          ""
-
-# item    import_menu    command    "Import from loaded R package... [Rcmdr]"     window_import_from_pkg    ""          ""
-# item    import_menu    command   "List of datasets in R packages"    command_list_datasets_in_pkgs    ""          ""
-
-item	import_menu	separator	""	""	""	""
-item    import_menu      command         "Import from SPSS data file... [Rcmdr]"     importSPSS     ""     "packageAvailable('foreign')"
-item    import_menu      command         "Import from SAS xport file... [Rcmdr]"     importSAS     ""     "packageAvailable('foreign')"
-item    import_menu      command         "Import from SAS b7dat file... [Rcmdr]"     importSASb7dat     ""           "packageAvailable('RcmdrMisc')"
-item    import_menu      command         "Import from STATA data file... [Rcmdr]"     importSTATA     ""          "packageAvailable('foreign')"
-item    import_menu      command         "Import from Minitab data file... [Rcmdr]"     importMinitab     ""          "packageAvailable('foreign')"
-
-
-# ---- + Export Data -----------------------------------------------------------
-
-menu	bs_export_menu	bs_data_menu	""	""	""	""
-item	bs_data_menu	cascade	"Export / Save data"	bs_export_menu	"activeDataSetP()"	""
-
-item	bs_export_menu	command	"Export to text file (.txt, .csv)..."	window_export_to_textfile	"activeDataSetP()"	""
-
-item	bs_export_menu	separator	""	""	""	""
-item	bs_export_menu	command	"Export to Excel file (.xlsx)..."	window_export_to_excel_old	"activeDataSetP()"	""
-
-item	bs_export_menu	separator	""	""	""	""
-item	bs_export_menu	command	"Export to Rds file (.Rds)..."	window_export_to_rds	"activeDataSetP()"	""
-item	bs_export_menu	command	"Export to R data file (.RData)..."	window_export_to_rdata	"activeDataSetP()"	""
-item	bs_export_menu	separator	""	""	""	""
-item	bs_export_menu	command	"[???] Save as MS Word table..."	function_not_implemented	"activeDataSetP()"	""
-
-
-# ---- +  Print --------------------------------------------------------------
-
-menu	bs_print_menu	bs_data_menu	""	""	""	""
-item	bs_data_menu	cascade	"Print active dataset to console"	bs_print_menu	"activeDataSetP()"	""
-
-item	bs_print_menu	command	"Print as Markdown table: kable"	window_dataset_print_as_kable	"activeDataSetP()"	"packageAvailable('knitr')"
-item	bs_print_menu	command	"Print as Markdown table: pander"	window_dataset_print_as_md	"activeDataSetP()"	"packageAvailable('pander')"
-item	bs_print_menu	separator	""	""	""	""
-# item	bs_print_menu	command	"Print (as is)"	command_dataset_print	"activeDataSetP()"	""
-item	bs_print_menu	command	"Print as 'data.frame'"	command_dataset_print_as_df	"activeDataSetP()"	""
-item	bs_print_menu	command	"Print as 'data.table'"	command_dataset_print_as_dt	"activeDataSetP()"	""
-item	bs_print_menu	command	"Print as 'tibble'"	command_dataset_print_as_tibble	"activeDataSetP()"	""
-
-
-# . ===========================================================================
-# ---- >>> Rows (Manage observations) -----------------------------------------
-
-menu	bs_rows_menu	biostat_menu	""	""	""	""
-item	biostat_menu	cascade	"Rows (observations)"	bs_rows_menu	""	""
+menu	bs_rows_menu	bs_data_menu	""	""	""	""
+item	bs_data_menu	cascade	"Rows (observations)"	bs_rows_menu	""	""
 
 item	bs_rows_menu	command	"Check row names"	command_rows_has_rownames	"activeDataSetP()"	"packageAvailable('tibble')"
 item	bs_rows_menu	command	"Print row names"	command_rownames	"activeDataSetP()"	""
@@ -134,43 +71,51 @@ item	bs_rows_menu	command	"Create row names from unique column values..."	window
 item	bs_rows_menu	command	"Move row names to column values..."	window_rows_rownames_to_col	"activeDataSetP()"	"packageAvailable('tibble')"
 
 
-# . ===========================================================================
-# ---- >>> Columns (Manage variables)  ----------------------------------------
+# --- + Columns (Manage variables)  ----------------------------------------
 
-menu	bs_varible_menu	biostat_menu	""	""	""	""
-item	biostat_menu	cascade	"Variables (columns)"	bs_varible_menu	""	""
+menu	bs_varible_menu	bs_data_menu	""	""	""	""
+item	bs_data_menu	cascade	"Variables (columns)"	bs_varible_menu	""	""
 
-item	bs_varible_menu	command	"Print variable (column) names"	command_colnames	"activeDataSetP()"	""
-item	bs_varible_menu	command	"Clean variable names (into snake case)"	command_clean_names	"activeDataSetP()"	"packageAvailable('dplyr') && packageAvailable('janitor')"
-item	bs_varible_menu	command	"Rename variables..."	window_variable_rename	"activeDataSetP()"	"packageAvailable('dplyr')"
+menu	bs_var_general_menu	bs_varible_menu	""	""	""	""
+item	bs_varible_menu	cascade	"General"	bs_var_general_menu	""	""
+
+item	bs_var_general_menu	command	"Print variable (column) names"	command_colnames	"activeDataSetP()"	""
+item	bs_var_general_menu	command	"Clean variable names (into snake case)"	command_clean_names	"activeDataSetP()"	"packageAvailable('dplyr') && packageAvailable('janitor')"
+item	bs_var_general_menu	command	"Rename variables..."	window_variable_rename	"activeDataSetP()"	"packageAvailable('dplyr')"
 
 
-item	bs_varible_menu	separator	""	""	""	""
-item	bs_varible_menu	command	"Select/Remove variables..."	window_variable_select0	"activeDataSetP()"	"packageAvailable('dplyr')"
-item	bs_varible_menu	command	"Mutate: compute a variable..."	window_variable_mutate0	"activeDataSetP()"	"packageAvailable('dplyr')"
-item	bs_varible_menu	command	"Recode variable values..."	window_variable_recode0	"activeDataSetP()"	"packageAvailable('dplyr')"
+item	bs_var_general_menu	separator	""	""	""	""
+item	bs_var_general_menu	command	"Select/Remove variables..."	window_variable_select0	"activeDataSetP()"	"packageAvailable('dplyr')"
+item	bs_var_general_menu	command	"Mutate: compute a variable..."	window_variable_mutate0	"activeDataSetP()"	"packageAvailable('dplyr')"
+item	bs_var_general_menu	command	"Recode variable values..."	window_variable_recode0	"activeDataSetP()"	"packageAvailable('dplyr')"
 
 # Type conversion ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-item	bs_varible_menu	separator	""	""	""	""
+item	bs_var_general_menu	separator	""	""	""	""
 
-item	bs_varible_menu	command	"Convert variable types..."	window_variable_convert_type	"activeDataSetP()"	"packageAvailable('tidyverse')"
-item	bs_varible_menu	command	"Convert all text variables into factors"	command_all_chr_to_fctr	"characterP()"	"packageAvailable('tidyverse')"
-
+item	bs_var_general_menu	command	"Convert variable types..."	window_variable_convert_type	"activeDataSetP()"	"packageAvailable('tidyverse')"
 
 # Reshape ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-item	bs_varible_menu	separator	""	""	""	""
-item	bs_varible_menu	command	"Gather columns into long format dataset..."	window_variable_gather	"activeDataSetP()"	"packageAvailable('tidyr')"
-item	bs_varible_menu	command	"[???] Spread columns into wide format dataset..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"#Spread a key-value pair across multiple columns
-item	bs_varible_menu	command	"[???] Separate one value into multiple columns..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
-item	bs_varible_menu	command	"[???] Unite values into one column..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
+item	bs_var_general_menu	separator	""	""	""	""
+item	bs_var_general_menu	command	"Gather columns into long format dataset..."	window_variable_gather	"activeDataSetP()"	"packageAvailable('tidyr')"
+# item	bs_var_general_menu	command	"[???] Spread columns into wide format dataset..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"#Spread a key-value pair across multiple columns
+# item	bs_var_general_menu	command	"[???] Separate one value into multiple columns..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
+# item	bs_var_general_menu	command	"[???] Unite values into one column..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
 
 
-item	bs_varible_menu	separator	""	""	""	""
+# item	bs_varible_menu	separator	""	""	""	""
 
 
-# --- + Factor variables ------------------------------------------------------
+# --- + > Character variables ------------------------------------------------------
+
+menu	bs_var_chr_menu	bs_varible_menu	""	""	""	""
+item	bs_varible_menu	cascade	"Character (text) variables"	bs_var_chr_menu	"activeDataSetP()"	""
+
+item	bs_var_chr_menu	command	"Convert all text variables into factors"	command_all_chr_to_fctr	"characterP()"	"packageAvailable('tidyverse')"
+
+
+# --- + > Factor variables ------------------------------------------------------
 
 menu	bs_var_fct_menu	bs_varible_menu	""	""	""	""
 item	bs_varible_menu	cascade	"Factors (categorical variables)"	bs_var_fct_menu	"activeDataSetP()"	""
@@ -186,13 +131,13 @@ item	bs_varible_menu	cascade	"Factors (categorical variables)"	bs_var_fct_menu	"
 # item	bs_var_fct_menu	command	'[???] Collapse/Merge levels...'	function_not_implemented	"FALSE & factors_strict_P()"	""
 item	bs_var_fct_menu	command	"Drop unused levels..."	window_factor_lvls_drop	"factors_strict_P()"	""
 # item	bs_var_fct_menu	command	"[???] Remove levels"	function_not_implemented	"FALSE & factorsP()"	""
-item	bs_var_fct_menu	command	"[???] Reorder levels automatically..."	function_not_implemented	"FALSE & factors_strict_P()"	""
+# item	bs_var_fct_menu	command	"[???] Reorder levels automatically..."	function_not_implemented	"FALSE & factors_strict_P()"	""
 item	bs_var_fct_menu	command	"Reorder levels by hand..."	window_fct_lvls_reorder_manual	"factors_strict_P()"	""
 # item	bs_var_fct_menu	separator	""	""	""	""
 # item	bs_var_fct_menu	command	"[???] Convert missing values into explicit level..."	function_not_implemented	"FALSE & factors_strict_P()"	""
 
 
-# --- + Numeric variables ----------------------------------------------------
+# --- + > Numeric variables ----------------------------------------------------
 menu	bs_var_num_menu	bs_varible_menu	""	""	""	""
 item	bs_varible_menu	cascade	"Numeric variables"	bs_var_num_menu	"activeDataSetP()"	""
 
@@ -207,6 +152,76 @@ item	bs_var_num_menu	command	"Log transformation..."	window_num_transform_log	"n
 item	bs_var_num_menu	command	"Z transformation / Standardization..."	window_num_transform_z	"numericP()"	""
 
 
+# --- + Join/Bind datasets ----------------------------------------------------
+
+menu	bs_several_ds_menu	bs_data_menu	""	""	""	""
+item	bs_data_menu	cascade	"Several datasets"	bs_several_ds_menu	""	""
+
+# item	bs_several_ds_menu	separator	""	""	""	""
+item	bs_several_ds_menu	command	"Join two datasets by matching rows..."	window_dataset_join	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	bs_several_ds_menu	command	"Bind rows of several datasets..."	window_dataset_bind_rows	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	bs_several_ds_menu	command	"Bind columns of several datasets..."	window_dataset_bind_cols	"dataSetsP(2)"	"packageAvailable('dplyr')"
+
+
+# --- + > Copy, delete, rename ---------------------------------------------------
+menu	bs_objects_menu	bs_data_menu	""	""	""	""
+item	bs_data_menu	cascade	"Workspace"	bs_objects_menu	"activeDataSetP()"	""
+
+item	bs_objects_menu	command	"List objects in R workspace"	command_list_objects	""	""
+item	bs_objects_menu	command	"Duplicate object (dataset)..."	window_data_obj_copy	""	""
+item	bs_objects_menu	command	"Rename object (dataset)..."	window_data_obj_rename	""	""
+item	bs_objects_menu	command	"Delete object (dataset)..."	window_data_obj_delete	""	""
+
+
+# --- + Import Data  ---------------------------------------------------------
+
+# item	bs_data_menu	separator	""	""	""	""
+menu	import_menu	bs_data_menu	""	""	""	""
+item	bs_data_menu	cascade	"Import"	import_menu	""	""
+
+# ---- Create data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+item	import_menu	command	"Create a new dataset... [Rcmdr]"	window_dataset_new_rcmdr	""	""
+
+# ---- Import data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+item	import_menu	separator	""	""	""	""
+item    import_menu      command         "Import from clipboard... "          window_import_from_clipboard         ""  ""
+item    import_menu      command         "Import from text file (.txt, .csv, .dat, .tab)..."   window_import_from_text   ""  ""
+
+item	import_menu	separator	""	""	""	""
+item    import_menu      command         "Import from Excel file..."     window_import_excel    ""     "packageAvailable('readxl')"
+
+item	import_menu	separator	""	""	""	""
+item	import_menu	command	"Import from Rds file (.Rds, .rds)..."	window_import_rds	""	""
+item	import_menu	command	"Import from R data file (.RData, .Rda, .rda)..."	window_import_rdata	""	""
+item    import_menu    command    "Import from R package... "     window_import_from_pkg    ""          ""
+
+item	import_menu	separator	""	""	""	""
+item    import_menu      command         "Import from SPSS data file... [Rcmdr]"     importSPSS     ""     "packageAvailable('foreign')"
+item    import_menu      command         "Import from SAS xport file... [Rcmdr]"     importSAS     ""     "packageAvailable('foreign')"
+item    import_menu      command         "Import from SAS b7dat file... [Rcmdr]"     importSASb7dat     ""           "packageAvailable('RcmdrMisc')"
+item    import_menu      command         "Import from STATA data file... [Rcmdr]"     importSTATA     ""          "packageAvailable('foreign')"
+item    import_menu      command         "Import from Minitab data file... [Rcmdr]"     importMinitab     ""          "packageAvailable('foreign')"
+
+
+#--- + Export Data -----------------------------------------------------------
+
+menu	bs_export_menu	bs_data_menu	""	""	""	""
+item	bs_data_menu	cascade	"Export"	bs_export_menu	"activeDataSetP()"	""
+
+item	bs_export_menu	command	"Export to text file (.txt, .csv)..."	window_export_to_textfile	"activeDataSetP()"	""
+
+item	bs_export_menu	separator	""	""	""	""
+item	bs_export_menu	command	"Export to Excel file (.xlsx)..."	window_export_to_excel_old	"activeDataSetP()"	""
+
+item	bs_export_menu	separator	""	""	""	""
+item	bs_export_menu	command	"Export to Rds file (.Rds)..."	window_export_to_rds	"activeDataSetP()"	""
+item	bs_export_menu	command	"Export to R data file (.RData)..."	window_export_to_rdata	"activeDataSetP()"	""
+# item	bs_export_menu	separator	""	""	""	""
+# item	bs_export_menu	command	"[???] Save as MS Word table..."	function_not_implemented	"activeDataSetP()"	""
+
+
+
+
 # . ==========================================================================
 # ---- >>> Statistical summaries ---------------------------------------------
 menu	bs_summary_menu	biostat_menu	""	""	""	""
@@ -217,7 +232,6 @@ item	biostat_menu	cascade	"Summaries"	bs_summary_menu	""	""
 
 item	bs_summary_menu	command	"Number of rows and columns"	command_dataset_dim	"activeDataSetP()"	""
 item	bs_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
-item	bs_summary_menu	command	"Print top and bottom rows"	summary_head_tail	"activeDataSetP()"	""
 
 
 # --- Summarize variables ----------------------------------------------------
