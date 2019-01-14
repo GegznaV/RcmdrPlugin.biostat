@@ -9,9 +9,11 @@ window_import_from_excel <- function() {
     previous_nrows_to_preview <- tclVar("")
 
     biostat_env$file_contents <- ""
+    biostat_env$worksheets    <- NULL
 
     on.exit({
-        biostat_env$file_contents <- ""
+        biostat_env$file_contents      <- ""
+        biostat_env$worksheets         <- NULL
         biostat_env$possibly_more_rows <- NULL
     })
 
@@ -20,58 +22,89 @@ window_import_from_excel <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # ~ Read import options --------------------------------------------------
-    # Shortcut function
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    get_xl_sheet <- function() {
+        val <- get_selection(f1_box_sheet)
+        if (val == "") {
+            NULL
+        } else {
+            val
+        }
+    }
+
+    get_code_xl_sheet <- function() {
+        val <- get_selection(f1_box_sheet)
+        if (val == "") {
+            str_glue(', sheet = "{val}"',)
+        } else {
+            val
+        }
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    read_range <- function() {
+        val <- get_values(f1_ent_range)
+        if (val == "") {
+            NULL
+        } else {
+            val
+        }
+    }
+
+    get_code_xl_range <- function() {
+        val <- get_values(f1_ent_range)
+        if (val == "") {
+            str_glue(', range = "{val}"',)
+        } else {
+            val
+        }
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_header <- function() {
-        val <- get_selection(f2_box_head)
-        switch(val,
-               "Yes"  = TRUE,
-               "No"   = FALSE,
-               stop("Value '", val, "' is unknown (f2_box_head)."))
+        as.logical(get_values(f2_but_head))
     }
 
     get_code_header <- function() {
-        val <- get_selection(f2_box_head)
+        val <- get_values(f2_but_head)
         switch(val,
-               "Yes"  = ", header = TRUE",
-               "No"   = ", header = FALSE",
-               stop("Value '", val, "' is unknown (f2_box_head)."))
+               "TRUE"  = "",
+               "FALSE" = ", col_names = FALSE",
+               stop("Value '", val, "' is unknown (f2_but_head)."))
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_skip <- function() {
-        # get_values(f2_box_skip)
-        val <- get_selection(f2_box_skip)
-        switch(val,
-               "Auto"            = "__auto__",
-               "Custom\u2026"    = as.numeric(get_values(f2_ent_skip)),
-               stop("Value '", val, "' is unknown (f2_box_skip)."))
+        as.integer(get_values(f2_ent_skip))
     }
 
     get_code_skip <- function() {
-        val <- get_selection(f2_box_skip)
+        val <- get_values(f2_ent_skip)
         switch(val,
-               "Auto" = "",
-               str_c(', skip = ', get_skip())
+               "0" = "",
+               str_c(', skip = ', val)
                # str_c(', skip = "', get_skip(), '"')
         )
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_nrows_to_import <- function() {
-        if (get_selection(f2_box_max) == "All") {
+        val <- get_values(f2_ent_max)
+        if (val %in% c("Inf", "")) {
             Inf
         } else {
-            as.numeric(get_values(f2_ent_max))
+            as.integer(get_values(f2_ent_max))
         }
     }
 
     get_code_nrows <- function() {
-        if (get_selection(f2_box_max) == "All") {
+        val <- get_values(f2_ent_max)
+        if (val == "") {
             ""
         } else {
-            str_c(", nrows = ", get_nrows_to_import())
+            str_c(", n_max = ", val)
         }
     }
 
@@ -88,54 +121,73 @@ window_import_from_excel <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_na_str <- function() {
-        val <- get_selection(f2_box_na)
-        switch(val,
-               "Default"      = getOption("datatable.na.strings", "NA"),
-               "Empty"        = "",
-               "None"         = NULL,
-               "Custom\u2026" = get_values(f2_ent_na),
-               val)
+        get_values(f2_ent_na)
     }
 
     get_code_na_str <- function() {
-        val <- get_selection(f2_box_na)
+        val <- get_values(f2_ent_na)
+        if(val == "") "" else str_c(',\n na = "', get_na_str(), '"')
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_name_repair <- function() {
+        val <- get_selection(f2_box_rep)
         switch(val,
-               "Default" = "",
-               "None"    =  str_c(',\n na.strings = NULL'),
-               str_c(',\n na.strings = "', get_na_str(), '"')
+               "minimal"   = ,
+               "unique"    = ,
+               "universal" = val,
+               "check unique" = "check_unique",
+               "make names" = make.names,
+               stop("Value '", val, "' is unknown (f2_box_out).")
+        )
+    }
+
+    get_code_name_repair <- function() {
+        val <- get_selection(f2_box_rep)
+        switch(val,
+               "minimal"      = ', .name_repair = "minimal"',
+               "unique"       = "",
+               "universal"    = ', .name_repair = "universal"',
+               "check unique" = ', .name_repair = "check_unique"',
+               "make names"   = ', .name_repair = make.names',
+               stop("Value '", val, "' is unknown (f2_box_out).")
         )
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    get_df_vs_dt <- function() {
+    get_output_type <- function(x) {
         val <- get_selection(f2_box_out)
         switch(val,
-               "Data frame" = TRUE,
-               # "Data table" = TRUE,
-               "Tibble"     = FALSE,
+               "Data frame" = as.data.frame(x, stringsAsFactors = FALSE),
+               "Data table" = data.table::as.data.table(x),
+               "Tibble"     = tibble::as_tibble(x),
                stop("Value '", val, "' is unknown (f2_box_out)."))
     }
 
-    get_code_df_vs_dt <- function() {
-        str_c(',\n data.table = ', get_df_vs_dt())
+    get_code_output_type <- function() {
+        val <- get_selection(f2_box_out)
+        switch(val,
+               "Data frame" = " %>% \n as.data.frame(stringsAsFactors = FALSE)",
+               "Data table" = " %>% \n data.table::as.data.table()",
+               "Tibble"     = "",
+               # "Tibble"     = " %>% \n tibble::as_tibble()",
+               stop("Value '", val, "' is unknown (f2_box_out).")
+        )
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # check.names      = get_values(f2_opts, "check_names"),
-    get_code_check_names <- function() {
-        val <- get_values(f2_opts, "check_names")
+    get_stringsAsFactors <- function(x) {
+        val <- get_values(f2_opts, "stringsAsFactors")
         if (isTRUE(val)) {
-            str_c(',\n check.names = ', val)
+            dplyr::mutate_if(x, is.character, forcats::as_factor)
         } else {
-            ""
+            force(x)
         }
     }
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_code_stringsAsFactors <- function() {
         val <- get_values(f2_opts, "stringsAsFactors")
         if (isTRUE(val)) {
-            str_c(', stringsAsFactors = ', val)
+            "%>% \n dplyr::mutate_if(is.character, forcats::as_factor)"
         } else {
             ""
         }
@@ -147,7 +199,7 @@ window_import_from_excel <- function() {
         if (isTRUE(val)) {
             ""
         } else {
-            str_c(',\n strip.white = ', val)
+            str_c(',\n trim_ws = ', val)
         }
     }
 
@@ -197,7 +249,9 @@ window_import_from_excel <- function() {
     # Check, if file exist or is URL
     # Return TRUE on success
     #        FALSE on failure.
-    check_file_name <- function(on_success = do_nothing, on_failure = do_nothing) {
+    check_file_name <- function(on_success = do_nothing,
+                                on_failure = do_nothing,
+                                silent = FALSE) {
         filename <- read_path_to_file()
 
         if (fs::is_file(filename) || is_url(filename)) {
@@ -206,17 +260,10 @@ window_import_from_excel <- function() {
 
         } else {
             # Delete text
-            # clear_input_window()
+            if (!isTRUE(silent)) {
+                msg_box_import_file_not_found(top)
+            }
 
-            tk_messageBox(
-                parent = top,
-                type = "ok",
-                icon = "error",
-                message = str_c(
-                    'The file was not found. Check if the name and \n',
-                    'the path in the box "File, URL" are correct and\n',
-                    'not empty.'),
-                caption = "File Not Found")
         }
 
         on_failure()
@@ -262,51 +309,66 @@ window_import_from_excel <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # `fread` with options from dialogue window
-    do_read_excel <- function(input, nrows = get_nrows_to_import()) {
+    do_read_excel <- function(input = read_path_to_file(), nrows = get_nrows_to_import()) {
         readxl::read_excel(
             input,
             sheet        = get_xl_sheet(), # NULL
-            range        = get_xl_range(), # NULL  # Takes precedence over skip, n_max and sheet.
+            range        = read_range(), # NULL  # Takes precedence over skip, n_max and sheet.
             col_names    = get_header(),
             skip         = get_skip(),     # 0
             n_max        = nrows,          # Inf
             na           = get_na_str(),
             trim_ws      = get_values(f2_opts, "strip_white"),
             .name_repair = get_name_repair()
-        )
+        ) %>%
+            # get_output_type() %>%
+            get_stringsAsFactors()
+    }
 
-        if (get_values(f2_opts, "stringsAsFactors")) {
-            # [???]
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    read_sheets_from_file <- function() {
+
+        if (check_file_name(silent = TRUE)) {
+            xl_file <- read_path_to_file()
+            biostat_env$worksheets <- readxl::excel_sheets(xl_file)
+
+        } else {
+            biostat_env$worksheets <- NULL
         }
     }
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    get_xl_range <- function() {
-        NULL
+    put_sheets_in_gui <- function() {
+
+        worksheets <- biostat_env$worksheets
+
+        if (is.null(worksheets)) {
+            set_values(f1_box_sheet, "{}")
+            return()
+        }
+
+        # if (length(worksheets) == 1) {
+        #     # correct_input
+        #     # { } prevents from a bug
+        #     # which appears when an excel workbook
+        #     # contains only one sheet and the name
+        #     # of that sheet contains a speace, e.g., "a b".
+        #     worksheets <- str_c("{", worksheets, "}")
+        # }
+
+        set_values(f1_box_sheet, c(worksheets, ""))
     }
 
-    get_xl_sheet <- function() {
-        NULL
-    }
-
-    get_name_repair <- function() {
-        name_repair <- c("minimal", "unique", "check_unique", "universal")[3]
-    }
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    read_text_from_file <- function() {
+    read_data_from_file <- function() {
+        # [???]
         filename <- read_path_to_file()
 
         n_rows       <- get_nrows_preview_input()
-        n_rows_readr <- if (is.infinite(n_rows)) -1L else n_rows
 
         # Read data
         file_contents <- try(
-            readr::read_lines(filename, n_max = n_rows_readr),
+            readr::read_lines(filename, n_max = n_rows),
             silent = TRUE)
 
         biostat_env$file_contents       <- file_contents
@@ -337,25 +399,33 @@ window_import_from_excel <- function() {
             return()
         }
 
-        input <- get_input_by_mode()
+        filename <- read_path_to_file()
+        n_rows   <- get_nrows_preview_input()
 
         # Get data from input
         suppressWarnings({
             ds_contents <- try(
-                do_fread(str_c(input, collapse =  "\n")),
+                do_read_excel(filename, nrows = n_rows),
                 silent = TRUE)
         })
 
+        if (!is_try_error(ds_contents)) {
+            # biostat_env$file_contents     <- file_contents
+            biostat_env$file_contents       <- ds_contents   # [???] What about big files. md5 sum?
+            biostat_env$possibly_more_rows  <- nrow(ds_contents) >= n_rows
+
+            # Update previous values
+            update_previous_values()
+        }
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Default function
         refresh_dataset_window_0(widget           = f3_dataset,
                                  ds_contents      = ds_contents,
                                  preview_type     = get_selection(f3_box_type),
                                  nrow_preview_ds  = get_nrows_preview_ds(),
                                  expect_more_rows = possibly_more_rows())
-
-
     }
-
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Update contents of dataset entry box.
@@ -384,12 +454,15 @@ window_import_from_excel <- function() {
     # Update input preview, dataset (DS) preview, and DS name boxes.
     update_all <- function() {
         update_name_entry()
-        read_text_from_file()
-
         check_file_name()
+        read_sheets_from_file()
+        put_sheets_in_gui()
+        read_data_from_file()
+
+        highlight_update_button()
+
         # update_from_file()
         refresh_dataset_window()
-        highlight_update_button()
     }
 
     # ~ Change properties ----------------------------------------------------
@@ -441,13 +514,41 @@ window_import_from_excel <- function() {
         }
     }
 
+
+    range_activation <- function() {
+
+        rng_val <- read_range()
+
+        if (!is.null(rng_val)) {
+            tk_disable(f2_ent_skip)
+            tk_disable(f2_ent_max)
+            if (str_detect(rng_val, "!")) {
+                set_selection(f1_box_sheet, "")
+                tk_disable(f1_box_sheet)
+
+            } else {
+                tk_normalize(f1_box_sheet)
+                if (get_size(f1_box_sheet) > 0) {
+                    set_selection(f1_box_sheet, 1)
+                }
+            }
+
+        } else {
+            tk_normalize(f2_ent_skip)
+            tk_normalize(f2_ent_max)
+            tk_normalize(f1_box_sheet)
+        }
+    }
     # ~ Input validation -----------------------------------------------------
-    make_red_text_reset_val <- function(to = "Inf") {
+    make_red_text_reset_val <- function(to = "") {
         function(P, W, S, v, s) {
             tcl("after", "idle", function() {tkconfigure(W, validate = v)})
             tkconfigure(W, foreground = "red2")
-            tkdelete(W, "0", "end")
-            tkinsert(W, "0", to)
+
+            if (!is.null(to)) {
+                tkdelete(W, "0", "end")
+                tkinsert(W, "0", to)
+            }
 
             tcl("expr", "TRUE")
         }
@@ -468,19 +569,6 @@ window_import_from_excel <- function() {
             FALSE
         }
     }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    msgbox_clear_input <- function() {
-        tk_messageBox(
-            parent = top,
-            type = "yesno",
-            default = "no",
-            icon = "warning",
-            message = str_c(
-                'The contents of the Input window will be deleted. \n',
-                'Do you agree?'
-            ),
-            caption = "Clear Input")
-    }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Checks possibility that file has more rows than previewed
@@ -497,6 +585,7 @@ window_import_from_excel <- function() {
 
         # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         new_name  <- get_values(f1_ent_name)
+        file_name <- read_path_to_file()
 
         # Reset widget properties before checking ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # tkconfigure(name_entry, foreground = "black")
@@ -520,17 +609,6 @@ window_import_from_excel <- function() {
             return()
         }
 
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        new_name <- safe_names(new_name)
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-        # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-        # ~~ From file -------------------------------------------------------
-        file_name <- read_path_to_file()
-
-        # Check ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
         # Check if file exists or is URL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (!check_file_name()) {
             return()
@@ -538,22 +616,13 @@ window_import_from_excel <- function() {
 
         # If URL, check if internet connection is present.
         if (is_url(file_name) && !pingr::is_online()) {
-            tk_messageBox(
-                parent = top,
-                message = str_c(
-                    "It seems that your file is on the Internet, but you are offline.\n",
-                    "Please, check Internet connection."
-                ),
-                icon  = "warning",
-                caption = "No Internet Connection",
-                type  = "ok")
-
+            msg_box_check_internet_connection(top)
             return()
         }
 
         #  Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        Library("data.table")
+        Library("readxl")
 
         command <- str_glue(
             '## Import data from Excel file \n',
@@ -567,9 +636,11 @@ window_import_from_excel <- function() {
             get_code_nrows(),
             get_code_na_str(),
             get_code_strip_white(),
-            get_code_check_names(),
+            get_code_name_repair(),
             ")",
-            get_code_df_vs_dt()
+
+            get_code_output_type(),
+            get_code_stringsAsFactors()
         )
 
         # ~~ Apply commands --------------------------------------------------
@@ -692,15 +763,32 @@ window_import_from_excel <- function() {
         width = 25
     )
 
+    is_excel_range <- function(P, W) {
+        # P - value
+        res <- str_detect(
+            P, "^(.+!)?[[:alpha:]]+[[:digit:]]+:[[:alpha:]]+[[:digit:]]+$")
+
+        if (res == TRUE) {
+            tkconfigure(W, foreground = "black")
+            return(tcl("expr", "TRUE"))
+        } else {
+            return(tcl("expr", "FALSE"))
+        }
+    }
+
     f1_ent_range <- bs_entry(
         label = "Range:",
-        f1, width = 14, sticky = "we",
-        on_key_release = highlight_update_button,
+        f1, width = 15, sticky = "we",
+        on_key_release = function() {
+            highlight_update_button()
+            range_activation()
+        },
         tip = str_c("(Optional)\n",
                     "Range of cells in Excel sheet,\n",
-                    "e.g., B2:F18 or Sheet2!B2:F18.")
+                    "e.g., B2:F18 or Sheet2!B2:F18."),
+        validatecommand = is_excel_range,
+        invalidcommand  = make_red_text()
     )
-
 
 
     # F2-3, Middle frame -----------------------------------------------------
@@ -751,25 +839,35 @@ window_import_from_excel <- function() {
     f2_lab_skip <- tk2label(f2, text = "Skip lines")
     f2_lab_max  <- tk2label(f2, text = "Max. lines")
     f2_lab_na   <- tk2label(f2, text = "NA string")
-    f2_lab_rep  <- tk2label(f2, text = "Names repair")
+    f2_lab_rep  <- tk2label(f2, text = "Repair names")
     f2_lab_out  <- tk2label(f2, text = "Import as")
 
-    tip_box_skip <- "Number of rows to skip. \nInteger from 0 to infinity.\n0 equals to \"auto\"."
-    tip_box_max  <- "Maximum number of rows to read. \nInteger from 0 to infinity."
+    tip_box_skip <- "Number of rows to skip. \n Positive integer starting at 0."
+    tip_box_max  <- "Maximum number of rows to read. \nInteger between 0 and infinity (Inf)."
     tip_box_na   <- "A character vector of strings which \nare interpreted as missing (NA) values."
     tip_box_out  <- "Class of imported data set."
 
-    tip_enable <- "Double click to enter custom value."
+    tip_box_rep  <- str_c(
+
+        "Check variable names to ensure that they are syntactically valid\n",
+        "(start with a letter, do not contain spaces and other special symbols)\n",
+        "and unique. \n",
+        "Options: \n",
+        '  minimal  \t- Check if names exist, but do not repair;\n',
+        '  check unique \t- Check if names are unique, but do not repair; \n',
+        '  unique    \t- Names are made unique and not empty;\n',
+        '  universal \t- Names are made unique and syntactic;\n',
+        '  make names \t- Function `make.names` is applied.')
 
 
     # Possible options ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    nas1  <- c("Default", "Empty", "None",  "NA",  "na", "N/A", "n/a", "#N/A", "?", "(?)", "!", "Custom\u2026")
+    entry_width <- 16
 
     f2_ent_skip <- bs_entry(
         f2,
-        width           = 10,
-        tip             = tip_enable,
+        width           = entry_width,
+        tip             = tip_box_skip,
         on_key_release  = refresh_dataset_window,
         validate        = "focus",
         value           = 0,
@@ -778,8 +876,8 @@ window_import_from_excel <- function() {
 
     f2_ent_max  <- bs_entry(
         f2,
-        width           = 10,
-        tip             = tip_enable,
+        width           = entry_width,
+        tip             = tip_box_max,
         on_key_release  = refresh_dataset_window,
         validate        = "focus",
         validatecommand = validate_int_0_inf,
@@ -787,21 +885,22 @@ window_import_from_excel <- function() {
 
     f2_ent_na   <- bs_entry(
         f2,
-        width          = 10,
-        tip            = tip_enable,
+        width          = entry_width,
+        tip            = tip_box_na,
         on_key_release = refresh_dataset_window)
 
     f2_box_out  <- bs_combobox(
-        f2, width = 13,
-        values    = c("Data frame", "Tibble"),
+        f2, width = entry_width - 3,
+        values    = c("Data frame", "Tibble", "Data table"),
         tip       = tip_box_out,
         selection = 1,
         on_select = refresh_dataset_window)
 
     f2_box_rep  <- bs_combobox(
-        f2, width = 13,
-        values    = c("Data frame", "Tibble"),
-        tip       = tip_box_out,
+        f2, width = entry_width - 3,
+        values    = c("minimal", "check unique", "unique", "universal", "make names"),
+        value = "unique",
+        tip       = tip_box_rep,
         selection = 1,
         on_select = refresh_dataset_window)
 
@@ -831,26 +930,17 @@ window_import_from_excel <- function() {
     f2_opts <- bs_checkboxes(
         parent = f2,
         boxes = c(
-            "check_names",
             "stringsAsFactors",
             "strip_white"
         ),
         default_command = refresh_dataset_window,
-        values = c(0, 0, 1),
+        values = c( 0, 1),
         labels = gettext_bs(c(
-            "Make valid variable names",
             "Convert strings to factors",
             "Strip leading and tailing spaces"
         )),
 
         tips = list(
-            "check_names" = str_c(
-                "Check variable names to ensure that they are syntactically\n",
-                "valid variable names: start with a letter, do not contain \n",
-                "spaces and other special symbols. If necessary, the names \n",
-                "are adjusted by function 'make.names'."
-            ),
-
             "stringsAsFactors" = str_c(
                 "Convert strings (text variables) \n",
                 "to factors (categorical variables)."
@@ -976,12 +1066,13 @@ window_import_from_excel <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(f1, padx = 10, sticky = "we")
 
-    tkgrid(f1_lab_file, f1_ent_file$frame, "x", "x",  f1_but_1,
+    tkgrid(f1_lab_file, f1_ent_file$frame, "x", "x", "x", "x",  f1_but_1,
            pady = c(10, 2), sticky = "we")
 
-    tkgrid(f1_lab_sheet, f1_box_sheet$frame, f1_ent_range$frame, f1_ent_name$frame,
-           pady = c(0,  10),
-           sticky = "we")
+    tkgrid(f1_lab_sheet,
+           f1_box_sheet$frame, f1_ent_range$frame, "x", "x", f1_ent_name$frame,
+           pady = c(0,  10), sticky = "we")
+    tkgrid(f1_ent_range$frame)
 
     tkgrid(f1_but_update, f1_but_paste, f1_but_clear, f1_but_f_open, sticky = "e")
 
@@ -992,14 +1083,15 @@ window_import_from_excel <- function() {
                      f1_lab_sheet, sticky = "e")
 
     tkgrid.configure(f1_ent_file$frame,  f1_ent_file$obj_text,  f1_ent_file$frame_text,
-                     f1_ent_range$frame, f1_ent_range$obj_text, f1_ent_range$frame_text,
                      f1_ent_name$frame,  f1_ent_name$obj_text,  f1_ent_name$frame_text,
+                     f1_ent_range$obj_text, f1_ent_range$frame_text,
                      sticky = "we")
 
-    tkgrid.configure(f1_ent_file$frame, f1_box_sheet$frame, f1_ent_name$frame,
+    tkgrid.configure(f1_ent_file$frame, f1_box_sheet$frame, f1_ent_range$frame,
                      padx = 2)
+    tkgrid.configure( f1_ent_name$frame, padx = c(10, 2))
 
-    tkgrid.configure(f1_ent_file$frame, columnspan = 3)
+    tkgrid.configure(f1_ent_file$frame, columnspan = 5)
     tkgrid.configure(
         f1_ent_file$frame_text,  f1_ent_name$frame_text,
         f1_ent_file$obj_text,    f1_ent_name$obj_text,
@@ -1100,7 +1192,9 @@ window_import_from_excel <- function() {
 
     tkgrid.columnconfigure(f1, 0, weight = 0) # Labels
     tkgrid.columnconfigure(f1, 1, weight = 1) # Text entries
-    tkgrid.columnconfigure(f1, 2, weight = 0) # Buttons
+    tkgrid.columnconfigure(f1, 2, weight = 0) # Text entries
+    tkgrid.columnconfigure(f1, 3, weight = 0) # Text entries
+    tkgrid.columnconfigure(f1, 4, weight = 0) # Buttons
 
     tkgrid.columnconfigure(f1_ent_file$frame_text, 0, weight = 1, minsize = 20)
     tkgrid.columnconfigure(f1_ent_name$frame_text, 0, weight = 1, minsize = 20)
@@ -1122,6 +1216,11 @@ window_import_from_excel <- function() {
 
     # Prevents from closing window accidentally
     tkbind(top, "<Return>", do_nothing)
+
+    tkbind(f1_ent_range$frame, "<<Paste>>", range_activation)
+    tkbind(f1_ent_range$frame, "<<Enter>>", range_activation)
+    tkbind(f1_ent_range$frame, "<<Leave>>", range_activation)
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     invisible()
 }
