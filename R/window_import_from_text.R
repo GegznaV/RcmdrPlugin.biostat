@@ -20,9 +20,6 @@ window_import_from_clipboard <- function() {
 #' @keywords internal
 window_import_from_text <- function() {
 
-    txt_trunc   <- "... Other rows are not shown ..."
-    txt_not_all <- "... More rows may be present in the file ..."
-
     previous_file_name        <- tclVar("")
     previous_nrows_to_preview <- tclVar("")
 
@@ -477,7 +474,7 @@ window_import_from_text <- function() {
             write_input_window(str_c(file_contents, collapse = "\n"))
 
             # Add colors to tabs
-            tktag_add(file_contents, pattern = "\t", obj = f3_input$text, tag = "tab")
+            tktag_add(f3_input$text, pattern = "\t", tag = "tab")
         }
     }
 
@@ -488,6 +485,7 @@ window_import_from_text <- function() {
 
         if (is_nothing_to_import()) {
             clear_dataset_window()
+
             return()
         }
 
@@ -500,174 +498,35 @@ window_import_from_text <- function() {
                 silent = TRUE)
         })
 
+        switch(
+            get_import_mode(),
+            "file" = {
+                err_msg_default <- str_c(
+                    "Possible reasons:\n",
+                    " - file name is incorrent or missing;\n",
+                    " - file is not a text file (incorrect format);\n",
+                    " - file is empty;\n",
+                    " - import options are incorrect.")
+            },
 
-        # Check errors
-        err_msg <- NULL
+            "clipboard" = {
+                err_msg_default <- str_c(
+                    "Possible reasons:\n",
+                    " - input is empty;\n",
+                    " - input contains one row and 'Header' is not 'No';\n",
+                    " - other import options are incorrect.")
+            },
+            stop("Unrecognized value of 'f2_but_from'")
+        )
 
-        if (inherits(ds_contents, "try-error")) {
-            err_msg <- parse_fread_error(ds_contents)
-
-        } else {
-
-            nrows_from_file <- nrow(ds_contents)
-            nrow_preview_ds <- get_nrows_preview_ds()
-
-
-            # Get contents to preview
-            switch(
-                get_selection(f3_box_type),
-                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                "Tibble" = {
-
-                    op <- options(width = 10000)
-                    ds_preview <-
-                        capture.output(
-                            print(tibble::as_tibble(ds_contents),
-                                  width = Inf,
-                                  n = nrow_preview_ds)
-                        ) %>%
-                        str_subset("^(?!# A tibble.*)") %>%
-                        str_replace( "^# \\.\\.\\. with.*", txt_trunc)
-
-                    options(op)
-
-                    if (possibly_more_rows()) {
-                        ds_preview <- c(ds_preview, txt_not_all)
-                    }
-
-                },
-                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                "Data table" = {
-
-                    topn <-
-                        if (is.infinite(nrow_preview_ds)) {
-                            nrows_from_file
-                        } else {
-                            floor(nrow_preview_ds/2)
-                        }
-
-                    op <- options(width = 10000)
-                    ds_preview <-
-                        capture.output(
-                            print(data.table::as.data.table(ds_contents),
-                                  col.names = "top",
-                                  class = TRUE,
-                                  topn  = topn,
-                                  nrows = nrows_from_file)
-                        )
-
-                    options(op)
-
-                    if (possibly_more_rows()) {
-
-                        ds_preview[length(ds_preview)] <- txt_not_all
-                    }
-
-                },
-                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                "Structure" = {
-                    ds_preview <- capture.output(glimpse(ds_contents, width = 74))
-
-                    if (possibly_more_rows())  {
-                        ds_preview <- str_replace(
-                            ds_preview,
-                            "(?<=^Observations: )(.*)", "\\1 or more")
-                    }
-
-                }
-            )
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-            if (length(ds_preview) <= 1) {
-
-                switch(
-                    get_import_mode(),
-                    "file" = {
-                        err_msg <- str_c(
-                            "Possible reasons:\n",
-                            " - file name is incorrent or missing;\n",
-                            " - file is not a text file (incorrect format);\n",
-                            " - file is empty;\n",
-                            " - import options are incorrect.")
-                    },
-
-                    "clipboard" = {
-                        err_msg <- str_c(
-                            "Possible reasons:\n",
-                            " - input is empty;\n",
-                            " - input contains one row and 'Header' is not 'No';\n",
-                            " - other import options are incorrect.")
-                    },
-                    stop("Unrecognized value of 'f2_but_from'")
-                )
-            }
-        }
-
-
-
-        if (!is.null(err_msg)) {
-            # If no preview available:
-            write_dataset_window(str_c("Error! \n\n", err_msg))
-
-            # Red font:
-            tktag.add(f3_dataset$text, "bold",  "1.0", "end")
-            tktag.add(f3_dataset$text, "error", "1.0", "end")
-
-        } else {
-            # Write contents:
-            write_dataset_window(str_c(ds_preview, collapse = "\n"))
-
-            # Format contents:
-
-            # Info messages
-            tktag_add_row(ds_preview, txt_trunc,   f3_dataset$text, "info")
-            tktag_add_row(ds_preview, txt_not_all, f3_dataset$text, "info")
-
-            pattern_num <- "(?<=\\<)(num|int|dbl)(?=\\>)"
-            pattern_chr <- "(?<=\\<)cha?r(?=\\>)"
-
-            switch(
-                get_selection(f3_box_type),
-                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                "Tibble" = ,
-                "Data table" = {
-                    # Variable names
-                    tktag.add(f3_dataset$text, "var_names", "1.0", "2.0")
-
-                    # Variable types
-                    tktag.add(f3_dataset$text, "var_types", "2.0", "3.0")
-                    tktag_add(ds_preview[1:2], pattern_chr, f3_dataset$text, "chr")
-                    tktag_add(ds_preview[1:2], pattern_num, f3_dataset$text, "num")
-
-                    # Separator
-                    tktag_add_row(ds_preview, "^\\s*---\\s*$", f3_dataset$text, "red")
-
-                },
-
-                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                "Structure" = {
-                    # Variable names
-                    # tktag_add_row(ds_preview, "^Variables: ", f3_dataset$text, "var_names")
-
-                    tktag_add_first(ds_preview, "(?<=\\$).*?(?=\\<)",
-                                    f3_dataset$text, "var_names")
-
-                    # Variable types
-                    tktag_add_first(ds_preview, "^\\$",       f3_dataset$text, "var_types")
-                    tktag_add_first(ds_preview, "\\.\\.\\.$", f3_dataset$text, "var_types")
-                    tktag_add_first(ds_preview, "\\<.*?\\>",  f3_dataset$text, "var_types")
-                    tktag_add_first(ds_preview, pattern_chr,  f3_dataset$text, "chr")
-                    tktag_add_first(ds_preview, pattern_num,  f3_dataset$text, "num")
-
-                    # Observations
-                    tktag_add_row(ds_preview, "^Observations: \\d+ or more", f3_dataset$text, "grey")
-                }
-                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            )
-        }
+        # Default function
+        refresh_dataset_window_0(widget           = f3_dataset,
+                                 ds_contents      = ds_contents,
+                                 preview_type     = get_selection(f3_box_type),
+                                 nrow_preview_ds  = get_nrows_preview_ds(),
+                                 expect_more_rows = possibly_more_rows(),
+                                 err_msg_default  = err_msg_default)
     }
-
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Update contents of dataset entry box.
@@ -845,6 +704,7 @@ window_import_from_text <- function() {
     highlight_update_button <- function() {
         if (is_file_name_missing()) {
             tk_disable(f1_but_1_5)
+
         } else {
             tk_normalize(f1_but_1_5)
             if (need_update_from_file()) {
@@ -913,7 +773,7 @@ window_import_from_text <- function() {
             default = "no",
             icon = "warning",
             message = str_c(
-                'The contents of the Input window will be deleted. \n',
+                "The contents of the 'Input' window will be deleted. \n",
                 'Do you agree?'
             ),
             caption = "Clear Input")
@@ -942,113 +802,10 @@ window_import_from_text <- function() {
     }
 
 
-    # ~ TCL/TK tags ----------------------------------------------------------
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Add tk text tags to rows that match pattern
-
-    # @param str (character vector) strings to check.
-    # @param pattern (string) Pattern to search for.
-    # @param obj Tcl/Tk object.
-    # @param tag (string) Tag to add.
-
-    tktag_add_row  <- function(str, pattern, obj, tag) {
-        # Find row
-        info_row <- str_which(str, pattern)
-        if (length(info_row) == 0)
-            return()
-
-        # Indices
-        pos_start <- str_glue("{info_row}.0")
-        pos_end   <- str_glue("{info_row}.0 + 1 line")
-
-        # Set tags
-        for (i in 1:length(info_row))
-            tktag.add(obj, tag, pos_start[i], pos_end[i])
-    }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Add tk text tags to places that match pattern
-    tktag_add <- function(str, pattern, obj, tag, all = TRUE) {
-        # Find row
-        # info_row <-
-
-        if (isTRUE(all)) {
-            mat <-
-                str_locate_all(str, pattern) %>%
-                setNames(seq_along(.)) %>%
-                discard(~nrow(.) < 1) %>%
-                map(as.data.frame) %>%
-                dplyr::bind_rows(.id = "row")
-
-        } else {
-            mat <-
-                str_locate(str, pattern) %>%
-                as.data.frame() %>%
-                dplyr::mutate(row = dplyr::row_number()) %>%
-                dplyr::filter(!is.na(start))
-        }
-
-        if (nrow(mat) == 0)
-            return()
-
-        pos <-
-            mat %>%
-            dplyr::mutate(start = start - 1) %>%
-            dplyr::transmute(
-                start = str_glue("{row}.{start}"),
-                end   = str_glue("{row}.{end}"))
-
-        # Set tags
-        for (i in 1:nrow(pos))
-            tktag.add(obj, tag, pos$start[i], pos$end[i])
-    }
-
-    # Add tk text tags to places that match pattern
-    # obj - Tcl/Tk text object
-    tktag_add_obj <- function(obj, tag, pattern, all = TRUE) {
-
-        str <- get_values(obj) %>% str_split("\n") %>% .[[1]]
-
-        if (isTRUE(all)) {
-            mat <-
-                str_locate_all(str, pattern) %>%
-                setNames(seq_along(.)) %>%
-                discard(~nrow(.) < 1) %>%
-                map(as.data.frame) %>%
-                dplyr::bind_rows(.id = "row")
-
-        } else {
-            mat <-
-                str_locate(str, pattern) %>%
-                as.data.frame() %>%
-                dplyr::mutate(row = dplyr::row_number()) %>%
-                dplyr::filter(!is.na(start))
-        }
-
-        if (nrow(mat) == 0)
-            return()
-
-        pos <-
-            mat %>%
-            dplyr::mutate(start = start - 1) %>%
-            dplyr::transmute(
-                start = str_glue("{row}.{start}"),
-                end   = str_glue("{row}.{end}"))
-
-        # Set tags
-        for (i in 1:nrow(pos))
-            tktag.add(obj, tag, pos$start[i], pos$end[i])
-    }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Add tk text tags to places that match pattern
-    # First occurance in each row only.
-    tktag_add_first <- function(str, pattern, obj, tag) {
-        tktag_add(str, pattern, obj, tag, all = FALSE)
-    }
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Add tags to highlight tab symbols in input window
     highlight_input_tabs <- function() {
-        tktag_add_obj(f3_input$text, tag = "tab", "\t")
+        tktag_add(f3_input$text, "\t", tag = "tab")
     }
 
     # ~ onOK -------------------------------- --------------------------------
@@ -1263,10 +1020,10 @@ window_import_from_text <- function() {
         f1, width = 90, sticky = "we", tip = "Path to file or URL.",
         on_key_release = highlight_update_button)
 
-    f1_but_1 <- tk2frame(f1)
+    f1_but_set_1 <- tk2frame(f1)
 
     f1_but_1_3 <- tk2button(
-        f1_but_1,
+        f1_but_set_1,
         # width = 7,
         # text = "Paste",
         image = "::image::bs_paste",
@@ -1282,7 +1039,7 @@ window_import_from_text <- function() {
     )
 
     f1_but_1_4 <- tk2button(
-        f1_but_1,
+        f1_but_set_1,
         # width = 7,
         # text = "Delete",
         image = "::image::bs_delete",
@@ -1294,17 +1051,17 @@ window_import_from_text <- function() {
     )
 
     f1_but_1_5 <- tk2button(
-        f1_but_1,
+        f1_but_set_1,
         # width = 6,
         # text = "Update",
         # compound = "right",
         image = "::image::bs_down",
         command = update_all,
-        tip = str_c("Read file (URL) and update preview.")
+        tip = str_c("Read file for preview.")
     )
 
     f1_but_1_6 <- tk2button(
-        f1_but_1,
+        f1_but_set_1,
         # width = 7,
         # text = "Browse",
         image = "::image::bs_open_file",
@@ -1608,8 +1365,8 @@ window_import_from_text <- function() {
         f3_but_w,
         width = 3,
         values = c("6", "8", "10", "14", "50", "100", "All"),
-        tip = str_c("Max. number of rows to \n",
-                    "preview in window below."),
+        tip = str_c("Max. number of dataset's rows to\n",
+                    "preview in 'Dataset' window. "),
         selection = 2,
         on_select = refresh_dataset_window)
 
@@ -1661,8 +1418,8 @@ window_import_from_text <- function() {
             refresh_dataset_window()
         },
 
-        tip = str_c("Refresh Dataset's window and ",
-                    "highligth tabs in Input window.")
+        tip = str_c("Refresh 'Dataset' window and ",
+                    "highligth tabs in 'Input' window.")
     )
 
     f3_but_4 <- tk2button(
@@ -1688,13 +1445,16 @@ window_import_from_text <- function() {
         label = "Dataset",
         tip = str_c(
             "Types of variables: \n",
-            " - <int> whole numbers (integers);\n",
-            ' - <dbl>, <num> real numbers ("doubles");\n',
-            " - <chr>, <char> character (text) variables;\n",
-            " - <fct>, <fctr> factors (categorical variables);\n",
-            # " - <ord> ordinal factors;\n",
-            " - <lgl>, <lgcl>, <logi> logical values."
-        ))
+            "   <int> whole numbers (integers);\n",
+            '   <dbl>, <num> real numbers ("doubles");\n',
+            "   <chr>, <char> character (text) variables;\n",
+            "   <fct>, <fctr> factors (categorical variables);\n",
+            # "   <ord> ordinal factors;\n",
+            "   <lgl>, <lgcl>, <logi> logical values.\n",
+            "Other types are also possible.\n",
+            "Backticks (` `) - indicate non-standard names."
+        )
+    )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # Grid -------------------------------------------------------------------
@@ -1702,7 +1462,7 @@ window_import_from_text <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(f1, padx = 10, sticky = "we")
 
-    tkgrid(f1_lab_1_1, f1_ent_1_2$frame, f1_but_1, pady = c(10, 2),  sticky = "we")
+    tkgrid(f1_lab_1_1, f1_ent_1_2$frame, f1_but_set_1, pady = c(10, 2),  sticky = "we")
     tkgrid(f1_lab_2_1, f1_ent_2_2$frame,           pady = c(0,  10), sticky = "we")
 
     tkgrid(f1_but_1_5, f1_but_1_3, f1_but_1_4, f1_but_1_6, sticky = "e")
