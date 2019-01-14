@@ -864,7 +864,6 @@ window_import_from_excel <- function() {
         f1, width = 36,  sticky = "ew", tip = "Create a name for the dataset.")
 
     f1_box_wsh <- bs_combobox(
-        label = "Sheet:",
         parent = f1,
         values = "",
         tip = "Choose worksheet to import data from.",
