@@ -309,7 +309,7 @@ set_selection.combobox <- function(obj, sel, ...) {
         new_val <- sel
     }
 
-    tclvalue(obj$combovar) <- sel
+    tclvalue(obj$combovar) <- new_val
 }
 
 #' @rdname Helper-functions
