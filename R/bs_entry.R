@@ -87,7 +87,7 @@ bs_entry <- function(
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid.columnconfigure(main_frame,  0, weight = 1)
     tkgrid.columnconfigure(text_frame,  0, weight = 1)
-    tkgrid.columnconfigure(label_frame, 0, weight = 1)
+    tkgrid.columnconfigure(label_frame, 0, weight = 0)
     tkgrid.columnconfigure(obj_text,    0, weight = 1)
     tkgrid.columnconfigure(obj_label,   0, weight = 0)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
