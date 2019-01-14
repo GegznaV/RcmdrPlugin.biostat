@@ -763,19 +763,6 @@ window_import_from_excel <- function() {
         width = 25
     )
 
-    is_excel_range <- function(P, W) {
-        # P - value
-        res <- str_detect(
-            P, "^(.+!)?[[:alpha:]]+[[:digit:]]+:[[:alpha:]]+[[:digit:]]+$")
-
-        if (res == TRUE) {
-            tkconfigure(W, foreground = "black")
-            return(tcl("expr", "TRUE"))
-        } else {
-            return(tcl("expr", "FALSE"))
-        }
-    }
-
     f1_ent_range <- bs_entry(
         label = "Range:",
         f1, width = 15, sticky = "we",
@@ -786,8 +773,9 @@ window_import_from_excel <- function() {
         tip = str_c("(Optional)\n",
                     "Range of cells in Excel sheet,\n",
                     "e.g., B2:F18 or Sheet2!B2:F18."),
+        validate = "focus",
         validatecommand = is_excel_range,
-        invalidcommand  = make_red_text()
+        invalidcommand  = make_red_text
     )
 
 
@@ -869,8 +857,8 @@ window_import_from_excel <- function() {
         width           = entry_width,
         tip             = tip_box_skip,
         on_key_release  = refresh_dataset_window,
-        validate        = "focus",
         value           = 0,
+        validate        = "focus",
         validatecommand = validate_pos_int,
         invalidcommand  = make_red_text_reset_val(to = "0"))
 
