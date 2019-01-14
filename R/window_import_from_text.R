@@ -187,15 +187,15 @@ window_import_from_text <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    get_df_vs_dt <- function() {
+    get_output_type <- function() {
         val <- get_selection(f2_box_out)
         switch(val,
                "Data frame" = FALSE,
                "Data table" = TRUE,
                stop("Value '", val, "' is unknown (f2_box_out)."))
     }
-    get_code_df_vs_dt <- function() {
-        str_c(',\n data.table = ', get_df_vs_dt())
+    get_code_output_type <- function() {
+        str_c(',\n data.table = ', get_output_type())
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -310,15 +310,7 @@ window_import_from_text <- function() {
             # Delete text
             # clear_input_window()
 
-            tk_messageBox(
-                parent = top,
-                type = "ok",
-                icon = "error",
-                message = str_c(
-                    'The file was not found. Check if the name and \n',
-                    'the path in the box "File, URL" are correct and\n',
-                    'not empty.'),
-                caption = "File Not Found")
+            msg_box_import_file_not_found(top)
         }
 
         on_failure()
@@ -395,7 +387,7 @@ window_import_from_text <- function() {
             na.strings   = get_na_str(),
             quote        = get_quote(),
             encoding     = get_encoding(),
-            data.table   = get_df_vs_dt(),
+            data.table   = get_output_type(),
             check.names      = get_values(f2_opts, "check_names"),
             stringsAsFactors = get_values(f2_opts, "stringsAsFactors"),
             logical01        = get_values(f2_opts, "logical01"),
@@ -766,22 +758,9 @@ window_import_from_text <- function() {
         FALSE
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    msgbox_clear_input <- function() {
-        tk_messageBox(
-            parent = top,
-            type = "yesno",
-            default = "no",
-            icon = "warning",
-            message = str_c(
-                "The contents of the 'Input' window will be deleted. \n",
-                'Do you agree?'
-            ),
-            caption = "Clear Input")
-    }
-
     allow_switch_to_file_mode1 <- function() {
         if ((!is_input_empty())) {
-            msgbox_clear_input()
+            msg_box_clear_input(top)
         } else {
             "yes"
         }
@@ -789,7 +768,7 @@ window_import_from_text <- function() {
 
     allow_switch_to_file_mode2 <- function() {
         if (get_import_mode() == "clipboard" && (!is_input_empty())) {
-            msgbox_clear_input()
+            msg_box_clear_input(top)
         } else {
             "yes"
         }
@@ -862,15 +841,7 @@ window_import_from_text <- function() {
 
                 # If URL, check if internet connection is present.
                 if (is_url(file_name) && !pingr::is_online()) {
-                    tk_messageBox(
-                        parent = top,
-                        message = str_c(
-                            "It seems that your file is on the Internet, but you are offline.\n",
-                            "Please, check Internet connection."
-                        ),
-                        icon  = "warning",
-                        caption = "No Internet Connection",
-                        type  = "ok")
+                    msg_box_check_internet_connection(top)
 
                     return()
                 }
@@ -897,7 +868,7 @@ window_import_from_text <- function() {
                     get_code_strip_white(),
                     get_code_blank_lines_skip(),
                     get_code_fill(),
-                    get_code_df_vs_dt(),
+                    get_code_output_type(),
                     ")"
                 )
             },
