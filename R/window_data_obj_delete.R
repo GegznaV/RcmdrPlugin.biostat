@@ -129,7 +129,8 @@ window_data_obj_delete <- function() {
 
     class_filter_box <- bs_combobox(
         parent = var_y_box$frame,
-        title  = "Object class filter",
+        label  = "Object class filter",
+        label_position = "above",
         width  = 30 - 2, # Get width var_y_box
         value  = "Data frame",
         values = c("Data frame", "Matrix", "List", "Table", "ggplot, gg",
