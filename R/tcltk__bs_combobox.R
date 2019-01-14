@@ -221,6 +221,13 @@ bs_combobox <- function(
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid.columnconfigure(main_frame,     0, weight = 1)
+    tkgrid.columnconfigure(combobox_frame, 0, weight = 1)
+    tkgrid.columnconfigure(combobox      , 0, weight = 1, minsize = 3)
+    tkgrid.columnconfigure(label_frame,    0, weight = 1)
+    tkgrid.columnconfigure(obj_label,      0, weight = 0)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     result <- list(
         frame    = main_frame,
         obj      = combobox,
