@@ -73,7 +73,7 @@ refresh_dataset_window_0 <- function(
         err_msg_default <- str_c(
             "Possible reasons:\n",
             " - file name is incorrent or missing;\n",
-            " - file is not a text file (incorrect format);\n",
+            " - incorrect file format;\n",
             " - file is empty;\n",
             " - import options are incorrect.")
     }
