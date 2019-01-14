@@ -37,14 +37,12 @@
 
 bs_combobox <- function(
     parent             = top,
-    values             = variables_all(),
+    values             = NULL,
     state              = c("readonly", "normal", "disabled"),
     # default_text     = "<no variable selected>",
     # selection        = gettext_bs(default_text),
     value              = NULL,
     selection          = NULL,
-    title              = NULL,
-    title_sticky       = "w",
     combobox_sticky    = "nw",
 
     on_select          = do_nothing,
@@ -78,7 +76,6 @@ bs_combobox <- function(
     combobox_frame = tk2frame(main_frame),
     label_frame    = tk2frame(main_frame),
     label_tip      = "",
-
     ...)
 {
     label_position <- match.arg(label_position)
@@ -112,13 +109,13 @@ bs_combobox <- function(
 
 
     # values     <- c(gettext_bs(default_text), values)
-    frame              <- tkframe(parent)
+    # frame              <- tkframe(parent)
     combovar           <- tclVar()
     tclvalue(combovar) <- value
 
     # Main -------------------------------------------------------------------
     combobox <- tk2combobox(
-        parent       = frame,
+        parent       = combobox_frame,
         values       = values,
         textvariable = combovar,
         state        = state,
@@ -129,7 +126,6 @@ bs_combobox <- function(
         tip = tip
         , ...
     )
-
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (on_keyboard %in% c("select")) {
@@ -192,53 +188,41 @@ bs_combobox <- function(
     )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (is.null(title)) {
 
-        if (nchar(label) > 0) {
+    if (nchar(label) > 0) {
 
-            switch(label_position,
-                   "above" = {
-                       if (length(pady) == 1) {
-                           pady <- c(pady, pady)
-                       }
-                       tkgrid(label_frame, sticky = sticky, padx = padx, pady = c(pady[1], 0))
-                       tkgrid(combobox_frame,   sticky = sticky, padx = padx, pady = c(0, pady[2]))
-                       tkgrid(combobox,    sticky = sticky_text)
-                   },
-
-                   "left" = {
-                       tkgrid(label_frame, combobox_frame, sticky = sticky,
-                              padx = padx, pady = pady)
-                       tkgrid(combobox, sticky = sticky_text, padx = c(5, 0))
-                   },
-
-                   "right" = {
-                       tkgrid(combobox_frame, label_frame, sticky = sticky,
-                              padx = padx, pady = pady)
-                       tkgrid(combobox, sticky = sticky_text, padx = c(0, 5))
+        switch(label_position,
+               "above" = {
+                   if (length(pady) == 1) {
+                       pady <- c(pady, pady)
                    }
-            )
-            tkgrid(obj_label, sticky = sticky_label)
+                   tkgrid(label_frame, sticky = sticky, padx = padx, pady = c(pady[1], 0))
+                   tkgrid(combobox_frame,   sticky = sticky, padx = padx, pady = c(0, pady[2]))
+                   tkgrid(combobox,    sticky = sticky_text)
+               },
 
-        } else {
-            tkgrid(combobox_frame, sticky = sticky, padx = padx, pady = pady)
-            tkgrid(combobox,  sticky = sticky_text)
-        }
+               "left" = {
+                   tkgrid(label_frame, combobox_frame, sticky = sticky,
+                          padx = padx, pady = pady)
+                   tkgrid(combobox, sticky = sticky_text, padx = c(5, 0))
+               },
 
-    # TODO: Old verson to be removed # [???]
-    } else if (!is.null(title)) {
-        tkgrid(labelRcmdr(frame,
-                          text = title,
-                          fg   = getRcmdr("title.color"),
-                          font = "RcmdrTitleFont"),
-               sticky = title_sticky)
+               "right" = {
+                   tkgrid(combobox_frame, label_frame, sticky = sticky,
+                          padx = padx, pady = pady)
+                   tkgrid(combobox, sticky = sticky_text, padx = c(0, 5))
+               }
+        )
+        tkgrid(obj_label, sticky = sticky_label)
+
+    } else {
+        tkgrid(combobox_frame, sticky = sticky, padx = padx, pady = pady)
+        tkgrid(combobox,  sticky = sticky_text)
     }
-
-    tkgrid(combobox, sticky = combobox_sticky)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     result <- list(
-        frame    = frame,
+        frame    = main_frame,
         obj      = combobox,
         var      = combovar,
 
@@ -252,7 +236,7 @@ bs_combobox <- function(
         obj_label       = obj_label
     )
 
-    class(result) <- c("combobox", "bs_tk_widget", "list")
+    class(result) <- c("bs_combobox", "combobox", "bs_tk_widget", "list")
     result
 }
 
@@ -285,9 +269,7 @@ get_selection_ind_combobox <- function(combobox) {
 get_selection_combobox <- function(combobox) {
     tclvalue_chr(tkget(combobox))
 }
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 #' @rdname Helper-functions
 #' @export
@@ -310,7 +292,6 @@ get_selection.combobox <- function(obj, ...) {
     get_selection_combobox(obj$combobox)
 }
 
-
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
@@ -323,7 +304,6 @@ set_selection.combobox <- function(obj, sel, ...) {
 
     tclvalue(obj$combovar) <- sel
 }
-
 
 #' @rdname Helper-functions
 #' @export
@@ -375,6 +355,3 @@ tk_disable.combobox <- function(obj, ...) {
 tk_get_state.combobox <- function(obj, ...) {
     tk_get_state(obj$combobox, ...)
 }
-
-
-
