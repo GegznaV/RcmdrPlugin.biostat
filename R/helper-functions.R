@@ -653,10 +653,48 @@ is_url <- function(str) {
 }
 
 
+msg_box_clear_input <- function(parent = CommanderWindow()) {
+    tk_messageBox(
+        parent = parent,
+        type = "yesno",
+        default = "no",
+        icon = "warning",
+        message = str_c(
+            'The contents of the Input window will be deleted. \n',
+            'Do you agree?'
+        ),
+        caption = "Clear Input")
+}
+
+msg_box_import_file_not_found <- function(parent = CommanderWindow()) {
+    tk_messageBox(
+        parent = parent,
+        type = "ok",
+        icon = "error",
+        message = str_c(
+            'The file was not found. Check if the name and \n',
+            'the path in the box "File, URL" are correct and\n',
+            'not empty.'),
+        caption = "File Not Found")
+}
+
+msg_box_check_internet_connection <- function(parent = CommanderWindow()) {
+    tk_messageBox(
+        parent = parent,
+        message = str_c(
+            "It seems that your file is on the Internet, but you are offline.\n",
+            "Please, check Internet connection."
+        ),
+        icon  = "warning",
+        caption = "No Internet Connection",
+        type  = "ok")
+}
+
+
 #' @rdname extract-fileparts
 #' @keywords internal
 #' @export
-do_nothing <- function() {}
+do_nothing <- function(...) {}
 
 # ___ Check ___ ==============================================================
 #' @rdname Helper-functions
