@@ -4,8 +4,6 @@
 #' @keywords internal
 window_import_from_excel <- function() {
 
-    txt_trunc   <- "... Other rows are not shown ..."
-    txt_not_all <- "... More rows may be present in the file ..."
 
     previous_file_name        <- tclVar("")
     previous_nrows_to_preview <- tclVar("")
@@ -170,19 +168,19 @@ window_import_from_excel <- function() {
                 initialdir = initialdir,
                 title = "Choose Excel File to Import",
                 filetypes = gettext_bs(
-                    "{{Excel file}          {.xlsx .xls}}
-                    {{Excel open XML file}   .xlsx}
-                    {{Excel 97-2003 file}    .xls}
+                    "{{Excel files}          {.xlsx .xls}}
+                    {{Excel open XML files}   .xlsx}
+                    {{Excel 97-2003 files}    .xls}
                  {{All Files} *}")))
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (filename == "") {
             return()
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        set_values(f1_ent_1_2, filename)
+        set_values(f1_ent_file, filename)
 
-        tkicursor(f1_ent_1_2$obj_text, "end")
-        tkxview.moveto(f1_ent_1_2$obj_text, "1") # 0 - beginning, 1 - end.
+        tkicursor(f1_ent_file$obj_text, "end")
+        tkxview.moveto(f1_ent_file$obj_text, "1") # 0 - beginning, 1 - end.
 
         if (fs::is_file(filename)) {
             update_all()
@@ -192,7 +190,7 @@ window_import_from_excel <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Read value of file name entry box
     read_path_to_file <- function() {
-        get_values(f1_ent_1_2)
+        get_values(f1_ent_file)
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -229,9 +227,6 @@ window_import_from_excel <- function() {
     # Check if file contents need to be updated and return TRUE or FALSE
     need_update_from_file <- function() {
         filename <- read_path_to_file()
-
-        if (get_import_mode() != "file" || (filename == ""))
-            return(FALSE)
 
         changed_filename <- tclvalue_chr(previous_file_name) != filename
 
@@ -338,201 +333,45 @@ window_import_from_excel <- function() {
 
         if (is_nothing_to_import()) {
             clear_dataset_window()
+
             return()
         }
 
-        input <- get_input_by_mode() # [???]
+        input <- get_input_by_mode()
 
         # Get data from input
         suppressWarnings({
             ds_contents <- try(
-                do_read_excel(str_c(input, collapse =  "\n")),
+                do_fread(str_c(input, collapse =  "\n")),
                 silent = TRUE)
         })
 
-
-        # Check errors
-        err_msg <- NULL
-
-        if (inherits(ds_contents, "try-error")) {
-            err_msg <- parse_fread_error(ds_contents)
-
-        } else {
-
-            nrows_from_file <- nrow(ds_contents)
-            nrow_preview_ds <- get_nrows_preview_ds()
+        # Default function
+        refresh_dataset_window_0(widget           = f3_dataset,
+                                 ds_contents      = ds_contents,
+                                 preview_type     = get_selection(f3_box_type),
+                                 nrow_preview_ds  = get_nrows_preview_ds(),
+                                 expect_more_rows = possibly_more_rows())
 
 
-            # Get contents to preview
-            switch(
-                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                get_selection(f3_box_type),
-                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                "Tibble" = {
-
-                    op <- options(width = 10000)
-                    ds_preview <-
-                        capture.output(
-                            print(tibble::as_tibble(ds_contents),
-                                  width = Inf,
-                                  n = nrow_preview_ds)
-                        ) %>%
-                        str_subset("^(?!# A tibble.*)") %>%
-                        str_replace( "^# \\.\\.\\. with.*", txt_trunc)
-
-                    options(op)
-
-                    if (possibly_more_rows()) {
-                        ds_preview <- c(ds_preview, txt_not_all)
-                    }
-
-                },
-                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                "Data table" = {
-
-                    topn <-
-                        if (is.infinite(nrow_preview_ds)) {
-                            nrows_from_file
-                        } else {
-                            floor(nrow_preview_ds/2)
-                        }
-
-                    op <- options(width = 10000)
-                    ds_preview <-
-                        capture.output(
-                            print(data.table::as.data.table(ds_contents),
-                                  col.names = "top",
-                                  class = TRUE,
-                                  topn  = topn,
-                                  nrows = nrows_from_file)
-                        )
-
-                    options(op)
-
-                    if (possibly_more_rows()) {
-
-                        ds_preview[length(ds_preview)] <- txt_not_all
-                    }
-
-                },
-                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                "Structure" = {
-                    ds_preview <- capture.output(glimpse(ds_contents, width = 74))
-
-                    if (possibly_more_rows())  {
-                        ds_preview <- str_replace(
-                            ds_preview,
-                            "(?<=^Observations: )(.*)", "\\1 or more")
-                    }
-
-                }
-            )
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-            if (length(ds_preview) <= 1) {
-                err_msg <- str_c(
-                    "Possible reasons:\n",
-                    " - file name is incorrent or missing;\n",
-                    " - file is not a text file (incorrect format);\n",
-                    " - file is empty;\n",
-                    " - import options are incorrect.")
-            }
-        }
-
-
-        if (!is.null(err_msg)) {
-            # If no preview available:
-            write_dataset_window(str_c("Error! \n\n", err_msg))
-
-            # Red font:
-            tktag.add(f3_dataset$text, "bold",  "1.0", "end")
-            tktag.add(f3_dataset$text, "error", "1.0", "end")
-
-        } else {
-            # Write contents:
-            write_dataset_window(str_c(ds_preview, collapse = "\n"))
-
-            # Format contents:
-
-            # Info messages
-            tktag_add_row(ds_preview, txt_trunc,   f3_dataset$text, "info")
-            tktag_add_row(ds_preview, txt_not_all, f3_dataset$text, "info")
-
-            pattern_num <- "(?<=\\<)(num|int|dbl)(?=\\>)"
-            pattern_chr <- "(?<=\\<)cha?r(?=\\>)"
-
-            switch(
-                get_selection(f3_box_type),
-                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                "Tibble" = ,
-                "Data table" = {
-                    # Variable names
-                    tktag.add(f3_dataset$text, "var_names", "1.0", "2.0")
-
-                    # Variable types
-                    tktag.add(f3_dataset$text, "var_types", "2.0", "3.0")
-                    tktag_add(ds_preview[1:2], pattern_chr, f3_dataset$text, "chr")
-                    tktag_add(ds_preview[1:2], pattern_num, f3_dataset$text, "num")
-
-                    # Separator
-                    tktag_add_row(ds_preview, "^\\s*---\\s*$", f3_dataset$text, "red")
-
-                },
-
-                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                "Structure" = {
-                    # Variable names
-                    # tktag_add_row(ds_preview, "^Variables: ", f3_dataset$text, "var_names")
-
-                    tktag_add_first(ds_preview, "(?<=\\$).*?(?=\\<)",
-                                    f3_dataset$text, "var_names")
-
-                    # Variable types
-                    tktag_add_first(ds_preview, "^\\$",       f3_dataset$text, "var_types")
-                    tktag_add_first(ds_preview, "\\.\\.\\.$", f3_dataset$text, "var_types")
-                    tktag_add_first(ds_preview, "\\<.*?\\>",  f3_dataset$text, "var_types")
-                    tktag_add_first(ds_preview, pattern_chr,  f3_dataset$text, "chr")
-                    tktag_add_first(ds_preview, pattern_num,  f3_dataset$text, "num")
-
-                    # Observations
-                    tktag_add_row(ds_preview, "^Observations: \\d+ or more", f3_dataset$text, "grey")
-                }
-                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            )
-        }
     }
 
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Update contents of dataset entry box.
     update_name_entry <- function(variables) {
+        filename <- read_path_to_file()
 
-        switch(
-            get_import_mode(),
-            "file" = {
-                filename <- read_path_to_file()
-                if (filename != "") {
-                    new_name <-
-                        filename %>%
-                        fs::path_file() %>%
-                        fs::path_ext_remove() %>%
-                        clean_str() %>%
-                        unique_df_name()
+        if (filename != "") {
+            new_name <-
+                filename %>%
+                fs::path_file() %>%
+                fs::path_ext_remove() %>%
+                clean_str() %>%
+                unique_df_name()
 
-                    set_values(f1_ent_2_2, new_name)
-                }
-            },
-
-            "clipboard" = {
-                if (get_values(f1_ent_2_2) == "") {
-                    new_name <- unique_obj_names("dataset", all_numbered = TRUE)
-                    set_values(f1_ent_2_2, new_name)
-                }
-            },
-
-            stop("Unknown option: ", get_import_mode())
-        )
+            set_values(f1_ent_name, new_name)
+        }
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -590,14 +429,14 @@ window_import_from_excel <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     highlight_update_button <- function() {
         if (is_file_name_missing()) {
-            tk_disable(f1_but_1_5)
+            tk_disable(f1_but_update)
         } else {
-            tk_normalize(f1_but_1_5)
+            tk_normalize(f1_but_update)
             if (need_update_from_file()) {
-                tk_activate(f1_but_1_5)
-                tkconfigure(f1_but_1_5, default = "active")
+                tk_activate(f1_but_update)
+                tkconfigure(f1_but_update, default = "active")
             } else {
-                tkconfigure(f1_but_1_5, default = "normal")
+                tkconfigure(f1_but_update, default = "normal")
             }
         }
     }
@@ -621,23 +460,13 @@ window_import_from_excel <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     is_nothing_to_import <- function() {
-        switch(
-            get_import_mode(),
-            "file" = {
-                if (is_file_name_missing()) {
-                    clear_preview()
-                    return(TRUE)
-                }
-            },
+        if (is_file_name_missing()) {
+            clear_preview()
+            return(TRUE)
 
-            "clipboard" = {
-                if (str_trim(read_input_window()) == "") {
-                    clear_preview()
-                    return(TRUE)
-                }
-            }
-        )
-        FALSE
+        } else {
+            FALSE
+        }
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     msgbox_clear_input <- function() {
@@ -667,8 +496,7 @@ window_import_from_excel <- function() {
         on.exit(cursor_set_idle(top))
 
         # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        new_name  <- get_values(f1_ent_2_2)
-        from      <- get_import_mode()
+        new_name  <- get_values(f1_ent_name)
 
         # Reset widget properties before checking ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # tkconfigure(name_entry, foreground = "black")
@@ -728,7 +556,7 @@ window_import_from_excel <- function() {
         Library("data.table")
 
         command <- str_glue(
-            '## Import data from text file \n',
+            '## Import data from Excel file \n',
             '{new_name} <- readxl::xlread(\n',
             '"{file_name}"',
 
@@ -780,9 +608,9 @@ window_import_from_excel <- function() {
     # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_bs("Import Data from Excel"),
+    initializeDialog(title = gettext_bs("Import from Excel"),
                      suppress.window.resize.buttons = FALSE)
-    tk_title(top, "Import Data from Excel")
+    tk_title(top, "Import Data from Excel File")
 
     # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     defaults <- list(
@@ -796,42 +624,42 @@ window_import_from_excel <- function() {
     # F1, Frame 1, choose file and name --------------------------------------
     f1 <- tk2frame(top)
 
-    f1_lab_1_1 <- bs_label_b(f1, text = "File, URL: ")
-    f1_ent_1_2 <- bs_entry(
+    f1_lab_file <- bs_label_b(f1, text = "File, URL: ")
+    f1_ent_file <- bs_entry(
         f1, width = 90, sticky = "we", tip = "Path to file or URL.",
         on_key_release = highlight_update_button)
 
     f1_but_1 <- tk2frame(f1)
 
-    f1_but_1_3 <- tk2button(
+    f1_but_paste <- tk2button(
         f1_but_1,
         # width = 7,
         # text = "Paste",
         image = "::image::bs_paste",
         command = function() {
-            set_values(f1_ent_1_2,
+            set_values(f1_ent_file,
                        str_c(read_path_to_file(), read_clipboard()))
-            tkicursor(f1_ent_1_2$obj_text, "end")
-            tkxview.moveto(f1_ent_1_2$obj_text, "1")
+            tkicursor(f1_ent_file$obj_text, "end")
+            tkxview.moveto(f1_ent_file$obj_text, "1")
 
             highlight_update_button()
         },
         tip = "Paste file name or URL."
     )
 
-    f1_but_1_4 <- tk2button(
+    f1_but_clear <- tk2button(
         f1_but_1,
         # width = 7,
         # text = "Delete",
         image = "::image::bs_delete",
         command = function() {
-            set_values(f1_ent_1_2, "")
+            set_values(f1_ent_file, "")
             highlight_update_button()
         },
         tip = "Clear file name or URL."
     )
 
-    f1_but_1_5 <- tk2button(
+    f1_but_update <- tk2button(
         f1_but_1,
         # width = 6,
         # text = "Update",
@@ -841,29 +669,22 @@ window_import_from_excel <- function() {
         tip = str_c("Read file (URL) and update preview.")
     )
 
-    f1_but_1_6 <- tk2button(
+    f1_but_f_open <- tk2button(
         f1_but_1,
         # width = 7,
         # text = "Browse",
         image = "::image::bs_open_file",
-        command = function() {
-
-            if (allow_switch_to_file_mode2() == "no") {
-                return()
-            }
-
-            set_mode_file_url()
-            get_path_to_file()
-        },
+        command = get_path_to_file,
         tip = "Choose file to import."
     )
 
-    f1_lab_2_1 <- bs_label_b(f1, text = "Name: ")
-    f1_lab_3_1 <- bs_label_b(f1, text = "Sheet: ")
-    f1_ent_2_2 <- bs_entry(
-        f1, width = 36,  sticky = "ew", tip = "Create a name for the dataset.")
+    # f1_lab_name <- bs_label_b(f1, text = "Name: ")
+    f1_lab_sheet <- bs_label_b(f1, text = "Sheet: ")
+    f1_ent_name <- bs_entry(
+        f1, width = 30, sticky = "ew", label = "Name: ",
+        tip = "Create a name for the dataset.")
 
-    f1_box_wsh <- bs_combobox(
+    f1_box_sheet <- bs_combobox(
         parent = f1,
         values = "",
         tip = "Choose worksheet to import data from.",
@@ -871,10 +692,15 @@ window_import_from_excel <- function() {
         width = 25
     )
 
-    f1_ent_rng <- bs_entry(
+    f1_ent_range <- bs_entry(
         label = "Range:",
-        f1, width = 10, sticky = "we", tip = "Path to file or URL.",
-        on_key_release = highlight_update_button)
+        f1, width = 14, sticky = "we",
+        on_key_release = highlight_update_button,
+        tip = str_c("(Optional)\n",
+                    "Range of cells in Excel sheet,\n",
+                    "e.g., B2:F18 or Sheet2!B2:F18.")
+    )
+
 
 
     # F2-3, Middle frame -----------------------------------------------------
@@ -987,7 +813,8 @@ window_import_from_excel <- function() {
     tkgrid(f2_lab_rep,  f2_box_rep$frame,  pady = c(2, 0))
 
     tkgrid.configure(
-        f2_lab_head, f2_lab_skip, f2_lab_max, f2_lab_na, f2_lab_rep, f2_lab_out,
+        # f2_lab_head,
+        f2_lab_skip, f2_lab_max, f2_lab_na, f2_lab_rep, f2_lab_out,
         padx = c(3, 5), sticky = "w"
     )
 
@@ -1149,25 +976,33 @@ window_import_from_excel <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(f1, padx = 10, sticky = "we")
 
-    tkgrid(f1_lab_1_1, f1_ent_1_2$frame, "x", "x",  f1_but_1, pady = c(10, 2),  sticky = "we")
+    tkgrid(f1_lab_file, f1_ent_file$frame, "x", "x",  f1_but_1,
+           pady = c(10, 2), sticky = "we")
 
-    tkgrid(f1_lab_3_1, f1_box_wsh$frame, f1_ent_rng$frame,
+    tkgrid(f1_lab_sheet, f1_box_sheet$frame, f1_ent_range$frame, f1_ent_name$frame,
            pady = c(0,  10),
            sticky = "we")
 
-    tkgrid(f1_lab_2_1, f1_ent_2_2$frame,
-           pady = c(0,  10),
-           sticky = "we")
+    tkgrid(f1_but_update, f1_but_paste, f1_but_clear, f1_but_f_open, sticky = "e")
 
+    tkgrid.configure(f1_lab_file,
+                     # f1_lab_name,
+                     f1_ent_range$frame_label, f1_ent_range$obj_label,
+                     f1_ent_name$frame_label,  f1_ent_name$obj_label,
+                     f1_lab_sheet, sticky = "e")
 
-    tkgrid(f1_but_1_5, f1_but_1_3, f1_but_1_4, f1_but_1_6, sticky = "e")
+    tkgrid.configure(f1_ent_file$frame,  f1_ent_file$obj_text,  f1_ent_file$frame_text,
+                     f1_ent_range$frame, f1_ent_range$obj_text, f1_ent_range$frame_text,
+                     f1_ent_name$frame,  f1_ent_name$obj_text,  f1_ent_name$frame_text,
+                     sticky = "we")
 
-    tkgrid.configure(f1_lab_1_1, f1_lab_2_1, f1_lab_3_1, sticky = "e")
-    tkgrid.configure(f1_ent_1_2$frame, f1_ent_2_2$frame, sticky = "we", padx = 2)
-    tkgrid.configure(f1_ent_2_2$frame, f1_ent_1_2$frame, columnspan = 3)
+    tkgrid.configure(f1_ent_file$frame, f1_box_sheet$frame, f1_ent_name$frame,
+                     padx = 2)
+
+    tkgrid.configure(f1_ent_file$frame, columnspan = 3)
     tkgrid.configure(
-        f1_ent_1_2$frame_text,  f1_ent_2_2$frame_text,
-        f1_ent_1_2$obj_text,    f1_ent_2_2$obj_text,
+        f1_ent_file$frame_text,  f1_ent_name$frame_text,
+        f1_ent_file$obj_text,    f1_ent_name$obj_text,
         sticky = "we")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(f_middle, sticky = "news")
@@ -1212,7 +1047,7 @@ window_import_from_excel <- function() {
 
     # Configuration ----------------------------------------------------------
 
-    set_values(f1_ent_2_2, unique_obj_names("dataset", all_numbered = TRUE))
+    set_values(f1_ent_name, unique_obj_names("dataset", all_numbered = TRUE))
     highlight_update_button()
 
     # Configure text tags ----------------------------------------------------
@@ -1267,10 +1102,10 @@ window_import_from_excel <- function() {
     tkgrid.columnconfigure(f1, 1, weight = 1) # Text entries
     tkgrid.columnconfigure(f1, 2, weight = 0) # Buttons
 
-    tkgrid.columnconfigure(f1_ent_1_2$frame_text, 0, weight = 1, minsize = 20)
-    tkgrid.columnconfigure(f1_ent_2_2$frame_text, 0, weight = 1, minsize = 20)
-    tkgrid.columnconfigure(f1_ent_1_2$obj_text,   0, weight = 1, minsize = 20)
-    tkgrid.columnconfigure(f1_ent_2_2$obj_text,   0, weight = 1, minsize = 20)
+    tkgrid.columnconfigure(f1_ent_file$frame_text, 0, weight = 1, minsize = 20)
+    tkgrid.columnconfigure(f1_ent_name$frame_text, 0, weight = 1, minsize = 20)
+    tkgrid.columnconfigure(f1_ent_file$obj_text,   0, weight = 1, minsize = 20)
+    tkgrid.columnconfigure(f1_ent_name$obj_text,   0, weight = 1, minsize = 20)
 
     tkgrid.columnconfigure(f_middle, 0, weight = 0)
     tkgrid.columnconfigure(f_middle, 1, weight = 1)
