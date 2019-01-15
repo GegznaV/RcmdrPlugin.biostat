@@ -21,6 +21,18 @@ tip_single_ctrl_letters  = str_c(
     "Hold 'Ctrl' key and left-click mouse to \n",
     "deselect an object.")
 
+tip_variable_types <- str_c(
+    "Types of variables: \n",
+    "   <int> whole numbers (integers);\n",
+    '   <dbl>, <num> real numbers ("doubles");\n',
+    "   <chr>, <char> character (text) variables;\n",
+    "   <fct>, <fctr> factors (categorical variables);\n",
+    # "   <ord> ordinal factors;\n",
+    "   <lgl>, <lgcl>, <logi> logical values.\n",
+    "Other types are also possible.\n",
+    "Backticks (` `) - indicate non-standard names."
+)
+
 # str_c(
 #     "Use letters on keyboard for quicker navigation. \n",
 #     "Hold 'Ctrl' key and left-click mouse to \n",
