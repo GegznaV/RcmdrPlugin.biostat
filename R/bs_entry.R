@@ -1,3 +1,4 @@
+
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
@@ -19,15 +20,17 @@ bs_entry <- function(
     label_frame = tk2frame(main_frame),
     tip       = "",
     label_tip = "",
-    on_click           = function() {},
-    on_double_click    = function() {},
-    on_triple_click    = function() {},
-    on_release         = function() {},
-    on_click_3         = function() {},
-    on_double_click_3  = function() {},
-    on_triple_click_3  = function() {},
-    on_release_3       = function() {},
-    on_key_release     = function() {},
+    on_click           = do_nothing,
+    on_double_click    = do_nothing,
+    on_triple_click    = do_nothing,
+    on_release         = do_nothing,
+    on_click_3         = do_nothing,
+    on_double_click_3  = do_nothing,
+    on_triple_click_3  = do_nothing,
+    on_release_3       = do_nothing,
+    on_key_release     = do_nothing,
+    use_context_menu = TRUE,
+    bind_clear = TRUE,
     ...
 
 ) {
@@ -84,6 +87,53 @@ bs_entry <- function(
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     bind_mouse_keys(obj_text)
     tkbind(obj_text, "<KeyRelease>", on_key_release)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    clear_entry_text <- function() {
+        tclvalue(var_text) <- ""
+    }
+    clear_and_paste <- function() {
+        tclvalue(var_text) <- read_clipboard()
+        tkicursor(obj_text, "end")
+        tkxview.moveto(obj_text, "1")
+    }
+
+    if (isTRUE(bind_clear)) {
+        tkbind(obj_text, "<Double-Button-3>", clear_entry_text)
+    }
+
+    if (isTRUE(use_context_menu)) {
+
+
+        context_menu <- function() {
+
+            top <- CommanderWindow()
+
+            menu_i <- tk2menu(tk2menu(top), tearoff = FALSE)
+
+            # tkadd(menu_i, "command",
+            #       label    = "Copy",
+            #       compound = "left",
+            #       image    = "::image::bs_delete",
+            #       command  = do_nothing)
+
+            tkadd(menu_i, "command",
+                  label    = "Clear",
+                  compound = "left",
+                  image    = "::image::bs_delete",
+                  command  = clear_entry_text)
+
+            tkadd(menu_i, "command",
+                  label    = "Clear and paste",
+                  compound = "left",
+                  image    = "::image::bs_paste",
+                  command  = clear_and_paste)
+
+            tkpopup(menu_i,
+                    tkwinfo("pointerx", top),
+                    tkwinfo("pointery", top))
+        }
+        tkbind(obj_text, "<ButtonPress-3>", context_menu)
+    }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid.columnconfigure(main_frame,  0, weight = 1)
     tkgrid.columnconfigure(text_frame,  0, weight = 1)
