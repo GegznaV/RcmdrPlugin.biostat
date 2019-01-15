@@ -215,7 +215,7 @@ to_word <- function(variables) {
 # "From R package... "    , "window_import_from_pkg"
 #
 # "Import from text file (.txt, .csv, .dat, etc.)"   , "window_import_from_text"
-# "Import from Excel file..."                        , "window_import_excel"
+# "Import from Excel file..."                        , "window_import_from_excel"
 # "Import from Rds file (.Rds, .rds)..."	         , "window_import_rds"
 # "Import from R-data file (.RData, .Rda, .rda)..."  , "window_import_rdata"
 # "Import from SPSS data file..."                    , "importSPSS"
@@ -282,7 +282,7 @@ bs_mode_menu_import <- function() {
           label   = "from Excel file (.xls, .xlsx)...",
           compound = "left",
           image    = "::image::bs_excel",
-          command = window_import_excel)
+          command = window_import_from_excel)
 
     tkadd(menu_f, "separator")
 
