@@ -82,6 +82,8 @@ refresh_dataset_window_0 <- function(
     pattern_num <- "(?<=\\<)(num|int|dbl)(?=\\>)"
     pattern_chr <- "(?<=\\<)cha?r(?=\\>)"
 
+    pattern_na <- "(\\<NA\\>|NA(?=,))"
+
     # Check errors
     err_msg <- NULL
 
@@ -174,6 +176,8 @@ refresh_dataset_window_0 <- function(
         tktag_add_row(text_widget, txt_trunc,   tag = "info")
         tktag_add_row(text_widget, txt_not_all, tag = "info")
 
+        tktag_add(text_widget, pattern_na, tag = "NA")
+
         switch(
             preview_type,
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -210,3 +214,48 @@ refresh_dataset_window_0 <- function(
         )
     }
 }
+
+
+# Fonts ----------------------------------------------------------------------
+font_consolas_regular <- tkfont.create(family = "Consolas", size = 8)
+font_consolas_italic  <- tkfont.create(family = "Consolas", size = 8, slant = "italic")
+font_consolas_bold    <- tkfont.create(family = "Consolas", size = 8, weight = "bold")
+font_consolas_regular <- tkfont.create(family = "Consolas", size = 8)
+
+
+# Configure text tags --------------------------------------------------------
+configure_tags <- function(text_widget) {
+
+    # By type and condition
+    tktag.configure(text_widget, "var_names",
+                    foreground = "blue",
+                    font = font_consolas_bold)
+
+    tktag.configure(text_widget, "var_types",
+                    foreground = "grey50",
+                    font = font_consolas_italic)
+
+    tktag.configure(text_widget, "info",
+                    foreground = "grey50",
+                    font = font_consolas_italic)
+
+    tktag.configure(text_widget, "error", foreground = "red3")
+    tktag.configure(text_widget, "bold",  font = font_consolas_bold)
+
+    tktag.configure(text_widget, "tab",   background = "grey95")
+
+    # By color
+    tktag.configure(text_widget, "grey",  foreground = "grey50")
+    tktag.configure(text_widget, "green", foreground = "green")
+    tktag.configure(text_widget, "red",   foreground = "red")
+    tktag.configure(text_widget, "red3",  foreground = "red3")
+    tktag.configure(text_widget, "red4",  foreground = "red4")
+
+    # By values
+    tktag.configure(text_widget, "chr",  foreground = "tomato4")
+    tktag.configure(text_widget, "fct",  foreground = "orange4")
+    tktag.configure(text_widget, "lgl",  foreground = "blue4")
+    tktag.configure(text_widget, "num",  foreground = "green4")
+    tktag.configure(text_widget, "NA",   foreground = "tomato1")
+}
+
