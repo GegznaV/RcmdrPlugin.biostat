@@ -188,7 +188,7 @@ item    import_menu      command         "Import from clipboard... "          wi
 item    import_menu      command         "Import from text file (.txt, .csv, .dat, .tab)..."   window_import_from_text   ""  ""
 
 item	import_menu	separator	""	""	""	""
-item    import_menu      command         "Import from Excel file..."     window_import_excel    ""     "packageAvailable('readxl')"
+item    import_menu      command         "Import from Excel file..."     window_import_from_excel    ""     "packageAvailable('readxl')"
 
 item	import_menu	separator	""	""	""	""
 item	import_menu	command	"Import from Rds file (.Rds, .rds)..."	window_import_rds	""	""
