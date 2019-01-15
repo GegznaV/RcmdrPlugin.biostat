@@ -20,7 +20,7 @@ path_ext_set_2(path, ext)
 
 is_url(str)
 
-do_nothing()
+do_nothing(...)
 }
 \arguments{
 \item{str}{(character) Path to file (with filename and extension).}
