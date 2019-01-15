@@ -5,6 +5,7 @@
 #  3. Add warnig, if file name changed, and contents did not.
 
 
+
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
@@ -470,7 +471,6 @@ window_import_from_text <- function() {
         }
     }
 
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Update contents of dataset preview window
     refresh_dataset_window <- function() {
@@ -620,7 +620,7 @@ window_import_from_text <- function() {
         highlight_update_button()
 
         tk_normalize(f3_box_nrow_1)
-        set_selection(f3_box_nrow_1, 100)
+        set_selection(f3_box_nrow_1, "100")
 
         tkconfigure(f3_but_1, default = "normal")
 
@@ -1297,9 +1297,6 @@ window_import_from_text <- function() {
 
 
     # F3, Frame 3, Preview ---------------------------------------------------
-
-    text_font <- tkfont.create(size = 8, family = "Consolas")
-
     f3 <- tk2labelframe(f_middle, relief = "flat", text = "Preview")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1308,7 +1305,7 @@ window_import_from_text <- function() {
     f3_input <- bs_text(
         f3, width = 70, height = 11, wrap = "none",
         autoseparators = TRUE, undo = TRUE,
-        state = "disabled", font = text_font,
+        state = "disabled", font = font_consolas_regular,
         label = "Input")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1405,26 +1402,13 @@ window_import_from_text <- function() {
             "Useful if pasting text results in encoding issues. \n",
             'It is useful to select correct "Enconding" too.'))
 
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    # f3_lab_dataset <- bs_label_b(f3, text = "Dataset")
 
     f3_dataset <- bs_text(
         f3, width = 75, height = 11, wrap = "none",
-        undo = FALSE, state = "disabled", font = text_font,
+        undo = FALSE, state = "disabled", font = font_consolas_regular,
         label = "Dataset",
-        tip = str_c(
-            "Types of variables: \n",
-            "   <int> whole numbers (integers);\n",
-            '   <dbl>, <num> real numbers ("doubles");\n',
-            "   <chr>, <char> character (text) variables;\n",
-            "   <fct>, <fctr> factors (categorical variables);\n",
-            # "   <ord> ordinal factors;\n",
-            "   <lgl>, <lgcl>, <logi> logical values.\n",
-            "Other types are also possible.\n",
-            "Backticks (` `) - indicate non-standard names."
-        )
+        tip = tip_variable_types
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1478,50 +1462,14 @@ window_import_from_text <- function() {
     dialogSuffix(grid.buttons = TRUE, resizable = TRUE)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Fonts ------------------------------------------------------------------
-    font_consolas_italic  <- tkfont.create(family = "Consolas", size = 8, slant = "italic")
-    font_consolas_bold    <- tkfont.create(family = "Consolas", size = 8, weight = "bold")
-    font_consolas_regular <- tkfont.create(family = "Consolas", size = 8)
-
-
     # Configuration ----------------------------------------------------------
-
     set_values(f1_ent_2_2, unique_obj_names("dataset", all_numbered = TRUE))
     highlight_update_button()
 
-    # Configure text tags ----------------------------------------------------
 
-    tktag.configure(f3_input$text, "tab",   background = "grey95")
-    tktag.configure(f3_input$text, "grey",  foreground = "grey50")
-    tktag.configure(f3_input$text, "error", foreground = "red3")
-    tktag.configure(f3_input$text, "bold",  font = font_consolas_bold)
-
-    tktag.configure(f3_dataset$text, "var_names",
-                    foreground = "blue",
-                    font = font_consolas_bold)
-
-    tktag.configure(f3_dataset$text, "var_types",
-                    foreground = "grey50",
-                    font = font_consolas_italic)
-
-    tktag.configure(f3_dataset$text, "info",
-                    foreground = "grey50",
-                    font = font_consolas_italic)
-
-    tktag.configure(f3_dataset$text, "error", foreground = "red3")
-    tktag.configure(f3_dataset$text, "bold", font = font_consolas_bold)
-
-    tktag.configure(f3_dataset$text, "grey",  foreground = "grey50")
-    tktag.configure(f3_dataset$text, "green", foreground = "green")
-    tktag.configure(f3_dataset$text, "red",   foreground = "red")
-    tktag.configure(f3_dataset$text, "red3",  foreground = "red3")
-    tktag.configure(f3_dataset$text, "red4",  foreground = "red4")
-
-    tktag.configure(f3_dataset$text, "chr",  foreground = "tomato4")
-    tktag.configure(f3_dataset$text, "fct",  foreground = "red4")
-    tktag.configure(f3_dataset$text, "lgl",  foreground = "red4")
-    tktag.configure(f3_dataset$text, "num",  foreground = "green4")
-
+    # Tags -------------------------------------------------------------------
+    configure_tags(f3_input$text)
+    configure_tags(f3_dataset$text)
 
     # Make resizable window --------------------------------------------------
 
