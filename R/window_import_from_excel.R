@@ -4,12 +4,12 @@
 #' @keywords internal
 window_import_from_excel <- function() {
 
-
     previous_file_name        <- tclVar("")
     previous_nrows_to_preview <- tclVar("")
 
     biostat_env$file_contents <- ""
     biostat_env$worksheets    <- NULL
+    biostat_env$possibly_more_rows <- NULL
 
     on.exit({
         biostat_env$file_contents      <- ""
@@ -37,9 +37,10 @@ window_import_from_excel <- function() {
     get_code_xl_sheet <- function() {
         val <- get_selection(f1_box_sheet)
         if (val == "") {
-            str_glue(', sheet = "{val}"',)
+            ""
         } else {
-            val
+            str_glue(', sheet = "{val}"')
+
         }
     }
 
@@ -57,9 +58,10 @@ window_import_from_excel <- function() {
     get_code_xl_range <- function() {
         val <- get_values(f1_ent_range)
         if (val == "") {
-            str_glue(', range = "{val}"',)
+            ""
+
         } else {
-            val
+            str_glue(', range = "{val}"')
         }
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -136,7 +138,7 @@ window_import_from_excel <- function() {
                "unique"    = ,
                "universal" = val,
                "check unique" = "check_unique",
-               "make names" = make.names,
+               "make names" = ~ make.names(., unique = TRUE),
                stop("Value '", val, "' is unknown (f2_box_out).")
         )
     }
@@ -148,7 +150,7 @@ window_import_from_excel <- function() {
                "unique"       = "",
                "universal"    = ', .name_repair = "universal"',
                "check unique" = ', .name_repair = "check_unique"',
-               "make names"   = ', .name_repair = make.names',
+               "make names"   = ', .name_repair = ~ make.names(., unique = TRUE)',
                stop("Value '", val, "' is unknown (f2_box_out).")
         )
     }
@@ -395,12 +397,15 @@ window_import_from_excel <- function() {
 
         if (is_nothing_to_import()) {
             clear_dataset_window()
-
             return()
+
+        } else if (need_update_from_file()) {
+            read_sheets_from_file()
         }
 
         filename <- read_path_to_file()
-        n_rows   <- get_nrows_preview_input()
+        n_rows   <- min(get_nrows_preview_input(),
+                        get_nrows_to_import())
 
         # Get data from input
         suppressWarnings({
@@ -454,50 +459,16 @@ window_import_from_excel <- function() {
     # Update input preview, dataset (DS) preview, and DS name boxes.
     update_all <- function() {
         update_name_entry()
-        check_file_name()
         read_sheets_from_file()
         put_sheets_in_gui()
         read_data_from_file()
-
         highlight_update_button()
-
         # update_from_file()
         refresh_dataset_window()
+        check_file_name()
     }
 
     # ~ Change properties ----------------------------------------------------
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Enable import options entry boxes and refresh_dataset_window().
-    # txt     - ending of widget's name
-    # default - default value on activation/normalization
-    # tip_active  - tip in active/normal mode
-    # tip_disabled - tip in disabled mode
-
-    enable_entry <- function(txt, default = "", tip_disabled = NULL, tip_active = NULL) {
-        obj_1 <- get(str_glue("f2_box_{txt}"), envir = parent.frame())
-        obj_2 <- get(str_glue("f2_ent_{txt}"), envir = parent.frame())
-
-        cond <- str_detect(get_selection(obj_1), "Custom")
-        if (cond) {
-            if (disabled(obj_2$obj_text)) {
-                set_values(obj_2, default)
-            }
-            tk_normalize(obj_2)
-            if (!is.null(tip_active)) {
-                tk2tip(obj_2$obj_text, tip_active)
-            }
-
-        } else {
-            set_values(obj_2, "")
-            tk_disable(obj_2)
-            if (!is.null(tip_disabled)) {
-                tk2tip(obj_2$obj_text, tip_disabled)
-            }
-        }
-
-        refresh_dataset_window()
-    }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     highlight_update_button <- function() {
@@ -520,14 +491,17 @@ window_import_from_excel <- function() {
         rng_val <- read_range()
 
         if (!is.null(rng_val)) {
+            set_values(f2_ent_skip, 0)
             tk_disable(f2_ent_skip)
+            set_values(f2_ent_max, "")
             tk_disable(f2_ent_max)
+
             if (str_detect(rng_val, "!")) {
                 set_selection(f1_box_sheet, "")
                 tk_disable(f1_box_sheet)
 
             } else {
-                tk_normalize(f1_box_sheet)
+                tk_read_only(f1_box_sheet)
                 if (get_size(f1_box_sheet) > 0) {
                     set_selection(f1_box_sheet, 1)
                 }
@@ -536,7 +510,7 @@ window_import_from_excel <- function() {
         } else {
             tk_normalize(f2_ent_skip)
             tk_normalize(f2_ent_max)
-            tk_normalize(f1_box_sheet)
+            tk_read_only(f1_box_sheet)
         }
     }
     # ~ Input validation -----------------------------------------------------
@@ -551,6 +525,19 @@ window_import_from_excel <- function() {
             }
 
             tcl("expr", "TRUE")
+        }
+    }
+
+    is_excel_range <- function(P, W) {
+        # P - value
+        res <- str_detect(
+            P, "^(.+!)?[[:alpha:]]+[[:digit:]]+:[[:alpha:]]+[[:digit:]]+$") ||
+            (str_trim(P) == "")
+        if (res == TRUE) {
+            tkconfigure(W, foreground = "black")
+            return(tcl("expr", "TRUE"))
+        } else {
+            return(tcl("expr", "FALSE"))
         }
     }
 
@@ -626,7 +613,7 @@ window_import_from_excel <- function() {
 
         command <- str_glue(
             '## Import data from Excel file \n',
-            '{new_name} <- readxl::xlread(\n',
+            '{new_name} <- readxl::read_excel(\n',
             '"{file_name}"',
 
             get_code_xl_sheet(),
@@ -749,14 +736,18 @@ window_import_from_excel <- function() {
         tip = "Choose file to import."
     )
 
-    # f1_lab_name <- bs_label_b(f1, text = "Name: ")
-    f1_lab_sheet <- bs_label_b(f1, text = "Sheet: ")
+
+
+    f1_lab_name <- bs_label_b(f1, text = "Name: ")
+
     f1_ent_name <- bs_entry(
-        f1, width = 30, sticky = "ew", label = "Name: ",
+        f1, width = 30, sticky = "ew",
         tip = "Create a name for the dataset.")
+
 
     f1_box_sheet <- bs_combobox(
         parent = f1,
+        label = "Sheet: ",
         values = "",
         tip = "Choose worksheet to import data from.",
         # onSelect_fun     = correct_worksheet_selection,
@@ -771,8 +762,8 @@ window_import_from_excel <- function() {
             range_activation()
         },
         tip = str_c("(Optional)\n",
-                    "Range of cells in Excel sheet,\n",
-                    "e.g., B2:F18 or Sheet2!B2:F18."),
+                    "Range of cells in Excel sheet, e.g., B2:F18 or Sheet2!B2:F18. \n",
+                    "Overrides 'Skip lines', 'Max. lines' and possibly 'Sheet'."),
         validate = "focus",
         validatecommand = is_excel_range,
         invalidcommand  = make_red_text
@@ -799,12 +790,21 @@ window_import_from_excel <- function() {
         buttons = c("TRUE"  = "Yes",
                     "FALSE" = "No"),
         layout  = "horizontal",
-        default_tip = tip_head
-
-        # tips = list(
-        #     "TRUE"  = str_c(),
-        #     "FALSE" = str_c()
-        # )
+        commands = list(
+            "TRUE"  = function() {
+                set_selection(f2_box_rep, "unique")
+                refresh_dataset_window()
+            },
+            "FALSE" = function() {
+                set_selection(f2_box_rep, "universal")
+                refresh_dataset_window()
+            }
+        ),
+        tips = list(
+            "TRUE"  = str_c("First row is treated as column names."),
+            "FALSE" = str_c("There are no column name data.\n",
+                            "The names should be created.")
+        )
     )
 
     # f2_txt <- bs_label(f2a, text = "Header")
@@ -830,18 +830,17 @@ window_import_from_excel <- function() {
     f2_lab_rep  <- tk2label(f2, text = "Repair names")
     f2_lab_out  <- tk2label(f2, text = "Import as")
 
-    tip_box_skip <- "Number of rows to skip. \n Positive integer starting at 0."
-    tip_box_max  <- "Maximum number of rows to read. \nInteger between 0 and infinity (Inf)."
-    tip_box_na   <- "A character vector of strings which \nare interpreted as missing (NA) values."
-    tip_box_out  <- "Class of imported data set."
+    tip_box_skip <- "Number of rows to skip. \n Either positive integer or 0."
+    tip_box_max  <- "Maximum number of rows to read. \nEither positive integer or infinity (Inf).\nBlank means that all rows will be read."
+    tip_box_na   <- "A text, which is interpreted as missing (NA) values."
+    tip_box_out  <- "The class of imported data set."
 
     tip_box_rep  <- str_c(
-
         "Check variable names to ensure that they are syntactically valid\n",
         "(start with a letter, do not contain spaces and other special symbols)\n",
         "and unique. \n",
         "Options: \n",
-        '  minimal  \t- Check if names exist, but do not repair;\n',
+        # '  minimal  \t- Check if names exist, but do not repair;\n',
         '  check unique \t- Check if names are unique, but do not repair; \n',
         '  unique    \t- Names are made unique and not empty;\n',
         '  universal \t- Names are made unique and syntactic;\n',
@@ -856,7 +855,6 @@ window_import_from_excel <- function() {
         f2,
         width           = entry_width,
         tip             = tip_box_skip,
-        on_key_release  = refresh_dataset_window,
         value           = 0,
         validate        = "focus",
         validatecommand = validate_pos_int,
@@ -866,38 +864,35 @@ window_import_from_excel <- function() {
         f2,
         width           = entry_width,
         tip             = tip_box_max,
-        on_key_release  = refresh_dataset_window,
         validate        = "focus",
-        validatecommand = validate_int_0_inf,
+        validatecommand = validate_int_0_inf_empty,
         invalidcommand  = make_red_text_reset_val(to = ""))
 
     f2_ent_na   <- bs_entry(
         f2,
         width          = entry_width,
-        tip            = tip_box_na,
-        on_key_release = refresh_dataset_window)
-
-    f2_box_out  <- bs_combobox(
-        f2, width = entry_width - 3,
-        values    = c("Data frame", "Tibble", "Data table"),
-        tip       = tip_box_out,
-        selection = 1,
-        on_select = refresh_dataset_window)
+        tip            = tip_box_na)
 
     f2_box_rep  <- bs_combobox(
         f2, width = entry_width - 3,
-        values    = c("minimal", "check unique", "unique", "universal", "make names"),
+        values    = c("check unique", "unique", "universal", "make names"),
         value = "unique",
         tip       = tip_box_rep,
         selection = 1,
         on_select = refresh_dataset_window)
 
+    f2_box_out  <- bs_combobox(
+        f2, width = entry_width - 3,
+        values    = c("Data frame", "Tibble", "Data table"),
+        tip       = tip_box_out,
+        selection = 1)
+
 
     tkgrid(f2_lab_skip, f2_ent_skip$frame, pady = c(2, 0))
     tkgrid(f2_lab_max,  f2_ent_max$frame,  pady = c(2, 0))
     tkgrid(f2_lab_na,   f2_ent_na$frame,   pady = c(2, 0))
-    tkgrid(f2_lab_out,  f2_box_out$frame,  pady = c(2, 0))
     tkgrid(f2_lab_rep,  f2_box_rep$frame,  pady = c(2, 0))
+    tkgrid(f2_lab_out,  f2_box_out$frame,  pady = c(2, 0))
 
     tkgrid.configure(
         # f2_lab_head,
@@ -946,15 +941,12 @@ window_import_from_excel <- function() {
 
 
     # F3, Frame 3, Preview ---------------------------------------------------
-
-    text_font <- tkfont.create(size = 8, family = "Consolas")
-
     f3 <- tk2labelframe(f_middle, relief = "flat", text = "Preview")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    f3_but   <- tk2frame(f3)
-    f3_but_w <- tk2frame(f3_but)
-    f3_but_e <- tk2frame(f3_but)
+    f3_but_set <- tk2frame(f3)
+    f3_but_w   <- tk2frame(f3_but_set)
+    f3_but_e   <- tk2frame(f3_but_set)
 
     f3_lab_nrows <- bs_label(f3_but_w, text = "Options:", tip = str_c(
         "Preview options: number ow rows to\n",
@@ -1011,10 +1003,10 @@ window_import_from_excel <- function() {
         image = "::image::bs_refresh",
         command = function() {
             refresh_dataset_window()
+            highlight_update_button()
         },
 
-        tip = str_c("Refresh Dataset's window and ",
-                    "highligth tabs in Input window.")
+        tip = str_c("Refresh Dataset's window.")
     )
 
     # f3_but_4 <- tk2button(
@@ -1036,17 +1028,9 @@ window_import_from_excel <- function() {
 
     f3_dataset <- bs_text(
         f3, width = 75, height = 11, wrap = "none",
-        undo = FALSE, state = "disabled", font = text_font,
+        undo = FALSE, state = "disabled", font = font_consolas_regular,
         label = "Dataset",
-        tip = str_c(
-            "Types of variables: \n",
-            " - <int> whole numbers (integers);\n",
-            ' - <dbl>, <num> real numbers ("doubles");\n',
-            " - <chr>, <char> character (text) variables;\n",
-            " - <fct>, <fctr> factors (categorical variables);\n",
-            # " - <ord> ordinal factors;\n",
-            " - <lgl>, <lgcl>, <logi> logical values."
-        ))
+        tip = tip_variable_types)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # Grid -------------------------------------------------------------------
@@ -1057,27 +1041,25 @@ window_import_from_excel <- function() {
     tkgrid(f1_lab_file, f1_ent_file$frame, "x", "x", "x", "x",  f1_but_1,
            pady = c(10, 2), sticky = "we")
 
-    tkgrid(f1_lab_sheet,
-           f1_box_sheet$frame, f1_ent_range$frame, "x", "x", f1_ent_name$frame,
+    tkgrid(f1_lab_name, f1_ent_name$frame, "x", "x",
+           f1_box_sheet$frame, f1_ent_range$frame,
            pady = c(0,  10), sticky = "we")
     tkgrid(f1_ent_range$frame)
 
     tkgrid(f1_but_update, f1_but_paste, f1_but_clear, f1_but_f_open, sticky = "e")
 
-    tkgrid.configure(f1_lab_file,
-                     # f1_lab_name,
+    tkgrid.configure(f1_lab_file, f1_lab_name,
                      f1_ent_range$frame_label, f1_ent_range$obj_label,
-                     f1_ent_name$frame_label,  f1_ent_name$obj_label,
-                     f1_lab_sheet, sticky = "e")
+                     sticky = "e")
 
     tkgrid.configure(f1_ent_file$frame,  f1_ent_file$obj_text,  f1_ent_file$frame_text,
                      f1_ent_name$frame,  f1_ent_name$obj_text,  f1_ent_name$frame_text,
                      f1_ent_range$obj_text, f1_ent_range$frame_text,
                      sticky = "we")
 
-    tkgrid.configure(f1_ent_file$frame, f1_box_sheet$frame, f1_ent_range$frame,
+    tkgrid.configure(f1_ent_file$frame, f1_ent_name$frame,
                      padx = 2)
-    tkgrid.configure( f1_ent_name$frame, padx = c(10, 2))
+    tkgrid.configure(f1_ent_range$frame, f1_box_sheet$frame, padx = c(10, 2))
 
     tkgrid.configure(f1_ent_file$frame, columnspan = 5)
     tkgrid.configure(
@@ -1091,8 +1073,8 @@ window_import_from_excel <- function() {
     tkgrid.configure(f2, sticky = "ns")
     tkgrid.configure(f3, sticky = "news")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(f3_but_set, sticky = "ew", columnspan = 2)
     tkgrid(f3_dataset$frame, sticky = "news")
-    tkgrid(f3_but, sticky = "ew", columnspan = 2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(f3_but_w, f3_but_e, sticky = "ew", pady = c(2, 4))
 
@@ -1119,44 +1101,13 @@ window_import_from_excel <- function() {
     dialogSuffix(grid.buttons = TRUE, resizable = TRUE)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Fonts ------------------------------------------------------------------
-    font_consolas_italic  <- tkfont.create(family = "Consolas", size = 8, slant = "italic")
-    font_consolas_bold    <- tkfont.create(family = "Consolas", size = 8, weight = "bold")
-    font_consolas_regular <- tkfont.create(family = "Consolas", size = 8)
-
-
     # Configuration ----------------------------------------------------------
-
     set_values(f1_ent_name, unique_obj_names("dataset", all_numbered = TRUE))
     highlight_update_button()
 
-    # Configure text tags ----------------------------------------------------
-    tktag.configure(f3_dataset$text, "var_names",
-                    foreground = "blue",
-                    font = font_consolas_bold)
 
-    tktag.configure(f3_dataset$text, "var_types",
-                    foreground = "grey50",
-                    font = font_consolas_italic)
-
-    tktag.configure(f3_dataset$text, "info",
-                    foreground = "grey50",
-                    font = font_consolas_italic)
-
-    tktag.configure(f3_dataset$text, "error", foreground = "red3")
-    tktag.configure(f3_dataset$text, "bold", font = font_consolas_bold)
-
-    tktag.configure(f3_dataset$text, "grey",  foreground = "grey50")
-    tktag.configure(f3_dataset$text, "green", foreground = "green")
-    tktag.configure(f3_dataset$text, "red",   foreground = "red")
-    tktag.configure(f3_dataset$text, "red3",  foreground = "red3")
-    tktag.configure(f3_dataset$text, "red4",  foreground = "red4")
-
-    tktag.configure(f3_dataset$text, "chr",  foreground = "tomato4")
-    tktag.configure(f3_dataset$text, "fct",  foreground = "red4")
-    tktag.configure(f3_dataset$text, "lgl",  foreground = "red4")
-    tktag.configure(f3_dataset$text, "num",  foreground = "green4")
-
+    # Tags -------------------------------------------------------------------
+    configure_tags(f3_dataset$text)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Make resizable window --------------------------------------------------
@@ -1170,8 +1121,11 @@ window_import_from_excel <- function() {
     tkgrid.rowconfigure(top, 3, weight = 0, minsize = 2)   # Buttons
 
     tkgrid.rowconfigure(f_middle, 0, weight = 1)
-    tkgrid.rowconfigure(f3,       0, weight = 1)
-    tkgrid.rowconfigure(f3,       2, weight = 1)
+    tkgrid.rowconfigure(f3,       0, weight = 0)
+    tkgrid.rowconfigure(f3,       1, weight = 1)
+    tkgrid.rowconfigure(f3,       2, weight = 0)
+
+    tkgrid.rowconfigure(f3_dataset$label, 0, weight = 0)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Columns (width)
@@ -1194,10 +1148,10 @@ window_import_from_excel <- function() {
 
     tkgrid.columnconfigure(f3,       0, weight = 1)
 
-    tkgrid.columnconfigure(f3_but,   0, weight = 1)
-    tkgrid.columnconfigure(f3_but,   1, weight = 0)
-    tkgrid.columnconfigure(f3_but_w, 0, weight = 0)
-    tkgrid.columnconfigure(f3_but_e, 0, weight = 1)
+    tkgrid.columnconfigure(f3_but_set, 0, weight = 1)
+    tkgrid.columnconfigure(f3_but_set, 1, weight = 0)
+    tkgrid.columnconfigure(f3_but_w,   0, weight = 0)
+    tkgrid.columnconfigure(f3_but_e,   0, weight = 1)
 
 
     # Interactive bindings ---------------------------------------------------
@@ -1206,8 +1160,16 @@ window_import_from_excel <- function() {
     tkbind(top, "<Return>", do_nothing)
 
     tkbind(f1_ent_range$frame, "<<Paste>>", range_activation)
-    tkbind(f1_ent_range$frame, "<<Enter>>", range_activation)
-    tkbind(f1_ent_range$frame, "<<Leave>>", range_activation)
+    tkbind(f1_but_paste$frame, "<<Paste>>", highlight_update_button)
+
+    # tkbind(f1_ent_range$frame, "<<Enter>>", range_activation)
+    tkbind(f1_ent_range$obj_text, "<FocusOut>", refresh_dataset_window)
+
+    tkbind(f2_ent_max$frame,  "<FocusOut>", refresh_dataset_window)
+    tkbind(f2_ent_skip$frame, "<FocusOut>", refresh_dataset_window)
+    tkbind(f2_ent_na$frame,   "<FocusOut>", refresh_dataset_window)
+    tkbind(top,               "<Control-S>", refresh_dataset_window)
+    tkbind(top,               "<Control-s>", refresh_dataset_window)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     invisible()
