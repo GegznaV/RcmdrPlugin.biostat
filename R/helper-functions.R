@@ -696,6 +696,7 @@ msg_box_check_internet_connection <- function(parent = CommanderWindow()) {
 #' @export
 do_nothing <- function(...) {}
 
+
 # ___ Check ___ ==============================================================
 #' @rdname Helper-functions
 #' @export
@@ -1272,6 +1273,18 @@ is_integer_0_inf <- function(str) {
 validate_int_0_inf <- function(P, W) {
     # P - value
     res <- is_integer_0_inf(P)
+
+    if (res == TRUE) {
+        tkconfigure(W, foreground = "black")
+        return(tcl("expr", "TRUE"))
+    } else {
+        return(tcl("expr", "FALSE"))
+    }
+}
+
+validate_int_0_inf_empty <- function(P, W) {
+    # P - value
+    res <- is_integer_0_inf(P) || (str_trim(P) == "")
 
     if (res == TRUE) {
         tkconfigure(W, foreground = "black")
