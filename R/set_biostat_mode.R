@@ -39,13 +39,13 @@ set_biostat_mode <- function() {
         pare,
         tip = "Import a dataset",
         image = "::image::bs_import",
-        command = bs_mode_menu_import)
+        command = bs_mode_menu__import)
 
     button_export <- tk2button(
         pare,
         tip = "Export active dataset",
         image = "::image::bs_export",
-        command = bs_mode_menu_export)
+        command = bs_mode_menu__export)
 
     button_rows <- tk2button(
         pare,
@@ -63,7 +63,7 @@ set_biostat_mode <- function() {
         pare,
         tip = "Plots",
         image = "::image::bs_plot",
-        command = bs_mode_menu_plots)
+        command = bs_mode_menu__plots)
 
     button_analysis <- tk2button(
         pare,
@@ -75,7 +75,7 @@ set_biostat_mode <- function() {
         pare,
         tip     = "Session, settings and several datasets",
         image   = "::image::bs_settings",
-        command = bs_mode_menu_session)
+        command = bs_mode_menu__session)
 
     button_refresh <- tk2button(
         pare,
@@ -104,7 +104,7 @@ set_biostat_mode <- function() {
     if (length(button_view) > 0) {
         tkgrid.forget(button_view)
         tkconfigure(button_view, compound = "none")
-        tkconfigure(button_view, command = bs_mode_menu_print)
+        tkconfigure(button_view, command = bs_mode_menu__print)
         # Add tooltip
         .Tcl(str_glue('tooltip::tooltip {button_view} "View and print data"'))
     }
@@ -238,13 +238,12 @@ to_word <- function(variables) {
 # "Import from STATA data file..."                   , "importSTATA"
 # "Import from Minitab data file..."                 , "importMinitab"
 
-bs_mode_menu_import <- function() {
+bs_mode_menu__import <- function() {
 
     top <- CommanderWindow()
 
     menu_i <- tk2menu(tk2menu(top), tearoff = FALSE)
     menu_f <- tk2menu(menu_i, tearoff = FALSE)
-
 
     tkadd(menu_i, "cascade",
           label    = "Import from file    ",
@@ -326,7 +325,7 @@ bs_mode_menu_import <- function() {
 
 
 # Export menus -----------------------------------------------------------
-bs_mode_menu_export <- function() {
+bs_mode_menu__export <- function() {
     .ds <- active_dataset_0()
     if (is.null(.ds)) {
         command_dataset_refresh()
@@ -420,8 +419,8 @@ bs_mode_menu_export <- function() {
             tkwinfo("pointery", top))
 }
 
-# View and print menus -------------------------------------------------------
-bs_mode_menu_print <- function() {
+
+bs_mode_menu__print <- function() {
 
     .ds <- active_dataset_0()
     if (is.null(.ds)) {
@@ -509,7 +508,7 @@ bs_mode_menu_print <- function() {
 }
 
 # Plot menus -----------------------------------------------------------
-bs_mode_menu_plots <- function() {
+bs_mode_menu__plots <- function() {
 
     top <- CommanderWindow()
 
@@ -537,7 +536,7 @@ bs_mode_menu_plots <- function() {
 }
 
 # Session, etc. menus -----------------------------------------------------------
-bs_mode_menu_session <- function() {
+bs_mode_menu__session <- function() {
 
     top <- CommanderWindow()
 
