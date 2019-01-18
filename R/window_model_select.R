@@ -202,8 +202,10 @@ window_model_select <- function() {
         width = 0,
         command = function() {
             .mod <- activeModel()
+
+            open_new_plots_window()
             doItAndPrint(str_glue(
-                "## Basic diagnostic plots for model \n",
+                "## Basic diagnostic plots for the model \n",
                 "old_par <- par(oma = c(0, 0, 3, 0), mfrow = c(2, 2)) \n",
                 "plot({.mod}) \n",
                 "par(old_par)"))
@@ -220,8 +222,9 @@ window_model_select <- function() {
             .mod <- activeModel()
             Library("tidyverse")
             Library("ggfortify")
+            open_new_plots_window()
             doItAndPrint(str_glue(
-                '## Cooks distance (outlier if d > 1) \n',
+                '## Cooks distance, d (outlier if d > 1) \n',
                 'autoplot({.mod}, which = 4) + \n',
                 'geom_hline(yintercept = 1, color = "red", lty = 2) + \n',
                 'theme_bw()'))
