@@ -99,6 +99,7 @@
 \alias{get_obj_names}
 \alias{unique_obj_names}
 \alias{unique_df_name}
+\alias{unique_file_name}
 \alias{unique_colnames}
 \alias{unique_colnames_2}
 \alias{variables_with_unique_values}
@@ -395,6 +396,9 @@ unique_obj_names(names, preffix = "", suffix = "",
 unique_df_name(names = active_dataset_0(), preffix = "", suffix = "",
   list_of_choices = objects(all.names = TRUE, envir = .GlobalEnv),
   all_numbered = FALSE)
+
+unique_file_name(name = "file", dir = getwd(),
+  list_of_choices = dir(dir, all.files = TRUE), all_numbered = FALSE)
 
 unique_colnames(names = "", preffix = "", suffix = "",
   list_of_choices = listVariables(), all_numbered = FALSE)
