@@ -310,11 +310,14 @@ item	bs_analysis_menu	cascade	"Tests"	bs_tests_menu	""	""
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # + ~ Normality tests --------------------------------------------------------
 
-menu	bs_distr_tests_menu	bs_tests_menu	""	""	""	""
-item	bs_tests_menu	cascade	"Normality / Distribution tests"	bs_distr_tests_menu	""	""
 
-item	bs_distr_tests_menu	command	"Normality test (univariate)..."	window_test_normality	"numericP()"	""
-item	bs_distr_tests_menu	command	"Normality test (multivariate; on-line)..."	window_online_mvn	"numericP()"	""
+item	bs_tests_menu	command	"Normality test (univariate)..."	window_test_normality	"numericP()"	""
+
+# menu	bs_distr_tests_menu	bs_tests_menu	""	""	""	""
+# item	bs_tests_menu	cascade	"Normality / Distribution tests"	bs_distr_tests_menu	""	""
+#
+# item	bs_distr_tests_menu	command	"Normality test (univariate)..."	window_test_normality	"numericP()"	""
+# item	bs_distr_tests_menu	command	"Normality test (multivariate; on-line)..."	window_online_mvn	"numericP()"	""
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -373,10 +376,10 @@ item	bs_variability_menu	command	"Levene's / Brown-Forsythe's test... [Rcmdr]"	L
 
 # . ==========================================================================
 # ---- + Models (Fit) --------------------------------------------------------
-menu	bs_fit_models_menu	bs_analysis_menu	""	""	""	""
-item	bs_analysis_menu	cascade	"Models (fit)"	bs_fit_models_menu	""	""
-
-item	bs_fit_models_menu	command	"Linear regression... [EZR]"	StatMedLinearRegression	"activeDataSetP()"	""
+# menu	bs_fit_models_menu	bs_analysis_menu	""	""	""	""
+# item	bs_analysis_menu	cascade	"Models (fit)"	bs_fit_models_menu	""	""
+#
+# item	bs_fit_models_menu	command	"Linear regression... [EZR]"	StatMedLinearRegression	"activeDataSetP()"	""
 # item	bs_fit_models_menu	command	"[???] Calibration (linear regression)..."	function_not_implemented	"activeDataSetP() && FALSE"	""
 
 
