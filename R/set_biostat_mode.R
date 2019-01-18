@@ -197,17 +197,28 @@ to_word <- function(variables) {
 
     library(tidyverse)
     library(officer)
-    doc <- read_docx("toc_and_captions.docx") %>%
+    f_name <- unique_file_name(str_glue("results_{Sys.Date()}.docx"))
 
+    ds_name <- "swiss"
+    ds <- swiss
+
+    if (fs::file_exists(f_name)) {
+        doc <- read_docx(f_name)
+    } else {
+        doc <- read_docx()
+    }
+
+
+    doc %>%
         # body_add_par(value = "dataset mtcars", style = "heading 1") %>%
         # body_add_break() %>%
 
-        body_add_par(value = "data mtcars", style = "table title") %>%
-        body_add_table(value = swiss, style = "table_template" ) %>%
+        body_add_par(value = str_glue("Dataset '{ds_name}'"), style = "table title") %>%
+        body_add_table(value = ds, style = "table_template" ) %>%
         body_end_section_portrait() %>%
-        print(doc, target = "toc_and_captions.docx")
+        print(doc, target = f_name)
 
-    fs::file_show("toc_and_captions.docx")
+    fs::file_show(f_name)
 }
 
 
@@ -365,10 +376,9 @@ bs_mode_menu_export <- function() {
     # tkadd(menu_e, "separator")
 
     tkadd(menu_e, "command",
+          label    = "Export to Excel file (.xlsx)...",
           compound = "left",
           image    = "::image::bs_excel",
-          label    = "Export to Excel file (.xlsx)...",
-
           command = window_export_to_excel)
 
     # tkadd(menu_e, "separator")
@@ -429,23 +439,23 @@ bs_mode_menu_print <- function() {
 
     view_style <- if (.Platform$GUI == "RStudio") {
         tkadd(menu_p, "command",
+              label    = "View dataset (in RStudio)",
               compound = "left",
               image    = "::image::viewIcon",
-              label    = "View dataset (in RStudio)",
               command  = command_dataset_view)
 
     } else {
         tkadd(menu_p, "command",
+              label    = "View dataset",
               compound = "left",
               image    = "::image::viewIcon",
-              label    = "View dataset",
               command  = window_dataset_view_rcmdr)
     }
 
     tkadd(menu_p, "command",
+          label    = "Change class of active dataset",
           # compound = "left",
           # image    = "::image::viewIcon",
-          label    = "Change class of active dataset",
           command  = window_dataset_class)
 
     tkadd(menu_p, "separator")
@@ -506,17 +516,17 @@ bs_mode_menu_plots <- function() {
     menu_p <- tk2menu(tk2menu(top), tearoff = FALSE)
 
     tkadd(menu_p, "command",
+          label    = "Open new window for plots",
           compound = "left",
           image    = "::image::bs_new_window",
-          label    = "Open new window for plots",
           command  = open_new_plots_window)
 
     # tkadd(menu_p, "separator")
     #
     # tkadd(menu_p, "command",
+    #       label    = "Save editable plot to PowerPoint",
     #       compound = "left",
     #       image    = "::image::bs_pptx",
-    #       label    = "Save editable plot to PowerPoint",
     #       command  = function_not_implemented)
 
     # tkadd(menu_p, "separator")
@@ -534,9 +544,9 @@ bs_mode_menu_session <- function() {
     menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
     tkadd(menu_p, "command",
+          label    = "Locale...",
           compound = "left",
           image    = "::image::bs_locale",
-          label    = "Locale...",
           command  = window_locale_set)
 
 
@@ -607,22 +617,23 @@ bs_mode_menu_session <- function() {
           menu     = menu_wd)
 
     tkadd(menu_wd, "command",
+          label    = "Print path to WD",
           compound = "left",
           image    = "::image::bs_path_to_wd",
-          label    = "Print path to WD",
           command  = command_getwd)
-
-    tkadd(menu_wd, "command",
-          compound = "left",
-          image    = "::image::bs_set_wd",
-          label    = "Change WD",
-          command  = command_setwd)
 
     tkadd(menu_wd, "command",
           label    = "Open WD",
           compound = "left",
           image    = "::image::bs_open_wd",
           command  = command_openwd)
+
+    tkadd(menu_wd, "command",
+          label    = "Change WD",
+          compound = "left",
+          image    = "::image::bs_set_wd",
+          command  = command_setwd)
+
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     menu_ws <- tk2menu(menu_p, tearoff = FALSE)
@@ -634,9 +645,9 @@ bs_mode_menu_session <- function() {
           menu     = menu_ws)
 
     tkadd(menu_ws, "command",
+          label    = "List objects in R workspace",
           # compound = "left",
           # image    = "::image::bs_folder",
-          label    = "List objects in R workspace",
           command  = command_list_objects)
 
     tkadd(menu_ws, "command",
