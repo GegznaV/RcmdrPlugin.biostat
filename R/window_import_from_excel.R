@@ -438,7 +438,7 @@ window_import_from_excel <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Update contents of dataset entry box.
-    update_name_entry <- function(variables) {
+    update_name_entry <- function() {
         filename <- read_path_to_file()
 
         if (filename != "") {
@@ -586,6 +586,16 @@ window_import_from_excel <- function() {
             preview_ds_type = get_selection(f3_box_type)
         ))
 
+        # Check if file exists or is URL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (!check_file_name()) {
+            return()
+        }
+
+        # If URL, check if internet connection is present.
+        if (is_url(file_name) && !pingr::is_online()) {
+            msg_box_check_internet_connection(top)
+            return()
+        }
 
         # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (is_empty_name(new_name)) {
@@ -597,17 +607,6 @@ window_import_from_excel <- function() {
         }
 
         if (forbid_to_replace_object(new_name)) {
-            return()
-        }
-
-        # Check if file exists or is URL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (!check_file_name()) {
-            return()
-        }
-
-        # If URL, check if internet connection is present.
-        if (is_url(file_name) && !pingr::is_online()) {
-            msg_box_check_internet_connection(top)
             return()
         }
 
