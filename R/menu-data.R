@@ -45,11 +45,17 @@ activate_menus <- function() {
 
         if (!is.null(active_dataset_0())) {
             tk_normalize(getRcmdr("button_export"))
+            tk_normalize(getRcmdr("button_rows"))
+            tk_normalize(getRcmdr("button_variables"))
             tk_normalize(getRcmdr("button_view"))
+            tk_normalize(getRcmdr("button_analysis"))
 
         } else {
             tk_disable(getRcmdr("button_export"))
+            tk_disable(getRcmdr("button_rows"))
+            tk_disable(getRcmdr("button_variables"))
             tk_disable(getRcmdr("button_view"))
+            tk_disable(getRcmdr("button_analysis"))
         }
     }
 }
