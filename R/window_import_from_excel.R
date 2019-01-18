@@ -4,6 +4,10 @@
 #' @keywords internal
 window_import_from_excel <- function() {
 
+    # Fonts ------------------------------------------------------------------
+    font_consolas_regular <- tkfont.create(family = "Consolas", size = 8)
+
+    # Variables --------------------------------------------------------------
     previous_file_name        <- tclVar("")
     previous_nrows_to_preview <- tclVar("")
 
@@ -609,6 +613,7 @@ window_import_from_excel <- function() {
 
         #  Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+        Library("tidyverse")
         Library("readxl")
 
         command <- str_glue(
@@ -736,14 +741,11 @@ window_import_from_excel <- function() {
         tip = "Choose file to import."
     )
 
-
-
     f1_lab_name <- bs_label_b(f1, text = "Name: ")
 
     f1_ent_name <- bs_entry(
         f1, width = 30, sticky = "ew",
         tip = "Create a name for the dataset.")
-
 
     f1_box_sheet <- bs_combobox(
         parent = f1,
@@ -769,17 +771,12 @@ window_import_from_excel <- function() {
         invalidcommand  = make_red_text
     )
 
-
     # F2-3, Middle frame -----------------------------------------------------
-
     f_middle <- tk2frame(top)
 
-
     # F2, Frame 2, parameters ------------------------------------------------
-
     f2 <- tk2labelframe(f_middle, relief = "flat",
                         borderwidth = 5, padding = 5, text = "Import options")
-
     f2a <- tk2frame(f2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tip_head <- "First row has column names."
@@ -807,18 +804,6 @@ window_import_from_excel <- function() {
         )
     )
 
-    # f2_txt <- bs_label(f2a, text = "Header")
-    # f2_but <- bs_radiobuttons(
-    #     parent  = f2a,
-    #     buttons = c("TRUE"  = "Yes",
-    #                 "FALSE" = "No"),
-    #     layout  = "horizontal"
-    #     # tips = list(
-    #     #     "TRUE"  = str_c(),
-    #     #     "FALSE" = str_c()
-    #     # )
-    # )
-
     tkgrid(f2a,         columnspan = 3,    sticky = "ew", pady = c(0, 2))
     tkgrid(f2_txt_head, f2_but_head$frame, sticky = "ew")
     tkgrid.configure(f2_txt_head, padx = c(2, 7))
@@ -845,7 +830,6 @@ window_import_from_excel <- function() {
         '  unique    \t- Names are made unique and not empty;\n',
         '  universal \t- Names are made unique and syntactic;\n',
         '  make names \t- Function `make.names` is applied.')
-
 
     # Possible options ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -907,8 +891,6 @@ window_import_from_excel <- function() {
         padx = c(2, 0)
     )
 
-    # list(f2_ent_skip, f2_ent_max, f2_ent_na) %>% walk(tk_disable)
-
     # Check boxes ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f2_opts <- bs_checkboxes(
         parent = f2,
@@ -938,7 +920,6 @@ window_import_from_excel <- function() {
 
     tkgrid(f2_opts$frame,
            padx = c(3, 0), pady = c(4, 2), columnspan = 3, sticky = "w")
-
 
     # F3, Frame 3, Preview ---------------------------------------------------
     f3 <- tk2labelframe(f_middle, relief = "flat", text = "Preview")
@@ -985,8 +966,6 @@ window_import_from_excel <- function() {
         value = initial$preview_ds_type,
         on_select = refresh_dataset_window)
 
-
-
     f3_but_2 <- tk2button(
         f3_but_e,
         # text = "Clear",
@@ -1008,34 +987,18 @@ window_import_from_excel <- function() {
 
         tip = str_c("Refresh Dataset's window.")
     )
-
-    # f3_but_4 <- tk2button(
-    #     f3_but_e,
-    #     # width = 7,
-    #     # text = "Locale",
-    #     # compound = "right",
-    #     image = "::image::bs_locale",
-    #     command = function() {window_locale_set_0(parent = top)},
-    #     tip = str_c(
-    #         "Change locale. \n",
-    #         "Useful if pasting text results in encoding issues. \n",
-    #         'It is useful to select correct "Enconding" too.'))
-
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    # f3_lab_dataset <- bs_label_b(f3, text = "Dataset")
 
     f3_dataset <- bs_text(
         f3, width = 75, height = 11, wrap = "none",
-        undo = FALSE, state = "disabled", font = font_consolas_regular,
+        undo = FALSE, state = "disabled",
+        font = font_consolas_regular,
         label = "Dataset",
         tip = tip_variable_types)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    # Grid -------------------------------------------------------------------
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Grid -------------------------------------------------------------------
     tkgrid(f1, padx = 10, sticky = "we")
 
     tkgrid(f1_lab_file, f1_ent_file$frame, "x", "x", "x", "x",  f1_but_1,
@@ -1098,7 +1061,7 @@ window_import_from_excel <- function() {
                    reset = "window_import_from_excel()",
                    ok_label = "Import")
 
-    dialogSuffix(grid.buttons = TRUE, resizable = TRUE)
+    dialogSuffix(grid.buttons = TRUE, resizable = TRUE, bindReturn = FALSE)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Configuration ----------------------------------------------------------
