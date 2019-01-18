@@ -1035,7 +1035,7 @@ window_import_from_text <- function() {
         tip = str_c("Read file for preview.")
     )
 
-    f1_but_choose_file <- tk2button(
+    f1_but_f_choose <- tk2button(
         f1_but_set_1,
         # width = 7,
         # text = "Browse",
@@ -1148,7 +1148,8 @@ window_import_from_text <- function() {
 
     f2_box_head <- bs_combobox(
         f2, width = 13, values = head1, tip = tip_box_head,
-        selection = 1, on_select = refresh_dataset_window)
+        selection = 1, on_select = refresh_dataset_window,
+        label_tip = tip_header)
 
     f2_box_dec  <- bs_combobox(
         f2, width = 13, values = dec1,  tip = tip_box_dec,
@@ -1424,7 +1425,7 @@ window_import_from_text <- function() {
     tkgrid(f1_lab_file, f1_ent_file$frame, f1_but_set_1, pady = c(10, 2),  sticky = "we")
     tkgrid(f1_lab_ds_name, f1_ent_ds_name$frame,           pady = c(0,  10), sticky = "we")
 
-    tkgrid(f1_but_choose_file, f1_but_paste, f1_but_clear, f1_but_update, sticky = "e")
+    tkgrid(f1_but_f_choose, f1_but_paste, f1_but_clear, f1_but_update, sticky = "e")
 
     tkgrid.configure(f1_lab_file, f1_lab_ds_name,             sticky = "e")
     tkgrid.configure(f1_ent_file$frame, f1_ent_ds_name$frame, sticky = "we", padx = 2)
