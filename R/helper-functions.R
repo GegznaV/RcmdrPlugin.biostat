@@ -515,6 +515,54 @@ unique_df_name <- function(names = active_dataset_0(),
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
+unique_file_name <- function(name = "file", # all names are converted to lower case.
+                             dir = getwd(),
+                             list_of_choices = dir(dir, all.files = TRUE),
+                             all_numbered = FALSE) {
+
+    if (length(name) == 0)
+        name <- "file"
+
+    ext <- fs::path_ext(name)
+    initial_names <- fs::path_ext_remove(name)
+
+    n_names <- length(name)
+
+    list_to_check <-
+        if (all_numbered) {
+            c(list_of_choices, initial_names, initial_names)
+        } else {
+            c(list_of_choices, initial_names)
+        }
+
+    list_to_check %>%
+        str_to_lower() %>%
+        make.unique(sep = "_") %>%
+        tail(n = n_names) %>%
+        set_multi_ext(ext)
+}
+
+# More robust version of fs::path_ext_set()
+set_multi_ext  <- function(path, ext) {
+    # Prepares `ext` or results in error.
+    if (length(ext) == 1) {
+        ext <- rep(ext, length(path))
+    } else if (length(ext) != length(path)) {
+        stop("The number of extensions (`ext`) should be equal to 1 or match the number of paths (`path`).")
+    }
+
+    ext <- sub("^\\.(.*)$", "\\1", ext) # Removes leading dot from the extension, if present
+
+    cond <- !is.na(path) & ext != "" # To exclude NA strings and empty extensions
+    path[cond] <-  paste0(path_ext_remove(path[cond]), ".", ext[cond])
+    path_tidy(path)
+}
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 unique_colnames <- function(names = "",
                             preffix = "",
                             suffix = "",
