@@ -74,14 +74,15 @@ biostat_env <- new.env()
         # Set new options and restart R Commander
         options(Rcmdr = updated_opts)
 
-        if (!"package:Rcmdr" %in% search()) {
-            Rcmdr::Commander()
-        } else {
-            if (!Rcmdr::getRcmdr("autoRestart")) {
-                Rcmdr::closeCommander(ask = FALSE, ask.save = TRUE)
-                Rcmdr::Commander()
-            }
-        }
+        # if (!"package:Rcmdr" %in% search()) {
+        #     Rcmdr::Commander()
+        #
+        # } else {
+        #     if (!isTRUE(Rcmdr::getRcmdr("autoRestart", fail = FALSE))) {
+        #         Rcmdr::closeCommander(ask = FALSE, ask.save = TRUE)
+        #         Rcmdr::Commander()
+        #     }
+        # }
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -94,67 +95,59 @@ biostat_env <- new.env()
     }
 
     bs_tkimage_create("::image::bs_r_logo_g"  , "icons/R-logo-g.png")
-    bs_tkimage_create("::image::bs_r_logo_g2" , "icons/R-logo-g.gif")
-    bs_tkimage_create("::image::bs_green"     , "icons/user-online-2.png")
-    bs_tkimage_create("::image::bs_green_r_24", "icons/speech-balloon-green-r-icon-24.png")
-    bs_tkimage_create("::image::bs_green_r_32", "icons/speech-balloon-green-r-icon-32.png")
-    bs_tkimage_create("::image::bs_green_r_64", "icons/speech-balloon-green-r-icon-64.png")
-    bs_tkimage_create("::image::bs_green_r_48", "icons/speech-balloon-green-r-icon-48.png")
-    bs_tkimage_create("::image::bs_green_r_72", "icons/speech-balloon-green-r-icon-72.png")
+    bs_tkimage_create("::image::bs_r"         , "icons/r-logo-16x16.png")
 
     bs_tkimage_create("::image::bs_dataset"  , "icons/list.png")
     bs_tkimage_create("::image::bs_model"    , "icons/model.png")
-
     bs_tkimage_create("::image::bs_locale"   , "icons/locale.png")
+
     bs_tkimage_create("::image::bs_down"     , "icons/down-blue.png")
     bs_tkimage_create("::image::bs_delete"   , "icons/delete.png")
     bs_tkimage_create("::image::bs_paste"    , "icons/edit-paste-7.png")
     bs_tkimage_create("::image::bs_copy"     , "icons/edit-copy-7.png")
+    bs_tkimage_create("::image::bs_rename"   , "icons/textfield-rename.png")
     bs_tkimage_create("::image::bs_cut"      , "icons/edit-cut-7.png")
-    bs_tkimage_create("::image::bs_refresh"  , "icons/view-refresh-6.png")
-    bs_tkimage_create("::image::bs_open_file", "icons/document-open.png")
-    bs_tkimage_create("::image::bs_open_dir",  "icons/document-open-folder.png")
-    bs_tkimage_create("::image::bs_open",      "icons/document-open-2.png")
+    bs_tkimage_create("::image::bs_undo"     , "icons/edit-undo-7.png")
+    bs_tkimage_create("::image::bs_redo"     , "icons/edit-redo-7.png")
+    bs_tkimage_create("::image::bs_find"     , "icons/edit-find-7.png")
+    bs_tkimage_create("::image::bs_refresh"  , "icons/refresh.png")
 
-    bs_tkimage_create("::image::bs_import",    "icons/document-import-2.png")
-    bs_tkimage_create("::image::bs_export",    "icons/document-export-4.png")
-    bs_tkimage_create("::image::bs_new",       "icons/window-new.png")
+    bs_tkimage_create("::image::bs_open_file", "icons/document-open-2.png")
+    bs_tkimage_create("::image::bs_open_dir" , "icons/document-open-folder.png")
+    bs_tkimage_create("::image::bs_columns"  , "icons/bs_cols.png")
+    bs_tkimage_create("::image::bs_rows"     , "icons/bs_rows.png")
+
+    bs_tkimage_create("::image::bs_import",    "icons/bs_import.png")
+    bs_tkimage_create("::image::bs_export",    "icons/bs_export.png")
     bs_tkimage_create("::image::bs_new_doc",   "icons/document-new-3.png")
-    bs_tkimage_create("::image::bs_to_console","icons/transform-shear-down.png")
     bs_tkimage_create("::image::bs_preview",   "icons/document-preview.png")
+    bs_tkimage_create("::image::bs_new_window","icons/window-new.png")
 
-    # bs_tkimage_create("::image::bs_analyse",   "icons/calculator-edit.png")
-    bs_tkimage_create("::image::bs_analyse",   "icons/application-view-tile.png")
-    bs_tkimage_create("::image::bs_summary",   "icons/view-statistics.png")
-    bs_tkimage_create("::image::bs_summary2",  "icons/insert-numbers.png")
-    bs_tkimage_create("::image::bs_summary3",  "icons/kdb_table.png")
+    bs_tkimage_create("::image::bs_num_list",   "icons/insert-numbers.png")
+    bs_tkimage_create("::image::bs_table",      "icons/kdb_table.png")
+    bs_tkimage_create("::image::bs_sort_asc",   "icons/view-sort-ascending.png")
+    bs_tkimage_create("::image::bs_sort_desc",  "icons/view-sort-descending.png")
+    bs_tkimage_create("::image::bs_rectangle",  "icons/draw-rectangle.png")
+
+    bs_tkimage_create("::image::bs_package",   "icons/package-green.png")
+    bs_tkimage_create("::image::bs_text",      "icons/bs_t.png")
+    bs_tkimage_create("::image::bs_pptx",      "icons/page-white_powerpoint.png")
+    bs_tkimage_create("::image::bs_excel",     "icons/page-white_excel.png")
+    bs_tkimage_create("::image::bs_word",      "icons/page-white_word.png")
+    bs_tkimage_create("::image::bs_md",        "icons/md.png")
+
+    bs_tkimage_create("::image::bs_settings",  "icons/system-2.png")
+
+    bs_tkimage_create("::image::bs_open_wd",   "icons/bs_folder_open.png")
+    bs_tkimage_create("::image::bs_path_to_wd","icons/bs_folder_show.png")
+    bs_tkimage_create("::image::bs_set_wd",    "icons/bs_folder_change.png")
+    bs_tkimage_create("::image::bs_folder",    "icons/bs_folder.png")
+    bs_tkimage_create("::image::bs_workspace", "icons/user-desktop.png")
+
+    bs_tkimage_create("::image::bs_analyze",   "icons/bs_analyze.png")
     bs_tkimage_create("::image::bs_plot",      "icons/office-chart-pie.png")
-    bs_tkimage_create("::image::bs_plot2",     "icons/insert-chart.png")
-    bs_tkimage_create("::image::bs_plot3",     "icons/insert-chart-bar.png")
-
+    bs_tkimage_create("::image::bs_chart",     "icons/insert-chart-bar.png")
 }
-
-# "::image::bs_locale"
-# "::image::bs_down"
-# "::image::bs_delete"
-# "::image::bs_paste"
-# "::image::bs_copy"
-# "::image::bs_cut"
-# "::image::bs_open_file"
-# "::image::bs_open"
-#
-# "::image::bs_refresh"
-# "::image::bs_import"
-# "::image::bs_export"
-#
-# "::image::bs_new"
-#
-# "::image::bs_preview"
-# "::image::bs_plot"
-#
-# "::image::bs_summary"
-# "::image::bs_chart"
-# "::image::bs_analyse"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 restart_commander <- function() {
