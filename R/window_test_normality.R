@@ -7,20 +7,20 @@ window_test_normality <- function() {
         if (tclvalue_lgl(by_groupVariable) == FALSE) {
 
             # Clear factor variable box
-            for (sel in seq_along(gr_var_Box$varlist) - 1)
-                tkselection.clear(gr_var_Box$listbox, sel)
+            for (sel in seq_along(gr_var_box$varlist) - 1)
+                tkselection.clear(gr_var_box$listbox, sel)
             tkconfigure(by_groupCheckBox, state = "disabled")
 
         } else {
-            # Box is checked only if groups in gr_var_Box
+            # Box is checked only if groups in gr_var_box
             # are selected
             tclvalue(by_groupVariable) <- "0"
         }
     }
 
-    cmd_onRelease_gr_var_Box <- function() {
+    cmd_onRelease_gr_var_box <- function() {
         # On mouse relese select/deselect checkbox
-        if (length(getSelection(gr_var_Box)) == 0) {
+        if (length(getSelection(gr_var_box)) == 0) {
             tclvalue(by_groupVariable) <- "0"
             tkconfigure(by_groupCheckBox, state = "disabled")
 
@@ -97,8 +97,8 @@ window_test_normality <- function() {
     onOK <- function() {
         # Get values ---------------------------------------------------------
         by_group         <- tclvalue(by_groupVariable)
-        gr_var           <- getSelection(gr_var_Box)
-        y_var            <- getSelection(y_var_Box)
+        gr_var           <- getSelection(gr_var_box)
+        y_var            <- getSelection(y_var_box)
         test             <- tclvalue(testVariable)
         keep_results     <- tclvalue_lgl(keep_resultsVariable)
         digits_p         <- tclvalue_int(digits_pVariable)
@@ -295,8 +295,11 @@ window_test_normality <- function() {
 
     # Initialize -------------------------------------------------------------
     .ds <- active_dataset_0()
-
     nrows <- getRcmdr("nrow") # nrows in active dataset
+
+    initializeDialog(title = gettext_bs("Test Normality by Group"))
+    tk_title(top, text = "Normality tests and normal QQ plots")
+
     defaults <- list(
         initial_y_var            = NULL,
         initial_gr_var           = NULL,
@@ -319,8 +322,7 @@ window_test_normality <- function() {
 
     dialog_values <- getDialog("window_test_normality", defaults)
 
-    initializeDialog(title = gettext_bs("Test Normality by Group"))
-    tk_title(top, text = "Normality tests and normal QQ plots")
+
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Variables
@@ -328,24 +330,25 @@ window_test_normality <- function() {
     # upper_frame <- labeled_frame(top, "Select variables")
     upper_frame <- tkframe(top)
 
-    y_var_Box <- bs_listbox(
+    y_var_box <- bs_listbox(
         parent    = upper_frame,
         title     = gettext_bs("Variable to test\n(pick one)"),
         height    =  6,
         values    = variables_num(),
-        selection = varPosn(dialog_values$initial_y_var, "numeric")
+        value     = dialog_values$initial_y_var
     )
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     gr_var_Frame <- tkframe(upper_frame)
 
-    gr_var_Box <- bs_listbox(
+    gr_var_box <- bs_listbox(
         parent     = gr_var_Frame,
         title      = gettext_bs("Groups variable\n(pick one, several or none)"),
         selectmode = "multiple",
         values     = variables_fct_like(),
         height     = 5,
         value      = dialog_values$initial_gr_var,
-        on_release = cmd_onRelease_gr_var_Box)
+        on_release = cmd_onRelease_gr_var_box)
 
     bs_check_boxes(
         window          = gr_var_Frame,
@@ -353,7 +356,7 @@ window_test_normality <- function() {
         boxes           = c("by_group"),
         commands        = list("by_group" = cmd_onClick_by_group_checkbox),
         initialValues   = c(dialog_values$initial_by_group),
-        # initialValues = (length(getSelection(gr_var_Box)) != 0),
+        # initialValues = (length(getSelection(gr_var_box)) != 0),
         labels          = gettext_bs(c("Test by group"))
     )
 
@@ -518,8 +521,8 @@ window_test_normality <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(upper_frame, sticky = "nwe", padx = c(0, 4)) #~~~~~~~~~~~~~~~~~
 
-    tkgrid(getFrame(y_var_Box), gr_var_Frame, sticky = "nwe", padx = c(10, 0))
-    tkgrid(getFrame(gr_var_Box), sticky = "nsw", padx = c(20, 0))
+    tkgrid(getFrame(y_var_box), gr_var_Frame, sticky = "nwe", padx = c(10, 0))
+    tkgrid(getFrame(gr_var_box), sticky = "nsw", padx = c(20, 0))
     tkgrid(by_group_Frame,       sticky = "sw",  padx = c(20, 0), pady = c(0, 5))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
