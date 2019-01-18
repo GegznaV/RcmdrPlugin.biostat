@@ -112,7 +112,7 @@ biostat_env <- new.env()
     bs_tkimage_create("::image::bs_find"     , "icons/edit-find-7.png")
     bs_tkimage_create("::image::bs_refresh"  , "icons/refresh.png")
 
-    bs_tkimage_create("::image::bs_open_file", "icons/document-open-2.png")
+    bs_tkimage_create("::image::bs_open_file", "icons/document-open.png")
     bs_tkimage_create("::image::bs_open_dir" , "icons/document-open-folder.png")
     bs_tkimage_create("::image::bs_columns"  , "icons/bs_cols.png")
     bs_tkimage_create("::image::bs_rows"     , "icons/bs_rows.png")
