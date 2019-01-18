@@ -73,7 +73,7 @@ window_import_from_rds <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Update contents of dataset entry box.
-    update_name_entry <- function(variables) {
+    update_name_entry <- function() {
         filename <- read_path_to_file()
 
         if (filename != "") {
@@ -128,12 +128,10 @@ window_import_from_rds <- function() {
         }
 
         #  Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
         command <- str_glue(
             '## Import data from Rds file\n',
             '{new_name} <- readRDS("{file_name}")'
         )
-        doItAndPrint(command)
 
         # ~~ Apply commands --------------------------------------------------
         result <- justDoIt(command)
@@ -154,7 +152,6 @@ window_import_from_rds <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         command_dataset_refresh()
         tkfocus(CommanderWindow())
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Announce about the success to run the function `onOk()`
