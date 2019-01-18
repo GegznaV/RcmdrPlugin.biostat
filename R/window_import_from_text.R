@@ -285,10 +285,10 @@ window_import_from_text <- function() {
             return()
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        set_values(f1_ent_1_2, filename)
+        set_values(f1_ent_file, filename)
 
-        tkicursor(f1_ent_1_2$obj_text, "end")
-        tkxview.moveto(f1_ent_1_2$obj_text, "1") # 0 - beginning, 1 - end.
+        tkicursor(f1_ent_file$obj_text, "end")
+        tkxview.moveto(f1_ent_file$obj_text, "1") # 0 - beginning, 1 - end.
 
         if (fs::is_file(filename)) {
             update_all()
@@ -297,7 +297,7 @@ window_import_from_text <- function() {
 
     # Read value of file name entry box
     read_path_to_file <- function() {
-        get_values(f1_ent_1_2)
+        get_values(f1_ent_file)
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -540,14 +540,14 @@ window_import_from_text <- function() {
                         clean_str() %>%
                         unique_df_name()
 
-                    set_values(f1_ent_2_2, new_name)
+                    set_values(f1_ent_ds_name, new_name)
                 }
             },
 
             "clipboard" = {
-                if (get_values(f1_ent_2_2) == "") {
+                if (get_values(f1_ent_ds_name) == "") {
                     new_name <- unique_obj_names("dataset", all_numbered = TRUE)
-                    set_values(f1_ent_2_2, new_name)
+                    set_values(f1_ent_ds_name, new_name)
                 }
             },
 
@@ -584,12 +584,12 @@ window_import_from_text <- function() {
     set_mode_clipboard <- function() {
         # clear_dataset_window()
         set_values(f2_but_from, "clipboard")
-        tk_disable(f1_ent_1_2)
-        tk_disable(f1_but_1_3)
-        tk_disable(f1_but_1_4)
-        tk_disable(f1_but_1_5)
+        tk_disable(f1_ent_file)
+        tk_disable(f1_but_paste)
+        tk_disable(f1_but_clear)
+        tk_disable(f1_but_update)
 
-        tkconfigure(f3_but_1, default = "active", state = "active")
+        tkconfigure(f3_but_paste, default = "active", state = "active")
         # image = "::image::bs_paste2"
 
 
@@ -617,16 +617,16 @@ window_import_from_text <- function() {
         }
 
         set_values(f2_but_from, "file")
-        tk_normalize(f1_ent_1_2)
-        tk_normalize(f1_but_1_3)
-        tk_normalize(f1_but_1_4)
-        tk_normalize(f1_but_1_5)
+        tk_normalize(f1_ent_file)
+        tk_normalize(f1_but_paste)
+        tk_normalize(f1_but_clear)
+        tk_normalize(f1_but_update)
         highlight_update_button()
 
         tk_normalize(f3_box_nrow_1)
         set_selection(f3_box_nrow_1, "100")
 
-        tkconfigure(f3_but_1, default = "normal")
+        tkconfigure(f3_but_paste, default = "normal")
 
         tkconfigure(f3_input$label, text = "Input (file contents preview)")
         tk_disable(f3_input)
@@ -699,15 +699,15 @@ window_import_from_text <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     highlight_update_button <- function() {
         if (is_file_name_missing()) {
-            tk_disable(f1_but_1_5)
+            tk_disable(f1_but_update)
 
         } else {
-            tk_normalize(f1_but_1_5)
+            tk_normalize(f1_but_update)
             if (need_update_from_file()) {
-                tk_activate(f1_but_1_5)
-                tkconfigure(f1_but_1_5, default = "active")
+                tk_activate(f1_but_update)
+                tkconfigure(f1_but_update, default = "active")
             } else {
-                tkconfigure(f1_but_1_5, default = "normal")
+                tkconfigure(f1_but_update, default = "normal")
             }
         }
     }
@@ -798,7 +798,7 @@ window_import_from_text <- function() {
         on.exit(cursor_set_idle(top))
 
         # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        new_name  <- get_values(f1_ent_2_2)
+        new_name  <- get_values(f1_ent_ds_name)
         from      <- get_import_mode()
 
         # Reset widget properties before checking ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -990,42 +990,42 @@ window_import_from_text <- function() {
     # F1, Frame 1, choose file and name --------------------------------------
     f1 <- tk2frame(top)
 
-    f1_lab_1_1 <- bs_label_b(f1, text = "File, URL: ")
-    f1_ent_1_2 <- bs_entry(
+    f1_lab_file <- bs_label_b(f1, text = "File, URL: ")
+    f1_ent_file <- bs_entry(
         f1, width = 90, sticky = "we", tip = "Path to file or URL.",
         on_key_release = highlight_update_button)
 
     f1_but_set_1 <- tk2frame(f1)
 
-    f1_but_1_3 <- tk2button(
+    f1_but_paste <- tk2button(
         f1_but_set_1,
         # width = 7,
         # text = "Paste",
         image = "::image::bs_paste",
         command = function() {
-            set_values(f1_ent_1_2,
+            set_values(f1_ent_file,
                        str_c(read_path_to_file(), read_clipboard()))
-            tkicursor(f1_ent_1_2$obj_text, "end")
-            tkxview.moveto(f1_ent_1_2$obj_text, "1")
+            tkicursor(f1_ent_file$obj_text, "end")
+            tkxview.moveto(f1_ent_file$obj_text, "1")
 
             highlight_update_button()
         },
         tip = "Paste file name or URL."
     )
 
-    f1_but_1_4 <- tk2button(
+    f1_but_clear <- tk2button(
         f1_but_set_1,
         # width = 7,
         # text = "Delete",
         image = "::image::bs_delete",
         command = function() {
-            set_values(f1_ent_1_2, "")
+            set_values(f1_ent_file, "")
             highlight_update_button()
         },
         tip = "Clear file name or URL."
     )
 
-    f1_but_1_5 <- tk2button(
+    f1_but_update <- tk2button(
         f1_but_set_1,
         # width = 6,
         # text = "Update",
@@ -1035,7 +1035,7 @@ window_import_from_text <- function() {
         tip = str_c("Read file for preview.")
     )
 
-    f1_but_1_6 <- tk2button(
+    f1_but_choose_file <- tk2button(
         f1_but_set_1,
         # width = 7,
         # text = "Browse",
@@ -1052,8 +1052,8 @@ window_import_from_text <- function() {
         tip = "Choose file to import."
     )
 
-    f1_lab_2_1 <- bs_label_b(f1, text = "Name: ")
-    f1_ent_2_2 <- bs_entry(
+    f1_lab_ds_name <- bs_label_b(f1, text = "Name: ")
+    f1_ent_ds_name <- bs_entry(
         f1, width = 90,  sticky = "ew", tip = "Create a name for the dataset.")
 
 
@@ -1354,7 +1354,7 @@ window_import_from_text <- function() {
         value = initial$preview_ds_type,
         on_select = refresh_dataset_window)
 
-    f3_but_1 <- tk2button(
+    f3_but_paste <- tk2button(
         f3_but_e,
         # width = 7,
         # text = "Paste",
@@ -1367,7 +1367,7 @@ window_import_from_text <- function() {
         },
         tip = "Clear input and paste data from clipboard.")
 
-    f3_but_2 <- tk2button(
+    f3_but_clear <- tk2button(
         f3_but_e,
         # text = "Clear",
         # width = 7,
@@ -1376,7 +1376,7 @@ window_import_from_text <- function() {
         tip = "Clear both preview windows."
     )
 
-    f3_but_3 <- tk2button(
+    f3_but_refresh <- tk2button(
         f3_but_e,
         # width = 7,
         # text = "Refresh",
@@ -1394,7 +1394,7 @@ window_import_from_text <- function() {
                     "highligth tabs in 'Input' window.")
     )
 
-    f3_but_4 <- tk2button(
+    f3_but_locale <- tk2button(
         f3_but_e,
         # width = 7,
         # text = "Locale",
@@ -1421,16 +1421,16 @@ window_import_from_text <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(f1, padx = 10, sticky = "we")
 
-    tkgrid(f1_lab_1_1, f1_ent_1_2$frame, f1_but_set_1, pady = c(10, 2),  sticky = "we")
-    tkgrid(f1_lab_2_1, f1_ent_2_2$frame,           pady = c(0,  10), sticky = "we")
+    tkgrid(f1_lab_file, f1_ent_file$frame, f1_but_set_1, pady = c(10, 2),  sticky = "we")
+    tkgrid(f1_lab_ds_name, f1_ent_ds_name$frame,           pady = c(0,  10), sticky = "we")
 
-    tkgrid(f1_but_1_5, f1_but_1_3, f1_but_1_4, f1_but_1_6, sticky = "e")
+    tkgrid(f1_but_choose_file, f1_but_paste, f1_but_clear, f1_but_update, sticky = "e")
 
-    tkgrid.configure(f1_lab_1_1, f1_lab_2_1,             sticky = "e")
-    tkgrid.configure(f1_ent_1_2$frame, f1_ent_2_2$frame, sticky = "we", padx = 2)
+    tkgrid.configure(f1_lab_file, f1_lab_ds_name,             sticky = "e")
+    tkgrid.configure(f1_ent_file$frame, f1_ent_ds_name$frame, sticky = "we", padx = 2)
     tkgrid.configure(
-        f1_ent_1_2$frame_text,  f1_ent_2_2$frame_text,
-        f1_ent_1_2$obj_text,    f1_ent_2_2$obj_text,
+        f1_ent_file$frame_text,  f1_ent_ds_name$frame_text,
+        f1_ent_file$obj_text,    f1_ent_ds_name$obj_text,
         sticky = "we")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(f_middle, sticky = "news")
@@ -1448,11 +1448,11 @@ window_import_from_text <- function() {
     tkgrid(f3_lab_nrows, f3_box_nrow_1$frame, f3_box_nrow_2$frame,
            f3_box_type$frame, sticky = "w")
 
-    tkgrid(f3_but_1, f3_but_2, f3_but_3, f3_but_4, sticky = "e")
+    tkgrid(f3_but_paste, f3_but_clear, f3_but_refresh, f3_but_locale, sticky = "e")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid.configure(f3_lab_nrows,        padx = c(10, 2))
     tkgrid.configure(f3_box_nrow_2$frame, padx = c(2, 2))
-    tkgrid.configure(f3_but_4,            padx = c(0, 10))
+    tkgrid.configure(f3_but_locale,            padx = c(0, 10))
 
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1467,7 +1467,7 @@ window_import_from_text <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Configuration ----------------------------------------------------------
-    set_values(f1_ent_2_2, unique_obj_names("dataset", all_numbered = TRUE))
+    set_values(f1_ent_ds_name, unique_obj_names("dataset", all_numbered = TRUE))
     highlight_update_button()
 
 
@@ -1498,10 +1498,10 @@ window_import_from_text <- function() {
     tkgrid.columnconfigure(f1, 1, weight = 1) # Text entries
     tkgrid.columnconfigure(f1, 2, weight = 0) # Buttons
 
-    tkgrid.columnconfigure(f1_ent_1_2$frame_text, 0, weight = 1, minsize = 20)
-    tkgrid.columnconfigure(f1_ent_2_2$frame_text, 0, weight = 1, minsize = 20)
-    tkgrid.columnconfigure(f1_ent_1_2$obj_text,   0, weight = 1, minsize = 20)
-    tkgrid.columnconfigure(f1_ent_2_2$obj_text,   0, weight = 1, minsize = 20)
+    tkgrid.columnconfigure(f1_ent_file$frame_text, 0, weight = 1, minsize = 20)
+    tkgrid.columnconfigure(f1_ent_ds_name$frame_text, 0, weight = 1, minsize = 20)
+    tkgrid.columnconfigure(f1_ent_file$obj_text,   0, weight = 1, minsize = 20)
+    tkgrid.columnconfigure(f1_ent_ds_name$obj_text,   0, weight = 1, minsize = 20)
 
     tkgrid.columnconfigure(f_middle, 0, weight = 0)
     tkgrid.columnconfigure(f_middle, 1, weight = 1)
