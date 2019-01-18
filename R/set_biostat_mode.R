@@ -234,7 +234,7 @@ to_word <- function(variables) {
 #
 # "Import from text file (.txt, .csv, .dat, etc.)"   , "window_import_from_text"
 # "Import from Excel file..."                        , "window_import_from_excel"
-# "Import from Rds file (.Rds, .rds)..."	         , "window_import_rds"
+# "Import from Rds file (.Rds, .rds)..."	         , "window_import_from_rds"
 # "Import from R-data file (.RData, .Rda, .rda)..."  , "window_import_rdata"
 # "Import from SPSS data file..."                    , "importSPSS"
 # "Import from SAS xport file..."                    , "importSAS"
@@ -307,7 +307,7 @@ bs_mode_menu__import <- function() {
           label   = "from Rds file (.rds)...",
           compound = "left",
           image    = "::image::bs_r",
-          command = window_import_rds)
+          command = window_import_from_rds)
 
     tkadd(menu_f, "command",
           label    = "from R-data file (.RData, .rda)...",
