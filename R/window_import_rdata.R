@@ -29,15 +29,15 @@ window_import_rdata <- function() {
     if (length(overwrite_names) > 0) {
         o_names  <- str_c(overwrite_names, collapse = ", ")
         warn_msg <- str_c(
-            "\nIn you workspace, the following objects will be overwritten: \n",
+            "\nIn your workspace, the following objects will be overwritten: \n",
             o_names,
             "\n\nDo you want to proceed?"
            )
 
         choice <- tk_messageBox(
           parent = CommanderWindow(), type = "yesno", default = "no",
-          message = warn_msg,
-          caption = "Do you want to proceed?"
+          message = warn_msg, icon = "warning",
+          caption = "Import and Overwrite"
         )
 
         if (choice == "no") {
