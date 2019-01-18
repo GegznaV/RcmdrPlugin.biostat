@@ -526,7 +526,7 @@ window_import_from_text <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Update contents of dataset entry box.
-    update_name_entry <- function(variables) {
+    update_name_entry <- function() {
 
         switch(
             get_import_mode(),
