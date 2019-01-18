@@ -219,6 +219,25 @@ item	bs_export_menu	command	"Export to R data file (.RData)..."	window_export_to
 # item	bs_export_menu	separator	""	""	""	""
 # item	bs_export_menu	command	"[???] Save as MS Word table..."	function_not_implemented	"activeDataSetP()"	""
 
+# . ===========================================================================
+# ---- >>> Plots (main) -------------------------------------------------------
+
+menu	bs_plots_menu	biostat_menu	""	""	""	""
+item	biostat_menu	cascade	"Plots"	bs_plots_menu	""	""
+
+item	bs_plots_menu	command	"Open a new window for plots"	open_new_plots_window	""	""
+
+
+# item	bs_plots_menu	separator	""	""	""	""
+# item	bs_plots_menu	command	"Digitize image (offline)..."	window_plots_image_digitizer	""	"packageAvailable('digitizeR')"
+item	bs_plots_menu	command	"Import data from plot (online)..."	window_online_image_digitizer	""	""
+# item	import_menu	command	"Digitize image..."	window_dataset_digitizer_web	""	"packageAvailable('digitizeR')"
+
+
+
+# item	bs_plots_menu	separator	""	""	""	""
+# item	bs_plots_menu	command	"[???] Visualize color names & color codes (example)"	window_show_colors	""	""
+# item	bs_plots_menu	command	"[???] Save editable plot..."	function_not_implemented	"FALSE"	"packageAvailable('officer') && packageAvailable('rvg')"
 
 
 
@@ -240,27 +259,6 @@ item	bs_summary_menu	separator	""	""	""	""
 item	bs_summary_menu	command	"[???] Summarize variables..."	window_summary_skim	"activeDataSetP()"	"packageAvailable('skimr')"
 
 item	bs_summary_menu	command	"Frequency & multi-way tables..."	window_summary_count	"activeDataSetP()"	""
-
-
-# . ===========================================================================
-# ---- >>> Plots (main) -------------------------------------------------------
-
-menu	bs_plots_menu	biostat_menu	""	""	""	""
-item	biostat_menu	cascade	"Plots"	bs_plots_menu	""	""
-
-item	bs_plots_menu	command	"Open a new window for plots"	open_new_plots_window	""	""
-
-
-item	bs_plots_menu	separator	""	""	""	""
-# item	bs_plots_menu	command	"Digitize image (offline)..."	window_plots_image_digitizer	""	"packageAvailable('digitizeR')"
-item	bs_plots_menu	command	"Import data from plot (online)..."	window_online_image_digitizer	""	""
-# item	import_menu	command	"Digitize image..."	window_dataset_digitizer_web	""	"packageAvailable('digitizeR')"
-
-
-
-item	bs_plots_menu	separator	""	""	""	""
-# item	bs_plots_menu	command	"[???] Visualize color names & color codes (example)"	window_show_colors	""	""
-item	bs_plots_menu	command	"[???] Save editable plot..."	function_not_implemented	"FALSE"	"packageAvailable('officer') && packageAvailable('rvg')"
 
 
 # . ===========================================================================
@@ -415,8 +413,8 @@ item	bs_session_menu	command	"Locale..."	window_locale_set	""	""
 # ---- Manage Working directory ----------------------------------------------
 item	bs_session_menu	separator	""	""	""	""
 item	bs_session_menu	command	"Print path to working directory"  command_getwd	""	""
-item	bs_session_menu	command	"Change working directory..."  command_setwd	""	""
 item	bs_session_menu	command	"Open working directory"  command_openwd	""	"packageAvailable('fs')"
+item	bs_session_menu	command	"Change working directory..."  command_setwd	""	""
 
 # ---- File info -------------------------------------------------------------
 # item	bs_session_menu	separator	""	""	""	""
