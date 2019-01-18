@@ -38,7 +38,9 @@
 # @param err_msg_default (character) String with default error message to be
 # displayed in dataset's preview window.
 
-
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
 refresh_dataset_window_0 <- function(
     widget, ds_contents, preview_type, nrow_preview_ds, expect_more_rows = FALSE,
     err_msg_default = NULL) {
@@ -215,16 +217,16 @@ refresh_dataset_window_0 <- function(
     }
 }
 
-
-# Fonts ----------------------------------------------------------------------
-font_consolas_regular <- tkfont.create(family = "Consolas", size = 8)
-font_consolas_italic  <- tkfont.create(family = "Consolas", size = 8, slant = "italic")
-font_consolas_bold    <- tkfont.create(family = "Consolas", size = 8, weight = "bold")
-font_consolas_regular <- tkfont.create(family = "Consolas", size = 8)
-
-
 # Configure text tags --------------------------------------------------------
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
 configure_tags <- function(text_widget) {
+
+    # Fonts ----------------------------------------------------------------------
+    font_consolas_italic  <- tkfont.create(family = "Consolas", size = 8, slant = "italic")
+    font_consolas_bold    <- tkfont.create(family = "Consolas", size = 8, weight = "bold")
+    font_consolas_regular <- tkfont.create(family = "Consolas", size = 8)
 
     # By type and condition
     tktag.configure(text_widget, "var_names",
