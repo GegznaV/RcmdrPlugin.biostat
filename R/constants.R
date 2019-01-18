@@ -33,6 +33,8 @@ tip_variable_types <- str_c(
     "Backticks (` `) - indicate non-standard names."
 )
 
+tip_header <- "Header is the first row if it contains column names."
+
 # str_c(
 #     "Use letters on keyboard for quicker navigation. \n",
 #     "Hold 'Ctrl' key and left-click mouse to \n",
