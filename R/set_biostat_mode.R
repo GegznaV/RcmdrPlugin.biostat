@@ -47,16 +47,16 @@ set_biostat_mode <- function() {
         image = "::image::bs_export",
         command = bs_mode_menu_export)
 
-    button_refresh <- tk2button(
+    button_rows <- tk2button(
         pare,
-        tip = "Refresh",
-        image = "::image::bs_refresh",
-        command = command_dataset_refresh)
+        tip = "Rows (observations)",
+        image = "::image::bs_rows",
+        command = function_not_implemented)
 
-    button_summary <- tk2button(
+    button_variables <- tk2button(
         pare,
-        tip = "Summary",
-        image = "::image::bs_summary",
+        tip = "Variables (columns)",
+        image = "::image::bs_columns",
         command = function_not_implemented)
 
     button_plots <- tk2button(
@@ -67,15 +67,21 @@ set_biostat_mode <- function() {
 
     button_analysis <- tk2button(
         pare,
-        tip = "Analysis",
-        image = "::image::bs_analyse",
+        tip = "Summarize and analyze data",
+        image = "::image::bs_analyze",
         command = function_not_implemented)
 
     button_other <- tk2button(
         pare,
-        tip     = "Session, settings and other",
+        tip     = "Session, settings and several datasets",
         image   = "::image::bs_settings",
         command = bs_mode_menu_session)
+
+    button_refresh <- tk2button(
+        pare,
+        tip = "Refresh",
+        image = "::image::bs_refresh",
+        command = command_dataset_refresh)
 
 
     # Existing buttons
@@ -83,46 +89,56 @@ set_biostat_mode <- function() {
     img  <- purrr::map_chr(sibl, ~tcltk::tclvalue(tkcget(.x, "-image")))
     txt  <- purrr::map_chr(sibl, ~tcltk::tclvalue(tkcget(.x, "-text")))
 
-    logo      <- sibl[img == "::image::RlogoIcon"]
+    logo         <- sibl[img == "::image::RlogoIcon"]
     button_edit  <- sibl[img == "::image::editIcon"]
     button_view  <- sibl[img == "::image::viewIcon"]
     button_data  <- sibl[img %in% c("::image::dataIcon",  "::image::bs_dataset")]
     button_model <- sibl[img %in% c("::image::modelIcon", "::image::bs_model")]
-    lab_data  <- sibl[txt == gettextRcmdr("   Data set:")]
-    lab_model <- sibl[txt == gettextRcmdr("Model:")]
+    lab_data     <- sibl[txt == gettextRcmdr("   Data set:")]
+    lab_model    <- sibl[txt == gettextRcmdr("Model:")]
 
 
     # Remove old properties
     tkgrid.forget(logo, lab_data, button_data, lab_model, button_model)
-    tkconfigure(button_edit, compound = "none")
-    tkconfigure(button_view, compound = "none")
+
+    if (length(button_view) > 0) {
+        tkgrid.forget(button_view)
+        tkconfigure(button_view, compound = "none")
+        tkconfigure(button_view, command = bs_mode_menu_print)
+        # Add tooltip
+        .Tcl(str_glue('tooltip::tooltip {button_view} "View and print data"'))
+    }
+
+    if (length(button_edit) > 0) {
+        tkconfigure(button_edit, compound = "none")
+        tkgrid.forget(button_edit)
+    }
 
     if (length(logo) > 0) {
         tkconfigure(logo, image = "::image::bs_r_logo_g")
     }
 
-    if (length(button_view) > 0) {
-        tkgrid.forget(button_view)
-
-        tkconfigure(button_view, command = bs_mode_menu_print)
-        # Add tooltip
-        .Tcl(str_glue('tooltip::tooltip {button_view} "Preview & print active dataset"'))
-    }
-
-    if (length(button_edit) > 0) {
-        tkgrid.forget(button_edit)
-    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    putRcmdr("button_inport",    button_inport)
+    putRcmdr("button_export",    button_export)
+    putRcmdr("button_rows",      button_rows)
+    putRcmdr("button_variables", button_variables)
+    putRcmdr("button_view",      button_view)
+    putRcmdr("button_analysis",  button_analysis)
+    putRcmdr("button_plots",     button_plots)
+    putRcmdr("button_other",     button_other)
+    putRcmdr("button_refresh",   button_refresh)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # New layout
     tkgrid(logo, lab_data, button_data,
-           button_inport, button_export, button_view,
-           # button_manage_dataset,
-           # button_summary,
+           button_inport, button_export,
+           button_rows, button_variables,
+           button_view,
+           button_analysis,
            button_plots,
-           # button_analysis,
            button_other, button_refresh,
            lab_model, button_model)
-
 
     tkgrid.configure(pare, pady = c(4, 3))
 
@@ -130,26 +146,15 @@ set_biostat_mode <- function() {
     tkgrid.configure(lab_model,    padx = c(10, 2))
     tkgrid.configure(button_model, padx = c(0,  2))
 
-
     # Change title and main icon
     .rcmdr <- CommanderWindow()
     tkwm.title(.rcmdr, paste0(gettextRcmdr("R Commander"), " (BioStat mode)"))
     tcl("wm", "iconphoto", .rcmdr, "-default", "::image::bs_r_logo_g")
-
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    putRcmdr("button_inport",   button_inport)
-    putRcmdr("button_export",   button_export)
-    putRcmdr("button_view",     button_view)
-    putRcmdr("button_plots",    button_plots)
-    putRcmdr("button_other",    button_other)
-    putRcmdr("button_refresh",  button_refresh)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     command_dataset_refresh()
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 # Export funs ----------------------------------------------------------------
 
 to_r_structure <- function() {
@@ -189,8 +194,6 @@ to_pptx <- function() {
 to_word <- function(variables) {
     function_not_implemented()
     stop()
-
-
 
     library(tidyverse)
     library(officer)
@@ -388,19 +391,19 @@ bs_mode_menu_export <- function() {
           image    = "::image::bs_r",
           command  = to_r_structure)
 
-    tkadd(menu_e, "separator")
-
-    tkadd(menu_e, "command",
-          label    = "Export to Word table...",
-          compound = "left",
-          image    = "::image::bs_word",
-          command  = to_word)
-
-    tkadd(menu_e, "command",
-          label    = "Export to PowerPoint table...",
-          compound = "left",
-          image    = "::image::bs_pptx",
-          command  = to_pptx)
+    # tkadd(menu_e, "separator")
+    #
+    # tkadd(menu_e, "command",
+    #       label    = "Export to Word table...",
+    #       compound = "left",
+    #       image    = "::image::bs_word",
+    #       command  = to_word)
+    #
+    # tkadd(menu_e, "command",
+    #       label    = "Export to PowerPoint table...",
+    #       compound = "left",
+    #       image    = "::image::bs_pptx",
+    #       command  = to_pptx)
 
     tkpopup(menu_e,
             tkwinfo("pointerx", top),
@@ -426,10 +429,10 @@ bs_mode_menu_print <- function() {
 
     view_style <- if (.Platform$GUI == "RStudio") {
         tkadd(menu_p, "command",
-          compound = "left",
-          image    = "::image::viewIcon",
-          label    = "View dataset (in RStudio)",
-          command  = command_dataset_view)
+              compound = "left",
+              image    = "::image::viewIcon",
+              label    = "View dataset (in RStudio)",
+              command  = command_dataset_view)
 
     } else {
         tkadd(menu_p, "command",
@@ -508,13 +511,13 @@ bs_mode_menu_plots <- function() {
           label    = "Open new window for plots",
           command  = open_new_plots_window)
 
-    tkadd(menu_p, "separator")
-
-    tkadd(menu_p, "command",
-          compound = "left",
-          image    = "::image::bs_pptx",
-          label    = "Save editable plot to PowerPoint",
-          command  = function_not_implemented)
+    # tkadd(menu_p, "separator")
+    #
+    # tkadd(menu_p, "command",
+    #       compound = "left",
+    #       image    = "::image::bs_pptx",
+    #       label    = "Save editable plot to PowerPoint",
+    #       command  = function_not_implemented)
 
     # tkadd(menu_p, "separator")
 
@@ -605,7 +608,7 @@ bs_mode_menu_session <- function() {
 
     tkadd(menu_wd, "command",
           compound = "left",
-          image    = "::image::bs_folder",
+          image    = "::image::bs_path_to_wd",
           label    = "Print path to WD",
           command  = command_getwd)
 
