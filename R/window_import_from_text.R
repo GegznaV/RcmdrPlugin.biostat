@@ -1214,34 +1214,6 @@ window_import_from_text <- function() {
         on_double_click = function() {set_to_custom("quo",  "\"")},
         on_key_release = refresh_dataset_window)
 
-    tkgrid(f2_lab_head, f2_box_head$frame, "x",               pady = c(2, 0))
-    tkgrid(f2_lab_dec,  f2_box_dec$frame,  "x",               pady = c(2, 0))
-    tkgrid(f2_lab_sep,  f2_box_sep$frame,  f2_ent_sep$frame,  pady = c(2, 0))
-    tkgrid(f2_lab_skip, f2_box_skip$frame, f2_ent_skip$frame, pady = c(2, 0))
-    tkgrid(f2_lab_max,  f2_box_max$frame,  f2_ent_max$frame,  pady = c(2, 0))
-    tkgrid(f2_lab_quo,  f2_box_quo$frame,  f2_ent_quo$frame,  pady = c(2, 0))
-    tkgrid(f2_lab_na,   f2_box_na$frame,   f2_ent_na$frame,   pady = c(2, 0))
-    tkgrid(f2_lab_enc,  f2_box_enc$frame,  "x",               pady = c(2, 0))
-    tkgrid(f2_lab_out,  f2_box_out$frame,  "x",               pady = c(2, 0))
-
-    tkgrid.configure(
-        f2_lab_head, f2_lab_dec, f2_lab_sep, f2_lab_skip, f2_lab_max, f2_lab_quo,
-        f2_lab_na, f2_lab_enc, f2_lab_out,
-        padx = c(3, 5), sticky = "w"
-    )
-
-    tkgrid.configure(
-        f2_ent_sep$frame,
-        f2_ent_skip$frame,
-        f2_ent_max$frame,
-        f2_ent_quo$frame,
-        f2_ent_na$frame,
-        padx = c(2, 0)
-    )
-
-    list(f2_ent_sep, f2_ent_skip, f2_ent_max, f2_ent_quo, f2_ent_na) %>%
-        walk(tk_disable)
-
     # Check boxes ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f2_opts <- bs_checkboxes(
         parent = f2,
@@ -1439,6 +1411,35 @@ window_import_from_text <- function() {
     tkgrid(f2, f3, sticky = "nsw", padx = c(0, 5), pady = c(0, 15))
     tkgrid.configure(f2, sticky = "ns")
     tkgrid.configure(f3, sticky = "news")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(f2_lab_head, f2_box_head$frame, "x",               pady = c(2, 0))
+    tkgrid(f2_lab_dec,  f2_box_dec$frame,  "x",               pady = c(2, 0))
+    tkgrid(f2_lab_sep,  f2_box_sep$frame,  f2_ent_sep$frame,  pady = c(2, 0))
+    tkgrid(f2_lab_skip, f2_box_skip$frame, f2_ent_skip$frame, pady = c(2, 0))
+    tkgrid(f2_lab_max,  f2_box_max$frame,  f2_ent_max$frame,  pady = c(2, 0))
+    tkgrid(f2_lab_quo,  f2_box_quo$frame,  f2_ent_quo$frame,  pady = c(2, 0))
+    tkgrid(f2_lab_na,   f2_box_na$frame,   f2_ent_na$frame,   pady = c(2, 0))
+    tkgrid(f2_lab_enc,  f2_box_enc$frame,  "x",               pady = c(2, 0))
+    tkgrid(f2_lab_out,  f2_box_out$frame,  "x",               pady = c(2, 0))
+
+    tkgrid.configure(
+        f2_lab_head, f2_lab_dec, f2_lab_sep, f2_lab_skip, f2_lab_max, f2_lab_quo,
+        f2_lab_na, f2_lab_enc, f2_lab_out,
+        padx = c(3, 5), sticky = "w"
+    )
+
+    tkgrid.configure(
+        f2_ent_sep$frame,
+        f2_ent_skip$frame,
+        f2_ent_max$frame,
+        f2_ent_quo$frame,
+        f2_ent_na$frame,
+        padx = c(2, 0)
+    )
+
+    list(f2_ent_sep, f2_ent_skip, f2_ent_max, f2_ent_quo, f2_ent_na) %>%
+        walk(tk_disable)
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(f3_input$frame,  sticky = "news")
     tkgrid(f3_but, sticky = "ew", columnspan = 2)
