@@ -20,11 +20,15 @@ window_import_from_clipboard <- function() {
 #' @export
 #' @keywords internal
 window_import_from_text <- function() {
+    # Fonts ------------------------------------------------------------------
+    font_consolas_regular <- tkfont.create(family = "Consolas", size = 8)
 
+    # Variables --------------------------------------------------------------
     previous_file_name        <- tclVar("")
     previous_nrows_to_preview <- tclVar("")
 
     biostat_env$file_contents <- ""
+    biostat_env$possibly_more_rows <- NULL
 
     on.exit({
         biostat_env$file_contents <- ""
@@ -918,12 +922,12 @@ window_import_from_text <- function() {
                 }
 
                 # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
                 command <-
-                    c("## Data from clipboard \n",
+                    c("## Data from clipboard",
                       capture.output(dput(ds_contents)) %>%
-                          str_replace("structure\\(list\\(",
-                                      str_c(new_name, " <- structure(list(\n"))
+                          str_replace(
+                              "structure\\(list\\(",
+                              str_c(new_name, " <- structure(list(\n"))
                     )
             }
         )
@@ -1303,7 +1307,7 @@ window_import_from_text <- function() {
     # f3_lab_input <- bs_label_b(f3, text = "Input")
 
     f3_input <- bs_text(
-        f3, width = 70, height = 11, wrap = "none",
+        f3, width = 70, height = 13, wrap = "none",
         autoseparators = TRUE, undo = TRUE,
         state = "disabled", font = font_consolas_regular,
         label = "Input")
@@ -1335,7 +1339,7 @@ window_import_from_text <- function() {
         values = c("6", "8", "10", "14", "50", "100", "All"),
         tip = str_c("Max. number of dataset's rows to\n",
                     "preview in 'Dataset' window. "),
-        selection = 2,
+        selection = 3,
         on_select = refresh_dataset_window)
 
     f3_box_type <- bs_combobox(
@@ -1459,7 +1463,7 @@ window_import_from_text <- function() {
                    reset = "window_import_from_text()",
                    ok_label = "Import")
 
-    dialogSuffix(grid.buttons = TRUE, resizable = TRUE)
+    dialogSuffix(grid.buttons = TRUE, resizable = TRUE, bindReturn = FALSE)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Configuration ----------------------------------------------------------
@@ -1526,8 +1530,6 @@ window_import_from_text <- function() {
     tkbind(f3_input$text, "<Control-v>",  set_mode_clipboard)
     tkbind(f3_input$text, "<Control-V>",  set_mode_clipboard)
 
-    # Prevents from closing window accidentally
-    tkbind(top, "<Return>", do_nothing)
 
     # Output -----------------------------------------------------------------
     # Functions to modify state of the widget
