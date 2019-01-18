@@ -57,7 +57,7 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
       "Dataset `{dsname}`",
       gettext_bs(" contains non-standard variable names:\n\n"),
       stringr::str_trunc(old_bad_names, 245),
-      gettext_bs(".\n\nR Commander will not work properly, if these names are not corrected. "),
+      gettext_bs("\n\nR Commander will not work properly, if these names are not corrected. "),
       gettext_bs("Do you AGREE to change the names into correct ones:\n\n"),
       stringr::str_trunc(new_good_names, 245),
     )
