@@ -449,7 +449,7 @@ window_import_from_excel <- function() {
                 clean_str() %>%
                 unique_df_name()
 
-            set_values(f1_ent_name, new_name)
+            set_values(f1_ent_ds_name, new_name)
         }
     }
 
@@ -575,7 +575,7 @@ window_import_from_excel <- function() {
         on.exit(cursor_set_idle(top))
 
         # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        new_name  <- get_values(f1_ent_name)
+        new_name  <- get_values(f1_ent_ds_name)
         file_name <- read_path_to_file()
 
         # Reset widget properties before checking ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -692,10 +692,10 @@ window_import_from_excel <- function() {
         f1, width = 90, sticky = "we", tip = "Path to file or URL.",
         on_key_release = highlight_update_button)
 
-    f1_but_1 <- tk2frame(f1)
+    f1_but_set_1 <- tk2frame(f1)
 
     f1_but_paste <- tk2button(
-        f1_but_1,
+        f1_but_set_1,
         # width = 7,
         # text = "Paste",
         image = "::image::bs_paste",
@@ -711,7 +711,7 @@ window_import_from_excel <- function() {
     )
 
     f1_but_clear <- tk2button(
-        f1_but_1,
+        f1_but_set_1,
         # width = 7,
         # text = "Delete",
         image = "::image::bs_delete",
@@ -723,7 +723,7 @@ window_import_from_excel <- function() {
     )
 
     f1_but_update <- tk2button(
-        f1_but_1,
+        f1_but_set_1,
         # width = 6,
         # text = "Update",
         # compound = "right",
@@ -732,8 +732,8 @@ window_import_from_excel <- function() {
         tip = str_c("Read file (URL) and update preview.")
     )
 
-    f1_but_f_open <- tk2button(
-        f1_but_1,
+    f1_but_f_choose <- tk2button(
+        f1_but_set_1,
         # width = 7,
         # text = "Browse",
         image = "::image::bs_open_file",
@@ -741,9 +741,9 @@ window_import_from_excel <- function() {
         tip = "Choose file to import."
     )
 
-    f1_lab_name <- bs_label_b(f1, text = "Name: ")
+    f1_lab_ds_name <- bs_label_b(f1, text = "Name: ")
 
-    f1_ent_name <- bs_entry(
+    f1_ent_ds_name <- bs_entry(
         f1, width = 30, sticky = "ew",
         tip = "Create a name for the dataset.")
 
@@ -779,9 +779,7 @@ window_import_from_excel <- function() {
                         borderwidth = 5, padding = 5, text = "Import options")
     f2a <- tk2frame(f2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tip_head <- "First row has column names."
-
-    f2_txt_head <- bs_label(f2a, text = "Header", tip = tip_head)
+    f2_txt_head <- bs_label(f2a, text = "Header", tip = tip_header)
     f2_but_head <- bs_radiobuttons(
         parent  = f2a,
         buttons = c("TRUE"  = "Yes",
@@ -1001,33 +999,33 @@ window_import_from_excel <- function() {
     # Grid -------------------------------------------------------------------
     tkgrid(f1, padx = 10, sticky = "we")
 
-    tkgrid(f1_lab_file, f1_ent_file$frame, "x", "x", "x", "x",  f1_but_1,
+    tkgrid(f1_lab_file, f1_ent_file$frame, "x", "x", "x", "x",  f1_but_set_1,
            pady = c(10, 2), sticky = "we")
 
-    tkgrid(f1_lab_name, f1_ent_name$frame, "x", "x",
+    tkgrid(f1_lab_ds_name, f1_ent_ds_name$frame, "x", "x",
            f1_box_sheet$frame, f1_ent_range$frame,
            pady = c(0,  10), sticky = "we")
     tkgrid(f1_ent_range$frame)
 
-    tkgrid(f1_but_update, f1_but_paste, f1_but_clear, f1_but_f_open, sticky = "e")
+    tkgrid(f1_but_f_choose, f1_but_paste, f1_but_clear, f1_but_update,  sticky = "e")
 
-    tkgrid.configure(f1_lab_file, f1_lab_name,
+    tkgrid.configure(f1_lab_file, f1_lab_ds_name,
                      f1_ent_range$frame_label, f1_ent_range$obj_label,
                      sticky = "e")
 
     tkgrid.configure(f1_ent_file$frame,  f1_ent_file$obj_text,  f1_ent_file$frame_text,
-                     f1_ent_name$frame,  f1_ent_name$obj_text,  f1_ent_name$frame_text,
+                     f1_ent_ds_name$frame,  f1_ent_ds_name$obj_text,  f1_ent_ds_name$frame_text,
                      f1_ent_range$obj_text, f1_ent_range$frame_text,
                      sticky = "we")
 
-    tkgrid.configure(f1_ent_file$frame, f1_ent_name$frame,
+    tkgrid.configure(f1_ent_file$frame, f1_ent_ds_name$frame,
                      padx = 2)
     tkgrid.configure(f1_ent_range$frame, f1_box_sheet$frame, padx = c(10, 2))
 
     tkgrid.configure(f1_ent_file$frame, columnspan = 5)
     tkgrid.configure(
-        f1_ent_file$frame_text,  f1_ent_name$frame_text,
-        f1_ent_file$obj_text,    f1_ent_name$obj_text,
+        f1_ent_file$frame_text,  f1_ent_ds_name$frame_text,
+        f1_ent_file$obj_text,    f1_ent_ds_name$obj_text,
         sticky = "we")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(f_middle, sticky = "news")
@@ -1065,7 +1063,7 @@ window_import_from_excel <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Configuration ----------------------------------------------------------
-    set_values(f1_ent_name, unique_obj_names("dataset", all_numbered = TRUE))
+    set_values(f1_ent_ds_name, unique_obj_names("dataset", all_numbered = TRUE))
     highlight_update_button()
 
 
@@ -1102,9 +1100,9 @@ window_import_from_excel <- function() {
     tkgrid.columnconfigure(f1, 4, weight = 0) # Buttons
 
     tkgrid.columnconfigure(f1_ent_file$frame_text, 0, weight = 1, minsize = 20)
-    tkgrid.columnconfigure(f1_ent_name$frame_text, 0, weight = 1, minsize = 20)
+    tkgrid.columnconfigure(f1_ent_ds_name$frame_text, 0, weight = 1, minsize = 20)
     tkgrid.columnconfigure(f1_ent_file$obj_text,   0, weight = 1, minsize = 20)
-    tkgrid.columnconfigure(f1_ent_name$obj_text,   0, weight = 1, minsize = 20)
+    tkgrid.columnconfigure(f1_ent_ds_name$obj_text,   0, weight = 1, minsize = 20)
 
     tkgrid.columnconfigure(f_middle, 0, weight = 0)
     tkgrid.columnconfigure(f_middle, 1, weight = 1)
