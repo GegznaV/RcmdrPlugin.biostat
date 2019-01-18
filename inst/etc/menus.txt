@@ -185,13 +185,13 @@ item	import_menu	command	"Create a new dataset... [Rcmdr]"	window_dataset_new_rc
 # ---- Import data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 item	import_menu	separator	""	""	""	""
 item    import_menu      command         "Import from clipboard... "          window_import_from_clipboard         ""  ""
-item    import_menu      command         "Import from text file (.txt, .csv, .dat, .tab)..."   window_import_from_text   ""  ""
+item    import_menu      command         "Import from text file (.txt, .csv, .dat)..."   window_import_from_text   ""  ""
 
 item	import_menu	separator	""	""	""	""
 item    import_menu      command         "Import from Excel file..."     window_import_from_excel    ""     "packageAvailable('readxl')"
 
 item	import_menu	separator	""	""	""	""
-item	import_menu	command	"Import from Rds file (.Rds, .rds)..."	window_import_rds	""	""
+item	import_menu	command	"Import from Rds file (.Rds, .rds)..."	window_import_from_rds	""	""
 item	import_menu	command	"Import from R data file (.RData, .Rda, .rda)..."	window_import_rdata	""	""
 item    import_menu    command    "Import from R package... "     window_import_from_pkg    ""          ""
 
