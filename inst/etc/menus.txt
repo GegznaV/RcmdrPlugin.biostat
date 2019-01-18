@@ -67,7 +67,7 @@ item	bs_rows_menu	command	"Remove rows with missing values..."	window_rows_rm_wi
 
 item	bs_rows_menu	separator	""	""	""	""
 item	bs_rows_menu	command	"Add column with row numbers"	window_rows_rowid_to_col	"activeDataSetP()"	"packageAvailable('tidyverse')"
-item	bs_rows_menu	command	"Create row names from unique column values..."	window_rows_col_to_rownames	"variables_with_unique_values_P()"	"packageAvailable('tibble')"
+item	bs_rows_menu	command	"Move column with unique values to row names..."	window_rows_col_to_rownames	"variables_with_unique_values_P()"	"packageAvailable('tibble')"
 item	bs_rows_menu	command	"Move row names to column values..."	window_rows_rownames_to_col	"activeDataSetP()"	"packageAvailable('tibble')"
 
 
@@ -208,12 +208,12 @@ item    import_menu      command         "Import from Minitab data file... [Rcmd
 menu	bs_export_menu	bs_data_menu	""	""	""	""
 item	bs_data_menu	cascade	"Export"	bs_export_menu	"activeDataSetP()"	""
 
-item	bs_export_menu	command	"Export to text file (.txt, .csv)..."	window_export_to_textfile	"activeDataSetP()"	""
+item	bs_export_menu	command	"Export to Text file (.txt, .csv)..."	window_export_to_textfile	"activeDataSetP()"	""
 
-item	bs_export_menu	separator	""	""	""	""
+# item	bs_export_menu	separator	""	""	""	""
 item	bs_export_menu	command	"Export to Excel file (.xlsx)..."	window_export_to_excel_old	"activeDataSetP()"	""
 
-item	bs_export_menu	separator	""	""	""	""
+# item	bs_export_menu	separator	""	""	""	""
 item	bs_export_menu	command	"Export to Rds file (.Rds)..."	window_export_to_rds	"activeDataSetP()"	""
 item	bs_export_menu	command	"Export to R data file (.RData)..."	window_export_to_rdata	"activeDataSetP()"	""
 # item	bs_export_menu	separator	""	""	""	""
@@ -253,7 +253,7 @@ item	bs_plots_menu	command	"Open a new window for plots"	open_new_plots_window	"
 
 item	bs_plots_menu	separator	""	""	""	""
 # item	bs_plots_menu	command	"Digitize image (offline)..."	window_plots_image_digitizer	""	"packageAvailable('digitizeR')"
-item	bs_plots_menu	command	"Digitize image (online)..."	window_online_image_digitizer	""	""
+item	bs_plots_menu	command	"Import data from plot (online)..."	window_online_image_digitizer	""	""
 # item	import_menu	command	"Digitize image..."	window_dataset_digitizer_web	""	"packageAvailable('digitizeR')"
 
 
