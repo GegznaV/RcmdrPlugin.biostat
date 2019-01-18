@@ -134,9 +134,9 @@ set_biostat_mode <- function() {
     tkgrid(logo,
            lab_data, button_data,
            button_inport,
+           button_view,
            button_rows,
            button_variables,
-           button_view,
            button_analysis,
            button_plots,
            button_other,
@@ -293,7 +293,7 @@ bs_mode_menu__import <- function() {
           image    = "::image::bs_text",
           command  = window_import_from_text)
 
-    tkadd(menu_f, "separator")
+    # tkadd(menu_f, "separator")
 
     tkadd(menu_f, "command",
           label   = "from Excel file (.xls, .xlsx)...",
@@ -301,7 +301,7 @@ bs_mode_menu__import <- function() {
           image    = "::image::bs_excel",
           command = window_import_from_excel)
 
-    tkadd(menu_f, "separator")
+    # tkadd(menu_f, "separator")
 
     tkadd(menu_f, "command",
           label   = "from Rds file (.rds)...",
