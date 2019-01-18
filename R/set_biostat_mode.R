@@ -131,13 +131,17 @@ set_biostat_mode <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # New layout
-    tkgrid(logo, lab_data, button_data,
-           button_inport, button_export,
-           button_rows, button_variables,
+    tkgrid(logo,
+           lab_data, button_data,
+           button_inport,
+           button_rows,
+           button_variables,
            button_view,
            button_analysis,
            button_plots,
-           button_other, button_refresh,
+           button_other,
+           button_export,
+           button_refresh,
            lab_model, button_model)
 
     tkgrid.configure(pare, pady = c(4, 3))
