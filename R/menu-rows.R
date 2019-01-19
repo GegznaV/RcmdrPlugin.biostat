@@ -15,7 +15,7 @@ command_rownames <- function() {
 #' @keywords internal
 command_rows_has_rownames <- function() {
     .ds <- active_dataset_0()
-    library("tibble")
+    Library("tibble")
     doItAndPrint(str_glue(
         "## Does dataset '{.ds}' have real row names? \n",
         "has_rownames({.ds})"))
