@@ -63,7 +63,8 @@ tk_get_state.default <- function(obj, ...) {
 
 # Set state -------------------------------------------------------------------
 #' @name tk_activate
-#' @title Activate/Disable TK Objects
+#' @title Control activation state of TCL/TK widget.
+#' Activate/Disable Tcl/Tk Objects
 #'
 #' @description Modify state of tk objects.
 #'
@@ -81,21 +82,21 @@ tk_activate.default <- function(obj, ...) {
     tkconfigure(obj, state = "active", ...)
 }
 
-#' @name tk_activate
+#' @rdname tk_activate
 #' @keywords internal
 #' @export
 tk_normalize.default <- function(obj, ...) {
     tkconfigure(obj, state = "normal", ...)
 }
 
-#' @name tk_activate
+#' @rdname tk_activate
 #' @keywords internal
 #' @export
 tk_read_only.default <- function(obj, ...) {
     tkconfigure(obj, state = "readonly", ...)
 }
 
-#' @name tk_activate
+#' @rdname tk_activate
 #' @keywords internal
 #' @export
 tk_disable.default <- function(obj, ...) {
