@@ -256,7 +256,7 @@ item	bs_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"ac
 # --- Summarize variables ----------------------------------------------------
 
 item	bs_summary_menu	separator	""	""	""	""
-item	bs_summary_menu	command	"[???] Summarize variables..."	window_summary_skim	"activeDataSetP()"	"packageAvailable('skimr')"
+item	bs_summary_menu	command	"[???] Summarize variables..."	function_not_implemented	"activeDataSetP()"	""
 
 item	bs_summary_menu	command	"Frequency & multi-way tables..."	window_summary_count	"activeDataSetP()"	""
 
@@ -287,8 +287,8 @@ item	bs_assoc_menu	command	"[???] Association between categorical variables..."	
 # . ===========================================================================
 # ---- + Confidence intervals ---------------------------------------------------
 
-menu	bs_ci_menu	bs_analysis_menu	""	""	""	""
-item	bs_analysis_menu	cascade	"Confidence intervals (CI)"	bs_ci_menu	""	""
+# menu	bs_ci_menu	bs_analysis_menu	""	""	""	""
+# item	bs_analysis_menu	cascade	"Confidence intervals (CI)"	bs_ci_menu	""	""
 
 # item	bs_ci_menu	command	"[???] Mean CI"	window_ci_mean	""	""
 # item	bs_ci_menu	command	"[???] Median CI"	window_ci_median	""	""
