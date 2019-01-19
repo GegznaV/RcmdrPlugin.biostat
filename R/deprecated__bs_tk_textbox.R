@@ -129,33 +129,25 @@ get_values.bs_tk_textbox <- function(obj, ...) {
     tclvalue_chr(obj$var_text)
 }
 
-#' @rdname Helper-functions
-#' @export
-#' @keywords internal
+
 tk_disable.bs_tk_textbox <- function(obj, ..., foreground = "grey") {
     tk_disable(obj$obj_text, ...)
     tk_disable(obj$obj_label, foreground = foreground)
 }
 
-#' @rdname Helper-functions
-#' @export
-#' @keywords internal
+
 tk_normalize.bs_tk_textbox <- function(obj, ..., foreground = getRcmdr("title.color")) {
     tk_normalize(obj$obj_text, ...)
     tk_normalize(obj$obj_label, foreground = foreground)
 }
 
-#' @rdname Helper-functions
-#' @export
-#' @keywords internal
+
 tk_activate.bs_tk_textbox <- function(obj, ..., foreground = getRcmdr("title.color")) {
     tk_activate(obj$obj_text)
     tk_activate(obj$obj_label, foreground = foreground)
 }
 
-#' @rdname Helper-functions
-#' @export
-#' @keywords internal
+
 tk_get_state.bs_tk_textbox <- function(obj, ...) {
     tk_get_state(obj$obj_text, ...)
 }
