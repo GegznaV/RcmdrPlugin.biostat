@@ -1,8 +1,8 @@
 # last modified 2018-12-28
 # Imported from Rcmdr
 
-globalVariables(str_c(
-    "top", "OKCancelHelp", "."
+globalVariables(c(
+    "top", "OKCancelHelp","ok_cancel_help", "."
 ))
     #
     # "ActiveDataSet", "ActiveModel", "Commander", "CommanderWindow", "Factors",
