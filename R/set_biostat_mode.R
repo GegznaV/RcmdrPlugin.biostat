@@ -179,8 +179,8 @@ to_pptx <- function() {
 
 
     # variables
-    library(tidyverse)
-    library(officer)
+    Library("tidyverse")
+    Library("officer")
 
     doc <- read_pptx() %>%
         add_slide(layout = "Title and Content", master = "Office Theme") %>%
@@ -199,8 +199,8 @@ to_word <- function(variables) {
     function_not_implemented()
     stop()
 
-    library(tidyverse)
-    library(officer)
+    Library("tidyverse")
+    Library("officer")
     f_name <- unique_file_name(str_glue("results_{Sys.Date()}.docx"))
 
     ds_name <- "swiss"
