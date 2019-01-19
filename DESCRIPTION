@@ -1,7 +1,7 @@
 Package: RcmdrPlugin.biostat
 Type: Package
 Version: 0.0.23.9000
-Date: 2019-01-10
+Date: 2019-01-19
 Title: R Commander Plug-in for Basic Data Management and Analysis Tasks
 Description: An Rcmdr plug-in for the most common data wrangling, visualisation 
              and analysis tasks using "tidyverse" family functions as well as 
@@ -9,7 +9,34 @@ Description: An Rcmdr plug-in for the most common data wrangling, visualisation
 Authors@R: c(
     person("Vilmantas", "Gegzna", role = c("aut","cre"), 
            comment = c(ORCID = "0000-0002-9500-5167"),
-           email = "GegznaV@gmail.com")
+           email = "GegznaV@gmail.com"),
+    #> As some functions are based on code from RcmdrPlugin.EZR:
+    person("Yoshinobu", "Kanda", role = "ctb"),
+    #> As some functions are based on code from Rcmdr:
+    person("John", "Fox", role = "ctb"),
+    person("Milan", "Bouchet-Valat", role = "ctb"),
+    person("Liviu", "Andronic", role = "ctb"),
+    person("Michael", "Ash", role = "ctb"),
+    person("Theophilius", "Boye", role = "ctb"),
+    person("Stefano", "Calza", role = "ctb"),
+    person("Andy", "Chang", role = "ctb"),
+    person("Philippe", "Grosjean", role = "ctb"),
+    person("Richard", "Heiberger", role = "ctb"),
+    person("Kosar", "Karimi Pour", role = "ctb"),
+    person("G. Jay", "Kerns", role = "ctb"),
+    person("Renaud", "Lancelot", role = "ctb"),
+    person("Matthieu", "Lesnoff", role = "ctb"),
+    person("Uwe", "Ligges", role = "ctb"),
+    person("Samir", "Messad", role = "ctb"),
+    person("Martin", "Maechler", role = "ctb"),
+    person("Robert", "Muenchen", role = "ctb"),
+    person("Duncan", "Murdoch", role = "ctb"),
+    person("Erich", "Neuwirth", role = "ctb"),
+    person("Dan", "Putler", role = "ctb"),
+    person("Brian", "Ripley", role = "ctb"),
+    person("Miroslav", "Ristic", role = "ctb"),
+    person("Peter", "Wolf", role = "ctb"),
+    person("Kevin", "Wright", role = "ctb")
     )
 License: GPL (>= 3)
 Encoding: UTF-8
