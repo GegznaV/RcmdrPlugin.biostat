@@ -48,6 +48,8 @@ Imports:
     pander,
     pingr,
     purrr,
+    readr,
+    readxl,
     scales,
     skimr,
     snakecase,
