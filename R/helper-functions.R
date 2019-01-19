@@ -520,8 +520,11 @@ unique_file_name <- function(name = "file", # all names are converted to lower c
                              list_of_choices = dir(dir, all.files = TRUE),
                              all_numbered = FALSE) {
 
-    if (length(name) == 0)
+    if (length(name) == 0) {
         name <- "file"
+    } else if (length(name) > 1) {
+        stop("There should be anly one file name.")
+    }
 
     ext <- fs::path_ext(name)
     initial_names <- fs::path_ext_remove(name)
@@ -542,6 +545,52 @@ unique_file_name <- function(name = "file", # all names are converted to lower c
         set_multi_ext(ext)
 }
 
+unique_file_name_2 <- function(name = "file", # all names are converted to lower case.
+                             dir = NULL,
+                             list_of_choices = NULL,
+                             all_numbered = FALSE) {
+
+    stop("Not implemented") # [???]
+
+    if (length(name) == 0) {
+        name <- "file"
+    } else if (length(name) > 1) {
+        stop("There should be only one file name.")
+    }
+
+    ext <- fs::path_ext(name)
+    initial_names <- fs::path_ext_remove(name)
+    n_names <- length(name)
+
+    if (is.null(dir) || dir == "" || !fs::dir_exists(dir)) {
+        dir <- getwd()
+    }
+
+
+    if (is.null(list_of_choices)) {
+        list_of_choices <-
+            dir(path = dir,
+                pattern = str_replace_all(initial_names, "\\.", ".*?"),
+                ignore.case = TRUE,
+                all.files = TRUE)
+    }
+
+    list_to_check <-
+        if (all_numbered) {
+            c(list_of_choices, initial_names, initial_names)
+        } else {
+            c(list_of_choices, initial_names)
+        }
+
+    list_to_check %>%
+        str_to_lower() %>%
+        make.unique(sep = "_") %>%
+        tail(n = n_names) %>%
+        set_multi_ext(ext)
+}
+
+
+
 # More robust version of fs::path_ext_set()
 set_multi_ext  <- function(path, ext) {
     # Prepares `ext` or results in error.
@@ -554,8 +603,8 @@ set_multi_ext  <- function(path, ext) {
     ext <- sub("^\\.(.*)$", "\\1", ext) # Removes leading dot from the extension, if present
 
     cond <- !is.na(path) & ext != "" # To exclude NA strings and empty extensions
-    path[cond] <-  paste0(path_ext_remove(path[cond]), ".", ext[cond])
-    path_tidy(path)
+    path[cond] <-  paste0(fs::path_ext_remove(path[cond]), ".", ext[cond])
+    fs::path_tidy(path)
 }
 
 
