@@ -5,7 +5,7 @@
 #'
 #' @description
 #' \pkg{RcmdrPlugin.biostat} is an
-#' \href{\pkg{Rcmdr}}{https://cran.r-project.org/web/packages/Rcmdr/index.html}
+#' \href{\pkg{Rcmdr}}{https://CRAN.R-project.org/package=Rcmdr}
 #' plug-in for the most common data wrangling, visualisation and analysis tasks
 #' using "tidyverse" family functions as well as functions from other packages.
 #'
@@ -20,11 +20,27 @@
 #' @importFrom magrittr "%>%"  "%<>%"  "%T>%"  "%$%"
 #' @importFrom graphics plot
 #' @importFrom stats p.adjust.methods C setNames
-#' @importFrom utils browseURL packageVersion data installed.packages modifyList capture.output tail
+#' @importFrom utils browseURL packageVersion data installed.packages modifyList
+#'                   capture.output tail
+#' @importFrom RcmdrPlugin.EZR
+#' StatMedCorrelation
+#' StatMedSpearman
+#' StatMedSingleSampleTTest
+#' StatMedWilSign
+#' StatMedPairedTtest
+#' StatMedRepANOVA
+#' StatMedFriedman
+#' StatMedTtest
+#' StatMedMannW
+#' StatMedANOVA
+#' StatMedKruWalli
+#' StatMedJT
+#' StatMedMultiANOVA
+#' StatMedANCOVA
+#' StatMedFTest
+#' StatMedBartlett
+#' StatMedLinearRegression
 
-# @importFrom Rcmdr activeDataSet
-# @import biostat
-# @import RcmdrPlugin.EZR
 
 NULL
 
