@@ -23,10 +23,9 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 # An R Commander Plug-in for Basic Data Management and Analysis Tasks
 
 **RcmdrPlugin.biostat** is an
-[**Rcmdr**](https://cran.r-project.org/web/packages/Rcmdr/index.html)
-plug-in for the most common data wrangling, visualisation and analysis
-tasks using “tidyverse” family functions as well as functions from other
-packages.
+[**Rcmdr**](https://CRAN.R-project.org/package=Rcmdr) plug-in for the
+most common data wrangling, visualisation and analysis tasks using
+“tidyverse” family functions as well as functions from other packages.
 
 Documentation and more information available at
 <http://gegznav.github.io/RcmdrPlugin.biostat>
@@ -72,14 +71,6 @@ functions in packages *Rcmdr*, *RcmdrPlugin.EZR* and
 license.
 
 -----
-
-<!-- [![Travis-CI Build Status]
-(https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)]
-(https://travis-ci.org/GegznaV/RcmdrPlugin.biostat) -->
-
-<!-- [![codecov.io]
-(https://codecov.io/github/GegznaV/RcmdrPlugin.biostat/coverage.svg?branch=master)]
-(https://codecov.io/github/GegznaV/RcmdrPlugin.biostat?branch=master) -->
 
 <!-- * * * -->
 
