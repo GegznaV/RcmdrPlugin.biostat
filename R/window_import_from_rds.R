@@ -4,9 +4,6 @@
 #' @keywords internal
 window_import_from_rds <- function() {
 
-    # Fonts ------------------------------------------------------------------
-    font_consolas_regular <- tkfont.create(family = "Consolas", size = 8)
-
     # Functions ==============================================================
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Open file select dialogue
@@ -173,8 +170,6 @@ window_import_from_rds <- function() {
     f1_ent_file <- bs_entry(
         f1, width = 90, sticky = "we", tip = "Path to file")
 
-    f1_but_set_1 <- tk2frame(f1)
-
     f1_but_paste <- tk2button(
         f1,
         image = "::image::bs_paste",
@@ -243,10 +238,6 @@ window_import_from_rds <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Configuration ----------------------------------------------------------
     set_values(f1_ent_ds_name, unique_obj_names("dataset", all_numbered = TRUE))
-    highlight_update_button()
-
-    # Interactive bindings ---------------------------------------------------
-    tkbind(f1_but_paste$frame, "<<Paste>>", highlight_update_button)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     invisible()
