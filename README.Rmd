@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ***
 
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![CRAN version](http://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.rstudio.com/web/packages/RcmdrPlugin.biostat/index.html)
+[![CRAN status](https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.r-project.org/package=RcmdrPlugin.biostat)
 [![GitHub version](https://img.shields.io/badge/GitHub-v`r packageVersion("RcmdrPlugin.biostat")`-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
 [![Travis-CI Build Status](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat)
 [![Updated-on](https://img.shields.io/badge/Updated%20on-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](/commits/master)
@@ -80,56 +80,6 @@ All of those packages are under GPL-2/GPL-3 license.
 
 ***
 
-
-<!-- [![Travis-CI Build Status]
-(https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)]
-(https://travis-ci.org/GegznaV/RcmdrPlugin.biostat) -->
-<!-- [![codecov.io]
-(https://codecov.io/github/GegznaV/RcmdrPlugin.biostat/coverage.svg?branch=master)]
-(https://codecov.io/github/GegznaV/RcmdrPlugin.biostat?branch=master) -->
-
-
-
-```{r fig.height=12, fig.width=15, echo=FALSE, include=FALSE}
-source("https://gist.githubusercontent.com/crsh/c906e93c260488e7363ea606243057c2/raw/f6f0fce38bc274446d205854ea35cfa03b9b1f7a/plot_dependencies.R")
-
-plot_dependencies()
-```
-
-
-
-```{r eval=FALSE, include=FALSE}
-devtools::install_github("datastorm-open/DependenciesGraphs")
-devtools::install_github("ctesta01/QualtricsTools")
-```
-
-
-```{r include=FALSE}
-library(RcmdrPlugin.biostat)
-library(DependenciesGraphs)
-library(QualtricsTools) 
-```
-
-```{r fig.height=5, fig.width=5, echo=FALSE, eval=FALSE}
-# deps <- funDependencies("package:RcmdrPlugin.biostat",
-#                         "window_num_convert")
-# plot(deps)
-
-
-dep <- envirDependencies("package:RcmdrPlugin.biostat")
-
-# visualization
-plot(dep)
-```
-
-
-
-```{r fig.height=12, fig.width=15, include=FALSE, eval=FALSE}
-library(mvbutils)
-library(QualtricsTools) 
-deps <- foodweb(where = "package:RcmdrPlugin.biostat", plotting = FALSE)
-plot(deps)
-```
 
 
 
