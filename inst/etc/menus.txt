@@ -290,14 +290,14 @@ item	bs_assoc_menu	command	"[???] Association between categorical variables..."	
 menu	bs_ci_menu	bs_analysis_menu	""	""	""	""
 item	bs_analysis_menu	cascade	"Confidence intervals (CI)"	bs_ci_menu	""	""
 
-item	bs_ci_menu	command	"[???] Mean CI"	window_ci_mean	""	""
-item	bs_ci_menu	command	"[???] Median CI"	window_ci_median	""	""
-item	bs_ci_menu	command	"[???] Binomial proportion CI"	window_ci_prop_binom	""	""
-item	bs_ci_menu	command	"[???] Multinomial proportion CI "	window_ci_prop_multi	""	""
-item	bs_ci_menu	command	"[???] CI for difference in means"	window_ci_mean_diff	""	""
-
-item	bs_ci_menu	separator	""	""	""	""
-item	bs_ci_menu	command	"[???] Bootstrap confidence intervals"	window_ci_boot	""	""
+# item	bs_ci_menu	command	"[???] Mean CI"	window_ci_mean	""	""
+# item	bs_ci_menu	command	"[???] Median CI"	window_ci_median	""	""
+# item	bs_ci_menu	command	"[???] Binomial proportion CI"	window_ci_prop_binom	""	""
+# item	bs_ci_menu	command	"[???] Multinomial proportion CI "	window_ci_prop_multi	""	""
+# item	bs_ci_menu	command	"[???] CI for difference in means"	window_ci_mean_diff	""	""
+#
+# item	bs_ci_menu	separator	""	""	""	""
+# item	bs_ci_menu	command	"[???] Bootstrap confidence intervals"	window_ci_boot	""	""
 
 
 # . ==========================================================================
