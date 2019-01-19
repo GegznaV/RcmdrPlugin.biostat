@@ -14,10 +14,6 @@
 \alias{values<-.bs_entry}
 \alias{tclvalue<-.bs_entry}
 \alias{get_values.bs_entry}
-\alias{tk_disable.bs_entry}
-\alias{tk_normalize.bs_entry}
-\alias{tk_activate.bs_entry}
-\alias{tk_get_state.bs_entry}
 \alias{bs_listbox}
 \alias{get_values_listbox}
 \alias{set_values_listbox}
@@ -53,16 +49,7 @@
 \alias{values<-.bs_tk_textbox}
 \alias{tclvalue<-.bs_tk_textbox}
 \alias{get_values.bs_tk_textbox}
-\alias{tk_disable.bs_tk_textbox}
-\alias{tk_normalize.bs_tk_textbox}
-\alias{tk_activate.bs_tk_textbox}
-\alias{tk_get_state.bs_tk_textbox}
 \alias{radioButtons_horizontal}
-\alias{tk_get_state}
-\alias{tk_activate}
-\alias{tk_disable}
-\alias{tk_normalize}
-\alias{tk_read_only}
 \alias{get_size}
 \alias{get_values}
 \alias{set_values}
@@ -187,16 +174,6 @@ bs_entry(parent = top, width = "28", value = "", label = "",
 
 \method{get_values}{bs_entry}(obj, ...)
 
-\method{tk_disable}{bs_entry}(obj, ..., foreground = "grey")
-
-\method{tk_normalize}{bs_entry}(obj, ...,
-  foreground = getRcmdr("title.color"))
-
-\method{tk_activate}{bs_entry}(obj, ...,
-  foreground = getRcmdr("title.color"))
-
-\method{tk_get_state}{bs_entry}(obj, ...)
-
 bs_listbox(parent, values = variables_all(), value = NULL,
   selection = NULL, selectmode = c("single", "extended", "browse",
   "multiple"), title = NULL, subtitle = NULL, tip = "",
@@ -303,31 +280,11 @@ bs_tk_textbox(parent = top, width = "28", value = "", label = "",
 
 \method{get_values}{bs_tk_textbox}(obj, ...)
 
-\method{tk_disable}{bs_tk_textbox}(obj, ..., foreground = "grey")
-
-\method{tk_normalize}{bs_tk_textbox}(obj, ...,
-  foreground = getRcmdr("title.color"))
-
-\method{tk_activate}{bs_tk_textbox}(obj, ...,
-  foreground = getRcmdr("title.color"))
-
-\method{tk_get_state}{bs_tk_textbox}(obj, ...)
-
 radioButtons_horizontal(window = top, name = stop("name not supplied"),
   buttons = stop("buttons not supplied"), values = NULL,
   initialValue = ..values[1], labels = stop("labels not supplied"),
   title = NULL, title.color = NULL, right.buttons = FALSE,
   command = function() { }, sticky_title = "w", sticky_buttons = "e")
-
-tk_get_state(obj, ...)
-
-tk_activate(obj, ...)
-
-tk_disable(obj, ...)
-
-tk_normalize(obj, ...)
-
-tk_read_only(obj, ...)
 
 get_size(obj, ...)
 

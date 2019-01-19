@@ -15,6 +15,8 @@ msg_box_confirm_to_replace_all(name, type = "Variables",
 \item{name}{string - name of the object to repace.}
 
 \item{type}{string - type of the object to repace.}
+
+\item{parent}{Parent Tcl/Tk frame..}
 }
 \value{
 Sring eihter "yes" or "no"
