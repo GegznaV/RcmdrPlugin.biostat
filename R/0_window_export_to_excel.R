@@ -1,197 +1,108 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
+# .============================ =================================================
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 window_export_to_excel <- function() {
 
-
-    show_error_messages(
-        "Function `window_export_to_excel` needs to be fixed.",
-        title = "Error!!!")
-    return()
-
-    # Initial values ---------------------------------------------------------
-    # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    ds     <- active_dataset()
-    fg_col <- Rcmdr::getRcmdr("title.color")
-
-    file_name <- unique_colnames(
-        ds, list_of_choices = extract_filename(dir(pattern = "\\.xls(x)?")))
-
-    # xl_file        <- str_c(ds, ".xlsx")
-    # worksheets     <- ds
-
+    # Functions ==============================================================
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Open file select dialogue
+    get_path_to_file <- function() {
 
+        f_path <- read_path_to_file()
 
-    # Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    select_file <- function() {
+        initialdir  <- fs::path_dir(f_path)
+        if (initialdir == "" || !fs::dir_exists(initialdir)) {
+            initialdir <- getwd()
+        }
 
-        file_obj <- tkgetSaveFile(
-            title = "Save Excel File",
-            filetypes = str_c(
-                '{"Excel file" {".xlsx"}} ',
-                '{"All Files" {"*"}}'),
-            parent     = CommanderWindow(),
-            confirmoverwrite = TRUE,
-            initialfile = tclvalue(file_name_var),
-            initialdir = tclvalue(dir_name_var))
+        initialfile <- fs::path_file(f_path)
+        if (initialfile == "") {
+            initialfile <- .ds
+        }
+        initialfile <- fs::path_ext_set(initialfile, "xlsx")
 
-        xl_file <- tclvalue(file_obj)
-        # Update Excel worksheeds information ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        if (xl_file == "") {
-            # tkfocus(CommanderWindow())
+        filename <- tclvalue(tkgetSaveFile(
+            parent = top,
+            # typevariable = typevariable, # to capture selected type
+            title = "Save Data to Excel File",
+            confirmoverwrite = FALSE,
+            initialfile = initialfile,
+            initialdir = initialdir,
+            filetypes = "{ {Excel file} {.xlsx} } { {All Files} * }"))
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (filename == "") {
             tkfocus(top)
             return()
-
-        } else {
-            worksheets <- excel_sheets(xl_file)
         }
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        set_values(f1_ent_file, make_relative_path(filename))
+        # set_values(f1_ent_file, (filename))
 
-        correct_input <- function(worksheets) {
-            if (length(worksheets) == 1) {
-                # { } prevents from a bug
-                # which appears when an excel workbook
-                # contains only one sheet and the name
-                # of that sheet contains a speace, e.g., "a b".
-                worksheets <- str_c("{", worksheets, "}")
-            }
-            worksheets
-        }
+        uptate_file_ent_pos()
 
-        # Update Import window values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        update_sheet_name()
+        # if (fs::is_file(filename)) {
+        #     update_sheet_name()
+        # }
+    }
 
-        # Update initial dir ~~~~~~~~~~~~~~
-        xl_path <- sub("[\\/]$", "", extract_path(xl_file))
-
-        tclvalue(dir_name_var)   <- xl_path
-        # tclvalue(dir_name_label) <- path_truncate(xl_path, max_length = 40)
-
-        # Update Excel file name ~~~~~~~
-        tclvalue(file_name_var) <- xl_file
-
-        # Update worksheet names ~~~~~~~
-            tclvalue(sheet_name_var) <-
-            tclvalue(sheet_name_var) %>%
-            str_trunc(28, "left") %>%
-            unique_obj_names(list_of_choices = worksheets)
-
-        invisible()
+    uptate_file_ent_pos <- function() {
+        tkxview.moveto(f1_ent_file$obj_text, "1") # 0 - beginning, 1 - end.
+        tkicursor(f1_ent_file$obj_text, "end")
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Read value of file name entry box
+    read_path_to_file <- function() {
+        get_values(f1_ent_file)
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # select_folder <- function() {
-    #     xl_path <- tclvalue(
-    #         tkchooseDirectory(initialdir = tclvalue(dir_name_var),
-    #                           title  = "Select Folder to Save Excel File",
-    #                           parent = CommanderWindow())
-    #     )
-    #     # Update Excel worksheeds information ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    #     if (xl_path == "") {
-    #         # tkfocus(CommanderWindow())
-    #         tkfocus(top)
-    #         return()
-    #     }
-    #
-    #     # Update Import window values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    #
-    #     # Update initial dir ~~~~~~~~~~~~~~
-    #     xl_path <- sub("[\\/]$", "", extract_path(xl_file))
-    #
-    #     tclvalue(dir_name_var)   <- xl_path
-    #     tclvalue(dir_name_label) <- path_truncate(xl_path, max_length = 40)
-    #     invisible()
-    # }
+    # Read sheet names, if file exists
+    get_sheets <- function() {
+        f_path <- read_path_to_file()
 
-
-
-
-    # ...
-
-    # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    defaults      <- list(initial_position = "first")
-    dialog_values <- getDialog("window_export_to_excel", defaults)
-
-
-    # Frames and widgets -----------------------------------------------------
-    # Initialize ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_bs("Export Data to Excel File"))
-
-    # Populate ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    upper_frame   <- tkframe(top)
-    upper_r_frame <- tkframe(upper_frame)
-    upper_l_frame <- tkframe(upper_frame)
+        if (fs::is_file(f_path) && fs::path_ext(fs::path_file(f_path)) == "xlsx") {
+            sheets <- readxl::excel_sheets(f_path)
+        } else {
+            sheets <- NULL
+        }
+        sheets
+    }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    ds_name_var   <- tclVar(ds)
-    ds_name_frame <- tkframe(upper_l_frame)
-    ds_name_label <- bs_label(ds_name_frame, textvariable = ds_name_var)
+    # Create (valid) sheet name
+    create_sheet_name <- function(name) {
+        sheets <- get_sheets()
+        sheet <- make.unique(str_c(str_trunc(name, 27), sheets), sep = "_")
 
-    dir_name_var   <- tclVar(getwd())
-    # dir_name_frame <- tkframe(upper_l_frame)
-    # dir_name_label <- bs_label(dir_name_frame, textvariable = dir_name_var)
-
-    file_name_var   <- tclVar(str_c(file_name, ".xlsx"))
-    file_name_frame <- tkframe(upper_l_frame)
-    file_name_entry <- bs_label(file_name_frame, textvariable = file_name_var)
-
-    sheet_name_var   <- tclVar(str_trunc(ds, 30))
-    sheet_name_frame <- tkframe(upper_l_frame)
-    sheet_name_entry <- ttkentry(sheet_name_frame, width = "38",
-                                 textvariable = sheet_name_var)
-
-    get_buttons_frame <- tkframe(top)
-
-    button_get_file <- tk2button(get_buttons_frame,
-                                 text = "Choose file",
-                                 command = select_file,
-                                 cursor = "hand2")
-
-    # button_get_dir <- tk2button(get_buttons_frame,
-    #                              text = "Choose folder",
-    #                              command = select_folder,
-    #                              cursor = "hand2")
-
-
+        set_values(f1_ent_sheet, sheet)
+    }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # rb_frame <- tkframe(upper_frame)
-    # radioButtons_horizontal(rb_frame,
-    #                         title = "Column position: ",
-    #                         title.color = fg_col,
-    #
-    #                         # right.buttons = FALSE,
-    #                         name = "position",
-    #                         sticky_buttons = "w",
-    #                         buttons = c("first",  "last"),
-    #                         values =  c("first",  "last"),
-    #                         labels =  c("First  ","Last  "),
-    #                         initialValue = dialog_values$initial_position
-    # )
-
-    # Function onOK ----------------------------------------------------------
+    # Make unique sheet name
+    update_sheet_name <- function() {
+        create_sheet_name(name = get_values(f1_ent_sheet))
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~ onOK -------------------------------- --------------------------------
     onOK <- function() {
         # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         cursor_set_busy(top)
         on.exit(cursor_set_idle(top))
 
         # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # dir_name_name <- trimws(tclvalue(dir_name_var))
-        file_name     <- trimws(tclvalue(file_name_var))
-        sheet_name    <- trimws(tclvalue(sheet_name_var))
+        file_name  <- read_path_to_file()
+        sheet_name <- get_values(f1_ent_sheet)
 
-
-        # xl_file <- file.path(dir_name_name, file_name)
-
-        file.exists(file_name)
-
-
-        # Reset widget properties before checking ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-        # tkconfigure(name_entry, foreground = "black")
-
-        # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # # Check if file exists or is URL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # if (!check_file_name()) {
+        #     return()
+        # }
+        #
+        # # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # if (is_empty_name(new_name)) {
         #     return()
         # }
@@ -200,55 +111,21 @@ window_export_to_excel <- function() {
         #     return()
         # }
         #
-        # if (forbid_to_replace_variable(new_name)) {
-        #     return()
-        # }
-
         # if (forbid_to_replace_object(new_name)) {
         #     return()
         # }
 
-        # if (is_empty_name(new_name))              {return()}
-        # if (is_not_valid_name(new_name))          {return()}
-        # if (forbid_to_replace_variable(new_name)) {return()}
-        # if (forbid_to_replace_object(new_name))   {return()}
+        #  Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        # if (file.exists(file_name) &&
-        #     msg_box_confirm_to_replace(file_name, "File") == "no")
-        # {
-        #     return()
-        # }
-
-        # if (??? == "") {
-        # show_error_messages(
-        #     "No ???  was selected.\nPlease select a ???.",
-        #     title = "")
-        # return()
-        # }
-        # if (??? == "") {
-        # msg_box_confirm_to_replace(...)
-        # return()
-        # }
-
-        #
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-        # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        putDialog("window_export_to_excel", list(
-            initial_position = "which_position"
-        ))
-
         # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        has_rownames <- tibble::has_rownames(
-            get(active_dataset(), envir = .GlobalEnv))
-
+        has_rownames <- tibble::has_rownames(get(.ds, envir = .GlobalEnv))
         file_overwrite <- TRUE
-
 
         command <-
             str_glue("## Save data to Excel file\n",
-                     "openxlsx::write.xlsx({ds}, \n",
+                     "openxlsx::write.xlsx({.ds}, \n",
                      '     file = "{file_name}", \n',
                      '     sheetName = "{sheet_name}", \n',
                      "     rowNames  = {has_rownames}, \n",
@@ -259,9 +136,6 @@ window_export_to_excel <- function() {
 
         # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Library("openxlsx")
-
-        # doItAndPrint(command)
-
         result <- justDoIt(command)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -278,62 +152,101 @@ window_export_to_excel <- function() {
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkfocus(CommanderWindow())
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Announce about the success to run the function `onOk()`
+        TRUE
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     }
 
-    # Grid of widgets ========================================================
+    # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    initializeDialog(title = gettext_bs("Export Data to Excel File"))
+    tk_title(top, "Export data to Excel file")
 
-    # Title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(bs_label(
-        top,
-        text = gettext_bs("Export data to Excel file"),
-        font = tkfont.create(weight = "bold", size = 9),
-        fg = fg_col),
-        pady = c(5, 9))
+    .ds <- active_dataset()
 
-    # Grid ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(upper_frame, pady = c(0, 5))
-    tkgrid(upper_r_frame, upper_l_frame, pady = c(0, 5))
+    # Widgets ================== =============================================
 
-    tkgrid(tk_label_blue(upper_r_frame, text = "Dataset:"),    sticky = "e", pady = c(0, 5))
-    # tkgrid(tk_label_blue(upper_r_frame, text = "Folder:"),     sticky = "e")
-    tkgrid(tk_label_blue(upper_r_frame, text = "File name:"),  sticky = "e", pady = 5)
-    tkgrid(tk_label_blue(upper_r_frame, text = "Sheet name:"), sticky = "e")
+    # F1, Frame 1, choose file and name --------------------------------------
+    f1 <- tk2frame(top)
 
-    tkgrid(ds_name_frame,    sticky = "", pady = c(5, 5))
-    # tkgrid(dir_name_frame,   sticky = "w", pady = c(0, 0))
-    tkgrid(file_name_frame,  sticky = "w", pady = c(5, 5))
-    tkgrid(sheet_name_frame, sticky = "w")
+    f1_lab_data_1 <- bs_label_b(f1, text = "Dataset: ")
+    f1_lab_data_2 <- bs_label(f1, text = .ds)
 
-    tkgrid(ds_name_label,    sticky = "w")
-    # tkgrid(dir_name_label,   sticky = "w")
-    tkgrid(file_name_entry,  sticky = "w")
-    tkgrid(sheet_name_entry, sticky = "w")
+    f1_lab_file <- bs_label_b(f1, text = "File: ")
+    f1_ent_file <- bs_entry(
+        f1, width = 90, sticky = "we", tip = "Path to file")
 
+    f1_but_paste <- tk2button(
+        f1,
+        image = "::image::bs_paste",
+        command = function() {
+            set_values(f1_ent_file,
+                       str_c(read_path_to_file(), read_clipboard()))
+            uptate_file_ent_pos()
+        },
+        tip = "Paste file name"
+    )
 
-    tkgrid(get_buttons_frame, sticky = "e", pady = 5)
-    tkgrid(button_get_file, sticky = "e")
+    f1_but_clear <- tk2button(
+        f1,
+        image = "::image::bs_delete",
+        command = function() {
+            set_values(f1_ent_file, "")
+        },
+        tip = "Clear file name"
+    )
 
-    # Help topic ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "write.xlsx", helpPackage = "openxlsx")
+    f1_but_f_choose <- tk2button(
+        f1,
+        image = "::image::bs_open_file",
+        command = get_path_to_file,
+        tip = "Choose file to save to"
+    )
 
-    # Finalize ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(buttonsFrame, sticky = "ew")
-    dialogSuffix()
+    f1_but_refresh <- tk2button(
+        f1,
+        image = "::image::bs_refresh",
+        command = update_sheet_name,
+        tip = str_c("Choose automatic sheet name")
+    )
+
+    f1_lab_sheet <- bs_label_b(f1, text = "Sheet: ")
+    f1_ent_sheet <- bs_entry(
+        f1, width = 90, sticky = "ew", tip = "Excel sheet name to save data to")
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Interactive bindings ---------------------------------------------------
+    tkgrid(f1, padx = 10, sticky = "we")
 
-    # Add interactivity for `fname_frame` and `fname_label`
-    # tkbind(file_label,     "<ButtonPress-1>", on_click)
-    # tkbind(fname_frame,    "<ButtonPress-1>", on_click)
-    # tkbind(fname_label,    "<ButtonPress-1>", on_click)
-    #
-    # tkbind(fname_frame, "<Enter>",
-    #        function() tkconfigure(fname_label, foreground = "blue"))
-    # tkbind(fname_frame, "<Leave>",
-    #        function() tkconfigure(fname_label, foreground = "black"))
-    # # tkconfigure(file_label,     cursor = "hand2")
-    # tkconfigure(fname_frame,    cursor = "hand2")
-    # tkconfigure(button_ch_file, cursor = "hand2")
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(f1_lab_data_1, f1_lab_data_2, pady = c(10, 2), sticky = "we")
+
+    tkgrid(f1_lab_file, f1_ent_file$frame, f1_but_f_choose, f1_but_paste, f1_but_clear,
+           pady = c(2, 2),  sticky = "we")
+
+    tkgrid(f1_lab_sheet, f1_ent_sheet$frame, f1_but_refresh,
+           pady = c(0,  10), sticky = "we")
+
+    tkgrid.configure(f1_lab_data_1, f1_lab_file, f1_lab_sheet, sticky = "e")
+    tkgrid.configure(f1_ent_file$frame, f1_ent_sheet$frame, sticky = "we", padx = 2)
+    tkgrid.configure(
+        f1_ent_file$frame_text, f1_ent_sheet$frame_text,
+        f1_ent_file$obj_text,   f1_ent_sheet$obj_text,
+        sticky = "we")
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Finalize ---------------------------------------------------------------
+
+    # Help topic
+    ok_cancel_help(helpSubject = "readRDS",
+                   reset = "window_export_to_excel()",
+                   ok_label = "Export")
+
+    dialogSuffix(grid.buttons = TRUE, bindReturn = FALSE)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Configuration ----------------------------------------------------------
+    set_values(f1_ent_file, str_c(.ds, ".xlsx"))
+    create_sheet_name(name = .ds)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    invisible()
 }
