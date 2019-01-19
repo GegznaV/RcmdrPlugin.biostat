@@ -11,13 +11,13 @@ bs_text <- function(parent, ..., label = "", undo = TRUE) {
 
     obj_xsc <- tk2scrollbar(
         frame,
-        orient = "horizontal",
+        orientation = "horizontal",
         command = function(...) tkxview(obj_txt, ...)
     )
 
     obj_ysc <- tk2scrollbar(
         frame,
-        orient = "vertical",
+        orientation = "vertical",
         command = function(...) tkyview(obj_txt, ...)
     )
 
