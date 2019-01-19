@@ -1001,6 +1001,7 @@ are_not_valid_names <- function(name) {
 #'
 #' @param name string - name of the object to repace.
 #' @param type string - type of the object to repace.
+#' @param parent Parent Tcl/Tk frame..
 #'
 #' @return Sring eihter "yes" or "no"
 #' @export
