@@ -10,8 +10,8 @@
 #' using "tidyverse" family functions as well as functions from other packages.
 #'
 #' @rawNamespace import(tcltk, except = c(tkfocus, tclvalue, ttkentry))
-#' @import Rcmdr
 #' @import tcltk2
+#' @import Rcmdr
 #' @import stringr
 #' @import purrr
 #' @import nortest
@@ -19,8 +19,8 @@
 #' @importFrom dplyr glimpse is_grouped_df
 #' @importFrom magrittr "%>%"  "%<>%"  "%T>%"  "%$%"
 #' @importFrom graphics plot
-#' @importFrom stats p.adjust.methods C
-#' @importFrom utils browseURL packageVersion data installed.packages modifyList
+#' @importFrom stats p.adjust.methods C setNames
+#' @importFrom utils browseURL packageVersion data installed.packages modifyList capture.output tail
 
 # @importFrom Rcmdr activeDataSet
 # @import biostat
