@@ -1,32 +1,33 @@
-#' @rdname Helper-functions
-#' @export
+#' @rdname tk_activate
 #' @keywords internal
+#' @export
 tk_get_state <- function(obj, ...) {
     UseMethod("tk_get_state")
 }
-#' @rdname Helper-functions
-#' @export
+
+#' @rdname tk_activate
 #' @keywords internal
+#' @export
 tk_activate <- function(obj, ...) {
     UseMethod("tk_activate")
 }
 
-#' @rdname Helper-functions
-#' @export
+#' @rdname tk_activate
 #' @keywords internal
+#' @export
 tk_disable <- function(obj, ...) {
     UseMethod("tk_disable")
  }
 
-#' @rdname Helper-functions
-#' @export
+#' @rdname tk_activate
 #' @keywords internal
+#' @export
 tk_normalize <- function(obj, ...) {
     UseMethod("tk_normalize")
 }
-#' @rdname Helper-functions
-#' @export
+#' @rdname tk_activate
 #' @keywords internal
+#' @export
 tk_read_only <- function(obj, ...) {
     UseMethod("tk_read_only")
 }
