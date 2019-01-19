@@ -50,5 +50,5 @@ globalVariables(c(
     "swiss", "table_typeFrame", "table_typeVariable", "testVariable", "trim.blanks",
     "trim_frame", "ungroup", "upper", "use_groups_CheckBox", "use_groups_Variable",
     "use_groups_frame", "varPosn", "variableListBox", "which_idFrame",
-    "which_idVariable", "window_new_dataset_rcmdr", "x"
+    "which_idVariable", "window_new_dataset_rcmdr", "x", "start"
 ))
