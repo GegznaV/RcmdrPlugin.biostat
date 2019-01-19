@@ -7,7 +7,7 @@
 \title{R Commander Plug-in for Basic Data Management and Analysis Tasks}
 \description{
 \pkg{RcmdrPlugin.biostat} is an
-\href{\pkg{Rcmdr}}{https://cran.r-project.org/web/packages/Rcmdr/index.html}
+\href{\pkg{Rcmdr}}{https://CRAN.R-project.org/package=Rcmdr}
 plug-in for the most common data wrangling, visualisation and analysis tasks
 using "tidyverse" family functions as well as functions from other packages.
 }
