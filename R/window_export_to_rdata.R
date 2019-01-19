@@ -23,7 +23,7 @@ window_export_to_rdata_0 <- function(ds_name = active_dataset()) {
 
     # If canceled
     if (nchar(file_name) == 0) {
-        Message("Canceled. Object was not saved.", type = "warning")
+        # Message("Canceled. Object was not saved.", type = "warning")
         return(NULL)
     }
 
