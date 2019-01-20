@@ -115,7 +115,8 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for bs_checkboxes</span>
-<span class='fu'>get_values</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'>get_values</span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>rm_names</span> <span class='kw'>=</span> <span class='no'>simplify</span>)
 
 <span class='co'># S3 method for bs_checkboxes</span>
 <span class='fu'>set_values</span>(<span class='no'>obj</span>, <span class='no'>values</span>, <span class='no'>...</span>)
@@ -126,11 +127,12 @@
   <span class='kw'>sticky</span> <span class='kw'>=</span> <span class='st'>"w"</span>, <span class='kw'>sticky_label</span> <span class='kw'>=</span> <span class='no'>sticky</span>, <span class='kw'>sticky_text</span> <span class='kw'>=</span> <span class='no'>sticky</span>,
   <span class='kw'>main_frame</span> <span class='kw'>=</span> <span class='fu'>tk2frame</span>(<span class='no'>parent</span>), <span class='kw'>text_frame</span> <span class='kw'>=</span> <span class='fu'>tk2frame</span>(<span class='no'>main_frame</span>),
   <span class='kw'>label_frame</span> <span class='kw'>=</span> <span class='fu'>tk2frame</span>(<span class='no'>main_frame</span>), <span class='kw'>tip</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>label_tip</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>on_click</span> <span class='kw'>=</span> <span class='kw'>function</span>() { }, <span class='kw'>on_double_click</span> <span class='kw'>=</span> <span class='kw'>function</span>() { },
-  <span class='kw'>on_triple_click</span> <span class='kw'>=</span> <span class='kw'>function</span>() { }, <span class='kw'>on_release</span> <span class='kw'>=</span> <span class='kw'>function</span>() { },
-  <span class='kw'>on_click_3</span> <span class='kw'>=</span> <span class='kw'>function</span>() { }, <span class='kw'>on_double_click_3</span> <span class='kw'>=</span> <span class='kw'>function</span>() { },
-  <span class='kw'>on_triple_click_3</span> <span class='kw'>=</span> <span class='kw'>function</span>() { }, <span class='kw'>on_release_3</span> <span class='kw'>=</span> <span class='kw'>function</span>() { },
-  <span class='kw'>on_key_release</span> <span class='kw'>=</span> <span class='kw'>function</span>() { }, <span class='no'>...</span>)
+  <span class='kw'>on_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>on_double_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_triple_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>on_release</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>on_double_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_triple_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>on_release_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_key_release</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>use_context_menu</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>bind_clear</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for bs_entry</span>
 <span class='fu'>set_values</span>(<span class='no'>obj</span>, <span class='no'>values</span>, <span class='no'>...</span>, <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
@@ -144,20 +146,6 @@
 <span class='co'># S3 method for bs_entry</span>
 <span class='fu'>get_values</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
 
-<span class='co'># S3 method for bs_entry</span>
-<span class='fu'>tk_disable</span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>foreground</span> <span class='kw'>=</span> <span class='st'>"grey"</span>)
-
-<span class='co'># S3 method for bs_entry</span>
-<span class='fu'>tk_normalize</span>(<span class='no'>obj</span>, <span class='no'>...</span>,
-  <span class='kw'>foreground</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"title.color"</span>))
-
-<span class='co'># S3 method for bs_entry</span>
-<span class='fu'>tk_activate</span>(<span class='no'>obj</span>, <span class='no'>...</span>,
-  <span class='kw'>foreground</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"title.color"</span>))
-
-<span class='co'># S3 method for bs_entry</span>
-<span class='fu'>tk_get_state</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
-
 <span class='fu'>bs_listbox</span>(<span class='no'>parent</span>, <span class='kw'>values</span> <span class='kw'>=</span> <span class='fu'><a href='variables_all.html'>variables_all</a></span>(), <span class='kw'>value</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>selection</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>selectmode</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"single"</span>, <span class='st'>"extended"</span>, <span class='st'>"browse"</span>,
   <span class='st'>"multiple"</span>), <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>subtitle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tip</span> <span class='kw'>=</span> <span class='st'>""</span>,
@@ -165,12 +153,13 @@
   <span class='kw'>width</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"variable.list.width"</span>), <span class='kw'>enabled</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>scroll</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"both"</span>, <span class='st'>"x"</span>, <span class='st'>"y"</span>, <span class='st'>"none"</span>), <span class='kw'>autoscroll</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"x"</span>, <span class='st'>"y"</span>,
   <span class='st'>"both"</span>, <span class='st'>"none"</span>), <span class='kw'>use_filter</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>filter_label</span> <span class='kw'>=</span> <span class='st'>"Filter"</span>,
-  <span class='kw'>sticky</span> <span class='kw'>=</span> <span class='st'>"nw"</span>, <span class='kw'>on_select</span> <span class='kw'>=</span> <span class='kw'>function</span>() { }, <span class='kw'>on_click</span> <span class='kw'>=</span> <span class='kw'>function</span>() {
-  }, <span class='kw'>on_double_click</span> <span class='kw'>=</span> <span class='kw'>function</span>() { }, <span class='kw'>on_triple_click</span> <span class='kw'>=</span> <span class='kw'>function</span>() {
-  }, <span class='kw'>on_release</span> <span class='kw'>=</span> <span class='kw'>function</span>() { }, <span class='kw'>on_click_3</span> <span class='kw'>=</span> <span class='kw'>function</span>() { },
-  <span class='kw'>on_double_click_3</span> <span class='kw'>=</span> <span class='kw'>function</span>() { }, <span class='kw'>on_triple_click_3</span> <span class='kw'>=</span> <span class='kw'>function</span>() {
-  }, <span class='kw'>on_release_3</span> <span class='kw'>=</span> <span class='kw'>function</span>() { }, <span class='kw'>on_keyboard</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"select"</span>, <span class='st'>"scroll"</span>,
-  <span class='st'>"ignore"</span>), <span class='kw'>title_sticky</span> <span class='kw'>=</span> <span class='st'>"w"</span>, <span class='kw'>subtitle_sticky</span> <span class='kw'>=</span> <span class='no'>title_sticky</span>, <span class='no'>...</span>)
+  <span class='kw'>sticky</span> <span class='kw'>=</span> <span class='st'>"nw"</span>, <span class='kw'>on_select</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>on_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_double_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>on_triple_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_release</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>on_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_double_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>on_triple_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_release_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>on_keyboard</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"select"</span>, <span class='st'>"scroll"</span>,
+  <span class='st'>"ignore"</span>), <span class='kw'>on_keyboard_fun</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>title_sticky</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
+  <span class='kw'>subtitle_sticky</span> <span class='kw'>=</span> <span class='no'>title_sticky</span>, <span class='no'>...</span>)
 
 <span class='fu'>get_values_listbox</span>(<span class='no'>listbox</span>)
 
@@ -216,13 +205,22 @@
 <span class='fu'>tk_see</span>(<span class='no'>obj</span>, <span class='no'>ind</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for listbox</span>
-<span class='fu'>tk_disable</span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>background</span> <span class='kw'>=</span> <span class='st'>"grey95"</span>)
+<span class='fu'><a href='tk_activate.html'>tk_disable</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>background</span> <span class='kw'>=</span> <span class='st'>"grey95"</span>)
 
 <span class='co'># S3 method for listbox</span>
-<span class='fu'>tk_normalize</span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>background</span> <span class='kw'>=</span> <span class='st'>"white"</span>)
+<span class='fu'><a href='tk_activate.html'>tk_normalize</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>background</span> <span class='kw'>=</span> <span class='st'>"white"</span>)
 
 <span class='co'># S3 method for listbox</span>
-<span class='fu'>tk_get_state</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'><a href='tk_activate.html'>tk_get_state</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+
+<span class='fu'>tk_widget_boxes_y_gr</span>(<span class='kw'>parent_frame</span> <span class='kw'>=</span> <span class='no'>top</span>, <span class='kw'>y_title</span> <span class='kw'>=</span> <span class='no'>title_var_1</span>,
+  <span class='kw'>y_var_type</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>, <span class='kw'>y_vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y_initial</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>y_select_mode</span> <span class='kw'>=</span> <span class='st'>"single"</span>, <span class='kw'>y_params</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(),
+  <span class='kw'>gr_title</span> <span class='kw'>=</span> <span class='no'>title_gr_0_n</span>, <span class='kw'>gr_var_type</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>,
+  <span class='kw'>gr_vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>gr_initial</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>gr_select_mode</span> <span class='kw'>=</span> <span class='st'>"multiple"</span>,
+  <span class='kw'>gr_params</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='kw'>ch_label</span> <span class='kw'>=</span> <span class='st'>"Use groups"</span>, <span class='kw'>ch_initial</span> <span class='kw'>=</span> <span class='st'>"0"</span>,
+  <span class='kw'>ch_commands</span> <span class='kw'>=</span> <span class='kw'>function</span>() { }, <span class='kw'>ch_params</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='kw'>listHeight</span> <span class='kw'>=</span> <span class='fl'>7</span>,
+  <span class='kw'>listWidth</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>25</span>, <span class='fl'>Inf</span>), <span class='kw'>add_to_grid</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># S3 method for bs_radiobuttons</span>
 <span class='fu'>get_values</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
@@ -230,21 +228,25 @@
 <span class='co'># S3 method for bs_radiobuttons</span>
 <span class='fu'>set_values</span>(<span class='no'>obj</span>, <span class='no'>values</span>, <span class='no'>...</span>)
 
-<span class='fu'>bs_text</span>(<span class='no'>parent</span>, <span class='no'>...</span>, <span class='kw'>undo</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>bs_text</span>(<span class='no'>parent</span>, <span class='no'>...</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>undo</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># S3 method for bs_tk_buttonset</span>
-<span class='fu'>tk_activate</span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>.which</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'><a href='tk_activate.html'>tk_activate</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>.which</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S3 method for bs_tk_buttonset</span>
-<span class='fu'>tk_normalize</span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>.which</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'><a href='tk_activate.html'>tk_normalize</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>.which</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S3 method for bs_tk_buttonset</span>
-<span class='fu'>tk_disable</span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>.which</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'><a href='tk_activate.html'>tk_disable</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>.which</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S3 method for bs_tk_buttonset</span>
-<span class='fu'>tk_get_state</span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>.out</span> <span class='kw'>=</span> <span class='st'>"list"</span>)
+<span class='fu'><a href='tk_activate.html'>tk_get_state</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>.out</span> <span class='kw'>=</span> <span class='st'>"list"</span>)
 
-<span class='fu'>command_buttons_mode_biostat</span>()
+<span class='fu'>tk_widget_modify_names</span>(<span class='kw'>parent</span> <span class='kw'>=</span> <span class='no'>top</span>,
+  <span class='kw'>init_val_radiobuttons</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"overwrite"</span>, <span class='st'>"modify"</span>),
+  <span class='kw'>init_val_checkbox</span> <span class='kw'>=</span> <span class='st'>"0"</span>, <span class='kw'>init_val_prefix</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>init_val_suffix</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>37</span>, <span class='kw'>cmd_radiobuttons</span> <span class='kw'>=</span> <span class='kw'>function</span>() {
+  }, <span class='kw'>cmd_checkbox</span> <span class='kw'>=</span> <span class='kw'>function</span>() { })
 
 <span class='fu'>bs_check_boxes</span>(<span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>top</span>, <span class='kw'>frame</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/stop'>stop</a></span>(<span class='st'>"frame not supplied"</span>),
   <span class='kw'>boxes</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/stop'>stop</a></span>(<span class='st'>"boxes not supplied"</span>), <span class='kw'>initialValues</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -274,35 +276,11 @@
 <span class='co'># S3 method for bs_tk_textbox</span>
 <span class='fu'>get_values</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
 
-<span class='co'># S3 method for bs_tk_textbox</span>
-<span class='fu'>tk_disable</span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>foreground</span> <span class='kw'>=</span> <span class='st'>"grey"</span>)
-
-<span class='co'># S3 method for bs_tk_textbox</span>
-<span class='fu'>tk_normalize</span>(<span class='no'>obj</span>, <span class='no'>...</span>,
-  <span class='kw'>foreground</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"title.color"</span>))
-
-<span class='co'># S3 method for bs_tk_textbox</span>
-<span class='fu'>tk_activate</span>(<span class='no'>obj</span>, <span class='no'>...</span>,
-  <span class='kw'>foreground</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"title.color"</span>))
-
-<span class='co'># S3 method for bs_tk_textbox</span>
-<span class='fu'>tk_get_state</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
-
 <span class='fu'>radioButtons_horizontal</span>(<span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>top</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/stop'>stop</a></span>(<span class='st'>"name not supplied"</span>),
   <span class='kw'>buttons</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/stop'>stop</a></span>(<span class='st'>"buttons not supplied"</span>), <span class='kw'>values</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>initialValue</span> <span class='kw'>=</span> <span class='no'>..values</span>[<span class='fl'>1</span>], <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/stop'>stop</a></span>(<span class='st'>"labels not supplied"</span>),
   <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title.color</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>right.buttons</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>command</span> <span class='kw'>=</span> <span class='kw'>function</span>() { }, <span class='kw'>sticky_title</span> <span class='kw'>=</span> <span class='st'>"w"</span>, <span class='kw'>sticky_buttons</span> <span class='kw'>=</span> <span class='st'>"e"</span>)
-
-<span class='fu'>tk_get_state</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
-
-<span class='fu'>tk_activate</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
-
-<span class='fu'>tk_disable</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
-
-<span class='fu'>tk_normalize</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
-
-<span class='fu'>tk_read_only</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
 
 <span class='fu'>get_size</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
 
@@ -350,6 +328,8 @@
 
 <span class='fu'>try_command</span>(<span class='no'>x</span>)
 
+<span class='fu'>is_try_error</span>(<span class='no'>obj</span>)
+
 <span class='fu'>gettext_ezr</span>(<span class='no'>...</span>)
 
 <span class='fu'>gettext_bs</span>(<span class='no'>...</span>)
@@ -381,9 +361,12 @@
   <span class='kw'>list_of_choices</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ls'>objects</a></span>(<span class='kw'>all.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>envir</span> <span class='kw'>=</span> <span class='no'>.GlobalEnv</span>),
   <span class='kw'>all_numbered</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>unique_df_name</span>(<span class='kw'>names</span> <span class='kw'>=</span> <span class='fu'>ActiveDataSet</span>(), <span class='kw'>preffix</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='st'>""</span>,
+<span class='fu'>unique_df_name</span>(<span class='kw'>names</span> <span class='kw'>=</span> <span class='fu'>active_dataset_0</span>(), <span class='kw'>preffix</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='st'>""</span>,
   <span class='kw'>list_of_choices</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ls'>objects</a></span>(<span class='kw'>all.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>envir</span> <span class='kw'>=</span> <span class='no'>.GlobalEnv</span>),
   <span class='kw'>all_numbered</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='fu'>unique_file_name</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"file"</span>, <span class='kw'>dir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/getwd'>getwd</a></span>(),
+  <span class='kw'>list_of_choices</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list.files'>dir</a></span>(<span class='no'>dir</span>, <span class='kw'>all.files</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>all_numbered</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='fu'>unique_colnames</span>(<span class='kw'>names</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>preffix</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='st'>""</span>,
   <span class='kw'>list_of_choices</span> <span class='kw'>=</span> <span class='fu'>listVariables</span>(), <span class='kw'>all_numbered</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
@@ -400,7 +383,7 @@
 <span class='fu'>path_truncate</span>(<span class='no'>path</span>, <span class='kw'>max_length</span> <span class='kw'>=</span> <span class='fl'>30</span>)
 
 <span class='fu'>show_error_messages</span>(<span class='no'>message</span>, <span class='kw'>popup_msg</span> <span class='kw'>=</span> <span class='no'>message</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Error"</span>,
-  <span class='kw'>parent</span> <span class='kw'>=</span> <span class='no'>top</span>)
+  <span class='kw'>parent</span> <span class='kw'>=</span> <span class='fu'>CommanderWindow</span>())
 
 <span class='fu'>is_not_valid_name</span>(<span class='no'>name</span>)
 
@@ -424,6 +407,10 @@
 
 <span class='fu'>show_code_evaluation_error_message</span>()
 
+<span class='fu'>dataset_not_persent</span>()
+
+<span class='fu'>active_dataset_not_persent</span>()
+
 <span class='fu'>nonFactorsP</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 
 <span class='fu'>class_ggplot_P</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>)
@@ -441,6 +428,10 @@
 <span class='fu'>command_rcmdr_use_3_windows</span>()
 
 <span class='fu'>command_rcmdr_set_output_mode</span>(<span class='kw'>console.output</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>is_biostat_mode</span>()
+
+<span class='fu'>set_biostat_mode</span>()
 
 <span class='fu'>get_values_combobox</span>(<span class='no'>combobox</span>)
 
@@ -469,19 +460,23 @@
 <span class='fu'>set_values</span>(<span class='no'>obj</span>, <span class='no'>values</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for combobox</span>
-<span class='fu'>tk_activate</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'><a href='tk_activate.html'>tk_activate</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for combobox</span>
-<span class='fu'>tk_normalize</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'><a href='tk_activate.html'>tk_normalize</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for combobox</span>
-<span class='fu'>tk_read_only</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'><a href='tk_activate.html'>tk_read_only</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for combobox</span>
-<span class='fu'>tk_disable</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'><a href='tk_activate.html'>tk_disable</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for combobox</span>
-<span class='fu'>tk_get_state</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'><a href='tk_activate.html'>tk_get_state</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+
+<span class='fu'>ok_cancel_help</span>(<span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>top</span>, <span class='kw'>helpSubject</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>model</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>reset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>apply</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>helpPackage</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sticky</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
+  <span class='kw'>ok_label</span> <span class='kw'>=</span> <span class='st'>"OK"</span>)
 
 <span class='fu'>variableListBox2</span>(<span class='no'>parentWindow</span>, <span class='kw'>variableList</span> <span class='kw'>=</span> <span class='fu'>Variables</span>(),
   <span class='kw'>bg</span> <span class='kw'>=</span> <span class='st'>"white"</span>, <span class='kw'>selectmode</span> <span class='kw'>=</span> <span class='st'>"single"</span>, <span class='kw'>export</span> <span class='kw'>=</span> <span class='st'>"FALSE"</span>,
@@ -499,7 +494,7 @@
 <span class='fu'>cursor_set_idle</span>(<span class='kw'>frame</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>tk_get_state</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'><a href='tk_activate.html'>tk_get_state</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
 
 <span class='fu'>tk_yview.default</span>(<span class='no'>obj</span>, <span class='no'>ind</span>, <span class='no'>...</span>)
 
@@ -513,26 +508,7 @@
 
 <span class='fu'>tclvalue_chr</span>(<span class='no'>x</span>, <span class='kw'>trim</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
-<span class='fu'>tclvalue_chr_split</span>(<span class='no'>x</span>)
-
-<span class='fu'>ok_cancel_help</span>(<span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>top</span>, <span class='kw'>helpSubject</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>model</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>reset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>apply</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>helpPackage</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sticky</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
-  <span class='kw'>ok_label</span> <span class='kw'>=</span> <span class='st'>"OK"</span>)
-
-<span class='fu'>tk_widget_modify_names</span>(<span class='kw'>parent</span> <span class='kw'>=</span> <span class='no'>top</span>,
-  <span class='kw'>init_val_radiobuttons</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"overwrite"</span>, <span class='st'>"modify"</span>),
-  <span class='kw'>init_val_checkbox</span> <span class='kw'>=</span> <span class='st'>"0"</span>, <span class='kw'>init_val_prefix</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>init_val_suffix</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>37</span>, <span class='kw'>cmd_radiobuttons</span> <span class='kw'>=</span> <span class='kw'>function</span>() {
-  }, <span class='kw'>cmd_checkbox</span> <span class='kw'>=</span> <span class='kw'>function</span>() { })
-
-<span class='fu'>tk_widget_boxes_y_gr</span>(<span class='kw'>parent_frame</span> <span class='kw'>=</span> <span class='no'>top</span>, <span class='kw'>y_title</span> <span class='kw'>=</span> <span class='no'>title_var_1</span>,
-  <span class='kw'>y_var_type</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>, <span class='kw'>y_vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y_initial</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>y_select_mode</span> <span class='kw'>=</span> <span class='st'>"single"</span>, <span class='kw'>y_params</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(),
-  <span class='kw'>gr_title</span> <span class='kw'>=</span> <span class='no'>title_gr_0_n</span>, <span class='kw'>gr_var_type</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>,
-  <span class='kw'>gr_vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>gr_initial</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>gr_select_mode</span> <span class='kw'>=</span> <span class='st'>"multiple"</span>,
-  <span class='kw'>gr_params</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='kw'>ch_label</span> <span class='kw'>=</span> <span class='st'>"Use groups"</span>, <span class='kw'>ch_initial</span> <span class='kw'>=</span> <span class='st'>"0"</span>,
-  <span class='kw'>ch_commands</span> <span class='kw'>=</span> <span class='kw'>function</span>() { }, <span class='kw'>ch_params</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='kw'>listHeight</span> <span class='kw'>=</span> <span class='fl'>7</span>,
-  <span class='kw'>listWidth</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>25</span>, <span class='fl'>Inf</span>), <span class='kw'>add_to_grid</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+<span class='fu'>tclvalue_chr_split</span>(<span class='no'>x</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

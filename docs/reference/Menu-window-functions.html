@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RcmdrPlugin.biostat functions for menus and windows. — active_dataset • RcmdrPlugin.biostat</title>
+<title>RcmdrPlugin.biostat functions for menus and windows. — Menu-window-functions • RcmdrPlugin.biostat</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="RcmdrPlugin.biostat functions for menus and windows. — active_dataset" />
+<meta property="og:title" content="RcmdrPlugin.biostat functions for menus and windows. — Menu-window-functions" />
 
 <meta property="og:description" content="Functions that open Rcmdr menus and windows windows." />
 <meta name="twitter:card" content="summary" />
@@ -114,21 +114,9 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>active_dataset</span>(<span class='no'>dsname</span>, <span class='kw'>flushModel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>flushDialogMemory</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+    <pre class="usage"><span class='fu'>command_dataset_refresh</span>()
 
-<span class='fu'>window_ci_mean__0</span>()
-
-<span class='fu'>window_ci_mean_diff</span>()
-
-<span class='fu'>window_ci_median</span>()
-
-<span class='fu'>window_ci_prop_multi</span>()
-
-<span class='fu'>window_ci_prop_binom</span>()
-
-<span class='fu'>window_ci_boot</span>()
-
-<span class='fu'>command_dataset_refresh</span>()
+<span class='fu'>activate_menus</span>()
 
 <span class='fu'>command_dataset_view</span>()
 
@@ -147,24 +135,6 @@
 <span class='fu'>command_dataset_as_tibble</span>()
 
 <span class='fu'>command_dataset_as_dt</span>()
-
-<span class='fu'>window_export_to_rds</span>()
-
-<span class='fu'>window_export_to_rds_0</span>(<span class='kw'>ds_name</span> <span class='kw'>=</span> <span class='fu'>activeDataSet</span>())
-
-<span class='fu'>window_export_to_rdata</span>()
-
-<span class='fu'>window_export_to_rdata_0</span>(<span class='kw'>ds_name</span> <span class='kw'>=</span> <span class='fu'>activeDataSet</span>())
-
-<span class='fu'>window_export_to_excel_old</span>()
-
-<span class='fu'>window_export_to_textfile</span>()
-
-<span class='fu'>export_to_clipboard</span>(<span class='kw'>ds_name</span> <span class='kw'>=</span> <span class='fu'>ActiveDataSet</span>(), <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>","</span>)
-
-<span class='fu'>export_to_clipboard_active_ds_tab</span>()
-
-<span class='fu'>dataset_import_excel</span>()
 
 <span class='fu'>command_model_std_lm_coeffs</span>()
 
@@ -309,7 +279,14 @@
 
 <span class='fu'>window_online_bug_report</span>()
 
-<span class='fu'>window_ci_mean</span>()
+<span class='fu'>active_dataset</span>(<span class='no'>dsname</span>, <span class='kw'>flushModel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>flushDialogMemory</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='fu'>window_export_to_textfile</span>()
+
+<span class='fu'>refresh_dataset_window_0</span>(<span class='no'>widget</span>, <span class='no'>ds_contents</span>, <span class='no'>preview_type</span>,
+  <span class='no'>nrow_preview_ds</span>, <span class='kw'>expect_more_rows</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>err_msg_default</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>configure_tags</span>(<span class='no'>text_widget</span>)
 
 <span class='fu'>window_data_obj_copy</span>()
 
@@ -331,17 +308,31 @@
 
 <span class='fu'>window_dataset_select</span>()
 
+<span class='fu'>export_to_clipboard</span>(<span class='kw'>ds_name</span> <span class='kw'>=</span> <span class='fu'>active_dataset_0</span>(), <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>","</span>)
+
+<span class='fu'>export_to_clipboard_active_ds_tab</span>()
+
 <span class='fu'>window_export_to_excel</span>()
+
+<span class='fu'>window_export_to_rdata</span>()
+
+<span class='fu'>window_export_to_rdata_0</span>(<span class='kw'>ds_name</span> <span class='kw'>=</span> <span class='fu'>active_dataset</span>())
+
+<span class='fu'>window_export_to_rds</span>()
+
+<span class='fu'>window_export_to_rds_0</span>(<span class='kw'>ds_name</span> <span class='kw'>=</span> <span class='fu'>active_dataset</span>())
 
 <span class='fu'>window_factor_lvls_drop</span>()
 
 <span class='fu'>window_fct_lvls_reorder_manual</span>()
 
-<span class='fu'>window_import_excel</span>()
+<span class='fu'>window_import_from_excel</span>()
 
 <span class='fu'>command_list_datasets_in_pkgs</span>()
 
 <span class='fu'>window_import_from_pkg</span>()
+
+<span class='fu'>window_import_from_rds</span>()
 
 <span class='fu'>window_import_from_clipboard</span>()
 
@@ -349,11 +340,11 @@
 
 <span class='fu'>window_import_rdata</span>()
 
-<span class='fu'>window_import_rds</span>()
-
 <span class='fu'>command_get_locale</span>()
 
 <span class='fu'>window_locale_set</span>()
+
+<span class='fu'>window_locale_set_0</span>(<span class='kw'>parent</span> <span class='kw'>=</span> <span class='fu'>CommanderWindow</span>())
 
 <span class='fu'>window_model_select</span>()
 
@@ -383,8 +374,6 @@
 
 <span class='fu'>window_summary_count</span>()
 
-<span class='fu'>window_summary_skim</span>()
-
 <span class='fu'>window_test_normality</span>()
 
 <span class='fu'>window_variable_gather</span>()
@@ -400,9 +389,7 @@
 
 <span class='fu'>window_variable_select0</span>(<span class='no'>variables</span>)
 
-<span class='fu'>window_variable_select</span>(<span class='kw'>new_dsname</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>incorrect_cond_msg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
-
-<span class='fu'>window_data_obj_delete</span>()</pre>
+<span class='fu'>window_variable_select</span>(<span class='kw'>new_dsname</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>incorrect_cond_msg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
         
 
   </div>

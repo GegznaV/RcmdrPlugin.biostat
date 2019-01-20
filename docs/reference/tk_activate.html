@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Activate/Disable TK Objects — tk_activate • RcmdrPlugin.biostat</title>
+<title>Control activation state of TCL/TK widget.
+Activate/Disable Tcl/Tk Objects — tk_get_state • RcmdrPlugin.biostat</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +31,8 @@
 
 
 
-<meta property="og:title" content="Activate/Disable TK Objects — tk_activate" />
+<meta property="og:title" content="Control activation state of TCL/TK widget.
+Activate/Disable Tcl/Tk Objects — tk_get_state" />
 
 <meta property="og:description" content="Modify state of tk objects." />
 <meta name="twitter:card" content="summary" />
@@ -103,7 +105,8 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Activate/Disable TK Objects</h1>
+    <h1>Control activation state of TCL/TK widget.
+Activate/Disable Tcl/Tk Objects</h1>
     
     <div class="hidden name"><code>tk_activate.Rd</code></div>
     </div>
@@ -114,17 +117,27 @@
     
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for default</span>
+    <pre class="usage"><span class='fu'>tk_get_state</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+
+<span class='fu'>tk_activate</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+
+<span class='fu'>tk_disable</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+
+<span class='fu'>tk_normalize</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+
+<span class='fu'>tk_read_only</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for default</span>
 <span class='fu'>tk_activate</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for default</span>
-<span class='fu'><a href='Helper-functions.html'>tk_normalize</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'>tk_normalize</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for default</span>
-<span class='fu'><a href='Helper-functions.html'>tk_read_only</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'>tk_read_only</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for default</span>
-<span class='fu'><a href='Helper-functions.html'>tk_disable</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>tk_disable</span>(<span class='no'>obj</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

@@ -84,15 +84,15 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 <div id="intro" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#intro" class="anchor"></a>An R Commander Plug-in for Basic Data Management and Analysis Tasks</h1></div>
-<p><strong>RcmdrPlugin.biostat</strong> is an <a href="https://cran.r-project.org/web/packages/Rcmdr/index.html"><strong>Rcmdr</strong></a> plug-in for the most common data wrangling, visualisation and analysis tasks using “tidyverse” family functions as well as functions from other packages.</p>
+<p><strong>RcmdrPlugin.biostat</strong> is an <a href="https://CRAN.R-project.org/package=Rcmdr"><strong>Rcmdr</strong></a> plug-in for the most common data wrangling, visualisation and analysis tasks using “tidyverse” family functions as well as functions from other packages.</p>
 <p>Documentation and more information available at <a href="http://gegznav.github.io/RcmdrPlugin.biostat" class="uri">http://gegznav.github.io/RcmdrPlugin.biostat</a></p>
 <div id="install" class="section level2">
 <h2 class="hasAnchor">
 <a href="#install" class="anchor"></a>Install the package</h2>
 <p>To install a developement version of the package from <code>GitHub</code>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="cf">if</span> (<span class="op">!</span><span class="st">"devtools"</span> <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/installed.packages">installed.packages</a></span>())  <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"GegznaV/RcmdrPlugin.biostat"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="cf">if</span> (<span class="op">!</span><span class="st">"devtools"</span> <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/installed.packages">installed.packages</a></span>())  <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
+<a class="sourceLine" id="cb1-2" title="2"></a>
+<a class="sourceLine" id="cb1-3" title="3">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"GegznaV/RcmdrPlugin.biostat"</span>)</a></code></pre></div>
 <hr>
 </div>
 </div>
@@ -107,22 +107,18 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 <strong>RcmdrPlugin.KMggplot2</strong> – an <em>R Commander</em> plugin for <strong>ggplot2</strong> graphics.</li>
 </ol>
 <p>To install these packages, use the following code:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># RcmdrPlugin.EZR.2</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"GegznaV/RcmdrPlugin.EZR@unmodified_Rcmdr_menu"</span>)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co"># RcmdrPlugin.KMggplot2</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"RcmdrPlugin.KMggplot2"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># RcmdrPlugin.EZR.2</span></a>
+<a class="sourceLine" id="cb2-2" title="2">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"GegznaV/RcmdrPlugin.EZR@unmodified_Rcmdr_menu"</span>)</a>
+<a class="sourceLine" id="cb2-3" title="3"></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="co"># RcmdrPlugin.KMggplot2</span></a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"RcmdrPlugin.KMggplot2"</span>)</a></code></pre></div>
 </div>
 <div id="important" class="section level1">
 <h1 class="hasAnchor">
 <a href="#important" class="anchor"></a>Important</h1>
 <p>Some of the functions in the package are based on and modified from functions in packages <em>Rcmdr</em>, <em>RcmdrPlugin.EZR</em> and <em>RcmdrPlugin.KMggplot2</em>. All of those packages are under GPL-2/GPL-3 license.</p>
 <hr>
-<!-- [![Travis-CI Build Status]
-(https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)]
-(https://travis-ci.org/GegznaV/RcmdrPlugin.biostat) --><!-- [![codecov.io]
-(https://codecov.io/github/GegznaV/RcmdrPlugin.biostat/coverage.svg?branch=master)]
-(https://codecov.io/github/GegznaV/RcmdrPlugin.biostat?branch=master) --><!-- * * * --><!--  <p align="right"> </p>     -->
+<!-- * * * --><!--  <p align="right"> </p>     -->
 </div>
   </div>
 
@@ -144,6 +140,7 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>Vilmantas Gegzna <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-9500-5167" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
+<li><a href="authors.html">All authors...</a></li>
 </ul>
 </div>
 
@@ -151,10 +148,10 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></li>
-<li><a href="https://cran.rstudio.com/web/packages/RcmdrPlugin.biostat/index.html"><embed src="http://www.r-pkg.org/badges/version/RcmdrPlugin.biostat"></embed></a></li>
+<li><a href="https://cran.r-project.org/package=RcmdrPlugin.biostat"><embed src="https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat"></embed></a></li>
 <li><a href="https://github.com/GegznaV/RcmdrPlugin.biostat"><img src="https://img.shields.io/badge/GitHub-v0.0.23.9000-brightgreen.svg" alt="GitHub version"></a></li>
 <li><a href="https://travis-ci.org/GegznaV/RcmdrPlugin.biostat"><img src="https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master" alt="Travis-CI Build Status"></a></li>
-<li><a href="/commits/master"><img src="https://img.shields.io/badge/Updated%20on-2019--01--05-yellowgreen.svg" alt="Updated-on"></a></li>
+<li><a href="/commits/master"><img src="https://img.shields.io/badge/Updated%20on-2019--01--20-yellowgreen.svg" alt="Updated-on"></a></li>
 </ul>
 </div>
 </div>
