@@ -115,10 +115,8 @@ window_dataset_select <- function() {
             #     "## The size of dataset '{.ds_1}' (rows, columns)\n",
             #     "dim({.ds_1})"))
 
-            doItAndPrint(str_glue(
-                "## The size of dataset '{.ds_1}'\n",
-                "summary(skimr::skim({.ds_1}))"
-            ))
+            summary_var_types(.ds)
+
         })
 
 
@@ -164,19 +162,8 @@ window_dataset_select <- function() {
 
             .ds_1 <- get_selection(var_ds_box)
 
-            Library("tidyverse")
-            Library("skimr")
+            summary_skim(.ds_1)
 
-            doItAndPrint(str_glue(
-                "skimr::skim_with(\n",
-                "    numeric = list(hist = NULL),\n",
-                "    integer = list(hist = NULL) \n",
-                ")\n\n"
-            ))
-            doItAndPrint(str_glue(
-                "## Summary of the variables in dataset '{.ds_1}'\n",
-                "skimr::skim({.ds_1})"
-            ))
 
             # If any factors exist
             ds_factors <-
