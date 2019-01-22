@@ -58,3 +58,47 @@ summary_head_tail <- function() {
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+summary_var_types_0 <- function() {
+    summary_var_types(.ds = active_dataset_0())
+}
+
+summary_var_types <- function(.ds) {
+    Library("skimr")
+    doItAndPrint(str_glue(
+        "## The size & variable type summary of dataset '{.ds}'\n",
+        "summary(skimr::skim({.ds}))"
+    ))
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+summary_skim_0 <- function() {
+    summary_skim(.ds = active_dataset_0())
+}
+
+summary_skim <- function(.ds) {
+    Library("tidyverse")
+    Library("skimr")
+
+  if ((utils::packageVersion("skimr") < "2.0")) {
+
+        doItAndPrint(
+            str_c(
+                "skimr::skim_with(\n",
+                "    numeric = list(hist = NULL),\n",
+                "    integer = list(hist = NULL) \n",
+                ")\n\n"
+            ))
+
+        doItAndPrint(str_glue(
+            "## Summary of the variables in dataset '{.ds}'\n",
+            "skimr::skim({.ds})"
+        ))
+
+    } else {
+        doItAndPrint(str_glue(
+            "## Summary of the variables in dataset '{.ds}'\n",
+
+            "do_skim <- skimr::skim_with(numeric = sfl(hist = NULL))\n",
+            "do_skim({.ds})\n\n"
+        ))
+    }
+}
