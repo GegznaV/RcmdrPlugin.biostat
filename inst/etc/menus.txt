@@ -93,7 +93,7 @@ item	bs_var_general_menu	command	"Recode variable values..."	window_variable_rec
 
 item	bs_var_general_menu	separator	""	""	""	""
 
-item	bs_var_general_menu	command	"Convert variable types..."	window_variable_convert_type	"activeDataSetP()"	"packageAvailable('tidyverse')"
+item	bs_var_general_menu	command	"Convert variable types manually..."	window_variable_convert_type	"activeDataSetP()"	"packageAvailable('tidyverse')"
 
 # Reshape ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
