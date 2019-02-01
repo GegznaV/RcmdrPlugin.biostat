@@ -278,7 +278,7 @@ window_import_from_text <- function() {
                 initialdir = initialdir,
                 title = "Choose Text File to Import",
                 filetypes = gettext_bs(
-                    "{{Text files} {.txt .csv .dat .tab}}
+                    "{{Text files} {.txt .csv .dat .tab .tsv}}
                  {{All Files} *}")))
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (filename == "") {
