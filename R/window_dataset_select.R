@@ -36,11 +36,44 @@ window_dataset_select <- function() {
         }
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    cmd_ds_class_print <- function() {
+        .ds_1 <- get_selection(var_ds_box)
+        doItAndPrint(str_glue(
+            "## The class of dataset '{.ds_1}'\n",
+            "class({.ds_1})"))
+    }
+
+    cmd_ds_size <- function() {
+        .ds_1 <- get_selection(var_ds_box)
+        command_dataset_dim(.ds_1)
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    cmd_var_type_summary <- function() {
+        .ds_1 <- get_selection(var_ds_box)
+        summary_var_types(.ds_1)
+    }
+
+    cmd_var_names_print <- function() {
+        .ds_1 <- get_selection(var_ds_box)
+        doItAndPrint(str_glue(
+            "## Variable names in dataset '{.ds_1}'\n",
+            "names({.ds_1})"
+        ))
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    cmd_ds_glimpse <- function() {
+        .ds_1 <- get_selection(var_ds_box)
+        doItAndPrint(str_glue(
+            "## The structure of dataset '{.ds_1}'\n",
+            "dplyr::glimpse({.ds_1})"))
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_var_summary_skim <- function() {
         .ds_1 <- get_selection(var_ds_box)
         summary_skim(.ds_1)
     }
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_var_summary_fct <- function() {
         .ds_1 <- get_selection(var_ds_box)
 
@@ -51,41 +84,20 @@ window_dataset_select <- function() {
 
         if (any(ds_factors)) {
             doItAndPrint(style_cmd(str_glue(
-                "## More details on categorical variables\n",
+                "## Summary of categorical variables\n",
                 "{.ds_1} %>% \n ",
                 "dplyr::select_if(is.factor) %>% \n",
                 "purrr::map(~data.frame(n = summary(.)))"
             )))
+
+        } else {
+            doItAndPrint(style_cmd(str_glue(
+                "## No categorical variables (factors) found"
+            )))
         }
     }
 
-    cmd_ds_glimpse <- function() {
-        .ds_1 <- get_selection(var_ds_box)
-        doItAndPrint(str_glue(
-            "## The structure of dataset '{.ds_1}'\n",
-            "dplyr::glimpse({.ds_1})"))
-    }
-
-    cmd_var_names_print <- function() {
-        .ds_1 <- get_selection(var_ds_box)
-        doItAndPrint(str_glue(
-            "## Variable names in dataset '{.ds_1}'\n",
-            "names({.ds_1})"
-        ))
-    }
-
-    cmd_var_type_summary <- function() {
-        .ds_1 <- get_selection(var_ds_box)
-        summary_var_types(.ds)
-    }
-
-    cmd_ds_class_print <- function() {
-        .ds_1 <- get_selection(var_ds_box)
-        doItAndPrint(str_glue(
-            "## The class of dataset '{.ds_1}'\n",
-            "class({.ds_1})"))
-    }
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_ds_view <- function() {
         .ds_1 <- get_selection(var_ds_box)
         doItAndPrint(str_glue(
@@ -93,6 +105,7 @@ window_dataset_select <- function() {
             "View({.ds_1})"
         ))
     }
+
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
@@ -124,89 +137,57 @@ window_dataset_select <- function() {
 
     # Menus ------------------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    menu_size <- function() {
+    menu_variables <- function() {
 
-        # .ds <- active_dataset_0()
-        .ds <- getSelection(var_ds_box)
-
-        # if (is.null(.ds)) {
-        #     # command_dataset_refresh()
-        #     # active_dataset_not_persent()
-        #     return()
-        # }
-
-        # top <- CommanderWindow()
+        if (get_selection_length(var_ds_box) == 0) {
+           return()
+        }
 
         menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
-        # menu_n  <- tk2menu(menu_p, tearoff = FALSE)
-
-        # tkadd(menu_p, "cascade",
-        #       label    = "Summary",
-        #       # compound = "left",
-        #       # image    = "::image::bs_open_file",
-        #       menu     = menu_n)
-
         tkadd(menu_p, "command",
-              label    = "Print number of rows and columns",
+              label    = "Size and variable type summary",
               # compound = "left",
               # image    = "::image::bs_locale",
-              command  = function_not_implemented) # command_dataset_dim
+              command  = cmd_var_type_summary)
 
         tkadd(menu_p, "command",
-              label    = "Print table size and column types",
+              label    = "Variable names",
               # compound = "left",
               # image    = "::image::bs_locale",
-              command  = function_not_implemented)
+              command  = cmd_var_names_print)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkpopup(menu_p,
                 tkwinfo("pointerx", top),
                 tkwinfo("pointery", top))
     }
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    menu_class <- function() {
+    menu_summary <- function() {
 
-        # .ds <- active_dataset_0()
-        .ds <- getSelection(var_ds_box)
-
-        # if (is.null(.ds)) {
-        #     # command_dataset_refresh()
-        #     # active_dataset_not_persent()
-        #     return()
-        # }
-
-        # top <- CommanderWindow()
+        if (get_selection_length(var_ds_box) == 0) {
+            return()
+        }
 
         menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
-        # menu_n  <- tk2menu(menu_p, tearoff = FALSE)
-
-        # tkadd(menu_p, "cascade",
-        #       label    = "Summary",
-        #       # compound = "left",
-        #       # image    = "::image::bs_open_file",
-        #       menu     = menu_n)
-
         tkadd(menu_p, "command",
-              label    = "Print number of rows and columns",
+              label    = "Summary of all variables",
               # compound = "left",
               # image    = "::image::bs_locale",
-              command  = command_dataset_dim)
+              command  = cmd_var_summary_skim)
 
         tkadd(menu_p, "command",
-              label    = "Print table size and column types",
+              label    = "Summary of factor variables",
               # compound = "left",
               # image    = "::image::bs_locale",
-              command  = function_not_implemented)
+              command  = cmd_var_summary_fct)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkpopup(menu_p,
                 tkwinfo("pointerx", top),
                 tkwinfo("pointery", top))
     }
-
 
     # Initialize -------------- ----------------------------------------------
     initializeDialog(title = gettext_bs("Select & Explore Dataset"))
@@ -236,34 +217,30 @@ window_dataset_select <- function() {
     i1 <- tk2button(
         info_buttons_frame,
         text = "Class",
-        tip  = "Print class of the selected dataset.",
+        tip  = "Print selected dataset's class",
         width = 5,
         command = cmd_ds_class_print)
 
     i2 <- tk2button(
         info_buttons_frame,
         text = "Size",
-        tip  = str_c("Print selected dataset's size and",
-                     "column type frequencies.",
-                     sep = "\n"),
+        tip  = "Print selected dataset's size",
         width = 4,
-        command = cmd_var_type_summary)
+        command = cmd_ds_size)
 
     i3 <- tk2button(
         info_buttons_frame,
         text = "Variables",
-        tip  = str_c("Print variable names in",
-                     "the selected dataset.",
-                     sep = "\n"),
+        tip  = "Print information about selected dataset's columns",
         width = 0,
-        command = cmd_var_names_print)
+        command = menu_variables)
 
     i4 <- tk2button(
         info_buttons_frame,
         text = "Structure",
         tip  = str_c("Print selected dataset's structure:",
                      "variable names, types and several ",
-                     "first values.",
+                     "first values",
                      sep = "\n"),
         width = 0,
         command = cmd_ds_glimpse)
@@ -272,15 +249,15 @@ window_dataset_select <- function() {
         info_buttons_frame,
         text = "Summary",
         tip  = str_c("Print summary of the variables",
-                     "in the selected dataset.",
+                     "in the selected dataset",
                      sep = "\n"),
         width = 0,
-        command = cmd_var_summary_skim)
+        command = menu_summary)
 
     i6 <- tk2button(
         info_buttons_frame,
         text = "Preview",
-        tip  = str_c("Preview the  selected dataset",
+        tip  = str_c("View selected dataset",
                      "in a separate window.",
                      sep = "\n"),
         width = 0,
