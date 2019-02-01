@@ -249,7 +249,7 @@ item	biostat_menu	cascade	"Summaries"	bs_summary_menu	""	""
 
 # ---- Overview / Structure --------------------------------------------------------------
 
-item	bs_summary_menu	command	"Number of rows and columns"	command_dataset_dim	"activeDataSetP()"	""
+item	bs_summary_menu	command	"Number of rows and columns"	command_dataset_dim_0	"activeDataSetP()"	""
 item	bs_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
 
 
