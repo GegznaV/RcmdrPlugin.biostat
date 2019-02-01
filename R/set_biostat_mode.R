@@ -827,6 +827,9 @@ bs_mode_menu__variables <- function() {
     #
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    tkadd(menu_p, "separator")
+
     menu_chr <- tk2menu(menu_p, tearoff = FALSE)
 
     tkadd(menu_p, "cascade",
