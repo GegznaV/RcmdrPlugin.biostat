@@ -59,17 +59,17 @@ set_biostat_mode <- function() {
         image = "::image::bs_columns",
         command = bs_mode_menu__variables)
 
+    button_analysis <- tk2button(
+        pare,
+        tip = "Analyze data",
+        image = "::image::bs_analyze",
+        command = bs_mode_menu__analyze)
+
     button_plots <- tk2button(
         pare,
         tip = "Plots",
         image = "::image::bs_plot",
         command = bs_mode_menu__plots)
-
-    button_analysis <- tk2button(
-        pare,
-        tip = "Summarize and analyze data",
-        image = "::image::bs_analyze",
-        command = bs_mode_menu__analyze)
 
     button_other <- tk2button(
         pare,
@@ -106,7 +106,7 @@ set_biostat_mode <- function() {
         tkconfigure(button_view, compound = "none")
         tkconfigure(button_view, command = bs_mode_menu__print)
         # Add tooltip
-        .Tcl(str_glue('tooltip::tooltip {button_view} "View and print data"'))
+        .Tcl(str_glue('tooltip::tooltip {button_view} "View,  summarize and print data"'))
     }
 
     if (length(button_edit) > 0) {
@@ -140,8 +140,8 @@ set_biostat_mode <- function() {
            button_analysis,
            button_plots,
            button_other,
-           button_export,
            button_refresh,
+           button_export,
            lab_model, button_model)
 
     tkgrid.configure(pare, pady = c(4, 3))
@@ -432,10 +432,11 @@ bs_mode_menu__export <- function() {
             tkwinfo("pointery", top))
 }
 
-
+# Preview and summarize ------------------------------------------------------
 bs_mode_menu__print <- function() {
 
     .ds <- active_dataset_0()
+
     if (is.null(.ds)) {
         command_dataset_refresh()
         active_dataset_not_persent()
@@ -445,8 +446,6 @@ bs_mode_menu__print <- function() {
     top <- CommanderWindow()
 
     menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
-    menu_md <- tk2menu(menu_p, tearoff = FALSE)
-    menu_ds <- tk2menu(menu_p, tearoff = FALSE)
 
 
     view_style <- if (.Platform$GUI == "RStudio") {
@@ -470,7 +469,34 @@ bs_mode_menu__print <- function() {
           # image    = "::image::viewIcon",
           command  = window_dataset_class)
 
+
+
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_p, "separator")
+
+    tkadd(menu_p, "command",
+          label    = "Glimpse: structure of dataset",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = command_glimpse)
+
+    tkadd(menu_p, "command",
+          label    = "Summarize variables...",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = function_not_implemented)
+
+    tkadd(menu_p, "command",
+          label    = "Frequency & multi-way tables...",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = window_summary_count)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkadd(menu_p, "separator")
+
+    menu_md <- tk2menu(menu_p, tearoff = FALSE)
 
     tkadd(menu_p, "cascade",
           label    = "Print as Markdown table ",
@@ -487,6 +513,8 @@ bs_mode_menu__print <- function() {
           command = window_dataset_print_as_md)
 
     # tkadd(menu_p, "separator")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    menu_ds <- tk2menu(menu_p, tearoff = FALSE)
 
     tkadd(menu_p, "cascade",
           label    = "Print as dataset",
@@ -507,7 +535,7 @@ bs_mode_menu__print <- function() {
           command = command_dataset_print_as_tibble)
 
     # tkadd(menu_ds, "separator")
-    #
+
     tkadd(menu_p, "command",
           label   = "Print top and bottom rows",
           command = summary_head_tail)
@@ -624,104 +652,6 @@ bs_mode_menu__rows <- function() {
             tkwinfo("pointerx", top),
             tkwinfo("pointery", top))
 }
-
-# Sumarry and analysis menus -----------------------------------------------------------
-bs_mode_menu__analyze <- function() {
-
-    top <- CommanderWindow()
-
-    menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    menu_n  <- tk2menu(menu_p, tearoff = FALSE)
-
-    tkadd(menu_p, "cascade",
-          label    = "Summary",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          menu     = menu_n)
-
-    tkadd(menu_n, "command",
-          label    = "Print number of rows and columns",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = command_dataset_dim)
-
-    tkadd(menu_n, "command",
-          label    = "Print table size and column types",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = function_not_implemented)
-
-    tkadd(menu_n, "command",
-          label    = "Glimpse: structure of dataset",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = command_glimpse)
-
-    tkadd(menu_n, "command",
-          label    = "Summarize variables...",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = function_not_implemented)
-
-    tkadd(menu_n, "command",
-          label    = "Frequency & multi-way tables...",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = window_summary_count)
-
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    menu_rm  <- tk2menu(menu_p, tearoff = FALSE)
-
-    tkadd(menu_p, "cascade",
-          label    = "Analysis",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          menu     = menu_rm)
-
-
-#
-#     tkadd(menu_rm, "command",
-#           label    = "Filter: select rows that match conditions...",
-#           # compound = "left",
-#           # image    = "::image::bs_locale",
-#           command  = window_rows_filter0)
-#
-#     tkadd(menu_rm, "command",
-#           label    = "Slice: select/remove rows by row index...",
-#           # compound = "left",
-#           # image    = "::image::bs_locale",
-#           command  = window_rows_slice)
-#
-#     tkadd(menu_rm, "separator")
-#
-#     tkadd(menu_rm, "command",
-#           label    = "Remove duplicated rows...",
-#           # compound = "left",
-#           # image    = "::image::bs_locale",
-#           command  = window_rows_rm_duplicated)
-#
-#     tkadd(menu_rm, "command",
-#           label    = "Remove empty rows",
-#           # compound = "left",
-#           # image    = "::image::bs_locale",
-#           command  = command_rows_rm_empty_rows)
-#
-#     tkadd(menu_rm, "command",
-#           label    = "Remove rows with missing values...",
-#           # compound = "left",
-#           # image    = "::image::bs_locale",
-#           command  = window_rows_rm_with_na)
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkpopup(menu_p,
-            tkwinfo("pointerx", top),
-            tkwinfo("pointery", top))
-}
-
-
 
 # Variable menus -----------------------------------------------------------
 bs_mode_menu__variables <- function() {
@@ -896,6 +826,65 @@ tkpopup(menu_p,
         tkwinfo("pointerx", top),
         tkwinfo("pointery", top))
 }
+
+# Analysis menus -----------------------------------------------------------
+bs_mode_menu__analyze <- function() {
+
+    top <- CommanderWindow()
+
+    menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
+
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    menu_rm  <- tk2menu(menu_p, tearoff = FALSE)
+
+    tkadd(menu_p, "cascade",
+          label    = "Analysis",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          menu     = menu_rm)
+
+
+#
+#     tkadd(menu_rm, "command",
+#           label    = "Filter: select rows that match conditions...",
+#           # compound = "left",
+#           # image    = "::image::bs_locale",
+#           command  = window_rows_filter0)
+#
+#     tkadd(menu_rm, "command",
+#           label    = "Slice: select/remove rows by row index...",
+#           # compound = "left",
+#           # image    = "::image::bs_locale",
+#           command  = window_rows_slice)
+#
+#     tkadd(menu_rm, "separator")
+#
+#     tkadd(menu_rm, "command",
+#           label    = "Remove duplicated rows...",
+#           # compound = "left",
+#           # image    = "::image::bs_locale",
+#           command  = window_rows_rm_duplicated)
+#
+#     tkadd(menu_rm, "command",
+#           label    = "Remove empty rows",
+#           # compound = "left",
+#           # image    = "::image::bs_locale",
+#           command  = command_rows_rm_empty_rows)
+#
+#     tkadd(menu_rm, "command",
+#           label    = "Remove rows with missing values...",
+#           # compound = "left",
+#           # image    = "::image::bs_locale",
+#           command  = window_rows_rm_with_na)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkpopup(menu_p,
+            tkwinfo("pointerx", top),
+            tkwinfo("pointery", top))
+}
+
+
 
 # Plot menus -----------------------------------------------------------
 bs_mode_menu__plots <- function() {
