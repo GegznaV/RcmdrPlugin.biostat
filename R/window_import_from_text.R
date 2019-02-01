@@ -1438,7 +1438,8 @@ window_import_from_text <- function() {
     )
 
     list(f2_ent_sep, f2_ent_skip, f2_ent_max, f2_ent_quo, f2_ent_na) %>%
-        walk(tk_disable)
+        purrr::walk(~tk_disable(.))
+
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(f3_input$frame,  sticky = "news")
