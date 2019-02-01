@@ -1105,9 +1105,6 @@ window_import_from_text <- function() {
         ),
     )
 
-    tkgrid(f2a, columnspan = 3, sticky = "ew", pady = c(0, 2))
-    tkgrid(f2_txt_from, f2_but_from$frame, sticky = "ew")
-    tkgrid.configure(f2_txt_from, padx = c(2, 7))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f2_lab_head <- tk2label(f2, text = "Header")
     f2_lab_dec  <- tk2label(f2, text = "Decimal")
@@ -1269,10 +1266,6 @@ window_import_from_text <- function() {
         ),
     )
 
-    tkgrid(f2_opts$frame,
-           padx = c(3, 0), pady = c(4, 2), columnspan = 3, sticky = "w")
-
-
     # F3, Frame 3, Preview ---------------------------------------------------
     f3 <- tk2labelframe(f_middle, relief = "flat", text = "Preview")
 
@@ -1380,7 +1373,6 @@ window_import_from_text <- function() {
             'It is useful to select correct "Enconding" too.'))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     f3_dataset <- bs_text(
         f3, width = 75, height = 11, wrap = "none",
         undo = FALSE, state = "disabled", font = font_consolas_regular,
@@ -1390,12 +1382,11 @@ window_import_from_text <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # Grid -------------------------------------------------------------------
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(f1, padx = 10, sticky = "we")
 
-    tkgrid(f1_lab_file, f1_ent_file$frame, f1_but_set_1, pady = c(10, 2),  sticky = "we")
-    tkgrid(f1_lab_ds_name, f1_ent_ds_name$frame,           pady = c(0,  10), sticky = "we")
+    tkgrid(f1_lab_file, f1_ent_file$frame, f1_but_set_1, pady = c(10, 2), sticky = "we")
+    tkgrid(f1_lab_ds_name, f1_ent_ds_name$frame,         pady = c(0, 10), sticky = "we")
 
     tkgrid(f1_but_f_choose, f1_but_paste, f1_but_clear, f1_but_update, sticky = "e")
 
@@ -1411,6 +1402,10 @@ window_import_from_text <- function() {
     tkgrid(f2, f3, sticky = "nsw", padx = c(0, 5), pady = c(0, 15))
     tkgrid.configure(f2, sticky = "ns")
     tkgrid.configure(f3, sticky = "news")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(f2a, columnspan = 3, sticky = "ew", pady = c(0, 2))
+    tkgrid(f2_txt_from, f2_but_from$frame, sticky = "ew")
+    tkgrid.configure(f2_txt_from, padx = c(2, 7))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(f2_lab_head, f2_box_head$frame, "x",               pady = c(2, 0))
     tkgrid(f2_lab_dec,  f2_box_dec$frame,  "x",               pady = c(2, 0))
@@ -1436,27 +1431,29 @@ window_import_from_text <- function() {
         f2_ent_na$frame,
         padx = c(2, 0)
     )
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     list(f2_ent_sep, f2_ent_skip, f2_ent_max, f2_ent_quo, f2_ent_na) %>%
         purrr::walk(~tk_disable(.))
-
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(f3_input$frame,  sticky = "news")
+    tkgrid(f2_opts$frame,
+           padx = c(3, 0), pady = c(4, 2), columnspan = 3, sticky = "w")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(f3_input$frame, sticky = "news")
     tkgrid(f3_but, sticky = "ew", columnspan = 2)
     tkgrid(f3_dataset$frame, sticky = "news")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(f3_but_w, f3_but_e, sticky = "ew", pady = c(2, 4))
 
-    tkgrid(f3_lab_nrows, f3_box_nrow_1$frame, f3_box_nrow_2$frame,
-           f3_box_type$frame, sticky = "w")
+    tkgrid(f3_lab_nrows, f3_box_nrow_1$frame,
+           f3_box_nrow_2$frame, f3_box_type$frame,
+           sticky = "w")
 
-    tkgrid(f3_but_paste, f3_but_clear, f3_but_refresh, f3_but_locale, sticky = "e")
+    tkgrid(f3_but_paste, f3_but_clear, f3_but_refresh, f3_but_locale,
+           sticky = "e")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid.configure(f3_lab_nrows,        padx = c(10, 2))
     tkgrid.configure(f3_box_nrow_2$frame, padx = c(2, 2))
-    tkgrid.configure(f3_but_locale,            padx = c(0, 10))
-
+    tkgrid.configure(f3_but_locale,       padx = c(0, 10))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Finalize ---------------------------------------------------------------
@@ -1472,7 +1469,6 @@ window_import_from_text <- function() {
     # Configuration ----------------------------------------------------------
     set_values(f1_ent_ds_name, unique_obj_names("dataset", all_numbered = TRUE))
     highlight_update_button()
-
 
     # Tags -------------------------------------------------------------------
     configure_tags(f3_input$text)
@@ -1501,9 +1497,9 @@ window_import_from_text <- function() {
     tkgrid.columnconfigure(f1, 1, weight = 1) # Text entries
     tkgrid.columnconfigure(f1, 2, weight = 0) # Buttons
 
-    tkgrid.columnconfigure(f1_ent_file$frame_text, 0, weight = 1, minsize = 20)
+    tkgrid.columnconfigure(f1_ent_file$frame_text,    0, weight = 1, minsize = 20)
     tkgrid.columnconfigure(f1_ent_ds_name$frame_text, 0, weight = 1, minsize = 20)
-    tkgrid.columnconfigure(f1_ent_file$obj_text,   0, weight = 1, minsize = 20)
+    tkgrid.columnconfigure(f1_ent_file$obj_text,      0, weight = 1, minsize = 20)
     tkgrid.columnconfigure(f1_ent_ds_name$obj_text,   0, weight = 1, minsize = 20)
 
     tkgrid.columnconfigure(f_middle, 0, weight = 0)
@@ -1515,7 +1511,6 @@ window_import_from_text <- function() {
     tkgrid.columnconfigure(f3_but,   1, weight = 0)
     tkgrid.columnconfigure(f3_but_w, 0, weight = 0)
     tkgrid.columnconfigure(f3_but_e, 0, weight = 1)
-
 
     # Interactive bindings ---------------------------------------------------
 
@@ -1545,4 +1540,3 @@ window_import_from_text <- function() {
         )
     )
 }
-
