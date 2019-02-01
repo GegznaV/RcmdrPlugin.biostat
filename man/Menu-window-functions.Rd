@@ -136,7 +136,7 @@
 \alias{window_import_from_clipboard}
 \alias{window_import_from_text}
 \alias{window_import_from_clipboard__v2}
-\alias{window_import_from_text__V}
+\alias{window_import_from_text__v2}
 \alias{window_import_rdata}
 \alias{command_get_locale}
 \alias{window_locale_set}
@@ -392,7 +392,7 @@ window_import_from_text()
 
 window_import_from_clipboard__v2()
 
-window_import_from_text__V()
+window_import_from_text__v2()
 
 window_import_rdata()
 
