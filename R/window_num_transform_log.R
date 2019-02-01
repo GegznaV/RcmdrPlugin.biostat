@@ -24,7 +24,7 @@ window_num_transform_log <- function() {
         pady = c(5, 9), columnspan = 2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     change_prefix <- function() {
-        tclvalue(prefix_variable) <- glue("{tclvalue(log_txtVariable)}_")
+        tclvalue(prefix_variable) <- str_glue("{tclvalue(log_txtVariable)}_")
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     defaults <- list(prefix    = "log_",
@@ -132,27 +132,27 @@ window_num_transform_log <- function() {
         command <- switch(fun_type,
                           # Use base R functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                           "Base_R" = {
-                              tans_txt <- glue("{new_names} <- {log_txt}({variables})")
+                              tans_txt <- str_glue("{new_names} <- {log_txt}({variables})")
 
-                              glue("{.activeDataSet} <- within({.activeDataSet}, {{\n",
-                                   "{paste(tans_txt, collapse ='\n')} \n",
-                                   "}})\n")
+                              str_glue("{.activeDataSet} <- within({.activeDataSet}, {{\n",
+                                       "{paste(tans_txt, collapse ='\n')} \n",
+                                       "}})\n")
                           },
 
                           # Use Tidyverse functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                           "Tidyverse" = {
                               Library("tidyverse")
 
-                              tans_txt <- glue("{new_names} = {log_txt}({variables})")
+                              tans_txt <- str_glue("{new_names} = {log_txt}({variables})")
 
                               if (length(tans_txt) == 1) {
-                                  glue("{.activeDataSet} <- {.activeDataSet} %>%\n",
-                                       "dplyr::mutate({tans_txt})\n")
+                                  str_glue("{.activeDataSet} <- {.activeDataSet} %>%\n",
+                                           "dplyr::mutate({tans_txt})\n")
 
                               } else {
-                                  glue("{.activeDataSet} <- {.activeDataSet} %>%\n",
-                                       'dplyr::mutate(\n{paste0(tans_txt, collapse = ",\n")}\n',
-                                       ')\n')
+                                  str_glue("{.activeDataSet} <- {.activeDataSet} %>%\n",
+                                           'dplyr::mutate(\n{paste0(tans_txt, collapse = ",\n")}\n',
+                                           ')\n')
                               }
 
                           },

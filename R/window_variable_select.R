@@ -78,7 +78,7 @@ window_variable_select <- function(new_dsname = NULL, incorrect_cond_msg = NULL)
                     window_variable_select(
                         new_dsname = new_dsname,
                         incorrect_cond_msg =
-                            glue('Chose other name than "{new_dsname}".'))
+                            str_glue('Chose other name than "{new_dsname}".'))
                     return()
                 }
             }
@@ -139,9 +139,9 @@ window_variable_select <- function(new_dsname = NULL, incorrect_cond_msg = NULL)
 
         variables <- stringr::str_c(to_select, to_reorder, to_delete, sep = ", ")
 
-        command <- glue("## Select, reorder, remove variables \n",
-                        "{new_dsname} <- {active_dataset()} %>% \n",
-                        "dplyr::select({variables})") %>%
+        command <- str_glue("## Select, reorder, remove variables \n",
+                            "{new_dsname} <- {active_dataset()} %>% \n",
+                            "dplyr::select({variables})") %>%
             style_cmd()
 
         result <- doItAndPrint(command)
@@ -162,8 +162,8 @@ window_variable_select <- function(new_dsname = NULL, incorrect_cond_msg = NULL)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(
         bs_label(top,
-                    # fg = getRcmdr("title.color"),
-                    text = gettext_bs("Choose either variables to include, or variables to remove. ")),
+                 # fg = getRcmdr("title.color"),
+                 text = gettext_bs("Choose either variables to include, or variables to remove. ")),
         pady = c(0, 10))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(upper_frame, columnspan = 3, sticky = "n")
@@ -175,8 +175,8 @@ window_variable_select <- function(new_dsname = NULL, incorrect_cond_msg = NULL)
 
     tkgrid(
         bs_label(lower_frame,
-                    fg = getRcmdr("title.color"),
-                    text = gettext_bs("Name for modified dataset \n(with selected and without removed variables) ")),
+                 fg = getRcmdr("title.color"),
+                 text = gettext_bs("Name for modified dataset \n(with selected and without removed variables) ")),
         pady = c(15, 0),
         sticky = "nw")
 

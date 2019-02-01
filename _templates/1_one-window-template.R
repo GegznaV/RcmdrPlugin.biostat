@@ -198,10 +198,10 @@ window_... <- function() {
         # }
 
         # if (length(gr_var) == 0) {
-        #     formula = glue("~{y_var}")
+        #     formula = str_glue("~{y_var}")
         #
         # } else {
-        #     formula = glue("{y_var} ~ {gr_var}")
+        #     formula = str_glue("{y_var} ~ {gr_var}")
         #
         # }
 
@@ -211,7 +211,7 @@ window_... <- function() {
 
         } else {
             UpdateModelNumber(-1)
-            keep_model_command <- glue("remove({model_name_Value})")
+            keep_model_command <- str_glue("remove({model_name_Value})")
         }
 
         if (as_df == TRUE) {
@@ -221,7 +221,7 @@ window_... <- function() {
             as_df_command <- "\n"
         }
 
-        command <- style_cmd(glue(
+        command <- style_cmd(str_glue(
             "{model_name_Value} <- {.activeDataSet} %>% \n",
             'with(table({y_var}, useNA = "ifany"))',
             as_df_command,

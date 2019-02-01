@@ -76,8 +76,8 @@ window_num_transform_z <- function() {
         # Base way
         # command <- paste0(c(
         #     "\n",
-        #     glue("{.ds} <- within({.ds}, {{ "),
-        #     glue("   {new_names} <- as.vector(scale({variables})) "),
+        #     str_glue("{.ds} <- within({.ds}, {{ "),
+        #     str_glue("   {new_names} <- as.vector(scale({variables})) "),
         #     "})\n"
         # ),
         # collapse = "\n")
@@ -87,10 +87,10 @@ window_num_transform_z <- function() {
 
         command <- paste0(
             c("\n",
-              glue("{.ds} <- {.ds} %>% \n",
-                   "dplyr::mutate(\n"),
+              str_glue("{.ds} <- {.ds} %>% \n",
+                       "dplyr::mutate(\n"),
               paste(
-                  glue("   {new_names} = as.vector(scale({variables})) "),
+                  str_glue("   {new_names} = as.vector(scale({variables})) "),
                   collapse = ",\n"),
               ")\n"
             ),
@@ -103,9 +103,9 @@ window_num_transform_z <- function() {
             active_dataset(.ds, flushModel = FALSE)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        msg <- glue("#---  ", gettext_bs("Z transformation"), "  ---#\n\n",
-                    "# ", gettext_bs("New variable(s):"), " \n",
-                    paste("#   ", new_names, collapse = "\n"))
+        msg <- str_glue("#---  ", gettext_bs("Z transformation"), "  ---#\n\n",
+                        "# ", gettext_bs("New variable(s):"), " \n",
+                        paste("#   ", new_names, collapse = "\n"))
 
         logger(paste0(msg, command, collapse = "\n"))
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

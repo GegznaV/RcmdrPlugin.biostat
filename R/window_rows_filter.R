@@ -27,7 +27,7 @@ window_rows_filter <- function(new_dsname = NULL,
     onDoubleClick_variable <- function() {
         var <- trim.blanks(getSelection(y_var_box))
 
-        word <- glue('\\[{gettext_bs("factor")}\\]')
+        word <- str_glue('\\[{gettext_bs("factor")}\\]')
 
         if (length(grep(word, var)) == 1)
             var <- trim.blanks(sub(word, "", var))
@@ -107,8 +107,8 @@ window_rows_filter <- function(new_dsname = NULL,
 
         # Check validity of var name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (!is.valid.name(new_dsname)) {
-            msg <- glue(gettext_bs("Dataset name"), ' "{new_dsname}" ',
-                        gettext_bs("is not valid!"))
+            msg <- str_glue(gettext_bs("Dataset name"), ' "{new_dsname}" ',
+                            gettext_bs("is not valid!"))
 
             Message(message = msg, type = "error")
             window_rows_filter(new_dsname = make.names(new_dsname),
@@ -137,16 +137,16 @@ window_rows_filter <- function(new_dsname = NULL,
                 window_rows_filter(new_dsname         = new_dsname,
                                    init_conditions    = conditions,
                                    incorrect_cond_msg =
-                                       glue('Chose other name than "{new_dsname}".'))
+                                       str_glue('Chose other name than "{new_dsname}".'))
                 return()
             }
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Library("dplyr")
-        command <- glue(
+        command <- str_glue(
             "## Select rows that match conditions \n",
             "{new_dsname} <- {active_dataset()} %>% \n",
-                        "dplyr::filter({conditions})") %>%
+            "dplyr::filter({conditions})") %>%
             style_cmd()
 
         result <- justDoIt(command)
@@ -173,7 +173,7 @@ window_rows_filter <- function(new_dsname = NULL,
     OKCancelHelp(helpSubject = "filter", helpPackage = "dplyr",
                  reset = "window_rows_filter"
                  # , apply = "window_rows_filter"
-                 )
+    )
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
     tkgrid(bs_label(

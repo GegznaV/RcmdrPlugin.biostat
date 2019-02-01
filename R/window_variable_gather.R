@@ -79,7 +79,7 @@ window_variable_gather <- function() {
                        dialog_values$initial_na_rm,
                        dialog_values$initial_factor_key,
                        dialog_values$initial_convert_key
-                       ),
+                   ),
                    labels = gettext_bs(
                        c(  "Gather all variables",
                            "Remove missing values from output",
@@ -91,7 +91,7 @@ window_variable_gather <- function() {
                                    "na_rm"       = function(){},
                                    "factor_key"  = function(){},
                                    "convert_key" = function(){}
-                                   )
+                   )
     )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -129,7 +129,7 @@ window_variable_gather <- function() {
         # --------------------------------------------------------------------
         putDialog("window_variable_gather",
                   list(# initial_y_var  = y_var,
-                      # initial_dsname      = glue("{active_dataset()}_long"),
+                      # initial_dsname      = str_glue("{active_dataset()}_long"),
                       initial_key_colname   = key_colname,
                       initial_value_colname = value_colname,
                       initial_gather_all    = gather_all,
@@ -152,23 +152,23 @@ window_variable_gather <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (!is.valid.name(key_colname)) {
             errorCondition(recall = window_variable_gather,
-                           message = glue('"{key_colname}" ',
-                                          gettext_bs("is not a valid name.")))
+                           message = str_glue('"{key_colname}" ',
+                                              gettext_bs("is not a valid name.")))
             return()
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (!is.valid.name(value_colname)) {
             errorCondition(recall = window_variable_gather,
-                           message = glue('"{value_colname}" ',
-                                          gettext_bs("is not a valid name.")))
+                           message = str_glue('"{value_colname}" ',
+                                              gettext_bs("is not a valid name.")))
 
             return()
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (!is.valid.name(dsname)) {
             errorCondition(recall = window_variable_gather,
-                           message = glue('"{dsname}" ',
-                                          gettext_bs("is not a valid name.")))
+                           message = str_glue('"{dsname}" ',
+                                              gettext_bs("is not a valid name.")))
             return()
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -185,7 +185,8 @@ window_variable_gather <- function() {
             if (gather_all == TRUE) {
                 ""
             } else {
-                stringr::str_c(",\n", stringr::str_c("`", variables, "`", collapse = ", "))
+                stringr::str_c(
+                    ",\n", stringr::str_c("`", variables, "`", collapse = ", "))
             }
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -217,13 +218,14 @@ window_variable_gather <- function() {
                 NULL
             }
 
-        opts_text <- stringr::str_c(options_new_line,
-                           stringr::str_c(na_rm_text, factor_key_text, convert_key_text,
-                                 sep = ", "))
+        opts_text <- stringr::str_c(
+            options_new_line,
+            stringr::str_c(na_rm_text, factor_key_text, convert_key_text,
+                           sep = ", "))
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Library("tidyr")
 
-        command <- glue(
+        command <- str_glue(
             "## Convert to long-format data frame \n",
             '{dsname} <- {active_dataset()} %>% \n',
             'tidyr::gather(key = "{key_colname}", value = "{value_colname}"',
@@ -267,19 +269,19 @@ window_variable_gather <- function() {
 
 
     tkgrid(bs_label(lower_frame, text = gettext_bs("Output dataset name:        "),
-                       fg = fg_col),
+                    fg = fg_col),
            dataset_nameField,
            sticky = "w",
            pady = 2)
 
     tkgrid(bs_label(lower_frame, text = gettext_bs("Key column name:  "),
-                       fg = fg_col),
+                    fg = fg_col),
            key_colnameField,
            sticky = "w",
            pady = 2)
 
     tkgrid(bs_label(lower_frame, text = gettext_bs("Value column name:"),
-                       fg = fg_col),
+                    fg = fg_col),
            values_colnameField,
            sticky = "w",
            pady = 2)

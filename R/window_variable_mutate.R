@@ -31,7 +31,7 @@ window_variable_mutate <- function(var_name = NULL,
     onDoubleClick_variable <- function() {
         var <- trim.blanks(getSelection(variablesBox))
 
-        word <- glue('\\[{gettext_bs("factor")}\\]')
+        word <- str_glue('\\[{gettext_bs("factor")}\\]')
 
         if (length(grep(word, var)) == 1)
             var <- trim.blanks(sub(word, "", var))
@@ -123,8 +123,8 @@ window_variable_mutate <- function(var_name = NULL,
 
         # Check validity of var name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (!is.valid.name(newVar)) {
-            msg <- glue(gettext_bs("Variable name"), ' "{newVar}" ',
-                        gettext_bs("is not valid!"))
+            msg <- str_glue(gettext_bs("Variable name"), ' "{newVar}" ',
+                            gettext_bs("is not valid!"))
 
             Message(message = msg, type = "error")
             window_variable_mutate(var_name = make.names(newVar),
@@ -154,16 +154,16 @@ window_variable_mutate <- function(var_name = NULL,
                 window_variable_mutate(var_name = newVar,
                                        init_express = express,
                                        incorrect_expr_msg =
-                                           glue('Chose other name than "{newVar}".'))
+                                           str_glue('Chose other name than "{newVar}".'))
                 return()
             }
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         Library("tidyverse")
-        # command <- glue("{dataSet}${newVar} <- with({active_dataset_0()}, {express})")
-        command <- glue("{dataSet} <- {dataSet} %>% \n",
-                        "mutate({newVar} = {express})")
+        # command <- str_glue("{dataSet}${newVar} <- with({active_dataset_0()}, {express})")
+        command <- str_glue("{dataSet} <- {dataSet} %>% \n",
+                            "mutate({newVar} = {express})")
 
         result <- justDoIt(command)
 
@@ -181,9 +181,9 @@ window_variable_mutate <- function(var_name = NULL,
 
 
         command <-
-            # glue("## ", gettext_bs("Create/Replace a variable:"), " {newVar}\n",
-            glue("## ", gettext_bs("Compute a variable:"), " {newVar}\n",
-                 style_cmd(command))
+            # str_glue("## ", gettext_bs("Create/Replace a variable:"), " {newVar}\n",
+            str_glue("## ", gettext_bs("Compute a variable:"), " {newVar}\n",
+                     style_cmd(command))
         logger(command)
 
         tkfocus(CommanderWindow())

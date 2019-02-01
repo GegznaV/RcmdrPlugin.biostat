@@ -38,7 +38,7 @@ window_rows_col_to_rownames <- function(new_dsname = NULL,
         closeDialog()
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Library("tibble")
-        command <- glue(
+        command <- str_glue(
             "## ", gettext_bs("Move column values to row names"), "\n",
             '{.ds} <- tibble::column_to_rownames({.ds}, var = "{col_name}")'
         ) %>%

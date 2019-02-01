@@ -258,12 +258,12 @@ window_test_normality <- function() {
             }
 
             if (length(gr_var) == 0) {
-                command2 <- glue(
+                command2 <- str_glue(
                     'biostat::qq_plot(~{y_var}, ',
                     'data = {.ds}, use_colors = {plot_in_colors})')
 
             } else {
-                command2 <- glue(
+                command2 <- str_glue(
                     'biostat::qq_plot({y_var} ~ {gr_var}, ',
                     'data = {.ds}, use_colors = {plot_in_colors})')
             }

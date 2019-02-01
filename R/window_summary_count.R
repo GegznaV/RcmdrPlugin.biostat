@@ -241,19 +241,19 @@ window_summary_count <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         putDialog("window_summary_count",
                   list(
-                       # initial_gr_var = gr_var,
-                       # initial_digits = as.character(digits),
-                       # initial_as_df = as_df,
+                      # initial_gr_var = gr_var,
+                      # initial_digits = as.character(digits),
+                      # initial_as_df = as_df,
 
-                       initial_x_var        = x_var,
-                       initial_y_var        = y_var,
-                       initial_z_var        = z_var,
-                       initial_table_type   = table_type,
+                      initial_x_var        = x_var,
+                      initial_y_var        = y_var,
+                      initial_z_var        = z_var,
+                      initial_table_type   = table_type,
 
-                       initial_chisq_test   = chisq_test,
-                       initial_fisher_test  = fisher_test,
-                       initial_assoc_stats  = assoc_stats,
-                       initial_keep_model   = keep_model
+                      initial_chisq_test   = chisq_test,
+                      initial_fisher_test  = fisher_test,
+                      initial_assoc_stats  = assoc_stats,
+                      initial_keep_model   = keep_model
 
                   )
         )
@@ -298,29 +298,29 @@ window_summary_count <- function() {
             switch(table_type,
                    "df"       = '{model_name} <- as.data.frame({my_table}, responseName = "{freq_name}")\n',
                    "multiway" = "{model_name} <- {my_table}\n"
-               )
+            )
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (keep_model) {
             keep_model_command <- ""
         } else {
-            keep_model_command <- glue("remove({model_name})")
+            keep_model_command <- str_glue("remove({model_name})")
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         my_table <- unique_obj_names("table", all_numbered = TRUE)
         command1 <-
-            glue('## Frequency table / Multi-way table\n\n',
-                "{my_table} <- {.ds} %>% \n",
-                'with(table({all_vars}, useNA = "ifany"))\n',
-                as_df_command,
-                "print({model_name})\n",
-                keep_model_command) %>%
+            str_glue('## Frequency table / Multi-way table\n\n',
+                     "{my_table} <- {.ds} %>% \n",
+                     'with(table({all_vars}, useNA = "ifany"))\n',
+                     as_df_command,
+                     "print({model_name})\n",
+                     keep_model_command) %>%
             style_cmd()
 
         command2 <-
-            glue(chisq_cmd,
-                 fisher_cmd,
-                 assoc_cmd,
-                 'remove({my_table})') %>%
+            str_glue(chisq_cmd,
+                     fisher_cmd,
+                     assoc_cmd,
+                     'remove({my_table})') %>%
             style_cmd()
 
         doItAndPrint(command1)

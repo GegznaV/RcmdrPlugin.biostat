@@ -55,7 +55,7 @@ window_rows_arrange <- function() {
         y <- stringr::str_c("`", y, "`")
 
         variables <- if (decreasing) {
-            glue("desc({y})")
+            str_glue("desc({y})")
 
         } else {
             y
@@ -64,7 +64,7 @@ window_rows_arrange <- function() {
         dataSet    <- active_dataset()  # [???]
         new_dsname <- active_dataset()
 
-        command <- glue(
+        command <- str_glue(
             "## Sort rows \n",
             "{new_dsname} <- {dataSet} %>% \n",
             "dplyr::arrange({variables})") %>%

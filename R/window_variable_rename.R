@@ -83,12 +83,12 @@ window_variable_rename <- function() {
             Library("dplyr")
 
             command <-
-                glue("## Rename variables\n",
-                     '# `new_name` = `old_name`\n\n',
-                     "{.ds} <- {.ds} %>% \n",
-                     'dplyr::rename(',
-                     paste(glue('`{new_names}` = `{old_names}`'), collapse = ", \n"),
-                     ')') %>%
+                str_glue("## Rename variables\n",
+                         '# `new_name` = `old_name`\n\n',
+                         "{.ds} <- {.ds} %>% \n",
+                         'dplyr::rename(',
+                         paste(str_glue('`{new_names}` = `{old_names}`'), collapse = ", \n"),
+                         ')') %>%
                 style_cmd()
 
             result <- justDoIt(command)
@@ -123,7 +123,7 @@ window_variable_rename <- function() {
             assign(paste0("entry", i), ttkentry(subdialog,
                                                 width = "20",
                                                 textvariable = get(valVar)
-                )
+            )
             )
             tkgrid(labelRcmdr(subdialog, text = old_names[i]),
                    get(paste0("entry", i)),

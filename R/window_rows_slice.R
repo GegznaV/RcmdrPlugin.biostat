@@ -79,7 +79,7 @@ window_rows_slice <- function(){
 
         # If multiple comma separated conditions are selected
         if (stringr::str_detect(index, ",")) {
-            index <-  glue("c({index})")
+            index <-  str_glue("c({index})")
         }
 
         command <- str_glue(

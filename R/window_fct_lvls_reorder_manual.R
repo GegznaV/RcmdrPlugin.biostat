@@ -114,7 +114,7 @@ window_fct_lvls_reorder_manual <- function() {
 
             Library("forcats")
             command <-
-                glue(
+                str_glue(
                     "{.activeDataSet} <- within({.activeDataSet}, {{",
                     "{name} <- factor({variable}, levels = c({levels_ok}){ordered})",
                     "}})"
