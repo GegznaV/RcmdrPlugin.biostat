@@ -297,7 +297,7 @@ bs_mode_menu__import <- function() {
           command  = window_dataset_edit_rcmdr)
 
     tkadd(menu_f, "command",
-          label    = "from Text file (.txt, .csv, .dat, .tab)...",
+          label    = "from Text file (.txt, .csv, .dat)...",
           compound = "left",
           image    = "::image::bs_text",
           command  = window_import_from_text)
