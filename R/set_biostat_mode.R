@@ -290,12 +290,6 @@ bs_mode_menu__import <- function() {
           image    = "::image::bs_new_doc",
           command  = window_dataset_new_rcmdr)
 
-    tkadd(menu_i, "command",
-          label    = "Edit active dataset...",
-          compound = "left",
-          image    = "::image::editIcon",
-          command  = window_dataset_edit_rcmdr)
-
     tkadd(menu_f, "command",
           label    = "from Text file (.txt, .csv, .dat)...",
           compound = "left",
@@ -350,14 +344,51 @@ bs_mode_menu__export <- function() {
 
     menu_e <- tk2menu(tk2menu(top), tearoff = FALSE)
     menu_c <- tk2menu(menu_e, tearoff = FALSE)
+    menu_f <- tk2menu(menu_e, tearoff = FALSE)
 
+
+    tkadd(menu_e, "cascade",
+          label    = "Export to file",
+          compound = "left",
+          image    = "::image::bs_open_file",
+          menu     = menu_f)
+
+
+    tkadd(menu_f, "command",
+          label    = "Export to text file (.txt, .csv)...",
+          compound = "left",
+          image    = "::image::bs_text",
+          command  = window_export_to_textfile)
+
+    # tkadd(menu_f, "separator")
+
+    tkadd(menu_f, "command",
+          label    = "Export to Excel file (.xlsx)...",
+          compound = "left",
+          image    = "::image::bs_excel",
+          command = window_export_to_excel)
+
+    # tkadd(menu_f, "separator")
+
+    tkadd(menu_f, "command",
+          label    = "Export to Rds file (.rds)...",
+          compound = "left",
+          image    = "::image::bs_r",
+          command  = window_export_to_rds)
+
+    tkadd(menu_f, "command",
+          label    = "Export to R-data file (.RData)...",
+          compound = "left",
+          image    = "::image::bs_r",
+          command  = window_export_to_rdata)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     tkadd(menu_e, "cascade",
           label    = "Export to clipboard",
           compound = "left",
           image    = "::image::bs_copy",
           menu     = menu_c)
-
 
     tkadd(menu_c, "command",
           label    = "as Tab delimited values",
@@ -377,36 +408,8 @@ bs_mode_menu__export <- function() {
               export_to_clipboard(.ds, sep = ",")
           })
 
-    tkadd(menu_e, "separator")
-
-    tkadd(menu_e, "command",
-          label    = "Export to text file (.txt, .csv)...",
-          compound = "left",
-          image    = "::image::bs_text",
-          command  = window_export_to_textfile)
-
     # tkadd(menu_e, "separator")
-
-    tkadd(menu_e, "command",
-          label    = "Export to Excel file (.xlsx)...",
-          compound = "left",
-          image    = "::image::bs_excel",
-          command = window_export_to_excel)
-
-    # tkadd(menu_e, "separator")
-
-    tkadd(menu_e, "command",
-          label    = "Export to Rds file (.rds)...",
-          compound = "left",
-          image    = "::image::bs_r",
-          command  = window_export_to_rds)
-
-    tkadd(menu_e, "command",
-          label    = "Export to R-data file (.RData)...",
-          compound = "left",
-          image    = "::image::bs_r",
-          command  = window_export_to_rdata)
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_e, "command",
           label    = "Print as R structure",
           compound = "left",
@@ -455,6 +458,12 @@ bs_mode_menu__print <- function() {
               image    = "::image::viewIcon",
               command  = command_dataset_view)
 
+        tkadd(menu_p, "command",
+              label    = "View dataset (in R Commander)",
+              compound = "left",
+              image    = "::image::viewIcon",
+              command  = window_dataset_view_rcmdr)
+
     } else {
         tkadd(menu_p, "command",
               label    = "View dataset",
@@ -470,28 +479,14 @@ bs_mode_menu__print <- function() {
           command  = window_dataset_class)
 
 
+    tkadd(menu_p, "command",
+          label    = "Edit active dataset...",
+          compound = "left",
+          image    = "::image::editIcon",
+          command  = window_dataset_edit_rcmdr)
 
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkadd(menu_p, "separator")
-
-    tkadd(menu_p, "command",
-          label    = "Glimpse: structure of dataset",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = command_glimpse)
-
-    tkadd(menu_p, "command",
-          label    = "Summarize variables...",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = function_not_implemented)
-
-    tkadd(menu_p, "command",
-          label    = "Frequency & multi-way tables...",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = window_summary_count)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_p, "separator")
@@ -836,6 +831,35 @@ bs_mode_menu__analyze <- function() {
 
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # tkadd(menu_p, "separator")
+
+    menu_s  <- tk2menu(menu_p, tearoff = FALSE)
+
+    tkadd(menu_p, "cascade",
+          label    = "Summaries",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          menu     = menu_s)
+
+    tkadd(menu_s, "command",
+          label    = "Glimpse: structure of dataset",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = command_glimpse)
+
+    tkadd(menu_s, "command",
+          label    = "Summarize variables...",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = function_not_implemented)
+
+    tkadd(menu_s, "command",
+          label    = "Frequency & multi-way tables...",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = window_summary_count)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     menu_rm  <- tk2menu(menu_p, tearoff = FALSE)
 
     tkadd(menu_p, "cascade",
@@ -1029,22 +1053,22 @@ bs_mode_menu__session <- function() {
           command  = command_list_objects)
 
     tkadd(menu_ws, "command",
-          label    = "Duplicate object (dataset)...",
+          label    = "Copy object (dataset)...",
           compound = "left",
           image    = "::image::bs_copy",
           command  = window_data_obj_copy)
-
-    tkadd(menu_ws, "command",
-          label    = "Rename object (dataset)...",
-          compound = "left",
-          image    = "::image::bs_rename",
-          command  = window_data_obj_rename)
 
     tkadd(menu_ws, "command",
           label    = "Delete object (dataset)...",
           compound = "left",
           image    = "::image::bs_delete",
           command  = window_data_obj_delete)
+
+    tkadd(menu_ws, "command",
+          label    = "Rename object (dataset)...",
+          compound = "left",
+          image    = "::image::bs_rename",
+          command  = window_data_obj_rename)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkpopup(menu_p,
