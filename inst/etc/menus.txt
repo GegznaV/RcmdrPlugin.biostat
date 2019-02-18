@@ -168,9 +168,9 @@ menu	bs_objects_menu	bs_data_menu	""	""	""	""
 item	bs_data_menu	cascade	"Workspace"	bs_objects_menu	"activeDataSetP()"	""
 
 item	bs_objects_menu	command	"List objects in R workspace"	command_list_objects	""	""
-item	bs_objects_menu	command	"Duplicate object (dataset)..."	window_data_obj_copy	""	""
-item	bs_objects_menu	command	"Rename object (dataset)..."	window_data_obj_rename	""	""
+item	bs_objects_menu	command	"Copy object (dataset)..."	window_data_obj_copy	""	""
 item	bs_objects_menu	command	"Delete object (dataset)..."	window_data_obj_delete	""	""
+item	bs_objects_menu	command	"Rename object (dataset)..."	window_data_obj_rename	""	""
 
 
 # --- + Import Data  ---------------------------------------------------------
