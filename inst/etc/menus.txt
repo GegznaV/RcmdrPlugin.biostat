@@ -215,7 +215,7 @@ item	bs19_export_menu	command	"Export to Excel file (.xlsx)..."	window_export_to
 
 # item	bs19_export_menu	separator	""	""	""	""
 item	bs19_export_menu	command	"Export to Rds file (.Rds)..."	window_export_to_rds	"activeDataSetP()"	""
-item	bs19_export_menu	command	"Export to R data file (.RData)..."	window_export_to_rdata	"activeDataSetP()"	""
+item	bs19_export_menu	command	"Export to R-data file (.RData)..."	window_export_to_rdata	"activeDataSetP()"	""
 # item	bs19_export_menu	separator	""	""	""	""
 # item	bs19_export_menu	command	"[???] Save as MS Word table..."	function_not_implemented	"activeDataSetP()"	""
 
@@ -474,7 +474,7 @@ item	bs19_online_apps_menu	command	"Import data from image: WebPlotDigitizer"  w
 item	bs19_online_apps_menu	command	"Multivariate normality tests: MVN"  window_online_mvn	""	""
 item	bs19_online_apps_menu	command	"Probability calculator: GeoGebra"  window_online_geogebra_probability 	""	""
 item	bs19_online_apps_menu	command	"ROC analysis: Easy ROC"  window_online_easyROC	""	""
-# item	bs19_online_apps_menu	command	"ROC analysis: Time dependant ROC"  window_online_tdROC	""	""
+# item	bs19_online_apps_menu	command	"ROC analysis: Time dependent ROC"  window_online_tdROC	""	""
 
 # item	bs19_online_apps_menu	separator	""	""	""	""
 
@@ -499,7 +499,7 @@ item	bs19_downlaod_menu	command	"Scientific data analysis: PAST"  window_online_
 
 item	bs19_downlaod_menu	separator	""	""	""	""
 item	bs19_downlaod_menu	command	"R project"  window_online_r_project	""	""
-item	bs19_downlaod_menu	command	"Microsoft R open"  window_online_mro	""	""
+item	bs19_downlaod_menu	command	"Microsoft R Open"  window_online_mro	""	""
 item	bs19_downlaod_menu	command	"RStudio"  window_online_rstudio	""	""
 
 
@@ -561,10 +561,10 @@ item	bs19_online_plots_menu	separator	""	""	""	""
 item	bs19_online_plots_menu	command	"Plotly for R (interactive plots)"  window_online_plotly	""	""
 
 
-# ---- +  R news & turorials -------------------------------------------------
+# ---- +  R news & tutorials -------------------------------------------------
 
 menu	bs19_r_news_menu	bs19_online_menu	""	""	""	""
-item	bs19_online_menu	cascade	"R news & turorials"	bs19_r_news_menu	""	""
+item	bs19_online_menu	cascade	"R news & tutorials"	bs19_r_news_menu	""	""
 
 item	bs19_r_news_menu	command	"R Cheat sheets"  window_online_r_chearsheets	""	""
 item	bs19_r_news_menu	command	"STHDA website (tutorials)"  window_online_sthda	""	""
