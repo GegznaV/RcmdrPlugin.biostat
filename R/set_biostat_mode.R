@@ -31,7 +31,7 @@ set_biostat_mode <- function() {
     tk2tip(getRcmdr("dataSetLabel"), "Active dataset")
     tk2tip(getRcmdr("modelLabel"),   "Active model")
 
-    # Change icon nad button layout ------------------------------------------
+    # Change icon and button layout ------------------------------------------
     pare <- tcl_get_parent(getRcmdr("dataSetLabel"))
 
     # New buttons
@@ -106,7 +106,7 @@ set_biostat_mode <- function() {
         tkconfigure(button_view, compound = "none")
         tkconfigure(button_view, command = bs_mode_menu__print)
         # Add tooltip
-        .Tcl(str_glue('tooltip::tooltip {button_view} "View,  summarize and print data"'))
+        .Tcl(str_glue('tooltip::tooltip {button_view} "View, summarize and print data"'))
     }
 
     if (length(button_edit) > 0) {
@@ -910,7 +910,7 @@ bs_mode_menu__analyze <- function() {
 
 
 
-# Plot menus -----------------------------------------------------------
+# Plot menus -----------------------------------------------------------------
 bs_mode_menu__plots <- function() {
 
     top <- CommanderWindow()
@@ -923,13 +923,22 @@ bs_mode_menu__plots <- function() {
           image    = "::image::bs_new_window",
           command  = open_new_plots_window)
 
-    # tkadd(menu_p, "separator")
-    #
-    # tkadd(menu_p, "command",
-    #       label    = "Save editable plot to PowerPoint",
-    #       compound = "left",
-    #       image    = "::image::bs_pptx",
-    #       command  = function_not_implemented)
+    tkadd(menu_p, "separator")
+
+    tkadd(menu_p, "command",
+          label    = "Import data from plot (online)...",
+          compound = "left",
+          image    = "::image::bs_chart",
+          command  = window_online_image_digitizer)
+
+    if (packageAvailable('officer') && packageAvailable('rvg')) {
+
+        tkadd(menu_p, "command",
+              label    = "Save editable plot to PowerPoint",
+              compound = "left",
+              image    = "::image::bs_pptx",
+              command  = function_not_implemented)
+    }
 
     # tkadd(menu_p, "separator")
 
@@ -938,7 +947,7 @@ bs_mode_menu__plots <- function() {
             tkwinfo("pointery", top))
 }
 
-# Session, etc. menus -----------------------------------------------------------
+# Session, etc. menus ---------------------------------------------------------
 bs_mode_menu__session <- function() {
 
     top <- CommanderWindow()
