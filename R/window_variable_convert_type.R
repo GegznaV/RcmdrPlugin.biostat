@@ -87,7 +87,7 @@ window_variable_convert_type <- function() {
 
                 tclvalue(into_Variable) <- "nominal"
             },
-            "Numeric" = {
+            "Numbers (integer and real)" = {
                 val_list <- variables_num()
 
                 tk_normalize(characterButton)
@@ -305,7 +305,7 @@ window_variable_convert_type <- function() {
 
     main_frame <- tk2frame(top)
     tkgrid(main_frame, columnspan = 2)
-    tk_title(main_frame, "Convert variable types")
+    tk_title(main_frame, "Convert Variable Types")
 
     # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     defaults <- list(
@@ -339,8 +339,12 @@ window_variable_convert_type <- function() {
 
     type_frame <- tk2frame(variables_frame)
 
-    var_types <- c("All", "Text (character)", "Factor",
-                   "Numeric", "Integer (whole numbers)", "Real numbers",
+    var_types <- c("All",
+                   "Text (character)",
+                   "Factor",
+                   "Numbers (integer and real)",
+                   "Integer (whole numbers)",
+                   "Real numbers",
                    "Logical", "Other")
 
     var_type_box <- bs_combobox(
@@ -369,8 +373,10 @@ window_variable_convert_type <- function() {
         labels  = gettext_bs(
             c("Text (character)",
               "Nominal factors",
-              "Ordinal factors"
-              , "Integers", "Real numbers", "Logical"
+              "Ordinal factors",
+              "Integers",
+              "Real numbers",
+              "Logical"
             )),
         command = change_name_suffix
     )
