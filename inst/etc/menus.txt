@@ -276,10 +276,10 @@ item	bs19_analysis_menu	cascade	"Association / Correlation"	bs19_assoc_menu	""	"
 
 item	bs19_assoc_menu	command "Correlation... [Rcmdr]"	correlationTest	"numericP(2)"	"packageAvailable('RcmdrMisc')"
 item	bs19_assoc_menu	command "Correlation matrix... [Rcmdr]"	correlationMatrix	"numericP(2)"	"packageAvailable('RcmdrMisc')"
-item	bs19_assoc_menu	command	"Pearson's linear correlation... [EZR]"	StatMedCorrelation	"activeDataSetP()"	""
-item	bs19_assoc_menu	command	"Spearman's/Kendall's rank correlation... [EZR]"	StatMedSpearman	"activeDataSetP()"	""
+item	bs19_assoc_menu	command	"Pearson's linear correlation... [EZR]"	StatMedCorrelation	"numericP(2)"	""
+item	bs19_assoc_menu	command	"Spearman's/Kendall's rank correlation... [EZR]"	StatMedSpearman	"numericP(2)"	""
 item	bs19_assoc_menu	separator	""	""	""	""
-item	bs19_assoc_menu	command	"[???] Association between categorical variables..."	window_summary_count	"activeDataSetP()"	""
+item	bs19_assoc_menu	command	"[???] Association between categorical variables..."	window_summary_count	"factorsP(2)"	""
 # item	bs19_assoc_menu	command	"[???] Kappa... [EZR]"	function_not_implemented	"activeDataSetP()"	""
 
 
@@ -324,39 +324,39 @@ item	bs19_tests_menu	command	"Normality test (univariate)..."	window_test_normal
 # + ~ Central tendency tests -------------------------------------------------
 
 menu	bs19_centers_menu	bs19_tests_menu	""	""	""	""
-item	bs19_tests_menu	cascade	"Central tendency tests"	bs19_centers_menu	""	""
+item	bs19_tests_menu	cascade	"Central tendency and analogue nonparametric tests"	bs19_centers_menu	""	""
 
 # item	bs19_centers_menu command	"Single-sample t-test... [Rcmdr]"	singleSampleTTest	"numericP()"	""
-item	bs19_centers_menu	command	"Single-sample t-test... [EZR]"	StatMedSingleSampleTTest	"activeDataSetP()"	""
-item	bs19_centers_menu	command	"Single-sample Wilcoxon's signed rank test... [EZR]"	StatMedWilSign	"activeDataSetP()"	""
+item	bs19_centers_menu	command	"Single-sample t-test... [EZR]"	StatMedSingleSampleTTest	"numericP(2)"	""
+item	bs19_centers_menu	command	"Single-sample Wilcoxon's signed rank test... [EZR]"	StatMedWilSign	"numericP(2)"	""
 item	bs19_centers_menu	separator	""	""	""	""
 
 
 # item	bs19_centers_menu command	"Paired-samples t-test... [Rcmdr]"	pairedTTest	"numericP(2)"	""
-item	bs19_centers_menu	command	"Paired-samples t-test... [EZR]"	StatMedPairedTtest	"activeDataSetP()"	""
+item	bs19_centers_menu	command	"Paired-samples t-test... [EZR]"	StatMedPairedTtest	"numericP(2)"	""
 item	bs19_centers_menu command	"Paired-samples Wilcoxon test... [Rcmdr]"	pairedWilcoxonTest	"numericP(2)"	""
 
-item	bs19_centers_menu	command	"Repeated-measures ANOVA... [EZR]"	StatMedRepANOVA	"activeDataSetP()"	"packageAvailable('multcomp') && packageAvailable('abind')"
+item	bs19_centers_menu	command	"Repeated-measures ANOVA... [EZR]"	StatMedRepANOVA	"numericP(2)"	"packageAvailable('multcomp') && packageAvailable('abind')"
 # item	bs19_centers_menu command	"Friedman's rank-sum test... [Rcmdr]"	FriedmanTest	"numericP(2)"	""
-item	bs19_centers_menu	command	"Friedman's rank-sum test... [EZR]"	StatMedFriedman	"activeDataSetP()"	""
+item	bs19_centers_menu	command	"Friedman's rank-sum test... [EZR]"	StatMedFriedman	"numericP(2)"	""
 item	bs19_centers_menu	separator	""	""	""	""
 
 
 # item	bs19_centers_menu command	"Independent samples t-test... [Rcmdr]"	independentSamplesTTest	"numericP() && twoLevelFactorsP()"	""
-item	bs19_centers_menu	command	"Independent samples t-test... [EZR]"	StatMedTtest	"activeDataSetP()"	""
+item	bs19_centers_menu	command	"Independent samples t-test... [EZR]"	StatMedTtest	"numericP() && twoLevelFactorsP()"	""
 # item	bs19_centers_menu command	"Independent samples Wilcoxon/Mann-Whitney U test... [Rcmdr]"	twoSampleWilcoxonTest	"numericP() && twoLevelFactorsP()"	""
-item	bs19_centers_menu	command	"Independent samples Wilcoxon/Mann-Whitney U test... [EZR]"	StatMedMannW	"activeDataSetP()"	""
+item	bs19_centers_menu	command	"Independent samples Wilcoxon/Mann-Whitney U test... [EZR]"	StatMedMannW	"numericP() && twoLevelFactorsP()"	""
 
 # item	bs19_centers_menu	command	"One-way ANOVA... [Rcmdr]"	oneWayAnova	"numericP() && factorsP()"	""
-item	bs19_centers_menu	command	"One-way ANOVA... [EZR]"	StatMedANOVA	"activeDataSetP()"	"packageAvailable('multcomp') && packageAvailable('abind')"
+item	bs19_centers_menu	command	"One-way ANOVA... [EZR]"	StatMedANOVA	"numericP() && factorsP()"	"packageAvailable('multcomp') && packageAvailable('abind')"
 # item	bs19_centers_menu command	"Kruskal-Wallis test... [Rcmdr]"	KruskalWallisTest	"numericP() && factorsP()"	""
-item	bs19_centers_menu	command	"Kruskal-Wallis test... [EZR]"	StatMedKruWalli	"activeDataSetP()"	""
+item	bs19_centers_menu	command	"Kruskal-Wallis test... [EZR]"	StatMedKruWalli	"numericP() && factorsP()"	""
 item	bs19_centers_menu	command	"Jonckheere-Terpstra test... [EZR]"	StatMedJT	"activeDataSetP()"	"packageAvailable('clinfun')"
 item	bs19_centers_menu	separator	""	""	""	""
 
 # item	bs19_centers_menu	command	"Multi-way ANOVA... [Rcmdr]"	multiWayAnova	"numericP() && factorsP()"	""
-item	bs19_centers_menu	command	"Multi-way ANOVA... [EZR]"	StatMedMultiANOVA	"activeDataSetP()"	"packageAvailable('multcomp') && packageAvailable('abind')"
-item	bs19_centers_menu	command	"ANCOVA... [EZR]"	StatMedANCOVA	"activeDataSetP()"	"packageAvailable('multcomp') && packageAvailable('abind')"
+item	bs19_centers_menu	command	"Multi-way ANOVA... [EZR]"	StatMedMultiANOVA	"numericP() && factorsP()"	"packageAvailable('multcomp') && packageAvailable('abind')"
+item	bs19_centers_menu	command	"ANCOVA... [EZR]"	StatMedANCOVA	"numericP()"	"packageAvailable('multcomp') && packageAvailable('abind')"
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -366,10 +366,10 @@ menu	bs19_variability_menu	bs19_tests_menu	""	""	""	""
 item	bs19_tests_menu	cascade	"Variability tests"	bs19_variability_menu	""	""
 
 # item	bs19_variability_menu	command	"Two-variances F test... [Rcmdr]"	twoVariancesFTest	"numericP() && twoLevelFactorsP()"	""
-item	bs19_variability_menu	command	"Two-variances F-test... [EZR]"	StatMedFTest	"activeDataSetP()"	""
+item	bs19_variability_menu	command	"Two-variances F-test... [EZR]"	StatMedFTest	"numericP() && twoLevelFactorsP()"	""
 
 # item	bs19_variability_menu	command	"Bartlett's test... [Rcmdr]"	BartlettTest	"numericP() && factorsP()"	""
-item	bs19_variability_menu	command	"Bartlett's test... [EZR]"	StatMedBartlett	"activeDataSetP()"	""
+item	bs19_variability_menu	command	"Bartlett's test... [EZR]"	StatMedBartlett	"numericP() && factorsP()"	""
 
 item	bs19_variability_menu	command	"Levene's / Brown-Forsythe's test... [Rcmdr]"	LeveneTest	"numericP() && factorsP()"	""
 
