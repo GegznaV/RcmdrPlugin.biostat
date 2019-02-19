@@ -65,6 +65,12 @@ set_biostat_mode <- function() {
         image = "::image::bs_columns",
         command = bs_mode_menu__variables)
 
+    button_summary <- tk2button(
+        buttons_bar,
+        tip = "Summarize data",
+        image = "::image::bs_summary",
+        command = bs_mode_menu__summary)
+
     button_analysis <- tk2button(
         buttons_bar,
         tip = "Analyze data",
@@ -112,7 +118,7 @@ set_biostat_mode <- function() {
         tkconfigure(button_view, compound = "none")
         tkconfigure(button_view, command = bs_mode_menu__print)
         # Add tooltip
-        .Tcl(str_glue('tooltip::tooltip {button_view} "View, summarize and print data"'))
+        .Tcl(str_glue('tooltip::tooltip {button_view} "View and print data"'))
     }
 
     if (length(button_edit) > 0) {
@@ -130,6 +136,7 @@ set_biostat_mode <- function() {
     putRcmdr("button_rows",      button_rows)
     putRcmdr("button_variables", button_variables)
     putRcmdr("button_view",      button_view)
+    putRcmdr("button_summary",   button_summary)
     putRcmdr("button_analysis",  button_analysis)
     putRcmdr("button_plots",     button_plots)
     putRcmdr("button_other",     button_other)
@@ -141,6 +148,7 @@ set_biostat_mode <- function() {
            lab_data, button_data,
            button_import,
            button_view,
+           button_summary,
            button_rows,
            button_variables,
            button_analysis,
@@ -176,21 +184,19 @@ set_menu_state <- function(cond) {
 }
 
 # Import menus -----------------------------------------------------------
-
-# "From clipboard..."     , 'window_import_from_clipboard()'
-# "From R package... "    , "window_import_from_pkg"
-#
-# "Import from text file (.txt, .csv, .dat, etc.)"   , "window_import_from_text"
-# "Import from Excel file..."                        , "window_import_from_excel"
-# "Import from Rds file (.Rds, .rds)..."	         , "window_import_from_rds"
-# "Import from R-data file (.RData, .Rda, .rda)..."  , "window_import_rdata"
-# "Import from SPSS data file..."                    , "importSPSS"
-# "Import from SAS xport file..."                    , "importSAS"
-# "Import from SAS b7dat file..."                    , "importSASb7dat"
-# "Import from STATA data file..."                   , "importSTATA"
-# "Import from Minitab data file..."                 , "importMinitab"
-
 bs_mode_menu__import <- function() {
+    # "From clipboard..."     , 'window_import_from_clipboard()'
+    # "From R package... "    , "window_import_from_pkg"
+    #
+    # "Import from text file (.txt, .csv, .dat, etc.)"   , "window_import_from_text"
+    # "Import from Excel file..."                        , "window_import_from_excel"
+    # "Import from Rds file (.Rds, .rds)..."	         , "window_import_from_rds"
+    # "Import from R-data file (.RData, .Rda, .rda)..."  , "window_import_rdata"
+    # "Import from SPSS data file..."                    , "importSPSS"
+    # "Import from SAS xport file..."                    , "importSAS"
+    # "Import from SAS b7dat file..."                    , "importSASb7dat"
+    # "Import from STATA data file..."                   , "importSTATA"
+    # "Import from Minitab data file..."                 , "importMinitab"
 
     top <- CommanderWindow()
 
@@ -268,7 +274,6 @@ bs_mode_menu__import <- function() {
             tkwinfo("pointerx", top),
             tkwinfo("pointery", top))
 }
-
 
 # Preview and summarize ------------------------------------------------------
 bs_mode_menu__print <- function() {
@@ -383,46 +388,6 @@ bs_mode_menu__rows <- function() {
     menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    menu_n  <- tk2menu(menu_p, tearoff = FALSE)
-
-    tkadd(menu_p, "cascade",
-          label    = "Row names and row numbers",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          menu     = menu_n)
-
-    tkadd(menu_n, "command",
-          label    = "Print row names (or row indices)",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = command_rownames)
-
-    tkadd(menu_n, "command",
-          label    = "Check if table has row names",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = command_rows_has_rownames)
-
-    tkadd(menu_n, "command",
-          label    = "Move row names to column values...",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = window_rows_rownames_to_col)
-
-    tkadd(menu_n, "command",
-          label    = "Move column with unique values to row names...",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          state = set_menu_state(variables_with_unique_values_P()),
-          command  = window_rows_col_to_rownames)
-
-    tkadd(menu_n, "command",
-          label    = "Add column with row numbers",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = window_rows_rowid_to_col)
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_p, "command",
           label    = "Arrange: sort rows...",
           # compound = "left",
@@ -471,11 +436,52 @@ bs_mode_menu__rows <- function() {
           command  = window_rows_rm_with_na)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    menu_n  <- tk2menu(menu_p, tearoff = FALSE)
+
+    tkadd(menu_p, "cascade",
+          label    = "Row names and row numbers",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          menu     = menu_n)
+
+    tkadd(menu_n, "command",
+          label    = "Print row names (or row indices)",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = command_rownames)
+
+    tkadd(menu_n, "command",
+          label    = "Check if table has row names",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = command_rows_has_rownames)
+
+    tkadd(menu_n, "command",
+          label    = "Move row names to column values...",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = window_rows_rownames_to_col)
+
+    tkadd(menu_n, "command",
+          label    = "Move column with unique values to row names...",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          state = set_menu_state(variables_with_unique_values_P()),
+          command  = window_rows_col_to_rownames)
+
+    tkadd(menu_n, "command",
+          label    = "Add column with row numbers",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = window_rows_rowid_to_col)
+
+
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkpopup(menu_p,
             tkwinfo("pointerx", top),
             tkwinfo("pointery", top))
 }
-
 
 # Variable menus -----------------------------------------------------------
 bs_mode_menu__variables <- function() {
@@ -651,159 +657,29 @@ tkpopup(menu_p,
         tkwinfo("pointery", top))
 }
 
-# Summary and analysis menus -------------------------------------------------
-bs_mode_menu__analyze <- function() {
+# Summary menus --------------------------------------------------------------
+bs_mode_menu__summary  <- function() {
 
     top <- CommanderWindow()
     menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # tkadd(menu_p, "separator")
-
-    menu_s  <- tk2menu(menu_p, tearoff = FALSE)
-
-    tkadd(menu_p, "cascade",
-          label    = "Summaries",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          menu     = menu_s)
-
-    tkadd(menu_s, "command",
+    tkadd(menu_p, "command",
           label    = "Glimpse: structure of dataset",
           # compound = "left",
           # image    = "::image::bs_locale",
           command  = command_glimpse)
 
-    tkadd(menu_s, "command",
+    tkadd(menu_p, "command",
           label    = "Summarize variables...",
           # compound = "left",
           # image    = "::image::bs_locale",
           command  = function_not_implemented)
 
-    tkadd(menu_s, "command",
+    tkadd(menu_p, "command",
           label    = "Frequency & multi-way tables...",
           # compound = "left",
           # image    = "::image::bs_locale",
           command  = window_summary_count)
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # ~ Association / Correlation --------------------------------------------
-
-    menu_a <- tk2menu(menu_p, tearoff = FALSE)
-
-    tkadd(menu_p, "cascade",
-          label    = "Association / Correlation",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          menu     = menu_a)
-
-    tkadd(menu_a, "command",
-          label      = "Correlation... [Rcmdr]",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          state      = set_menu_state(numericP(2)),
-          command    = Rcmdr:::correlationTest)
-
-    tkadd(menu_a, "command",
-          label      = "Correlation matrix... [Rcmdr]",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          state      = set_menu_state(numericP(2)),
-          command    = Rcmdr:::correlationMatrix)
-
-    tkadd(menu_a, "command",
-          label      = "Pearson's linear correlation... [EZR]",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          state      = set_menu_state(numericP(2)),
-          command    = RcmdrPlugin.EZR::StatMedCorrelation)
-
-    tkadd(menu_a, "command",
-          label      = "Spearman's / Kendall's rank correlation... [EZR]",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          state      = set_menu_state(numericP(2)),
-          command    = RcmdrPlugin.EZR::StatMedSpearman)
-
-    tkadd(menu_a, "separator")
-
-    tkadd(menu_a, "command",
-          label      = "Association between categorical variables...",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          state      = set_menu_state(factorsP(2)),
-          command    = window_summary_count)
-
-    # ~ Tests ----------------------------------------------------------------
-    menu_t <- tk2menu(menu_p, tearoff = FALSE)
-
-    tkadd(menu_p, "cascade",
-          label    = "Tests",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          menu     = menu_t)
-
-    tkadd(menu_t, "command",
-          label      = "Normality test (univariate)...",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          state      = set_menu_state(numericP()),
-          command    = window_test_normality)
-
-
-    # ~~ Central tendency ----------------------------------------------------
-
-    menu_t_c <- tk2menu(menu_t, tearoff = FALSE)
-
-    tkadd(menu_t, "cascade",
-          label    = "Central tendency and analogue nonparametric tests",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          menu     = menu_t_c)
-
-    # ~~ Proportion tests ----------------------------------------------------
-
-    menu_t_p <- tk2menu(menu_t, tearoff = FALSE)
-
-    tkadd(menu_t, "cascade",
-          label    = "proportion tests",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          menu     = menu_t_p)
-
-
-
-    # ~~ Variability tests ---------------------------------------------------
-
-    menu_t_v <- tk2menu(menu_t, tearoff = FALSE)
-
-    tkadd(menu_t, "cascade",
-          label    = "Variability tests",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          menu     = menu_t_v)
-
-
-    tkadd(menu_t_v, "command",
-          label      = "Two-variances F-test... [EZR]",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          state      = set_menu_state(numericP() && twoLevelFactorsP()),
-          command    = RcmdrPlugin.EZR::StatMedFTest)
-
-    tkadd(menu_t_v, "command",
-          label      = "Bartlett's test... [EZR]",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          state      = set_menu_state(numericP() && factorsP()),
-          command    = RcmdrPlugin.EZR::StatMedBartlett)
-
-    tkadd(menu_t_v, "command",
-          label      = "Levene's / Brown-Forsythe's test... [Rcmdr]",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          state      = set_menu_state(numericP() && factorsP()),
-          command    = Rcmdr:::LeveneTest)
 
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -812,6 +688,164 @@ bs_mode_menu__analyze <- function() {
             tkwinfo("pointery", top))
 }
 
+# Analysis menus -------------------------------------------------------------
+bs_mode_menu__analyze <- function() {
+
+    top <- CommanderWindow()
+    menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
+
+    tkadd(menu_p, "command",
+          label      = "Association between categorical variables...",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          state      = set_menu_state(factorsP(2)),
+          command    = window_summary_count)
+
+    tkadd(menu_p, "command",
+          label      = "Normality test (univariate)...",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          state      = set_menu_state(numericP()),
+          command    = window_test_normality)
+
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # # ~ Association / Correlation --------------------------------------------
+    # menu_a <- tk2menu(menu_p, tearoff = FALSE)
+    #
+    # tkadd(menu_p, "cascade",
+    #       label    = "Association / Correlation",
+    #       # compound = "left",
+    #       # image    = "::image::bs_open_file",
+    #       menu     = menu_a)
+    #
+    # tkadd(menu_a, "command",
+    #       label      = "Correlation... [Rcmdr]",
+    #       # compound = "left",
+    #       # image    = "::image::bs_open_file",
+    #       state      = set_menu_state(numericP(2)),
+    #       command    = Rcmdr:::correlationTest)
+    #
+    # tkadd(menu_a, "command",
+    #       label      = "Correlation matrix... [Rcmdr]",
+    #       # compound = "left",
+    #       # image    = "::image::bs_open_file",
+    #       state      = set_menu_state(numericP(2)),
+    #       command    = Rcmdr:::correlationMatrix)
+    #
+    # tkadd(menu_a, "command",
+    #       label      = "Pearson's linear correlation... [EZR]",
+    #       # compound = "left",
+    #       # image    = "::image::bs_open_file",
+    #       state      = set_menu_state(numericP(2)),
+    #       command    = RcmdrPlugin.EZR::StatMedCorrelation)
+    #
+    # tkadd(menu_a, "command",
+    #       label      = "Spearman's / Kendall's rank correlation... [EZR]",
+    #       # compound = "left",
+    #       # image    = "::image::bs_open_file",
+    #       state      = set_menu_state(numericP(2)),
+    #       command    = RcmdrPlugin.EZR::StatMedSpearman)
+    #
+    # tkadd(menu_a, "separator")
+    #
+    # tkadd(menu_a, "command",
+    #       label      = "Association between categorical variables...",
+    #       # compound = "left",
+    #       # image    = "::image::bs_open_file",
+    #       state      = set_menu_state(factorsP(2)),
+    #       command    = window_summary_count)
+    #
+    # # ~ Tests ----------------------------------------------------------------
+    # menu_t <- tk2menu(menu_p, tearoff = FALSE)
+    #
+    # tkadd(menu_p, "cascade",
+    #       label    = "Tests",
+    #       # compound = "left",
+    #       # image    = "::image::bs_open_file",
+    #       menu     = menu_t)
+    #
+    # tkadd(menu_t, "command",
+    #       label      = "Normality test (univariate)...",
+    #       # compound = "left",
+    #       # image    = "::image::bs_open_file",
+    #       state      = set_menu_state(numericP()),
+    #       command    = window_test_normality)
+
+#
+#     # ~~ Central tendency ----------------------------------------------------
+#
+#     menu_t_c <- tk2menu(menu_t, tearoff = FALSE)
+#
+#     tkadd(menu_t, "cascade",
+#           label    = "Central tendency* tests",
+#           # compound = "left",
+#           # image    = "::image::bs_open_file",
+#           menu     = menu_t_c)
+#
+#
+#     # ~~ Proportion tests ----------------------------------------------------
+#
+#     menu_t_p <- tk2menu(menu_t, tearoff = FALSE)
+#
+#     tkadd(menu_t, "cascade",
+#           label    = "Proportion tests",
+#           # compound = "left",
+#           # image    = "::image::bs_open_file",
+#           menu     = menu_t_p)
+#
+#     tkadd(menu_t_p, "command",
+#           label      = ">>>",
+#           # compound = "left",
+#           # image    = "::image::bs_open_file",
+#           state      = set_menu_state(twoLevelFactorsP()),
+#           command    = function_not_implemented)
+#
+#     tkadd(menu_t_p, "command",
+#           label      = ">>>",
+#           # compound = "left",
+#           # image    = "::image::bs_open_file",
+#           state      = set_menu_state(twoLevelFactorsP()),
+#           command    = function_not_implemented)
+
+
+    # # ~~ Variability tests ---------------------------------------------------
+    #
+    # menu_t_v <- tk2menu(menu_t, tearoff = FALSE)
+    #
+    # tkadd(menu_t, "cascade",
+    #       label    = "Variability tests",
+    #       # compound = "left",
+    #       # image    = "::image::bs_open_file",
+    #       menu     = menu_t_v)
+    #
+    # tkadd(menu_t_v, "command",
+    #       label      = "Two-variances F-test... [EZR]",
+    #       # compound = "left",
+    #       # image    = "::image::bs_open_file",
+    #       state      = set_menu_state(numericP() && twoLevelFactorsP()),
+    #       command    = RcmdrPlugin.EZR::StatMedFTest)
+    #
+    # tkadd(menu_t_v, "command",
+    #       label      = "Bartlett's test... [EZR]",
+    #       # compound = "left",
+    #       # image    = "::image::bs_open_file",
+    #       state      = set_menu_state(numericP() && factorsP()),
+    #       command    = RcmdrPlugin.EZR::StatMedBartlett)
+    #
+    # tkadd(menu_t_v, "command",
+    #       label      = "Levene's / Brown-Forsythe's test... [Rcmdr]",
+    #       # compound = "left",
+    #       # image    = "::image::bs_open_file",
+    #       state      = set_menu_state(numericP() && factorsP()),
+    #       command    = Rcmdr:::LeveneTest)
+
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkpopup(menu_p,
+            tkwinfo("pointerx", top),
+            tkwinfo("pointery", top))
+}
 
 # Plot menus -----------------------------------------------------------------
 bs_mode_menu__plots <- function() {
@@ -989,7 +1023,6 @@ bs_mode_menu__session <- function() {
             tkwinfo("pointerx", top),
             tkwinfo("pointery", top))
 }
-
 
 # Export menus -----------------------------------------------------------
 bs_mode_menu__export <- function() {
