@@ -297,8 +297,7 @@ window_variable_convert_type <- function() {
     # Initial values ---------------------------------------------------------
 
     # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    ds     <- active_dataset()
-    fg_col <- Rcmdr::getRcmdr("title.color")
+    ds <- active_dataset()
 
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = gettext_bs("Convert Variable Types"))
@@ -345,7 +344,8 @@ window_variable_convert_type <- function() {
                    "Numbers (integer and real)",
                    "Integer (whole numbers)",
                    "Real numbers",
-                   "Logical", "Other")
+                   "Logical",
+                   "Other")
 
     var_type_box <- bs_combobox(
         type_frame,
@@ -358,7 +358,8 @@ window_variable_convert_type <- function() {
 
     tkgrid(var_y_box$frame, sticky = "w")
     tkgrid(type_frame, sticky = "w", pady = c(5, 0))
-    tkgrid(bs_label_b(type_frame, text = "Type filter: "), var_type_box$frame,
+    tkgrid(bs_label_b(type_frame, text = "Type filter: "),
+           var_type_box$frame,
            sticky = "w")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
