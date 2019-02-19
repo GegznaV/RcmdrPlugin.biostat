@@ -160,6 +160,7 @@ biostat_env <- new.env()
     bs_tkimage_create("::image::bs_workspace", "icons/user-desktop.png")
 
     bs_tkimage_create("::image::bs_analyze",   "icons/bs_analyze.png")
+    bs_tkimage_create("::image::bs_summary",   "icons/bs_enumlist.png")
     bs_tkimage_create("::image::bs_plot",      "icons/office-chart-pie.png")
     bs_tkimage_create("::image::bs_chart",     "icons/insert-chart-bar.png")
 }
