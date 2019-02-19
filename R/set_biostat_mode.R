@@ -651,13 +651,11 @@ tkpopup(menu_p,
         tkwinfo("pointery", top))
 }
 
-# Analysis menus -----------------------------------------------------------
+# Summary and analysis menus -------------------------------------------------
 bs_mode_menu__analyze <- function() {
 
     top <- CommanderWindow()
-
     menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
-
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # tkadd(menu_p, "separator")
@@ -689,47 +687,124 @@ bs_mode_menu__analyze <- function() {
           command  = window_summary_count)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    menu_rm  <- tk2menu(menu_p, tearoff = FALSE)
+    # ~ Association / Correlation --------------------------------------------
+
+    menu_a <- tk2menu(menu_p, tearoff = FALSE)
 
     tkadd(menu_p, "cascade",
-          label    = "Analysis",
+          label    = "Association / Correlation",
           # compound = "left",
           # image    = "::image::bs_open_file",
-          menu     = menu_rm)
+          menu     = menu_a)
+
+    tkadd(menu_a, "command",
+          label      = "Correlation... [Rcmdr]",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          state      = set_menu_state(numericP(2)),
+          command    = Rcmdr:::correlationTest)
+
+    tkadd(menu_a, "command",
+          label      = "Correlation matrix... [Rcmdr]",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          state      = set_menu_state(numericP(2)),
+          command    = Rcmdr:::correlationMatrix)
+
+    tkadd(menu_a, "command",
+          label      = "Pearson's linear correlation... [EZR]",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          state      = set_menu_state(numericP(2)),
+          command    = RcmdrPlugin.EZR::StatMedCorrelation)
+
+    tkadd(menu_a, "command",
+          label      = "Spearman's / Kendall's rank correlation... [EZR]",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          state      = set_menu_state(numericP(2)),
+          command    = RcmdrPlugin.EZR::StatMedSpearman)
+
+    tkadd(menu_a, "separator")
+
+    tkadd(menu_a, "command",
+          label      = "Association between categorical variables...",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          state      = set_menu_state(factorsP(2)),
+          command    = window_summary_count)
+
+    # ~ Tests ----------------------------------------------------------------
+    menu_t <- tk2menu(menu_p, tearoff = FALSE)
+
+    tkadd(menu_p, "cascade",
+          label    = "Tests",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          menu     = menu_t)
+
+    tkadd(menu_t, "command",
+          label      = "Normality test (univariate)...",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          state      = set_menu_state(numericP()),
+          command    = window_test_normality)
 
 
-#
-#     tkadd(menu_rm, "command",
-#           label    = "Filter: select rows that match conditions...",
-#           # compound = "left",
-#           # image    = "::image::bs_locale",
-#           command  = window_rows_filter0)
-#
-#     tkadd(menu_rm, "command",
-#           label    = "Slice: select/remove rows by row index...",
-#           # compound = "left",
-#           # image    = "::image::bs_locale",
-#           command  = window_rows_slice)
-#
-#     tkadd(menu_rm, "separator")
-#
-#     tkadd(menu_rm, "command",
-#           label    = "Remove duplicated rows...",
-#           # compound = "left",
-#           # image    = "::image::bs_locale",
-#           command  = window_rows_rm_duplicated)
-#
-#     tkadd(menu_rm, "command",
-#           label    = "Remove empty rows",
-#           # compound = "left",
-#           # image    = "::image::bs_locale",
-#           command  = command_rows_rm_empty_rows)
-#
-#     tkadd(menu_rm, "command",
-#           label    = "Remove rows with missing values...",
-#           # compound = "left",
-#           # image    = "::image::bs_locale",
-#           command  = window_rows_rm_with_na)
+    # ~~ Central tendency ----------------------------------------------------
+
+    menu_t_c <- tk2menu(menu_t, tearoff = FALSE)
+
+    tkadd(menu_t, "cascade",
+          label    = "Central tendency and analogue nonparametric tests",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          menu     = menu_t_c)
+
+    # ~~ Proportion tests ----------------------------------------------------
+
+    menu_t_p <- tk2menu(menu_t, tearoff = FALSE)
+
+    tkadd(menu_t, "cascade",
+          label    = "proportion tests",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          menu     = menu_t_p)
+
+
+
+    # ~~ Variability tests ---------------------------------------------------
+
+    menu_t_v <- tk2menu(menu_t, tearoff = FALSE)
+
+    tkadd(menu_t, "cascade",
+          label    = "Variability tests",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          menu     = menu_t_v)
+
+
+    tkadd(menu_t_v, "command",
+          label      = "Two-variances F-test... [EZR]",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          state      = set_menu_state(numericP() && twoLevelFactorsP()),
+          command    = RcmdrPlugin.EZR::StatMedFTest)
+
+    tkadd(menu_t_v, "command",
+          label      = "Bartlett's test... [EZR]",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          state      = set_menu_state(numericP() && factorsP()),
+          command    = RcmdrPlugin.EZR::StatMedBartlett)
+
+    tkadd(menu_t_v, "command",
+          label      = "Levene's / Brown-Forsythe's test... [Rcmdr]",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          state      = set_menu_state(numericP() && factorsP()),
+          command    = Rcmdr:::LeveneTest)
+
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkpopup(menu_p,
