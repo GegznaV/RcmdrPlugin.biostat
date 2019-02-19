@@ -16,8 +16,8 @@ get_active_ds <- function() {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-list_objects_of_class <- function(
-    class = NULL, all.names = FALSE,  envir = parent.frame()) {
+list_objects_of_class <-
+    function(class = NULL, all.names = TRUE,  envir = parent.frame()) {
 
     checkmate::assert_character(class, null.ok = TRUE)
 
