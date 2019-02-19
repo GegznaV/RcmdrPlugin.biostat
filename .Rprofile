@@ -1,4 +1,22 @@
-#
+options(Rcmdr = list(
+    plugins = c(
+        "RcmdrPlugin.KMggplot2",
+        "RcmdrPlugin.EZR.as.menu",
+        "RcmdrPlugin.biostat",
+        NULL)
+    , console.output = FALSE
+    # , use.rgl = FALSE
+    # , rmd.template = rmd_template_filename
+))
+
+
+
+
+
+
+
+
+
 # # install.packages("RcmdrPlugin.KMggplot2")
 # #
 # # if (!"devtools" %in% installed.packages())  install.packages("devtools")
@@ -29,7 +47,7 @@
 #
 #
 #
-#     # devtools::install_github("GegznaV/RcmdrPlugin.EZR@unmodified_Rcmdr_menu",
+#     # devtools::install_github("GegznaV/RcmdrPlugin.EZR@ezr_as_menu",
 #     #                          dependencies = c("Depends", "Imports", "Suggests"))
 #     #
 #     # devtools::install_github("GegznaV/biostat",
@@ -52,14 +70,15 @@
 # )
 # #
 # # ###! Rcmdr Options Begin !###
-# options(Rcmdr = list(plugins = c("RcmdrPlugin.KMggplot2",
-#                                  "RcmdrPlugin.EZR.2",
-#                                  "RcmdrPlugin.biostat",
-#                                  NULL),
-#                      console.output = FALSE,
-#                      use.rgl = FALSE,
-#                      rmd.template = rmd_template_filename)
-#         )
+# options(Rcmdr = list(
+#     plugins = c("RcmdrPlugin.KMggplot2",
+#                 "RcmdrPlugin.EZR.as.menu",
+#                 "RcmdrPlugin.biostat",
+#                 NULL)
+#     # , console.output = FALSE
+#     # , use.rgl = FALSE
+#     # , rmd.template = rmd_template_filename
+# ))
 #
 # if (.Platform$OS.type == "windows") {
 #     Sys.setlocale(locale = "Lithuanian")
