@@ -809,7 +809,7 @@ bs_mode_menu__analyze <- function() {
 #           command    = function_not_implemented)
 
 
-    # # ~~ Variability tests ---------------------------------------------------
+    # # ~~ Variability tests --------------------------------------------------
     #
     # menu_t_v <- tk2menu(menu_t, tearoff = FALSE)
     #
