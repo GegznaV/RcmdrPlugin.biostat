@@ -324,7 +324,7 @@ item	bs19_tests_menu	command	"Normality test (univariate)..."	window_test_normal
 # + ~ Central tendency tests -------------------------------------------------
 
 menu	bs19_centers_menu	bs19_tests_menu	""	""	""	""
-item	bs19_tests_menu	cascade	"Central tendency and analogue nonparametric tests"	bs19_centers_menu	""	""
+item	bs19_tests_menu	cascade	"Central tendency* tests"	bs19_centers_menu	""	""
 
 # item	bs19_centers_menu command	"Single-sample t-test... [Rcmdr]"	singleSampleTTest	"numericP()"	""
 item	bs19_centers_menu	command	"Single-sample t-test... [EZR]"	StatMedSingleSampleTTest	"numericP(2)"	""
