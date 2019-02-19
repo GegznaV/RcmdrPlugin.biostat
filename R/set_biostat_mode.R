@@ -12,6 +12,13 @@ is_biostat_mode <- function() {
 #' @export
 #' @keywords internal
 set_biostat_mode <- function() {
+
+    # Hide buttons bar
+    buttons_bar <- tcl_get_parent(getRcmdr("dataSetLabel"))
+
+    tkgrid.remove(buttons_bar)
+    on.exit(tkgrid(buttons_bar))
+
     # Change buttons
     tkconfigure(getRcmdr("dataSetLabel"),
                 # foreground = "darkred",
@@ -32,53 +39,52 @@ set_biostat_mode <- function() {
     tk2tip(getRcmdr("modelLabel"),   "Active model")
 
     # Change icon and button layout ------------------------------------------
-    pare <- tcl_get_parent(getRcmdr("dataSetLabel"))
 
     # New buttons
-    button_inport <- tk2button(
-        pare,
+    button_import <- tk2button(
+        buttons_bar,
         tip = "Import a dataset",
         image = "::image::bs_import",
         command = bs_mode_menu__import)
 
     button_export <- tk2button(
-        pare,
+        buttons_bar,
         tip = "Export active dataset",
         image = "::image::bs_export",
         command = bs_mode_menu__export)
 
     button_rows <- tk2button(
-        pare,
+        buttons_bar,
         tip = "Rows (observations)",
         image = "::image::bs_rows",
         command = bs_mode_menu__rows)
 
     button_variables <- tk2button(
-        pare,
+        buttons_bar,
         tip = "Variables (columns)",
         image = "::image::bs_columns",
         command = bs_mode_menu__variables)
 
     button_analysis <- tk2button(
-        pare,
+        buttons_bar,
         tip = "Analyze data",
         image = "::image::bs_analyze",
         command = bs_mode_menu__analyze)
 
     button_plots <- tk2button(
-        pare,
+        buttons_bar,
         tip = "Plots",
         image = "::image::bs_plot",
         command = bs_mode_menu__plots)
 
     button_other <- tk2button(
-        pare,
+        buttons_bar,
         tip     = "Session, settings and several datasets",
         image   = "::image::bs_settings",
         command = bs_mode_menu__session)
 
     button_refresh <- tk2button(
-        pare,
+        buttons_bar,
         tip = "Refresh",
         image = "::image::bs_refresh",
         command = command_dataset_refresh)
@@ -119,7 +125,7 @@ set_biostat_mode <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    putRcmdr("button_inport",    button_inport)
+    putRcmdr("button_import",    button_import)
     putRcmdr("button_export",    button_export)
     putRcmdr("button_rows",      button_rows)
     putRcmdr("button_variables", button_variables)
@@ -133,7 +139,7 @@ set_biostat_mode <- function() {
     # New layout
     tkgrid(logo,
            lab_data, button_data,
-           button_inport,
+           button_import,
            button_view,
            button_rows,
            button_variables,
@@ -144,7 +150,7 @@ set_biostat_mode <- function() {
            button_export,
            lab_model, button_model)
 
-    tkgrid.configure(pare, pady = c(4, 3))
+    tkgrid.configure(buttons_bar, pady = c(4, 3))
 
     tkgrid.configure(button_data,  padx = c(2, 10))
     tkgrid.configure(lab_model,    padx = c(10, 2))
@@ -166,75 +172,6 @@ set_menu_state <- function(cond) {
         "disabled"
     }
 }
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Export funs ----------------------------------------------------------------
-
-to_r_structure <- function() {
-    # .ds <- get_selection(var_ds_box)
-    .ds <- active_dataset_0()
-
-    doItAndPrint(str_glue(
-        "## Export as R structure ('{.ds}')\n",
-        "dput({.ds})"
-    ))
-}
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-to_pptx <- function() {
-
-    function_not_implemented()
-    stop()
-
-
-    # variables
-    Library("tidyverse")
-    Library("officer")
-
-    doc <- read_pptx() %>%
-        add_slide(layout = "Title and Content", master = "Office Theme") %>%
-        ph_with_text(type =  "title", str = "A title") %>%
-        ph_with_table(type = "body", value = mtcars) %>%
-        ph_with_text(type = "dt", str = format(Sys.Date()))
-
-    print(doc, target = "ph_with_table.pptx")
-
-    fs::file_show("ph_with_table.pptx")
-}
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# to_word
-to_word <- function(variables) {
-    function_not_implemented()
-    stop()
-
-    Library("tidyverse")
-    Library("officer")
-    f_name <- unique_file_name(str_glue("results_{Sys.Date()}.docx"))
-
-    ds_name <- "swiss"
-    ds <- swiss
-
-    if (fs::file_exists(f_name)) {
-        doc <- read_docx(f_name)
-    } else {
-        doc <- read_docx()
-    }
-
-
-    doc %>%
-        # body_add_par(value = "dataset mtcars", style = "heading 1") %>%
-        # body_add_break() %>%
-
-        body_add_par(value = str_glue("Dataset '{ds_name}'"), style = "table title") %>%
-        body_add_table(value = ds, style = "table_template" ) %>%
-        body_end_section_portrait() %>%
-        print(doc, target = f_name)
-
-    fs::file_show(f_name)
-}
-
-
 
 # Import menus -----------------------------------------------------------
 
@@ -331,110 +268,6 @@ bs_mode_menu__import <- function() {
 }
 
 
-# Export menus -----------------------------------------------------------
-bs_mode_menu__export <- function() {
-    .ds <- active_dataset_0()
-    if (is.null(.ds)) {
-        command_dataset_refresh()
-        active_dataset_not_persent()
-        return()
-    }
-
-    top <- CommanderWindow()
-
-    menu_e <- tk2menu(tk2menu(top), tearoff = FALSE)
-    menu_c <- tk2menu(menu_e, tearoff = FALSE)
-    menu_f <- tk2menu(menu_e, tearoff = FALSE)
-
-
-    tkadd(menu_e, "cascade",
-          label    = "Export to file",
-          compound = "left",
-          image    = "::image::bs_open_file",
-          menu     = menu_f)
-
-
-    tkadd(menu_f, "command",
-          label    = "Export to text file (.txt, .csv)...",
-          compound = "left",
-          image    = "::image::bs_text",
-          command  = window_export_to_textfile)
-
-    # tkadd(menu_f, "separator")
-
-    tkadd(menu_f, "command",
-          label    = "Export to Excel file (.xlsx)...",
-          compound = "left",
-          image    = "::image::bs_excel",
-          command = window_export_to_excel)
-
-    # tkadd(menu_f, "separator")
-
-    tkadd(menu_f, "command",
-          label    = "Export to Rds file (.rds)...",
-          compound = "left",
-          image    = "::image::bs_r",
-          command  = window_export_to_rds)
-
-    tkadd(menu_f, "command",
-          label    = "Export to R-data file (.RData)...",
-          compound = "left",
-          image    = "::image::bs_r",
-          command  = window_export_to_rdata)
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    tkadd(menu_e, "cascade",
-          label    = "Export to clipboard",
-          compound = "left",
-          image    = "::image::bs_copy",
-          menu     = menu_c)
-
-    tkadd(menu_c, "command",
-          label    = "as Tab delimited values",
-          compound = "left",
-          image    = "::image::bs_copy",
-          command  = function() {
-              .ds <- active_dataset_0()
-              export_to_clipboard(.ds, sep = "\t")
-          })
-
-    tkadd(menu_c, "command",
-          label    = "as Comma separated values (csv)",
-          compound = "left",
-          image    = "::image::bs_copy",
-          command  = function() {
-              .ds <- active_dataset_0()
-              export_to_clipboard(.ds, sep = ",")
-          })
-
-    # tkadd(menu_e, "separator")
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkadd(menu_e, "command",
-          label    = "Print as R structure",
-          compound = "left",
-          image    = "::image::bs_r",
-          command  = to_r_structure)
-
-    # tkadd(menu_e, "separator")
-    #
-    # tkadd(menu_e, "command",
-    #       label    = "Export to Word table...",
-    #       compound = "left",
-    #       image    = "::image::bs_word",
-    #       command  = to_word)
-    #
-    # tkadd(menu_e, "command",
-    #       label    = "Export to PowerPoint table...",
-    #       compound = "left",
-    #       image    = "::image::bs_pptx",
-    #       command  = to_pptx)
-
-    tkpopup(menu_e,
-            tkwinfo("pointerx", top),
-            tkwinfo("pointery", top))
-}
-
 # Preview and summarize ------------------------------------------------------
 bs_mode_menu__print <- function() {
 
@@ -484,9 +317,6 @@ bs_mode_menu__print <- function() {
           compound = "left",
           image    = "::image::editIcon",
           command  = window_dataset_edit_rcmdr)
-
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_p, "separator")
@@ -543,7 +373,6 @@ bs_mode_menu__print <- function() {
             tkwinfo("pointery", top))
 }
 
-
 # Row menus -----------------------------------------------------------
 bs_mode_menu__rows <- function() {
 
@@ -591,7 +420,6 @@ bs_mode_menu__rows <- function() {
           # image    = "::image::bs_locale",
           command  = window_rows_rowid_to_col)
 
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_p, "command",
           label    = "Arrange: sort rows...",
@@ -607,8 +435,6 @@ bs_mode_menu__rows <- function() {
           # compound = "left",
           # image    = "::image::bs_open_file",
           menu     = menu_rm)
-
-
 
     tkadd(menu_rm, "command",
           label    = "Filter: select rows that match conditions...",
@@ -647,6 +473,7 @@ bs_mode_menu__rows <- function() {
             tkwinfo("pointerx", top),
             tkwinfo("pointery", top))
 }
+
 
 # Variable menus -----------------------------------------------------------
 bs_mode_menu__variables <- function() {
@@ -909,7 +736,6 @@ bs_mode_menu__analyze <- function() {
 }
 
 
-
 # Plot menus -----------------------------------------------------------------
 bs_mode_menu__plots <- function() {
 
@@ -930,6 +756,7 @@ bs_mode_menu__plots <- function() {
           compound = "left",
           image    = "::image::bs_chart",
           command  = window_online_image_digitizer)
+
 
     if (packageAvailable('officer') && packageAvailable('rvg')) {
 
@@ -1081,6 +908,111 @@ bs_mode_menu__session <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkpopup(menu_p,
+            tkwinfo("pointerx", top),
+            tkwinfo("pointery", top))
+}
+
+
+# Export menus -----------------------------------------------------------
+bs_mode_menu__export <- function() {
+    .ds <- active_dataset_0()
+    if (is.null(.ds)) {
+        command_dataset_refresh()
+        active_dataset_not_persent()
+        return()
+    }
+
+    top <- CommanderWindow()
+
+    menu_e <- tk2menu(tk2menu(top), tearoff = FALSE)
+    menu_c <- tk2menu(menu_e, tearoff = FALSE)
+    menu_f <- tk2menu(menu_e, tearoff = FALSE)
+
+
+    tkadd(menu_e, "cascade",
+          label    = "Export to file",
+          compound = "left",
+          image    = "::image::bs_open_file",
+          menu     = menu_f)
+
+
+    tkadd(menu_f, "command",
+          label    = "Export to text file (.txt, .csv)...",
+          compound = "left",
+          image    = "::image::bs_text",
+          command  = window_export_to_textfile)
+
+    # tkadd(menu_f, "separator")
+
+    tkadd(menu_f, "command",
+          label    = "Export to Excel file (.xlsx)...",
+          compound = "left",
+          image    = "::image::bs_excel",
+          command = window_export_to_excel)
+
+    # tkadd(menu_f, "separator")
+
+    tkadd(menu_f, "command",
+          label    = "Export to Rds file (.rds)...",
+          compound = "left",
+          image    = "::image::bs_r",
+          command  = window_export_to_rds)
+
+    tkadd(menu_f, "command",
+          label    = "Export to R-data file (.RData)...",
+          compound = "left",
+          image    = "::image::bs_r",
+          command  = window_export_to_rdata)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    tkadd(menu_e, "cascade",
+          label    = "Export to clipboard",
+          compound = "left",
+          image    = "::image::bs_copy",
+          menu     = menu_c)
+
+    tkadd(menu_c, "command",
+          label    = "as Tab delimited values",
+          compound = "left",
+          image    = "::image::bs_copy",
+          command  = function() {
+              .ds <- active_dataset_0()
+              export_to_clipboard(.ds, sep = "\t")
+          })
+
+    tkadd(menu_c, "command",
+          label    = "as Comma separated values (csv)",
+          compound = "left",
+          image    = "::image::bs_copy",
+          command  = function() {
+              .ds <- active_dataset_0()
+              export_to_clipboard(.ds, sep = ",")
+          })
+
+    # tkadd(menu_e, "separator")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkadd(menu_e, "command",
+          label    = "Print as R structure",
+          compound = "left",
+          image    = "::image::bs_r",
+          command  = to_r_structure)
+
+    # tkadd(menu_e, "separator")
+    #
+    # tkadd(menu_e, "command",
+    #       label    = "Export to Word table...",
+    #       compound = "left",
+    #       image    = "::image::bs_word",
+    #       command  = to_word)
+    #
+    # tkadd(menu_e, "command",
+    #       label    = "Export to PowerPoint table...",
+    #       compound = "left",
+    #       image    = "::image::bs_pptx",
+    #       command  = to_pptx)
+
+    tkpopup(menu_e,
             tkwinfo("pointerx", top),
             tkwinfo("pointery", top))
 }
