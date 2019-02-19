@@ -38,7 +38,7 @@ set_biostat_mode <- function() {
     tk2tip(getRcmdr("dataSetLabel"), "Active dataset")
     tk2tip(getRcmdr("modelLabel"),   "Active model")
 
-    # Change icon and button layout ------------------------------------------
+    # Change layout of icons and buttons --------------------------------------
 
     # New buttons
     button_import <- tk2button(
@@ -150,18 +150,20 @@ set_biostat_mode <- function() {
            button_export,
            lab_model, button_model)
 
-    tkgrid.configure(buttons_bar, pady = c(4, 3))
-
     tkgrid.configure(button_data,  padx = c(2, 10))
     tkgrid.configure(lab_model,    padx = c(10, 2))
     tkgrid.configure(button_model, padx = c(0,  2))
 
-    # Change title and main icon
+     # Change title and main icon
     .rcmdr <- CommanderWindow()
     tkwm.title(.rcmdr, paste0(gettextRcmdr("R Commander"), " (BioStat mode)"))
     tcl("wm", "iconphoto", .rcmdr, "-default", "::image::bs_r_logo_g")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     command_dataset_refresh()
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # This command unhides buttons bar
+    tkgrid.configure(buttons_bar, pady = c(4, 3))
+
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -520,7 +522,7 @@ bs_mode_menu__variables <- function() {
     menu_j  <- tk2menu(menu_p, tearoff = FALSE)
 
     tkadd(menu_p, "cascade",
-          label    = "Compute, recode",
+          label    = "Compute, recode, convert",
           # compound = "left",
           # image    = "::image::bs_workspace",
           menu     = menu_j)
@@ -759,6 +761,7 @@ bs_mode_menu__plots <- function() {
 
 
     if (packageAvailable('officer') && packageAvailable('rvg')) {
+        tkadd(menu_p, "separator")
 
         tkadd(menu_p, "command",
               label    = "Save editable plot to PowerPoint",
