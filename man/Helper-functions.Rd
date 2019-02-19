@@ -310,7 +310,7 @@ tk_see(obj, ind, ...)
 
 get_active_ds()
 
-list_objects_of_class(class = NULL, all.names = FALSE,
+list_objects_of_class(class = NULL, all.names = TRUE,
   envir = parent.frame())
 
 var_pos_n(variables, type = c("all", "numeric", "num", "factor",
