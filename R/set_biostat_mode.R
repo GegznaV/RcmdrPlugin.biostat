@@ -26,13 +26,11 @@ set_biostat_mode <- function() {
                 compound = "left",
                 command = window_dataset_select)
 
-
     tkconfigure(getRcmdr("modelLabel"),
                 # foreground = "darkred",
                 image = "::image::bs_model",
                 compound = "left",
                 command = window_model_select)
-
 
     # Add tooltips
     tk2tip(getRcmdr("dataSetLabel"), "Active dataset (select or change)")
@@ -40,74 +38,17 @@ set_biostat_mode <- function() {
 
     # Change layout of icons and buttons --------------------------------------
 
-    buttons_frame <- tk2frame(buttons_bar)
-
-    # New buttons
-    button_import <- tk2button(
-        buttons_frame,
-        tip = "Import dataset",
-        image = "::image::bs_import",
-        command = bs_mode_menu__import)
-
-    button_view <- tk2button(
-        buttons_frame,
-        tip = "View and print data",
-        image = "::image::viewIcon",
-        command = bs_mode_menu__print)
-
-    button_summary <- tk2button(
-        buttons_frame,
-        tip = "Summarize data",
-        image = "::image::bs_summary",
-        command = bs_mode_menu__summary)
-
-    button_rows <- tk2button(
-        buttons_frame,
-        tip = "Rows (observations)",
-        image = "::image::bs_rows",
-        command = bs_mode_menu__rows)
-
-    button_variables <- tk2button(
-        buttons_frame,
-        tip = "Variables (columns)",
-        image = "::image::bs_columns",
-        command = bs_mode_menu__variables)
-
-    button_analysis <- tk2button(
-        buttons_frame,
-        tip = "Analyze data",
-        image = "::image::bs_analyze",
-        command = bs_mode_menu__analyze)
-
-    button_plots <- tk2button(
-        buttons_frame,
-        tip = "Plots",
-        image = "::image::bs_plot",
-        command = bs_mode_menu__plots)
-
-    button_other <- tk2button(
-        buttons_frame,
-        tip     = "Session, settings and several datasets",
-        image   = "::image::bs_settings",
-        command = bs_mode_menu__session)
-
-    button_refresh <- tk2button(
-        buttons_frame,
-        tip = "Refresh",
-        image = "::image::bs_refresh",
-        command = command_dataset_refresh)
-
-    button_export <- tk2button(
-        buttons_frame,
-        tip = "Export active dataset",
-        image = "::image::bs_export",
-        command = bs_mode_menu__export)
-
-
     # Existing buttons
     sibl <- tcl_get_siblings(getRcmdr("dataSetLabel"))
-    img  <- purrr::map_chr(sibl, ~tcltk::tclvalue(tkcget(.x, "-image")))
-    txt  <- purrr::map_chr(sibl, ~tcltk::tclvalue(tkcget(.x, "-text")))
+
+    get_tcltk_property <- function(.x, prop) {
+        f <- function(.x, prop) tcltk::tclvalue(tcltk::tkcget(.x, prop))
+        rez <- purrr::safely(f)(.x, prop)$result
+        if (is.null(rez)) return("") else return(rez)
+    }
+
+    img <- purrr::map_chr(sibl, ~get_tcltk_property(., "-image"))
+    txt <- purrr::map_chr(sibl, ~get_tcltk_property(., "-text"))
 
     logo         <- sibl[img == "::image::RlogoIcon"]
     button_edit0 <- sibl[img == "::image::editIcon"]
@@ -139,8 +80,71 @@ set_biostat_mode <- function() {
         tkconfigure(logo, image = "::image::bs_r_logo_g")
     }
 
+
+    # New buttons ------------------------------------------------------------
+    button_import <- tk2button(
+        buttons_bar,
+        tip = "Import dataset",
+        image = "::image::bs_import",
+        command = bs_mode_menu__import)
+
+    button_export <- tk2button(
+        buttons_bar,
+        tip = "Export active dataset",
+        image = "::image::bs_export",
+        command = bs_mode_menu__export)
+
+    button_view <- tk2button(
+        buttons_bar,
+        tip = "View and print active dataset",
+        image = "::image::viewIcon",
+        command = bs_mode_menu__print)
+
+    button_summary <- tk2button(
+        buttons_bar,
+        tip = "Summarize active dataset",
+        image = "::image::bs_summary",
+        command = bs_mode_menu__summary)
+
+    button_rows <- tk2button(
+        buttons_bar,
+        tip = "Rows (observations) of active dataset",
+        image = "::image::bs_rows",
+        command = bs_mode_menu__rows)
+
+    button_variables <- tk2button(
+        buttons_bar,
+        tip = "Variables (columns) of active dataset",
+        image = "::image::bs_columns",
+        command = bs_mode_menu__variables)
+
+    button_analysis <- tk2button(
+        buttons_bar,
+        tip = "Analyze active dataset",
+        image = "::image::bs_analyze",
+        command = bs_mode_menu__analyze)
+
+    button_plots <- tk2button(
+        buttons_bar,
+        tip = "Plots",
+        image = "::image::bs_plot",
+        command = bs_mode_menu__plots)
+
+    button_other <- tk2button(
+        buttons_bar,
+        tip     = "Session, settings and several datasets",
+        image   = "::image::bs_settings",
+        command = bs_mode_menu__session)
+
+    button_refresh <- tk2button(
+        buttons_bar,
+        tip = "Refresh",
+        image = "::image::bs_refresh",
+        command = command_dataset_refresh)
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     putRcmdr("button_import",    button_import)
+    putRcmdr("button_export",    button_export)
     putRcmdr("button_view",      button_view)
     putRcmdr("button_summary",   button_summary)
     putRcmdr("button_rows",      button_rows)
@@ -149,29 +153,14 @@ set_biostat_mode <- function() {
     putRcmdr("button_plots",     button_plots)
     putRcmdr("button_other",     button_other)
     putRcmdr("button_refresh",   button_refresh)
-    putRcmdr("button_export",    button_export)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    # New layout
-    # tkgrid(logo,
-    #        lab_data, button_data,
-    #        button_import,
-    #        button_view,
-    #        button_summary,
-    #        button_rows,
-    #        button_variables,
-    #        button_analysis,
-    #        button_plots,
-    #        button_other,
-    #        button_refresh,
-    #        button_export,
-    #        lab_model, button_model)
 
-    tkgrid(logo, buttons_frame, sticky = "w")
 
-    tkgrid(lab_data, button_data, lab_model, button_model)
-
-    tkgrid(button_import,
+    # New layout -------------------------------------------------------------
+    tkgrid(logo,
+           button_import,
+           button_export,
            button_view,
            button_summary,
            button_rows,
@@ -180,16 +169,15 @@ set_biostat_mode <- function() {
            button_plots,
            button_other,
            button_refresh,
-           button_export)
+           lab_data, button_data,
+           lab_model, button_model)
 
-tkgrid.configure(buttons_frame, columnspan = 3)
+    tkgrid.configure(logo, sticky = "w", padx = c(6, 5))
+    tkgrid.configure(button_data,  padx = c(2, 5))
+    tkgrid.configure(lab_model,    padx = c(2, 2))
+    tkgrid.configure(button_model, padx = c(0, 10))
 
-
-    tkgrid.configure(button_data,  padx = c(2, 10))
-    tkgrid.configure(lab_model,    padx = c(10, 2))
-    tkgrid.configure(button_model, padx = c(0,  2))
-
-     # Change title and main icon
+    # Change title and main icon
     .rcmdr <- CommanderWindow()
     tkwm.title(.rcmdr, paste0(gettextRcmdr("R Commander"), " (BioStat mode)"))
     tcl("wm", "iconphoto", .rcmdr, "-default", "::image::bs_r_logo_g")
@@ -932,8 +920,8 @@ bs_mode_menu__session <- function() {
 
     tkadd(menu_p, "cascade",
           label    = "Session",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
+          compound = "left",
+          image    = "::image::bs_r",
           menu     = menu_s)
 
     tkadd(menu_s, "command",
@@ -962,19 +950,19 @@ bs_mode_menu__session <- function() {
 
 
     tkadd(menu_s, "command",
-          label    = "Restart Commande",
+          label    = "Restart R Commander",
           # compound = "left",
           # image    = "::image::bs_open_wd",
           command  = command_rcmdr_restart)
 
     tkadd(menu_s, "command",
-          label    = "Close Commander",
+          label    = "Close R Commander",
           # compound = "left",
           # image    = "::image::bs_open_wd",
           command  = Rcmdr::closeCommander)
 
     tkadd(menu_s, "command",
-          label    = "Close Commander & R",
+          label    = "Close R Commander & R",
           # compound = "left",
           # image    = "::image::bs_open_wd",
           command  = command_rcmdr_close_r)
