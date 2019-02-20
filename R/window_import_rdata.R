@@ -30,7 +30,7 @@ window_import_rdata <- function() {
         o_names  <- str_c(overwrite_names, collapse = ", ")
         warn_msg <- str_c(
             "In your R workspace, the following objects \n",
-            "already exist and will be overwritten: \n",
+            "already exist and will be overwritten: \n\n",
             o_names,
             "\n\nDo you want to proceed?"
            )
