@@ -147,8 +147,9 @@ active_dataset_0 <- function(name) {
         putRcmdr("ncol", NULL)
         RcmdrTclSet("modelName", gettextRcmdr("<No active model>"))
         tkconfigure(getRcmdr("dataSetLabel"), foreground = "red")
-        tkconfigure(getRcmdr("modelLabel"), foreground = "red")
-        activateMenus()
+        tkconfigure(getRcmdr("modelLabel"),   foreground = "red")
+        # activateMenus()
+        activate_menus()
         if (getRcmdr("suppress.menus") && RExcelSupported()) return(NULL)
       }
     return(temp)
@@ -194,7 +195,8 @@ active_dataset_0 <- function(name) {
       RcmdrTclSet("modelName", gettextRcmdr("<No active model>"))
       tkconfigure(getRcmdr("dataSetLabel"), foreground = "red")
       tkconfigure(getRcmdr("modelLabel"), foreground = "red")
-      activateMenus()
+      # activateMenus()
+      activate_menus()
       if (getRcmdr("suppress.menus") && RExcelSupported()) return(NULL)
     }
   }
