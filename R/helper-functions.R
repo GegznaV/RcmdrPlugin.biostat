@@ -1412,6 +1412,26 @@ command_rcmdr_restart <- function() {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
+command_rcmdr_close <- function() {
+    Rcmdr::closeCommander()
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+command_rcmdr_close_r <- function() {
+    response <- Rcmdr::CloseCommander()
+    if (response == "cancel") {
+        return()
+    } else {
+        cat("\n")
+        quit(save = "no")
+    }
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 is_console_output <- function() {
     isTRUE(options()$Rcmdr$console.output)
 }
