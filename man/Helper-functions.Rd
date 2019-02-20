@@ -113,6 +113,8 @@
 \alias{list_objects_ggplot}
 \alias{objects_in_env_P}
 \alias{command_rcmdr_restart}
+\alias{command_rcmdr_close}
+\alias{command_rcmdr_close_r}
 \alias{is_console_output}
 \alias{command_rcmdr_use_1_window}
 \alias{command_rcmdr_use_3_windows}
@@ -423,6 +425,10 @@ list_objects_ggplot(envir = .GlobalEnv)
 objects_in_env_P(n = 1, envir = .GlobalEnv, ...)
 
 command_rcmdr_restart()
+
+command_rcmdr_close()
+
+command_rcmdr_close_r()
 
 is_console_output()
 
