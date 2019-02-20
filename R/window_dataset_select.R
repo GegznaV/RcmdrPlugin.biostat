@@ -286,5 +286,4 @@ window_dataset_select <- function() {
     if (!isTRUE(active_dataset_0() %in% ls(all.names = TRUE, envir = .GlobalEnv))) {
         active_dataset_0(NULL)
     }
-
 }
