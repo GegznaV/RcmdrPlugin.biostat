@@ -265,9 +265,10 @@ window_dataset_select <- function() {
 
     # tkgrid(bs_label_b(top, text = "Information about selected dataset"),
     # pady = c(5, 0))
-    tkgrid(i1, i2, i3, i4, i5, i6)
-    tkgrid(info_buttons_frame, sticky = "e")
+    tkgrid(i1, i2, i3, i4, i5, i6, sticky = "we")
+    tkgrid(info_buttons_frame, sticky = "we")
 
+    tkgrid.columnconfigure(info_buttons_frame, 0:6, weight = 1)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
