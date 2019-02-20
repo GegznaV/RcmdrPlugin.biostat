@@ -49,11 +49,17 @@ set_biostat_mode <- function() {
         image = "::image::bs_import",
         command = bs_mode_menu__import)
 
-    button_export <- tk2button(
+    button_view <- tk2button(
         buttons_frame,
-        tip = "Export active dataset",
-        image = "::image::bs_export",
-        command = bs_mode_menu__export)
+        tip = "View and print data",
+        image = "::image::viewIcon",
+        command = bs_mode_menu__print)
+
+    button_summary <- tk2button(
+        buttons_frame,
+        tip = "Summarize data",
+        image = "::image::bs_summary",
+        command = bs_mode_menu__summary)
 
     button_rows <- tk2button(
         buttons_frame,
@@ -66,12 +72,6 @@ set_biostat_mode <- function() {
         tip = "Variables (columns)",
         image = "::image::bs_columns",
         command = bs_mode_menu__variables)
-
-    button_summary <- tk2button(
-        buttons_frame,
-        tip = "Summarize data",
-        image = "::image::bs_summary",
-        command = bs_mode_menu__summary)
 
     button_analysis <- tk2button(
         buttons_frame,
@@ -97,6 +97,12 @@ set_biostat_mode <- function() {
         image = "::image::bs_refresh",
         command = command_dataset_refresh)
 
+    button_export <- tk2button(
+        buttons_frame,
+        tip = "Export active dataset",
+        image = "::image::bs_export",
+        command = bs_mode_menu__export)
+
 
     # Existing buttons
     sibl <- tcl_get_siblings(getRcmdr("dataSetLabel"))
@@ -104,45 +110,46 @@ set_biostat_mode <- function() {
     txt  <- purrr::map_chr(sibl, ~tcltk::tclvalue(tkcget(.x, "-text")))
 
     logo         <- sibl[img == "::image::RlogoIcon"]
-    button_edit  <- sibl[img == "::image::editIcon"]
-    button_view  <- sibl[img == "::image::viewIcon"]
-    button_data  <- sibl[img %in% c("::image::dataIcon",  "::image::bs_dataset")]
+    button_edit0 <- sibl[img == "::image::editIcon"]
+    button_view0 <- sibl[img == "::image::viewIcon"]
+    button_data  <- sibl[img %in% c("::image::dataIcon", "::image::bs_dataset")]
     button_model <- sibl[img %in% c("::image::modelIcon", "::image::bs_model")]
     lab_data     <- sibl[txt == gettextRcmdr("   Data set:")]
     lab_model    <- sibl[txt == gettextRcmdr("Model:")]
 
-
-    # Remove old properties
+    # Remove old buttons
     tkgrid.forget(logo, lab_data, button_data, lab_model, button_model)
 
-    if (length(button_view) > 0) {
-        tkgrid.forget(button_view)
-        tkconfigure(button_view, compound = "none")
-        tkconfigure(button_view, command = bs_mode_menu__print)
-        # Add tooltip
-        .Tcl(str_glue('tooltip::tooltip {button_view} "View and print data"'))
+    if (length(button_view0) > 0) {
+        tkgrid.forget(button_view0)
+        tkconfigure(button_view0, compound = "none")
+        # tkconfigure(button_view0, command = bs_mode_menu__print)
+        # # Add tooltip
+        # .Tcl(str_glue('tooltip::tooltip {button_view0} "View and print data"'))
+        tkgrid.forget(button_view0)
     }
 
-    if (length(button_edit) > 0) {
-        tkconfigure(button_edit, compound = "none")
-        tkgrid.forget(button_edit)
+    if (length(button_edit0) > 0) {
+        tkconfigure(button_edit0, compound = "none")
+        tkgrid.forget(button_edit0)
     }
 
+    # Change logo
     if (length(logo) > 0) {
         tkconfigure(logo, image = "::image::bs_r_logo_g")
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     putRcmdr("button_import",    button_import)
-    putRcmdr("button_export",    button_export)
-    putRcmdr("button_rows",      button_rows)
-    putRcmdr("button_variables", button_variables)
     putRcmdr("button_view",      button_view)
     putRcmdr("button_summary",   button_summary)
+    putRcmdr("button_rows",      button_rows)
+    putRcmdr("button_variables", button_variables)
     putRcmdr("button_analysis",  button_analysis)
     putRcmdr("button_plots",     button_plots)
     putRcmdr("button_other",     button_other)
     putRcmdr("button_refresh",   button_refresh)
+    putRcmdr("button_export",    button_export)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # New layout
