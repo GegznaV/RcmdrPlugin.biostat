@@ -80,9 +80,7 @@ window_data_obj_delete <- function() {
         } else {
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             # Deselect active dataset if it should be deleted.
-            if (isTRUE(any(active_ds %in% obj_names))) {
-                active_dataset_0(NULL)
-            }
+            if (isTRUE(any(active_ds %in% obj_names))) {active_dataset_0(NULL)}
 
             # Construct the command ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             command <-
