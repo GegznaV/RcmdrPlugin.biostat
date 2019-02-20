@@ -138,7 +138,7 @@ set_biostat_mode <- function() {
 
     button_refresh <- tk2button(
         buttons_bar,
-        tip = "Refresh",
+        tip = "Refresh data and R Commander",
         image = "::image::bs_refresh",
         command = command_dataset_refresh)
 
@@ -251,7 +251,7 @@ bs_mode_menu__import <- function() {
           command  = window_dataset_new_rcmdr)
 
     tkadd(menu_f, "command",
-          label    = "from Text file (.txt, .csv, .dat)...",
+          label    = "from Text file (.txt, .csv, .dat, etc.)...",
           compound = "left",
           image    = "::image::bs_text",
           command  = window_import_from_text)
@@ -410,47 +410,6 @@ bs_mode_menu__rows <- function() {
           command  = window_rows_arrange)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    menu_rm  <- tk2menu(menu_p, tearoff = FALSE)
-
-    tkadd(menu_p, "cascade",
-          label    = "Select or remove rows",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          menu     = menu_rm)
-
-    tkadd(menu_rm, "command",
-          label    = "Filter: select rows that match conditions...",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = window_rows_filter0)
-
-    tkadd(menu_rm, "command",
-          label    = "Slice: select/remove rows by row index...",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = window_rows_slice)
-
-    tkadd(menu_rm, "separator")
-
-    tkadd(menu_rm, "command",
-          label    = "Remove duplicated rows...",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = window_rows_rm_duplicated)
-
-    tkadd(menu_rm, "command",
-          label    = "Remove empty rows",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = command_rows_rm_empty_rows)
-
-    tkadd(menu_rm, "command",
-          label    = "Remove rows with missing values...",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = window_rows_rm_with_na)
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     menu_n  <- tk2menu(menu_p, tearoff = FALSE)
 
     tkadd(menu_p, "cascade",
@@ -490,7 +449,46 @@ bs_mode_menu__rows <- function() {
           # image    = "::image::bs_locale",
           command  = window_rows_rowid_to_col)
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    menu_rm  <- tk2menu(menu_p, tearoff = FALSE)
 
+    tkadd(menu_p, "cascade",
+          label    = "Select or remove rows",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          menu     = menu_rm)
+
+    tkadd(menu_rm, "command",
+          label    = "Filter: select rows that match conditions...",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = window_rows_filter0)
+
+    tkadd(menu_rm, "command",
+          label    = "Slice: select/remove rows by row index...",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = window_rows_slice)
+
+    tkadd(menu_rm, "separator")
+
+    tkadd(menu_rm, "command",
+          label    = "Remove duplicated rows...",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = window_rows_rm_duplicated)
+
+    tkadd(menu_rm, "command",
+          label    = "Remove empty rows",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = command_rows_rm_empty_rows)
+
+    tkadd(menu_rm, "command",
+          label    = "Remove rows with missing values...",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = window_rows_rm_with_na)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkpopup(menu_p,
@@ -1122,7 +1120,7 @@ bs_mode_menu__export <- function() {
           menu     = menu_c)
 
     tkadd(menu_c, "command",
-          label    = "as Tab delimited values",
+          label    = "as Tab delimited values (tsv)",
           compound = "left",
           image    = "::image::bs_copy",
           command  = function() {
