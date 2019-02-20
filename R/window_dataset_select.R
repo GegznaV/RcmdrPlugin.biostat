@@ -189,6 +189,7 @@ window_dataset_select <- function() {
                 tkwinfo("pointery", top))
     }
 
+
     # Initialize -------------- ----------------------------------------------
     initializeDialog(title = gettext_bs("Select & Explore Dataset"))
     tk_title(top, "Select & Explore Dataset")
@@ -254,12 +255,18 @@ window_dataset_select <- function() {
         width = 0,
         command = menu_summary)
 
+
+    tip_i6 <-
+        if (.Platform$GUI == "RStudio") {
+            "View selected dataset \n(in RStudio)"
+        } else {
+            "View selected dataset \n((in a separate window))"
+        }
+
     i6 <- tk2button(
         info_buttons_frame,
         text = "Preview",
-        tip  = str_c("View selected dataset",
-                     "in a separate window.",
-                     sep = "\n"),
+        tip  = tip_i6,
         width = 0,
         command = cmd_ds_view)
 
