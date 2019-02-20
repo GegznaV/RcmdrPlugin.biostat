@@ -443,7 +443,7 @@ item	bs19_session_menu	command	"Output to Rcmdr (3 windows mode)"	command_rcmdr_
 item	bs19_session_menu	separator	""	""	""	""
 item	bs19_session_menu	command	"Restart Commander"	command_rcmdr_restart	""	""
 item	bs19_session_menu	command	"Close Commander"	CloseCommander	""	""
-item	bs19_session_menu	command	"Close R"	closeCommanderAndR	""	""
+item	bs19_session_menu	command	"Close Commander & R"	command_rcmdr_close_r	""	""
 
 
 
