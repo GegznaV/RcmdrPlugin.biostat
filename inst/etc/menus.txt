@@ -50,8 +50,8 @@ item	bs19_active_ds_menu	command	"Refresh"	command_dataset_refresh	""	""
 menu	bs19_rows_menu	bs19_data_menu	""	""	""	""
 item	bs19_data_menu	cascade	"Rows (observations)"	bs19_rows_menu	""	""
 
-item	bs19_rows_menu	command	"Check row names"	command_rows_has_rownames	"activeDataSetP()"	"packageAvailable('tibble')"
-item	bs19_rows_menu	command	"Print row names"	command_rownames	"activeDataSetP()"	""
+item	bs19_rows_menu	command	"Check if table has row names"	command_rows_has_rownames	"activeDataSetP()"	"packageAvailable('tibble')"
+item	bs19_rows_menu	command	"Print row names (or row indices)"	command_rownames	"activeDataSetP()"	""
 
 
 item	bs19_rows_menu	separator	""	""	""	""
@@ -67,8 +67,8 @@ item	bs19_rows_menu	command	"Remove rows with missing values..."	window_rows_rm_
 
 item	bs19_rows_menu	separator	""	""	""	""
 item	bs19_rows_menu	command	"Add column with row numbers"	window_rows_rowid_to_col	"activeDataSetP()"	"packageAvailable('tidyverse')"
-item	bs19_rows_menu	command	"Move column with unique values to row names..."	window_rows_col_to_rownames	"variables_with_unique_values_P()"	"packageAvailable('tibble')"
-item	bs19_rows_menu	command	"Move row names to column values..."	window_rows_rownames_to_col	"activeDataSetP()"	"packageAvailable('tibble')"
+item	bs19_rows_menu	command	"Move column (with unique values) to row names..."	window_rows_col_to_rownames	"variables_with_unique_values_P()"	"packageAvailable('tibble')"
+item	bs19_rows_menu	command	"Move row names to column..."	window_rows_rownames_to_col	"activeDataSetP()"	"packageAvailable('tibble')"
 
 
 # --- + Columns (Manage variables)  ----------------------------------------
