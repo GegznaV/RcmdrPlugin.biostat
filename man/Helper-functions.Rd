@@ -120,6 +120,9 @@
 \alias{command_rcmdr_use_3_windows}
 \alias{command_rcmdr_set_output_mode}
 \alias{is_biostat_mode}
+\alias{use_relative_path}
+\alias{use_absolute_path}
+\alias{get_use_relative_path}
 \alias{set_biostat_mode}
 \alias{get_values_combobox}
 \alias{set_values_combobox}
@@ -392,9 +395,9 @@ show_error_messages(message, popup_msg = message, title = "Error",
 
 is_not_valid_name(name)
 
-is_empty_name(name)
+is_empty_name(name, which_name = "name")
 
-is_not_empty_name(name)
+is_not_empty_name(name, which_name = "name")
 
 variable_is_not_selected(obj, obj_type = "variable")
 
@@ -439,6 +442,12 @@ command_rcmdr_use_3_windows()
 command_rcmdr_set_output_mode(console.output = NULL)
 
 is_biostat_mode()
+
+use_relative_path()
+
+use_absolute_path()
+
+get_use_relative_path()
 
 set_biostat_mode()
 
