@@ -531,7 +531,13 @@ bs_mode_menu__summary  <- function() {
 
 
     tkadd(menu_p, "command",
-          label    = "Size and variable type summary",
+          label    = "Number of rows and columns",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = command_dataset_dim)
+
+    tkadd(menu_p, "command",
+          label    = "Variable type summary and size",
           # compound = "left",
           # image    = "::image::bs_locale",
           command  = summary_var_types)
@@ -542,11 +548,13 @@ bs_mode_menu__summary  <- function() {
           # image    = "::image::bs_locale",
           command  = command_glimpse)
 
+    tkadd(menu_p, "separator")
+
     tkadd(menu_p, "command",
           label    = "Summarize variables...",
           # compound = "left",
           # image    = "::image::bs_locale",
-          command  = function_not_implemented)
+          command  = window_summary_variables)
 
     tkadd(menu_p, "command",
           label    = "Frequency & multi-way tables...",
