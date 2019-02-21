@@ -51,7 +51,7 @@ window_dataset_select <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_var_type_summary <- function() {
         .ds_1 <- get_selection(var_ds_box)
-        summary_var_types(.ds_1)
+        summary_var_types_0(.ds_1)
     }
 
     cmd_var_names_print <- function() {
