@@ -66,6 +66,9 @@ summary_head_tail <- function() {
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
 summary_var_types <- function() {
     summary_var_types_0(.ds = active_dataset_0())
 }
@@ -73,7 +76,7 @@ summary_var_types <- function() {
 summary_var_types_0 <- function(.ds) {
     Library("skimr")
     doItAndPrint(str_glue(
-        "## The size & variable type summary of dataset '{.ds}'\n",
+        "## Variable type summary & size of dataset '{.ds}'\n",
         "summary(skimr::skim({.ds}))"
     ))
 }
