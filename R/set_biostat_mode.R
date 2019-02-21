@@ -529,6 +529,13 @@ bs_mode_menu__summary  <- function() {
     top <- CommanderWindow()
     menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
+
+    tkadd(menu_p, "command",
+          label    = "Size and variable type summary",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = summary_var_types)
+
     tkadd(menu_p, "command",
           label    = "Glimpse: structure of dataset",
           # compound = "left",
@@ -546,7 +553,6 @@ bs_mode_menu__summary  <- function() {
           # compound = "left",
           # image    = "::image::bs_locale",
           command  = window_summary_count)
-
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkpopup(menu_p,
@@ -1183,6 +1189,33 @@ bs_mode_menu__session <- function() {
           compound = "left",
           image    = "::image::bs_rename",
           command  = window_data_obj_rename)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    menu_ab <- tk2menu(menu_p, tearoff = FALSE)
+
+    tkadd(menu_p, "cascade",
+          label    = "Workspace",
+          compound = "left",
+          image    = "::image::bs_about",
+          menu     = menu_ab)
+
+    tkadd(menu_ab, "command",
+          label    = "About BioStat'19...",
+          compound = "left",
+          image    = "::image::bs_about",
+          command  = window_about_package)
+
+    tkadd(menu_ab, "command",
+          label    = "Go to Homepage",
+          compound = "left",
+          image    = "::image::bs_home",
+          command  = window_online_homepage)
+
+    tkadd(menu_ab, "command",
+          label    = "Bug report, feedback",
+          compound = "left",
+          image    = "::image::bs_bug",
+          command  = window_online_bug_report)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkpopup(menu_p,
