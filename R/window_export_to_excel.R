@@ -1,5 +1,9 @@
+# TODO:
+#
+# - add tcl/tk check if sheetname is less than 30 characters length.
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# .============================ =================================================
+# .============================ ==============================================
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
@@ -12,8 +16,8 @@ window_export_to_excel <- function() {
 
         f_path <- read_path_to_file()
 
-        initialdir  <- fs::path_dir(f_path)
-        if (initialdir == "" || !fs::dir_exists(initialdir)) {
+        initialdir <- fs::path_dir(f_path)
+        if (initialdir %in% c("", ".") || !fs::dir_exists(initialdir)) {
             initialdir <- getwd()
         }
 
@@ -21,37 +25,45 @@ window_export_to_excel <- function() {
         if (initialfile == "") {
             initialfile <- .ds
         }
-        initialfile <- fs::path_ext_set(initialfile, "xlsx")
+
+        # Remove extension to make easier corrections of file names in
+        # pop-up window.
+        initialfile <- fs::path_ext_remove(initialfile)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-        filename <- tclvalue(tkgetSaveFile(
+        file_name <- tclvalue(tkgetSaveFile(
             parent = top,
             # typevariable = typevariable, # to capture selected type
             title = "Save Data to Excel File",
             confirmoverwrite = FALSE,
             initialfile = initialfile,
-            initialdir = initialdir,
-            filetypes = "{ {Excel file} {.xlsx} } { {All Files} * }"))
+            initialdir  = initialdir,
+            filetypes   = "{ {Excel file} {.xlsx} } { {All Files} * }"))
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (filename == "") {
+        if (file_name == "") {
             tkfocus(top)
             return()
         }
+
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        set_values(f1_ent_file, make_relative_path(filename))
-        # set_values(f1_ent_file, (filename))
+        # Return extension
+        if (!str_detect(file_name, "\\.xlsx$")) {
+            file_name <- str_c(file_name, ".xlsx")
+        }
 
-        uptate_file_ent_pos()
-
-        update_sheet_name()
-        # if (fs::is_file(filename)) {
-        #     update_sheet_name()
-        # }
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (get_use_relative_path()) { # make relative path
+            file_name <- make_relative_path(file_name)
+        }
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        set_values(f1_ent_file, file_name)
+        update_file_ent_pos()
+        set_unique_sheet_name(name = get_values(f1_ent_sheet))
     }
 
-    uptate_file_ent_pos <- function() {
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    update_file_ent_pos <- function() {
         tkxview.moveto(f1_ent_file$obj_text, "1") # 0 - beginning, 1 - end.
         tkicursor(f1_ent_file$obj_text, "end")
     }
@@ -75,17 +87,19 @@ window_export_to_excel <- function() {
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Create (valid) sheet name
-    create_sheet_name <- function(name) {
+    set_unique_sheet_name <- function(name) {
         sheets <- get_sheets()
-        sheet <- make.unique(str_c(str_trunc(name, 27), sheets), sep = "_")
+        sheet  <- make.unique(c(str_trunc(name, 27), sheets), sep = "_")[1]
 
         set_values(f1_ent_sheet, sheet)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     # Make unique sheet name
-    update_sheet_name <- function() {
-        create_sheet_name(name = get_values(f1_ent_sheet))
+    reset_sheet_name <- function() {
+        set_unique_sheet_name(name = .ds)
     }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # ~ onOK -------------------------------- --------------------------------
     onOK <- function() {
@@ -97,23 +111,24 @@ window_export_to_excel <- function() {
         file_name  <- read_path_to_file()
         sheet_name <- get_values(f1_ent_sheet)
 
-        # # Check if file exists or is URL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # if (!check_file_name()) {
-        #     return()
-        # }
-        #
-        # # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # if (is_empty_name(new_name)) {
-        #     return()
-        # }
-        #
-        # if (is_not_valid_name(new_name)) {
-        #     return()
-        # }
-        #
-        # if (forbid_to_replace_object(new_name)) {
-        #     return()
-        # }
+        if (is_empty_name(sheet_name, which_name = "sheet name")) {
+            return()
+        }
+
+        if (str_length(sheet_name) > 30) {
+            show_error_messages(
+                "Excel sheet names must not exceed 30 characters.",
+                title = "Too Long Sheet Name")
+            return()
+        }
+
+        if (is_empty_name(file_name, which_name = "file name")) {
+            return()
+        }
+
+        if (forbid_to_replace_file(file_name)) {
+            return()
+        }
 
         #  Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -125,13 +140,14 @@ window_export_to_excel <- function() {
 
         command <-
             str_glue("## Save data to Excel file\n",
-                     "openxlsx::write.xlsx({.ds}, \n",
+                     'openxlsx::write.xlsx( \n',
+                     '     {.ds}, \n',
                      '     file = "{file_name}", \n',
                      '     sheetName = "{sheet_name}", \n',
-                     "     rowNames  = {has_rownames}, \n",
-                     "     colNames  = TRUE, \n",
+                     '     rowNames  = {has_rownames}, \n',
+                     '     colNames  = TRUE, \n',
                      '     colWidths = "auto",\n',
-                     "     overwrite = {file_overwrite})"
+                     '     overwrite = {file_overwrite})'
             )
 
         # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -181,9 +197,8 @@ window_export_to_excel <- function() {
         f1,
         image = "::image::bs_paste",
         command = function() {
-            set_values(f1_ent_file,
-                       str_c(read_path_to_file(), read_clipboard()))
-            uptate_file_ent_pos()
+            set_values(f1_ent_file, str_c(read_path_to_file(), read_clipboard()))
+            update_file_ent_pos()
         },
         tip = "Paste file name"
     )
@@ -207,8 +222,8 @@ window_export_to_excel <- function() {
     f1_but_refresh <- tk2button(
         f1,
         image = "::image::bs_refresh",
-        command = update_sheet_name,
-        tip = str_c("Choose automatic sheet name")
+        command = reset_sheet_name,
+        tip = str_c("Reset sheet name")
     )
 
     f1_lab_sheet <- bs_label_b(f1, text = "Sheet: ")
@@ -227,7 +242,9 @@ window_export_to_excel <- function() {
            pady = c(0,  10), sticky = "we")
 
     tkgrid.configure(f1_lab_data_1, f1_lab_file, f1_lab_sheet, sticky = "e")
-    tkgrid.configure(f1_ent_file$frame, f1_ent_sheet$frame, sticky = "we", padx = 2)
+    tkgrid.configure(f1_ent_file$frame, f1_ent_sheet$frame, sticky = "we",
+                     padx = 2)
+
     tkgrid.configure(
         f1_ent_file$frame_text, f1_ent_sheet$frame_text,
         f1_ent_file$obj_text,   f1_ent_sheet$obj_text,
@@ -245,8 +262,9 @@ window_export_to_excel <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Configuration ----------------------------------------------------------
-    set_values(f1_ent_file, str_c(.ds, ".xlsx"))
-    create_sheet_name(name = .ds)
+    # set_values(f1_ent_file, str_c(.ds, ".xlsx"))
+    get_path_to_file()
+    reset_sheet_name()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     invisible()
 }
