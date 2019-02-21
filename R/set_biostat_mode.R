@@ -537,7 +537,7 @@ bs_mode_menu__summary  <- function() {
           command  = command_dataset_dim)
 
     tkadd(menu_p, "command",
-          label    = "Variable type summary and size",
+          label    = "Variable type summary", #  & dataset size
           # compound = "left",
           # image    = "::image::bs_locale",
           command  = summary_var_types)
@@ -1199,10 +1199,12 @@ bs_mode_menu__session <- function() {
           command  = window_data_obj_rename)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkadd(menu_p, "separator")
+
     menu_ab <- tk2menu(menu_p, tearoff = FALSE)
 
     tkadd(menu_p, "cascade",
-          label    = "Workspace",
+          label    = "About",
           compound = "left",
           image    = "::image::bs_about",
           menu     = menu_ab)
