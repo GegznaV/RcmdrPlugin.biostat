@@ -678,7 +678,6 @@ make_relative_path <- function(str) {
 }
 
 
-
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
@@ -707,15 +706,8 @@ path_truncate <- function(path, max_length = 30) {
     show_trunc
 }
 
-#' Extract file parts.
-#' @rdname extract-fileparts
-#' @keywords internal
-#' @export
-extract_path <- function(str) {
-    sub("(.*\\/)([^.]+)(\\.[[:alnum:]]+$)", "\\1", str)
-    # sub("(.*)[\\/]([^.]+)(\\.[[:alnum:]]+$)", "\\1", str)
-}
 
+#' Extract file parts.
 #' @name extract-fileparts
 #' @param str (character) Path to file (with filename and extension).
 #'
@@ -727,20 +719,17 @@ extract_filename <- function(str) {
 }
 
 
-#' @rdname extract-fileparts
-#' @keywords internal
-#' @export
-extract_extension <- function(str) {
-    sub("(.*\\/)([^.]+)(\\.[[:alnum:]]+$)", "\\3", str)
+fs_path_ext_remove <- function(path) {
+    fs::path(fs::path_dir(path), fs::path_ext_remove(fs::path_file(path)))
 }
 
-
-#' @rdname extract-fileparts
-#' @keywords internal
-#' @export
-path_ext_set_2 <- function(path, ext) {
+fs_path_ext_set <- function(path, ext) {
     fs::path(fs::path_dir(path), fs::path_ext_set(fs::path_file(path), ext = ext))
 }
+
+
+
+
 
 #' @rdname extract-fileparts
 #' @keywords internal
@@ -749,6 +738,7 @@ is_url <- function(str) {
     str_detect(str, "^(http://|https://|ftp://|ftps://)")
 }
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 msg_box_clear_input <- function(parent = CommanderWindow()) {
     tk_messageBox(
@@ -872,38 +862,77 @@ is_not_valid_name <- function(name) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-is_empty_name <- function(name) {
-    !is_not_empty_name(name)
+is_empty_name <- function(name, which_name = "name") {
+    !is_not_empty_name(name, which_name = which_name)
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-is_not_empty_name <- function(name) {
+# is_not_empty_name <- function(name) {
+#
+#     if (length(name) < 1) {
+#         message  <- "The object does not contain any strings.\n Please, enter the name."
+#         show_error_messages(message, message, title = "Missing Name")
+#
+#         return(FALSE)
+#
+#     } else if (length(name) > 1) {
+#         message  <- "The object cotains more than one string."
+#         show_error_messages(message, message, title = "Too Many Names")
+#
+#         return(FALSE)
+#
+#     } else if (!(is.character(name))) {
+#         message  <- str_c('The class of the object with \n',
+#                           'the name must be "character".')
+#         show_error_messages(message, message, title = "Invalid Class")
+#
+#         return(FALSE)
+#
+#     } else if (name == "") {
+#         message  <- str_glue('The name field must not be empty.\n',
+#                              'Please, enter a name.')
+#         show_error_messages(message, message, title = "Empty Name")
+#
+#         return(FALSE)
+#
+#     } else {
+#         # is_valid_name
+#         return(TRUE)
+#     }
+#
+# }
+
+is_not_empty_name <- function(name, which_name = "name") {
 
     if (length(name) < 1) {
-        message  <- "The object does not contain any strings.\n Please, enter the name."
-        show_error_messages(message, message, title = "Missing Name")
+        message  <-
+            str_glue("The object does not contain any strings.\n",
+                     " Please, enter a {which_name}.")
+        show_error_messages(message, message, title = str_glue("Missing {str_to_title(which_name)}"))
 
         return(FALSE)
 
     } else if (length(name) > 1) {
         message  <- "The object cotains more than one string."
-        show_error_messages(message, message, title = "Too Many Names")
+        show_error_messages(message, message,
+                            title = str_glue("Too Many {str_to_title(which_name)}s"))
 
         return(FALSE)
 
     } else if (!(is.character(name))) {
-        message  <- str_c('The class of the object with \n',
-                          'the name must be "character".')
+        message  <- str_glue('The class of the object with \n',
+                             'the {which_name} must be "character".')
         show_error_messages(message, message, title = "Invalid Class")
 
         return(FALSE)
 
     } else if (name == "") {
-        message  <- str_glue('The name field must not be empty.\n',
-                             'Please, enter a name.')
-        show_error_messages(message, message, title = "Empty Name")
+        message  <- str_glue('The {which_name} field must not be empty.\n',
+                             'Please, enter a {which_name}.')
+        show_error_messages(message, message,
+                            title = str_glue("Empty {str_to_title(which_name)}"))
 
         return(FALSE)
 
@@ -1016,9 +1045,12 @@ msg_box_confirm_to_replace <- function(name, type = "Variable",
 
     tk_messageBox(
         parent = parent,
-        caption = 'str_glue("Overwrite {Type}")',
-        message = sprintf('%s "%s" already exists.\n\nDo you agree to OVERWRITE the %s?',
-                          Type, name, tolower(type)),
+        caption = str_glue("Overwrite {Type}"),
+        message = sprintf(
+            str_c('%s "%s" already exists.\n\n',
+                  'Do you agree to DELETE the %s and \n',
+                  'REPLACE it with the new one?'),
+            Type, name, tolower(type)),
         icon = "warning",
         type = "yesno",
         default = "no")
@@ -1037,7 +1069,8 @@ msg_box_confirm_to_replace_all <- function(name, type = "Variables",
         message = str_glue(
             'The following {tolower(type)} already exist:\n\n',
             '{vars}\n\n',
-            'Do you agree to OVERWRITE ALL the {tolower(type)}?'),
+            'Do you agree to DELETE ALL the {tolower(type)} and\n',
+            'REPLACE them with the new ones?'),
         icon = "warning",
         type = "yesno",
         default = "no")
@@ -1124,10 +1157,10 @@ forbid_to_replace_file <- function(name) {
     #
     # Othervise returns TRUE
 
-    name <- fs::path_file(name)
+    name_short <- fs::path_file(name)
 
     if (fs::file_exists(name)) {
-        msg_box_confirm_to_replace(name, "File") == "no"
+        msg_box_confirm_to_replace(name_short, "File") == "no"
 
     } else {
         FALSE
