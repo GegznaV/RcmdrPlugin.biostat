@@ -19,7 +19,7 @@ menu	bs19_active_ds_menu	bs19_data_menu	""	""	""	""
 item	bs19_data_menu	cascade	"Active dataset"	bs19_active_ds_menu	"activeDataSetP()"	""
 
 item	bs19_active_ds_menu	command	"View active dataset"	command_dataset_view	"activeDataSetP()"	""
-item	bs19_active_ds_menu	command	"Change class of active dataset"	window_dataset_class	"activeDataSetP()"	""
+item	bs19_active_ds_menu	command	"Class of active dataset"	window_dataset_class	"activeDataSetP()"	""
 
 
 # --- + > Print ---------------------------------------------------
@@ -37,12 +37,13 @@ item	bs19_active_ds_menu	command	"Print as 'data.table'"	command_dataset_print_a
 item	bs19_active_ds_menu	command	"Print as 'tibble'"	command_dataset_print_as_tibble	"activeDataSetP()"	""
 # item	bs19_active_ds_menu	command	"Print (as is)"	command_dataset_print	"activeDataSetP()"	""
 
+
 # ---- + > Select active DS --------------------------------------------------
 # Refresh active dataset and menus
 
 item	bs19_active_ds_menu	separator	""	""	""	""
 item	bs19_active_ds_menu	command	"Select active dataset"	window_dataset_select	""	""
-item	bs19_active_ds_menu	command	"Refresh"	command_dataset_refresh	""	""
+item	bs19_active_ds_menu	command	"Refresh data & R Commander"	command_dataset_refresh	""	""
 
 
 # --- + Rows (Manage observations) -------------------------------------------
@@ -76,32 +77,38 @@ item	bs19_rows_menu	command	"Move row names to column..."	window_rows_rownames_t
 menu	bs19_varible_menu	bs19_data_menu	""	""	""	""
 item	bs19_data_menu	cascade	"Variables (columns)"	bs19_varible_menu	""	""
 
-menu	bs19_var_general_menu	bs19_varible_menu	""	""	""	""
-item	bs19_varible_menu	cascade	"General"	bs19_var_general_menu	""	""
 
-item	bs19_var_general_menu	command	"Print variable (column) names"	command_colnames	"activeDataSetP()"	""
-item	bs19_var_general_menu	command	"Clean variable names (into snake case)"	command_clean_names	"activeDataSetP()"	"packageAvailable('dplyr') && packageAvailable('janitor')"
-item	bs19_var_general_menu	command	"Rename variables..."	window_variable_rename	"activeDataSetP()"	"packageAvailable('dplyr')"
+menu	bs19_var_names_menu	bs19_varible_menu	""	""	""	""
+item	bs19_varible_menu	cascade	"Variable names"	bs19_var_names_menu	""	""
+
+item	bs19_var_names_menu	command	"Print variable (column) names"	command_colnames	"activeDataSetP()"	""
+item	bs19_var_names_menu	command	"Clean variable names (into snake case)"	command_clean_names	"activeDataSetP()"	"packageAvailable('dplyr') && packageAvailable('janitor')"
+item	bs19_var_names_menu	command	"Rename variables..."	window_variable_rename	"activeDataSetP()"	"packageAvailable('dplyr')"
 
 
-item	bs19_var_general_menu	separator	""	""	""	""
-item	bs19_var_general_menu	command	"Select/Remove variables..."	window_variable_select0	"activeDataSetP()"	"packageAvailable('dplyr')"
-item	bs19_var_general_menu	command	"Mutate: compute a variable..."	window_variable_mutate0	"activeDataSetP()"	"packageAvailable('dplyr')"
-item	bs19_var_general_menu	command	"Recode variable values..."	window_variable_recode0	"activeDataSetP()"	"packageAvailable('dplyr')"
+menu	bs19_var_select_menu	bs19_varible_menu	""	""	""	""
+item	bs19_varible_menu	cascade	"Select/Remove variables"	bs19_var_select_menu	""	""
 
-# Type conversion ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+item	bs19_var_select_menu	command	"Select/Remove variables..."	window_variable_select0	"activeDataSetP()"	"packageAvailable('dplyr')"
 
-item	bs19_var_general_menu	separator	""	""	""	""
 
-item	bs19_var_general_menu	command	"Convert variable types manually..."	window_variable_convert_type	"activeDataSetP()"	"packageAvailable('tidyverse')"
+menu	bs19_var_transform_menu	bs19_varible_menu	""	""	""	""
+item	bs19_varible_menu	cascade	"Compute, recode, convert"	bs19_var_transform_menu	""	""
+
+item	bs19_var_transform_menu	command	"Mutate: compute a variable..."	window_variable_mutate0	"activeDataSetP()"	"packageAvailable('dplyr')"
+item	bs19_var_transform_menu	command	"Recode variable values..."	window_variable_recode0	"activeDataSetP()"	"packageAvailable('dplyr')"
+item	bs19_var_transform_menu	command	"Convert variable types manually..."	window_variable_convert_type	"activeDataSetP()"	"packageAvailable('tidyverse')"
+
 
 # Reshape ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-item	bs19_var_general_menu	separator	""	""	""	""
-item	bs19_var_general_menu	command	"Gather columns into long format dataset..."	window_variable_gather	"activeDataSetP()"	"packageAvailable('tidyr')"
-# item	bs19_var_general_menu	command	"[???] Spread columns into wide format dataset..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"#Spread a key-value pair across multiple columns
-# item	bs19_var_general_menu	command	"[???] Separate one value into multiple columns..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
-# item	bs19_var_general_menu	command	"[???] Unite values into one column..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
+menu	bs19_var_reshape_menu	bs19_varible_menu	""	""	""	""
+item	bs19_varible_menu	cascade	"Tidy, reshape"	bs19_var_reshape_menu	""	""
+
+item	bs19_var_reshape_menu	command	"Gather columns into long format dataset..."	window_variable_gather	"activeDataSetP()"	"packageAvailable('tidyr')"
+# item	bs19_var_reshape_menu	command	"[???] Spread columns into wide format dataset..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')" # Spread a key-value pair across multiple columns
+# item	bs19_var_reshape_menu	command	"[???] Separate one value into multiple columns..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
+# item	bs19_var_reshape_menu	command	"[???] Unite values into one column..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
 
 
 # item	bs19_varible_menu	separator	""	""	""	""
@@ -249,14 +256,15 @@ item	biostat19_menu	cascade	"Summaries"	bs19_summary_menu	""	""
 
 # ---- Overview / Structure --------------------------------------------------------------
 
-item	bs19_summary_menu	command	"Number of rows and columns"	command_dataset_dim_0	"activeDataSetP()"	""
+item	bs19_summary_menu	command	"Number of rows and columns"	command_dataset_dim	"activeDataSetP()"	""
+item	bs19_summary_menu	command	"Variable type summary"	summary_var_types	"activeDataSetP()"	"" # & dataset size
 item	bs19_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
 
 
 # --- Summarize variables ----------------------------------------------------
 
 item	bs19_summary_menu	separator	""	""	""	""
-item	bs19_summary_menu	command	"[???] Summarize variables..."	function_not_implemented	"activeDataSetP()"	""
+item	bs19_summary_menu	command	"Summarize variables..."	window_summary_variables	"activeDataSetP()"	""
 
 item	bs19_summary_menu	command	"Frequency & multi-way tables..."	window_summary_count	"activeDataSetP()"	""
 
@@ -434,16 +442,16 @@ item	bs19_session_menu	command	"Print session information: base R style"	command
 # ---- Rcmdr windows: 1 vs. 3 ------------------------------------------------
 
 item	bs19_session_menu	separator	""	""	""	""
-item	bs19_session_menu	command	"Output to console (1 window mode)"	command_rcmdr_use_1_window	"!is_console_output()"	""
-item	bs19_session_menu	command	"Output to Rcmdr (3 windows mode)"	command_rcmdr_use_3_windows	"is_console_output()"	""
+item	bs19_session_menu	command	"Output to R console (1 window mode)"	command_rcmdr_use_1_window	"!is_console_output()"	""
+item	bs19_session_menu	command	"Output to R Commander (3 windows mode)"	command_rcmdr_use_3_windows	"is_console_output()"	""
 
 
 # ---- Close, Restart --------------------------------------------------------
 
 item	bs19_session_menu	separator	""	""	""	""
-item	bs19_session_menu	command	"Restart Commander"	command_rcmdr_restart	""	""
-item	bs19_session_menu	command	"Close Commander"	CloseCommander	""	""
-item	bs19_session_menu	command	"Close Commander & R"	command_rcmdr_close_r	""	""
+item	bs19_session_menu	command	"Restart R Commander"	command_rcmdr_restart	""	""
+item	bs19_session_menu	command	"Close R Commander"	CloseCommander	""	""
+item	bs19_session_menu	command	"Close R Commander & R"	command_rcmdr_close_r	""	""
 
 
 
@@ -453,8 +461,8 @@ menu	bs19_about_menu	biostat19_menu	""	""	""	""
 item	biostat19_menu	cascade	"About"	bs19_about_menu	""	""
 
 # item	bs19_about_menu	command 'About package "RcmdrPlugin.biostat"'	window_about_package	""	""
-item	bs19_about_menu	command "About BioStat'19"	window_about_package	""	""
-item	bs19_about_menu	command "Homepage"	window_online_homepage	""	""
+item	bs19_about_menu	command "About BioStat'19..."	window_about_package	""	""
+item	bs19_about_menu	command "Go to Homepage"	window_online_homepage	""	""
 item	bs19_about_menu	command "Bug report, feedback"	window_online_bug_report	""	""
 
 
