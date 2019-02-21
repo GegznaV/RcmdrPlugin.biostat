@@ -54,8 +54,8 @@
 \alias{command_list_objects}
 \alias{command_session_info_devtools}
 \alias{command_session_info_utils}
-\alias{command_dataset_dim_0}
 \alias{command_dataset_dim}
+\alias{command_dataset_dim_0}
 \alias{command_glimpse}
 \alias{summary_head_tail}
 \alias{command_colnames}
@@ -226,9 +226,9 @@ command_session_info_devtools()
 
 command_session_info_utils()
 
-command_dataset_dim_0()
+command_dataset_dim()
 
-command_dataset_dim(.ds)
+command_dataset_dim_0(.ds)
 
 command_glimpse()
 
