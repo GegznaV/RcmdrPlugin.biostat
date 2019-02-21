@@ -55,7 +55,7 @@ get_filename_to_save <- function(
 #         ) %>%
 #             tclvalue_chr()
 #         # %>%
-#         #     path_ext_set_2(ext)
+#         #     fs_path_ext_set(ext)
 #
 #         # If canceled
 #         if (nchar(file_name) == 0) {
