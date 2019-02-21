@@ -7,6 +7,27 @@ is_biostat_mode <- function() {
     isTRUE(stringr::str_detect(str, "(BioStat mode)"))
 }
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+use_relative_path <- function() {
+    biostat_env$use_relative_path <- TRUE
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+use_absolute_path <- function() {
+    biostat_env$use_relative_path <- FALSE
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+get_use_relative_path <- function() {
+    isTRUE(biostat_env$use_relative_path)
+}
+
 # Biostat mode ---------------------------------------------------------------
 #' @rdname Helper-functions
 #' @export
@@ -290,6 +311,110 @@ bs_mode_menu__import <- function() {
             tkwinfo("pointery", top))
 }
 
+# Export menus -----------------------------------------------------------
+bs_mode_menu__export <- function() {
+    .ds <- active_dataset_0()
+    if (is.null(.ds)) {
+        command_dataset_refresh()
+        active_dataset_not_persent()
+        return()
+    }
+
+    top <- CommanderWindow()
+
+    menu_e <- tk2menu(tk2menu(top), tearoff = FALSE)
+    menu_c <- tk2menu(menu_e, tearoff = FALSE)
+    menu_f <- tk2menu(menu_e, tearoff = FALSE)
+
+
+    tkadd(menu_e, "cascade",
+          label    = "Export to file",
+          compound = "left",
+          image    = "::image::bs_open_file",
+          menu     = menu_f)
+
+
+    tkadd(menu_f, "command",
+          label    = "Export to text file (.txt, .csv)...",
+          compound = "left",
+          image    = "::image::bs_text",
+          command  = window_export_to_textfile)
+
+    # tkadd(menu_f, "separator")
+
+    tkadd(menu_f, "command",
+          label    = "Export to Excel file (.xlsx)...",
+          compound = "left",
+          image    = "::image::bs_excel",
+          command = window_export_to_excel)
+
+    # tkadd(menu_f, "separator")
+
+    tkadd(menu_f, "command",
+          label    = "Export to Rds file (.rds)...",
+          compound = "left",
+          image    = "::image::bs_r",
+          command  = window_export_to_rds)
+
+    tkadd(menu_f, "command",
+          label    = "Export to R-data file (.RData)...",
+          compound = "left",
+          image    = "::image::bs_r",
+          command  = window_export_to_rdata)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    tkadd(menu_e, "cascade",
+          label    = "Export to clipboard",
+          compound = "left",
+          image    = "::image::bs_copy",
+          menu     = menu_c)
+
+    tkadd(menu_c, "command",
+          label    = "as Tab delimited values (tsv)",
+          compound = "left",
+          image    = "::image::bs_copy",
+          command  = function() {
+              .ds <- active_dataset_0()
+              export_to_clipboard(.ds, sep = "\t")
+          })
+
+    tkadd(menu_c, "command",
+          label    = "as Comma separated values (csv)",
+          compound = "left",
+          image    = "::image::bs_copy",
+          command  = function() {
+              .ds <- active_dataset_0()
+              export_to_clipboard(.ds, sep = ",")
+          })
+
+    # tkadd(menu_e, "separator")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkadd(menu_e, "command",
+          label    = "Print as R structure",
+          compound = "left",
+          image    = "::image::bs_r",
+          command  = to_r_structure)
+
+    # tkadd(menu_e, "separator")
+    #
+    # tkadd(menu_e, "command",
+    #       label    = "Export to Word table...",
+    #       compound = "left",
+    #       image    = "::image::bs_word",
+    #       command  = to_word)
+    #
+    # tkadd(menu_e, "command",
+    #       label    = "Export to PowerPoint table...",
+    #       compound = "left",
+    #       image    = "::image::bs_pptx",
+    #       command  = to_pptx)
+
+    tkpopup(menu_e,
+            tkwinfo("pointerx", top),
+            tkwinfo("pointery", top))
+}
+
 # Preview and summarize ------------------------------------------------------
 bs_mode_menu__print <- function() {
 
@@ -327,18 +452,21 @@ bs_mode_menu__print <- function() {
               command  = window_dataset_view_rcmdr)
     }
 
-    tkadd(menu_p, "command",
-          label    = "Change class of active dataset",
-          # compound = "left",
-          # image    = "::image::viewIcon",
-          command  = window_dataset_class)
-
 
     tkadd(menu_p, "command",
           label    = "Edit active dataset...",
           compound = "left",
           image    = "::image::editIcon",
           command  = window_dataset_edit_rcmdr)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkadd(menu_p, "separator")
+
+    tkadd(menu_p, "command",
+          label    = "Class of active dataset",
+          # compound = "left",
+          # image    = "::image::viewIcon",
+          command  = window_dataset_class)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_p, "separator")
@@ -419,25 +547,27 @@ bs_mode_menu__rows <- function() {
           menu     = menu_n)
 
     tkadd(menu_n, "command",
-          label    = "Print row names (or row indices)",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = command_rownames)
-
-    tkadd(menu_n, "command",
           label    = "Check if table has row names",
           # compound = "left",
           # image    = "::image::bs_locale",
           command  = command_rows_has_rownames)
 
     tkadd(menu_n, "command",
-          label    = "Move row names to column values...",
+          label    = "Print row names (or row indices)",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = command_rownames)
+
+    # tkadd(menu_n, "separator")
+
+    tkadd(menu_n, "command",
+          label    = "Move row names to column...",
           # compound = "left",
           # image    = "::image::bs_locale",
           command  = window_rows_rownames_to_col)
 
     tkadd(menu_n, "command",
-          label    = "Move column with unique values to row names...",
+          label    = "Move column (with unique values) to row names...",
           # compound = "left",
           # image    = "::image::bs_locale",
           state = set_menu_state(variables_with_unique_values_P()),
@@ -1060,106 +1190,3 @@ bs_mode_menu__session <- function() {
             tkwinfo("pointery", top))
 }
 
-# Export menus -----------------------------------------------------------
-bs_mode_menu__export <- function() {
-    .ds <- active_dataset_0()
-    if (is.null(.ds)) {
-        command_dataset_refresh()
-        active_dataset_not_persent()
-        return()
-    }
-
-    top <- CommanderWindow()
-
-    menu_e <- tk2menu(tk2menu(top), tearoff = FALSE)
-    menu_c <- tk2menu(menu_e, tearoff = FALSE)
-    menu_f <- tk2menu(menu_e, tearoff = FALSE)
-
-
-    tkadd(menu_e, "cascade",
-          label    = "Export to file",
-          compound = "left",
-          image    = "::image::bs_open_file",
-          menu     = menu_f)
-
-
-    tkadd(menu_f, "command",
-          label    = "Export to text file (.txt, .csv)...",
-          compound = "left",
-          image    = "::image::bs_text",
-          command  = window_export_to_textfile)
-
-    # tkadd(menu_f, "separator")
-
-    tkadd(menu_f, "command",
-          label    = "Export to Excel file (.xlsx)...",
-          compound = "left",
-          image    = "::image::bs_excel",
-          command = window_export_to_excel)
-
-    # tkadd(menu_f, "separator")
-
-    tkadd(menu_f, "command",
-          label    = "Export to Rds file (.rds)...",
-          compound = "left",
-          image    = "::image::bs_r",
-          command  = window_export_to_rds)
-
-    tkadd(menu_f, "command",
-          label    = "Export to R-data file (.RData)...",
-          compound = "left",
-          image    = "::image::bs_r",
-          command  = window_export_to_rdata)
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    tkadd(menu_e, "cascade",
-          label    = "Export to clipboard",
-          compound = "left",
-          image    = "::image::bs_copy",
-          menu     = menu_c)
-
-    tkadd(menu_c, "command",
-          label    = "as Tab delimited values (tsv)",
-          compound = "left",
-          image    = "::image::bs_copy",
-          command  = function() {
-              .ds <- active_dataset_0()
-              export_to_clipboard(.ds, sep = "\t")
-          })
-
-    tkadd(menu_c, "command",
-          label    = "as Comma separated values (csv)",
-          compound = "left",
-          image    = "::image::bs_copy",
-          command  = function() {
-              .ds <- active_dataset_0()
-              export_to_clipboard(.ds, sep = ",")
-          })
-
-    # tkadd(menu_e, "separator")
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkadd(menu_e, "command",
-          label    = "Print as R structure",
-          compound = "left",
-          image    = "::image::bs_r",
-          command  = to_r_structure)
-
-    # tkadd(menu_e, "separator")
-    #
-    # tkadd(menu_e, "command",
-    #       label    = "Export to Word table...",
-    #       compound = "left",
-    #       image    = "::image::bs_word",
-    #       command  = to_word)
-    #
-    # tkadd(menu_e, "command",
-    #       label    = "Export to PowerPoint table...",
-    #       compound = "left",
-    #       image    = "::image::bs_pptx",
-    #       command  = to_pptx)
-
-    tkpopup(menu_e,
-            tkwinfo("pointerx", top),
-            tkwinfo("pointery", top))
-}
