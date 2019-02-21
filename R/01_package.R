@@ -163,6 +163,10 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_summary",   "icons/bs_enumlist.png")
     bs_tkimage_create("::image::bs_plot",      "icons/office-chart-pie.png")
     bs_tkimage_create("::image::bs_chart",     "icons/insert-chart-bar.png")
+
+    bs_tkimage_create("::image::bs_bug",       "icons/bug.png")
+    bs_tkimage_create("::image::bs_home",      "icons/go-home-6.png")
+    bs_tkimage_create("::image::bs_about",     "icons/help-about-3.png")
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
