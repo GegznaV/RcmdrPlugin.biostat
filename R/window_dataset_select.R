@@ -45,7 +45,7 @@ window_dataset_select <- function() {
 
     cmd_ds_size <- function() {
         .ds_1 <- get_selection(var_ds_box)
-        command_dataset_dim(.ds_1)
+        command_dataset_dim_0(.ds_1)
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
