@@ -17,7 +17,8 @@
 %   R/window_rows_col_to_rownames.R, R/window_rows_filter.R,
 %   R/window_rows_rm_duplicated.R, R/window_rows_rm_with_na.R,
 %   R/window_rows_rowid_to_col.R, R/window_rows_rownames_to_col.R,
-%   R/window_rows_slice.R, R/window_summary_count.R, R/window_test_normality.R,
+%   R/window_rows_slice.R, R/window_summary_count.R,
+%   R/window_summary_variables.R, R/window_test_normality.R,
 %   R/window_variable_gather.R, R/window_variable_mutate.R,
 %   R/window_variable_recode.R, R/window_variable_rename.R,
 %   R/window_variable_select.R
@@ -58,6 +59,7 @@
 \alias{command_dataset_dim_0}
 \alias{command_glimpse}
 \alias{summary_head_tail}
+\alias{summary_var_types}
 \alias{command_colnames}
 \alias{command_clean_names}
 \alias{command_all_chr_to_fctr}
@@ -154,6 +156,7 @@
 \alias{window_rows_rownames_to_col}
 \alias{window_rows_slice}
 \alias{window_summary_count}
+\alias{window_summary_variables}
 \alias{window_test_normality}
 \alias{window_variable_gather}
 \alias{window_variable_mutate0}
@@ -233,6 +236,8 @@ command_dataset_dim_0(.ds)
 command_glimpse()
 
 summary_head_tail()
+
+summary_var_types()
 
 command_colnames()
 
@@ -429,6 +434,8 @@ window_rows_rownames_to_col()
 window_rows_slice()
 
 window_summary_count()
+
+window_summary_variables()
 
 window_test_normality()
 
