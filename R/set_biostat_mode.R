@@ -415,7 +415,7 @@ bs_mode_menu__export <- function() {
             tkwinfo("pointery", top))
 }
 
-# Preview and summarize ------------------------------------------------------
+# Preview ------------------------------------------------------
 bs_mode_menu__print <- function() {
 
     .ds <- active_dataset_0()
@@ -523,6 +523,38 @@ bs_mode_menu__print <- function() {
             tkwinfo("pointery", top))
 }
 
+# Summary menus --------------------------------------------------------------
+bs_mode_menu__summary  <- function() {
+
+    top <- CommanderWindow()
+    menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
+
+    tkadd(menu_p, "command",
+          label    = "Glimpse: structure of dataset",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = command_glimpse)
+
+    tkadd(menu_p, "command",
+          label    = "Summarize variables...",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = function_not_implemented)
+
+    tkadd(menu_p, "command",
+          label    = "Frequency & multi-way tables...",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = window_summary_count)
+
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkpopup(menu_p,
+            tkwinfo("pointerx", top),
+            tkwinfo("pointery", top))
+}
+
+
 # Row menus -----------------------------------------------------------
 bs_mode_menu__rows <- function() {
 
@@ -625,7 +657,6 @@ bs_mode_menu__rows <- function() {
             tkwinfo("pointerx", top),
             tkwinfo("pointery", top))
 }
-
 # Variable menus -----------------------------------------------------------
 bs_mode_menu__variables <- function() {
 
@@ -798,37 +829,6 @@ bs_mode_menu__variables <- function() {
 tkpopup(menu_p,
         tkwinfo("pointerx", top),
         tkwinfo("pointery", top))
-}
-
-# Summary menus --------------------------------------------------------------
-bs_mode_menu__summary  <- function() {
-
-    top <- CommanderWindow()
-    menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
-
-    tkadd(menu_p, "command",
-          label    = "Glimpse: structure of dataset",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = command_glimpse)
-
-    tkadd(menu_p, "command",
-          label    = "Summarize variables...",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = function_not_implemented)
-
-    tkadd(menu_p, "command",
-          label    = "Frequency & multi-way tables...",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = window_summary_count)
-
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkpopup(menu_p,
-            tkwinfo("pointerx", top),
-            tkwinfo("pointery", top))
 }
 
 # Analysis menus -------------------------------------------------------------
