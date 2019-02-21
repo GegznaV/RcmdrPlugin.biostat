@@ -146,7 +146,7 @@ window_dataset_select <- function() {
         menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
         tkadd(menu_p, "command",
-              label    = "Size and variable type summary",
+              label    = "Variable type summary", #  & dataset size
               # compound = "left",
               # image    = "::image::bs_locale",
               command  = cmd_var_type_summary)
