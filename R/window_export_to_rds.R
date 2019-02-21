@@ -29,9 +29,7 @@ window_export_to_rds_0 <- function(ds_name = active_dataset()) {
     }
 
     # Change these lines: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    make_relative = TRUE
-
-    if (make_relative) {
+    if (get_use_relative_path()) {
         # file_name <- fs::path_rel(file_name)
         file_name <- make_relative_path(file_name)
     }
