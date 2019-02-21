@@ -4,14 +4,14 @@
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-command_dataset_dim_0 <- function() {
-  command_dataset_dim(.ds = active_dataset_0())
+command_dataset_dim <- function() {
+  command_dataset_dim_0(.ds = active_dataset_0())
 }
 
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-command_dataset_dim <- function(.ds) {
+command_dataset_dim_0 <- function(.ds) {
   doItAndPrint(str_glue(
     "## Number of rows and columns\n",
     "dim({.ds})"))
