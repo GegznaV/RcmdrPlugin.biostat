@@ -22,30 +22,30 @@
 #' @importFrom utils browseURL packageVersion data installed.packages modifyList
 #'                   capture.output tail
 #' @importFrom RcmdrPlugin.EZR
-#' StatMedCorrelation
-#' StatMedSpearman
-#' StatMedSingleSampleTTest
-#' StatMedWilSign
-#' StatMedPairedTtest
-#' StatMedRepANOVA
-#' StatMedFriedman
-#' StatMedTtest
-#' StatMedMannW
-#' StatMedANOVA
-#' StatMedKruWalli
-#' StatMedJT
-#' StatMedMultiANOVA
-#' StatMedANCOVA
-#' StatMedFTest
-#' StatMedBartlett
-#' StatMedLinearRegression
+#'    StatMedCorrelation
+#'    StatMedSpearman
+#'    StatMedSingleSampleTTest
+#'    StatMedWilSign
+#'    StatMedPairedTtest
+#'    StatMedRepANOVA
+#'    StatMedFriedman
+#'    StatMedTtest
+#'    StatMedMannW
+#'    StatMedANOVA
+#'    StatMedKruWalli
+#'    StatMedJT
+#'    StatMedMultiANOVA
+#'    StatMedANCOVA
+#'    StatMedFTest
+#'    StatMedBartlett
+#'    StatMedLinearRegression
 
 
 NULL
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 biostat_env <- new.env()
-
+biostat_env$use_relative_path <- TRUE
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .onAttach <- function(libname, pkgname) {
     if (!interactive()) {
@@ -166,8 +166,5 @@ biostat_env <- new.env()
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-restart_commander <- function() {
-    Rcmdr::closeCommander(ask = FALSE, ask.save = TRUE)
-    Rcmdr::Commander()
-}
+
 
