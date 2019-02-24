@@ -198,15 +198,17 @@ set_biostat_mode <- function() {
     tkgrid.configure(lab_model,    padx = c(2, 2))
     tkgrid.configure(button_model, padx = c(0, 10))
 
-    # Change title and main icon
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Change the title and the main icon
     .rcmdr <- CommanderWindow()
-    tkwm.title(.rcmdr, paste0(gettextRcmdr("R Commander"), " (BioStat mode)"))
+    tkwm.title(.rcmdr, paste0(Rcmdr::gettextRcmdr("R Commander"), " (BioStat mode)"))
     tcl("wm", "iconphoto", .rcmdr, "-default", "::image::bs_r_logo_g")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     command_dataset_refresh()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # This command unhides buttons bar
     tkgrid.configure(buttons_bar, pady = c(4, 3))
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 }
 
