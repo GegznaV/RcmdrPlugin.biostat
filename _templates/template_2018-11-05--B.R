@@ -1,6 +1,5 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
@@ -131,18 +130,17 @@ window_xxx <- function() {
     .ds    <- active_dataset() # active_dataset_0()
     fg_col <- Rcmdr::getRcmdr("title.color")
 
-    # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_bs("xxx_title"))
+    # Initialize dialog window and title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    tk_title(top, "xxx_title") # Title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    dialogue_title <- "xxx_title"
+    initializeDialog(title = gettext_bs(dialogue_title))
+    tk_title(top, dialogue_title)
 
     # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     defaults <- list(
         position = "first"
     )
     initial <- getDialog("window_xxx", defaults)
-
-
 
 
     # ... Widgets ============================================================
@@ -293,7 +291,7 @@ window_xxx <- function() {
     # # tkconfigure(file_label,     cursor = "hand2")
     # tkconfigure(fname_frame,    cursor = "hand2")
     # tkconfigure(button_ch_file, cursor = "hand2")
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 }
