@@ -1,6 +1,7 @@
 # TODO:
 #
-# - add tcl/tk check if sheetname is less than 30 characters length.
+# - Add tcl/tk check if sheetname is less than 30 characters length.
+# - Enable option to add excel seet instead of replacing all document.
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # .============================ ==============================================
@@ -89,7 +90,9 @@ window_export_to_excel <- function() {
     # Create (valid) sheet name
     set_unique_sheet_name <- function(name) {
         sheets <- get_sheets()
-        sheet  <- make.unique(c(str_trunc(name, 27), sheets), sep = "_")[1]
+        # # Use these lines,when saving to multiple sheets is enabled:
+        # sheet <- make.unique(c(str_trunc(name, 27), sheets), sep = "_")[1]
+        sheet  <- str_trunc(name, 27)[1]
 
         set_values(f1_ent_sheet, sheet)
     }
@@ -176,8 +179,9 @@ window_export_to_excel <- function() {
     }
 
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_bs("Export Data to Excel File"))
-    tk_title(top, "Export data to Excel file")
+    dialogue_title <- "Export Data to Excel File"
+    initializeDialog(title = gettext_bs(dialogue_title))
+    tk_title(top, dialogue_title)
 
     .ds <- active_dataset()
 
@@ -254,7 +258,7 @@ window_export_to_excel <- function() {
     # Finalize ---------------------------------------------------------------
 
     # Help topic
-    ok_cancel_help(helpSubject = "readRDS",
+    ok_cancel_help(helpSubject = "read.xlsx", helpPackage = "openxlsx",
                    reset = "window_export_to_excel()",
                    ok_label = "Export")
 
