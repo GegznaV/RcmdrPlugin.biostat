@@ -15,7 +15,7 @@ window_export_to_rdata_0 <- function(ds_name = active_dataset()) {
     .ds <- safe_names(ds_name)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     file_name <- get_filename_to_save(
-        title = "Save Data to R-data File",
+        title = "Choose or Create R-data File to Save Data to",
         file_name = file_name,
         filetypes = "{ {RData file} {.RData} } { {All Files} * }",
         defaultextension = "RData"
