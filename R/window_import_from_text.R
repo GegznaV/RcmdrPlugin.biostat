@@ -5,7 +5,6 @@
 #  3. Add warnig, if file name changed, and contents did not.
 
 
-
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
@@ -275,10 +274,14 @@ window_import_from_text <- function() {
         filename <- tclvalue(
             tkgetOpenFile(
                 # parent = top,
-                initialdir = initialdir,
+                # initialdir = initialdir,
                 title = "Choose Text File to Import",
                 filetypes = gettext_bs(
                     "{{Text files} {.txt .csv .dat .tab .tsv}}
+                    {{Text files (txt)} {.txt}}
+                    {{Comma separated values} {.csv}}
+                    {{Tab separated values} {.tsv, .tab}}
+                    {{Dat file} {.dat}}
                  {{All Files} *}")))
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (filename == "") {
