@@ -10,18 +10,11 @@ options(Rcmdr = list(
 ))
 
 
-
-
-
-
-
-
-
 # # install.packages("RcmdrPlugin.KMggplot2")
 # #
 # # if (!"devtools" %in% installed.packages())  install.packages("devtools")
 # #
-# # devtools::install_github("GegznaV/RcmdrPlugin.EZR@unmodified_Rcmdr_menu")
+# # devtools::install_github("GegznaV/RcmdrPlugin.EZR@ezr_as_menu")
 # # devtools::install_github("GegznaV/biostat")
 # # devtools::install_github("GegznaV/RcmdrPlugin.biostat")
 #
