@@ -11,10 +11,9 @@
 #' @keywords internal
 window_export_to_textfile <- function() {
 
-    dsname <- active_dataset()
+    .ds <- active_dataset()
     has_rownames <-
         tibble::has_rownames(get(active_dataset(), envir = .GlobalEnv))
-
 
     initializeDialog(title = gettext_bs("Save Data to Text File"))
 
@@ -30,6 +29,7 @@ window_export_to_textfile <- function() {
             )
         )
     )
+
     missingFrame    <- tkframe(optionsFrame)
     missingVariable <- tclVar("NA")
     missingEntry <-
@@ -37,9 +37,9 @@ window_export_to_textfile <- function() {
 
     Rcmdr::radioButtons(
         name = "delimiter",
-        buttons = c("commas", "semicolons", "spaces", "tabs"),
-        labels = gettext_bs(c("Commas [,]", "Semicolons [;]", "Spaces", "Tabs")),
-        initialValue = "tabs",
+        buttons = c("tab", "comma", "semicolon", "space", "pipe"),
+        labels = gettext_bs(c("Tab", "Comma (,)", "Semicolon (;)", "Space ( )", "Pipe (|)")),
+        initialValue = "tab",
         title = gettext_bs("Field separator")
     )
 
@@ -65,69 +65,77 @@ window_export_to_textfile <- function() {
         delim   <- tclvalue(delimiterVariable)
         missing <- tclvalue(missingVariable)
 
-        sep <-
-            if (delim == "tabs") {
-                "\\t"
-            } else if (delim == "spaces") {
-                " "
-            } else if (delim == "commas") {
-                ","
-            } else if (delim == "semicolons") {
-                ";"
-            } else{
-                trim.blanks(tclvalue(otherVariable))
-            }
+        sep <- switch(
+            delim,
+            "tab"       = "\\t",
+            "comma"     = ",",
+            "semicolon" = ";",
+            "space"     = " ",
+            "pipe"      = "|",
+            trim.blanks(tclvalue(otherVariable))
+        )
 
-        saveFile <-
+        # if (delim == "tabs") {
+        #     "\\t"
+        # } else if (delim == "spaces") {
+        #     " "
+        # } else if (delim == "commas") {
+        #     ","
+        # } else if (delim == "semicolons") {
+        #     ";"
+        # } else{
+        #
+        # }
+
+        save_to_file <-
             tclvalue(tkgetSaveFile(
-                title = "Save data to text file",
+                title = "Save Data to Text File",
                 filetypes = gettext_bs(
-                    '{"All Files" {"*"}} {"Text Files" {".txt" ".TXT" ".dat" ".DAT" ".csv" ".CSV"}}'
+                    '{"All Files" {"*"}} {"Text Files" {".txt" ".csv"  ".dat" }}'
                 ),
                 defaultextension = if (delim == "commas") ".csv" else ".txt",
-                initialfile = paste0(dsname, if (delim == "commas") ".csv" else ".txt"),
+                initialfile = paste0(.ds, if (delim == "commas") ".csv" else ".txt"),
                 parent = CommanderWindow()
             ))
 
-        saveFile <- removeRedundantExtension(saveFile)
+        save_to_file <- removeRedundantExtension(save_to_file)
 
-        if (saveFile == "") {
+        if (save_to_file == "") {
             tkfocus(CommanderWindow())
             return()
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        command <- str_glue("## Save data to text file \n",
-                            "write.table({dsname}, file = '{saveFile}', \n",
-                            "sep = '{sep}', \n",
-                            "col.names = {col}, \n",
-                            "row.names = {row}, \n",
-                            "quote = {quote}, \n",
-                            "na = '{missing}')") %>%
+        command <-
+            str_glue(
+                "## Save data to text file \n",
+                "write.table({.ds}, file = '{save_to_file}', \n",
+                'sep = "{sep}", \n',
+                'dec = "."\n',
+                "col.names = {col}, \n",
+                "row.names = {row}, \n",
+                "quote = {quote}, \n",
+                'na = "{missing}")'
+            ) %>%
             style_cmd()
 
         justDoIt(command)
         logger(command)
 
-        Message(paste(gettext_bs("Active dataset exported to file"), saveFile),
+        Message(paste(gettext_bs("Active dataset exported to file"), save_to_file),
                 type = "note")
         tkfocus(CommanderWindow())
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "write.table")
+    ok_cancel_help(helpSubject = "write.table")
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
 
-    tkgrid(bs_label(
-        parent = top,
-        text = gettext_bs("Save data to text file"),
-        font = tkfont.create(weight = "bold", size = 9),
-        fg = fg_col),
-        pady = c(5, 9))
+    bs_title(top, "Save Data to Text File")
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(delimiterFrame_other, stick = "w")
-    tkgrid(otherButton, otherEntry,
-           sticky = "w")
-    tkgrid(delimiterFrame, stick = "w")
+    tkgrid(delimiterFrame_other,    sticky = "w")
+    tkgrid(otherButton, otherEntry, sticky = "w")
+    tkgrid(delimiterFrame,          sticky = "w")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     tkgrid(labelRcmdr(top,
