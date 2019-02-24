@@ -9,7 +9,7 @@
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_export_to_textfile <- function() {
+window_export_to_textfile_2 <- function() {
 
     .ds <- active_dataset()
     has_rownames <-
@@ -127,6 +127,7 @@ window_export_to_textfile <- function() {
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ok_cancel_help(helpSubject = "write.table")
+
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
 
@@ -154,9 +155,7 @@ window_export_to_textfile <- function() {
     dialogSuffix()
 }
 
-
-
-# ===========  . =================================================================
+# ===========  . =============================================================
 # work around for bug in Tk getSaveFile  # (Form Rcmdr)
 removeRedundantExtension <- function(file) {
     find.ext <- regexpr("\\.(?:.(?!\\.))+$", file, perl = TRUE)
