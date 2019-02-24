@@ -264,7 +264,7 @@ item	bs19_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"
 # --- Summarize variables ----------------------------------------------------
 
 item	bs19_summary_menu	separator	""	""	""	""
-item	bs19_summary_menu	command	"Summarize variables..."	window_summary_variables	"activeDataSetP()"	""
+# item	bs19_summary_menu	command	"Summarize variables..."	window_summary_variables	"activeDataSetP()"	""
 
 item	bs19_summary_menu	command	"Frequency & multi-way tables..."	window_summary_count	"activeDataSetP()"	""
 
@@ -287,7 +287,7 @@ item	bs19_assoc_menu	command "Correlation matrix... [Rcmdr]"	correlationMatrix	"
 item	bs19_assoc_menu	command	"Pearson's linear correlation... [EZR]"	StatMedCorrelation	"numericP(2)"	""
 item	bs19_assoc_menu	command	"Spearman's/Kendall's rank correlation... [EZR]"	StatMedSpearman	"numericP(2)"	""
 item	bs19_assoc_menu	separator	""	""	""	""
-item	bs19_assoc_menu	command	"[???] Association between categorical variables..."	window_summary_count	"factorsP(2)"	""
+item	bs19_assoc_menu	command	"Association between categorical variables..."	window_summary_count	"factorsP(2)"	"" # [???]
 # item	bs19_assoc_menu	command	"[???] Kappa... [EZR]"	function_not_implemented	"activeDataSetP()"	""
 
 
@@ -319,7 +319,7 @@ item	bs19_analysis_menu	cascade	"Tests"	bs19_tests_menu	""	""
 # + ~ Normality tests --------------------------------------------------------
 
 
-item	bs19_tests_menu	command	"Normality test (univariate)..."	window_test_normality	"numericP()"	""
+# item	bs19_tests_menu	command	"Normality test (univariate)..."	window_test_normality	"numericP()"	""
 
 # menu	bs19_distr_tests_menu	bs19_tests_menu	""	""	""	""
 # item	bs19_tests_menu	cascade	"Normality / Distribution tests"	bs19_distr_tests_menu	""	""
@@ -462,8 +462,8 @@ item	biostat19_menu	cascade	"About"	bs19_about_menu	""	""
 
 # item	bs19_about_menu	command 'About package "RcmdrPlugin.biostat"'	window_about_package	""	""
 item	bs19_about_menu	command "About BioStat'19..."	window_about_package	""	""
-item	bs19_about_menu	command "Go to Homepage"	window_online_homepage	""	""
-item	bs19_about_menu	command "Bug report, feedback"	window_online_bug_report	""	""
+# item	bs19_about_menu	command "Go to Homepage"	window_online_homepage	""	""
+# item	bs19_about_menu	command "Bug report, feedback"	window_online_bug_report	""	""
 
 
 # . ===========================================================================
