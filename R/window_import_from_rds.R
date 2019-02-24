@@ -10,14 +10,14 @@ window_import_from_rds <- function() {
     get_path_to_file <- function() {
         initialdir <- read_path_to_file() %>% fs::path_dir()
 
-        if (initialdir == "" || !fs::dir_exists(initialdir)) {
+        if (initialdir %in% c("", ".") || !fs::dir_exists(initialdir)) {
             initialdir <- getwd()
         }
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         filename <- tclvalue(
             tkgetOpenFile(
-                # parent = top,
+                parent = top,
                 initialdir = initialdir,
                 title = "Choose Rds File to Import",
                 filetypes = gettext_bs(
@@ -239,6 +239,9 @@ window_import_from_rds <- function() {
     # Configuration ----------------------------------------------------------
     set_values(f1_ent_ds_name, unique_obj_names("dataset", all_numbered = TRUE))
 
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_path_to_file()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     invisible()
 }

@@ -12,16 +12,16 @@
 %   R/window_export_to_text.R, R/window_fct_drop_lvls.R,
 %   R/window_fct_lvls_reorder_manual.R, R/window_import_from_excel.R,
 %   R/window_import_from_pkg.R, R/window_import_from_rds.R,
-%   R/window_import_from_text.R, R/window_import_from_text__v2.R,
-%   R/window_import_rdata.R, R/window_locale_set.R, R/window_model_select.R,
-%   R/window_rows_arrange.R, R/window_rows_col_to_rownames.R,
-%   R/window_rows_filter.R, R/window_rows_rm_duplicated.R,
-%   R/window_rows_rm_with_na.R, R/window_rows_rowid_to_col.R,
-%   R/window_rows_rownames_to_col.R, R/window_rows_slice.R,
-%   R/window_summary_count.R, R/window_summary_variables.R,
-%   R/window_test_normality.R, R/window_variable_gather.R,
-%   R/window_variable_mutate.R, R/window_variable_recode.R,
-%   R/window_variable_rename.R, R/window_variable_select.R
+%   R/window_import_from_text.R, R/window_import_rdata.R,
+%   R/window_locale_set.R, R/window_model_select.R, R/window_rows_arrange.R,
+%   R/window_rows_col_to_rownames.R, R/window_rows_filter.R,
+%   R/window_rows_rm_duplicated.R, R/window_rows_rm_with_na.R,
+%   R/window_rows_rowid_to_col.R, R/window_rows_rownames_to_col.R,
+%   R/window_rows_slice.R, R/window_summary_count.R,
+%   R/window_summary_variables.R, R/window_test_normality.R,
+%   R/window_variable_gather.R, R/window_variable_mutate.R,
+%   R/window_variable_recode.R, R/window_variable_rename.R,
+%   R/window_variable_select.R
 \name{Menu-window-functions}
 \alias{Menu-window-functions}
 \alias{command_dataset_refresh}
@@ -137,8 +137,6 @@
 \alias{window_import_from_rds}
 \alias{window_import_from_clipboard}
 \alias{window_import_from_text}
-\alias{window_import_from_clipboard__v2}
-\alias{window_import_from_text__v2}
 \alias{window_import_rdata}
 \alias{command_get_locale}
 \alias{window_locale_set}
@@ -394,10 +392,6 @@ window_import_from_rds()
 window_import_from_clipboard()
 
 window_import_from_text()
-
-window_import_from_clipboard__v2()
-
-window_import_from_text__v2()
 
 window_import_rdata()
 

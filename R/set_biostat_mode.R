@@ -552,11 +552,11 @@ bs_mode_menu__summary  <- function() {
 
     tkadd(menu_p, "separator")
 
-    tkadd(menu_p, "command",
-          label    = "Summarize variables...",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = window_summary_variables)
+    # tkadd(menu_p, "command",
+    #       label    = "Summarize variables...",
+    #       # compound = "left",
+    #       # image    = "::image::bs_locale",
+    #       command  = window_summary_variables)
 
     tkadd(menu_p, "command",
           label    = "Frequency & multi-way tables...",
@@ -860,12 +860,12 @@ bs_mode_menu__analyze <- function() {
           state      = set_menu_state(factorsP(2)),
           command    = window_summary_count)
 
-    tkadd(menu_p, "command",
-          label      = "Normality test (univariate)...",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          state      = set_menu_state(numericP()),
-          command    = window_test_normality)
+    # tkadd(menu_p, "command",
+    #       label      = "Normality test (univariate)...",
+    #       # compound = "left",
+    #       # image    = "::image::bs_open_file",
+    #       state      = set_menu_state(numericP()),
+    #       command    = window_test_normality)
 
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1028,15 +1028,15 @@ bs_mode_menu__plots <- function() {
           command  = window_online_image_digitizer)
 
 
-    if (packageAvailable('officer') && packageAvailable('rvg')) {
-        tkadd(menu_p, "separator")
-
-        tkadd(menu_p, "command",
-              label    = "Save editable plot to PowerPoint",
-              compound = "left",
-              image    = "::image::bs_pptx",
-              command  = function_not_implemented)
-    }
+    # if (packageAvailable('officer') && packageAvailable('rvg')) {
+    #     tkadd(menu_p, "separator")
+    #
+    #     tkadd(menu_p, "command",
+    #           label    = "Save editable plot to PowerPoint",
+    #           compound = "left",
+    #           image    = "::image::bs_pptx",
+    #           command  = function_not_implemented)
+    # }
 
     # tkadd(menu_p, "separator")
 
@@ -1217,17 +1217,17 @@ bs_mode_menu__session <- function() {
           image    = "::image::bs_about",
           command  = window_about_package)
 
-    tkadd(menu_ab, "command",
-          label    = "Go to Homepage",
-          compound = "left",
-          image    = "::image::bs_home",
-          command  = window_online_homepage)
-
-    tkadd(menu_ab, "command",
-          label    = "Bug report, feedback",
-          compound = "left",
-          image    = "::image::bs_bug",
-          command  = window_online_bug_report)
+    # tkadd(menu_ab, "command",
+    #       label    = "Go to Homepage",
+    #       compound = "left",
+    #       image    = "::image::bs_home",
+    #       command  = window_online_homepage)
+    #
+    # tkadd(menu_ab, "command",
+    #       label    = "Bug report, feedback",
+    #       compound = "left",
+    #       image    = "::image::bs_bug",
+    #       command  = window_online_bug_report)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkpopup(menu_p,

@@ -266,15 +266,15 @@ window_import_from_text <- function() {
     get_path_to_file <- function() {
         initialdir <- read_path_to_file() %>% fs::path_dir()
 
-        if (initialdir == "" || !fs::dir_exists(initialdir)) {
+        if (initialdir %in% c("", ".") || !fs::dir_exists(initialdir)) {
             initialdir <- getwd()
         }
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         filename <- tclvalue(
             tkgetOpenFile(
-                # parent = top,
-                # initialdir = initialdir,
+                parent = top,
+                initialdir = initialdir,
                 title = "Choose Text File to Import",
                 filetypes = gettext_bs(
                     "{{Text files} {.txt .csv .dat .tab .tsv}}

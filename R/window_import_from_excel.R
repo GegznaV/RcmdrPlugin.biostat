@@ -215,7 +215,7 @@ window_import_from_excel <- function() {
     get_path_to_file <- function() {
         initialdir <- read_path_to_file() %>% fs::path_dir()
 
-        if (initialdir == "" || !fs::dir_exists(initialdir)) {
+        if (initialdir %in% c("", ".") || !fs::dir_exists(initialdir)) {
             initialdir <- getwd()
         }
 
