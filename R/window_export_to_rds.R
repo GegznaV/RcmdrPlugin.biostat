@@ -16,7 +16,7 @@ window_export_to_rds_0 <- function(ds_name = active_dataset()) {
     .ds <- safe_names(ds_name)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     file_name <- get_filename_to_save(
-        title = "Save data to Rds file.",
+        title = "Save Data to Rds File.",
         file_name = file_name,
         filetypes = "{ {Rds file} {.rds} } { {All Files} * }",
         defaultextension = "rds"
