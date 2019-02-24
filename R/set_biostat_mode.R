@@ -340,7 +340,7 @@ bs_mode_menu__export <- function() {
           label    = "Export to text file (.txt, .csv)...",
           compound = "left",
           image    = "::image::bs_text",
-          command  = window_export_to_textfile)
+          command  = window_export_to_text)
 
     # tkadd(menu_f, "separator")
 

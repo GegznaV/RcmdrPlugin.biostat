@@ -215,7 +215,7 @@ item    import_menu      command         "Import from Minitab data file... [Rcmd
 menu	bs19_export_menu	bs19_data_menu	""	""	""	""
 item	bs19_data_menu	cascade	"Export"	bs19_export_menu	"activeDataSetP()"	""
 
-item	bs19_export_menu	command	"Export to Text file (.txt, .csv)..."	window_export_to_textfile	"activeDataSetP()"	""
+item	bs19_export_menu	command	"Export to Text file (.txt, .csv)..."	window_export_to_text	"activeDataSetP()"	""
 
 # item	bs19_export_menu	separator	""	""	""	""
 item	bs19_export_menu	command	"Export to Excel file (.xlsx)..."	window_export_to_excel	"activeDataSetP()"	""

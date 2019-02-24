@@ -18,7 +18,7 @@
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_export_to_textfile <- function() {
+window_export_to_text <- function() {
 
     # Functions ==============================================================
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -405,7 +405,7 @@ window_export_to_textfile <- function() {
 
     # Help topic
     ok_cancel_help(helpSubject = "fwrite", helpPackage = "data.table",
-                   # reset = "window_export_to_textfile()",
+                   # reset = "window_export_to_text()",
                    ok_label = "Export")
 
     dialogSuffix(grid.buttons = TRUE, bindReturn = FALSE)
