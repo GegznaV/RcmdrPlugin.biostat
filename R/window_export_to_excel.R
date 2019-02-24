@@ -35,7 +35,7 @@ window_export_to_excel <- function() {
         file_name <- tclvalue(tkgetSaveFile(
             parent = top,
             # typevariable = typevariable, # to capture selected type
-            title = "Save Data to Excel File",
+            title = "Choose or Create Excel File to Save Data to",
             confirmoverwrite = FALSE,
             initialfile = initialfile,
             initialdir  = initialdir,
