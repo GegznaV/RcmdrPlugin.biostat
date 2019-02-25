@@ -1,6 +1,6 @@
 Package: RcmdrPlugin.biostat
 Type: Package
-Version: 0.0.23.9001
+Version: 0.0.23.9002
 Date: 2019-02-24
 Title: R Commander Plug-in for Basic Data Management and Data Analysis Tasks
 Description: An Rcmdr plug-in for the most common data wrangling, visualisation 
@@ -55,7 +55,7 @@ Imports:
     boot,
     checkmate,
     clipr,
-    data.table,
+    data.table (>= 1.12.0),
     desc,
     DescTools,
     dplyr,
