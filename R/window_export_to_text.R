@@ -340,7 +340,7 @@ window_export_to_text <- function() {
 
     f2_box_dec  <- bs_combobox(
         label = "Decimal:",
-        tip = "Decimal separator",
+        tip = "Decimal separator. \n E.g., 10.2 vs. 10,2",
         f2, width = 11, values = dec1, selection = 1,
         on_select = set_sep_values)
 
