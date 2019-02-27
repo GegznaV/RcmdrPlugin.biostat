@@ -237,6 +237,8 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
         locales <- system("locale -a", intern = TRUE)
     }
 
+    locales <- sort(locales)
+
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initialize_dialog(title = gettext_bs("Change Locale"), parent = parent)
 
