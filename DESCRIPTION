@@ -82,6 +82,7 @@ Imports:
     stats,
     stringr,
     styler,
+    svTools,
     tibble,
     tidyverse,
     utils,
