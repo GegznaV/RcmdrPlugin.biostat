@@ -244,7 +244,7 @@ item	bs19_plots_menu	command	"Import data from plot (online)..."	window_online_i
 
 # item	bs19_plots_menu	separator	""	""	""	""
 # item	bs19_plots_menu	command	"[???] Visualize color names & color codes (example)"	window_show_colors	""	""
-# item	bs19_plots_menu	command	"[???] Save editable plot..."	function_not_implemented	"FALSE"	"packageAvailable('officer') && packageAvailable('rvg')"
+item	bs19_plots_menu	command	"Save editable plot to PowerPoint..."	window_export_fig_to_pptx	""	"packageAvailable('officer') && packageAvailable('rvg')"
 
 
 
