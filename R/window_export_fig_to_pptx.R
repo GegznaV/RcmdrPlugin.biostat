@@ -337,7 +337,7 @@ window_export_fig_to_pptx <- function() {
         state = "normal",
         font = font_consolas_regular,
         tip = "Code that generates either a base R or ggplot2 plot. \nLattice and other systems are not suported.",
-        label = "R Code (plot to export)"
+        label = "R Code of Plot to Export"
     )
 
     tkgrid(f3_input$frame, sticky = "news")
