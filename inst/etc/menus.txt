@@ -244,7 +244,7 @@ item	bs19_plots_menu	command	"Import data from plot (online)..."	window_online_i
 
 # item	bs19_plots_menu	separator	""	""	""	""
 # item	bs19_plots_menu	command	"[???] Visualize color names & color codes (example)"	window_show_colors	""	""
-# item	bs19_plots_menu	command	"[???] Save editable plot..."	function_not_implemented	"FALSE"	"packageAvailable('officer') && packageAvailable('rvg')"
+# item	bs19_plots_menu	command	"Save editable plot to PowerPoint..."	window_export_fig_to_pptx	""	"packageAvailable('officer') && packageAvailable('rvg')"
 
 
 
@@ -257,7 +257,7 @@ item	biostat19_menu	cascade	"Summaries"	bs19_summary_menu	""	""
 # ---- Overview / Structure --------------------------------------------------------------
 
 item	bs19_summary_menu	command	"Number of rows and columns"	command_dataset_dim	"activeDataSetP()"	""
-item	bs19_summary_menu	command	"Variable type summary"	summary_var_types	"activeDataSetP()"	"" # & dataset size
+item	bs19_summary_menu	command	"Variable types & size of dataset"	summary_var_types	"activeDataSetP()"	"" # & dataset size
 item	bs19_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
 
 
@@ -288,6 +288,7 @@ item	bs19_assoc_menu	command	"Pearson's linear correlation... [EZR]"	StatMedCorr
 item	bs19_assoc_menu	command	"Spearman's/Kendall's rank correlation... [EZR]"	StatMedSpearman	"numericP(2)"	""
 item	bs19_assoc_menu	separator	""	""	""	""
 item	bs19_assoc_menu	command	"Association between categorical variables..."	window_summary_count	"factorsP(2)"	"" # [???]
+# item	bs19_assoc_menu	command	"Association between categorical variables..."	window_summary_count	"factorsP(2)"	"" # [???]
 # item	bs19_assoc_menu	command	"[???] Kappa... [EZR]"	function_not_implemented	"activeDataSetP()"	""
 
 
