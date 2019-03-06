@@ -539,7 +539,7 @@ bs_mode_menu__summary  <- function() {
           command  = command_dataset_dim)
 
     tkadd(menu_p, "command",
-          label    = "Variable type summary", #  & dataset size
+          label    = "Variable types & size of dataset",
           # compound = "left",
           # image    = "::image::bs_locale",
           command  = summary_var_types)
@@ -841,10 +841,10 @@ bs_mode_menu__variables <- function() {
           state = set_menu_state(numericP()),
           command  = window_num_transform_z)
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-tkpopup(menu_p,
-        tkwinfo("pointerx", top),
-        tkwinfo("pointery", top))
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkpopup(menu_p,
+            tkwinfo("pointerx", top),
+            tkwinfo("pointery", top))
 }
 
 # Analysis menus -------------------------------------------------------------
@@ -931,41 +931,41 @@ bs_mode_menu__analyze <- function() {
     #       state      = set_menu_state(numericP()),
     #       command    = window_test_normality)
 
-#
-#     # ~~ Central tendency ----------------------------------------------------
-#
-#     menu_t_c <- tk2menu(menu_t, tearoff = FALSE)
-#
-#     tkadd(menu_t, "cascade",
-#           label    = "Central tendency* tests",
-#           # compound = "left",
-#           # image    = "::image::bs_open_file",
-#           menu     = menu_t_c)
-#
-#
-#     # ~~ Proportion tests ----------------------------------------------------
-#
-#     menu_t_p <- tk2menu(menu_t, tearoff = FALSE)
-#
-#     tkadd(menu_t, "cascade",
-#           label    = "Proportion tests",
-#           # compound = "left",
-#           # image    = "::image::bs_open_file",
-#           menu     = menu_t_p)
-#
-#     tkadd(menu_t_p, "command",
-#           label      = ">>>",
-#           # compound = "left",
-#           # image    = "::image::bs_open_file",
-#           state      = set_menu_state(twoLevelFactorsP()),
-#           command    = function_not_implemented)
-#
-#     tkadd(menu_t_p, "command",
-#           label      = ">>>",
-#           # compound = "left",
-#           # image    = "::image::bs_open_file",
-#           state      = set_menu_state(twoLevelFactorsP()),
-#           command    = function_not_implemented)
+    #
+    #     # ~~ Central tendency ----------------------------------------------------
+    #
+    #     menu_t_c <- tk2menu(menu_t, tearoff = FALSE)
+    #
+    #     tkadd(menu_t, "cascade",
+    #           label    = "Central tendency* tests",
+    #           # compound = "left",
+    #           # image    = "::image::bs_open_file",
+    #           menu     = menu_t_c)
+    #
+    #
+    #     # ~~ Proportion tests ----------------------------------------------------
+    #
+    #     menu_t_p <- tk2menu(menu_t, tearoff = FALSE)
+    #
+    #     tkadd(menu_t, "cascade",
+    #           label    = "Proportion tests",
+    #           # compound = "left",
+    #           # image    = "::image::bs_open_file",
+    #           menu     = menu_t_p)
+    #
+    #     tkadd(menu_t_p, "command",
+    #           label      = ">>>",
+    #           # compound = "left",
+    #           # image    = "::image::bs_open_file",
+    #           state      = set_menu_state(twoLevelFactorsP()),
+    #           command    = function_not_implemented)
+    #
+    #     tkadd(menu_t_p, "command",
+    #           label      = ">>>",
+    #           # compound = "left",
+    #           # image    = "::image::bs_open_file",
+    #           state      = set_menu_state(twoLevelFactorsP()),
+    #           command    = function_not_implemented)
 
 
     # # ~~ Variability tests --------------------------------------------------
@@ -1032,10 +1032,10 @@ bs_mode_menu__plots <- function() {
     #     tkadd(menu_p, "separator")
     #
     #     tkadd(menu_p, "command",
-    #           label    = "Save editable plot to PowerPoint",
+    #           label    = "Save editable plot to PowerPoint...",
     #           compound = "left",
     #           image    = "::image::bs_pptx",
-    #           command  = function_not_implemented)
+    #           command  = window_export_fig_to_pptx)
     # }
 
     # tkadd(menu_p, "separator")
