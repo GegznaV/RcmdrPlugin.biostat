@@ -539,7 +539,7 @@ bs_mode_menu__summary  <- function() {
           command  = command_dataset_dim)
 
     tkadd(menu_p, "command",
-          label    = "Variable type summary", #  & dataset size
+          label    = "Variable types & size of dataset", #  & dataset size
           # compound = "left",
           # image    = "::image::bs_locale",
           command  = summary_var_types)
