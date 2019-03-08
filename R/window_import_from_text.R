@@ -277,11 +277,11 @@ window_import_from_text <- function() {
                 initialdir = initialdir,
                 title = "Choose Text File to Import",
                 filetypes = gettext_bs(
-                    "{{Text files} {.txt .csv .dat .tab .tsv}}
-                    {{Text files (txt)} {.txt}}
-                    {{Comma separated values} {.csv}}
-                    {{Tab separated values} {.tsv, .tab}}
-                    {{Dat file} {.dat}}
+                    "{{Text files} {.txt .csv .dat .tsv .tab}}
+                    {{Text files (TXT)} {.txt}}
+                    {{Comma separated values (CSV)} {.csv}}
+                    {{Tab separated values} {.tsv .tab}}
+                    {{Data files (DAT)} {.dat}}
                  {{All Files} *}")))
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (filename == "") {
