@@ -7,50 +7,45 @@
 #' @keywords internal
 window_variable_rename <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_bs("Rename variables"))
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    variables_frame <- tkframe(top)
-    variableBox <-
-        variableListBox2(
-            variables_frame,
-            Variables(),
-            title = gettext_bs("Variables\n(pick one or more)"),
-            selectmode = "multiple",
-            initialSelection = NULL,
-            listHeight = 10
-        )
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
-        old_names <- getSelection(variableBox)
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        closeDialog()
+        old_names <- getSelection(var_y_box)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         n_old_names <- length(old_names)
-
-        if (n_old_names < 1) {
-            errorCondition(
-                recall = window_variable_rename,
-                message = gettext_bs("No variables selected.")
-            )
-            return()
-        }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        .ds  <- active_dataset_0()
+        if (variable_is_not_selected(old_names, parent = top)) {return()}
+
+
+        # if (n_old_names < 1) {
+        #
+        #     errorCondition(
+        #         recall = window_variable_rename,
+        #         message = gettext_bs("No variables selected.")
+        #     )
+        #     return()
+        # }
+
+        closeDialog()
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        .ds <- active_dataset_0()
         unordered_names <- names(get(.ds))
         which_variables <- match(old_names, unordered_names)
 
         # Subdialog ----------------------------------------------------------
-        initializeDialog(subdialog,  title = gettext_bs("Change variable names"))
+        initializeDialog(subdialog, title = gettext_bs("Change variable names"))
         new_names <- rep("", n_old_names)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         onOKsub <- function() {
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            closeDialog(subdialog)
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             for (i in 1:n_old_names) {
                 new_names[i] <- eval_glue("tclvalue(newName{i})")
             }
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            closeDialog(subdialog)
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # TODO: [???] warn if any of the names is empty,
+            # but allow to continue, if user wants.
+            # If the new name is empty, the old name will not be changed.
+
             # If empty
             if (any(new_names == "")) {
                 errorCondition(
@@ -60,7 +55,12 @@ window_variable_rename <- function() {
                 return()
             }
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+            # TODO: [???] warn if any of the names is incorrect,
+            # but allow to continue, if user wants.
+
             test.names <- new_names == make.names(new_names)
+
             if (!all(test.names)) {
                 errorCondition(recall = window_variable_rename,
                                message = paste(
@@ -68,10 +68,15 @@ window_variable_rename <- function() {
                                    paste(new_names[!test.names], collapse = ", ")))
                 return()
             }
+
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+            # TODO: [???] show which names are not unique after renaming.
+
             # Check duplicated names
             all_names <- names(get(.ds))
             all_names[which_variables] <- new_names
+
             if (any(duplicated(all_names))) {
                 errorCondition(
                     recall = window_variable_rename,
@@ -82,13 +87,17 @@ window_variable_rename <- function() {
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             Library("dplyr")
 
+            old_names <- safe_names(old_names)
+            new_names <- safe_names(new_names)
+
+            renaming_directives <-
+                str_c(str_glue('{new_names} = {old_names}'), collapse = ", \n")
+
             command <-
                 str_glue("## Rename variables\n",
-                         '# `new_name` = `old_name`\n\n',
+                         '# new_name = old_name\n\n',
                          "{.ds} <- {.ds} %>% \n",
-                         'dplyr::rename(',
-                         paste(str_glue('`{new_names}` = `{old_names}`'), collapse = ", \n"),
-                         ')') %>%
+                         'dplyr::rename({renaming_directives})') %>%
                 style_cmd()
 
             result <- justDoIt(command)
@@ -120,15 +129,15 @@ window_variable_rename <- function() {
         for (i in 1:n_old_names) {
             valVar <- paste0("newName", i)
             assign(valVar, tclVar(""))
-            assign(paste0("entry", i), ttkentry(subdialog,
-                                                width = "20",
-                                                textvariable = get(valVar)
-            )
-            )
+            assign(x = paste0("entry", i),
+                   value =  ttkentry(subdialog, width = "20", textvariable = get(valVar)
+            ))
+
             tkgrid(labelRcmdr(subdialog, text = old_names[i]),
                    get(paste0("entry", i)),
                    sticky = "w")
         }
+
         tkgrid(subButtonsFrame,
                sticky = "e",
                columnspan = 2)
@@ -142,19 +151,46 @@ window_variable_rename <- function() {
             force.wait = TRUE
         )
     }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Title ------------------------------------------------------------------
-    fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(bs_label(
-        top,
-        text = gettext_bs("Rename variables (columns)"),
-        font = tkfont.create(weight = "bold", size = 9),
-        fg = fg_col),
-        pady = c(5, 9))
 
-    OKCancelHelp(helpSubject = "rename", helpPackage = "dplyr")
-    tkgrid(variables_frame, sticky = "w", columnspan = 2)
-    tkgrid(getFrame(variableBox), sticky = "nwe")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    initializeDialog(title = gettext_bs("Rename variables (columns)"))
+    tk_title(top, "Rename variables (columns)")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # variables_frame <- tkframe(top)
+    # variableBox <-
+    #     variableListBox2(
+    #         variables_frame,
+    #         Variables(),
+    #         title = gettext_bs("Variables\n(pick one or more)"),
+    #         selectmode = "multiple",
+    #         initialSelection = NULL,
+    #         listHeight = 10
+    #     )
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    variables_frame <- tkframe(top)
+    var_y_box <- bs_listbox(
+        parent       = variables_frame,
+        title        = gettext_bs("Variables\n(pick one or more)"),
+        values       = Variables(),
+        selectmode   = "multiple",
+        height       = 10,
+        width        = 30,
+        on_keyboard  = "select",
+        tip          = str_c(
+            "Select variables to rename.\n\n",
+            tip_multiple_ctrl_letters)
+    )
+    if (!is.null(.ds)) {
+        tk_see(var_y_box, which(ws_objects %in% .ds))
+    }
+
+    tkgrid(var_y_box$frame, sticky = "w", padx = c(10, 0))
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ok_cancel_help(helpSubject = "rename", helpPackage = "dplyr")
+    tkgrid(variables_frame, columnspan = 2)
+    # tkgrid(getFrame(variableBox), sticky = "nwe")
     tkgrid(buttonsFrame, sticky = "we")
     dialogSuffix(rows = 2, columns = 1)
 }
