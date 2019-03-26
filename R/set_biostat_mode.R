@@ -117,7 +117,7 @@ set_biostat_mode <- function() {
 
     button_view <- tk2button(
         buttons_bar,
-        tip = "View and print active dataset",
+        tip = "View, edit and print active dataset",
         image = "::image::viewIcon",
         command = bs_mode_menu__print)
 
