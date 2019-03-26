@@ -50,7 +50,9 @@ window_export_to_excel <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Return extension
         if (!str_detect(file_name, "\\.xlsx$")) {
-            file_name <- str_c(file_name, ".xlsx")
+            file_name <- str_c(file_name, ".xlsx") # TODO: maybe str_c is not
+                                                   # the most appriate function
+                                                   # here.
         }
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
