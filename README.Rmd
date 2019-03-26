@@ -32,7 +32,7 @@ knitr::opts_chunk$set(
 An *R Commander* Plugin for Basic (Bio)Statistical Routines  
 -->
 
-R Commander Plug-in for Basic Data Management and Data Analysis Tasks {#intro}
+R Commander Plug-in for Basic Data Management and Analysis Tasks {#intro}
 ==============================================================================
 
 **RcmdrPlugin.biostat** is an [**Rcmdr**](https://CRAN.R-project.org/package=Rcmdr) plug-in for the most common data wrangling, visualisation and analysis tasks using "tidyverse" family functions as well as functions from other packages.
@@ -49,6 +49,16 @@ To install a developement version of the package from `GitHub`:
 if (!"devtools" %in% installed.packages())  install.packages("devtools")
 
 devtools::install_github("GegznaV/RcmdrPlugin.biostat")
+```
+
+
+## Previous versions
+
+If you need previous versions of `RcmdrPlugin.biostat`, you can install them from `GitHub`:
+
+- BioStat'18 (2018):
+```{r Install BioStat-18, eval=FALSE}
+devtools::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat18")
 ```
 
 
@@ -73,9 +83,11 @@ devtools::install_github("GegznaV/RcmdrPlugin.EZR@ezr_as_menu")
 install.packages("RcmdrPlugin.KMggplot2")
 ```
 
+
+
 # Important
 
-Some of the functions in the package are based on and modified from functions in packages *Rcmdr*, *RcmdrPlugin.EZR* and *RcmdrPlugin.KMggplot2*.
+Some of the functions in the package are based on and modified from functions in packages *Rcmdr*<!--, *RcmdrPlugin.KMggplot2*-->, and *RcmdrPlugin.EZR*.
 All of those packages are under GPL-2/GPL-3 license.
 
 ***

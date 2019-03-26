@@ -7,10 +7,10 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.r-project.org/package=RcmdrPlugin.biostat)
 [![GitHub
-version](https://img.shields.io/badge/GitHub-v0.0.23.9000-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
+version](https://img.shields.io/badge/GitHub-v0.0.25-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
 [![Travis-CI Build
 Status](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat)
-[![Updated-on](https://img.shields.io/badge/Updated%20on-2019--02--24-yellowgreen.svg)](/commits/master)
+[![Updated-on](https://img.shields.io/badge/Updated%20on-2019--03--26-yellowgreen.svg)](/commits/master)
 
 -----
 
@@ -20,7 +20,7 @@ Status](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)](ht
 An *R Commander* Plugin for Basic (Bio)Statistical Routines  
 -->
 
-# R Commander Plug-in for Basic Data Management and Data Analysis Tasks
+# R Commander Plug-in for Basic Data Management and Analysis Tasks
 
 **RcmdrPlugin.biostat** is an
 [**Rcmdr**](https://CRAN.R-project.org/package=Rcmdr) plug-in for the
@@ -38,6 +38,20 @@ To install a developement version of the package from `GitHub`:
 if (!"devtools" %in% installed.packages())  install.packages("devtools")
 
 devtools::install_github("GegznaV/RcmdrPlugin.biostat")
+```
+
+## Previous versions
+
+If you need previous versions of `RcmdrPlugin.biostat`, you can install
+them from `GitHub`:
+
+  - BioStat’18
+(2018):
+
+<!-- end list -->
+
+``` r
+devtools::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat18")
 ```
 
 -----
@@ -67,9 +81,8 @@ install.packages("RcmdrPlugin.KMggplot2")
 # Important
 
 Some of the functions in the package are based on and modified from
-functions in packages *Rcmdr*, *RcmdrPlugin.EZR* and
-*RcmdrPlugin.KMggplot2*. All of those packages are under GPL-2/GPL-3
-license.
+functions in packages *Rcmdr*<!--, *RcmdrPlugin.KMggplot2*-->, and
+*RcmdrPlugin.EZR*. All of those packages are under GPL-2/GPL-3 license.
 
 -----
 

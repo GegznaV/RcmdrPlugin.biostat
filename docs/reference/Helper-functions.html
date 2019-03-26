@@ -47,7 +47,8 @@
 <![endif]-->
 
 
-  </head>
+  	<link rel="icon" href="../favicon.png" />
+</head>
 
   <body>
     <div class="container template-reference-topic">
@@ -63,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RcmdrPlugin.biostat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.23.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.25</span>
       </span>
     </div>
 
@@ -390,11 +391,13 @@
 
 <span class='fu'>is_not_empty_name</span>(<span class='no'>name</span>, <span class='kw'>which_name</span> <span class='kw'>=</span> <span class='st'>"name"</span>)
 
-<span class='fu'>variable_is_not_selected</span>(<span class='no'>obj</span>, <span class='kw'>obj_type</span> <span class='kw'>=</span> <span class='st'>"variable"</span>)
+<span class='fu'>variable_is_not_selected</span>(<span class='no'>obj</span>, <span class='kw'>obj_type</span> <span class='kw'>=</span> <span class='st'>"variable"</span>,
+  <span class='kw'>parent</span> <span class='kw'>=</span> <span class='fu'>CommanderWindow</span>())
 
-<span class='fu'>object_is_not_selected</span>(<span class='no'>obj</span>, <span class='kw'>obj_type</span> <span class='kw'>=</span> <span class='st'>"object"</span>)
+<span class='fu'>object_is_not_selected</span>(<span class='no'>obj</span>, <span class='kw'>obj_type</span> <span class='kw'>=</span> <span class='st'>"object"</span>,
+  <span class='kw'>parent</span> <span class='kw'>=</span> <span class='fu'>CommanderWindow</span>())
 
-<span class='fu'>are_not_valid_names</span>(<span class='no'>name</span>)
+<span class='fu'>are_not_valid_names</span>(<span class='no'>name</span>, <span class='kw'>parent</span> <span class='kw'>=</span> <span class='fu'>CommanderWindow</span>())
 
 <span class='fu'>forbid_to_replace_variable</span>(<span class='no'>name</span>)
 

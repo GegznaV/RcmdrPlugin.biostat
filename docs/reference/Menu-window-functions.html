@@ -47,7 +47,8 @@
 <![endif]-->
 
 
-  </head>
+  	<link rel="icon" href="../favicon.png" />
+</head>
 
   <body>
     <div class="container template-reference-topic">
@@ -63,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RcmdrPlugin.biostat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.23.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.25</span>
       </span>
     </div>
 
@@ -284,8 +285,6 @@
 
 <span class='fu'>active_dataset</span>(<span class='no'>dsname</span>, <span class='kw'>flushModel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>flushDialogMemory</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-<span class='fu'>window_export_to_textfile</span>()
-
 <span class='fu'>refresh_dataset_window_0</span>(<span class='no'>widget</span>, <span class='no'>ds_contents</span>, <span class='no'>preview_type</span>,
   <span class='no'>nrow_preview_ds</span>, <span class='kw'>expect_more_rows</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>err_msg_default</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
@@ -311,6 +310,8 @@
 
 <span class='fu'>window_dataset_select</span>()
 
+<span class='fu'>window_export_fig_to_pptx</span>()
+
 <span class='fu'>export_to_clipboard</span>(<span class='kw'>ds_name</span> <span class='kw'>=</span> <span class='fu'>active_dataset_0</span>(), <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>","</span>)
 
 <span class='fu'>export_to_clipboard_active_ds_tab</span>()
@@ -324,6 +325,8 @@
 <span class='fu'>window_export_to_rds</span>()
 
 <span class='fu'>window_export_to_rds_0</span>(<span class='kw'>ds_name</span> <span class='kw'>=</span> <span class='fu'>active_dataset</span>())
+
+<span class='fu'>window_export_to_text</span>()
 
 <span class='fu'>window_factor_lvls_drop</span>()
 
@@ -340,10 +343,6 @@
 <span class='fu'>window_import_from_clipboard</span>()
 
 <span class='fu'>window_import_from_text</span>()
-
-<span class='fu'>window_import_from_clipboard__v2</span>()
-
-<span class='fu'>window_import_from_text__v2</span>()
 
 <span class='fu'>window_import_rdata</span>()
 
