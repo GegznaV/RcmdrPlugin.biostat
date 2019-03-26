@@ -29,8 +29,9 @@ bs_entry <- function(
     on_triple_click_3  = do_nothing,
     on_release_3       = do_nothing,
     on_key_release     = do_nothing,
-    use_context_menu = TRUE,
-    bind_clear = TRUE,
+
+    use_context_menu = TRUE, # on single right-click
+    bind_clear = TRUE,       # on double right-click
     ...
 
 ) {
