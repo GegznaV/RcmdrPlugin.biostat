@@ -1,5 +1,7 @@
 # TODO:
 # 1. Simplify the code.
+# 2. Update the structure of code for the window.
+# 3. Make more informative messages for variable checking procedures.
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
@@ -112,16 +114,8 @@ window_variable_rename <- function() {
         subOKCancelHelp()
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkgrid(
-            labelRcmdr(
-                subdialog,
-                text = gettext_bs("Old Name   "),
-                fg = "blue"
-            ),
-            labelRcmdr(
-                subdialog,
-                text = gettext_bs("New name   "),
-                fg = "blue"
-            ),
+            bs_label_b(subdialog, text = gettext_bs("Old Name   ")),
+            bs_label_b(subdialog, text = gettext_bs("New name   ")),
             sticky = "w",
             pady = c(10, 15)
         )
@@ -138,9 +132,7 @@ window_variable_rename <- function() {
                    sticky = "w")
         }
 
-        tkgrid(subButtonsFrame,
-               sticky = "e",
-               columnspan = 2)
+        tkgrid(subButtonsFrame, sticky = "e", columnspan = 2)
 
         dialogSuffix(
             subdialog,
@@ -155,18 +147,6 @@ window_variable_rename <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = gettext_bs("Rename variables (columns)"))
     tk_title(top, "Rename variables (columns)")
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # variables_frame <- tkframe(top)
-    # variableBox <-
-    #     variableListBox2(
-    #         variables_frame,
-    #         Variables(),
-    #         title = gettext_bs("Variables\n(pick one or more)"),
-    #         selectmode = "multiple",
-    #         initialSelection = NULL,
-    #         listHeight = 10
-    #     )
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     variables_frame <- tkframe(top)
     var_y_box <- bs_listbox(
@@ -190,7 +170,6 @@ window_variable_rename <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ok_cancel_help(helpSubject = "rename", helpPackage = "dplyr")
     tkgrid(variables_frame, columnspan = 2)
-    # tkgrid(getFrame(variableBox), sticky = "nwe")
     tkgrid(buttonsFrame, sticky = "we")
     dialogSuffix(rows = 2, columns = 1)
 }
