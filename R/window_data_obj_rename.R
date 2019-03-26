@@ -76,7 +76,7 @@ window_data_obj_rename <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Initialize =============================================================
     initializeDialog(title = "Rename Object")
-    bs_title(top, "Rename object")
+    tk_title(top, "Rename object")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ws_objects <- objects(envir = .GlobalEnv, all.names = TRUE)

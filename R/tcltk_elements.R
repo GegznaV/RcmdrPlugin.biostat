@@ -43,7 +43,7 @@ labeled_frame <- function(parent, label = NULL, ...) {
 #' @rdname TclTk-helper-functions
 #' @export
 #' @keywords internal
-tk_title <- function(parent = top, text = "xxx_title", pady = c(5, 9),
+tk_title <- function(parent = top, text = "", pady = c(5, 9),
                      font = tkfont.create(weight = "bold", size = 9),
                      fg = Rcmdr::getRcmdr("title.color"),
                      ...) {
@@ -56,23 +56,6 @@ tk_title <- function(parent = top, text = "xxx_title", pady = c(5, 9),
     pady = pady,
     ...)
 }
-
-#' @rdname TclTk-helper-functions
-#' @export
-#' @keywords internal
-bs_title <- function(parent = top, text, pady = c(5, 9),
-                     font = tkfont.create(weight = "bold", size = 9), ...) {
-  tkgrid(
-    bs_label(
-      parent,
-      text = gettext_bs(text),
-      font = font,
-      fg = Rcmdr::getRcmdr("title.color")),
-    pady = pady,
-    ...)
-}
-
-
 
 # Commands -------------------------------------------------------------------
 #' @rdname TclTk-helper-functions

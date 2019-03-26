@@ -6,7 +6,6 @@
 \alias{bs_label}
 \alias{labeled_frame}
 \alias{tk_title}
-\alias{bs_title}
 \alias{tcl_get_parent}
 \alias{tcl_get_children}
 \alias{tcl_get_siblings}
@@ -18,12 +17,9 @@ bs_label(..., fg = NULL)
 
 labeled_frame(parent, label = NULL, ...)
 
-tk_title(parent = top, text = "xxx_title", pady = c(5, 9),
+tk_title(parent = top, text = "", pady = c(5, 9),
   font = tkfont.create(weight = "bold", size = 9),
   fg = Rcmdr::getRcmdr("title.color"), ...)
-
-bs_title(parent = top, text, pady = c(5, 9),
-  font = tkfont.create(weight = "bold", size = 9), ...)
 
 tcl_get_parent(obj)
 

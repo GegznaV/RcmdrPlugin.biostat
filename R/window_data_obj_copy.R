@@ -76,7 +76,7 @@ window_data_obj_copy <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Initialize =============================================================
     initializeDialog(title = "Copy Object")
-    bs_title(top, "Copy object")
+    tk_title(top, "Copy object")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ws_objects <- objects(envir = .GlobalEnv, all.names = TRUE)
