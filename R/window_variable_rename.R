@@ -158,18 +158,20 @@ window_variable_rename <- function() {
         width        = 30,
         on_keyboard  = "select",
         tip          = str_c(
-            "Select variables to rename.\n\n",
-            tip_multiple_ctrl_letters)
+            "Select variables to rename and push 'OK' button.\n\n",
+            "Hold 'Ctrl' key and left-click mouse to either \n",
+            "select several objects or deselect one.\n",
+            "Use letters on the keyboard to navigate quicker.")
     )
-    if (!is.null(.ds)) {
-        tk_see(var_y_box, which(ws_objects %in% .ds))
-    }
 
     tkgrid(var_y_box$frame, sticky = "w", padx = c(10, 0))
 
+
+    info_1 <- bs_label(top, text = "Select no more than 30 variables to rename at once.")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ok_cancel_help(helpSubject = "rename", helpPackage = "dplyr")
     tkgrid(variables_frame, columnspan = 2)
+    tkgrid(info_1)
     tkgrid(buttonsFrame, sticky = "we")
     dialogSuffix(rows = 2, columns = 1)
 }
