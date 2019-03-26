@@ -13,13 +13,13 @@ title_gr_0_n <- "Groups variable \n(pick one, several or none)"
 tip_multiple_ctrl_letters  = str_c(
     "Hold 'Ctrl' key and left-click mouse\n",
     "to deselect or select several objects.\n",
-    "Use letters on keyboard for quicker \n",
-    "navigation.")
+    "Use letters on the keyboard to navigate \n",
+    "quicker")
 
 tip_single_ctrl_letters  = str_c(
-    "Use letters on keyboard for quicker navigation. \n",
-    "Hold 'Ctrl' key and left-click mouse to \n",
-    "deselect an object.")
+    "Use letters on the keyboard to navigate quicker. \n",
+    "Hold 'Ctrl' key and left-click mouse to deselect \n",
+    "an object.")
 
 tip_variable_types <- str_c(
     "Types of variables: \n",
@@ -36,6 +36,6 @@ tip_variable_types <- str_c(
 tip_header <- "Header is the first row if it contains column names."
 
 # str_c(
-#     "Use letters on keyboard for quicker navigation. \n",
+#     "Use letters on the keyboard to navigate quicker. \n",
 #     "Hold 'Ctrl' key and left-click mouse to \n",
 #     "deselect an object.")
