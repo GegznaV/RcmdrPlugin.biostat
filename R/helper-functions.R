@@ -948,7 +948,8 @@ is_not_empty_name <- function(name, which_name = "name") {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-variable_is_not_selected <- function(obj, obj_type = "variable") {
+variable_is_not_selected <- function(obj, obj_type = "variable",
+                                     parent = CommanderWindow()) {
 
     if (length(obj) < 1 || (length(obj) == 1 && any(obj == ""))) {
         message  <- str_glue(
@@ -956,7 +957,8 @@ variable_is_not_selected <- function(obj, obj_type = "variable") {
             "Please, select a {obj_type}.")
 
         show_error_messages(message, message,
-                            title = str_glue("Select a {obj_type}"))
+                            title = str_glue("Select a {obj_type}"),
+                            parent = parent)
         return(TRUE)
 
     } else {
@@ -967,7 +969,8 @@ variable_is_not_selected <- function(obj, obj_type = "variable") {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-object_is_not_selected <- function(obj, obj_type = "object") {
+object_is_not_selected <- function(obj, obj_type = "object",
+                                   parent = CommanderWindow()) {
 
     if (length(obj) < 1 || (length(obj) == 1 && any(obj == ""))) {
         message  <- str_glue(
@@ -975,7 +978,8 @@ object_is_not_selected <- function(obj, obj_type = "object") {
             "Please, select an {obj_type}.")
 
         show_error_messages(message, message,
-                            title = str_glue("Select an {obj_type}"))
+                            title = str_glue("Select an {obj_type}"),
+                            parent = parent)
         return(TRUE)
 
     } else {
@@ -986,7 +990,7 @@ object_is_not_selected <- function(obj, obj_type = "object") {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-are_not_valid_names <- function(name) {
+are_not_valid_names <- function(name, parent = CommanderWindow()) {
     # Checks if variable names are valis.
     #
     # Returns TRUE if any of the names are invalid
@@ -994,7 +998,8 @@ are_not_valid_names <- function(name) {
     if (length(name) < 1 || !is.character(name)) {
         message <- "Invalid (empty) name. \nPlease check and correct the name."
 
-        show_error_messages(message, message, title = "Invalid (Empty) Name")
+        show_error_messages(message, message, title = "Invalid (Empty) Name",
+                            parent = parent)
         return(TRUE) # is in valid name
     }
 
@@ -1004,7 +1009,7 @@ are_not_valid_names <- function(name) {
         return(FALSE) # is valid name
 
     } else if (length(invalid_names) == 1) {
-        msg_box_confirm_to_replace(invalid_names, "Variable") == "no"
+        msg_box_confirm_to_replace(invalid_names, "Variable", parent) == "no"
 
     } else if (length(invalid_names) > 1) {
         # message  <- str_glue('"{name}" {gettext_bs("is not a valid name.")}')
@@ -1015,7 +1020,8 @@ are_not_valid_names <- function(name) {
             "Valid names must start with a letter and contain only \n",
             "letters, numbers, underscores (_) and periods (.). ")
 
-        show_error_messages(message, message2, title = "Invalid Names")
+        show_error_messages(message, message2, title = "Invalid Names",
+                            parent = parent)
 
         # is not valid name
         return(TRUE)

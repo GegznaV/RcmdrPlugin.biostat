@@ -399,11 +399,13 @@ is_empty_name(name, which_name = "name")
 
 is_not_empty_name(name, which_name = "name")
 
-variable_is_not_selected(obj, obj_type = "variable")
+variable_is_not_selected(obj, obj_type = "variable",
+  parent = CommanderWindow())
 
-object_is_not_selected(obj, obj_type = "object")
+object_is_not_selected(obj, obj_type = "object",
+  parent = CommanderWindow())
 
-are_not_valid_names(name)
+are_not_valid_names(name, parent = CommanderWindow())
 
 forbid_to_replace_variable(name)
 
