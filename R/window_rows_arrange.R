@@ -52,7 +52,8 @@ window_rows_arrange <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Library("dplyr")
 
-        y <- stringr::str_c("`", y, "`")
+        # y <- stringr::str_c("`", y, "`")
+        y <- safe_names(y)
 
         variables <- if (decreasing) {
             str_glue("desc({y})")
