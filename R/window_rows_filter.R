@@ -48,7 +48,7 @@ window_rows_filter <- function(new_dsname = NULL,
 
     # Dialog -----------------------------------------------------------------
     initializeDialog(
-        title = gettext_bs("Filter: create a subset of rows that match conditions"))
+        title = gettext_bs("Filter: Create a Subset of Rows That Match Conditions"))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
@@ -170,9 +170,9 @@ window_rows_filter <- function(new_dsname = NULL,
     }
 
     # ========================================================================
-    OKCancelHelp(helpSubject = "filter", helpPackage = "dplyr",
-                 reset = "window_rows_filter"
-                 # , apply = "window_rows_filter"
+    ok_cancel_help(helpSubject = "filter", helpPackage = "dplyr",
+                   reset = "window_rows_filter"
+                   # , apply = "window_rows_filter"
     )
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
