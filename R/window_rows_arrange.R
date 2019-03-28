@@ -10,7 +10,7 @@
 #' @export
 #' @keywords internal
 window_rows_arrange <- function() {
-    initializeDialog(title = gettext_bs("Arrange rows"))
+    initializeDialog(title = gettext_bs("Arrange Rows"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -92,7 +92,7 @@ window_rows_arrange <- function() {
 
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "arrange", helpPackage = "dplyr")
+    ok_cancel_help(helpSubject = "arrange", helpPackage = "dplyr")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(upper_frame, sticky = "new")
     tkgrid(getFrame(var_y_box), optionsFrame, sticky = "new", columnspan = 2)
