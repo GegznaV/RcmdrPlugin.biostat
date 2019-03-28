@@ -9,7 +9,7 @@
 window_rows_slice <- function(){
     dataSet <- active_dataset()
 
-    initializeDialog(title = gettext_bs("Select / Remove rows by position"))
+    initializeDialog(title = gettext_bs("Select / Remove Rows by Position"))
 
     indexVariable <- tclVar(gettext_bs(""))
     indexFrame <- tkframe(top)
