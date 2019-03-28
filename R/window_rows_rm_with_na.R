@@ -2,13 +2,22 @@
 #' @export
 #' @keywords internal
 window_rows_rm_with_na <- function() {
+
     # Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     cmd_activation <- function() {
         val <- tclvalue_chr(scope_Variable)
         switch(val,
-               "search_all" = tk_disable(var_y_box),
-               tk_normalize(var_y_box)
+               "search_all" = {
+                   tk_disable(var_y_box)
+                   tkconfigure(label_bottom, text = label_bottom_text_all)
+                   },
+
+               # Search in the selected variables
+               {
+                   tk_normalize(var_y_box)
+                   tkconfigure(label_bottom, text = label_bottom_text_selected)
+                   }
         )
     }
     # Function onOK ----------------------------------------------------------
@@ -47,11 +56,11 @@ window_rows_rm_with_na <- function() {
         if (scope == "search_selected") {
             command_1 <- str_glue(
                 "{new_name} <- {.ds} %>% \n ",
-                "dplyr::drop_na({vars_y_txt})")
+                "tidyr::drop_na({vars_y_txt})")
 
         } else {
             command_1 <- str_glue(
-                "{new_name} <- {.ds} %>% dplyr::distinct()")
+                "{new_name} <- {.ds} %>% tidyr::drop_na()")
         }
 
         command <- str_glue(
@@ -93,10 +102,17 @@ window_rows_rm_with_na <- function() {
     .ds    <- active_dataset()
     fg_col <- Rcmdr::getRcmdr("title.color")
 
+    label_bottom_text_all <-
+        "The rows that contain at least one missing (NA) value will be removed.\n"
+
+    label_bottom_text_selected <- str_c(
+        "The rows that contain at least one missing (NA) value in the selected\n",
+        "variables will be removed.")
+
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = gettext_bs("Remove Rows with Missing Values"))
 
-    tk_title(top, "Drop rows containing missing values") # Title ~~~~~~~~~~~~~~
+    tk_title(top, "Drop Rows Containing Missing Values") # Title ~~~~~~~~~~~~~~
 
     # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     defaults <- list(
@@ -169,8 +185,13 @@ window_rows_rm_with_na <- function() {
     tkgrid(name_box$frame, sticky = "ws", pady = c(60, 0))
 
 
+    # Information
+
+    label_bottom <- bs_label(top, text = "\n\n")
+    tkgrid(label_bottom, pady = c(10, 0), sticky = "ws")
+
     # Finalize ---------------------------------------------------------------
-    ok_cancel_help(helpSubject = "drop_na", helpPackage = "dplyr",
+    ok_cancel_help(helpSubject = "drop_na", helpPackage = "tidyr",
                    reset = "window_rows_rm_with_na()")
 
     tkgrid(buttonsFrame, sticky = "ew")
