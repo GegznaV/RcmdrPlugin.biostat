@@ -329,7 +329,7 @@ str_glue_eval(..., envir = parent.frame(), .sep = "", .open = "{",
 
 eval_text(x, envir = parent.frame(), ...)
 
-style_cmd(command, indent_by = 4, ...)
+style_cmd(command, indent_by = 2, ...)
 
 try_command(x)
 
