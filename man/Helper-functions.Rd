@@ -67,7 +67,6 @@
 \alias{var_pos_n}
 \alias{list_summaries_Models}
 \alias{str_glue_eval}
-\alias{eval_}
 \alias{eval_text}
 \alias{style_cmd}
 \alias{try_command}
@@ -327,8 +326,6 @@ list_summaries_Models(envir = .GlobalEnv, ...)
 
 str_glue_eval(..., envir = parent.frame(), .sep = "", .open = "{",
   .close = "}", envir_eval = envir, envir_glue = envir)
-
-eval_(x, envir = parent.frame(), ...)
 
 eval_text(x, envir = parent.frame(), ...)
 

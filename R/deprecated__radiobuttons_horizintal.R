@@ -30,7 +30,7 @@ radioButtons_horizontal <- defmacro(
 
 
             # if (title != "") {
-            #     tkgrid(labelRcmdr(eval_(..frame),
+            #     tkgrid(labelRcmdr(eval_text(..frame),
             #                       text = title,
             #                       foreground = title.color,
             #                       font = "RcmdrTitleFont"),
@@ -39,11 +39,11 @@ radioButtons_horizontal <- defmacro(
             # }
 
             if (!is.null(title)) {
-                title_label <- bs_label(eval_(..frame), text = title, fg = title.color)
+                title_label <- bs_label(eval_text(..frame), text = title, fg = title.color)
                 tkgrid(title_label, sticky = sticky_title)
             }
 
-            buttons_pan_Frame <- tkframe(eval_(..frame))
+            buttons_pan_Frame <- tkframe(eval_text(..frame))
 
             ..current_buttons <- paste0(buttons, "Button")
             for (i in 1:length(buttons)) {
@@ -52,8 +52,8 @@ radioButtons_horizontal <- defmacro(
                 assign(..button,
                        ttkradiobutton(
                            buttons_pan_Frame,
-                           # eval_(..frame),
-                           variable = eval_(..variable),
+                           # eval_text(..frame),
+                           variable = eval_text(..variable),
                            value = ..values[i],
                            text = labels[i],
                            command = command
@@ -65,7 +65,7 @@ radioButtons_horizontal <- defmacro(
             tkgrid(buttons_pan_Frame, sticky = sticky_buttons)
 
 
-            # tkgrid(eval_(..button), sticky = "w")
+            # tkgrid(eval_text(..button), sticky = "w")
             # logger(paste(names(as.list(environment())), collapse = ", "))
             #
             # for (i in 1:length(buttons)) {
@@ -73,25 +73,25 @@ radioButtons_horizontal <- defmacro(
             #
             #     if (right.buttons) {
             #         assign(..button,
-            #                ttkradiobutton(eval_(..frame),
-            #                               variable = eval_(..variable),
+            #                ttkradiobutton(eval_text(..frame),
+            #                               variable = eval_text(..variable),
             #                               value = ..values[i],
             #                               command = command))
             #
-            #         tkgrid(labelRcmdr(eval_(..frame),
+            #         tkgrid(labelRcmdr(eval_text(..frame),
             #                           text = labels[i],
             #                           justify = "left"),
-            #                eval_(..button), sticky = "w")
+            #                eval_text(..button), sticky = "w")
             #
             #     } else {
             #         assign(..button,
-            #                ttkradiobutton(eval_(..frame),
-            #                               variable = eval_(..variable),
+            #                ttkradiobutton(eval_text(..frame),
+            #                               variable = eval_text(..variable),
             #                               value = ..values[i],
             #                               text = labels[i],
             #                               command = command))
             #
-            #         tkgrid(eval_(..button), sticky = "w")
+            #         tkgrid(eval_text(..button), sticky = "w")
             #     }
             # }
         }

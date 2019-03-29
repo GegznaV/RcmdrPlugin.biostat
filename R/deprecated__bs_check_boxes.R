@@ -65,7 +65,7 @@ bs_check_boxes <- defmacro(
                        text = labels[i],
                        command = ..commands[[i]]))
 
-            tkgrid(eval_(..checkBox), sticky = "w")
+            tkgrid(eval_text(..checkBox), sticky = "w")
         }
     }
 )

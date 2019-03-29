@@ -554,7 +554,7 @@ window_test_normality <- function() {
     dialogSuffix()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Activate cmd_... functions
-    # eval_(stringr::str_c(ls(pattern = "^cmd_"), "();", collapse = ""))
+    # eval_text(stringr::str_c(ls(pattern = "^cmd_"), "();", collapse = ""))
     #
     # cmd_plot_activation()
     # cmd_test_activation()
