@@ -455,6 +455,7 @@ bs_mode_menu__print <- function() {
     }
 
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_p, "separator")
 
     tkadd(menu_p, "command",
@@ -463,11 +464,9 @@ bs_mode_menu__print <- function() {
           image    = "::image::editIcon",
           command  = window_dataset_edit_rcmdr)
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkadd(menu_p, "separator")
 
     tkadd(menu_p, "command",
-          label    = "Class of active dataset",
+          label    = "Change class of active dataset",
           # compound = "left",
           # image    = "::image::viewIcon",
           command  = window_dataset_class)
@@ -608,7 +607,7 @@ bs_mode_menu__rows <- function() {
           # image    = "::image::bs_locale",
           command  = command_rownames)
 
-    # tkadd(menu_n, "separator")
+    tkadd(menu_n, "separator")
 
     tkadd(menu_n, "command",
           label    = "Move row names to column...",

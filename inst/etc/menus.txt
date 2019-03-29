@@ -19,7 +19,7 @@ menu	bs19_active_ds_menu	bs19_data_menu	""	""	""	""
 item	bs19_data_menu	cascade	"Active dataset"	bs19_active_ds_menu	"activeDataSetP()"	""
 
 item	bs19_active_ds_menu	command	"View active dataset"	command_dataset_view	"activeDataSetP()"	""
-item	bs19_active_ds_menu	command	"Class of active dataset"	window_dataset_class	"activeDataSetP()"	""
+item	bs19_active_ds_menu	command	"Change class of active dataset"	window_dataset_class	"activeDataSetP()"	""
 
 
 # --- + > Print ---------------------------------------------------
