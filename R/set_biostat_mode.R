@@ -455,6 +455,8 @@ bs_mode_menu__print <- function() {
     }
 
 
+    tkadd(menu_p, "separator")
+
     tkadd(menu_p, "command",
           label    = "Edit active dataset...",
           compound = "left",
