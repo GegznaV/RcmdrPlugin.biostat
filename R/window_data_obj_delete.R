@@ -149,7 +149,7 @@ window_data_obj_delete <- function() {
     tkgrid(include_hidden_box$frame, sticky = "w")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    ok_cancel_help(apply = "window_data_obj_delete")
+    ok_cancel_help(apply = "window_data_obj_delete", ok_label = "Delete")
     tkgrid(buttonsFrame)
     dialogSuffix()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
