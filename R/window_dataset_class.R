@@ -38,7 +38,7 @@ window_dataset_class <- function() {
 
     # Widgets ----------------------------------------------------------------
 
-    classes <- str_c(eval_glue("class({.ds})", envir_eval = .GlobalEnv),
+    classes <- str_c(str_glue_eval("class({.ds})", envir_eval = .GlobalEnv),
                      collapse = ", ")
 
     tkgrid(bs_label_b(top, text = "Classes of active dataset:"))

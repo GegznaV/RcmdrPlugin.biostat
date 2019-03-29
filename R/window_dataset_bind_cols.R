@@ -133,8 +133,8 @@ window_dataset_bind_cols <- function() {
         # }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (length(name_ds_2) == 1) {
-            nrow_1 <- eval_glue("nrow({name_ds_1})", envir = .GlobalEnv)
-            nrow_2 <- eval_glue("nrow({name_ds_2})", envir = .GlobalEnv)
+            nrow_1 <- str_glue_eval("nrow({name_ds_1})", envir = .GlobalEnv)
+            nrow_2 <- str_glue_eval("nrow({name_ds_2})", envir = .GlobalEnv)
 
             if (nrow_1 != nrow_2) {
                 errorCondition(
@@ -146,8 +146,8 @@ window_dataset_bind_cols <- function() {
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (length(name_ds_3) == 1) {
-            nrow_1 <- eval_glue("nrow({name_ds_1})", envir = .GlobalEnv)
-            nrow_3 <- eval_glue("nrow({name_ds_3})", envir = .GlobalEnv)
+            nrow_1 <- str_glue_eval("nrow({name_ds_1})", envir = .GlobalEnv)
+            nrow_3 <- str_glue_eval("nrow({name_ds_3})", envir = .GlobalEnv)
 
             if (nrow_1 != nrow_3) {
                 errorCondition(

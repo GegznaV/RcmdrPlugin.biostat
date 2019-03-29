@@ -195,8 +195,8 @@ bs_listbox <-
         on_keyboard_fun()
       }
 
-      eval_glue('tkbind(listbox, "<{letters}>", function() onLetter("{letters}"))')
-      eval_glue('tkbind(listbox, "<{LETTERS}>", function() onLetter("{letters}"))')
+      str_glue_eval('tkbind(listbox, "<{letters}>", function() onLetter("{letters}"))')
+      str_glue_eval('tkbind(listbox, "<{LETTERS}>", function() onLetter("{letters}"))')
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     bind_mouse_keys(listbox)

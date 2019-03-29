@@ -39,7 +39,7 @@ window_variable_rename <- function() {
         onOKsub <- function() {
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             for (i in 1:n_old_names) {
-                new_names[i] <- eval_glue("tclvalue(newName{i})")
+                new_names[i] <- str_glue_eval("tclvalue(newName{i})")
             }
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             closeDialog(subdialog)

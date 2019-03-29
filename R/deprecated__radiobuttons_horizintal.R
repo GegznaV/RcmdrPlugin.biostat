@@ -61,7 +61,7 @@ radioButtons_horizontal <- defmacro(
             }
             ..buttons_str <- paste0(..current_buttons, collapse = ", ")
 
-            eval_glue('tkgrid({..buttons_str})')
+            str_glue_eval('tkgrid({..buttons_str})')
             tkgrid(buttons_pan_Frame, sticky = sticky_buttons)
 
 

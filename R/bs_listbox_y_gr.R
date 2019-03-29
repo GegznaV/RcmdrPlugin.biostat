@@ -41,7 +41,7 @@ tk_widget_boxes_y_gr <- function(
             warning("`y_vars` is ignored as `y_var_type` is not NA")
         }
 
-        y_vars    <- eval_glue("variables_{y_var_type}()")
+        y_vars    <- str_glue_eval("variables_{y_var_type}()")
         y_initial <- var_pos_n(y_initial, y_var_type)
     }
 
@@ -50,7 +50,7 @@ tk_widget_boxes_y_gr <- function(
             warning("`gr_vars` is ignored as `gr_var_type` is not NA")
         }
 
-        gr_vars    <- eval_glue("variables_{gr_var_type}()")
+        gr_vars    <- str_glue_eval("variables_{gr_var_type}()")
         gr_initial <- var_pos_n(gr_initial, gr_var_type)
     }
 

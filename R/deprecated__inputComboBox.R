@@ -39,12 +39,12 @@ onLetter <- function(letter) {
         tcl(combobox, "current", current + mat - 1)
 }
 
-# eval_glue('on{LETTERS} <- function() onLetter{"letters"}')
-# eval_glue('tkbind(combobox, "<{letters}>", get("on{LETTERS}"))')
-# eval_glue('tkbind(combobox, "<{LETTERS}>", get("on{LETTERS}"))')
+# str_glue_eval('on{LETTERS} <- function() onLetter{"letters"}')
+# str_glue_eval('tkbind(combobox, "<{letters}>", get("on{LETTERS}"))')
+# str_glue_eval('tkbind(combobox, "<{LETTERS}>", get("on{LETTERS}"))')
 
-eval_glue('tkbind(combobox, "<{letters}>", function() onLetter("{letters}"))')
-eval_glue('tkbind(combobox, "<{LETTERS}>", function() onLetter("{letters}"))')
+str_glue_eval('tkbind(combobox, "<{letters}>", function() onLetter("{letters}"))')
+str_glue_eval('tkbind(combobox, "<{LETTERS}>", function() onLetter("{letters}"))')
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 onClick <- function() {
         tkfocus(combobox)

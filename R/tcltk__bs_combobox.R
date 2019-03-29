@@ -160,8 +160,8 @@ bs_combobox <- function(
 
             tcl(combobox, "current", next_ind - 1) # 0 based index
         }
-        eval_glue('tkbind(combobox, "<{letters}>", function() onLetter("{letters}"))')
-        eval_glue('tkbind(combobox, "<{LETTERS}>", function() onLetter("{letters}"))')
+        str_glue_eval('tkbind(combobox, "<{letters}>", function() onLetter("{letters}"))')
+        str_glue_eval('tkbind(combobox, "<{LETTERS}>", function() onLetter("{letters}"))')
 
 
         # TODO:

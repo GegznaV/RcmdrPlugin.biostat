@@ -31,10 +31,10 @@ command_rows_rm_empty_rows <- function() {
     ds            <- active_dataset_0()
     empty_row_var <- unique_obj_names("empty_rows")
 
-    dim_before <- eval_glue("dim({ds})", envir_eval = .GlobalEnv)
+    dim_before <- str_glue_eval("dim({ds})", envir_eval = .GlobalEnv)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    empty_rows_tmp <- eval_glue("rowSums(is.na({ds})) == ncol({ds})",
+    empty_rows_tmp <- str_glue_eval("rowSums(is.na({ds})) == ncol({ds})",
                                 envir_eval = .GlobalEnv)
 
     if (any(empty_rows_tmp)) {
@@ -62,7 +62,7 @@ command_rows_rm_empty_rows <- function() {
         logger(str_glue("# No empty rows are present in `{ds}`"))
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    dim_after <- eval_glue("dim({ds})", envir_eval = .GlobalEnv)
+    dim_after <- str_glue_eval("dim({ds})", envir_eval = .GlobalEnv)
 
     if (!identical(dim_before, dim_after))
         command_dataset_refresh()

@@ -65,7 +65,7 @@ window_rows_slice <- function(){
         }
 
         # indexRows <- paste0("c(", gsub(" ", ",", index), ")")
-        # index <- try(eval_glue(indexRows), silent = TRUE)
+        # index <- try(str_glue_eval(indexRows), silent = TRUE)
 
         if (class(index) == "try-error") {
             errorCondition(recall = window_rows_slice,

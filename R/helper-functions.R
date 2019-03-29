@@ -202,8 +202,8 @@ list_summaries_Models <- function(envir = .GlobalEnv, ...) {
 # ?stringr::str_glue
 # ?parse
 # ?eval
-# TODO: pervadinto į str_glue_eval
-eval_glue <- function(..., envir = parent.frame(),
+# TODO: pervadinti į str_glue_eval
+str_glue_eval <- function(..., envir = parent.frame(),
                       # .collapse = "\n",
                       .sep = "", .open = "{", .close = "}",
                       envir_eval = envir,
@@ -1294,7 +1294,7 @@ objects_in_env_P <- function(n = 1, envir = .GlobalEnv, ...) {
 #' @export
 characterP <- function(n = 1) {
     activeDataSetP() &&
-        (sum(eval_glue("mapply(is.character, {active_dataset()})")) >= n)
+        (sum(str_glue_eval("mapply(is.character, {active_dataset()})")) >= n)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1309,7 +1309,7 @@ characterP <- function(n = 1) {
 #' @export
 factors_strict_P <- function(n = 1) {
     activeDataSetP() &&
-        (sum(eval_glue("mapply(is.factor, {active_dataset()})")) >= n)
+        (sum(str_glue_eval("mapply(is.factor, {active_dataset()})")) >= n)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Does active dataset contain logicals?
@@ -1322,7 +1322,7 @@ factors_strict_P <- function(n = 1) {
 #' @export
 logicalP <- function(n = 1) {
     activeDataSetP() &&
-        (sum(eval_glue("mapply(is.logical, {active_dataset()})")) >= n)
+        (sum(str_glue_eval("mapply(is.logical, {active_dataset()})")) >= n)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1346,7 +1346,7 @@ variablesP <- function(n = 1) {
 #' @export
 first_class_is_dataframeP <- function() {
     activeDataSetP() &&
-        (eval_glue("class({active_dataset()})[1]") == "data.frame")
+        (str_glue_eval("class({active_dataset()})[1]") == "data.frame")
 }
 #' [!] Is the first class the same as in brackets?
 #'
@@ -1355,7 +1355,7 @@ first_class_is_dataframeP <- function() {
 #' @export
 first_class_isP <- function(df_class) {
     activeDataSetP() &&
-        (eval_glue("class({active_dataset()})[1]") == df_class)
+        (str_glue_eval("class({active_dataset()})[1]") == df_class)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Chech the class of the active model in Rcmdr

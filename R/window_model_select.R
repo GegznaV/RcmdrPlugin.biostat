@@ -34,11 +34,11 @@ window_model_select <- function() {
 
         if (get_size(var_model_box) == 0 || get_selection_length(var_model_box) == 0) {
             # Disable buttons
-            eval_glue("tk_disable({button_obj})",   eval_envir = envir)
+            str_glue_eval("tk_disable({button_obj})",   eval_envir = envir)
 
         } else {
             # Normalize buttons
-            eval_glue("tk_normalize({button_obj})", eval_envir = envir)
+            str_glue_eval("tk_normalize({button_obj})", eval_envir = envir)
         }
 
         # Button "i6"

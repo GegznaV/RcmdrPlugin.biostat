@@ -66,7 +66,7 @@ window_dataset_join <- function() {
         # On mouse relese
         ds <- getSelection(ds_1_box)
         # Names of variables plus blank:
-        vars_in_ds <- c("", eval_glue("colnames({ds})", envir_eval = .GlobalEnv))
+        vars_in_ds <- c("", str_glue_eval("colnames({ds})", envir_eval = .GlobalEnv))
 
         reset_combobox(v_x1, values = vars_in_ds)
         reset_combobox(v_x2, values = vars_in_ds)
@@ -77,7 +77,7 @@ window_dataset_join <- function() {
         # On mouse relese
         ds <- getSelection(ds_2_box)
         # Names of variables plus blank:
-        vars_in_ds <- c("", eval_glue("colnames({ds})", envir_eval = .GlobalEnv))
+        vars_in_ds <- c("", str_glue_eval("colnames({ds})", envir_eval = .GlobalEnv))
 
         reset_combobox(v_y1, values = vars_in_ds)
         reset_combobox(v_y2, values = vars_in_ds)

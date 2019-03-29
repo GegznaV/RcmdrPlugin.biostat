@@ -322,7 +322,7 @@ window_variable_recode0 <- function() {
     insert_template <- function(template = "1") {
         active_variable  <- getSelection(variablesBox)
         var_val          <- get_active_ds()[[active_variable]]
-        # var_val        <- eval_glue("{active_dataset()}${active_variable}")
+        # var_val        <- str_glue_eval("{active_dataset()}${active_variable}")
 
         get_active_ds()[[active_variable]]
 

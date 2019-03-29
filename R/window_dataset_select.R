@@ -28,11 +28,11 @@ window_dataset_select <- function() {
 
         if (get_size(var_ds_box) == 0 || get_selection_length(var_ds_box) == 0) {
             # Disable buttons
-            eval_glue("tk_disable({button_obj})",    eval_envir = envir)
+            str_glue_eval("tk_disable({button_obj})",    eval_envir = envir)
 
         } else {
             # Normalize buttons
-            eval_glue("tk_normalize({button_obj})", eval_envir = envir)
+            str_glue_eval("tk_normalize({button_obj})", eval_envir = envir)
         }
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -79,7 +79,7 @@ window_dataset_select <- function() {
 
         # If any factors exist
         ds_factors <-
-            purrr::map_lgl(eval_glue("{.ds_1}", envir_eval = .GlobalEnv),
+            purrr::map_lgl(str_glue_eval("{.ds_1}", envir_eval = .GlobalEnv),
                            ~inherits(., "factor"))
 
         if (any(ds_factors)) {

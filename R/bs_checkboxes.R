@@ -192,7 +192,7 @@ bs_checkboxes <- function(
            horizontal = {
                buttons_str <- paste0("objs[[", seq_along(objs), "]]",
                                      collapse = ", ")
-               eval_glue('tkgrid({buttons_str}, sticky = sticky_buttons)')
+               str_glue_eval('tkgrid({buttons_str}, sticky = sticky_buttons)')
            },
 
            stop("Unrecognized layout: ", layout)
