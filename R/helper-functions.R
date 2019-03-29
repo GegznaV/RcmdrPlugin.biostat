@@ -202,7 +202,7 @@ list_summaries_Models <- function(envir = .GlobalEnv, ...) {
 # ?stringr::str_glue
 # ?parse
 # ?eval
-# TODO: pervadinti į str_glue_eval
+
 str_glue_eval <- function(..., envir = parent.frame(),
                       # .collapse = "\n",
                       .sep = "", .open = "{", .close = "}",
