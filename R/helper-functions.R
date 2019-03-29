@@ -202,7 +202,9 @@ list_summaries_Models <- function(envir = .GlobalEnv, ...) {
 # ?stringr::str_glue
 # ?parse
 # ?eval
-
+#
+# envir_eval  - environment to evalueate in.
+# envir_glue  - environment to glue in.
 str_glue_eval <- function(..., envir = parent.frame(),
                       # .collapse = "\n",
                       .sep = "", .open = "{", .close = "}",
@@ -223,7 +225,7 @@ str_glue_eval <- function(..., envir = parent.frame(),
 #' @keywords internal
 
 # x - commans written as text;
-# envir - environment to evalueate in
+# envir - environment to evalueate in.
 eval_text <- function(x, envir = parent.frame(), ...) {
     eval(parse(text = x), envir = envir, ...)
 }
