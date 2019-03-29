@@ -3,15 +3,15 @@
 \name{extract-fileparts}
 \alias{extract-fileparts}
 \alias{extract_filename}
-\alias{is_url}
 \alias{do_nothing}
+\alias{is_url}
 \title{Extract file parts.}
 \usage{
 extract_filename(str)
 
-is_url(str)
-
 do_nothing(...)
+
+is_url(str)
 }
 \arguments{
 \item{str}{(character) Path to file (with filename and extension).}

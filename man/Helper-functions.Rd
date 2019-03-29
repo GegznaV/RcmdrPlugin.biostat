@@ -64,6 +64,8 @@
 \alias{Helper-functions}
 \alias{get_active_ds}
 \alias{list_objects_of_class}
+\alias{variables_with_unique_values}
+\alias{variables_with_unique_values_P}
 \alias{var_pos_n}
 \alias{list_summaries_Models}
 \alias{str_glue_eval}
@@ -71,6 +73,7 @@
 \alias{style_cmd}
 \alias{try_command}
 \alias{is_try_error}
+\alias{function_not_implemented}
 \alias{gettext_ezr}
 \alias{gettext_bs}
 \alias{s2u}
@@ -82,15 +85,12 @@
 \alias{swap_rows}
 \alias{correct_row_index}
 \alias{clean_str}
-\alias{function_not_implemented}
 \alias{get_obj_names}
 \alias{unique_obj_names}
 \alias{unique_df_name}
 \alias{unique_file_name}
 \alias{unique_colnames}
 \alias{unique_colnames_2}
-\alias{variables_with_unique_values}
-\alias{variables_with_unique_values_P}
 \alias{safe_names}
 \alias{path_truncate}
 \alias{show_error_messages}
@@ -317,6 +317,10 @@ get_active_ds()
 list_objects_of_class(class = NULL, all.names = TRUE,
   envir = parent.frame())
 
+variables_with_unique_values()
+
+variables_with_unique_values_P(n = 1)
+
 var_pos_n(variables, type = c("all", "numeric", "num", "factor",
   "fct_like", "factor_strict", "fct", "twoLevelFactor", "fct_like_2_lvls",
   "nonfactor", "non_fct", "character", "chr", "logical", "lgl"),
@@ -334,6 +338,8 @@ style_cmd(command, indent_by = 2, ...)
 try_command(x)
 
 is_try_error(obj)
+
+function_not_implemented()
 
 gettext_ezr(...)
 
@@ -357,8 +363,6 @@ correct_row_index(i, n_max)
 
 clean_str(str, ...)
 
-function_not_implemented()
-
 get_obj_names(include_class = NULL, exclude_class = NULL,
   include2_class = NULL, all.names = TRUE, envir = globalenv())
 
@@ -378,10 +382,6 @@ unique_colnames(names = "", preffix = "", suffix = "",
 
 unique_colnames_2(names = "", preffix = "", suffix = "",
   list_of_choices = listVariables(), all_numbered = TRUE)
-
-variables_with_unique_values()
-
-variables_with_unique_values_P(n = 1)
 
 safe_names(str)
 

@@ -23,21 +23,21 @@ get_active_ds <- function() {
 list_objects_of_class <-
     function(class = NULL, all.names = TRUE,  envir = parent.frame()) {
 
-    force(envir)
-    checkmate::assert_character(class, null.ok = TRUE)
+        force(envir)
+        checkmate::assert_character(class, null.ok = TRUE)
 
-    all_variable_names <- objects(envir, all.names = all.names)
+        all_variable_names <- objects(envir, all.names = all.names)
 
-    if (length(all_variable_names) == 0 || is.null(class)) {
-        return(all_variable_names)
+        if (length(all_variable_names) == 0 || is.null(class)) {
+            return(all_variable_names)
 
-    } else {
-        # Object names of class to return
-        mget(all_variable_names, envir = envir) %>%
-            purrr::keep(~inherits(.x, class)) %>%
-            names()
+        } else {
+            # Object names of class to return
+            mget(all_variable_names, envir = envir) %>%
+                purrr::keep(~inherits(.x, class)) %>%
+                names()
+        }
     }
-}
 
 
 
@@ -125,6 +125,19 @@ variables_dbl <- function() {
     setdiff(Numeric(), variables_int())
 }
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+variables_with_unique_values <- function() {
+
+    ds <- get(active_dataset(), envir = .GlobalEnv)
+    not_duplicated_cols <- purrr::map_lgl(ds, ~!any(duplicated(.)))
+    (not_duplicated_cols[not_duplicated_cols == TRUE]) %>%
+        names() %>%
+        sort()
+}
+
+
 #' Numeric variable names in active dataset
 #'
 #' @keywords internal
@@ -206,10 +219,10 @@ list_summaries_Models <- function(envir = .GlobalEnv, ...) {
 # envir_eval  - environment to evalueate in.
 # envir_glue  - environment to glue in.
 str_glue_eval <- function(..., envir = parent.frame(),
-                      # .collapse = "\n",
-                      .sep = "", .open = "{", .close = "}",
-                      envir_eval = envir,
-                      envir_glue = envir) {
+                          # .collapse = "\n",
+                          .sep = "", .open = "{", .close = "}",
+                          envir_eval = envir,
+                          envir_glue = envir) {
 
     commands_as_text <- stringr::str_glue(...,
                                           .envir = envir_glue,
@@ -550,9 +563,9 @@ unique_file_name <- function(name = "file", # all names are converted to lower c
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # TODO: [???] "Not implemented"
 unique_file_name_2 <- function(name = "file", # all names are converted to lower case.
-                             dir = NULL,
-                             list_of_choices = NULL,
-                             all_numbered = FALSE) {
+                               dir = NULL,
+                               list_of_choices = NULL,
+                               all_numbered = FALSE) {
 
     stop("Not implemented") # TODO: [???]
 
@@ -593,25 +606,6 @@ unique_file_name_2 <- function(name = "file", # all names are converted to lower
         set_multi_ext(ext)
 }
 
-
-
-# More robust version of fs::path_ext_set()
-set_multi_ext  <- function(path, ext) {
-    # Prepares `ext` or results in error.
-    if (length(ext) == 1) {
-        ext <- rep(ext, length(path))
-    } else if (length(ext) != length(path)) {
-        stop("The number of extensions (`ext`) should be equal to 1 or match the number of paths (`path`).")
-    }
-
-    ext <- sub("^\\.(.*)$", "\\1", ext) # Removes leading dot from the extension, if present
-
-    cond <- !is.na(path) & ext != "" # To exclude NA strings and empty extensions
-    path[cond] <-  paste0(fs::path_ext_remove(path[cond]), ".", ext[cond])
-    fs::path_tidy(path)
-}
-
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Helper-functions
 #' @export
@@ -636,24 +630,6 @@ unique_colnames_2 <- function(names = "",
     unique_obj_names(names, preffix, suffix, list_of_choices, all_numbered)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Helper-functions
-#' @export
-#' @keywords internal
-variables_with_unique_values <- function() {
-
-    ds <- get(active_dataset(), envir = .GlobalEnv)
-    not_duplicated_cols <- purrr::map_lgl(ds, ~!any(duplicated(.)))
-    (not_duplicated_cols[not_duplicated_cols == TRUE]) %>%
-        names() %>%
-        sort()
-}
-#' @rdname Helper-functions
-#' @export
-#' @keywords internal
-variables_with_unique_values_P <- function(n = 1) {
-
-    activeDataSetP() && length(variables_with_unique_values() >= n)
-}
 
 #' @rdname Helper-functions
 #' @export
@@ -685,7 +661,8 @@ make_relative_path <- function(str) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-# path <- file.path("c:", "p1p1p1p1p1", "p2p2p2p2p2p2", "p3p3p3p3p3p3p3", "file2.xlsx")
+# path <- file.path("c:", "p1p1p1p1p1", "p2p2p2p2p2p2", "p3p3p3p3p3p3p3",
+#  "file2.xlsx")
 #                      # "c:/p1p1p1p1p1/p2p2p2p2p2p2/p3p3p3p3p3p3p3/file2.xlsx"
 # path_truncate(path)  # --->  "c:/p1p1p1p1p1/ ... /file2.xlsx"
 path_truncate <- function(path, max_length = 30) {
@@ -722,7 +699,6 @@ extract_filename <- function(str) {
     # sub("(.*\\/)([^.]+)(\\.[[:alnum:]]+$)", "\\2", str)
 }
 
-
 fs_path_ext_remove <- function(path) {
     fs::path(fs::path_dir(path), fs::path_ext_remove(fs::path_file(path)))
 }
@@ -731,18 +707,43 @@ fs_path_ext_set <- function(path, ext) {
     fs::path(fs::path_dir(path), fs::path_ext_set(fs::path_file(path), ext = ext))
 }
 
+# More robust version of fs::path_ext_set()
+set_multi_ext  <- function(path, ext) {
+    # Prepares `ext` or results in error.
+    if (length(ext) == 1) {
+        ext <- rep(ext, length(path))
+    } else if (length(ext) != length(path)) {
+        stop("The number of extensions (`ext`) should be equal to 1 or match the number of paths (`path`).")
+    }
 
+    ext <- sub("^\\.(.*)$", "\\1", ext) # Removes leading dot from the extension, if present
 
-
-
-#' @rdname extract-fileparts
-#' @keywords internal
-#' @export
-is_url <- function(str) {
-    str_detect(str, "^(http://|https://|ftp://|ftps://)")
+    cond <- !is.na(path) & ext != "" # To exclude NA strings and empty extensions
+    path[cond] <-  paste0(fs::path_ext_remove(path[cond]), ".", ext[cond])
+    fs::path_tidy(path)
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+# ___ Messages and message boxes ____ ========================================
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+# show_error_messages <- function(message, message2 = message, title = "") {
+#     Message(message = message,  type = "error")
+#     tk_messageBox(parent = CommanderWindow(), message2, icon = "error",
+#                  caption = title, type = "ok")
+# }
+show_error_messages <- function(message, popup_msg = message, title = "Error",
+                                parent = CommanderWindow()) {
+    Message(message = message, type = "error")
+    # RcmdrTkmessageBox(popup_msg, icon = "error", title = title, type = "ok")
+    tk_messageBox(parent = parent, message = popup_msg, caption = title,
+                  type = "ok", icon = "error")
+}
+
 
 msg_box_clear_input <- function(parent = CommanderWindow()) {
     tk_messageBox(
@@ -781,6 +782,7 @@ msg_box_check_internet_connection <- function(parent = CommanderWindow()) {
         type  = "ok")
 }
 
+# ____ Other functions ____ ==================================================
 
 #' @rdname extract-fileparts
 #' @keywords internal
@@ -789,20 +791,13 @@ do_nothing <- function(...) {}
 
 
 # ___ Check ___ ==============================================================
-#' @rdname Helper-functions
-#' @export
+
+
+#' @rdname extract-fileparts
 #' @keywords internal
-# show_error_messages <- function(message, message2 = message, title = "") {
-#     Message(message = message,  type = "error")
-#     tk_messageBox(parent = CommanderWindow(), message2, icon = "error",
-#                  caption = title, type = "ok")
-# }
-show_error_messages <- function(message, popup_msg = message, title = "Error",
-                                parent = CommanderWindow()) {
-    Message(message = message, type = "error")
-    # RcmdrTkmessageBox(popup_msg, icon = "error", title = title, type = "ok")
-    tk_messageBox(parent = parent, message = popup_msg, caption = title,
-                  type = "ok", icon = "error")
+#' @export
+is_url <- function(str) {
+    str_detect(str, "^(http://|https://|ftp://|ftps://)")
 }
 
 # + Valid name ---------------------------------------------------------------
@@ -1365,6 +1360,16 @@ modelClassP <- function(class_) {
         x = get(ActiveModel(), envir = .GlobalEnv),
         what = class_))
 }
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+variables_with_unique_values_P <- function(n = 1) {
+
+    activeDataSetP() && length(variables_with_unique_values() >= n)
+}
+
 
 # + Input validation ---------------------------------------------------------
 
