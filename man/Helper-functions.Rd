@@ -65,7 +65,6 @@
 \alias{get_active_ds}
 \alias{list_objects_of_class}
 \alias{variables_with_unique_values}
-\alias{variables_with_unique_values_P}
 \alias{var_pos_n}
 \alias{list_summaries_Models}
 \alias{str_glue_eval}
@@ -111,6 +110,7 @@
 \alias{class_ggplot_P}
 \alias{list_objects_ggplot}
 \alias{objects_in_env_P}
+\alias{variables_with_unique_values_P}
 \alias{command_rcmdr_restart}
 \alias{command_rcmdr_close}
 \alias{command_rcmdr_close_r}
@@ -319,8 +319,6 @@ list_objects_of_class(class = NULL, all.names = TRUE,
 
 variables_with_unique_values()
 
-variables_with_unique_values_P(n = 1)
-
 var_pos_n(variables, type = c("all", "numeric", "num", "factor",
   "fct_like", "factor_strict", "fct", "twoLevelFactor", "fct_like_2_lvls",
   "nonfactor", "non_fct", "character", "chr", "logical", "lgl"),
@@ -425,6 +423,8 @@ class_ggplot_P(n = 1)
 list_objects_ggplot(envir = .GlobalEnv)
 
 objects_in_env_P(n = 1, envir = .GlobalEnv, ...)
+
+variables_with_unique_values_P(n = 1)
 
 command_rcmdr_restart()
 
