@@ -57,7 +57,7 @@ Imports:
     clipr,
     data.table (>= 1.12.0),
     desc,
-    DescTools,
+    DescTools (>= 0.99.28),
     dplyr (>= 0.8.0),
     forcats,
     fs (>= 1.2.7),
