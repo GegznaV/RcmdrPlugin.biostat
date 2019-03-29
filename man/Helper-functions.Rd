@@ -319,8 +319,8 @@ list_objects_of_class(class = NULL, all.names = TRUE,
   envir = parent.frame())
 
 var_pos_n(variables, type = c("all", "numeric", "num", "factor",
-  "fct_like", "factor_strict", "fct", "twoLevelFactor", "fct2",
-  "nonfactor", "nfct", "character", "chr", "logical", "lgl"),
+  "fct_like", "factor_strict", "fct", "twoLevelFactor", "fct_like_2_lvls",
+  "nonfactor", "non_fct", "character", "chr", "logical", "lgl"),
   vars = NULL)
 
 list_summaries_Models(envir = .GlobalEnv, ...)

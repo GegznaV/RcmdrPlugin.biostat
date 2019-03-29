@@ -1,4 +1,4 @@
-bs_var_types <- c("all", "num", "fct_like", "fct", "fct2", "nfct", "chr", "lgl", NA_character_)
+bs_var_types <- c("all", "num", "fct_like", "fct", "fct_like_2_lvls", "non_fct", "chr", "lgl", NA_character_)
 
 title_var_1   <- "Variable \n(pick one)"
 title_var_n   <- "Variable \n(pick one or several)"

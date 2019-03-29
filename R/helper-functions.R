@@ -10,7 +10,11 @@ NULL
 #' @keywords internal
 # Get contents of active dataset
 get_active_ds <- function() {
-    globalenv()[[active_dataset_0()]]
+    active_ds <- active_dataset_0()
+    if (is.null(active_ds)) {
+        stop("Active dataset is not present. ")
+    }
+    globalenv()[[active_ds]]
 }
 
 #' @rdname Helper-functions
@@ -19,12 +23,14 @@ get_active_ds <- function() {
 list_objects_of_class <-
     function(class = NULL, all.names = TRUE,  envir = parent.frame()) {
 
+    force(envir)
     checkmate::assert_character(class, null.ok = TRUE)
 
     all_variable_names <- objects(envir, all.names = all.names)
 
     if (length(all_variable_names) == 0 || is.null(class)) {
         return(all_variable_names)
+
     } else {
         # Object names of class to return
         mget(all_variable_names, envir = envir) %>%
@@ -41,6 +47,7 @@ list_objects_of_class <-
 #' @export
 variables_all <- function() {
     Variables()
+    # list_objects_of_class(envir = as.environment(get_active_ds()))
 }
 #' Character variable names in active dataset
 #'
@@ -77,26 +84,21 @@ variables_fct_like <- function() {
 variables_non_fct_like <- function() {
     setdiff(Variables(), Factors())
 }
-#' Non-factor-like variable names in active dataset
+
+#' Non-factor variable names in active dataset
 #'
 #' @keywords internal
 #' @export
-variables_nfct <- function() {
+variables_non_fct <- function() {
     setdiff(Variables(), Factors())
 }
+
 
 #' Two-level factor names in active dataset
 #'
 #' @keywords internal
 #' @export
-variables_fct_2_lvls <- function() {
-    TwoLevelFactors()
-}
-#' Two-level factor names in active dataset
-#'
-#' @keywords internal
-#' @export
-variables_fct2_like <- function() {
+variables_fct_like_2_lvls <- function() {
     TwoLevelFactors()
 }
 #' Numeric variable names in active dataset
@@ -142,8 +144,8 @@ var_pos_n <- function(variables,
                                "numeric",        "num",
                                "factor",         "fct_like",
                                "factor_strict",  "fct",
-                               "twoLevelFactor", "fct2",
-                               "nonfactor",      "nfct",
+                               "twoLevelFactor", "fct_like_2_lvls",
+                               "nonfactor",      "non_fct",
                                "character",      "chr",
                                "logical",        "lgl"),
                       vars = NULL)
@@ -166,9 +168,9 @@ var_pos_n <- function(variables,
             numeric        = ,
             num            = variables_num(),
             nonfactor      = ,
-            nfct           = variables_nfct(),
+            non_fct        = variables_non_fct(),
             twoLevelFactor = ,
-            fct2_like      = variables_fct2_like())
+            fct2_like      = variables_fct_like_2_lvls())
 
     if (any(!variables %in% vars)) {
         NULL
@@ -361,6 +363,8 @@ read_clipboard <- function() {
 #' @export
 #' @keywords internal
 # @examples swap(1:5, 2, 4)
+
+# Swap 2 elements in a vector
 swap <- function(x, i, j) {
     x[c(i, j)] <- x[c(j, i)]
     x
@@ -506,7 +510,8 @@ unique_obj_names <- function(names,
 unique_df_name <- function(names = active_dataset_0(),
                            preffix = "",
                            suffix = "",
-                           list_of_choices = objects(all.names = TRUE, envir = .GlobalEnv),
+                           list_of_choices = objects(all.names = TRUE,
+                                                     envir = .GlobalEnv),
                            all_numbered = FALSE) {
 
     unique_obj_names(names, preffix, suffix, list_of_choices, all_numbered)
@@ -522,8 +527,9 @@ unique_file_name <- function(name = "file", # all names are converted to lower c
 
     if (length(name) == 0) {
         name <- "file"
+
     } else if (length(name) > 1) {
-        stop("There should be anly one file name.")
+        stop("There should be only one file name.")
     }
 
     ext <- fs::path_ext(name)
@@ -545,12 +551,14 @@ unique_file_name <- function(name = "file", # all names are converted to lower c
         set_multi_ext(ext)
 }
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# TODO: [???] "Not implemented"
 unique_file_name_2 <- function(name = "file", # all names are converted to lower case.
                              dir = NULL,
                              list_of_choices = NULL,
                              all_numbered = FALSE) {
 
-    stop("Not implemented") # [???]
+    stop("Not implemented") # TODO: [???]
 
     if (length(name) == 0) {
         name <- "file"
