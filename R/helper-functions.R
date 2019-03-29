@@ -260,6 +260,41 @@ is_try_error <- function(obj) {
     inherits(obj, "try-error")
 }
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+function_not_implemented <- function() {
+
+    top <- CommanderWindow()
+
+    tk_messageBox(
+        parent = top,
+        "The function is not implemented yet!",
+        icon = "warning",
+        title = "No Function Yet",
+        type = "ok")
+
+    return()
+
+    x = NULL
+    doItAndPrint("## ~~~ Not implemented yet! ~~~\n")
+
+    if (is.null(x)) {
+        x <- "This function"
+    }
+
+    text <- str_glue("# ~~~ {x} will be implemented  \n ",
+                     "# ~~~ in the future versions of package `RcmdrPlugin.biostat`! ")
+
+    msg <- str_glue("{x} will be implemented in the future versions of package",
+                    " `RcmdrPlugin.biostat`! ")
+
+    doItAndPrint(text)
+    Message(msg, type = "warning")
+}
+
+
 # ___ Translate ___ ==========================================================
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -393,41 +428,6 @@ correct_row_index <- function(i, n_max) {
 clean_str <- function(str, ...) {
     snakecase::to_any_case(make.names(str), ...)
 }
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Helper-functions
-#' @export
-#' @keywords internal
-function_not_implemented <- function() {
-
-    top <- CommanderWindow()
-
-    tk_messageBox(
-        parent = top,
-        "The function is not implemented yet!",
-        icon = "warning",
-        title = "No Function Yet",
-        type = "ok")
-
-    return()
-
-    x = NULL
-    doItAndPrint("## ~~~ Not implemented yet! ~~~\n")
-
-    if (is.null(x)) {
-        x <- "This function"
-    }
-
-    text <- str_glue("# ~~~ {x} will be implemented  \n ",
-                     "# ~~~ in the future versions of package `RcmdrPlugin.biostat`! ")
-
-    msg <- str_glue("{x} will be implemented in the future versions of package",
-                    " `RcmdrPlugin.biostat`! ")
-
-    doItAndPrint(text)
-    Message(msg, type = "warning")
-}
-
 
 #' @rdname Helper-functions
 #' @export
