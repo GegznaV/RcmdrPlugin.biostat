@@ -1029,15 +1029,15 @@ bs_mode_menu__plots <- function() {
           command  = window_online_image_digitizer)
 
 
-    if (packageAvailable('officer') && packageAvailable('rvg')) {
-        tkadd(menu_p, "separator")
-
-        tkadd(menu_p, "command",
-              label    = "Save editable plot to PowerPoint...",
-              compound = "left",
-              image    = "::image::bs_pptx",
-              command  = window_export_fig_to_pptx)
-    }
+    # if (packageAvailable('officer') && packageAvailable('rvg')) {
+    #     tkadd(menu_p, "separator")
+    #
+    #     tkadd(menu_p, "command",
+    #           label    = "Save editable plot to PowerPoint...",
+    #           compound = "left",
+    #           image    = "::image::bs_pptx",
+    #           command  = window_export_fig_to_pptx)
+    # }
 
     # tkadd(menu_p, "separator")
 
