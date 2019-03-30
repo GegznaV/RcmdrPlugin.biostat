@@ -4,10 +4,12 @@
 \alias{is_valid_name}
 \title{Check if name is valid}
 \usage{
-is_valid_name(name)
+is_valid_name(name, parent = CommanderWindow())
 }
 \arguments{
 \item{name}{(character) a single string.}
+
+\item{parent}{(tkwin object) a parent Tcl/Tk window.}
 }
 \value{
 Logical value TRUE if string meets requirements, FALSE - otherwise.
