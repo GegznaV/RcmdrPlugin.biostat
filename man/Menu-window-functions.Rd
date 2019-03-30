@@ -145,7 +145,6 @@
 \alias{window_locale_set_0}
 \alias{window_model_select}
 \alias{window_rows_arrange}
-\alias{window_rows_arrange_tmp}
 \alias{window_rows_col_to_rownames0}
 \alias{window_rows_col_to_rownames}
 \alias{window_rows_filter0}
@@ -409,8 +408,6 @@ window_locale_set_0(parent = CommanderWindow())
 window_model_select()
 
 window_rows_arrange()
-
-window_rows_arrange_tmp()
 
 window_rows_col_to_rownames0(variables)
 
