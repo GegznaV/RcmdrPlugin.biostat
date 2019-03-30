@@ -91,7 +91,7 @@ window_export_fig_to_pptx <- function() {
 
         file_open <-
             if (file.exists(file_save)) {
-                str_glue('"{file_save}"')
+                str_glue('"{file_save}" %>% \n')
 
             } else {
                 ""
@@ -109,20 +109,21 @@ window_export_fig_to_pptx <- function() {
             }
 
         # Save plot
-        command <- str_c(sep = "\n",
-                         '## Save plot',
-                         '    officer::read_pptx({file_open}) %>%',
-                         '    officer::add_slide(layout = "Blank", master = "Office Theme") %>%',
-                         '    rvg::ph_with_vg_at(',
-                         '        top    = {top},    # {in_units}',
-                         '        left   = {left},   # {in_units}',
-                         '        height = {height}, # {in_units}',
-                         '        width  = {width},  # {in_units}',
-                         '        {gg_code}',
-                         '    ) %>%',
-                         '    print(target = "{file_save}")',
+        command <- str_c(
+            sep = "\n",
+            '## Save plot',
+            '    {file_open} officer::read_pptx() %>%',
+            '    officer::add_slide(layout = "Blank", master = "Office Theme") %>%',
+            '    rvg::ph_with_vg_at(',
+            '        top    = {top},    # {in_units}',
+            '        left   = {left},   # {in_units}',
+            '        height = {height}, # {in_units}',
+            '        width  = {width},  # {in_units}',
+            '        {gg_code}',
+            '    ) %>%',
+            '    print(target = "{file_save}")',
 
-                         '{code__open_after_saving}'
+            '{code__open_after_saving}'
         ) %>%
             str_glue() %>%
             style_cmd()
