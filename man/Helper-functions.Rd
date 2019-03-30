@@ -388,11 +388,12 @@ path_truncate(path, max_length = 30)
 show_error_messages(message, popup_msg = message, title = "Error",
   parent = CommanderWindow())
 
-is_not_valid_name(name)
+is_not_valid_name(name, parent = CommanderWindow())
 
-is_empty_name(name, which_name = "name")
+is_empty_name(name, which_name = "name", parent = CommanderWindow())
 
-is_not_empty_name(name, which_name = "name")
+is_not_empty_name(name, which_name = "name",
+  parent = CommanderWindow())
 
 variable_is_not_selected(obj, obj_type = "variable",
   parent = CommanderWindow())
@@ -402,19 +403,20 @@ object_is_not_selected(obj, obj_type = "object",
 
 are_not_valid_names(name, parent = CommanderWindow())
 
-forbid_to_replace_variable(name)
+forbid_to_replace_variable(name, parent = CommanderWindow())
 
-forbid_to_replace_variables(name)
+forbid_to_replace_variables(name, parent = CommanderWindow())
 
-forbid_to_replace_object(name, envir = .GlobalEnv)
+forbid_to_replace_object(name, envir = .GlobalEnv,
+  parent = CommanderWindow())
 
-forbid_to_replace_file(name)
+forbid_to_replace_file(name, parent = CommanderWindow())
 
-show_code_evaluation_error_message()
+show_code_evaluation_error_message(parent = CommanderWindow())
 
-dataset_not_persent()
+dataset_not_persent(parent = CommanderWindow())
 
-active_dataset_not_persent()
+active_dataset_not_persent(parent = CommanderWindow())
 
 nonFactorsP(n = 1)
 
