@@ -39,65 +39,52 @@ window_rows_arrange <- function() {
     onOK <- function() {
         y          <- get_selection(var_y_box)
         decreasing <- as.logical(tclvalue(decreasingVariable))
+        .ds        <- active_dataset()
+        new_dsname <- active_dataset()  # TODO: [???] should be a separate window
 
-
-        closeDialog()
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (variable_is_not_selected(y, "variable", parent = top)) {
             return()
         }
-
-        if (length(y) == 0) {
-            errorCondition(
-                recall = window_rows_arrange,
-                message = gettext_bs("You must select a variable.")
-            )
-            return()
-        }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        Library("dplyr")
-
-        # y <- stringr::str_c("`", y, "`")
         y <- safe_names(y)
 
-        variables <- if (decreasing) {
-            str_glue("desc({y})")
+        variables <-
+            if (decreasing) {
+                str_glue("desc({y})")
 
-        } else {
-            y
-        }
-
-        .ds        <- active_dataset()  # [???]
-        new_dsname <- active_dataset()
+            } else {
+                y
+            }
 
         command <- str_glue(
             "## Sort rows \n",
             "{new_dsname} <- {.ds} %>% \n",
-            "dplyr::arrange({variables})") %>%
-            style_cmd()
+            "dplyr::arrange({variables})")
 
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Library("dplyr")
         result <- justDoIt(command)
 
-        if (class(result)[1] !=  "try-error") {
-            # Change active dataset
+        if (class(result)[1] != "try-error") {
+            logger(style_cmd(command))
+
             active_dataset(new_dsname, flushModel = FALSE)
 
-        } else {
-            # If evaluation of conditions results in error
-            Message(message = gettext_bs("Evaluation of conditions resulted in error!"),
-                    type = "error")
+            # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            closeDialog()
 
-            window_rows_filter(
-                new_dsname = new_dsname,
-                init_conditions = conditions,
-                incorrect_cond_msg = "The definition of conditions contains error(s) or is invalid!")
+        } else {
+            logger_error(command, error_msg = result)
+            show_code_evaluation_error_message()
             return()
         }
 
-        logger(command)
         tkfocus(CommanderWindow())
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Announce about the success to run the function `onOk()`
+        TRUE
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
