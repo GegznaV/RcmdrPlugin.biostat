@@ -10,7 +10,7 @@ status](https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.
 version](https://img.shields.io/badge/GitHub-v0.0.25-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
 [![Travis-CI Build
 Status](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat)
-[![Updated-on](https://img.shields.io/badge/Updated%20on-2019--03--26-yellowgreen.svg)](/commits/master)
+[![Updated-on](https://img.shields.io/badge/Updated%20on-2019--03--31-yellowgreen.svg)](/commits/master)
 
 -----
 
