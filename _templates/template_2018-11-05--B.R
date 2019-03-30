@@ -23,41 +23,42 @@ window_xxx <- function() {
         # tkconfigure(name_entry, foreground = "black")
 
         # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (is_empty_name(new_name)) {
+        if (is_empty_name(new_name, parent = top)) {
             return()
         }
 
-        if (is_not_valid_name(new_name)) {
+        if (is_not_valid_name(new_name, parent = top)) {
             return()
         }
 
-        if (forbid_to_replace_variables(new_name)) {
+        if (forbid_to_replace_variables(new_name, parent = top)) {
             return()
         }
 
-        if (variable_is_not_selected(new_name, "variable")) {
+        if (variable_is_not_selected(new_name, "variable", parent = top)) {
             return()
         }
 
-        if (variable_is_not_selected(new_name, "group variable")) {
+        if (variable_is_not_selected(new_name, "group variable", parent = top)) {
             return()
         }
 
-        # if (forbid_to_replace_object(new_name)) {
+        # if (forbid_to_replace_object(new_name, parent = top)) {
         #     return()
         # }
 
-        # if (is_empty_name(new_name))              {return()}
-        # if (is_not_valid_name(new_name))          {return()}
-        # if (forbid_to_replace_variable(new_name)) {return()}
+        # if (is_empty_name(new_name, parent = top))              {return()}
+        # if (is_not_valid_name(new_name, parent = top))          {return()}
+        # if (forbid_to_replace_variable(new_name, parent = top)) {return()}
 
-        # if (object_is_not_selected(new_name))     {return()}
-        # if (forbid_to_replace_object(new_name))   {return()}
+        # if (object_is_not_selected(new_name, parent = top))     {return()}
+        # if (forbid_to_replace_object(new_name, parent = top))   {return()}
 
         # if (??? == "") {
         # show_error_messages(
         #     "No ???  was selected.\nPlease select a ???.",
-        #     title = "")
+        #     title = "",
+        #     parent = top)
         # return()
         # }
 
@@ -106,7 +107,7 @@ window_xxx <- function() {
 
         } else {
             logger_error(command, error_msg = result)
-            show_code_evaluation_error_message()
+            show_code_evaluation_error_message(parent = top)
             return()
         }
 
