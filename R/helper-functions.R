@@ -811,6 +811,7 @@ is_url <- function(str) {
 #' \code{is_empty_name} - does not check character validity.
 #'
 #' @param name (character) a single string.
+#' @param parent (tkwin object) a parent Tcl/Tk window.
 #'
 #' @return Logical value TRUE if string meets requirements, FALSE - otherwise.
 #' @export
@@ -827,7 +828,7 @@ is_url <- function(str) {
 #' is_empty_name("")
 #' is_empty_name("|||")
 #' }}
-is_valid_name <- function(name) {
+is_valid_name <- function(name, parent = CommanderWindow()) {
 
     if (is_empty_name(name)) {
         return(FALSE) # is not valid name
@@ -840,7 +841,10 @@ is_valid_name <- function(name) {
             "Valid names must start with a letter and contain only \n ",
             "letters, numbers, underscores (_) and periods (.). ")
 
-        show_error_messages(message, message2, title = "Invalid Name")
+        show_error_messages(
+            message, message2,
+            title = "Invalid Name",
+            parent = parent)
 
         # is not valid name
         return(FALSE)
@@ -854,15 +858,15 @@ is_valid_name <- function(name) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-is_not_valid_name <- function(name) {
-    !is_valid_name(name)
+is_not_valid_name <- function(name, parent = CommanderWindow()) {
+    !is_valid_name(name, parent = parent)
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-is_empty_name <- function(name, which_name = "name") {
-    !is_not_empty_name(name, which_name = which_name)
+is_empty_name <- function(name, which_name = "name", parent = CommanderWindow()) {
+    !is_not_empty_name(name, which_name = which_name, parent = parent)
 }
 
 #' @rdname Helper-functions
@@ -903,35 +907,48 @@ is_empty_name <- function(name, which_name = "name") {
 #
 # }
 
-is_not_empty_name <- function(name, which_name = "name") {
+is_not_empty_name <- function(name, which_name = "name",
+                              parent = CommanderWindow()) {
 
     if (length(name) < 1) {
         message  <-
             str_glue("The object does not contain any strings.\n",
                      " Please, enter a {which_name}.")
-        show_error_messages(message, message, title = str_glue("Missing {str_to_title(which_name)}"))
+
+        show_error_messages(
+            message, message,
+            title = str_glue("Missing {str_to_title(which_name)}"),
+            parent = parent)
 
         return(FALSE)
 
     } else if (length(name) > 1) {
         message  <- "The object cotains more than one string."
-        show_error_messages(message, message,
-                            title = str_glue("Too Many {str_to_title(which_name)}s"))
+
+        show_error_messages(
+            message, message,
+            title = str_glue("Too Many {str_to_title(which_name)}s"),
+            parent = parent)
 
         return(FALSE)
 
     } else if (!(is.character(name))) {
         message  <- str_glue('The class of the object with \n',
                              'the {which_name} must be "character".')
-        show_error_messages(message, message, title = "Invalid Class")
+        show_error_messages(
+            message, message,
+            title = "Invalid Class",
+            parent = parent)
 
         return(FALSE)
 
     } else if (name == "") {
         message  <- str_glue('The {which_name} field must not be empty.\n',
                              'Please, enter a {which_name}.')
-        show_error_messages(message, message,
-                            title = str_glue("Empty {str_to_title(which_name)}"))
+        show_error_messages(
+            message, message,
+            title = str_glue("Empty {str_to_title(which_name)}"),
+            parent = parent)
 
         return(FALSE)
 
@@ -955,9 +972,11 @@ variable_is_not_selected <- function(obj, obj_type = "variable",
             "No {obj_type} is selected.\n",
             "Please, select a {obj_type}.")
 
-        show_error_messages(message, message,
-                            title = str_glue("Select a {obj_type}"),
-                            parent = parent)
+        show_error_messages(
+            message, message,
+            title = str_glue("Select a {obj_type}"),
+            parent = parent)
+
         return(TRUE)
 
     } else {
@@ -976,9 +995,10 @@ object_is_not_selected <- function(obj, obj_type = "object",
             "No {obj_type} is selected.\n",
             "Please, select an {obj_type}.")
 
-        show_error_messages(message, message,
-                            title = str_glue("Select an {obj_type}"),
-                            parent = parent)
+        show_error_messages(
+            message, message,
+            title = str_glue("Select an {obj_type}"),
+            parent = parent)
         return(TRUE)
 
     } else {
@@ -997,8 +1017,10 @@ are_not_valid_names <- function(name, parent = CommanderWindow()) {
     if (length(name) < 1 || !is.character(name)) {
         message <- "Invalid (empty) name. \nPlease check and correct the name."
 
-        show_error_messages(message, message, title = "Invalid (Empty) Name",
-                            parent = parent)
+        show_error_messages(
+            message, message,
+            title = "Invalid (Empty) Name",
+            parent = parent)
         return(TRUE) # is in valid name
     }
 
@@ -1008,7 +1030,8 @@ are_not_valid_names <- function(name, parent = CommanderWindow()) {
         return(FALSE) # is valid name
 
     } else if (length(invalid_names) == 1) {
-        msg_box_confirm_to_replace(invalid_names, "Variable", parent) == "no"
+        msg_box_confirm_to_replace(
+            invalid_names, "Variable", parent = parent) == "no"
 
     } else if (length(invalid_names) > 1) {
         # message  <- str_glue('"{name}" {gettext_bs("is not a valid name.")}')
@@ -1019,8 +1042,10 @@ are_not_valid_names <- function(name, parent = CommanderWindow()) {
             "Valid names must start with a letter and contain only \n",
             "letters, numbers, underscores (_) and periods (.). ")
 
-        show_error_messages(message, message2, title = "Invalid Names",
-                            parent = parent)
+        show_error_messages(
+            message, message2,
+            title = "Invalid Names",
+            parent = parent)
 
         # is not valid name
         return(TRUE)
@@ -1084,7 +1109,7 @@ msg_box_confirm_to_replace_all <- function(name, type = "Variables",
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-forbid_to_replace_variable <- function(name) {
+forbid_to_replace_variable <- function(name, parent = CommanderWindow()) {
     # Checks if variable exists in active dataset.
     #
     # Returns FALSE if:
@@ -1094,7 +1119,7 @@ forbid_to_replace_variable <- function(name) {
     # Otherwise TRUE
 
     if (name %in% listVariables()) {
-        msg_box_confirm_to_replace(name, "Variable") == "no"
+        msg_box_confirm_to_replace(name, "Variable", parent = parent) == "no"
 
     } else {
         FALSE
@@ -1104,7 +1129,7 @@ forbid_to_replace_variable <- function(name) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-forbid_to_replace_variables <- function(name) {
+forbid_to_replace_variables <- function(name, parent = CommanderWindow()) {
     # Checks if variable exists in active dataset.
     #
     # Returns FALSE if:
@@ -1116,10 +1141,12 @@ forbid_to_replace_variables <- function(name) {
     vars_to_replace <- Variables()[Variables() %in% name]
 
     if (length(vars_to_replace) == 1) {
-        msg_box_confirm_to_replace(vars_to_replace, "Variable") == "no"
+        msg_box_confirm_to_replace(
+            vars_to_replace, "Variable", parent = parent) == "no"
 
     } else if (length(vars_to_replace) > 1) {
-        msg_box_confirm_to_replace_all(vars_to_replace, "Variables") == "no"
+        msg_box_confirm_to_replace_all(
+            vars_to_replace, "Variables", parent = parent) == "no"
 
     } else {
         FALSE
@@ -1130,7 +1157,8 @@ forbid_to_replace_variables <- function(name) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-forbid_to_replace_object <- function(name, envir = .GlobalEnv) {
+forbid_to_replace_object <- function(name, envir = .GlobalEnv,
+                                     parent = CommanderWindow()) {
     # Checks if object exists in (Global) environment
     #
     # Returns FALSE if:
@@ -1140,10 +1168,10 @@ forbid_to_replace_object <- function(name, envir = .GlobalEnv) {
     # Othervise TRUE
 
     if (name %in% listDataSets(envir = envir)) {
-        msg_box_confirm_to_replace(name, "Dataset") == "no"
+        msg_box_confirm_to_replace(name, "Dataset", parent = parent) == "no"
 
     } else if (name %in% objects(envir = envir, all.names = TRUE)) {
-        msg_box_confirm_to_replace(name, "Object") == "no"
+        msg_box_confirm_to_replace(name, "Object", parent = parent) == "no"
 
     } else {
         FALSE
@@ -1153,7 +1181,7 @@ forbid_to_replace_object <- function(name, envir = .GlobalEnv) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-forbid_to_replace_file <- function(name) {
+forbid_to_replace_file <- function(name, parent = CommanderWindow()) {
     # Checks if file exists
     #
     # Returns FALSE if:
@@ -1165,7 +1193,7 @@ forbid_to_replace_file <- function(name) {
     name_short <- fs::path_file(name)
 
     if (fs::file_exists(name)) {
-        msg_box_confirm_to_replace(name_short, "File") == "no"
+        msg_box_confirm_to_replace(name_short, "File", parent = parent) == "no"
 
     } else {
         FALSE
@@ -1175,7 +1203,7 @@ forbid_to_replace_file <- function(name) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-show_code_evaluation_error_message <- function() {
+show_code_evaluation_error_message <- function(parent = CommanderWindow()) {
     show_error_messages(
         str_c("Something went wrong while evaluating the code.\n",
               "Please, check if all options are selected correctly\n",
@@ -1183,13 +1211,13 @@ show_code_evaluation_error_message <- function() {
 
         str_c("Something went wrong while evaluating the code.\n\n",
               "Please, check if all options are selected correctly\n",
-              "and try to fix the issue."
+              "and try to fix the issue.",
 
               # "If no error was found, you may consider reporting\n",
               # "the bug in the package `RcmdrPlugin.biostat`\n",
               # '(see link in "About").\n'
         ),
-
+        parent = parent,
         title = "Code Evaluation Error")
 }
 
@@ -1197,13 +1225,13 @@ show_code_evaluation_error_message <- function() {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-dataset_not_persent <- function() {
-    top      <- CommanderWindow()
+dataset_not_persent <- function(parent = CommanderWindow()) {
+
     dataSets <- listDataSets()
 
     if (length(dataSets) == 0) {
         tk_messageBox(
-            parent = top,
+            parent = parent,
             "There are no datasets in R memory.\nPlease, create or import a dataset.",
             icon = "warning",
             title = "No Datasets in R",
@@ -1219,13 +1247,13 @@ dataset_not_persent <- function() {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-active_dataset_not_persent <- function() {
-    top <- CommanderWindow()
+active_dataset_not_persent <- function(parent = CommanderWindow()) {
+
     .ds <- active_dataset_0()
 
     if (is.null(.ds)) {
         tk_messageBox(
-            parent = top,
+            parent = parent,
             "There is no active dataset. \nPlease, select one.",
             icon = "warning",
             title = "Active Dataset Not Selected",
