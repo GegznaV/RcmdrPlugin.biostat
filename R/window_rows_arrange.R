@@ -25,6 +25,7 @@ window_rows_arrange <- function() {
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     optionsFrame <- tkframe(upper_frame)
+
     Rcmdr::radioButtons(
         optionsFrame,
         name    = "decreasing",
@@ -36,10 +37,16 @@ window_rows_arrange <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
-        y          <- getSelection(var_y_box)
+        y          <- get_selection(var_y_box)
         decreasing <- as.logical(tclvalue(decreasingVariable))
+
+
         closeDialog()
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (variable_is_not_selected(y, "variable", parent = top)) {
+            return()
+        }
+
         if (length(y) == 0) {
             errorCondition(
                 recall = window_rows_arrange,
@@ -62,12 +69,12 @@ window_rows_arrange <- function() {
             y
         }
 
-        dataSet    <- active_dataset()  # [???]
+        .ds        <- active_dataset()  # [???]
         new_dsname <- active_dataset()
 
         command <- str_glue(
             "## Sort rows \n",
-            "{new_dsname} <- {dataSet} %>% \n",
+            "{new_dsname} <- {.ds} %>% \n",
             "dplyr::arrange({variables})") %>%
             style_cmd()
 
@@ -81,16 +88,17 @@ window_rows_arrange <- function() {
             # If evaluation of conditions results in error
             Message(message = gettext_bs("Evaluation of conditions resulted in error!"),
                     type = "error")
-            window_rows_filter(new_dsname = new_dsname,
-                               init_conditions = conditions,
-                               incorrect_cond_msg = "The definition of conditions contains error(s) or is invalid!")
+
+            window_rows_filter(
+                new_dsname = new_dsname,
+                init_conditions = conditions,
+                incorrect_cond_msg = "The definition of conditions contains error(s) or is invalid!")
             return()
         }
 
         logger(command)
         tkfocus(CommanderWindow())
     }
-
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ok_cancel_help(helpSubject = "arrange", helpPackage = "dplyr")
@@ -101,31 +109,4 @@ window_rows_arrange <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(buttonsFrame, sticky = "w", columnspan = 2)
     dialogSuffix(rows = 6, columns = 1)
-}
-
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-#
-# TODO: [???]
-window_rows_arrange_tmp <- function() {
-    Library("tidyverse")
-
-    .ds <- active_dataset_0()
-
-    doItAndPrint(
-        str_glue(
-            '## Examples of code \n\n',
-
-            '# Sort rows ascending: \n',
-            '# new_df <- dplyr::arrange({.ds}, {listVariables()[1]}) \n\n',
-
-            '# Sort rows descending:: \n',
-            '# new_df <- dplyr::arrange({.ds}, desc({listVariables()[1]})) \n'
-        )
-    )
-
-    # command_dataset_refresh()
 }
