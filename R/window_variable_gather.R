@@ -173,7 +173,7 @@ window_variable_gather <- function() {
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (is.element(dsname, listDataSets())) {
-            if ("no" == tclvalue(checkReplace(dsname, gettext_bs("Data set")))){
+            if ("no" == tclvalue(checkReplace(dsname, gettext_bs("Data set")))) {
                 window_variable_gather()
                 return()
             }
@@ -185,8 +185,10 @@ window_variable_gather <- function() {
             if (gather_all == TRUE) {
                 ""
             } else {
+                # stringr::str_c(
+                #     ",\n", stringr::str_c("`", variables, "`", collapse = ", "))
                 stringr::str_c(
-                    ",\n", stringr::str_c("`", variables, "`", collapse = ", "))
+                    ",\n", stringr::str_c(safe_names(variables), collapse = ", "))
             }
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -242,7 +244,7 @@ window_variable_gather <- function() {
         tkfocus(CommanderWindow())
     }
     # ========================================================================
-    OKCancelHelp(helpSubject = "gather", helpPackage = "dplyr")
+    OKCancelHelp(helpSubject = "gather", helpPackage = "tidyr")
 
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
