@@ -140,9 +140,10 @@ window_variable_mutate <- function(var_name = NULL,
         if ("" == check.empty) {
             Message(message = gettext_bs("No expression was specified!"),
                     type = "error")
-            window_variable_mutate(var_name = newVar,
-                                   init_express = express,
-                                   incorrect_expr_msg = "No expression was specified!")
+            window_variable_mutate(
+                var_name = newVar,
+                init_express = express,
+                incorrect_expr_msg = "No expression was specified!")
             return()
         }
 
@@ -151,10 +152,11 @@ window_variable_mutate <- function(var_name = NULL,
             if ("no" == tclvalue(checkReplace(newVar,
                                               gettext_bs("Variable")))) {
 
-                window_variable_mutate(var_name = newVar,
-                                       init_express = express,
-                                       incorrect_expr_msg =
-                                           str_glue('Chose other name than "{newVar}".'))
+                window_variable_mutate(
+                    var_name = newVar,
+                    init_express = express,
+                    incorrect_expr_msg =
+                        str_glue('Chose other name than "{newVar}".'))
                 return()
             }
         }
@@ -173,9 +175,10 @@ window_variable_mutate <- function(var_name = NULL,
             # If expression results in error
             Message(message = gettext_bs("Error in the expression!"),
                     type = "error")
-            window_variable_mutate(var_name = newVar,
-                                   init_express = express,
-                                   incorrect_expr_msg = "The expression contains error(s) or is invalid!")
+            window_variable_mutate(
+                var_name = newVar,
+                init_express = express,
+                incorrect_expr_msg = "The expression contains error(s) or is invalid!")
             return()
         }
 
@@ -190,9 +193,9 @@ window_variable_mutate <- function(var_name = NULL,
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "mutate", helpPackage = "dplyr",
-                 reset = "window_variable_mutate"
-                 # , apply = "window_variable_mutate"
+    ok_cancel_help(helpSubject = "mutate", helpPackage = "dplyr",
+                   reset = "window_variable_mutate"
+                   # , apply = "window_variable_mutate"
     )
 
     tkgrid(var_box_Frame, sticky = "nw")
