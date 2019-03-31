@@ -19,7 +19,7 @@ window_variable_select0  <- function(variables) {
 # incorrect_cond_msg (character) - Message for incorrect expression.
 window_variable_select <- function(new_dsname = NULL, incorrect_cond_msg = NULL) {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_bs("Select/Remove variables from data set"))
+    initializeDialog(title = gettext_bs("Select/Remove Variables from Data Set"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
 
@@ -115,7 +115,8 @@ window_variable_select <- function(new_dsname = NULL, incorrect_cond_msg = NULL)
 
         to_select <-
             if (length(var_select) > 0) {
-                stringr::str_c("`", var_select, "`", collapse = ", ")
+                # stringr::str_c("`", var_select, "`", collapse = ", ")
+                stringr::str_c(safe_names(var_select), collapse = ", ")
             } else {
                 NULL
             }
@@ -132,7 +133,8 @@ window_variable_select <- function(new_dsname = NULL, incorrect_cond_msg = NULL)
 
         to_delete <-
             if (length(var_delete) > 0) {
-                stringr::str_c("-", "`", var_delete, "`", collapse = ", ")
+                # stringr::str_c("-", "`", var_delete, "`", collapse = ", ")
+                stringr::str_c("-", safe_names(var_delete), collapse = ", ")
             } else {
                 NULL
             }
