@@ -41,6 +41,12 @@ which_graphical_device <- function() {
     )
 }
 
+
+
+
+
+
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Visualize color names/codes as colors
 #' @rdname Menu-window-functions
