@@ -861,12 +861,12 @@ bs_mode_menu__analyze <- function() {
           state      = set_menu_state(factorsP(2)),
           command    = window_summary_count)
 
-    # tkadd(menu_p, "command",
-    #       label      = "Normality test (univariate)...",
-    #       # compound = "left",
-    #       # image    = "::image::bs_open_file",
-    #       state      = set_menu_state(numericP()),
-    #       command    = window_test_normality)
+    tkadd(menu_p, "command",
+          label      = "Normality test (univariate)...",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          state      = set_menu_state(numericP()),
+          command    = window_test_normality)
 
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1019,6 +1019,30 @@ bs_mode_menu__plots <- function() {
           compound = "left",
           image    = "::image::bs_new_window",
           command  = open_new_plots_window)
+
+
+    menu_a <- tk2menu(menu_p, tearoff = FALSE)
+
+    tkadd(menu_p, "cascade",
+          label    = "Draw plots in",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          menu     = menu_a)
+
+    tkadd(menu_a, "command",
+          label    = "Window for plots",
+          compound = "left",
+          image    = if (which_graphical_device() == "separate_window") { "::image::bs_tick" } else {""},
+          command    = set_plots_to_separate_window)
+
+    if (.Platform$GUI == "RStudio") {
+        tkadd(menu_a, "command",
+              label    = "RStudio 'Plots' tab",
+              compound = "left",
+              image    = if (which_graphical_device() == "RStudioGD") { "::image::bs_tick" } else {""},
+              command  = set_plots_to_rstudio_window)
+
+    }
 
     tkadd(menu_p, "separator")
 
