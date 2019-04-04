@@ -551,8 +551,18 @@ menu	bs19_tidyverse_menu	bs19_online_menu	""	""	""	""
 item	bs19_online_menu	cascade	"Tidyverse"	bs19_tidyverse_menu	""	""
 
 item	bs19_tidyverse_menu	command	"Tidyverse homepage"  window_online_tidyverse	""	""
-item	bs19_tidyverse_menu	command	"Package 'dplyr' (data manipulation)"  window_online_dplyr	""	""
+
+item	bs19_tidyverse_menu	separator	""	""	""	""
+
+item	bs19_tidyverse_menu	command	"Package 'broom' (tidy models)"  window_online_broom	""	""
+item	bs19_tidyverse_menu	command	"Package 'dplyr' (manipulate data)"  window_online_dplyr	""	""
+item	bs19_tidyverse_menu	command	"Package 'forcats' (for categorical data)"  window_online_forcats	""	""
+item	bs19_tidyverse_menu	command	"Package 'magrittr' (pipe operator %>%)"  window_online_magrittr	""	""
+item	bs19_tidyverse_menu	command	"Package 'purrr' (functional programming)"  window_online_purrr	""	""
+item	bs19_tidyverse_menu	command	"Package 'readr' (import data from text files)"  window_online_readr	""	""
 item	bs19_tidyverse_menu	command	"Package 'readxl' (import data from Excel)"  window_online_readxl	""	""
+item	bs19_tidyverse_menu	command	"Package 'stringr' (for text data)"  window_online_stringr	""	""
+item	bs19_tidyverse_menu	command	"Package 'tidyr' (tidy data)"  window_online_tidyr	""	""
 
 
 # + Plotting --------------------------------------------------------------
