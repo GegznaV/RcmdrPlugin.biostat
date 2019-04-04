@@ -42,7 +42,7 @@ open_online_tool <- function(url = NULL, copy_to_clipboard = FALSE,
 #' @export
 #' @keywords internal
 window_online_geogebra_probability  <- function() {
-    open_online_tool("https://www.geogebra.org/probability/")
+    open_online_tool("https://www.geogebra.org/probability")
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -158,6 +158,13 @@ window_online_tidyverse <- function() {
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
+window_online_broom <- function() {
+    open_online_tool("https://broom.tidyverse.org/")
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
 window_online_dplyr <- function() {
     open_online_tool("https://dplyr.tidyverse.org/")
 }
@@ -165,8 +172,8 @@ window_online_dplyr <- function() {
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_online_tidyr <- function() {
-    open_online_tool("https://tidyr.tidyverse.org/")
+window_online_forcats <- function() {
+    open_online_tool("https://forcats.tidyverse.org/")
 }
 
 #' @rdname Menu-window-functions
@@ -174,6 +181,13 @@ window_online_tidyr <- function() {
 #' @keywords internal
 window_online_magrittr <- function() {
     open_online_tool("https://magrittr.tidyverse.org/")
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_purrr <- function() {
+    open_online_tool("https://purrr.tidyverse.org/")
 }
 
 #' @rdname Menu-window-functions
@@ -190,12 +204,18 @@ window_online_readxl <- function() {
     open_online_tool("https://readxl.tidyverse.org/")
 }
 
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_online_stringr <- function() {
+    open_online_tool("https://stringr.tidyverse.org/")
+}
 
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_online_purrr <- function() {
-    open_online_tool("https://purrr.tidyverse.org/")
+window_online_tidyr <- function() {
+    open_online_tool("https://tidyr.tidyverse.org/")
 }
 
 # Plotting -------------------------------------------------------------------
