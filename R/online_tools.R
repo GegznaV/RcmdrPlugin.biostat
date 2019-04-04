@@ -132,7 +132,7 @@ window_online_orange  <- function() {
 #' @export
 #' @keywords internal
 window_online_geogebra_download  <- function() {
-    open_online_tool("https://www.geogebra.org/download/")
+    open_online_tool("https://www.geogebra.org/download") # must be without /
 }
 
 #' @rdname Menu-window-functions
