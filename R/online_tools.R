@@ -64,22 +64,24 @@ window_online_image_digitizer  <- function(variables) {
 #' @export
 #' @keywords internal
 window_online_mvn  <- function() {
-    open_online_tool("http://www.biosoft.hacettepe.edu.tr/MVN/", TRUE)
+    open_online_tool("http://www.biosoft.hacettepe.edu.tr/MVN/")                 # broken
 }
 
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 window_online_easyROC  <- function() {
-    open_online_tool("http://www.biosoft.hacettepe.edu.tr/easyROC/", TRUE)
+    open_online_tool("http://www.biosoft.hacettepe.edu.tr/easyROC/")             # broken
 }
+
 
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 window_online_tdROC  <- function() {
-    open_online_tool("http://www.biosoft.hacettepe.edu.tr/tdROC/")
+    open_online_tool("http://www.biosoft.hacettepe.edu.tr/tdROC/")               # broken
 }
+
 
 
 
