@@ -480,9 +480,9 @@ menu	bs19_online_apps_menu	bs19_online_menu	""	""	""	""
 item	bs19_online_menu	cascade	"Applications online"	bs19_online_apps_menu	""	""
 
 item	bs19_online_apps_menu	command	"Import data from image: WebPlotDigitizer"  window_online_image_digitizer	""	""
-item	bs19_online_apps_menu	command	"Multivariate normality tests: MVN"  window_online_mvn	""	""
+# item	bs19_online_apps_menu	command	"Multivariate normality tests: MVN"  window_online_mvn	""	""
 item	bs19_online_apps_menu	command	"Probability calculator: GeoGebra"  window_online_geogebra_probability 	""	""
-item	bs19_online_apps_menu	command	"ROC analysis: Easy ROC"  window_online_easyROC	""	""
+# item	bs19_online_apps_menu	command	"ROC analysis: Easy ROC"  window_online_easyROC	""	""
 # item	bs19_online_apps_menu	command	"ROC analysis: Time dependent ROC"  window_online_tdROC	""	""
 
 # item	bs19_online_apps_menu	separator	""	""	""	""
