@@ -99,7 +99,7 @@ window_test_normality <- function() {
         by_group         <- tclvalue(by_groupVariable)
         gr_var           <- getSelection(gr_var_box)
         y_var            <- getSelection(y_var_box)
-        test             <- tclvalue(testVariable)
+        test             <- get_selection(test_box)
         keep_results     <- tclvalue_lgl(keep_resultsVariable)
         digits_p         <- tclvalue_int(digits_pVariable)
         add_plot         <- tclvalue_lgl(add_plotVariable)
@@ -139,8 +139,8 @@ window_test_normality <- function() {
                  initial_add_plot         = add_plot,
                  initial_plot_in_colors   = plot_in_colors,
                  initial_new_plots_window = new_plots_window,
-                 initial_as_markdown       = as_markdown,
-                 initial_keep_results      = keep_results,
+                 initial_as_markdown      = as_markdown,
+                 initial_keep_results     = keep_results,
                  initial_digits_p         = digits_p
             )
         )
@@ -401,7 +401,7 @@ window_test_normality <- function() {
         value = dialog_values$initial_test
     )
 
-    tkgrid(test_box$frame)
+    tkgrid(test_box$frame, pady = 2)
 
 
 
@@ -502,11 +502,13 @@ window_test_normality <- function() {
     cbox_1_lab <- bs_label_b(plot_middle_frame, text = "bandType")
 
     cbox_1 <- bs_combobox(
-        parent    = plot_middle_frame, title = "bandType",
+        parent    = plot_middle_frame,
+        # title = "bandType",
         values    = c("Point-wise (pointwise)",
                       "Parametric bootstrap (boot)",
                       "Kolmogorov-Smirnov (ks)",
                       "Tail-sensitive (ts)"),
+        width     = 25,
         selection = 1)
 
     # bandType = "boot"; B = ...
@@ -556,8 +558,8 @@ window_test_normality <- function() {
     # Activate cmd_... functions
     # eval_text(stringr::str_c(ls(pattern = "^cmd_"), "();", collapse = ""))
     #
-    # cmd_plot_activation()
-    # cmd_test_activation()
+    cmd_plot_activation()
+    cmd_test_activation()
 }
 
 
