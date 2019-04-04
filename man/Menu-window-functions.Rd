@@ -46,6 +46,7 @@
 \alias{open_new_plots_window}
 \alias{window_show_colors}
 \alias{window_plots_image_digitizer}
+\alias{window_plots_ggplotly}
 \alias{command_rownames}
 \alias{command_rows_has_rownames}
 \alias{command_rows_rm_empty_rows}
@@ -211,6 +212,8 @@ open_new_plots_window()
 window_show_colors()
 
 window_plots_image_digitizer()
+
+window_plots_ggplotly()
 
 command_rownames()
 
