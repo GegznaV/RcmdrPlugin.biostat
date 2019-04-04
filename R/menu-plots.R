@@ -45,3 +45,15 @@ window_show_colors <- function() {
 window_plots_image_digitizer <- function() {
     # digitizeR::wpd.launch()
 }
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_plots_ggplotly <- function() {
+    command <- str_c(
+        "## Convert the last ggplot to an interactive plot.\n",
+        'plotly::ggplotly()')
+
+    doItAndPrint(command)
+}
