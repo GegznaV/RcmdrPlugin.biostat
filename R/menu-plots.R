@@ -12,6 +12,35 @@ open_new_plots_window <- function() {
     }
 }
 
+# New plot is drawn in a separare R window for plots
+set_plots_to_separate_window <- function() {
+    if (.Platform$OS.type == "windows") {
+        options(device = "windows")
+    } else {
+        options(device = "X11")
+        # options(device = "quartz") # For Mac
+    }
+}
+
+# New plot is drawn in RStudio plots window
+set_plots_to_rstudio_window <- function() {
+    if (.Platform$GUI == "RStudio") {
+        options(device = "RStudioGD")
+    }
+
+}
+
+which_graphical_device <- function() {
+    switch(
+        options("device")$device,
+        "windows"   = ,
+        "X11"       = ,
+        "quartz"    = "separate_window",
+        "RStudioGD" = "RStudioGD",
+        "unidentified"
+    )
+}
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Visualize color names/codes as colors
 #' @rdname Menu-window-functions
