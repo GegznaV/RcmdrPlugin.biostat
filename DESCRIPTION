@@ -73,6 +73,7 @@ Imports:
     officer,
     pander,
     pingr,
+    plotly,
     purrr,
     readr,
     readxl (>= 1.3.1),
