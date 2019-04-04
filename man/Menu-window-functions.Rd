@@ -80,12 +80,15 @@
 \alias{window_online_geogebra_download}
 \alias{window_online_past_download}
 \alias{window_online_tidyverse}
+\alias{window_online_broom}
 \alias{window_online_dplyr}
-\alias{window_online_tidyr}
+\alias{window_online_forcats}
 \alias{window_online_magrittr}
+\alias{window_online_purrr}
 \alias{window_online_readr}
 \alias{window_online_readxl}
-\alias{window_online_purrr}
+\alias{window_online_stringr}
+\alias{window_online_tidyr}
 \alias{window_online_ggplot2}
 \alias{window_online_ggstatsplot}
 \alias{window_online_ggpubr}
@@ -278,17 +281,23 @@ window_online_past_download()
 
 window_online_tidyverse()
 
+window_online_broom()
+
 window_online_dplyr()
 
-window_online_tidyr()
+window_online_forcats()
 
 window_online_magrittr()
+
+window_online_purrr()
 
 window_online_readr()
 
 window_online_readxl()
 
-window_online_purrr()
+window_online_stringr()
+
+window_online_tidyr()
 
 window_online_ggplot2()
 
