@@ -21,9 +21,12 @@ window_export_to_text <- function() {
 
     # Functions ==============================================================
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    # ~~~ Path to file -------------------------------------------------------
+
     # Open file select dialogue
-    open_get_path_to_file_window <- function(
-        f_path = fs::path(getwd(), active_dataset())) {
+    open_file_selection_dialogue <-
+        function(f_path = fs::path(getwd(), active_dataset())) {
 
 
         initialdir <- fs::path_dir(f_path)
@@ -55,6 +58,19 @@ window_export_to_text <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_path_to_file <- function() {
+
+        file_name <- open_file_selection_dialogue(f_path = read_path_to_file())
+        set_file_path_related_values(file_name)
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Read value of file name entry box
+    read_path_to_file <- function() {
+        get_values(f1_ent_file)
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     set_file_path_related_values <- function(file_name = "") {
 
         if (file_name == "") {
@@ -78,12 +94,7 @@ window_export_to_text <- function() {
         set_ext_field()
     }
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    get_path_to_file <- function() {
 
-        file_name <- open_get_path_to_file_window(f_path = read_path_to_file())
-        set_file_path_related_values(file_name)
-    }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     update_file_ent_pos <- function() {
@@ -91,15 +102,13 @@ window_export_to_text <- function() {
         tkicursor(f1_ent_file$obj_text, "end")
     }
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Read value of file name entry box
-    read_path_to_file <- function() {
-        get_values(f1_ent_file)
-    }
+
+
 
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Get options
+    # ~~~ Get options --------------------------------------------------------
+
     get_sep <- function() {
         val <- get_selection(f2_box_sep)
         switch(val,
@@ -137,6 +146,7 @@ window_export_to_text <- function() {
                stop("Value '", val, "' is unknown (f2_box_ext)."))
     }
 
+    # ~~~ Set values ---------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     set_ext_in_file <- function() {
 
@@ -179,12 +189,6 @@ window_export_to_text <- function() {
 
     }
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Return extension if it is txt, csv or dat or NA otherwise
-    cur_ext_txt_csv_tsv_dat <- function() {
-        str_extract(read_path_to_file(), "\\.(txt|csv|tsv|dat)$")
-    }
-
     set_ext_field <- function() {
         cur_ext <- cur_ext_txt_csv_tsv_dat()
 
@@ -198,8 +202,14 @@ window_export_to_text <- function() {
 
         set_sep_values()
     }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Return extension if it is txt, csv or dat or NA otherwise
+    cur_ext_txt_csv_tsv_dat <- function() {
+        str_extract(read_path_to_file(), "\\.(txt|csv|tsv|dat)$")
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     set_sep_values <- function(variables) {
 
         cur_sep <- get_selection(f2_box_sep)
@@ -211,7 +221,8 @@ window_export_to_text <- function() {
             cur_ext,
             ".csv" = c("Comma ( , )", "Semicolon ( ; )"),
             ".tsv" = c("Tab"),
-            c("Tab", "Space ( )", "Comma ( , )", "Semicolon ( ; )", "Pipe ( | )", "Custom\u2026")
+            c("Tab", "Space ( )", "Comma ( , )", "Semicolon ( ; )",
+              "Pipe ( | )", "Custom\u2026")
         )
 
         if (get_dec() == ",") {
@@ -233,6 +244,9 @@ window_export_to_text <- function() {
         custom_sep_activation()
     }
 
+
+    #  ~~~ Activate / Disable ------------------------------------------------
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Sepatator entry field
     sep_ent_normalize <- function() {
@@ -241,13 +255,14 @@ window_export_to_text <- function() {
         set_selection(f2_box_sep, "Custom\u2026")
     }
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     sep_ent_disable <- function() {
         set_values(f2_ent_sep, "")
         tk_disable(f2_ent_sep)
         tk2tip(f2_ent_sep$frame, "Double click to enter a custom value")
     }
 
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     custom_sep_activation <- function() {
         # Always disable in CSV and TSV modes
         if (get_selection(f2_box_ext) %in% c(".csv", ".tsv")) {
@@ -271,6 +286,7 @@ window_export_to_text <- function() {
         }
     }
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     sep_ent_normalize_if_appropriate <- function() {
         if (get_selection(f2_box_ext) %in% c(".csv", ".tsv")) {
             sep_ent_disable()
@@ -353,7 +369,7 @@ window_export_to_text <- function() {
 
     # Manke unique initial file name
 
-    # file_name <- open_get_path_to_file_window()
+    # file_name <- open_file_selection_dialogue()
     file_name <- .ds
 
     # if (file_name == "") {
@@ -362,164 +378,164 @@ window_export_to_text <- function() {
     #
     # } else {
 
-        # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        dialogue_title <- "Export Data to Text File"
-        initializeDialog(title = gettext_bs(dialogue_title))
-        tk_title(top, dialogue_title)
+    # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    dialogue_title <- "Export Data to Text File"
+    initializeDialog(title = gettext_bs(dialogue_title))
+    tk_title(top, dialogue_title)
 
-        .ds <- active_dataset()
+    .ds <- active_dataset()
 
-        # Widgets ================== ===========================================
+    # Widgets ================== ===========================================
 
-        # F1, Frame 1, choose file and name ------------------------------------
-        f1 <- tk2frame(top)
+    # F1, Frame 1, choose file and name ------------------------------------
+    f1 <- tk2frame(top)
 
-        f1_lab_data_1 <- bs_label_b(f1, text = "Dataset: ")
-        f1_lab_data_2 <- bs_label(f1, text = .ds)
+    f1_lab_data_1 <- bs_label_b(f1, text = "Dataset: ")
+    f1_lab_data_2 <- bs_label(f1, text = .ds)
 
-        f1_lab_file <- bs_label_b(f1, text = "File: ")
-        f1_ent_file <- bs_entry(
-            f1, width = 60, sticky = "we",
-            tip = "Path to file",
-            state = "readonly",
-            on_key_release = set_ext_field,
-            use_context_menu = FALSE,
-            bind_clear = FALSE,
-            on_click = get_path_to_file)
+    f1_lab_file <- bs_label_b(f1, text = "File: ")
+    f1_ent_file <- bs_entry(
+        f1, width = 60, sticky = "we",
+        tip = "Path to file",
+        state = "readonly",
+        on_key_release = set_ext_field,
+        use_context_menu = FALSE,
+        bind_clear = FALSE,
+        on_click = get_path_to_file)
 
-        f1_but_paste <- tk2button(
-            f1,
-            image = "::image::bs_paste",
-            command = function() {
-                set_values(f1_ent_file,
-                           str_c(read_path_to_file(), read_clipboard()))
-                update_file_ent_pos()
-            },
-            tip = "Paste file name"
-        )
+    f1_but_paste <- tk2button(
+        f1,
+        image = "::image::bs_paste",
+        command = function() {
+            set_values(f1_ent_file,
+                       str_c(read_path_to_file(), read_clipboard()))
+            update_file_ent_pos()
+        },
+        tip = "Paste file name"
+    )
 
-        f1_but_copy <- tk2button(
-            f1,
-            image = "::image::bs_copy",
-            command = function() {
-                text <- get_values(f1_ent_file)
-                clipr::write_clip(text, object_type = "character")
-            },
-            tip = "Copy file name"
-        )
+    f1_but_copy <- tk2button(
+        f1,
+        image = "::image::bs_copy",
+        command = function() {
+            text <- get_values(f1_ent_file)
+            clipr::write_clip(text, object_type = "character")
+        },
+        tip = "Copy file name"
+    )
 
-        f1_but_clear <- tk2button(
-            f1,
-            image = "::image::bs_delete",
-            command = function() {
-                set_values(f1_ent_file, "")
-            },
-            tip = "Clear file name"
-        )
+    f1_but_clear <- tk2button(
+        f1,
+        image = "::image::bs_delete",
+        command = function() {
+            set_values(f1_ent_file, "")
+        },
+        tip = "Clear file name"
+    )
 
-        f1_but_f_choose <- tk2button(
-            f1,
-            image = "::image::bs_open_file",
-            command = get_path_to_file,
-            tip = "Choose file to save to"
-        )
+    f1_but_f_choose <- tk2button(
+        f1,
+        image = "::image::bs_open_file",
+        command = get_path_to_file,
+        tip = "Choose file to save to"
+    )
 
-        # Possible options ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Possible options ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        ext1     <- c(".txt", ".csv", ".tsv", ".dat", "other")
-        dec1     <- c("Period ( . )", "Comma ( , )") # "Default"
+    ext1     <- c(".txt", ".csv", ".tsv", ".dat", "other")
+    dec1     <- c("Period ( . )", "Comma ( , )") # "Default"
 
-        sep1_all <- c("Tab", "Space ( )", "Comma ( , )", "Semicolon ( ; )",
-                      "Pipe ( | )", "Custom\u2026")
+    sep1_all <- c("Tab", "Space ( )", "Comma ( , )", "Semicolon ( ; )",
+                  "Pipe ( | )", "Custom\u2026")
 
-        f2 <- tk2frame(top)
+    f2 <- tk2frame(top)
 
-        f2_box_dec  <- bs_combobox(
-            label = "Decimal:",
-            tip = "Decimal separator. \nE.g., 10.2 vs. 10,2",
-            f2, width = 11, values = dec1, selection = 1,
-            on_select = set_sep_values)
+    f2_box_dec  <- bs_combobox(
+        label = "Decimal:",
+        tip = "Decimal separator. \nE.g., 10.2 vs. 10,2",
+        f2, width = 11, values = dec1, selection = 1,
+        on_select = set_sep_values)
 
-        f2_box_sep  <- bs_combobox(
-            label = "Separator:", tip = "Value (field) separator",
-            f2, width = 13, values = sep1_all, selection = 1,
-            on_select = custom_sep_activation)
+    f2_box_sep  <- bs_combobox(
+        label = "Separator:", tip = "Value (field) separator",
+        f2, width = 13, values = sep1_all, selection = 1,
+        on_select = custom_sep_activation)
 
-        f2_ent_sep  <- bs_entry(
-            f2, width = 3, on_double_click = sep_ent_normalize_if_appropriate)
+    f2_ent_sep  <- bs_entry(
+        f2, width = 3, on_double_click = sep_ent_normalize_if_appropriate)
 
-        f2_ent_na   <- bs_entry(
-            f2, width = 14, label = "NA value:", tip = "Missing value",
-            value = "")
+    f2_ent_na   <- bs_entry(
+        f2, width = 14, label = "NA value:", tip = "Missing value",
+        value = "")
 
-        f2_box_ext  <- bs_combobox(
-            label = "Extension:", tip = str_c(
-                "File extension: \n",
-                " .txt - text file,\n",
-                " .csv - comma separated values,\n",
-                " .tsv - tab separated values,\n",
-                " .dat - text file with data."),
-            f2, width = 5, values = ext1, selection = 1,
-            on_select = set_ext_in_file
-        )
+    f2_box_ext  <- bs_combobox(
+        label = "Extension:", tip = str_c(
+            "File extension: \n",
+            " .txt - text file,\n",
+            " .csv - comma separated values,\n",
+            " .tsv - tab separated values,\n",
+            " .dat - text file with data."),
+        f2, width = 5, values = ext1, selection = 1,
+        on_select = set_ext_in_file
+    )
 
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        tkgrid(f1, padx = 10, sticky = "we")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(f1, padx = 10, sticky = "we")
 
-        tkgrid(f1_lab_data_1, f1_lab_data_2, pady = c(10, 2), sticky = "we")
+    tkgrid(f1_lab_data_1, f1_lab_data_2, pady = c(10, 2), sticky = "we")
 
-        tkgrid(f1_lab_file, f1_ent_file$frame, f1_but_f_choose,
-               f1_but_paste, f1_but_copy, f1_but_clear,
-               pady = c(2, 2),  sticky = "we")
+    tkgrid(f1_lab_file, f1_ent_file$frame, f1_but_f_choose,
+           f1_but_paste, f1_but_copy, f1_but_clear,
+           pady = c(2, 2),  sticky = "we")
 
-        tkgrid.configure(f1_lab_data_1, padx = c(8, 0))
-        tkgrid.configure(f1_lab_data_1, f1_lab_file, sticky = "e")
-        tkgrid.configure(f1_ent_file$frame, sticky = "we", padx = 2)
+    tkgrid.configure(f1_lab_data_1, padx = c(8, 0))
+    tkgrid.configure(f1_lab_data_1, f1_lab_file, sticky = "e")
+    tkgrid.configure(f1_ent_file$frame, sticky = "we", padx = 2)
 
-        tkgrid.configure(f1_ent_file$frame_text, f1_ent_file$obj_text,
-                         sticky = "we")
+    tkgrid.configure(f1_ent_file$frame_text, f1_ent_file$obj_text,
+                     sticky = "we")
 
-        tkgrid(f2, sticky = "w")
-        tkgrid(f2_box_dec$frame, f2_box_sep$frame, f2_ent_sep$frame)
-        tkgrid(f2_ent_na$frame,  f2_box_ext$frame, pady = 2)
+    tkgrid(f2, sticky = "w")
+    tkgrid(f2_box_dec$frame, f2_box_sep$frame, f2_ent_sep$frame)
+    tkgrid(f2_ent_na$frame,  f2_box_ext$frame, pady = 2)
 
-        tkgrid.configure(
-            f2_box_dec$frame,
-            sticky = "e", padx = c(6, 0))
+    tkgrid.configure(
+        f2_box_dec$frame,
+        sticky = "e", padx = c(6, 0))
 
-        tkgrid.configure(
-            f2_box_sep$frame,
-            f2_ent_na$frame,
-            f2_box_ext$frame,
-            sticky = "e", padx = c(9, 0))
+    tkgrid.configure(
+        f2_box_sep$frame,
+        f2_ent_na$frame,
+        f2_box_ext$frame,
+        sticky = "e", padx = c(9, 0))
 
-        tkgrid.configure(
-            f2_ent_sep$frame,
-            sticky = "e", padx = c(2, 0))
+    tkgrid.configure(
+        f2_ent_sep$frame,
+        sticky = "e", padx = c(2, 0))
 
-        sep_ent_disable()
+    sep_ent_disable()
 
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # Finalize -------------------------------------------------------------
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Finalize -------------------------------------------------------------
 
-        # Help topic
-        ok_cancel_help(helpSubject = "fwrite", helpPackage = "data.table",
-                       # reset = "window_export_to_text()",
-                       ok_label = "Export")
+    # Help topic
+    ok_cancel_help(helpSubject = "fwrite", helpPackage = "data.table",
+                   # reset = "window_export_to_text()",
+                   ok_label = "Export")
 
-        dialogSuffix(grid.buttons = TRUE, bindReturn = FALSE)
+    dialogSuffix(grid.buttons = TRUE, bindReturn = FALSE)
 
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # Configuration --------------------------------------------------------
-        set_file_path_related_values(file_name)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Configuration --------------------------------------------------------
+    set_file_path_related_values(file_name)
 
-        # Set ext to .txt, if not chosen
-        if (is.na(cur_ext_txt_csv_tsv_dat())) {
-            set_values(f1_ent_file, str_c(read_path_to_file(), ".txt"))
-        }
+    # Set ext to .txt, if not chosen
+    if (is.na(cur_ext_txt_csv_tsv_dat())) {
+        set_values(f1_ent_file, str_c(read_path_to_file(), ".txt"))
+    }
 
-        # Set ext field value
-        set_ext_field()
+    # Set ext field value
+    set_ext_field()
 
     # }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
