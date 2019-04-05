@@ -1,6 +1,6 @@
 # TODO:
 #
-# 1.NA value, deciman and field separators must never coincide.
+# 1.NA value, decimal and field separators must never be the same symbols.
 # 2. Check if interaction betweet "ext_field" and "file" is correct in all cases
 # (see TODO below)
 # 3. onOk: check if filename is valid (e.g., not "C:")
