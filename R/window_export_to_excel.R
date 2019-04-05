@@ -51,8 +51,8 @@ window_export_to_excel <- function() {
         # Return extension
         if (!str_detect(file_name, "\\.xlsx$")) {
             file_name <- str_c(file_name, ".xlsx") # TODO: maybe str_c is not
-                                                   # the most appriate function
-                                                   # here.
+            # the most appriate function
+            # here.
         }
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -67,8 +67,10 @@ window_export_to_excel <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     update_file_ent_pos <- function() {
-        tkxview.moveto(f1_ent_file$obj_text, "1") # 0 - beginning, 1 - end.
-        tkicursor(f1_ent_file$obj_text, "end")
+        tclAfter(1, function() {
+            tkxview.moveto(f1_ent_file$obj_text, "1") # 0 - beginning, 1 - end.
+            tkicursor(f1_ent_file$obj_text, "end")
+        })
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Read value of file name entry box
