@@ -22,7 +22,9 @@ window_export_to_text <- function() {
     # Functions ==============================================================
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Open file select dialogue
-    open_get_path_to_file_window <- function(f_path = fs::path(getwd(), active_dataset())) {
+    open_get_path_to_file_window <- function(
+        f_path = fs::path(getwd(), active_dataset())) {
+
 
         initialdir <- fs::path_dir(f_path)
         if (initialdir %in% c("", ".") || !fs::dir_exists(initialdir)) {
@@ -167,9 +169,14 @@ window_export_to_text <- function() {
         }
 
         new_ext <- get_ext()
-        set_values(f1_ent_file, values = str_c(fn_wo_ext, new_ext))
+        new_full_name <- str_c(fn_wo_ext, new_ext)
+        set_values(f1_ent_file, values = new_full_name)
 
         set_sep_values()
+
+        update_file_ent_pos()
+        tip(f1_ent_file$obj_text) <- new_full_name
+
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -341,24 +348,30 @@ window_export_to_text <- function() {
 
     # Initial file name ------------------------------------------------------
     top <- CommanderWindow()
-    file_name <- open_get_path_to_file_window()
 
-    if (file_name == "") {
-        tkfocus(CommanderWindow())
-        return()
+    .ds <- active_dataset()
 
-    } else {
+    # Manke unique initial file name
 
-        # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # file_name <- open_get_path_to_file_window()
+    file_name <- .ds
+
+    # if (file_name == "") {
+    #     tkfocus(CommanderWindow())
+    #     return()
+    #
+    # } else {
+
+        # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         dialogue_title <- "Export Data to Text File"
         initializeDialog(title = gettext_bs(dialogue_title))
         tk_title(top, dialogue_title)
 
         .ds <- active_dataset()
 
-        # Widgets ================== =============================================
+        # Widgets ================== ===========================================
 
-        # F1, Frame 1, choose file and name --------------------------------------
+        # F1, Frame 1, choose file and name ------------------------------------
         f1 <- tk2frame(top)
 
         f1_lab_data_1 <- bs_label_b(f1, text = "Dataset: ")
@@ -366,7 +379,7 @@ window_export_to_text <- function() {
 
         f1_lab_file <- bs_label_b(f1, text = "File: ")
         f1_ent_file <- bs_entry(
-            f1, width = 90, sticky = "we",
+            f1, width = 60, sticky = "we",
             tip = "Path to file",
             state = "readonly",
             on_key_release = set_ext_field,
@@ -378,10 +391,21 @@ window_export_to_text <- function() {
             f1,
             image = "::image::bs_paste",
             command = function() {
-                set_values(f1_ent_file, str_c(read_path_to_file(), read_clipboard()))
+                set_values(f1_ent_file,
+                           str_c(read_path_to_file(), read_clipboard()))
                 update_file_ent_pos()
             },
             tip = "Paste file name"
+        )
+
+        f1_but_copy <- tk2button(
+            f1,
+            image = "::image::bs_copy",
+            command = function() {
+                text <- get_values(f1_ent_file)
+                clipr::write_clip(text, object_type = "character")
+            },
+            tip = "Copy file name"
         )
 
         f1_but_clear <- tk2button(
@@ -400,12 +424,13 @@ window_export_to_text <- function() {
             tip = "Choose file to save to"
         )
 
-        # Possible options ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Possible options ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         ext1     <- c(".txt", ".csv", ".tsv", ".dat", "other")
         dec1     <- c("Period ( . )", "Comma ( , )") # "Default"
 
-        sep1_all <- c("Tab", "Space ( )", "Comma ( , )", "Semicolon ( ; )", "Pipe ( | )", "Custom\u2026")
+        sep1_all <- c("Tab", "Space ( )", "Comma ( , )", "Semicolon ( ; )",
+                      "Pipe ( | )", "Custom\u2026")
 
         f2 <- tk2frame(top)
 
@@ -421,11 +446,11 @@ window_export_to_text <- function() {
             on_select = custom_sep_activation)
 
         f2_ent_sep  <- bs_entry(
-            f2, width = 3, on_double_click = sep_ent_normalize_if_appropriate
-        )
+            f2, width = 3, on_double_click = sep_ent_normalize_if_appropriate)
 
         f2_ent_na   <- bs_entry(
-            f2, width = 10, label = "NA value:", tip = "Missing value", value = "")
+            f2, width = 14, label = "NA value:", tip = "Missing value",
+            value = "")
 
         f2_box_ext  <- bs_combobox(
             label = "Extension:", tip = str_c(
@@ -438,22 +463,25 @@ window_export_to_text <- function() {
             on_select = set_ext_in_file
         )
 
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkgrid(f1, padx = 10, sticky = "we")
 
         tkgrid(f1_lab_data_1, f1_lab_data_2, pady = c(10, 2), sticky = "we")
 
-        tkgrid(f1_lab_file, f1_ent_file$frame, f1_but_f_choose, f1_but_paste, f1_but_clear,
+        tkgrid(f1_lab_file, f1_ent_file$frame, f1_but_f_choose,
+               f1_but_paste, f1_but_copy, f1_but_clear,
                pady = c(2, 2),  sticky = "we")
 
+        tkgrid.configure(f1_lab_data_1, padx = c(8, 0))
         tkgrid.configure(f1_lab_data_1, f1_lab_file, sticky = "e")
         tkgrid.configure(f1_ent_file$frame, sticky = "we", padx = 2)
 
-        tkgrid.configure(f1_ent_file$frame_text, f1_ent_file$obj_text, sticky = "we")
+        tkgrid.configure(f1_ent_file$frame_text, f1_ent_file$obj_text,
+                         sticky = "we")
 
         tkgrid(f2, sticky = "w")
-        tkgrid(f2_box_dec$frame, f2_box_sep$frame, f2_ent_sep$frame,
-               f2_ent_na$frame, f2_box_ext$frame)
+        tkgrid(f2_box_dec$frame, f2_box_sep$frame, f2_ent_sep$frame)
+        tkgrid(f2_ent_na$frame,  f2_box_ext$frame, pady = 2)
 
         tkgrid.configure(
             f2_box_dec$frame,
@@ -471,8 +499,8 @@ window_export_to_text <- function() {
 
         sep_ent_disable()
 
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # Finalize ---------------------------------------------------------------
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Finalize -------------------------------------------------------------
 
         # Help topic
         ok_cancel_help(helpSubject = "fwrite", helpPackage = "data.table",
@@ -481,8 +509,8 @@ window_export_to_text <- function() {
 
         dialogSuffix(grid.buttons = TRUE, bindReturn = FALSE)
 
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # Configuration ----------------------------------------------------------
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Configuration --------------------------------------------------------
         set_file_path_related_values(file_name)
 
         # Set ext to .txt, if not chosen
@@ -493,7 +521,7 @@ window_export_to_text <- function() {
         # Set ext field value
         set_ext_field()
 
-    }
+    # }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     invisible()
 }
