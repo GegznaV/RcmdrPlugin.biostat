@@ -3,6 +3,7 @@
 # - Add tcl/tk check if sheetname is less than 30 characters length.
 # - Enable option to add excel seet instead of replacing all document.
 
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # .============================ ==============================================
 #' @rdname Menu-window-functions
@@ -198,18 +199,37 @@ window_export_to_excel <- function() {
     f1_lab_data_2 <- bs_label(f1, text = .ds)
 
     f1_lab_file <- bs_label_b(f1, text = "File: ")
+
     f1_ent_file <- bs_entry(
-        f1, width = 90, sticky = "we", tip = "Path to file")
+        f1, width = 60, sticky = "we",
+        tip = "Path to file",
+        state = "readonly",
+        # on_key_release = set_ext_field,
+        use_context_menu = FALSE,
+        bind_clear = FALSE,
+        on_double_click = get_path_to_file)
+
 
     f1_but_paste <- tk2button(
         f1,
         image = "::image::bs_paste",
         command = function() {
-            set_values(f1_ent_file, str_c(read_path_to_file(), read_clipboard()))
+            set_values(f1_ent_file, read_clipboard())
             update_file_ent_pos()
         },
         tip = "Paste file name"
     )
+
+    f1_but_copy <- tk2button(
+        f1,
+        image = "::image::bs_copy",
+        command = function() {
+            text <- get_values(f1_ent_file)
+            clipr::write_clip(text, object_type = "character")
+        },
+        tip = "Copy file name"
+    )
+
 
     f1_but_clear <- tk2button(
         f1,
@@ -236,18 +256,19 @@ window_export_to_excel <- function() {
 
     f1_lab_sheet <- bs_label_b(f1, text = "Sheet: ")
     f1_ent_sheet <- bs_entry(
-        f1, width = 90, sticky = "ew", tip = "Excel sheet name to save data to")
+        f1, width = 60, sticky = "ew", tip = "Excel sheet name to save data to")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(f1, padx = 10, sticky = "we")
+    tkgrid(f1, sticky = "we")
 
-    tkgrid(f1_lab_data_1, f1_lab_data_2, pady = c(10, 2), sticky = "we")
-
-    tkgrid(f1_lab_file, f1_ent_file$frame, f1_but_f_choose, f1_but_paste, f1_but_clear,
+    tkgrid(f1_lab_file, f1_ent_file$frame,
+           f1_but_f_choose, f1_but_paste, f1_but_copy, f1_but_clear,
            pady = c(2, 2),  sticky = "we")
 
     tkgrid(f1_lab_sheet, f1_ent_sheet$frame, f1_but_refresh,
-           pady = c(0,  10), sticky = "we")
+           pady = c(0,  2), sticky = "we")
+
+    tkgrid(f1_lab_data_1, f1_lab_data_2, pady = c(0, 2), sticky = "we")
 
     tkgrid.configure(f1_lab_data_1, f1_lab_file, f1_lab_sheet, sticky = "e")
     tkgrid.configure(f1_ent_file$frame, f1_ent_sheet$frame, sticky = "we",
@@ -270,8 +291,11 @@ window_export_to_excel <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Configuration ----------------------------------------------------------
-    # set_values(f1_ent_file, str_c(.ds, ".xlsx"))
-    get_path_to_file()
+    set_values(f1_ent_file, str_c(.ds, ".xlsx"))
+    # get_path_to_file()
+
+    # set_values(f1_ent_file, file_name)
+    update_file_ent_pos()
     reset_sheet_name()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     invisible()
