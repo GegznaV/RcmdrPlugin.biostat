@@ -1024,13 +1024,13 @@ bs_mode_menu__plots <- function() {
     menu_a <- tk2menu(menu_p, tearoff = FALSE)
 
     tkadd(menu_p, "cascade",
-          label    = "Draw plots in",
+          label    = "Default place to draw plots",
           # compound = "left",
           # image    = "::image::bs_open_file",
           menu     = menu_a)
 
     tkadd(menu_a, "command",
-          label    = "Window for plots",
+          label    = "Separate window for plots",
           compound = "left",
           image    = if (which_graphical_device() == "separate_window") { "::image::bs_tick" } else {""},
           command    = set_plots_to_separate_window)
