@@ -1058,7 +1058,7 @@ bs_mode_menu__plots <- function() {
         tkadd(menu_p, "separator")
 
         tkadd(menu_p, "command",
-              label    = "Convert last ggplot to interactive plot",
+              label    = "Convert last ggplot into interactive plot",
               # compound = "left",
               # image    = "::image::bs_chart",
               command  = window_plots_ggplotly)
