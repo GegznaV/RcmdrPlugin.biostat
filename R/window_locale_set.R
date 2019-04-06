@@ -168,7 +168,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
                 msg <-
                     c('## Current locale of operating system (OS):\n',
                       os_locale,
-                      "\nNOTE: OS locale cannot be changed using R.") %>%
+                      "\n# NOTE: OS locale cannot be changed by using R.") %>%
                     str_c(collapse = "\n")
 
 
@@ -392,7 +392,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
         # commands      = list("check_locale_" = cmd_checkbox),
         initialValues = c("1", "1"),
         labels        = gettext_bs(c(
-            "Check if this locale can be used on this computer",
+            "Check if locale can be used on this computer",
             "Print information about locale after it is set"))
     )
 
