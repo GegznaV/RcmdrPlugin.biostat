@@ -51,7 +51,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
                    set_values(var_y_box, values = locales)
                    tk_activate(locale_entry)
                    set_values(locale_entry, "")
-                   tk_activate(check_locale_CheckBox)
+                   tk_normalize(check_locale_CheckBox)
                    tclvalue(check_locale_Variable) <- "1"
                }
         )
