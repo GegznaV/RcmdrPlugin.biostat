@@ -1,3 +1,8 @@
+# TODO:
+# -- get_system_info() code for other OS'es is needed
+
+
+
 #' @name Helper-functions
 #' @title Helper functions for RcmdrPlugin.biostat.
 #' @description Helper functions for package \pkg{RcmdrPlugin.biostat}.
@@ -789,6 +794,31 @@ msg_box_check_internet_connection <- function(parent = CommanderWindow()) {
 #' @export
 do_nothing <- function(...) {}
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# - Show Windows locale:
+#   shell("systeminfo", intern = TRUE)
+#   shell("systeminfo", intern = TRUE) %>% str_subset("Locale")
+#   shell("systeminfo", intern = TRUE) %>% str_subset(fixed("locale", ignore_case = TRUE))
+#   https://superuser.com/questions/1354256/how-can-i-programmatically-access-the-region-of-a-windows-computer
+get_system_info <- function() {
+
+    if (is.null(biostat_env$systeminfo)) {
+        if (.Platform$OS.type == "windows") {
+            # For Windows: get information about Windows.
+            # Administrator password may be required.
+            biostat_env$systeminfo <-
+                shell("systeminfo", intern = TRUE) %>%
+                structure(class = c("glue", "character"))
+
+        } else {
+            # TODO:
+            #  get_system_info() code for other OS'es is needed
+
+        }
+    }
+
+    biostat_env$systeminfo
+}
 
 # ___ Check ___ ==============================================================
 
@@ -1489,14 +1519,16 @@ command_rcmdr_restart <- function() {
 #' @export
 #' @keywords internal
 command_rcmdr_close <- function() {
-    Rcmdr::closeCommander()
+    Rcmdr::closeCommander(
+        ask = getRcmdr("ask.to.exit"),
+        ask.save = getRcmdr("ask.on.exit"))
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 command_rcmdr_close_r <- function() {
-    response <- Rcmdr::CloseCommander()
+    response <- command_rcmdr_close()
     if (response == "cancel") {
         return()
     } else {
