@@ -39,6 +39,7 @@
 #'    StatMedFTest
 #'    StatMedBartlett
 #'    StatMedLinearRegression
+#' @importFrom grDevices devAskNewPage windows.options
 
 
 NULL
