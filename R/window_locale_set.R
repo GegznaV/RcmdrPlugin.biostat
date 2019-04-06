@@ -1,4 +1,52 @@
+# TODO:
+# - Show system locale for Mac and Linux
+# - for (local) button: add context menu either to show or to print locale
+
+
 # Locale ---------------------------------------------------------------------
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+command_get_locale_of_os <- function() {
+
+    # Get information
+    if (isTRUE(tclvalue_lgl(print_os_locale))) {
+
+        sys_info <- get_system_info()
+
+        if (is.null(sys_info)) {
+            msg <-
+                str_c("## No information about operating system (OS)\n",
+                      "## locale is available for Mac and Linux.")
+
+        } else {
+
+            # .Platform$OS.type == "windows"
+            os_locale <-
+                sys_info %>%
+                str_subset(regex("(locale|OS Name)", ignore_case = TRUE)) %>%
+                str_replace("           ", " ") %>%
+                str_c("# - ", .)
+
+            msg <-
+                c('## Current locale of operating system (OS):\n',
+                  os_locale,
+                  "\nNOTE: OS locale cannot be changed using R.") %>%
+                str_c(collapse = "\n")
+
+
+        }
+    }
+
+    # Print information
+    Rcmdr::logger(msg)
+
+    tclvalue(print_os_locale) <- FALSE
+    tk_disable(b2)
+    tip(b2) <- str_c("This information is already printed.\n\n", msg)
+}
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
@@ -112,20 +160,26 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
             loc_to_view <- str_sub(cur_loc_all, 1, 5)
         }
 
+        if (tclvalue(options_Variable) == "default") {
+            tclvalue(options_Variable) <- "other"
+            cmd_control_activation()
+        }
+
         set_values(locale_entry, cur_loc)
+
         cmd_update_yview_to(loc_to_view)
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_print_current_locale <- function() {
 
-        if (isTRUE(tclvalue_lgl(print_locale))) {
+        if (isTRUE(tclvalue_lgl(print_r_locale))) {
             paste0(
-                '## Current locale  \n',
+                '## Current locale in R  \n',
                 'Sys.getlocale()') %>%
                 Rcmdr::doItAndPrint()
 
-            tclvalue(print_locale) <- FALSE
+            tclvalue(print_r_locale) <- FALSE
         }
     }
 
@@ -139,7 +193,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
         locale_value <- get_values(locale_entry)
         opt          <- tclvalue_chr(options_Variable)
         check_locale <- tclvalue_lgl(check_locale_Variable)
-        hide_output  <- tclvalue_lgl(hide_output_Variable)
+        show_output  <- tclvalue_lgl(show_output_Variable)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (variable_is_not_selected(locale_value, "locale")) {
@@ -185,7 +239,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
             }
         )
 
-        if (hide_output) {
+        if (show_output == FALSE) {
             cmd_locale_set <- str_glue("invisible({cmd_locale_set})")
         }
 
@@ -228,7 +282,9 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
 
     # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     fg_col <- Rcmdr::getRcmdr("title.color")
-    print_locale <- tclVar(TRUE)
+
+    print_r_locale  <- tclVar(TRUE)
+    print_os_locale <- tclVar(TRUE)
 
 
     if (.Platform$OS.type == "windows") {
@@ -240,9 +296,9 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
     locales <- sort(locales)
 
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initialize_dialog(title = gettext_bs("Change Locale"), parent = parent)
+    initialize_dialog(title = gettext_bs("Change Locale in R"), parent = parent)
 
-    tk_title(top, "Change locale") # Title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tk_title(top, "Change Locale in R") # Title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # Widgets ----------------------------------------------------------------
 
@@ -267,15 +323,27 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
     )
 
     # Show locale button
-    show_locale_frame <- tk2frame(options_outer_frame)
+    show_locale_frame <- tk2frame(top)
+
     b1 <- tk2button(
         show_locale_frame,
-        text = "Show current locale",
+        width = 25,
+        text = "Show current R locale (local)",
         tip  = str_c(
-            "Click to select current locale. \n",
-            "Double-click to print locale in console."
+            "Show current locale used in R. \n",
+            "Double-click to print this information in console."
         ),
         command = cmd_get_locale)
+
+    b2 <- tk2button(
+        width = 22,
+        show_locale_frame,
+        text = "Show OS locale (global)",
+        tip  = str_c(
+            "Global locale of operating sytem (OS). \n",
+            "Administrator password may be required."
+        ),
+        command = command_get_locale_of_os)
 
 
     # List of locales
@@ -317,14 +385,15 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
     )
 
     # Check box
-    bs_check_boxes(upper_frame,
-                   frame         = "check_locale_frame",
-                   boxes         = c("check_locale_", "hide_output_"),
-                   # commands      = list("check_locale_" = cmd_checkbox),
-                   initialValues = c("1", "0"),
-                   labels        = gettext_bs(c(
-                       "Check if the locale can be used on this computer",
-                       "Hide output"))
+    bs_check_boxes(
+        upper_frame,
+        frame         = "check_locale_frame",
+        boxes         = c("check_locale_", "show_output_"),
+        # commands      = list("check_locale_" = cmd_checkbox),
+        initialValues = c("1", "1"),
+        labels        = gettext_bs(c(
+            "Check if this locale can be used on this computer",
+            "Print locale name after it is set"))
     )
 
 
@@ -332,9 +401,10 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
 
     tkgrid(upper_frame, sticky = "sew", padx = c(10, 10))
 
-    tkgrid(options_outer_frame, sticky = "s")
-    tkgrid(options_Frame, show_locale_frame, sticky = "s")
-    tkgrid(b1, padx = c(18, 0))
+    tkgrid(options_outer_frame, sticky = "sw")
+    # tkgrid(options_Frame, show_locale_frame, sticky = "s")
+    tkgrid(options_Frame, sticky = "s")
+
 
     tkgrid(getFrame(var_y_box),  pady = c(5, 0), sticky = "w")
 
@@ -342,6 +412,9 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
 
     tkgrid(check_locale_frame, sticky = "sw")
 
+
+    tkgrid(show_locale_frame, sticky = "")
+    tkgrid(b1, b2, sticky = "sw", pady = c(5, 0))
 
     # Finalize ---------------------------------------------------------------
     ok_cancel_help(helpSubject = "locales")
