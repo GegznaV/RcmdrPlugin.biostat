@@ -144,6 +144,7 @@
 \alias{window_import_from_clipboard}
 \alias{window_import_from_text}
 \alias{window_import_rdata}
+\alias{command_get_locale_of_os}
 \alias{command_get_locale}
 \alias{window_locale_set}
 \alias{window_locale_set_0}
@@ -410,6 +411,8 @@ window_import_from_clipboard()
 window_import_from_text()
 
 window_import_rdata()
+
+command_get_locale_of_os()
 
 command_get_locale()
 
