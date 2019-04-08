@@ -529,6 +529,7 @@ item	bs19_r_books_menu	command	"R Markdown"  window_online_rmd	""	""
 
 item	bs19_r_books_menu	separator	""	""	""	""
 
+item	bs19_r_books_menu	command	"Modern Statistics for Modern Biology"  window_online_msmb	""	""
 item	bs19_r_books_menu	command	"Handbook of Biological Statistics (HBS)"  window_online_biostathandbook	""	""
 item	bs19_r_books_menu	command	"An R Companion for HBS"  window_online_rcompanion	""	""
 item	bs19_r_books_menu	command	"SAEPE in R (by S. Mangiafico)"  window_online_rcompanion_handbook	""	""

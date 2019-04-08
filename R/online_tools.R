@@ -340,6 +340,13 @@ window_online_rcompanion_handbook <- function() {
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
+window_online_msmb <- function() {
+    open_online_tool("https://www.huber.embl.de/msmb/index.html")
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
 window_online_r4ds <- function() {
     open_online_tool("https://r4ds.had.co.nz/")
 }

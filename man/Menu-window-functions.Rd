@@ -106,6 +106,7 @@
 \alias{window_online_biostathandbook}
 \alias{window_online_rcompanion}
 \alias{window_online_rcompanion_handbook}
+\alias{window_online_msmb}
 \alias{window_online_r4ds}
 \alias{window_online_advanced_r_2ed}
 \alias{window_online_rmd}
@@ -333,6 +334,8 @@ window_online_biostathandbook()
 window_online_rcompanion()
 
 window_online_rcompanion_handbook()
+
+window_online_msmb()
 
 window_online_r4ds()
 
