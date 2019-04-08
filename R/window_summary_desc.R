@@ -10,10 +10,10 @@ window_summary_desc <- function() {
         # - Wait for user's permission (e.g., mouse click)
         # - Automatically draw all the plots
 
-        record_plot_history <- windows.options()$record
-        # Record plot history:
-        # - Yes
-        # - No
+        # record_plot_history <- windows.options()$record
+        # # Record plot history:
+        # # - Yes
+        # # - No
 
         # windows.options(record = TRUE)
         # devAskNewPage(ask = TRUE)
