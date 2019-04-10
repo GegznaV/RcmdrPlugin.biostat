@@ -311,7 +311,7 @@ window_export_fig_to_pptx <- function() {
                     type = "ok",
                     icon = "error",
                     message = msg,
-                    caption = "Cannot Write to File")
+                    caption = "Close the PowerPoint File")
 
                 return()
             }
@@ -768,6 +768,14 @@ window_export_fig_to_pptx <- function() {
 
     activate_options()
     check_pptx_file()
+
+    # Paste code, if possible
+    code_clip <- read_clipboard()
+    code_clip <- try(style_cmd(code_clip), silent = TRUE)
+    if (!is_try_error(code_clip)) {
+        set_values(f4_code_input, code_clip)
+    }
+
 }
 
 # svTools::lint(text = get_values(f4_code_input), type = "flat", sep = "|")
