@@ -729,6 +729,18 @@ set_multi_ext  <- function(path, ext) {
 }
 
 
+#' Check if file writtable.
+#' @param file (character) Path to file.
+#'
+#' @return Logical. If \code{FALSE} it means that file is busy, locked or open.
+#'
+#' @export
+is_file_writable <- function(file = "") {
+    # If fais to rename (to the same name), it means that file is
+    # busy, locked or open
+    rez <- try(fs::file_move(file, file), silent = TRUE)
+    !is_try_error(rez)
+}
 
 # ___ Messages and message boxes ____ ========================================
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
