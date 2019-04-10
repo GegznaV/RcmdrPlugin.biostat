@@ -95,14 +95,14 @@ window_export_fig_to_pptx <- function() {
                 set_msg("Please, CLOSE the file before saving the plot.")
 
             } else {
-                set_msg("A new slide will be added to the file.",
+                set_msg("A new slide will be added to the 'PowerPoint' file.",
                         color = "green")
             }
 
             return()
 
         } else {
-            set_msg("A new PowerPoint file will be created.",
+            set_msg("A new 'PowerPoint' file will be created.",
                     color = "green")
             return()
         }
@@ -611,15 +611,18 @@ window_export_fig_to_pptx <- function() {
     bs_size_entry <- purrr::partial(
         bs_entry, parent = f3_pos, width = 4, justify = "center",
         label_color = "black", tip = "Size or position in inches.",
-        validate = "key",
-        validatecommand = validate_numeric,
-        invalidcommand  = make_red_text_reset_val(to = 0))
+        validate = "focus",
+        validatecommand = validate_numeric)
 
-    f3_width  <- bs_size_entry(label = "Width",              value = initial$pos_width)
-    f3_left   <- bs_size_entry(label = "Left side position", value = initial$pos_left)
+    f3_width  <- bs_size_entry(label = "Width",              value = initial$pos_width,
+                               invalidcommand  = make_red_text_reset_val(to = 7))
+    f3_left   <- bs_size_entry(label = "Left side position", value = initial$pos_left,
+                               invalidcommand  = make_red_text_reset_val(to = 0))
 
-    f3_height <- bs_size_entry(label = "Height",             value = initial$pos_height)
-    f3_top    <- bs_size_entry(label = "Top side position",  value = initial$pos_top)
+    f3_height <- bs_size_entry(label = "Height",             value = initial$pos_height,
+                               invalidcommand  = make_red_text_reset_val(to = 5))
+    f3_top    <- bs_size_entry(label = "Top side position",  value = initial$pos_top,
+                               invalidcommand  = make_red_text_reset_val(to = 0))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f3_source_of_plot <- bs_radiobuttons(
@@ -633,11 +636,18 @@ window_export_fig_to_pptx <- function() {
             last_gg    = "Last ggplot2 plot"),
 
         tips = list(
-                code_base  = "A code of plot that does not need \nadditional call to function 'print'.",
-                code_print = "A code of plot that needa additional\ncall to function 'print'",
+                code_base  = "A code of plot. \nBest for base 'R' plots.",
+                code_print = "A code of plot. \nAdditionally funtion 'print' is called.",
                 code_gg    = "Code of a 'ggplot2' plot.",
-                obj_gg     = "A 'ggplot2' object saved in R workspace.",
-                last_gg    = "The last printed 'ggplot2' plot."),
+                obj_gg     = str_c(
+                    "A 'ggplot2' object saved in 'R' workspace.\n",
+                    "This option is inactive if no 'ggplot2' \n",
+                    "objects are present."),
+                last_gg    = str_c(
+                    "The last created 'ggplot2' plot.\n",
+                    "This option is inactive if no `ggplot`\n",
+                    "was created in this session.")
+                ),
 
         default_command = activate_options)
 
