@@ -1,3 +1,10 @@
+# TODO:
+# - Test the function with all combinations of plot sources.
+# - Add tips for fields.
+# - Message field should be left-aligned.
+# - After pessing "Apply" or "Reset", incorrect size of plot is generated.
+# - Add buttons for code
+# - Add better code checking or linting
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -8,10 +15,153 @@ window_export_fig_to_pptx <- function() {
     # Fonts ------------------------------------------------------------------
     font_consolas_regular <- tkfont.create(family = "Consolas", size = 8)
 
+    # Functions --------------------------------------------------------------
 
-    # Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~~~ Path to file -------------------------------------------------------
 
-    # ...
+    # Open file select dialogue
+    open_file_selection_dialogue <- function(f_path = fs::path(getwd(), ".")) {
+
+        initialdir <- fs::path_dir(f_path)
+        if (initialdir %in% c("", ".") || !fs::dir_exists(initialdir)) {
+            initialdir <- getwd()
+        }
+
+        initialfile <- fs::path_file(f_path)
+        if (initialfile %in%  c("", ".")) {
+            initialfile <- "editable_r_plots.pptx"
+        }
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        file_name <- tclvalue(
+            tkgetSaveFile(
+                parent = top,
+                # typevariable = typevariable, # to capture selected type
+                title = "Create or Choose Text File to Save Data to",
+                confirmoverwrite = FALSE,
+                initialfile = initialfile,
+                initialdir  = initialdir,
+                filetypes   = "{ {PowerPoint file} {.pptx} }"))
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        file_name
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_path_to_file <- function() {
+
+        file_name <- open_file_selection_dialogue(f_path = read_path_to_file())
+
+        if (get_use_relative_path()) { # make relative path
+            file_name <- make_relative_path(file_name)
+        }
+
+        file_name <- fs::path_ext_set(file_name, "pptx")
+
+        set_values(f1_ent_file, file_name)
+
+        check_pptx_file()
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Read value of file name entry box
+    read_path_to_file <- function() {
+        get_values(f1_ent_file)
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    set_msg <- function(msg, color = "darkred") {
+        tkconfigure(file_msg, text = msg, foreground = color)
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    check_pptx_file <- function() {
+        file <- read_path_to_file()
+
+        if (tolower(fs::path_file(file)) == ".pptx") {
+            set_msg("File name is missing.")
+            return()
+        }
+
+        # If extension is not pptx
+        if (tolower(fs::path_ext(file)) != "pptx") {
+
+            set_msg("Please, add '.pptx' as the file name extension.")
+            return()
+        }
+
+        file_exists <- fs::is_file(file)
+
+        if (file_exists) {
+            if (!is_file_writable(file)) {
+                # If file is not writable
+                set_msg("Please, CLOSE the file before saving the plot.")
+
+            } else {
+                set_msg("A new slide will be added to the file.",
+                        color = "green")
+            }
+
+            return()
+
+        } else {
+            set_msg("A new PowerPoint file will be created.",
+                    color = "green")
+            return()
+        }
+
+        set_msg("")
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    activate_options <- function() {
+        switch(
+            get_values(f3_source_of_plot),
+
+            code_base  = {
+                tkgrid.remove(f3_gg) # List of available ggplot2 objects
+                tkgrid(f4)           # Code input box
+            },
+            code_print = {
+                tkgrid.remove(f3_gg)
+                tkgrid(f4)
+            },
+            code_gg    = {
+                tkgrid.remove(f3_gg)
+                tkgrid(f4)
+            },
+            obj_gg     = {
+                tkgrid(f3_gg)
+                # tk_disable(f3_gg_obj_name_box)
+                tkgrid.remove(f4)
+            },
+            last_gg    = {
+                tkgrid.remove(f3_gg)
+                tkgrid.remove(f4)
+            }
+        )
+
+        # Important for the first time
+
+        if (is.null(ggplot2::last_plot())) {
+            tk_disable(f3_source_of_plot, "last_gg")
+
+            if (get_values(f3_source_of_plot) == "last_gg") {
+                # Deselect disabled value
+                set_values(f3_source_of_plot, "code_print")
+            }
+        }
+
+        if (length(gg_objects) == 0) {
+            tkgrid.remove(f3_gg)
+            tk_disable(f3_source_of_plot, "obj_gg")
+
+            if (get_values(f3_source_of_plot) == "obj_gg") {
+                # Deselect disabled value
+                set_values(f3_source_of_plot, "code_print")
+            }
+        }
+
+    }
 
     # Function onOK ----------------------------------------------------------
     onOK <- function() {
@@ -19,28 +169,76 @@ window_export_fig_to_pptx <- function() {
         cursor_set_busy(top)
         on.exit(cursor_set_idle(top))
 
-        # Išsaugome į PowerPoint -----------------------------------------------------
+        # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        pptx_file           <- get_values(f1_ent_file)
+
+        source_of_plot      <- get_values(f3_source_of_plot)
+        code                <- get_values(f4_code_input)
+        gg_object_name      <- get_selection(f3_gg_obj_name_box)
+
+        open_after_saving   <- get_values(f2_open_file_box, "open_file")
+
+        pos_width           <- as.numeric(get_values(f3_width))
+        pos_height          <- as.numeric(get_values(f3_height))
+        pos_left            <- as.numeric(get_values(f3_left))
+        pos_top             <- as.numeric(get_values(f3_top))
+        in_units            <- "inches" # "cm"
 
 
-        file_save         <- "r_paveikslas.pptx"
-        open_after_saving <- TRUE
+        # Reset widget properties before checking ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        width    <- 7
-        height   <- 5
-        left     <- 0
-        top      <- 0
-        in_units <- "inches" # "cm"
+        # tkconfigure(name_entry, foreground = "black")
 
-        code <- get_values(f3_input)
-        gg   <- "..." # TODO ???
-
-        source_for_plot   <- "code" #, "gg_obj"
+        # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Check input code, if appropriate
 
         switch(
-            source_for_plot,
+            source_of_plot,
 
-            "code" = {
-                # code <- get_values(f3_input)
+            obj_gg = {
+                if (nchar(gg_object_name) < 1) {
+                    msg <- "No 'ggplot2' object is selected.\nPlease select one."
+                    tk_messageBox(
+                        parent = top,
+                        type = "ok",
+                        icon = "error",
+                        message = msg,
+                        caption = "Object is Not Selected")
+
+                    return()
+                }
+            },
+
+            code_base  = ,
+            code_print = ,
+            code_gg    = {
+
+                if (str_trim(code) == "") {
+
+                    msg <- str_c(
+                        "Code field is empty.\n",
+                        "Please, enter the code that generates a plot.")
+
+                    tk_messageBox(
+                        parent = top,
+                        type = "ok",
+                        icon = "error",
+                        message = msg,
+                        caption = "Code is Missing")
+
+                    return()
+                }
+            }
+        )
+
+        # Check R syntax ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        switch(
+            source_of_plot,
+
+            code_base  = ,
+            code_print = ,
+            code_gg    = {
+                # code <- get_values(f4_code_input)
 
                 code_error <- svTools::lint(text = code, type = "flat", sep = "|")
 
@@ -59,111 +257,84 @@ window_export_fig_to_pptx <- function() {
 
                     return()
                 }
-            },
-
-            "gg_obj" = {
-
-                # gg <- "..." # TODO ???
-
-            },
-
-            stop("Unknown option of `plot_source`")
+            }
         )
 
-        gg_code <- switch(
-            source_for_plot,
+        # Check if file name is not empty ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (is_empty_name(pptx_file)) {
+            return()
+        }
 
-            "code" = {
-                str_glue(
-                    "code = {{ \n",
-                    "    # Code that draws base R or ggplot2 plot \n",
-                    "    {code} \n",
-                    "}}")
-            },
+        # If file name is missing ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (tolower(fs::path_file(pptx_file)) == ".pptx") {
+            msg <-
+                str_c(
+                    "Only extension '.pptx' is found but file name is missing.\n",
+                    "Please, create a file name.")
 
-            "gg_obj" = {
-                str_glue("ggobj = {gg}")
-            },
+            tk_messageBox(
+                parent = top,
+                type = "ok",
+                icon = "error",
+                message = msg,
+                caption = "File Name Is Missing")
 
-            stop("Unknown option of `plot_source`")
-        )
+            return()
+        }
+
+        # If extension is pptx ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (tolower(fs::path_ext(pptx_file)) != "pptx") {
+            msg <-
+                str_c(
+                    "Please, add '.pptx' as a file name extension.\n",
+                    "E.g., 'r_plots.pptx'.")
+
+            tk_messageBox(
+                parent = top,
+                type = "ok",
+                icon = "error",
+                message = msg,
+                caption = "Wrong File Name Extension")
+
+            return()
+        }
 
 
-        file_open <-
-            if (file.exists(file_save)) {
-                str_glue('"{file_save}" %>% \n')
+        if (fs::is_file(pptx_file)) {
+            if (!is_file_writable(pptx_file)) {
 
-            } else {
-                ""
+                msg <- str_c(
+                    "It seems that PowerPoint file is open, busy or read-only.\n",
+                    "Please, CLOSE the file before saving the plot or choose \n",
+                    "another file.")
+
+                tk_messageBox(
+                    parent = top,
+                    type = "ok",
+                    icon = "error",
+                    message = msg,
+                    caption = "Cannot Write to File")
+
+                return()
             }
-
-        code__open_after_saving <-
-            if (open_after_saving) {
-                str_glue(
-                    '\n\n',
-                    '## Open file \n',
-                    'browseURL("{file_save}")'
-                )
-            } else {
-                ""
-            }
-
-        # Save plot
-        command <- str_c(
-            sep = "\n",
-            '## Save plot',
-            '    {file_open} officer::read_pptx() %>%',
-            '    officer::add_slide(layout = "Blank", master = "Office Theme") %>%',
-            '    rvg::ph_with_vg_at(',
-            '        top    = {top},    # {in_units}',
-            '        left   = {left},   # {in_units}',
-            '        height = {height}, # {in_units}',
-            '        width  = {width},  # {in_units}',
-            '        {gg_code}',
-            '    ) %>%',
-            '    print(target = "{file_save}")',
-
-            '{code__open_after_saving}'
-        ) %>%
-            str_glue() %>%
-            style_cmd()
-
-        command %>%
-            structure(class = c("glue", "character"))
-
-        Library("tidyverse")
-        Library("officer")
-        Library("rvg")
-
-
-        # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        new_name       <- tclvalue_chr(name_variable)
-        which_position <- tclvalue_chr(positionVariable)
-
-        # Reset widget properties before checking ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-        # tkconfigure(name_entry, foreground = "black")
-
-        # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (is_empty_name(new_name)) {
-            return()
         }
 
-        if (is_not_valid_name(new_name)) {
-            return()
-        }
 
-        if (forbid_to_replace_variables(new_name)) {
-            return()
-        }
+        # if (is_not_valid_name(pptx_file)) {
+        #     return()
+        # }
 
-        if (variable_is_not_selected(new_name, "variable")) {
-            return()
-        }
-
-        if (variable_is_not_selected(new_name, "group variable")) {
-            return()
-        }
+        # if (forbid_to_replace_variables(new_name)) {
+        #     return()
+        # }
+        #
+        # if (variable_is_not_selected(new_name, "variable")) {
+        #     return()
+        # }
+        #
+        # if (variable_is_not_selected(new_name, "group variable")) {
+        #     return()
+        # }
 
         # if (forbid_to_replace_object(new_name)) {
         #     return()
@@ -188,43 +359,109 @@ window_export_fig_to_pptx <- function() {
 
         # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         putDialog("window_export_fig_to_pptx", list(
-            initial_position = which_position
+            pptx_file      = pptx_file,
+            source_of_plot = source_of_plot,
+            code           = code,
+            open_file      = open_after_saving,
+            pos_width      = pos_width,
+            pos_height     = pos_height,
+            pos_left       = pos_left,
+            pos_top        = pos_top
         ))
 
         # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        cmd_position <-
-            switch(which_position,
-                   "first" = str_glue(
-                       "%>% \n dplyr::select({new_name}, everything())"),
-                   "last" = "")
+        gg_code <- switch(
+            source_of_plot,
 
-        cmd_ungroup <- if (is_grouped_df(ds)) "ungroup() %>% \n" else ""
+            "code_base" = {
+                str_glue(
+                    "code = {{ \n",
+                    "    # Code that draws the plot \n",
+                    "    {code} \n",
+                    "}}")
+            },
 
-        command <- str_glue(
-            '## Add column with row numbers \n',
-            "{ds} <- {ds} %>% \n",
-            "{cmd_ungroup}",
-            "dplyr::mutate({new_name} = 1:n())",
-            "{cmd_position}")
+            "code_print" = {
+                str_glue(
+                    "code = {{ \n",
+                    "    print(\n",
+                    "      # Code that draws the plot \n",
+                    "      {code} \n",
+                    "    ) \n",
+                    "}}")
+            },
+
+            "code_gg" = {
+                str_glue(
+                    "ggobj = {{ \n",
+                    "    # Code that draws the plot \n",
+                    "    {code} \n",
+                    "}}")
+            },
+
+            "last_gg" =
+                "ggobj = ggplot2::last_plot()",
+
+            "obj_gg"  = {
+                str_glue("ggobj = {gg_object_name}")
+            },
+
+            stop("Unknown option of `source_of_plot`")
+        )
+
+        file_open <-
+            if (file.exists(pptx_file)) {
+                str_glue('"{pptx_file}" %>% \n')
+
+            } else {
+                ""
+            }
+
+        code__open_after_saving <-
+            if (open_after_saving) {
+                str_glue(
+                    '\n\n',
+                    '## Open PowerPoint file \n',
+                    'browseURL("{pptx_file}")'
+                )
+            } else {
+                ""
+            }
+
+        # Save plot
+        command <- str_c(
+            sep = "\n",
+            '## Save plot',
+            '    {file_open} officer::read_pptx() %>%',
+            '    officer::add_slide(layout = "Blank", master = "Office Theme") %>%',
+            '    rvg::ph_with_vg_at(',
+            '        width  = {pos_width},  # {in_units}',
+            '        height = {pos_height}, # {in_units}',
+            '        left   = {pos_left},   # {in_units}',
+            '        top    = {pos_top},    # {in_units}',
+            '        {gg_code}',
+            '    ) %>%',
+            '    print(target = "{pptx_file}")',
+
+            '{code__open_after_saving}'
+        ) %>%
+            str_glue()
+
+        # command %>% structure(class = c("glue", "character"))
 
         # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Library("tidyverse")
+        Library("officer")
+        Library("rvg")
 
-        # doItAndPrint(command)
         result <- justDoIt(command)
-
-        # result <- try_command(command)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (class(result)[1] != "try-error") {
             logger(style_cmd(command))
-            # doItAndPrint(style_cmd(command))
-
-            active_dataset(ds, flushModel = FALSE, flushDialogMemory = FALSE)
 
             # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             closeDialog()
-
 
         } else {
             logger_error(command, error_msg = result)
@@ -236,7 +473,6 @@ window_export_fig_to_pptx <- function() {
         # closeDialog()
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        command_dataset_refresh()
         tkfocus(CommanderWindow())
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -249,8 +485,8 @@ window_export_fig_to_pptx <- function() {
     # Initial values ---------------------------------------------------------
 
     # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # .ds    <- active_dataset() # active_dataset_0()
-    # fg_col <- Rcmdr::getRcmdr("title.color")
+
+    gg_objects <- list_objects_of_class("gg", envir = .GlobalEnv)
 
     # Initialize dialog window and title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -260,7 +496,14 @@ window_export_fig_to_pptx <- function() {
 
     # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     defaults <- list(
-        position = "first"
+        pptx_file   = "editable_r_plots.pptx",
+        source_of_plot = "code_print",
+        code        = "",
+        open_file   = FALSE,
+        pos_width   = 7,
+        pos_height  = 5,
+        pos_left    = 0,
+        pos_top     = 0
     )
     initial <- getDialog("window_export_fig_to_pptx", defaults)
 
@@ -268,169 +511,235 @@ window_export_fig_to_pptx <- function() {
     # ... Widgets ============================================================
     # Widgets ----------------------------------------------------------------
 
+
+    file_msg <- bs_label(parent = top, text = "", fg = "darkred")
+
+
+    # F1, Frame 1, choose file and name --------------------------------------
+    f1 <- tk2frame(top)
+
+    f1_lab_file <- bs_label_b(f1, text = "File: ")
+    f1_ent_file <- bs_entry(
+        f1, width = 60, sticky = "we", tip = "PowerPoint file name (new or existing)",
+        value = initial$pptx_file,
+        on_key_release = check_pptx_file)
+
+    f1_but_set_1 <- tk2frame(f1)
+
+    f1_but_paste <- tk2button(
+        f1_but_set_1,
+        # width = 7,
+        # text = "Paste",
+        image = "::image::bs_paste",
+        command = function() {
+            set_values(f1_ent_file, read_clipboard())
+            tkicursor(f1_ent_file$obj_text, "end")
+            tkxview.moveto(f1_ent_file$obj_text, "1")
+
+            check_pptx_file()
+        },
+        tip = "Paste file name."
+    )
+
+    f1_but_clear <- tk2button(
+        f1_but_set_1,
+        # width = 7,
+        # text = "Delete",
+        image = "::image::bs_delete",
+        command = function() {
+            set_values(f1_ent_file, "")
+            check_pptx_file()
+        },
+        tip = "Clear file name."
+    )
+
+    f1_but_update <- tk2button(
+        f1_but_set_1,
+        # width = 6,
+        # text = "Update",
+        # compound = "right",
+        image = "::image::bs_refresh",
+        command = function() {
+            # Add extension
+            set_values(f1_ent_file,
+                       values = fs::path_ext_set(read_path_to_file(), "pptx"))
+            check_pptx_file()
+            },
+        tip = str_c("Check file and add\n'.pptx' if missing.")
+    )
+
+    f1_but_f_choose <- tk2button(
+        f1_but_set_1,
+        # width = 7,
+        # text = "Browse",
+        image = "::image::bs_open_file",
+        command = function() {
+            get_path_to_file()
+        },
+        tip = "Choose file to export to."
+    )
+
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # upper_frame <- tkframe(top)
-    #
-    # # Text entry box
-    # name_entry <- bs_tk_textbox(
-    #     parent = upper_frame,
-    #     width = 28,
-    #     value = unique_colnames("row_number"),
-    #     label = "Column name for row numbers:"
-    # )
-    #
-    # # name_variable <- tclVar(unique_colnames("row_number"))
-    # # name_frame    <- tkframe(upper_frame)
-    # # name_entry    <- ttkentry(name_frame, width = "28",
-    # #                           textvariable = name_variable)
-    #
-    # # Radiobuttons horizontal
-    # rb_frame <- tkframe(upper_frame)
-    # radioButtons_horizontal(
-    #     rb_frame,
-    #     title = "Column position: ",
-    #     title.color = fg_col,
-    #
-    #     # right.buttons = FALSE,
-    #     name = "position",
-    #     sticky_buttons = "w",
-    #     buttons = c("first",  "last"),
-    #     values =  c("first",  "last"),
-    #     labels =  c("First  ","Last  "),
-    #     initialValue = initial$position
-    # )
-    #
-    # # Layout
-    # tkgrid(upper_frame, pady = c(0, 5))
-    # # tkgrid(name_frame, rb_frame, sticky = "w")
-    # tkgrid(name_entry$frame, rb_frame, sticky = "w")
-    #
-    # # tkgrid(
-    # #     bs_label(
-    # #         name_frame,
-    # #         text = gettext_bs("Column name for row numbers:"),
-    # #         foreground = getRcmdr("title.color")),
-    # #     sticky = "w"
-    # # )
-    # # tkgrid(name_entry, sticky = "w")
-    # # tkgrid(positionFrame, padx = c(15, 0))
-    #
-    # # Check box
-    # bs_check_boxes(upper_frame,
-    #                frame         = "check_locale_frame",
-    #                boxes         = c("check_locale_", "hide_output_"),
-    #                # commands      = list("check_locale_" = cmd_checkbox),
-    #                initialValues = c("1", "0"),
-    #                labels        = gettext_bs(c(
-    #                    "Check if the locale can be used on this computer",
-    #                    "Hide output"))
-    # )
-    #
+    # F2 ---------------------------------------------------------------------
 
-    # F3, Frame 3, Preview ---------------------------------------------------
-    # f3 <- tk2labelframe(top, relief = "flat", text = "Code input")
+    f2 <- tk2frame(top)
 
-    f3 <- tk2frame(top)
+    f2_open_file_box <- bs_checkboxes(
+        parent = f2,
+        boxes  = c(open_file = "Open file after saving the plot"),
+        values = c(open_file = initial$open_file))
 
-    f3_input <- bs_text(
-        f3, width = 80, height = 13, wrap = "none",
-        autoseparators = TRUE, undo = TRUE,
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # F3 ---------------------------------------------------------------------
+
+    f3     <- tk2frame(top)
+
+    f3_but <- tk2frame(f3)
+    f3_pos <- tk2frame(f3)
+    f3_gg  <- tk2frame(f3)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    f3_pos_lab <- bs_label_b(parent = f3_pos, text = "Size and position of plot:")
+
+    bs_size_entry <- purrr::partial(
+        bs_entry, parent = f3_pos, width = 3, justify = "center", label_color = "black")
+
+    f3_width  <- bs_size_entry(label = "Width",              value = initial$pos_width)
+    f3_left   <- bs_size_entry(label = "Left side position", value = initial$pos_left)
+
+    f3_height <- bs_size_entry(label = "Height",             value = initial$pos_height)
+    f3_top    <- bs_size_entry(label = "Top side position",  value = initial$pos_top)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    f3_source_of_plot <- bs_radiobuttons(
+        f3_but, title = "Source of plot:",
+        value = initial$source_of_plot,
+        buttons = c(
+            code_base  = "Code of base plot",
+            code_print = "Code of plot to print",
+            code_gg    = "Code of ggplot2 plot",
+            obj_gg     = "ggplot2 object",
+            last_gg    = "Last ggplot2 plot"),
+        default_command = activate_options)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    f3_gg_obj_name_box <- bs_listbox(
+        parent = f3_gg,
+        values = gg_objects,
+        title  = "List of ggplot2 objects:",
+        width  = 25, height = 7)
+
+    # F4, Frame 4, Preview ---------------------------------------------------
+    # F4 <- tk2labelframe(top, relief = "flat", text = "Code input")
+
+    f4 <- tk2frame(top)
+
+    f4_code_input <- bs_text(
+        f4, width = 80, height = 13, wrap = "none",
+        # autoseparators = TRUE,
+        undo = TRUE,
         state = "normal",
         font = font_consolas_regular,
-        tip = "Code that generates either a base R or ggplot2 plot. \nLattice and other systems are not suported.",
+        tip = str_c(
+            "Code that generates either an 'R' plot.\n",
+            "Try several options for the best result.\n",
+            "Right-click to clear or paste."),
         label = "R Code of Plot to Export"
     )
 
-    tkgrid(f3_input$frame, sticky = "news")
-    tkgrid(f3)
 
-    #
-    #
-    # # Radiobuttons vertical
-    # into_outter_frame <- tkframe(upper_frame)
-    # Rcmdr::radioButtons(
-    #     window  = into_outter_frame,
-    #     name    = "into_",
-    #     title   = gettext_bs("Convert into"),
-    #     buttons = c("character", "nominal", "ordinal", "integer", "numeric", "logical"),
-    #     values  = c("character", "nominal", "ordinal", "integer", "numeric", "logical"),
-    #     # initialValue = dialog_values$into,
-    #     labels  = gettext_bs(
-    #         c("Text (character)",
-    #           "Nominal factors",
-    #           "Ordinal factors",
-    #           "Integers",
-    #           "Real numbers",
-    #           "Logical"
-    #         )),
-    #     command = function(){}
-    # )
-    # Layout
-    # tkgrid(upper_frame)
-    # tkgrid(getFrame(var_y_box), into_outter_Frame, sticky = "nw")
-    # tkgrid(into_outter_frame, sticky = "nw")
-    # tkgrid(into_Frame, padx = c(15, 5))
+    context_menu_for_code <- function() {
+
+        top <- CommanderWindow()
+
+        menu_i <- tk2menu(tk2menu(top), tearoff = FALSE)
+
+        # tkadd(menu_i, "command",
+        #       label    = "Copy",
+        #       compound = "left",
+        #       image    = "::image::bs_delete",
+        #       command  = do_nothing)
+
+        tkadd(menu_i, "command",
+              label    = "Clear",
+              compound = "left",
+              image    = "::image::bs_delete",
+              command  = function() {
+                  set_values(f4_code_input, "")
+              })
+
+        tkadd(menu_i, "command",
+              label    = "Clear and paste",
+              compound = "left",
+              image    = "::image::bs_paste",
+              command  = function() {
+                  set_values(f4_code_input, read_clipboard())
+              })
+
+        tkpopup(menu_i,
+                tkwinfo("pointerx", top),
+                tkwinfo("pointery", top))
+    }
+
+    tkbind(f4_code_input$text, "<ButtonPress-3>", context_menu_for_code)
 
 
-    # * Y and Groups box =====================================================
+    # Widgets ================================================================
 
-    # defaults <- list(
-    #     var_y      = NULL,
-    #     var_gr     = NULL,
-    #     use_groups = "0"
-    # )
-    #
-    # widget_y_gr <- tk_widget_boxes_y_gr(
-    #     y_title        = title_var_1,
-    #     y_var_type     = "num",
-    #     y_initial      = initial$var_y,
-    #     y_select_mode  = "single",
-    #
-    #     gr_title       = title_gr_0_n,
-    #     gr_var_type    = "fct_like",
-    #     gr_initial     = initial$var_gr,
-    #     gr_select_mode = "multiple",
-    #
-    #     ch_initial     = initial$use_groups
-    # )
-    #
-    # use_groups <- tclvalue_lgl(widget_y_gr$var_checkbox)
-    # var_y      <- get_selection(widget_y_gr$listbox_y)
-    # var_gr     <- get_selection(widget_y_gr$listbox_gr)
-    #
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(file_msg, sticky = "")
+    # F1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(f1, padx = 10, sticky = "we")
+
+    tkgrid(f1_lab_file, f1_ent_file$frame, f1_but_set_1, pady = c(5, 5), sticky = "we")
+    tkgrid(f1_but_f_choose, f1_but_paste, f1_but_clear, f1_but_update, sticky = "e")
+
+    tkgrid.configure(f1_lab_file,       sticky = "e")
+    tkgrid.configure(f1_ent_file$frame, sticky = "we", padx = 2)
+    tkgrid.configure(
+        f1_ent_file$frame_text,
+        f1_ent_file$obj_text,
+        sticky = "we")
+
+    # F3 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(f3,     sticky = "nw")
+    tkgrid(f3_pos, f3_but, f3_gg, sticky = "nw", padx = c(10, 0))
+
+    tkgrid(f3_pos_lab, sticky = "w")
+    tkgrid(f3_width$frame,  padx = c(0, 10), sticky = "e", pady = c(0, 2))
+    tkgrid(f3_height$frame, padx = c(0, 10), sticky = "e", pady = c(0, 2))
+    tkgrid(f3_left$frame,   padx = c(0, 10), sticky = "e", pady = c(0, 2))
+    tkgrid(f3_top$frame,    padx = c(0, 10), sticky = "e", pady = c(0, 2))
+
+    tkgrid(f3_source_of_plot$frame, padx = 15)
+
+    tkgrid(f3_gg_obj_name_box$frame, sticky = "n")
+
+    # F4 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(f4_code_input$frame, sticky = "news")
+    tkgrid(f4, pady = c(10, 2))
+
+    # F2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(f2, padx = 10, sticky = "e")
+    tkgrid(f2_open_file_box$frame,  pady = c(0, 8), sticky = "e")
+    tkgrid.configure(f2_open_file_box$frame, sticky = "e", padx = c(15, 0))
 
     # Finalize ---------------------------------------------------------------
 
-    # Help topic
-    # OKCancelHelp(helpSubject = "mutate", helpPackage = "dplyr")
-
     ok_cancel_help(helpSubject = "ph_with_vg_at", helpPackage = "rvg",
-                   reset = "window_export_fig_to_pptx()",
-                   apply = "window_export_fig_to_pptx()")
+                   # reset = "window_export_fig_to_pptx()",
+                   # apply = "window_export_fig_to_pptx()",
+                   ok_label = "Save")
 
     tkgrid(buttonsFrame, sticky = "ew")
-    dialogSuffix()
+    dialogSuffix(bindReturn = FALSE)
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Apply initial configuration functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-    # Interactive bindings ---------------------------------------------------
-
-    # Add interactivity for `fname_frame` and `fname_label`
-    # tkbind(file_label,     "<ButtonPress-1>", on_click)
-    # tkbind(fname_frame,    "<ButtonPress-1>", on_click)
-    # tkbind(fname_label,    "<ButtonPress-1>", on_click)
-    #
-    # tkbind(fname_frame, "<Enter>",
-    #        function() tkconfigure(fname_label, foreground = "blue"))
-    # tkbind(fname_frame, "<Leave>",
-    #        function() tkconfigure(fname_label, foreground = "black"))
-    # # tkconfigure(file_label,     cursor = "hand2")
-    # tkconfigure(fname_frame,    cursor = "hand2")
-    # tkconfigure(button_ch_file, cursor = "hand2")
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
+    activate_options()
+    check_pptx_file()
 }
 
-# svTools::lint(text = get_values(f3_input), type = "flat", sep = "|")
+# svTools::lint(text = get_values(f4_code_input), type = "flat", sep = "|")
