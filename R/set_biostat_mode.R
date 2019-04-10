@@ -829,7 +829,7 @@ bs_mode_menu__variables <- function() {
           menu     = menu_num)
 
     tkadd(menu_num, "command",
-          label    = "Log transformation...",
+          label    = "Logarithmic transformation...",
           # compound = "left",
           # image    = "::image::bs_folder",
           state = set_menu_state(numericP()),
@@ -1044,14 +1044,6 @@ bs_mode_menu__plots <- function() {
 
     }
 
-    tkadd(menu_p, "separator")
-
-    tkadd(menu_p, "command",
-          label    = "Import data from plot (online)...",
-          compound = "left",
-          image    = "::image::bs_chart",
-          command  = window_online_image_digitizer)
-
 
     if (packageAvailable('plotly')) {
 
@@ -1059,10 +1051,22 @@ bs_mode_menu__plots <- function() {
 
         tkadd(menu_p, "command",
               label    = "Convert last ggplot into interactive plot",
+              state    = set_menu_state(!is.null(ggplot2::last_plot())),
               # compound = "left",
               # image    = "::image::bs_chart",
               command  = window_plots_ggplotly)
     }
+
+
+    tkadd(menu_p, "separator")
+
+
+    tkadd(menu_p, "command",
+          label    = "Import data from plot (online)...",
+          compound = "left",
+          image    = "::image::bs_chart",
+          command  = window_online_image_digitizer)
+
 
     if (packageAvailable('officer') && packageAvailable('rvg')) {
         tkadd(menu_p, "separator")
