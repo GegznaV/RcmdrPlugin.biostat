@@ -27,5 +27,4 @@ window_summary_desc <- function() {
 
         options(scipen = 8)
         DescTools::Desc(iris)
-
 }
