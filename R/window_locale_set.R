@@ -98,16 +98,26 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
 
         if (.Platform$OS.type == "windows") {
             pattern <-
-                "^LC_COLLATE=(.*?);LC_CTYPE=(.*?);LC_MONETARY=(.*?);LC_NUMERIC=C;LC_TIME=(.*?)$"
+                "^LC_COLLATE=(.*?);LC_CTYPE=(.*?);LC_MONETARY=(.*?);LC_NUMERIC=(.*?);LC_TIME=(.*?)$"
+            # "^LC_COLLATE=(.*?);LC_CTYPE=(.*?);LC_MONETARY=(.*?);LC_NUMERIC=C;LC_TIME=(.*?)$"
 
             # 'cur_loc' must be informative enough
+            # cur_loc <-
+            #     cur_loc_all %>%
+            #     str_match(pattern) %>%
+            #     as.vector() %>%
+            #     .[-1] %>%
+            #     unique() %>%
+            #     str_c(collapse = "; ")
+
             cur_loc <-
                 cur_loc_all %>%
                 str_match(pattern) %>%
                 as.vector() %>%
                 .[-1] %>%
-                unique() %>%
-                str_c(sep = "; ")
+                forcats::fct_infreq() %>%
+                levels() %>%
+                .[1]
 
             # 'loc_to_view' must be short enough
             loc_to_view <- str_extract(cur_loc_all, "(?<=\\=).*?(?=(\\.|;|_))")
@@ -140,7 +150,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
         }
     }
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     #' @rdname Menu-window-functions
     #' @export
     #' @keywords internal
