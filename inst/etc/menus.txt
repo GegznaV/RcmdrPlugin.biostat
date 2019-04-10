@@ -238,14 +238,14 @@ item	bs19_plots_menu	command	"Open a new window for plots"	open_new_plots_window
 # item	bs19_plots_menu	separator	""	""	""	""
 # item	bs19_plots_menu	command	"Digitize image (offline)..."	window_plots_image_digitizer	""	"packageAvailable('digitizeR')"
 item	bs19_plots_menu	command	"Import data from plot (online)..."	window_online_image_digitizer	""	""
-# item	import_menu	command	"Digitize image..."	window_dataset_digitizer_web	""	"packageAvailable('digitizeR')"
-item	import_menu	command	"Convert last ggplot into interactive plot"	window_plots_ggplotly	""	"packageAvailable('plotly')"
+# item	bs19_plots_menu	command	"Digitize image..."	window_dataset_digitizer_web	""	"packageAvailable('digitizeR')"
+item	bs19_plots_menu	command	"Convert last ggplot into interactive plot"	window_plots_ggplotly	""	"packageAvailable('plotly')"
 
 
 
 # item	bs19_plots_menu	separator	""	""	""	""
 # item	bs19_plots_menu	command	"[???] Visualize color names & color codes (example)"	window_show_colors	""	""
-# item	bs19_plots_menu	command	"Save editable plot to PowerPoint..."	window_export_fig_to_pptx	""	"packageAvailable('officer') && packageAvailable('rvg')"
+item	bs19_plots_menu	command	"Save editable plot to PowerPoint..."	window_export_fig_to_pptx	""	"packageAvailable('officer') && packageAvailable('rvg')"
 
 
 
