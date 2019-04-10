@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Checkboxes widget. — bs_checkboxes • RcmdrPlugin.biostat</title>
+<title>Check if file writtable. — is_file_writable • RcmdrPlugin.biostat</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -31,9 +31,9 @@
 
 
 
-<meta property="og:title" content="Checkboxes widget. — bs_checkboxes" />
+<meta property="og:title" content="Check if file writtable. — is_file_writable" />
 
-<meta property="og:description" content="Checkboxes widget with command functions and tips when mouse is over the box." />
+<meta property="og:description" content="Check if file writtable." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -104,129 +104,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Checkboxes widget.</h1>
+    <h1>Check if file writtable.</h1>
     
-    <div class="hidden name"><code>bs_checkboxes.Rd</code></div>
+    <div class="hidden name"><code>is_file_writable.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Checkboxes widget with command functions and tips when mouse is over the box.</p>
+    <p>Check if file writtable.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>bs_checkboxes</span>(<span class='kw'>parent</span> <span class='kw'>=</span> <span class='no'>top</span>, <span class='no'>boxes</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>values</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>default_value</span> <span class='kw'>=</span> <span class='st'>"0"</span>, <span class='kw'>commands</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(),
-  <span class='kw'>default_command</span> <span class='kw'>=</span> <span class='kw'>function</span>() { }, <span class='kw'>tips</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='kw'>default_tip</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>border</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>layout</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"vertical"</span>, <span class='st'>"horizontal"</span>),
-  <span class='kw'>sticky_buttons</span> <span class='kw'>=</span> <span class='st'>"w"</span>, <span class='kw'>sticky_title</span> <span class='kw'>=</span> <span class='st'>"w"</span>)</pre>
+    <pre class="usage"><span class='fu'>is_file_writable</span>(<span class='kw'>file</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>parent</th>
-      <td><p>Parent frame.</p></td>
-    </tr>
-    <tr>
-      <th>boxes</th>
-      <td><p>(vector of strings) Variable names for each checkbox.</p></td>
-    </tr>
-    <tr>
-      <th>labels</th>
-      <td><p>(vector of strings) Labels for each checkbox.</p></td>
-    </tr>
-    <tr>
-      <th>title</th>
-      <td><p>Title for the set of checkboxes.</p></td>
-    </tr>
-    <tr>
-      <th>values</th>
-      <td><p>A vector of values ("0" or "1"). Overrides the `default_value`.</p></td>
-    </tr>
-    <tr>
-      <th>default_value</th>
-      <td><p>(string) Default value ("0" or "1").</p></td>
-    </tr>
-    <tr>
-      <th>commands</th>
-      <td><p>A named list of commands (functions) for checkbox. The names must match the values of "boxes".</p></td>
-    </tr>
-    <tr>
-      <th>default_command</th>
-      <td><p>(function) A default command.</p></td>
-    </tr>
-    <tr>
-      <th>tips</th>
-      <td><p>A named list of strings to be used as tips for checkbox.
-The names must match the values of "boxes".</p></td>
-    </tr>
-    <tr>
-      <th>default_tip</th>
-      <td><p>(string) a default tip.</p></td>
-    </tr>
-    <tr>
-      <th>border</th>
-      <td><p>(logical) Flag if the frame should have a border.</p></td>
-    </tr>
-    <tr>
-      <th>layout</th>
-      <td><p>(string) One of "vertical" (default) and "horizontal".</p></td>
-    </tr>
-    <tr>
-      <th>sticky_buttons</th>
-      <td><p>(string) `sticky` option for buttons.</p></td>
-    </tr>
-    <tr>
-      <th>sticky_title</th>
-      <td><p>(string) `sticky` option for title (if no border is used).</p></td>
+      <th>file</th>
+      <td><p>(character) Path to file.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A named list with fields `frame` (frame with the checkboxes),
- `var` (tcl/tk variables for each box),
- and `obj` (tcl/tk objects for each box).</p>
+    <p>Logical. If <code>FALSE</code> it means that file is busy, locked or open.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"># NOT RUN {
-\donttest{
-
-library(RcmdrPlugin.biostat)
-
-top <- tcltk::tktoplevel()
-
-boxes_1 <- bs_checkboxes(top, c("A", "B", "C"))
-tcltk::tkgrid(boxes_1$frame)
-
-
-top <- tcltk::tktoplevel()
-boxes_2 <- bs_checkboxes(top, boxes = c("A", "B", "C"), border = TRUE)
-tcltk::tkgrid(boxes_2$frame)
-
-
-top <- tcltk::tktoplevel()
-boxes_3 <- bs_checkboxes(top, c("A", "B", "C"),
-                        layout = "h", title = "Buttons")
-tcltk::tkgrid(boxes_3$frame)
-
-
-set_values(boxes_3, B = TRUE, C = TRUE)
-
-new_vals <- c(A = TRUE, B = FALSE)
-set_values(boxes_3, new_vals)
-
-
-get_values(boxes_3)
-get_values(boxes_3, "B")
-get_values(boxes_3, simplify = FALSE)
-
-
-}
-# }
-</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -234,9 +138,7 @@ get_values(boxes_3, simplify = FALSE)
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>
