@@ -1248,12 +1248,12 @@ forbid_to_replace_file <- function(name, parent = CommanderWindow()) {
 show_code_evaluation_error_message <- function(parent = CommanderWindow()) {
     show_error_messages(
         str_c("Something went wrong while evaluating the code.\n",
-              "Please, check if all options are selected correctly\n",
-              "and try to fix the issue."),
+              "Please, check if all the options are selected \n",
+              "correctly and try to fix the issue."),
 
         str_c("Something went wrong while evaluating the code.\n\n",
-              "Please, check if all options are selected correctly\n",
-              "and try to fix the issue.",
+              "Please, check if all the options are selected \n",
+              "correctly and try to fix the issue."
 
               # "If no error was found, you may consider reporting\n",
               # "the bug in the package `RcmdrPlugin.biostat`\n",
@@ -1465,6 +1465,18 @@ validate_num_0_0.5 <- function(P, W) {
     }
 }
 
+validate_numeric <- function(P, W) {
+    # P - value
+    res <- is_numeric_str(P)
+
+    if (res == TRUE) {
+        tkconfigure(W, foreground = "black")
+        return(tcl("expr", "TRUE"))
+    } else {
+        return(tcl("expr", "FALSE"))
+    }
+}
+
 
 is_pos_integer_str <- function(str) {
     str_detect(str, "^\\d+$")
@@ -1516,6 +1528,17 @@ make_red_text <- function(P, W, S, v) {
     tcl("expr", "TRUE")
 }
 
+
+make_red_text_reset_val <- function(to = "Inf") {
+    function(P, W, S, v, s) {
+        tcl("after", "idle", function() {tkconfigure(W, validate = v)})
+        tkconfigure(W, foreground = "red2")
+        tkdelete(W, "0", "end")
+        tkinsert(W, "0", to)
+
+        tcl("expr", "TRUE")
+    }
+}
 
 # ___ Rcmdr ___ ==============================================================
 
