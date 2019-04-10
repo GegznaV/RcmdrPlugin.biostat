@@ -17,8 +17,6 @@ window_export_fig_to_pptx <- function() {
 
     # Functions --------------------------------------------------------------
 
-    # ~~~ Path to file -------------------------------------------------------
-
     # Open file select dialogue
     open_file_selection_dialogue <- function(f_path = fs::path(getwd(), ".")) {
 
@@ -29,7 +27,7 @@ window_export_fig_to_pptx <- function() {
 
         initialfile <- fs::path_file(f_path)
         if (initialfile %in%  c("", ".")) {
-            initialfile <- "editable_r_plots.pptx"
+            initialfile <- default_pptx_name
         }
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -435,10 +433,10 @@ window_export_fig_to_pptx <- function() {
             '    {file_open} officer::read_pptx() %>%',
             '    officer::add_slide(layout = "Blank", master = "Office Theme") %>%',
             '    rvg::ph_with_vg_at(',
-            '        width  = {pos_width},  # {in_units}',
+            '        width  = {pos_width}, # {in_units}',
             '        height = {pos_height}, # {in_units}',
-            '        left   = {pos_left},   # {in_units}',
-            '        top    = {pos_top},    # {in_units}',
+            '        left   = {pos_left}, # {in_units}',
+            '        top    = {pos_top}, # {in_units}',
             '        {gg_code}',
             '    ) %>%',
             '    print(target = "{pptx_file}")',
@@ -487,6 +485,7 @@ window_export_fig_to_pptx <- function() {
     # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     gg_objects <- list_objects_of_class("gg", envir = .GlobalEnv)
+    default_pptx_name <- "editable_r_plots.pptx"
 
     # Initialize dialog window and title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -496,14 +495,14 @@ window_export_fig_to_pptx <- function() {
 
     # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     defaults <- list(
-        pptx_file   = "editable_r_plots.pptx",
+        pptx_file      = default_pptx_name,
         source_of_plot = "code_print",
-        code        = "",
-        open_file   = FALSE,
-        pos_width   = 7,
-        pos_height  = 5,
-        pos_left    = 0,
-        pos_top     = 0
+        code           = "",
+        open_file      = FALSE,
+        pos_width      = 7,
+        pos_height     = 5,
+        pos_left       = 0,
+        pos_top        = 0
     )
     initial <- getDialog("window_export_fig_to_pptx", defaults)
 
@@ -560,12 +559,19 @@ window_export_fig_to_pptx <- function() {
         # compound = "right",
         image = "::image::bs_refresh",
         command = function() {
+
+            f_name <- read_path_to_file()
+
+            if (f_name == "") {
+                f_name <- default_pptx_name
+            }
+
             # Add extension
             set_values(f1_ent_file,
-                       values = fs::path_ext_set(read_path_to_file(), "pptx"))
+                       values = fs::path_ext_set(f_name, "pptx"))
             check_pptx_file()
-            },
-        tip = str_c("Check file and add\n'.pptx' if missing.")
+        },
+        tip = str_c("Check file name and\nadd '.pptx', if missing.")
     )
 
     f1_but_f_choose <- tk2button(
@@ -603,7 +609,11 @@ window_export_fig_to_pptx <- function() {
     f3_pos_lab <- bs_label_b(parent = f3_pos, text = "Size and position of plot:")
 
     bs_size_entry <- purrr::partial(
-        bs_entry, parent = f3_pos, width = 3, justify = "center", label_color = "black")
+        bs_entry, parent = f3_pos, width = 4, justify = "center",
+        label_color = "black", tip = "Size or position in inches.",
+        validate = "key",
+        validatecommand = validate_numeric,
+        invalidcommand  = make_red_text_reset_val(to = 0))
 
     f3_width  <- bs_size_entry(label = "Width",              value = initial$pos_width)
     f3_left   <- bs_size_entry(label = "Left side position", value = initial$pos_left)
@@ -621,6 +631,14 @@ window_export_fig_to_pptx <- function() {
             code_gg    = "Code of ggplot2 plot",
             obj_gg     = "ggplot2 object",
             last_gg    = "Last ggplot2 plot"),
+
+        tips = list(
+                code_base  = "A code of plot that does not need \nadditional call to function 'print'.",
+                code_print = "A code of plot that needa additional\ncall to function 'print'",
+                code_gg    = "Code of a 'ggplot2' plot.",
+                obj_gg     = "A 'ggplot2' object saved in R workspace.",
+                last_gg    = "The last printed 'ggplot2' plot."),
+
         default_command = activate_options)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -693,7 +711,7 @@ window_export_fig_to_pptx <- function() {
     tkgrid(f1, padx = 10, sticky = "we")
 
     tkgrid(f1_lab_file, f1_ent_file$frame, f1_but_set_1, pady = c(5, 5), sticky = "we")
-    tkgrid(f1_but_f_choose, f1_but_paste, f1_but_clear, f1_but_update, sticky = "e")
+    tkgrid(f1_but_f_choose, f1_but_paste, f1_but_clear, f1_but_update,   sticky = "e")
 
     tkgrid.configure(f1_lab_file,       sticky = "e")
     tkgrid.configure(f1_ent_file$frame, sticky = "we", padx = 2)
