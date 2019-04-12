@@ -183,8 +183,6 @@ set_biostat_mode <- function() {
     putRcmdr("button_refresh",   button_refresh)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-
     # New layout -------------------------------------------------------------
     tkgrid(logo,
            button_import,
@@ -857,12 +855,12 @@ bs_mode_menu__analyze <- function() {
           state      = set_menu_state(factorsP(2)),
           command    = window_summary_count)
 
-    tkadd(menu_p, "command",
-          label      = "Normality test (univariate)...",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          state      = set_menu_state(numericP()),
-          command    = window_test_normality)
+    # tkadd(menu_p, "command",
+    #       label      = "Normality test (univariate)...",
+    #       # compound = "left",
+    #       # image    = "::image::bs_open_file",
+    #       state      = set_menu_state(numericP()),
+    #       command    = window_test_normality)
 
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

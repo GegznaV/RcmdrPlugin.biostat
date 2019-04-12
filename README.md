@@ -3,6 +3,8 @@
 
 -----
 
+<!-- badges: start -->
+
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.r-project.org/package=RcmdrPlugin.biostat)
@@ -10,10 +12,10 @@ status](https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.
 version](https://img.shields.io/badge/GitHub-v0.0.26-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
 [![Travis-CI Build
 Status](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat)
-<!-- badges: start --> [![AppVeyor build
+[![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/GegznaV/RcmdrPlugin.BioStat?branch=master&svg=true)](https://ci.appveyor.com/project/GegznaV/RcmdrPlugin.BioStat)
-<!-- badges: end -->
 [![Updated-on](https://img.shields.io/badge/Updated%20on-2019--04--12-yellowgreen.svg)](/commits/master)
+<!-- badges: end -->
 
 -----
 
