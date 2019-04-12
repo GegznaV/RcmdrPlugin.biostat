@@ -1,10 +1,10 @@
 # TODO:
-# - Test the function with all combinations of plot sources.
-# - Add tips for fields.
-# - Message field should be left-aligned.
+# - Add tips to fields.
 # - After pessing "Apply" or "Reset", incorrect size of plot is generated.
-# - Add buttons for code
-# - Add better code checking or linting
+# - Add buttons for code field.
+# - Add better code checking or linting messages are needed.
+# - Add syntax highlighting.
+# - Code error mesage could be shown as a pop-up message.
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -57,7 +57,7 @@ window_export_fig_to_pptx <- function() {
 
         set_values(f1_ent_file, file_name)
 
-        check_pptx_file()
+        set_check_pptx_msg()
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -72,7 +72,7 @@ window_export_fig_to_pptx <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    check_pptx_file <- function() {
+    set_check_pptx_msg <- function() {
         file <- read_path_to_file()
 
         if (tolower(fs::path_file(file)) == ".pptx") {
@@ -116,10 +116,9 @@ window_export_fig_to_pptx <- function() {
         switch(
             rez,
             "Code as-is"            = "code_base",
-            "R 'base' plot"         = "code_base",
-            "'ggplot2' plot"        = "code_gg",
             "Call function print()" = "code_print",
             "Call function plot()"  = "code_plot",
+            "'ggplot2' plot"        = "code_gg",
             stop("unknown option of `f3_code_options`: ", rez)
         )
     }
@@ -180,7 +179,7 @@ window_export_fig_to_pptx <- function() {
             set_values(f3_gg_obj_name_box, gg_objects)
 
         }
-
+        set_check_pptx_msg()
     }
 
     # Function onOK ----------------------------------------------------------
@@ -436,7 +435,7 @@ window_export_fig_to_pptx <- function() {
                         "}}")
                 },
                 stop("Unknown option of `code_options`")
-                ),
+            ),
 
             stop("Unknown option of `source_of_plot`")
         )
@@ -555,7 +554,7 @@ window_export_fig_to_pptx <- function() {
     f1_ent_file <- bs_entry(
         f1, width = 60, sticky = "we", tip = "PowerPoint file name (new or existing)",
         value = initial$pptx_file,
-        on_key_release = check_pptx_file)
+        on_key_release = set_check_pptx_msg)
 
     f1_but_set_1 <- tk2frame(f1)
 
@@ -569,7 +568,7 @@ window_export_fig_to_pptx <- function() {
             tkicursor(f1_ent_file$obj_text, "end")
             tkxview.moveto(f1_ent_file$obj_text, "1")
 
-            check_pptx_file()
+            set_check_pptx_msg()
         },
         tip = "Paste file name."
     )
@@ -581,7 +580,7 @@ window_export_fig_to_pptx <- function() {
         image = "::image::bs_delete",
         command = function() {
             set_values(f1_ent_file, "")
-            check_pptx_file()
+            set_check_pptx_msg()
         },
         tip = "Clear file name."
     )
@@ -603,10 +602,12 @@ window_export_fig_to_pptx <- function() {
             # Add extension
             set_values(f1_ent_file,
                        values = fs::path_ext_set(f_name, "pptx"))
-            check_pptx_file()
+            set_check_pptx_msg()
             activate_options()
         },
-        tip = str_c("Check file name and\nadd '.pptx', if missing.")
+        tip = str_c("Update window, e.g., \n",
+                    "check file name and  \n",
+                    "add '.pptx', if missing.")
     )
 
     f1_but_f_choose <- tk2button(
@@ -645,7 +646,10 @@ window_export_fig_to_pptx <- function() {
 
     bs_size_entry <- purrr::partial(
         bs_entry, parent = f3_pos, width = 4, justify = "center",
-        label_color = "black", tip = "Size or position in inches.",
+        label_color = "black", tip = str_c(
+            "Size / Position in inches.\n",
+            "Usually full width of 'PowerPoint' is \n",
+            "10 inches and full height is 8 inches."),
         validate = "focus",
         validatecommand = validate_numeric)
 
@@ -692,10 +696,10 @@ window_export_fig_to_pptx <- function() {
         width  = 18,
         value  = initial$code_options,
         values = c("Code as-is",
-                   "R 'base' plot",
-                   "'ggplot2' plot",
                    "Call function print()",
-                   "Call function plot()"),
+                   "Call function plot()",
+                   "'ggplot2' plot"
+        ),
         tip = str_c(
             "Additional modification for the code. \n",
             "You should try, which one works best \n",
@@ -818,7 +822,7 @@ window_export_fig_to_pptx <- function() {
     # Apply initial configuration functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     activate_options()
-    check_pptx_file()
+    set_check_pptx_msg()
 
     # Paste code, if possible
     code_clip <- read_clipboard()
