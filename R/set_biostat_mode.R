@@ -109,6 +109,12 @@ set_biostat_mode <- function() {
         image = "::image::bs_import",
         command = bs_mode_menu__import)
 
+    button_datasets <- tk2button(
+        buttons_bar,
+        tip = "Datasets and objects",
+        image = "::image::bs_object",
+        command = bs_mode_menu__datasets)
+
     button_export <- tk2button(
         buttons_bar,
         tip = "Export active dataset",
@@ -153,9 +159,9 @@ set_biostat_mode <- function() {
 
     button_other <- tk2button(
         buttons_bar,
-        tip     = "Session, settings and several datasets",
+        tip     = "Session and settings",
         image   = "::image::bs_settings",
-        command = bs_mode_menu__session)
+        command = bs_mode_menu__settings)
 
     button_refresh <- tk2button(
         buttons_bar,
@@ -165,6 +171,7 @@ set_biostat_mode <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     putRcmdr("button_import",    button_import)
+    putRcmdr("button_datasets",  button_datasets)
     putRcmdr("button_export",    button_export)
     putRcmdr("button_view",      button_view)
     putRcmdr("button_summary",   button_summary)
@@ -181,6 +188,7 @@ set_biostat_mode <- function() {
     # New layout -------------------------------------------------------------
     tkgrid(logo,
            button_import,
+           button_datasets,
            button_export,
            button_view,
            button_summary,
@@ -219,6 +227,11 @@ set_menu_state <- function(cond) {
     } else {
         "disabled"
     }
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+activate_if_active_ds <- function() {
+    set_menu_state(!is.null(active_dataset_0()))
 }
 
 # Import menus -----------------------------------------------------------
@@ -454,22 +467,26 @@ bs_mode_menu__print <- function() {
               command  = window_dataset_view_rcmdr)
     }
 
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_p, "separator")
 
     tkadd(menu_p, "command",
-          label    = "Edit active dataset...",
-          compound = "left",
-          image    = "::image::editIcon",
-          command  = window_dataset_edit_rcmdr)
-
+          label    = "Number of rows and columns",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = command_dataset_dim)
 
     tkadd(menu_p, "command",
-          label    = "Change class of active dataset",
+          label    = "Variable types & size of dataset", #  & dataset size
           # compound = "left",
-          # image    = "::image::viewIcon",
-          command  = window_dataset_class)
+          # image    = "::image::bs_locale",
+          command  = summary_var_types)
+
+    tkadd(menu_p, "command",
+          label    = "Glimpse: structure of dataset",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = command_glimpse)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_p, "separator")
@@ -531,27 +548,6 @@ bs_mode_menu__summary  <- function() {
 
     top <- CommanderWindow()
     menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
-
-
-    tkadd(menu_p, "command",
-          label    = "Number of rows and columns",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = command_dataset_dim)
-
-    tkadd(menu_p, "command",
-          label    = "Variable types & size of dataset", #  & dataset size
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = summary_var_types)
-
-    tkadd(menu_p, "command",
-          label    = "Glimpse: structure of dataset",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = command_glimpse)
-
-    tkadd(menu_p, "separator")
 
     # tkadd(menu_p, "command",
     #       label    = "Summarize variables...",
@@ -1085,8 +1081,8 @@ bs_mode_menu__plots <- function() {
             tkwinfo("pointery", top))
 }
 
-# Session, etc. menus ---------------------------------------------------------
-bs_mode_menu__session <- function() {
+# Settings, etc. menus ---------------------------------------------------------
+bs_mode_menu__settings <- function() {
 
     top <- CommanderWindow()
 
@@ -1152,34 +1148,6 @@ bs_mode_menu__session <- function() {
           command  = command_rcmdr_close_r)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    menu_j  <- tk2menu(menu_p, tearoff = FALSE)
-
-    tkadd(menu_p, "cascade",
-          label    = "Several datasets",
-          # compound = "left",
-          # image    = "::image::bs_workspace",
-          menu     = menu_j)
-
-    tkadd(menu_j, "command",
-          label    = "Join two datasets by matching rows...",
-          # compound = "left",
-          # image    = "::image::bs_folder",
-          command  = window_dataset_join)
-
-    tkadd(menu_j, "command",
-          label    = "Bind rows of several datasets...",
-          # compound = "left",
-          # image    = "::image::bs_copy",
-          command  = window_dataset_bind_rows)
-
-    tkadd(menu_j, "command",
-          label    = "Bind columns of several datasets...",
-          # compound = "left",
-          # image    = "::image::bs_rename",
-          command  = window_dataset_bind_cols)
-
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     menu_wd <- tk2menu(menu_p, tearoff = FALSE)
 
     tkadd(menu_p, "cascade",
@@ -1206,40 +1174,6 @@ bs_mode_menu__session <- function() {
           image    = "::image::bs_set_wd",
           command  = command_setwd)
 
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    menu_ws <- tk2menu(menu_p, tearoff = FALSE)
-
-    tkadd(menu_p, "cascade",
-          label    = "Workspace",
-          compound = "left",
-          image    = "::image::bs_workspace",
-          menu     = menu_ws)
-
-    tkadd(menu_ws, "command",
-          label    = "List objects in R workspace",
-          # compound = "left",
-          # image    = "::image::bs_folder",
-          command  = command_list_objects)
-
-    tkadd(menu_ws, "command",
-          label    = "Copy object (dataset)...",
-          compound = "left",
-          image    = "::image::bs_copy",
-          command  = window_data_obj_copy)
-
-    tkadd(menu_ws, "command",
-          label    = "Delete object (dataset)...",
-          compound = "left",
-          image    = "::image::bs_delete",
-          command  = window_data_obj_delete)
-
-    tkadd(menu_ws, "command",
-          label    = "Rename object (dataset)...",
-          compound = "left",
-          image    = "::image::bs_rename",
-          command  = window_data_obj_rename)
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_p, "separator")
 
@@ -1262,14 +1196,122 @@ bs_mode_menu__session <- function() {
     #       compound = "left",
     #       image    = "::image::bs_home",
     #       command  = window_online_homepage)
-    #
+
     # tkadd(menu_ab, "command",
     #       label    = "Bug report, feedback",
     #       compound = "left",
     #       image    = "::image::bs_bug",
     #       command  = window_online_bug_report)
 
+    tkadd(menu_ab, "separator")
+
+    tkadd(menu_ab, "command",
+          label    = "Check for updates for [BS-2019] course",
+          compound = "left",
+          image    = "::image::bs_chk_pkgs",
+          command  = command_chk_packages_bs19)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkpopup(menu_p,
+            tkwinfo("pointerx", top),
+            tkwinfo("pointery", top))
+}
+
+# Datasets and objects menus --------------------------------------------------
+bs_mode_menu__datasets <- function() {
+
+    top <- CommanderWindow()
+
+    menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    # menu_ws <- tk2menu(menu_p, tearoff = FALSE)
+    #
+    # tkadd(menu_p, "cascade",
+    #       label    = "Datasets & objects",
+    #       compound = "left",
+    #       image    = "::image::bs_workspace",
+    #       menu     = menu_ws)
+
+    menu_ws <- menu_p
+
+    tkadd(menu_ws, "command",
+          label    = "List objects in R workspace",
+          compound = "left",
+          image    = "::image::bs_workspace",
+          command  = command_list_objects)
+
+    tkadd(menu_ws, "command",
+          label    = "Create copy of object (dataset)...",
+          compound = "left",
+          image    = "::image::bs_copy",
+          command  = window_data_obj_copy)
+
+    tkadd(menu_ws, "command",
+          label    = "Delete object (dataset)...",
+          compound = "left",
+          image    = "::image::bs_delete",
+          command  = window_data_obj_delete)
+
+    tkadd(menu_ws, "command",
+          label    = "Rename object (dataset)...",
+          compound = "left",
+          image    = "::image::bs_rename",
+          command  = window_data_obj_rename)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    tkadd(menu_p, "separator")
+
+    tkadd(menu_p, "command",
+          label    = "Edit active dataset...",
+          compound = "left",
+          image    = "::image::editIcon",
+          state    = activate_if_active_ds(),
+          command  = window_dataset_edit_rcmdr)
+
+    tkadd(menu_p, "command",
+          label    = "Change class of active dataset",
+          state    = activate_if_active_ds(),
+          # compound = "left",
+          # image    = "::image::viewIcon",
+          command  = window_dataset_class)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkadd(menu_p, "separator")
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # menu_j  <- tk2menu(menu_p, tearoff = FALSE)
+    #
+    # tkadd(menu_p, "cascade",
+    #       label    = "Several datasets",
+    #       # compound = "left",
+    #       # image    = "::image::bs_workspace",
+    #       menu     = menu_j)
+    menu_j <- menu_p
+
+    tkadd(menu_j, "command",
+          label    = "Join two datasets by matching rows...",
+          # compound = "left",
+          # image    = "::image::bs_folder",
+          command  = window_dataset_join)
+
+    tkadd(menu_j, "command",
+          label    = "Bind rows of several datasets...",
+          # compound = "left",
+          # image    = "::image::bs_copy",
+          command  = window_dataset_bind_rows)
+
+    tkadd(menu_j, "command",
+          label    = "Bind columns of several datasets...",
+          # compound = "left",
+          # image    = "::image::bs_rename",
+          command  = window_dataset_bind_cols)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
     tkpopup(menu_p,
             tkwinfo("pointerx", top),
             tkwinfo("pointery", top))
