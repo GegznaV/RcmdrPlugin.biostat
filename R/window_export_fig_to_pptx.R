@@ -115,17 +115,13 @@ window_export_fig_to_pptx <- function() {
         switch(
             get_values(f3_source_of_plot),
 
-            code_base  = {
+            code_base  = ,
+            code_print = ,
+            code_plot  = ,
+            code_gg    = {
+
                 tkgrid.remove(f3_gg) # List of available ggplot2 objects
                 tkgrid(f4)           # Code input box
-            },
-            code_print = {
-                tkgrid.remove(f3_gg)
-                tkgrid(f4)
-            },
-            code_gg    = {
-                tkgrid.remove(f3_gg)
-                tkgrid(f4)
             },
             obj_gg     = {
                 tkgrid(f3_gg)
@@ -147,9 +143,13 @@ window_export_fig_to_pptx <- function() {
                 # Deselect disabled value
                 set_values(f3_source_of_plot, "code_print")
             }
+
+        } else {
+            tk_normalize(f3_source_of_plot, "last_gg")
         }
 
         if (length(gg_objects) == 0) {
+
             tkgrid.remove(f3_gg)
             tk_disable(f3_source_of_plot, "obj_gg")
 
@@ -157,6 +157,10 @@ window_export_fig_to_pptx <- function() {
                 # Deselect disabled value
                 set_values(f3_source_of_plot, "code_print")
             }
+
+        } else {
+            tk_normalize(f3_source_of_plot, "obj_gg")
+
         }
 
     }
@@ -209,6 +213,7 @@ window_export_fig_to_pptx <- function() {
 
             code_base  = ,
             code_print = ,
+            code_plot  = ,
             code_gg    = {
 
                 if (str_trim(code) == "") {
@@ -235,6 +240,7 @@ window_export_fig_to_pptx <- function() {
 
             code_base  = ,
             code_print = ,
+            code_plot  = ,
             code_gg    = {
                 # code <- get_values(f4_code_input)
 
@@ -383,6 +389,16 @@ window_export_fig_to_pptx <- function() {
                 str_glue(
                     "code = {{ \n",
                     "    print(\n",
+                    "      # Code that draws the plot \n",
+                    "      {code} \n",
+                    "    ) \n",
+                    "}}")
+            },
+
+            "code_plot" = {
+                str_glue(
+                    "code = {{ \n",
+                    "    plot(\n",
                     "      # Code that draws the plot \n",
                     "      {code} \n",
                     "    ) \n",
@@ -570,6 +586,7 @@ window_export_fig_to_pptx <- function() {
             set_values(f1_ent_file,
                        values = fs::path_ext_set(f_name, "pptx"))
             check_pptx_file()
+            activate_options()
         },
         tip = str_c("Check file name and\nadd '.pptx', if missing.")
     )
@@ -601,8 +618,8 @@ window_export_fig_to_pptx <- function() {
 
     f3     <- tk2frame(top)
 
-    f3_but <- tk2frame(f3)
     f3_pos <- tk2frame(f3)
+    f3_but <- tk2frame(f3)
     f3_gg  <- tk2frame(f3)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -626,19 +643,23 @@ window_export_fig_to_pptx <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f3_source_of_plot <- bs_radiobuttons(
-        f3_but, title = "Source of plot:",
+        parent = f3_but,
+        title = "Source of plot:",
         value = initial$source_of_plot,
         buttons = c(
-            code_base  = "Code of base plot",
-            code_print = "Code of plot to print",
-            code_gg    = "Code of ggplot2 plot",
-            obj_gg     = "ggplot2 object",
-            last_gg    = "Last ggplot2 plot"),
+            last_gg    = "Last ggplot2 plot",
+            obj_gg     = "'ggplot2' object",
+            code_gg    = "R Code of ggplot2 plot",
+            code_base  = "R Code of R base plot",
+            code_print = "R Code of plot (print)",
+            code_plot  = "R Code of plot (plot)"
+            ),
 
         tips = list(
-                code_base  = "A code of plot. \nBest for base 'R' plots.",
-                code_print = "A code of plot. \nAdditionally funtion 'print' is called.",
-                code_gg    = "Code of a 'ggplot2' plot.",
+                code_base  = "An 'R' code of a plot. \nBest for base 'R' plots.",
+                code_print = "An 'R' code of a plot. \nAdditionally funtion 'print' is called.",
+                code_plot  = "An 'R' code of a plot. \nAdditionally funtion 'plot' is called.",
+                code_gg    = "An 'R' code of a 'ggplot2' plot.",
                 obj_gg     = str_c(
                     "A 'ggplot2' object saved in 'R' workspace.\n",
                     "This option is inactive if no 'ggplot2' \n",
@@ -650,6 +671,9 @@ window_export_fig_to_pptx <- function() {
                 ),
 
         default_command = activate_options)
+
+
+    f3_combobox <- bs_combobox(f3_but, )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f3_gg_obj_name_box <- bs_listbox(
