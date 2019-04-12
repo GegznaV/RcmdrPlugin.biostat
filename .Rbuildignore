@@ -15,3 +15,4 @@ tutorials-under-development'.*
 tutorials-under-development
 RcmdrPlugin.biostat-removed - Shortcut.lnk
 __rsurvey/*
+^appveyor\.yml$
