@@ -724,16 +724,16 @@ window_import_from_text <- function() {
 
     # ~ Input validation -----------------------------------------------------
 
-    make_red_text_reset_val <- function(to = "Inf") {
-        function(P, W, S, v, s) {
-            tcl("after", "idle", function() {tkconfigure(W, validate = v)})
-            tkconfigure(W, foreground = "red2")
-            tkdelete(W, "0", "end")
-            tkinsert(W, "0", to)
-
-            tcl("expr", "TRUE")
-        }
-    }
+    # make_red_text_reset_val <- function(to = "Inf") {
+    #     function(P, W, S, v, s) {
+    #         tcl("after", "idle", function() {tkconfigure(W, validate = v)})
+    #         tkconfigure(W, foreground = "red2")
+    #         tkdelete(W, "0", "end")
+    #         tkinsert(W, "0", to)
+    #
+    #         tcl("expr", "TRUE")
+    #     }
+    # }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     is_file_name_missing <- function() {
