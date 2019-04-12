@@ -130,6 +130,8 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_find"     , "icons/edit-find-7.png")
     bs_tkimage_create("::image::bs_refresh"  , "icons/refresh.png")
 
+    bs_tkimage_create("::image::bs_chk_pkgs" , "icons/refresh.png")
+
     bs_tkimage_create("::image::bs_open_file", "icons/document-open.png")
     bs_tkimage_create("::image::bs_open_dir" , "icons/document-open-folder.png")
     bs_tkimage_create("::image::bs_columns"  , "icons/bs_cols.png")
@@ -137,6 +139,7 @@ biostat_env$use_relative_path <- TRUE
 
     bs_tkimage_create("::image::bs_import",    "icons/bs_import.png")
     bs_tkimage_create("::image::bs_export",    "icons/bs_export.png")
+    bs_tkimage_create("::image::bs_object",    "icons/page-white.png")
     bs_tkimage_create("::image::bs_new_doc",   "icons/document-new-3.png")
     bs_tkimage_create("::image::bs_preview",   "icons/document-preview.png")
     bs_tkimage_create("::image::bs_new_window","icons/window-new.png")
@@ -146,6 +149,7 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_sort_asc",   "icons/view-sort-ascending.png")
     bs_tkimage_create("::image::bs_sort_desc",  "icons/view-sort-descending.png")
     bs_tkimage_create("::image::bs_rectangle",  "icons/draw-rectangle.png")
+
 
     bs_tkimage_create("::image::bs_package",   "icons/package-green.png")
     bs_tkimage_create("::image::bs_text",      "icons/bs_t.png")
