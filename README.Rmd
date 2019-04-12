@@ -59,6 +59,12 @@ devtools::install_github("GegznaV/RcmdrPlugin.biostat")
 
 If you need previous versions of `RcmdrPlugin.biostat`, you can install them from `GitHub`:
 
+- BioStat'19 (2019):
+```{r Install BioStat-19, eval=FALSE}
+devtools::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat19_not_final")
+```
+
+
 - BioStat'18 (2018):
 ```{r Install BioStat-18, eval=FALSE}
 devtools::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat18")
