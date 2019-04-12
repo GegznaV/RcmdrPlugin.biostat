@@ -175,7 +175,7 @@ menu	bs19_objects_menu	bs19_data_menu	""	""	""	""
 item	bs19_data_menu	cascade	"Workspace"	bs19_objects_menu	"activeDataSetP()"	""
 
 item	bs19_objects_menu	command	"List objects in R workspace"	command_list_objects	""	""
-item	bs19_objects_menu	command	"Copy object (dataset)..."	window_data_obj_copy	""	""
+item	bs19_objects_menu	command	"Create copy of object (dataset)..."	window_data_obj_copy	""	""
 item	bs19_objects_menu	command	"Delete object (dataset)..."	window_data_obj_delete	""	""
 item	bs19_objects_menu	command	"Rename object (dataset)..."	window_data_obj_rename	""	""
 
@@ -466,7 +466,9 @@ item	biostat19_menu	cascade	"About"	bs19_about_menu	""	""
 item	bs19_about_menu	command "About BioStat'19..."	window_about_package	""	""
 # item	bs19_about_menu	command "Go to Homepage"	window_online_homepage	""	""
 # item	bs19_about_menu	command "Bug report, feedback"	window_online_bug_report	""	""
+item	bs19_about_menu	separator	""	""	""	""
 
+item	bs19_about_menu	command "Check for updates for [BS-2019] course"	command_chk_packages_bs19	""	""
 
 # . ===========================================================================
 # ---- >>> Online menu -------------------------------------------------------
