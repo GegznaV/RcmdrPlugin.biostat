@@ -108,7 +108,7 @@ window_data_obj_delete <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = "Delete Objects")
-    tk_title(top, text = "Delete objects", fg = "darkred")
+    tk_title(top, text = "Delete Objects", fg = "darkred")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     var_y_box <- bs_listbox(

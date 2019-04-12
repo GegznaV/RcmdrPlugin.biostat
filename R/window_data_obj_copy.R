@@ -33,7 +33,7 @@ window_data_obj_copy <- function() {
         # Construct the command ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         command_0 <- str_glue("{new_obj_names} <- {obj_names}\n")
         command   <- str_glue(
-            "## Copy object \n",
+            "## Creato a copy of the object \n",
             "{command_0}\n"
         )
 
@@ -75,8 +75,8 @@ window_data_obj_copy <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Initialize =============================================================
-    initializeDialog(title = "Copy Object")
-    tk_title(top, "Copy object")
+    initializeDialog(title = "Create a Copy of an Object")
+    tk_title(top, "Create a Copy of an Object")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ws_objects <- objects(envir = .GlobalEnv, all.names = TRUE)

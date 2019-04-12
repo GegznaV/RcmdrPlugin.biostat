@@ -36,7 +36,7 @@ window_data_obj_rename <- function() {
         # Construct the command ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         command_0 <- str_glue("{new_obj_names} <- {obj_names}\n")
         command   <- str_glue(
-            "## Rename object \n",
+            "## Rename the object \n",
             "{command_0}\n",
             "remove({obj_names_str})"
         )
@@ -85,7 +85,7 @@ window_data_obj_rename <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Initialize =============================================================
     initializeDialog(title = "Rename Object")
-    tk_title(top, "Rename object")
+    tk_title(top, "Rename Object")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ws_objects <- objects(envir = .GlobalEnv, all.names = TRUE)
