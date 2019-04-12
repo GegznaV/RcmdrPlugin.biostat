@@ -114,6 +114,7 @@
 \alias{window_online_crossvalidated}
 \alias{window_online_homepage}
 \alias{window_online_bug_report}
+\alias{command_chk_packages_bs19}
 \alias{active_dataset}
 \alias{refresh_dataset_window_0}
 \alias{configure_tags}
@@ -350,6 +351,8 @@ window_online_crossvalidated()
 window_online_homepage()
 
 window_online_bug_report()
+
+command_chk_packages_bs19()
 
 active_dataset(dsname, flushModel = TRUE, flushDialogMemory = TRUE)
 

@@ -401,3 +401,30 @@ window_online_bug_report <- function() {
 }
 
 
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+command_chk_packages_bs19 <- function() {
+    command <- str_c(
+        '## Check R, RStudio and R package versions required for BS-2019 course\n',
+        '## (output is in Lithuanian)\n',
+        'source("https://mokymai.github.io/biostatistika-2019/tikrink_paketus.R", ',
+        'encoding = "UTF-8")')
+
+    if (!pingr::is_online()) {
+        logger(command)
+        open_browser <-
+            tk_messageBox(
+                parent = CommanderWindow(),
+                message = str_c(
+                    "This feature requires an Internet connection, \n",
+                    "but your computer is offline now."
+                ),
+                icon  = "warning",
+                caption = "No Internet Connection",
+                type  = "ok")
+
+    } else {
+        doItAndPrint(command)
+    }
+}
