@@ -274,16 +274,6 @@ bs_listbox <-
         label = filter_label,
         label_position = "above")
 
-      # bs_check_boxes(
-      #   frame,
-      #   frame         = "options_frame",
-      #   boxes         = c("case_", "regex_"),
-      #   initialValues = c(0, 0),
-      #   labels        = c("Match case", "Regex"),
-      #   commands = list("case_"  = cmd_update_list,
-      #                   "regex_" = cmd_update_list)
-      # )
-
       options <- bs_checkboxes(
         parent = frame,
         boxes  = c("case"  = "Match case",
