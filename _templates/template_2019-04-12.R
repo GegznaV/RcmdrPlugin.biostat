@@ -1,3 +1,25 @@
+# TODO:
+#
+# Renew template of:
+#
+#   - the main function:
+#       + structure;
+#       + widgets:
+#           + ...
+#           + ...
+#           + ...
+#
+#   - okOK function:
+#       + structure
+#       + condition checking:
+#           - for objects/datasets
+#           - for variables in a dataset
+#           - for files and folders
+#
+#
+#
+
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #' @rdname Menu-window-functions
@@ -129,12 +151,12 @@ window_xxx <- function() {
 
     # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     .ds    <- active_dataset() # active_dataset_0()
-    fg_col <- Rcmdr::getRcmdr("title.color")
+    # fg_col <- Rcmdr::getRcmdr("title.color")
 
     # Initialize dialog window and title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    dialogue_title <- "xxx_title"
-    initializeDialog(title = gettext_bs(dialogue_title))
+    dialogue_title <- gettext_bs("xxx_title")
+    initializeDialog(title = dialogue_title)
     tk_title(top, dialogue_title)
 
     # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -158,10 +180,31 @@ window_xxx <- function() {
         label = "Column name for row numbers:"
     )
 
-    # name_variable <- tclVar(unique_colnames("row_number"))
-    # name_frame    <- tkframe(upper_frame)
-    # name_entry    <- ttkentry(name_frame, width = "28",
-    #                           textvariable = name_variable)
+
+    f1_buttons <- bs_radiobuttons(
+        parent          = upper_frame,
+        buttons = c(
+            last_gg    = "Last ggplot2 plot",
+            obj_gg     = "'ggplot2' object",
+            code_gg    = "R Code of ggplot2 plot",
+            code_base  = "R Code of R base plot",
+            code_print = "R Code of plot (print)",
+            code_plot  = "R Code of plot (plot)"
+        ),
+        value           = buttons[1],
+        title           = NULL,
+        variable        = NULL,
+        labels          = NULL,
+        commands        = list(),       # named list of functions
+        default_command = do_nothing,
+        tips            = list(),       # named list of strings
+        default_tip     = "",
+        border          = FALSE,
+        layout          = c("vertical", "horizontal"),
+        sticky_buttons  = "w",
+        sticky_title    = "w"
+    )
+    tkgrid(f1_buttons$frame)
 
     # Radiobuttons horizontal
     rb_frame <- tkframe(upper_frame)
@@ -197,17 +240,20 @@ window_xxx <- function() {
 
 
     # Check box
-    bs_check_boxes(upper_frame,
-                   frame         = "check_locale_frame",
-                   boxes         = c("check_locale_", "hide_output_"),
-                   # commands      = list("check_locale_" = cmd_checkbox),
-                   initialValues = c("1", "0"),
-                   labels        = gettext_bs(c(
-                       "Check if the locale can be used on this computer",
-                       "Hide output"))
-    )
+    # bs_check_boxes(upper_frame,
+    #                frame         = "check_locale_frame",
+    #                boxes         = c("check_locale_", "hide_output_"),
+    #                # commands      = list("check_locale_" = cmd_checkbox),
+    #                initialValues = c("1", "0"),
+    #                labels        = gettext_bs(c(
+    #                    "Check if the locale can be used on this computer",
+    #                    "Hide output"))
+    # )
 
-
+    #     bs_checkboxes(
+    #         parent = upper_frame,
+    #         boxes = c("check_locale_", "hide_output_"),
+    # )
 
 
     # Radiobuttons vertical
@@ -244,7 +290,8 @@ window_xxx <- function() {
         use_groups = "0"
     )
 
-    widget_y_gr <- bs_listbox_y_gr(
+    widget_y_gr <- bs_listboxes_y_gr(
+        parent         = top,
         y_title        = title_var_1,
         y_var_type     = "num",
         y_initial      = initial$var_y,
@@ -268,9 +315,11 @@ window_xxx <- function() {
     # Help topic
     # OKCancelHelp(helpSubject = "mutate", helpPackage = "dplyr")
 
-    ok_cancel_help(helpSubject = "xxx", helpPackage = "xxx",
-                   reset = "window_xxx()",
-                   apply = "window_xxx()")
+    ok_cancel_help(
+        helpSubject = "xxx",
+        helpPackage = "xxx",
+        reset = "window_xxx()",
+        apply = "window_xxx()")
 
     tkgrid(buttonsFrame, sticky = "ew")
     dialogSuffix()
