@@ -17,7 +17,7 @@ window_test_normality <- function() {
             tclvalue(by_groupVariable) <- "0"
         }
     }
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_onRelease_gr_var_box <- function() {
         # On mouse relese select/deselect checkbox
         if (length(getSelection(gr_var_box)) == 0) {
@@ -29,7 +29,7 @@ window_test_normality <- function() {
             tkconfigure(by_groupCheckBox, state = "active")
         }
     }
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_plot_activation <- function() {
         if (tclvalue_lgl(add_plotVariable) ) {
             tk_normalize(plot_in_colorsCheckBox)
@@ -40,7 +40,7 @@ window_test_normality <- function() {
             tk_disable(new_plots_windowCheckBox)
         }
     }
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_test_activation <- function() {
         if (tclvalue_lgl(do_testVariable)) {
 
@@ -93,13 +93,29 @@ window_test_normality <- function() {
 
         }
     }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_test_function <- function() {
+        res <- get_selection(test_box)
 
+        str_glue_eval(
+            'switch(
+                res,
+                "{gettext_bs("Shapiro-Wilk")}"                    = "shapiro.test",
+                "{gettext_bs("Anderson-Darling")}"                = "ad.test",
+                "{gettext_bs("Cramer-von Mises")}"                = "cvm.test",
+                "{gettext_bs("Lilliefors (Kolmogorov-Smirnov)")}" = "lillie.test",
+                "{gettext_bs("Shapiro-Francia")}"                 = "sf.test",
+                "{gettext_bs("Pearson chi-square")}"              = "pearson.test",
+                stop("unknown value in `test_box`")
+            )')
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         # Get values ---------------------------------------------------------
         by_group         <- tclvalue(by_groupVariable)
         gr_var           <- getSelection(gr_var_box)
         y_var            <- getSelection(y_var_box)
-        test             <- get_selection(test_box)
+        test             <- get_test_function()
         keep_results     <- tclvalue_lgl(keep_resultsVariable)
         digits_p         <- tclvalue_int(digits_pVariable)
         add_plot         <- tclvalue_lgl(add_plotVariable)
