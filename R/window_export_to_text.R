@@ -390,9 +390,8 @@ window_export_to_text <- function() {
     }
 
     # Initial file name ------------------------------------------------------
-    top <- CommanderWindow()
-
-    .ds <- active_dataset()
+    # top <- CommanderWindow()
+    # .ds <- active_dataset()
 
     # Manke unique initial file name
 
