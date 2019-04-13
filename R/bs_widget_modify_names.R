@@ -1,3 +1,9 @@
+# TODO:
+# Replace functions:
+#   - radioButtons_horizontal() → bs_radiobuttons()
+#   - bs_check_boxes()          → bs_checkboxes()
+
+
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
@@ -71,7 +77,6 @@ tk_widget_modify_names <- function(
     )
 
     # Return
-
     structure(
         list(frame = main_frame,
 
