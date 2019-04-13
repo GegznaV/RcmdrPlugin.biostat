@@ -1,19 +1,8 @@
-# cmd_onClick_by_group_checkbox <- function() {
-#     if (tclvalue_lgl(by_groupVariable) == FALSE) {
-#
-#         # Clear factor variable box
-#         for (sel in seq_along(gr_var_box$varlist) - 1)
-#             tkselection.clear(gr_var_box$listbox, sel)
-#         tkconfigure(by_groupCheckBox, state = "disabled")
-#
-#     } else {
-#         # Box is checked only if groups in gr_var_box
-#         # are selected
-#         tclvalue(by_groupVariable) <- "0"
-#     }
-# }
-
-
+# TODO:
+# - write onOK function.
+# - add tips.
+# - enable "groups in color" only if groups are selected (???)
+# - Read and save defaults/initial values correctly.
 
 #' @rdname Menu-window-functions
 #' @export
@@ -21,71 +10,71 @@
 window_test_normality <- function() {
     # Functions --------------------------------------------------------------
 
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    cmd_plot_activation <- function() {
-        if (tclvalue_lgl(add_plotVariable) ) {
-            tk_normalize(plot_in_colorsCheckBox)
-            tk_normalize(new_plots_windowCheckBox)
+    activate_tests <- function() {
+
+        if (get_values(f2_num_enable)) {
+            tkgrid(f2_num_sub)
 
         } else {
-            tk_disable(plot_in_colorsCheckBox)
-            tk_disable(new_plots_windowCheckBox)
+            tkgrid.remove(f2_num_sub)
+        }
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    activate_plots <- function() {
+
+        if (get_values(f2_plot_enable)) {
+            tkgrid(f2_plot_sub)
+
+        } else {
+            tkgrid.remove(f2_plot_sub)
         }
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    cmd_test_activation <- function() {
-        if (tclvalue_lgl(do_testVariable)) {
+    activate_band <- function() {
 
-            tk_normalize(keep_resultsCheckBox)
-            tk_normalize(as_markdownCheckBox)
-
-            tk_normalize(d2Button)
-            tk_normalize(d3Button)
-            tk_normalize(d4Button)
-            tk_normalize(d5Button)
-            tk_normalize(dmoreButton)
-
-            # if (nrows <= 5000) {
-            #     tk_normalize(shapiro.testButton)
-            #     tk_normalize(sf.testButton)
-            # } else {
-            #     # The test are not applicalble, if n > 5000
-            #     tk_disable(shapiro.testButton)
-            #     tk_disable(sf.testButton)
-            # }
-            #
-            # tk_normalize(ad.testButton)
-            # tk_normalize(cvm.testButton)
-            # tk_normalize(lillie.testButton)
-            # tk_normalize(pearson.testButton)
-
-            tk_activate(binsField)
-
+        if (get_values(f2_plot_opts, "qq_band")) {
+            tkgrid(f2_band$frame)
 
         } else {
-
-            tk_disable(keep_resultsCheckBox)
-            tk_disable(as_markdownCheckBox)
-
-            tk_disable(d2Button)
-            tk_disable(d3Button)
-            tk_disable(d4Button)
-            tk_disable(d5Button)
-            tk_disable(dmoreButton)
-
-
-            # tk_disable(shapiro.testButton)
-            # tk_disable(ad.testButton)
-            # tk_disable(cvm.testButton)
-            # tk_disable(lillie.testButton)
-            # tk_disable(sf.testButton)
-            # tk_disable(pearson.testButton)
-
-            tk_disable(binsField)
-
+            tkgrid.remove(f2_band$frame)
         }
     }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    activate_pearson <- function() {
+
+        if (get_selection(f2_test_box) == gettext_bs("Pearson chi-square")) {
+            tkgrid(f2_pearson_opts$frame)
+
+        } else {
+            tkgrid.remove(f2_pearson_opts$frame)
+        }
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    activate_band_options <- function() {
+
+        if (get_band_type() == "boot") {
+            tkgrid(f2_band_boot$frame)
+
+        } else {
+            tkgrid.remove(f2_band_boot$frame)
+        }
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    activate_all <- function() {
+        activate_tests()
+        activate_pearson()
+        activate_plots()
+        activate_band()
+        activate_band_options()
+
+    }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_test_function <- function() {
         res <- get_selection(f2_test_box)
@@ -103,31 +92,52 @@ window_test_normality <- function() {
             )')
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_band_type <- function() {
+        res <- get_selection(f2_band)
+
+        str_glue_eval(
+            'switch(
+                res,
+                "{gettext_bs("Point-wise (pointwise)")}"       = "pointwise",
+                "{gettext_bs("Parametric bootstrap (boot)")}"  = "boot",
+                "{gettext_bs("Kolmogorov-Smirnov (ks)")}"      = "ks",
+                "{gettext_bs("Tail-sensitive (ts)")}"          = "ts",
+                stop("unknown value in `f2_band`:", res)
+            )'
+        )
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         # Get values ---------------------------------------------------------
 
-        by_group   <- get_values(f1_widget_y_gr$checkbox)
-        var_y      <- get_selection(f1_widget_y_gr$y)
-        var_gr     <- get_selection(f1_widget_y_gr$gr)
+        by_group         <- get_values(f1_widget_y_gr$checkbox)
+        y_var            <- get_selection(f1_widget_y_gr$y)
+        gr_var           <- get_selection(f1_widget_y_gr$gr)
 
-
-
-        by_group         <- tclvalue(by_groupVariable)
-        gr_var           <- getSelection(gr_var_box)
-        y_var            <- getSelection(y_var_box)
+        use_test         <- get_values(f2_num_enable)
         test             <- get_test_function()
-        keep_results     <- tclvalue_lgl(keep_resultsVariable)
-        digits_p         <- tclvalue_int(digits_pVariable)
-        add_plot         <- tclvalue_lgl(add_plotVariable)
-        plot_in_colors   <- tclvalue_lgl(plot_in_colorsVariable)
-        as_markdown      <- tclvalue_lgl(as_markdownVariable)
-        new_plots_window <- tclvalue_lgl(new_plots_windowVariable)
-        bins             <- tclvalue(binsVariable)
+        keep_results     <- get_values(f2_num_opts, "keep_results")
+        as_markdown      <- get_values(f2_num_opts, "as_markdown")
+        digits_p         <- get_values(f2_round_p)
+        bins             <- get_values(f2_pearson_opts)
+
+        add_plot         <- get_values(f2_plot_enable)
+        new_plots_window <- get_values(f2_plot_opts, "new_plots_window")
+        plot_in_colors   <- get_values(f2_plot_opts, "plot_in_colors")
+        qq_detrend       <- get_values(f2_plot_opts, "qq_detrend")
+        qq_line          <- get_values(f2_plot_opts, "qq_line")
+        qq_band          <- get_values(f2_plot_opts, "qq_band")
+        qq_band_type     <- get_band_type()
+        bootstrap_n      <- as.integer(get_values(f2_band_boot))  # positive integer in range 1000 - 1E4
+        conf_level       <- as.numeric(get_values(f2_conf))       # between 0 - 1
+
 
         # Chi-square bins ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         warn  <- options(warn = -1)
         nbins <- as.numeric(bins)
         options(warn)
+
         if (bins != gettext_bs("<auto>") &&
             (is.na(nbins) || nbins < 4)) {
             errorCondition(
@@ -144,22 +154,7 @@ window_test_normality <- function() {
                 str_glue(",\n n.classes = ", bins)
             }
 
-        # putDialog ----------------------------------------------------------
-        putDialog(
-            "window_test_normality",
-            list(y_var            = y_var,
-                 gr_var           = gr_var,
-                 by_group         = by_group,
-                 test             = test,
-                 bins             = bins,
-                 add_plot         = add_plot,
-                 plot_in_colors   = plot_in_colors,
-                 new_plots_window = new_plots_window,
-                 as_markdown      = as_markdown,
-                 keep_results     = keep_results,
-                 digits_p         = digits_p
-            )
-        )
+
 
         if (length(y_var) == 0) {
             errorCondition(recall = window_test_normality,
@@ -167,12 +162,50 @@ window_test_normality <- function() {
             return()
         }
 
+        # putDialog ----------------------------------------------------------
+        putDialog(
+            "window_test_normality",
+            list(
+                # y_var            = y_var,
+                # gr_var           = gr_var,
+                # by_group         = by_group,
+                # test             = test,
+                # bins             = bins,
+                # add_plot         = add_plot,
+                # plot_in_colors   = plot_in_colors,
+                # new_plots_window = new_plots_window,
+                # as_markdown      = as_markdown,
+                # keep_results     = keep_results,
+                # digits_p         = digits_p
+                by_group         = by_group         ,
+                y_var            = y_var            ,
+                gr_var           = gr_var           ,
+                use_test         = use_test         ,
+                test             = test             ,
+                keep_results     = keep_results     ,
+                as_markdown      = as_markdown      ,
+                digits_p         = digits_p         ,
+                bins             = bins             ,
+                add_plot         = add_plot         ,
+                new_plots_window = new_plots_window ,
+                plot_in_colors   = plot_in_colors   ,
+                qq_detrend       = qq_detrend       ,
+                qq_line          = qq_line          ,
+                qq_band          = qq_band          ,
+                qq_band_type     = qq_band_type     ,
+                bootstrap_n      = bootstrap_n      ,
+                conf_level       = conf_level
+            )
+        )
+
+
         closeDialog()
 
         # Do analysis --------------------------------------------------------
         Library("tidyverse")
         # Library("biostat")
         Library("nortest")
+        Library("qqplotr")
 
 
         test_obj <- unique_obj_names("shapiro_test_results")
@@ -196,9 +229,7 @@ window_test_normality <- function() {
                 str_glue("group_by({gr_var_str}) %>%\n")
             }
 
-
         # Round ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
         round_str <- if (digits_p > 0) {
             str_glue(
                 .sep = "\n",
@@ -286,14 +317,21 @@ window_test_normality <- function() {
 
             # Paketo `qqplotr` dokumentacija: https://aloy.github.io/qqplotr/
             ggplot({.ds}, aes(sample = {y_var})) +
-                stat_qq_band() +
-                stat_qq_line() +
-                stat_qq_point() +
+                stat_qq_band(detrend = T) +
+                stat_qq_line(detrend = T) +
+                stat_qq_point(detrend = T) +
                 facet_wrap(~{gr_var}, scales = "free") +
-                labs(x = "Theoretical quantiles", y = "Empirical quantiles")
+                labs(x = "Theoretical quantiles",
+                     y = "Empirical quantiles",
+                     title = "Normal QQ plot",
+                     subtitle = "confidence level: {conf_level}, band: {conf_band}")
 
+            # ggplot(data = smp, mapping = aes(sample = norm)) +
+            #     stat_qq_band(detrend = TRUE) +
+            #     stat_qq_line(detrend = TRUE) +
+            #     stat_qq_point(detrend = TRUE)
 
-            # [VG] ??? --------------------------------------------  <-----
+            # [VG] ???    <----  ------
             # ...
 
 
@@ -334,8 +372,12 @@ window_test_normality <- function() {
 
         # QQ plot
         add_plot         = TRUE,
-        plot_in_colors   = TRUE,
         new_plots_window = TRUE,
+        plot_in_colors   = TRUE,
+        qq_detrend       = FALSE,
+        qq_line          = TRUE,
+        qq_band          = TRUE,
+
         band_type = 1,
 
         #
@@ -354,8 +396,10 @@ window_test_normality <- function() {
     # upper_frame <- labeled_frame(top, "Select variables")
     # upper_frame <- tkframe(top)
 
+    f0 <- tkframe(top)
+
     # F1 ---------------------------------------------------------------------
-    f1 <- tkframe(top)
+    f1 <- tkframe(f0)
 
     f1_widget_y_gr <- bs_listbox_y_gr(
         parent         = f1,
@@ -374,35 +418,42 @@ window_test_normality <- function() {
 
 
     # F2 ---------------------------------------------------------------------
-    f2 <- tkframe(top)
+    f2 <- tkframe(f0)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    f2_num <- tkframe(f2)
+
+    # F2 test ----------------------------------------------------------------
+
+    f2_num <- tk2labelframe(f2, text = "Test options")
+
+    f2_num_enable <- bs_checkboxes(
+        parent   = f2_num,
+        boxes    = "do_test",
+        labels   = gettext_bs("Perform normality test"),
+        values   = initial$use_test,
+        commands = list("do_test"  = activate_tests)
+    )
+
+    f2_num_sub <- tk2frame(f2_num)
 
     f2_num_opts <- bs_checkboxes(
-        parent = f2_num,
-        title = "Numerical output options",
-        border = TRUE,
-        boxes = c("do_test",
-                  "keep_results",
-                  "as_markdown"),
+        parent = f2_num_sub,
+        # title = "Numerical output options",
+        border = FALSE,
+        boxes = c("keep_results", "as_markdown"),
         labels = gettext_bs(c(
-            "Perform normality test",
             "Keep test results in R memory",
             "Print as Markdown table")),
         values = c(
-            initial$use_test,
             initial$keep_results,
             initial$as_markdown
-        ),
-        commands = list(do_test = cmd_test_activation)
+        )
     )
 
-
-
-
     f2_test_box <- bs_combobox(
-        f2_num_opts$frame,
+        parent = f2_num_sub,
         width = 29,
+        label = "Test:",
+        label_position = "above",
         values = c(
             if (nrows <= 5000) gettext_bs("Shapiro-Wilk"),
             gettext_bs("Anderson-Darling"),
@@ -411,86 +462,104 @@ window_test_normality <- function() {
             if (nrows <= 5000) gettext_bs("Shapiro-Francia"),
             gettext_bs("Pearson chi-square")
         ),
-        value = initial$test
+        value = initial$test,
+        on_select = activate_pearson
     )
 
-    # binsFrame    <- tkframe(f2_num)
-    # binsVariable <- tclVar(initial$bins)
-    # binsField    <- ttkentry(binsFrame, width = "8", textvariable = binsVariable)
-    #
-    # tkgrid(
-    #     labelRcmdr(binsFrame,
-    #                text = gettext_bs("Number of bins for\nPearson chi-square")),
-    #     binsField,
-    #     padx = 3,
-    #     sticky = "sw"
-    # )
-    # tkgrid(binsFrame, sticky = "nse", padx = c(8, 8), pady = c(0, 0))
-
-
     f2_pearson_opts <- bs_entry(
-        parent = f2_num_opts$frame,
-        value = gettext_bs("<auto>"),
+        parent = f2_num_sub,
+        value  = gettext_bs("<auto>"),
         width  = "8",
         label  = gettext_bs("Number of bins for\nPearson chi-square"),
     )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f2_round_p <- bs_radiobuttons(
-        parent  = f2_num_opts$frame,
+        parent  = f2_num_sub,
         title   = "Round p-values to decimal digits: ",
-        buttons = c("2" = "2", "3" = "3", "4" = "4", "5" = "5", "more" = "0"),
+        buttons = c("2" = "2", "3" = "3", "4" = "4", "5" = "5", "0" = "more"),
         layout  = "horizontal",
         value   = initial$digits_p
     )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    f2_plot <- tkframe(f2)
+
+    # F2 plot ----------------------------------------------------------------
+
+    f2_plot <- tk2labelframe(f2, text = "Plot options")
+
+    f2_plot_enable <- bs_checkboxes(
+        parent   = f2_plot,
+        boxes    = "add_plot",
+        labels   = gettext_bs("Draw normal QQ plot"),
+        values   = initial$add_plot,
+        commands = list("add_plot" = activate_plots)
+    )
+
+    f2_plot_sub <- tk2frame(f2_plot)
 
     f2_plot_opts <- bs_checkboxes(
-        parent = f2_plot,
-        title  = "Plot options",
-        border = TRUE,
-        boxes  = c("add_plot", "plot_in_colors", "new_plots_window"),
+        parent = f2_plot_sub,
+        # title  = "Plot options",
+        border = FALSE,
+        boxes  = c("new_plots_window", "plot_in_colors", "qq_detrend", "qq_line", "qq_band"),
         values = c(
-            initial$add_plot,
+            initial$new_plots_window,
             initial$plot_in_colors,
-            initial$new_plots_window
+            initial$qq_detrend,
+            initial$qq_line,
+            initial$qq_band
         ),
         labels = gettext_bs(
-            c(  "Normal QQ-plot",
-                "Groups in color",
-                "Plot in a new window")
+            c(
+                "Create new window for plots",
+                "Use colors for groups",
+                "Detrend",
+                "Add reference line",
+                "Add confidence band")
         ),
-        commands = list("add_plot" = cmd_plot_activation)
+        commands = list(
+            qq_band = activate_band
+        )
     )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    f2_band_lab <- bs_label_b(f2_plot_opts$frame, text = "bandType")
-
     f2_band <- bs_combobox(
-        parent    = f2_plot_opts$frame,
+        parent    = f2_plot_sub,
         label_position = "above",
         label = "Type of confidence band:",
-        values    = c("Point-wise (pointwise)",
-                      "Parametric bootstrap (boot)",
-                      "Kolmogorov-Smirnov (ks)",
-                      "Tail-sensitive (ts)"),
+        values    = gettext_bs(c(
+            "Point-wise (pointwise)",
+            "Parametric bootstrap (boot)",
+            "Kolmogorov-Smirnov (ks)",
+            "Tail-sensitive (ts)")),
         width     = 25,
-        selection = 1)
+        selection = 1,
+        on_select = activate_band_options)
 
     f2_band_boot <-
         bs_entry(
-            f2_plot_opts$frame, width = 5, value = 999,
-            label = "Number of bootstrap\nreplicates")
+            f2_band$frame, width = 6,
+            value = 999,
+            justify = "right",
+            label = "Number of boot-\nstrap replicates",
+            tip = str_c(
+                "Positive integer. Usually",
+                "between 1000 and 10 000.")
+        )
 
     f2_conf <-
         bs_entry(
-            f2_plot_opts$frame, width = 5, value = "0.95",
+            f2_band$frame, width = 6,
+            value = "0.95",
+            justify = "center",
             label = "Confidence level",
-            tip = str_c("sig. = 1 - conf. \n",
-                        "sig. - significance level \n",
-                        "conf. - confidence level"))
+            tip = str_c(
+                "Number between 0 and 1.       \n\n",
+                "If signif - significance level, \n",
+                "conf - confidence level, then   \n",
+                "signif = 1 - conf"
+            ))
 
     # bandType = "boot"; B = ...
     # conf =
@@ -498,44 +567,32 @@ window_test_normality <- function() {
 
     # Layout -----------------------------------------------------------------
 
+    tkgrid(f0)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(f1, sticky = "nwe", padx = c(0, 4)) #~~~~~~~~~~~~~~~~~
-
+    tkgrid(f1, sticky = "nwe", padx = c(0, 4))
     tkgrid(f1_widget_y_gr$frame, sticky = "nwe", padx = c(10, 0))
-    # tkgrid(getFrame(gr_var_box), sticky = "nsw", padx = c(20, 0))
-    # tkgrid(by_group_Frame,       sticky = "sw",  padx = c(20, 0), pady = c(0, 5))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    tkgrid(f2, pady = c(5, 0), sticky = "we") #~~~~~~~~~~~~~~~~~~~~
+    tkgrid(f2, pady = c(5, 0), sticky = "")
     tkgrid(f2_num, f2_plot, padx = c(0, 5), sticky = "nse")
-    # choose_test_Frame,
 
     # Numerical options
-    # tkgrid(f2_num, padx = c(5, 0), sticky = "ns")
-    # tkgrid(digits_pFrame, sticky = "swe")
-
-    # # Choose test
-    # tkgrid(choose_test_inner_Frame,   padx = c(0, 0), sticky = "nswe")
-    # tkgrid(testFrame, sticky = "swe", padx = c(8, 8))
-    # tkgrid(binsFrame, sticky = "nse", padx = c(8, 8), pady = c(0, 0))
-
-    # f2_plot
-
-
-    tkgrid(f2_num_opts$frame, sticky = "w", padx = c(5, 0))
-
-    tkgrid(f2_test_box$frame, pady = 2)
+    tkgrid(f2_num_enable$frame, padx = c(5, 60), sticky = "nwe")
+    tkgrid(f2_num_sub)
+    tkgrid(f2_num_opts$frame,   padx = c(5, 0), sticky = "w")
+    tkgrid(f2_round_p$frame,    sticky = "w", padx = 5, pady = c(5, 0))
+    tkgrid(f2_round_p$frame_obj, sticky = "w")
+    tkgrid(f2_test_box$frame,   padx = 5, pady = c(3, 5))
     tkgrid(f2_pearson_opts$frame,
-           # padx = 3, sticky = "sw",
-           sticky = "nse", padx = c(8, 8), pady = c(0, 0))
-    tkgrid(f2_round_p$frame)
+           sticky = "nse", padx = c(8, 5), pady = c(0, 0))
 
+    # Plot
+    tkgrid(f2_plot_enable$frame, sticky = "nwe", padx = c(5, 43))
+    tkgrid(f2_plot_sub,          sticky = "nwe")
+    tkgrid(f2_plot_opts$frame,   padx = c(5, 0), sticky = "nwe")
+    tkgrid(f2_band$frame,                    padx = 5, pady = 5)
+    tkgrid(f2_band_boot$frame, sticky = "e", padx = 0, pady = c(2, 0))
+    tkgrid(f2_conf$frame,      sticky = "e", padx = 0, pady = 4)
 
-    tkgrid(f2_plot_opts$frame, padx = c(5, 0), sticky = "nwe")
-    tkgrid(f2_band_lab)
-    tkgrid(f2_band$frame)
-    tkgrid(f2_band_boot$frame)
-    tkgrid(f2_conf$frame)
 
     # Buttons ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ok_cancel_help(helpSubject = "shapiro.test",
@@ -547,11 +604,9 @@ window_test_normality <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     dialogSuffix()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Activate cmd_... functions
-    # eval_text(stringr::str_c(ls(pattern = "^cmd_"), "();", collapse = ""))
-    #
-    cmd_plot_activation()
-    cmd_test_activation()
+
+    activate_all()
+
 }
 
 
