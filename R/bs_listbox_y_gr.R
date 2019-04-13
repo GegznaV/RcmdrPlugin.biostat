@@ -224,8 +224,7 @@ bs_listbox_y_gr <- function(
                 cmd_ch_box()
                 ch_commands()
             })
-        )
-    )
+        ))
 
     f2_box_ch <- do.call(bs_checkboxes, ch_params)
 
