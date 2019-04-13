@@ -56,7 +56,7 @@ bs_radiobuttons <- function(
     variable        = NULL,
     labels          = NULL,
     commands        = list(),       # named list of functions
-    default_command = function() {},
+    default_command = do_nothing,
     tips            = list(),       # named list of strings
     default_tip     = "",
     border          = FALSE,
