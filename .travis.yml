@@ -6,6 +6,9 @@ cache: packages
 warnings_are_errors: false
 
 r_packages:
+  - remotes
+  - devtools
+  - tcltk2
   - covr
 
 after_success:
