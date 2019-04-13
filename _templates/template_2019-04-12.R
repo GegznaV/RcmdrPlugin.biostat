@@ -290,7 +290,7 @@ window_xxx <- function() {
         use_groups = "0"
     )
 
-    widget_y_gr <- bs_listboxes_y_gr(
+    widget_y_gr <- bs_listbox_y_gr(
         parent         = top,
         y_title        = title_var_1,
         y_var_type     = "num",
