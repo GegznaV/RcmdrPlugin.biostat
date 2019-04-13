@@ -1,7 +1,9 @@
 # TODO:
 # - Show system locale for Mac and Linux
 # - for (local) button: add context menu either to show or to print locale
-
+# - Replace functions:
+#       - radioButtons_horizontal() → bs_radiobuttons()
+#       - bs_check_boxes()          → bs_checkboxes()
 
 # Locale ---------------------------------------------------------------------
 
@@ -306,9 +308,9 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
     locales <- sort(locales)
 
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initialize_dialog(title = gettext_bs("Change Locale in R"), parent = parent)
+    initialize_dialog(title = gettext_bs("Change R Locale"), parent = parent)
 
-    tk_title(top, "Change Locale in R") # Title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tk_title(top, "Change R Locale") # Title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # Widgets ----------------------------------------------------------------
 
