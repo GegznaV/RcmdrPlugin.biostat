@@ -2,8 +2,8 @@
 # - Show system locale for Mac and Linux
 # - for (local) button: add context menu either to show or to print locale
 # - Replace functions:
-#       - radioButtons_horizontal() → bs_radiobuttons()
-#       - bs_check_boxes()          → bs_checkboxes()
+#       - radioButtons_horizontal() -> bs_radiobuttons()
+#       - bs_check_boxes()          -> bs_checkboxes()
 
 # Locale ---------------------------------------------------------------------
 

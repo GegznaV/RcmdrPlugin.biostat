@@ -1,7 +1,7 @@
 # TODO:
 # Replace functions:
-#   - radioButtons_horizontal() → bs_radiobuttons()
-#   - bs_check_boxes()          → bs_checkboxes()
+#   - radioButtons_horizontal() -> bs_radiobuttons()
+#   - bs_check_boxes()          -> bs_checkboxes()
 
 
 #' @rdname Helper-functions
