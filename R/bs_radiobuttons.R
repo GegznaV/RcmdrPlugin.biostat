@@ -49,20 +49,21 @@
 #' }}
 
 bs_radiobuttons <- function(
-    parent          = top,
+    parent               = top,
     buttons,
-    value           = buttons[1],
-    title           = NULL,
-    variable        = NULL,
-    labels          = NULL,
-    commands        = list(),       # named list of functions
-    default_command = do_nothing,
-    tips            = list(),       # named list of strings
-    default_tip     = "",
-    border          = FALSE,
-    layout          = c("vertical", "horizontal"),
-    sticky_buttons  = "w",
-    sticky_title    = "w"
+    value                = buttons[1],
+    title                = NULL,
+    variable             = NULL,
+    labels               = NULL,
+    commands             = list(),       # named list of functions
+    default_command      = do_nothing,
+    tips                 = list(),       # named list of strings
+    default_tip          = "",
+    border               = FALSE,
+    layout               = c("vertical", "horizontal"),
+    sticky_buttons       = "w",
+    sticky_buttons_frame = "",
+    sticky_title         = "w"
 )
 {
     checkmate::assert_string(title, null.ok = TRUE)
@@ -169,10 +170,12 @@ bs_radiobuttons <- function(
     if (!is.null(title) && !border) {
         tkgrid(bs_label_b(frame, text = title), sticky = sticky_title)
     }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    frame_for_buttons <- tk2frame(frame)
     objs <- pmap(
         list(labels, buttons, commands, tips),
-        ~ tk2radiobutton(frame,
+        ~ tk2radiobutton(frame_for_buttons,
                          variable = variable,
                          text     = ..1,
                          value    = ..2,
@@ -195,10 +198,13 @@ bs_radiobuttons <- function(
     )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(frame_for_buttons, sticky = sticky_buttons_frame)
+
     structure(list(
         frame = frame,
         var   = variable,
-        obj   = structure(objs, names = buttons)
+        obj   = structure(objs, names = buttons),
+        frame_obj = frame_for_buttons
     ),
     class = c("bs_radiobuttons", "bs_tk_buttonset", "bs_tk_widget", "list"))
 }
