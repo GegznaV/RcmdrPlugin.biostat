@@ -6,7 +6,7 @@
 \usage{
 bs_radiobuttons(parent = top, buttons, value = buttons[1],
   title = NULL, variable = NULL, labels = NULL, commands = list(),
-  default_command = function() { }, tips = list(), default_tip = "",
+  default_command = do_nothing, tips = list(), default_tip = "",
   border = FALSE, layout = c("vertical", "horizontal"),
   sticky_buttons = "w", sticky_title = "w")
 }
