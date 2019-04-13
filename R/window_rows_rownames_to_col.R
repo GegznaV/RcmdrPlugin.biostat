@@ -1,17 +1,14 @@
+# TODO:
+# - rewrite the main function accotding to the new template
+# - rewrite the onOK() function accotding to the new template
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_rows_rownames_to_col <- function(){
-    ds <- active_dataset()
+window_rows_rownames_to_col <- function() {
 
-    initializeDialog(title = gettext_bs("Move row names to column"))
-
-    name_variable <- tclVar(unique_colnames("row_name"))
-    name_frame <- tkframe(top)
-    name_entry <- ttkentry(name_frame, width = "47", textvariable = name_variable)
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Functions --------------------------------------------------------------
     onOK <- function() {
         new_name <- trim.blanks(tclvalue(name_variable))
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -39,7 +36,7 @@ window_rows_rownames_to_col <- function(){
 
         command <- str_glue(
             "## ", gettext_bs("Move row names to column"), "\n",
-            "{ds} <- {ds} %>% \n",
+            "{.ds} <- {.ds} %>% \n",
             'tibble::rownames_to_column("{new_name}")') %>%
             style_cmd()
 
@@ -51,17 +48,27 @@ window_rows_rownames_to_col <- function(){
 
         tkfocus(CommanderWindow())
     }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "rownames_to_column", helpPackage = "tibble")
 
-    # Title ------------------------------------------------------------------
-    fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(bs_label(
-        top,
-        text = gettext_bs("Move row names to column"),
-        font = tkfont.create(weight = "bold", size = 9),
-        fg = fg_col),
-        pady = c(5, 9))
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Initial values ---------------------------------------------------------
+    .ds <- active_dataset()
+
+    # Initialize dialog window and title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    dialogue_title <- gettext_bs("Move Row Names to Column")
+    initializeDialog(title = dialogue_title)
+    tk_title(top, dialogue_title)
+
+
+    # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    name_variable <- tclVar(unique_colnames("row_name"))
+
+
+    # Widgets ----------------------------------------------------------------
+    name_frame <- tkframe(top)
+    name_entry <- ttkentry(name_frame, width = "47", textvariable = name_variable)
+
+    # Finalize ---------------------------------------------------------------
+    ok_cancel_help(helpSubject = "rownames_to_column", helpPackage = "tibble")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(name_frame, sticky = "w")
 
@@ -74,9 +81,7 @@ window_rows_rownames_to_col <- function(){
     )
 
     tkgrid(name_entry, sticky = "w")
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     tkgrid(buttonsFrame, sticky = "ew")
     dialogSuffix()
 }
