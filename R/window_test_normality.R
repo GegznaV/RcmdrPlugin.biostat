@@ -3,6 +3,9 @@
 # - add tips.
 # - enable "groups in color" only if groups are selected (???)
 
+# `qqplotr` Documentation: https://aloy.github.io/qqplotr/
+
+
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
@@ -65,7 +68,7 @@ window_test_normality <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     activate_band_options <- function() {
 
-        if (get_band_type() == "boot") {
+        if (get_bandtype_function() == "boot") {
             tkgrid(f2_band_boot$frame)
 
         } else {
@@ -81,7 +84,6 @@ window_test_normality <- function() {
         activate_plots()
         activate_band()
         activate_band_options()
-
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -129,11 +131,15 @@ window_test_normality <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
-        # Get values ---------------------------------------------------------
+        # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        cursor_set_busy(top)
+        on.exit(cursor_set_idle(top))
 
-        by_group             <- get_values(f1_widget_y_gr$checkbox)
+        # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
         y_var                <- get_selection(f1_widget_y_gr$y)
         gr_var               <- get_selection(f1_widget_y_gr$gr)
+        by_group             <- get_values(f1_widget_y_gr$checkbox)
 
         use_test             <- get_values(f2_num_enable)
         test_function        <- get_test_function()
@@ -150,40 +156,116 @@ window_test_normality <- function() {
         qq_line              <- get_values(f2_plot_opts, "qq_line")
         qq_band              <- get_values(f2_plot_opts, "qq_band")
         qq_bandtype_function <- get_bandtype_function()
+        bootstrap_n          <- get_values(f2_band_boot)
+        conf_level           <- get_values(f2_conf)
 
-        # positive integer in range 1000 - 1E4
-        bootstrap_n      <- as.integer(get_values(f2_band_boot))
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        warn <- options(warn = -1)
 
-        # between 0 - 1
-        conf_level       <- as.numeric(get_values(f2_conf))
-
-        # Chi-square bins ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        warn  <- options(warn = -1)
         nbins <- as.numeric(bins)
+        bootstrap_n <- as.integer(bootstrap_n)
+        conf_level  <- as.numeric(conf_level)
+
         options(warn)
 
-        if (bins != bins_auto && (is.na(nbins) || nbins < 4)) {
-            errorCondition(
-                recall = window_test_normality,
-                message = gettext_bs("Number of bins must be a number >= 4")
-            )
+
+        # Reset widget properties before checking ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        # tkconfigure(name_entry, foreground = "black")
+
+        # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        if ((!use_test) && (!use_plot)) {
+            show_error_messages(
+                str_c(
+                    "You should either perform a normality test\n",
+                    "or draw a QQ plot, or do both options."),
+                title = "Select What to Do",
+                parent = top)
+
             return()
         }
 
-        chi_sq_params <-
-            if (test_function != "pearson.test" || bins == bins_auto) {
-                ""
-            } else {
-                str_glue(",\n n.classes = ", bins)
+
+        # Checking - test ----------------------------------------------------
+        if (use_test) {
+
+            if (variable_is_not_selected(y_var, "variable to test", parent = top)) {
+                return()
             }
 
-        if (length(y_var) == 0) {
-            errorCondition(recall = window_test_normality,
-                           message = gettext_bs("You must select a variable."))
-            return()
+            if (variable_is_not_selected(test_function, "normality test", parent = top)) {
+                return()
+            }
+
+            if (test_function == "pearson.test") {
+
+                # Chi-square bins ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                if (bins != bins_auto && (is.na(nbins) || nbins < 4)) {
+                    show_error_messages(
+                        "Number of bins for chi-square test \nmust be 4 or more.",
+                        title = "Too Few Bins Selected",
+                        parent = top)
+                    return()
+                }
+            }
+
+            if (keep_results) {
+
+                if (is_empty_name(results_name, "dataset name", parent = top)) {
+                    return()
+                }
+
+                if (is_not_valid_name(results_name, parent = top)) {
+                    return()
+                }
+
+                if (forbid_to_replace_object(results_name, parent = top)) {
+                    return()
+                }
+            }
         }
 
-        # putDialog ----------------------------------------------------------
+        # Checking - plot ----------------------------------------------------
+        if (use_plot) {
+
+            if (qq_band) {
+
+                if (variable_is_not_selected(
+                    qq_bandtype_function,
+                    "QQ line confidece band type",
+                    parent = top)) {
+                    return()
+                }
+
+                if (qq_bandtype_function == "boot") {
+                    if (!checkmate::test_integerish(bootstrap_n)) {
+                        show_error_messages(
+                            str_c(
+                                "The number of bootstrap replicates must be a whole number.\n",
+                                "Please, correct the number."),
+                            title = "Incorrect Number of Bootstrap Replicates",
+                            parent = top)
+
+                        return()
+                    }
+                }
+
+                if (!dplyr::between(conf_level, 0, 1)) {
+                    show_error_messages(
+                        str_c(
+                            "Confidence level must be a number between 0 and 1.\n",
+                            "Usually, 0.90, 0.95 or 0.99."),
+                        title = "Incorrect Cnfidence Level",
+                        parent = top)
+
+                    return()
+                }
+
+            }
+        }
+
+        # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         putDialog(
             "window_test_normality",
             list(
@@ -210,147 +292,204 @@ window_test_normality <- function() {
             )
         )
 
+        # Construct commands -------------------------------------------------
 
-        closeDialog()
-
-        # Do analysis --------------------------------------------------------
         Library("tidyverse")
-        # Library("biostat")
-        Library("nortest")
-        Library("qqplotr")
-
 
         # For many groups ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (length(gr_var) > 0) {
-            # gr_var <- paste0(gr_var, collapse = " + ")
+        if (by_group && length(gr_var) > 0) {
             gr_var_str  <- paste0(gr_var, collapse = ", ")
-            gr_var_plot <- paste0(gr_var, collapse = " + ") # ??? <----- -----
+            gr_var_plot <- paste0(gr_var, collapse = " + ")
 
         } else {
             gr_var_str  <- ""
             gr_var_plot <- ""
         }
 
-        by_gr_str <-
-            if (length(gr_var) == 0) {
-                ""
-
-            } else {
-                str_glue("group_by({gr_var_str}) %>%\n")
-            }
-
-        # Round ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        round_str <- if (digits_p > 0) {
-            str_glue(
-                .sep = "\n",
-                '    mutate(',
-                '        statistic = formatC(statistic, digits = 3, format = "f"),',
-                '        p.value   = formatC(p.value,   digits = {digits_p}, format = "f"),',
-                '    ) %>% '
-            )
-        } else {
-            ""
-        }
-
-
-        # --------------------------------------------------------------------
-        print_as_report <-
-            if (as_markdown == TRUE) {
-                Library("pander")
-                '\n pander::pander(style = "simple")'
-
-            } else {
-                # " %>% \n    print({print_opt})\n"
-                "\n print.data.frame()"
-            }
-
-
-
-        # Keep rezults ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        keep_results_str <-
-            if (keep_results) {
-                ""
-            } else {
-                "\n remove({results_name})"
-            }
-
-        # Test results ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # Command
-        command <- str_glue(
-            "{results_name} <- {.ds} %>%\n",
-            "    {by_gr_str}",
-            "    do(broom::tidy({test_function}(.${y_var}{chi_sq_params})))\n\n",
-
-            "{results_name} %>% \n",
-            round_str,
-            print_as_report,
-            keep_results_str)
-
-
-        doItAndPrint(style_cmd(command))
-
-
         # plot ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-        # library(ggplot2)
-        # library(qqplotr)
-        # data("barley", package = "lattice")
-        #
-        # qqplot_1 <-
-        #     ggplot(data = barley, aes(sample = yield)) +
-        #     stat_qq_band(mapping = aes(fill = site), alpha = 0.5) +
-        #     stat_qq_line(color = "darkred", alpha = 0.8) +
-        #     stat_qq_point() +
-        #     facet_wrap(~site, scales = "free") +
-        #     theme_bw() +
-        #     labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
-        #
-        # qqplot_1
-
         if (use_plot == TRUE) {
+
+            if (qq_detrend) {
+
+                y_label <- "Distance between empirical \nquantiles and QQ line"
+                title_0 <- " (detrended)"
+                detrend_code <- "detrend = TRUE"
+
+                qq_points_code <- '    qqplotr::stat_qq_point(detrend = TRUE) + '
+
+            } else {
+
+                y_label <- "Empirical quantiles"
+                title_0 <- ""
+                detrend_code <- NULL
+
+                qq_points_code <- '    qqplotr::stat_qq_point() + '
+
+            }
+
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            if (qq_band) {
+                band_arg_code <- str_c(detrend_code, "alpha = 0.3", sep = ", ")
+                qq_band_code <- str_glue('    qqplotr::stat_qq_band({band_arg_code}) + ')
+            } else {
+                qq_band_code <- ""
+            }
+
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            if (qq_line) {
+                line_arg_code <- str_c(detrend_code, 'color = "grey50"', sep = ", ")
+                qq_line_code <- str_glue('    qqplotr::stat_qq_line({line_arg_code}) + ')
+            } else {
+                qq_line_code <- ""
+            }
+
+            # ??? Manke less code here:
+            if (by_group) {
+                facet_code       <- str_glue('facet_wrap(~{gr_var_plot}, scales = "free") + ')
+                fill_legend_code <- 'fill = "Groups",   '
+                use_fill_code    <- ""
+
+                if (plot_in_colors) {
+                    if (length(gr_var) > 1) {
+                        use_fill_code <- str_glue(
+                            ', fill = interaction({gr_var_str}, sep = "|")')
+
+                    } else if (length(gr_var) == 1) {
+                        use_fill_code <- str_glue(', fill = {gr_var_str}')
+
+
+                    } else {
+                        use_fill_code    <- ""
+                        fill_legend_code <- ""
+
+                    }
+                } else {
+                    use_fill_code    <- ""
+                    fill_legend_code <- ""
+                }
+
+            } else {
+                facet_code       <- ""
+                use_fill_code    <- ""
+                fill_legend_code <- ""
+            }
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            conf_band_name <-
+                str_remove(get_bandtype_name(qq_bandtype_function), " \\(.*?\\)")
+
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            command_plot <- str_glue(
+                .sep = "\n",
+                "## Normal QQ plot",
+                'ggplot({.ds}, aes(sample = {y_var}{use_fill_code})) + ',
+                '    {qq_band_code}',
+                '    {qq_line_code}',
+                '    {qq_points_code}',
+                '    {facet_code}',
+
+                '    labs(x = "Theoretical quantiles", ',
+                '         y = "{y_label}",   {fill_legend_code}',
+                '         title = "Normal QQ plot{title_0} of {y_var}",    ',
+                '         subtitle = "Confidence level: {conf_level}, band: {conf_band_name}")')
+
+
+            Library("qqplotr")
 
             if (new_plots_window == TRUE) {
                 open_new_plots_window()
             }
 
-            if (length(gr_var) == 0) {
-                command2 <- str_glue(
-                    'biostat::qq_plot(~{y_var}, ',
-                    'data = {.ds}, use_colors = {plot_in_colors})')
-
-            } else {
-                command2 <- str_glue(
-                    'biostat::qq_plot({y_var} ~ {gr_var}, ',
-                    'data = {.ds}, use_colors = {plot_in_colors})')
-            }
-
-            # Paketo `qqplotr` dokumentacija: https://aloy.github.io/qqplotr/
-            ggplot({.ds}, aes(sample = {y_var})) +
-                stat_qq_band(detrend = T) +
-                stat_qq_line(detrend = T) +
-                stat_qq_point(detrend = T) +
-                facet_wrap(~{gr_var}, scales = "free") +
-                labs(x = "Theoretical quantiles",
-                     y = "Empirical quantiles",
-                     title = "Normal QQ plot",
-                     subtitle = "confidence level: {conf_level}, band: {conf_band}")
-
-            # ggplot(data = smp, mapping = aes(sample = norm)) +
-            #     stat_qq_band(detrend = TRUE) +
-            #     stat_qq_line(detrend = TRUE) +
-            #     stat_qq_point(detrend = TRUE)
-
-            # [VG] ???    <----  ------
-            # ...
-
-
-            doItAndPrint(command2)
+        } else {
+            command_plot <- NULL
         }
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (use_test) {
+
+            chi_sq_params <-
+                if (test_function != "pearson.test" || bins == bins_auto) {
+                    ""
+                } else {
+                    str_glue(",\n n.classes = ", bins)
+                }
+
+            single_test_code <-
+                str_glue(".${y_var} %>% {test_function}({chi_sq_params}) %>% broom::tidy()")
+            # str_glue("broom::tidy({test_function}(.${y_var}{chi_sq_params}))")
+
+            main_test_code <-
+                if (by_group) {
+                    str_glue(
+                        "group_by({gr_var_str}) %>% \n",
+                        "group_map( ~ {single_test_code})")
+                } else {
+                    single_test_code
+                }
+
+            print_results_code <-
+                if (as_markdown) {
+                    str_glue(' %>% \n  knitr::kable(digits = {digits_p}, format = "pandoc")')
+
+                } else {
+                    ""
+                }
+
+            # Keep rezults ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            keep_results_str <-
+                if (keep_results) {
+                    ""
+                } else {
+                    "\n remove({results_name})"
+                }
+
+            # Test results ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # Command
+            command_do_test <- str_glue(
+                "## Notmality test \n",
+                "{results_name} <- \n {.ds} %>%\n",
+                "    {main_test_code} \n\n",
+
+                "## Print results \n",
+                "{results_name} ",
+                print_results_code, "\n",
+                keep_results_str)
+
+
+            Library("nortest")
+
+        } else {
+            command_do_test <- NULL
+        }
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        command <- str_c(command_plot, command_do_test, sep = "\n\n")
+
+        result <- justDoIt(command)
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (class(result)[1] != "try-error") {
+            logger(style_cmd(command))
+
+            # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            closeDialog()
+
+
+        } else {
+            logger_error(command, error_msg = result)
+            show_code_evaluation_error_message(parent = top)
+            return()
+        }
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # command_dataset_refresh()
         tkfocus(CommanderWindow())
-        # onOK [end] ---------------------------------------------------------
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Announce about the success to run the function `onOk()`
+        TRUE
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     }
 
     # Initialize -------------------------------------------------------------
@@ -441,7 +580,7 @@ window_test_normality <- function() {
         labels = gettext_bs(c(
             "Print as Markdown table",
             "Keep test results in R memory"
-            )),
+        )),
         commands = list(keep_results = activate_results_name),
         values = c(
             initial$as_markdown,
@@ -576,8 +715,12 @@ window_test_normality <- function() {
             justify = "right",
             label   = "Number of boot-\nstrap replicates",
             tip     = str_c(
-                "Positive integer. Usually",
-                "between 1000 and 10 000.")
+                "Positive integer. Usually number \n",
+                "between 1000 and 10 000. Larger numbers\n",
+                "result in longer calculations."),
+            validate = "key",
+            validatecommand = validate_pos_int,
+            invalidcommand  = make_red_text
         )
 
     f2_conf <-
