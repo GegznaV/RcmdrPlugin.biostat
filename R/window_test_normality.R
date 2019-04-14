@@ -2,7 +2,6 @@
 # - write onOK function.
 # - add tips.
 # - enable "groups in color" only if groups are selected (???)
-# - Read and save defaults/initial values correctly.
 
 #' @rdname Menu-window-functions
 #' @export
