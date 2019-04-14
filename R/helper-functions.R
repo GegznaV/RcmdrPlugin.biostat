@@ -1465,6 +1465,24 @@ validate_num_0_0.5 <- function(P, W) {
     }
 }
 
+validate_num_0_1 <- function(P, W) {
+    # P - value
+    res <-
+        if (is_numeric_str(P)) {
+            dplyr::between(as.numeric(P), 0, 1)
+        } else {
+            FALSE
+        }
+
+    if (res == TRUE) {
+        tkconfigure(W, foreground = "black")
+        return(tcl("expr", "TRUE"))
+    } else {
+        return(tcl("expr", "FALSE"))
+    }
+}
+
+
 validate_numeric <- function(P, W) {
     # P - value
     res <- is_numeric_str(P)
@@ -1537,6 +1555,22 @@ make_red_text_reset_val <- function(to = "Inf") {
         tkinsert(W, "0", to)
 
         tcl("expr", "TRUE")
+    }
+}
+
+is_valid_var_name_string <- function(str) {
+    str_detect(str, "^[\\.]?[a-zA-Z][\\.0-9a-zA-Z_]*$")
+}
+
+validate_var_name_string <- function(P, W) {
+    # P - value
+    res <- is_valid_var_name_string(P)
+
+    if (res == TRUE) {
+        tkconfigure(W, foreground = "black")
+        return(tcl("expr", "TRUE"))
+    } else {
+        return(tcl("expr", "FALSE"))
     }
 }
 
