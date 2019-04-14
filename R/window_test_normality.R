@@ -538,16 +538,16 @@ window_test_normality <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f2_band <- bs_combobox(
-        parent         = f2_plot_sub,
+        parent = f2_plot_sub,
+        width  = 25,
+        label  = "Type of confidence band:",
         label_position = "above",
-        label          = "Type of confidence band:",
-        values         = gettext_bs(c(
+        values = gettext_bs(c(
             "Point-wise (pointwise)",
             "Parametric bootstrap (boot)",
             "Kolmogorov-Smirnov (ks)",
             "Tail-sensitive (ts)")),
-        width     = 25,
-        selection = initial$qq_band_type,
+        value = initial$qq_band_type,
         on_select = activate_band_options)
 
     f2_band_boot <-

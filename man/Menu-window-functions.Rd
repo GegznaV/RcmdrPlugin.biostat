@@ -19,7 +19,7 @@
 %   R/window_rows_rm_with_na.R, R/window_rows_rowid_to_col.R,
 %   R/window_rows_rownames_to_col.R, R/window_rows_slice.R,
 %   R/window_summary_count.R, R/window_summary_desc.R,
-%   R/window_summary_variables.R, R/window_test_normality___new.R,
+%   R/window_summary_variables.R, R/window_test_normality.R,
 %   R/window_variable_gather.R, R/window_variable_mutate.R,
 %   R/window_variable_recode.R, R/window_variable_rename.R,
 %   R/window_variable_select.R
