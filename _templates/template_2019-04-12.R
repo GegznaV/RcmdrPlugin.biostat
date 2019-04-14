@@ -49,11 +49,11 @@ window_xxx <- function() {
             return()
         }
 
-        if (is_not_valid_name(new_name, parent = top)) {
+        if (is_empty_name(file_name, which_name = "file name", parent = top)) {
             return()
         }
 
-        if (forbid_to_replace_variables(new_name, parent = top)) {
+        if (is_not_valid_name(new_name, parent = top)) {
             return()
         }
 
@@ -65,9 +65,20 @@ window_xxx <- function() {
             return()
         }
 
-        # if (forbid_to_replace_object(new_name, parent = top)) {
-        #     return()
-        # }
+
+        if (forbid_to_replace_file(file_name, parent = top)) {
+            return()
+        }
+
+        if (forbid_to_replace_object(new_name, parent = top)) {
+            return()
+        }
+
+        if (forbid_to_replace_variables(new_name, parent = top)) {
+            return()
+        }
+
+
 
         # if (is_empty_name(new_name, parent = top))              {return()}
         # if (is_not_valid_name(new_name, parent = top))          {return()}
