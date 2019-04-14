@@ -321,7 +321,7 @@ item	bs19_analysis_menu	cascade	"Tests"	bs19_tests_menu	""	""
 # + ~ Normality tests --------------------------------------------------------
 
 
-# item	bs19_tests_menu	command	"Normality test (univariate)..."	window_test_normality	"numericP()"	""
+item	bs19_tests_menu	command	"Normality test (univariate)..."	window_test_normality	"numericP()"	""
 
 # menu	bs19_distr_tests_menu	bs19_tests_menu	""	""	""	""
 # item	bs19_tests_menu	cascade	"Normality / Distribution tests"	bs19_distr_tests_menu	""	""
