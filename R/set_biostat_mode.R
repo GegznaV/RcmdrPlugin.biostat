@@ -617,7 +617,7 @@ bs_mode_menu__rows <- function() {
           command  = window_rows_col_to_rownames)
 
     tkadd(menu_n, "command",
-          label    = "Add column with row numbers",
+          label    = "Create column with row numbers",
           # compound = "left",
           # image    = "::image::bs_locale",
           command  = window_rows_rowid_to_col)
@@ -1026,14 +1026,24 @@ bs_mode_menu__plots <- function() {
     tkadd(menu_a, "command",
           label    = "Separate window for plots",
           compound = "left",
-          image    = if (which_graphical_device() == "separate_window") { "::image::bs_tick" } else {""},
+          image    =
+              if (which_graphical_device() == "separate_window") {
+                  "::image::bs_tick"
+              } else {
+                  ""
+              },
           command    = set_plots_to_separate_window)
 
     if (.Platform$GUI == "RStudio") {
         tkadd(menu_a, "command",
               label    = "RStudio 'Plots' tab",
               compound = "left",
-              image    = if (which_graphical_device() == "RStudioGD") { "::image::bs_tick" } else {""},
+              image    =
+                  if (which_graphical_device() == "RStudioGD") {
+                      "::image::bs_tick"
+                  } else {
+                      ""
+                  },
               command  = set_plots_to_rstudio_window)
 
     }
@@ -1189,17 +1199,17 @@ bs_mode_menu__settings <- function() {
           image    = "::image::bs_about",
           command  = window_about_package)
 
-    # tkadd(menu_ab, "command",
-    #       label    = "Go to Homepage",
-    #       compound = "left",
-    #       image    = "::image::bs_home",
-    #       command  = window_online_homepage)
+    tkadd(menu_ab, "command",
+          label    = "Go to Homepage",
+          compound = "left",
+          image    = "::image::bs_home",
+          command  = window_online_homepage)
 
-    # tkadd(menu_ab, "command",
-    #       label    = "Bug report, feedback",
-    #       compound = "left",
-    #       image    = "::image::bs_bug",
-    #       command  = window_online_bug_report)
+    tkadd(menu_ab, "command",
+          label    = "Feedback & bug report",
+          compound = "left",
+          image    = "::image::bs_bug",
+          command  = window_online_bug_report)
 
     tkadd(menu_ab, "separator")
 
