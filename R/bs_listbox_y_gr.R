@@ -25,11 +25,12 @@ bs_listbox_y_gr <- function(
     gr_vars        = NULL,
     gr_initial     = NULL,
     gr_select_mode = "multiple",
+    gr_on_select   = do_nothing,
     gr_params      = list(), # Not implemented yet
 
     ch_label       = "Use groups",
     ch_initial     = "0",
-    ch_commands    = do_nothing,
+    ch_command     = do_nothing,
     ch_params      = list(), # Not implemented yet
 
     list_height     = 7,
@@ -77,6 +78,8 @@ bs_listbox_y_gr <- function(
             # set_selection(f2_box_gr, sel = 0)
             tk_disable(f2_box_gr)
         }
+
+        ch_command()
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -90,9 +93,10 @@ bs_listbox_y_gr <- function(
                 set_values(f2_box_ch, use_groups = 1)
             }
         }
+
+        gr_on_select()
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
     # Initial values ---------------------------------------------------------
     if (!is.na(y_var_type)) {
@@ -104,7 +108,6 @@ bs_listbox_y_gr <- function(
         y_initial <- var_pos_n(y_initial, y_var_type)
     }
 
-
     if (!is.na(gr_var_type)) {
         if (!is.null(gr_vars)) {
             warning("`gr_vars` is ignored as `gr_var_type` is not NA")
@@ -113,7 +116,6 @@ bs_listbox_y_gr <- function(
         gr_vars    <- str_glue_eval("variables_{gr_var_type}()")
         gr_initial <- var_pos_n(gr_initial, gr_var_type)
     }
-
 
     if (length(list_width) == 1) {
         list_width <- c(list_width, list_width)
@@ -124,18 +126,6 @@ bs_listbox_y_gr <- function(
     f0 <- tkframe(parent)
 
     # List box Y ----------------------------------------------------------
-    # f1_box_y <- variableListBox2(
-    #     parentWindow      = f0,
-    #     title             = gettext_bs(y_title),
-    #     variableList      = y_vars,
-    #     initialSelection  = y_initial,
-    #     selectmode        = y_select_mode,
-    #     listHeight        = list_height,
-    #     listWidth         = list_width,
-    #     onRelease_fun     = function() {},
-    #     onDoubleClick_fun = function() {}
-    # )
-
     y_params <- modifyList(
         y_params,
         list(
@@ -152,29 +142,6 @@ bs_listbox_y_gr <- function(
 
     # List box gr -------------------------------------------------------------
     f2 <- tkframe(f0)
-
-    # f2_box_gr <- variableListBox2(
-    #     parentWindow     = f2,
-    #     title            = gettext_bs(gr_title),
-    #     variableList     = gr_vars,
-    #     initialSelection = gr_initial,
-    #     selectmode       = gr_select_mode,
-    #     listHeight       = list_height - 1,
-    #     listWidth        = list_width,
-    #     onRelease_fun    = cmd_gr_box
-    # )
-
-    # f2_box_gr <- bs_listbox(
-    #     parent      = f2,
-    #     title       = gr_title,
-    #     values      = gr_vars,
-    #     value       = gr_initial,
-    #     selectmode  = gr_select_mode,
-    #     height      = list_height - 1,
-    #     width       = list_width,
-    #     on_release  = cmd_gr_box
-    # )
-
 
     gr_params <- modifyList(
         gr_params,
@@ -193,37 +160,13 @@ bs_listbox_y_gr <- function(
     f2_box_gr <- do.call(bs_listbox, gr_params)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # bs_check_boxes(
-    #     window          = f2,
-    #     frame           = "use_groups_frame",
-    #     boxes           = "use_groups_",
-    #     initialValues   = ch_initial,
-    #     labels          = gettext_bs(ch_label),
-    #     commands        = list("use_groups_" = function() {
-    #         cmd_ch_box()
-    #         ch_commands()
-    #     })
-    # )
-
-    # f2_box_ch <- bs_checkboxes(
-    #     parent   = f2,
-    #     boxes    = c("use_groups" = ch_label),
-    #     values   = ch_initial,
-    #     commands = list("use_groups" = function() {
-    #         cmd_ch_box()
-    #         ch_commands()
-    #     }))
-
     ch_params <- modifyList(
         ch_params,
         list(
             parent   = f2,
             boxes    = c("use_groups" = ch_label),
             values   = ch_initial,
-            commands = list("use_groups" = function() {
-                cmd_ch_box()
-                ch_commands()
-            })
+            commands = list("use_groups" = cmd_ch_box)
         ))
 
     f2_box_ch <- do.call(bs_checkboxes, ch_params)
