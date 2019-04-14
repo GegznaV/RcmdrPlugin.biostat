@@ -67,7 +67,7 @@ item	bs19_rows_menu	command	"Remove rows with missing values..."	window_rows_rm_
 # item	bs19_rows_menu	command	"[???] Fill missing values in using the previous entry..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
 
 item	bs19_rows_menu	separator	""	""	""	""
-item	bs19_rows_menu	command	"Add column with row numbers"	window_rows_rowid_to_col	"activeDataSetP()"	"packageAvailable('tidyverse')"
+item	bs19_rows_menu	command	"Create column with row numbers"	window_rows_rowid_to_col	"activeDataSetP()"	"packageAvailable('tidyverse')"
 item	bs19_rows_menu	command	"Move column (with unique values) to row names..."	window_rows_col_to_rownames	"variables_with_unique_values_P()"	"packageAvailable('tibble')"
 item	bs19_rows_menu	command	"Move row names to column..."	window_rows_rownames_to_col	"activeDataSetP()"	"packageAvailable('tibble')"
 
@@ -464,8 +464,8 @@ item	biostat19_menu	cascade	"About"	bs19_about_menu	""	""
 
 # item	bs19_about_menu	command 'About package "RcmdrPlugin.biostat"'	window_about_package	""	""
 item	bs19_about_menu	command "About BioStat'19..."	window_about_package	""	""
-# item	bs19_about_menu	command "Go to Homepage"	window_online_homepage	""	""
-# item	bs19_about_menu	command "Bug report, feedback"	window_online_bug_report	""	""
+item	bs19_about_menu	command "Go to Homepage"	window_online_homepage	""	""
+item	bs19_about_menu	command "Feedback & bug report"	window_online_bug_report	""	""
 item	bs19_about_menu	separator	""	""	""	""
 
 item	bs19_about_menu	command "Check for updates for [BS-2019] course"	command_chk_packages_bs19	""	""
