@@ -255,7 +255,10 @@ eval_text <- function(x, envir = parent.frame(), ...) {
 #' @keywords internal
 style_cmd <- function(command, indent_by = 2, ...) {
     cmd <- styler::style_text(command, indent_by = indent_by, ...)
-    paste0(as.character(cmd), collapse = "\n")
+    structure(
+        paste0(as.character(cmd), collapse = "\n"),
+        class = c("glue", "character")
+    )
 }
 
 
