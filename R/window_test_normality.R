@@ -76,59 +76,70 @@ window_test_normality <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    get_test_function <- function() {
-        res <- get_selection(f2_test_name)
+    get_test_list <- function() {
+        tibble::tribble(
+            ~name,                                          ~fun,
+            gettext_bs("Shapiro-Wilk")                    , "shapiro.test",
+            gettext_bs("Anderson-Darling")                , "ad.test",
+            gettext_bs("Cramer-von Mises")                , "cvm.test",
+            gettext_bs("Lilliefors (Kolmogorov-Smirnov)") , "lillie.test",
+            gettext_bs("Shapiro-Francia")                 , "sf.test",
+            gettext_bs("Pearson chi-square")              , "pearson.test")
+    }
 
-        str_glue_eval(
-            'switch(
-                res,
-                "{gettext_bs("Shapiro-Wilk")}"                    = "shapiro.test",
-                "{gettext_bs("Anderson-Darling")}"                = "ad.test",
-                "{gettext_bs("Cramer-von Mises")}"                = "cvm.test",
-                "{gettext_bs("Lilliefors (Kolmogorov-Smirnov)")}" = "lillie.test",
-                "{gettext_bs("Shapiro-Francia")}"                 = "sf.test",
-                "{gettext_bs("Pearson chi-square")}"              = "pearson.test",
-                stop("Unknown value in `f2_test_name`")
-            )')
+    get_test_function <- function() {
+        res   <- get_selection(f2_test_name)
+        tests <- get_test_list()
+        tests[tests$name == res, ]$fun
+    }
+
+    get_test_name <- function(fun = get_test_function()) {
+        tests <- get_test_list()
+        tests[tests$fun == fun, ]$name
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    get_band_type <- function() {
-        res <- get_selection(f2_band)
+    get_bandtype_list <- function() {
+        tibble::tribble(
+            ~name,                                     ~fun,
+            gettext_bs("Point-wise (pointwise)")     , "pointwise",
+            gettext_bs("Parametric bootstrap (boot)"), "boot",
+            gettext_bs("Kolmogorov-Smirnov (ks)")    , "ks",
+            gettext_bs("Tail-sensitive (ts)")        , "ts")
+    }
 
-        str_glue_eval(
-            'switch(
-                res,
-                "{gettext_bs("Point-wise (pointwise)")}"       = "pointwise",
-                "{gettext_bs("Parametric bootstrap (boot)")}"  = "boot",
-                "{gettext_bs("Kolmogorov-Smirnov (ks)")}"      = "ks",
-                "{gettext_bs("Tail-sensitive (ts)")}"          = "ts",
-                stop("Unknown value in `f2_band`:", res)
-            )'
-        )
+    get_bandtype_function <- function() {
+        name  <- get_selection(f2_band)
+        bands <- get_bandtype_list()
+        bands[bands$name == name, ]$fun
+    }
+
+    get_bandtype_name <- function(fun = get_bandtype_function()) {
+        bands <- get_bandtype_list()
+        bands[bands$fun == fun, ]$name
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         # Get values ---------------------------------------------------------
 
-        by_group         <- get_values(f1_widget_y_gr$checkbox)
-        y_var            <- get_selection(f1_widget_y_gr$y)
-        gr_var           <- get_selection(f1_widget_y_gr$gr)
+        by_group             <- get_values(f1_widget_y_gr$checkbox)
+        y_var                <- get_selection(f1_widget_y_gr$y)
+        gr_var               <- get_selection(f1_widget_y_gr$gr)
 
-        use_test         <- get_values(f2_num_enable)
-        test_name        <- get_test_function()
-        keep_results     <- get_values(f2_num_opts, "keep_results")
-        as_markdown      <- get_values(f2_num_opts, "as_markdown")
-        digits_p         <- get_values(f2_round_p)
-        bins             <- get_values(f2_pearson_opts)
+        use_test             <- get_values(f2_num_enable)
+        test_function        <- get_test_function()
+        keep_results         <- get_values(f2_num_opts, "keep_results")
+        as_markdown          <- get_values(f2_num_opts, "as_markdown")
+        digits_p             <- get_values(f2_round_p)
+        bins                 <- get_values(f2_pearson_opts)
 
-        use_plot         <- get_values(f2_plot_enable)
-        new_plots_window <- get_values(f2_plot_opts, "new_plots_window")
-        plot_in_colors   <- get_values(f2_plot_opts, "plot_in_colors")
-        qq_detrend       <- get_values(f2_plot_opts, "qq_detrend")
-        qq_line          <- get_values(f2_plot_opts, "qq_line")
-        qq_band          <- get_values(f2_plot_opts, "qq_band")
-        qq_band_type     <- get_band_type()
+        use_plot             <- get_values(f2_plot_enable)
+        new_plots_window     <- get_values(f2_plot_opts, "new_plots_window")
+        plot_in_colors       <- get_values(f2_plot_opts, "plot_in_colors")
+        qq_detrend           <- get_values(f2_plot_opts, "qq_detrend")
+        qq_line              <- get_values(f2_plot_opts, "qq_line")
+        qq_band              <- get_values(f2_plot_opts, "qq_band")
+        qq_bandtype_function <- get_bandtype_function()
 
         # positive integer in range 1000 - 1E4
         bootstrap_n      <- as.integer(get_values(f2_band_boot))
@@ -152,13 +163,11 @@ window_test_normality <- function() {
         }
 
         chi_sq_params <-
-            if (test_name != gettext("pearson.test") || bins == gettext_bs("<auto>")) {
+            if (test_function != "pearson.test" || bins == gettext_bs("<auto>")) {
                 ""
             } else {
                 str_glue(",\n n.classes = ", bins)
             }
-
-
 
         if (length(y_var) == 0) {
             errorCondition(recall = window_test_normality,
@@ -175,21 +184,21 @@ window_test_normality <- function() {
                 gr_var           = gr_var           ,
 
                 use_test         = use_test         ,
-                test_name        = test_name        ,
+                test_name        = get_test_name(test_function),
                 keep_results     = keep_results     ,
                 as_markdown      = as_markdown      ,
                 digits_p         = digits_p         ,
                 bins             = bins             ,
 
-                use_plot         = use_plot         ,
-                new_plots_window = new_plots_window ,
-                plot_in_colors   = plot_in_colors   ,
-                qq_detrend       = qq_detrend       ,
-                qq_line          = qq_line          ,
-                qq_band          = qq_band          ,
-                qq_band_type     = qq_band_type     ,
-                bootstrap_n      = bootstrap_n      ,
-                conf_level       = conf_level
+                use_plot             = use_plot         ,
+                new_plots_window     = new_plots_window ,
+                plot_in_colors       = plot_in_colors   ,
+                qq_detrend           = qq_detrend       ,
+                qq_line              = qq_line          ,
+                qq_band              = qq_band          ,
+                bootstrap_n          = bootstrap_n      ,
+                conf_level           = conf_level       ,
+                qq_bandtype_function = get_bandtype_name(qq_band_type)
             )
         )
 
@@ -264,7 +273,7 @@ window_test_normality <- function() {
         command <- str_glue(
             "{test_obj} <- {.ds} %>%\n",
             "    {by_gr_str}",
-            "    do(broom::tidy({test_name}(.${y_var}{chi_sq_params})))\n\n",
+            "    do(broom::tidy({test_function}(.${y_var}{chi_sq_params})))\n\n",
 
             "{test_obj} %>% \n",
             round_str,
@@ -557,25 +566,25 @@ window_test_normality <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(f2, pady = c(5, 0), sticky = "")
-    tkgrid(f2_num, f2_plot, padx = c(0, 5), sticky = "nse")
+    tkgrid(f2_num, f2_plot,     sticky = "nse", padx = c(0, 5))
 
     # Numerical options
-    tkgrid(f2_num_enable$frame, padx = c(5, 60), sticky = "nwe")
+    tkgrid(f2_num_enable$frame, sticky = "nwe", padx = c(5, 60))
     tkgrid(f2_num_sub)
-    tkgrid(f2_num_opts$frame,   padx = c(5, 0), sticky = "w")
-    tkgrid(f2_round_p$frame,    sticky = "w", padx = 5, pady = c(5, 0))
+    tkgrid(f2_num_opts$frame,    sticky = "w",  padx = c(5, 0))
+    tkgrid(f2_round_p$frame,     sticky = "w",  padx = 5, pady = c(5, 0))
     tkgrid(f2_round_p$frame_obj, sticky = "w")
-    tkgrid(f2_test_name$frame,   padx = 5, pady = c(3, 5))
+    tkgrid(f2_test_name$frame,                  padx = 5, pady = c(3, 5))
     tkgrid(f2_pearson_opts$frame,
            sticky = "nse", padx = c(8, 5), pady = c(0, 0))
 
     # Plot
     tkgrid(f2_plot_enable$frame, sticky = "nwe", padx = c(5, 43))
     tkgrid(f2_plot_sub,          sticky = "nwe")
-    tkgrid(f2_plot_opts$frame,   padx = c(5, 0), sticky = "nwe")
-    tkgrid(f2_band$frame,                    padx = 5, pady = 5)
-    tkgrid(f2_band_boot$frame, sticky = "e", padx = 0, pady = c(2, 0))
-    tkgrid(f2_conf$frame,      sticky = "e", padx = 0, pady = 4)
+    tkgrid(f2_plot_opts$frame,   sticky = "nwe", padx = c(5, 0))
+    tkgrid(f2_band$frame,                        padx = 5, pady = 5)
+    tkgrid(f2_band_boot$frame,   sticky = "e",   padx = 0, pady = c(2, 0))
+    tkgrid(f2_conf$frame,        sticky = "e",   padx = 0, pady = 4)
 
     # Buttons ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ok_cancel_help(
