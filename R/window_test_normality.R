@@ -371,9 +371,9 @@ window_test_normality <- function() {
         use_test  = TRUE,
         test_name =
             if (nrows <= 5000) {
-                gettext_bs("Shapiro-Wilk")
+                gettext_bs("Shapiro-Wilk test")
             } else {
-                gettext_bs("Anderson-Darling")
+                gettext_bs("Anderson-Darling test")
             },
         bins = bins_auto,
 
