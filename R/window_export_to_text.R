@@ -336,12 +336,12 @@ window_export_to_text <- function() {
         dec <- get_dec()
         na_txt <- get_values(f1_ent_na)
 
-
-        if (is_empty_name(file_name, which_name = "file name")) {
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (is_empty_name(file_name, which_name = "file name", parent = top)) {
             return()
         }
 
-        if (forbid_to_replace_file(file_name)) {
+        if (forbid_to_replace_file(file_name, parent = top)) {
             return()
         }
 
