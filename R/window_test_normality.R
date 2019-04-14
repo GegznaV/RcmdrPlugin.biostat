@@ -316,7 +316,7 @@ window_test_normality <- function() {
                 title_0 <- " (detrended)"
                 detrend_code <- "detrend = TRUE"
 
-                qq_points_code <- '    qqplotr::stat_qq_point(detrend = TRUE) + '
+                qq_points_code <- '    qqplotr::geom_qq_point(detrend = TRUE) + '
 
             } else {
 
@@ -324,14 +324,19 @@ window_test_normality <- function() {
                 title_0 <- ""
                 detrend_code <- NULL
 
-                qq_points_code <- '    qqplotr::stat_qq_point() + '
+                qq_points_code <- '    qqplotr::geom_qq_point() + '
 
             }
 
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             if (qq_band) {
-                band_arg_code <- str_c(detrend_code, "alpha = 0.3", sep = ", ")
-                qq_band_code <- str_glue('    qqplotr::stat_qq_band({band_arg_code}) + ')
+                band_arg_code <- str_glue(str_c(
+                    detrend_code,
+                    "alpha = 0.3",
+                    'bandType = "{qq_bandtype_function}"',
+                    sep = ", "))
+
+                qq_band_code <- str_glue('    qqplotr::geom_qq_band({band_arg_code}) + ')
             } else {
                 qq_band_code <- ""
             }
@@ -339,7 +344,7 @@ window_test_normality <- function() {
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             if (qq_line) {
                 line_arg_code <- str_c(detrend_code, 'color = "grey50"', sep = ", ")
-                qq_line_code <- str_glue('    qqplotr::stat_qq_line({line_arg_code}) + ')
+                qq_line_code <- str_glue('    qqplotr::geom_qq_line({line_arg_code}) + ')
             } else {
                 qq_line_code <- ""
             }
@@ -411,7 +416,7 @@ window_test_normality <- function() {
                 if (test_function != "pearson.test" || bins == bins_auto) {
                     ""
                 } else {
-                    str_glue(",\n n.classes = ", bins)
+                    str_glue("n.classes = ", bins)
                 }
 
             single_test_code <-
@@ -464,11 +469,22 @@ window_test_normality <- function() {
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         command <- str_c(command_plot, command_do_test, sep = "\n\n")
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Checks for syntax error
+        result <- try_command(command)
 
-        result <- justDoIt(command)
+        if (class(result)[1] == "try-error") {
+            logger_error(command, error_msg = result)
+            show_code_evaluation_error_message(parent = top)
+            return()
+        }
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Checks for evaluation error
+        result <- doItAndPrint(style_cmd(command))
+
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (class(result)[1] != "try-error") {
-            logger(style_cmd(command))
 
             # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             closeDialog()
@@ -517,7 +533,7 @@ window_test_normality <- function() {
         bins = bins_auto,
 
         keep_results     = FALSE,
-        as_markdown      = FALSE,
+        as_markdown      = TRUE,
         digits_p         = "3",
         bins             = bins_auto,
 
@@ -546,12 +562,12 @@ window_test_normality <- function() {
         parent         = f1,
         y_title        = gettext_bs("Variable to test\n(pick one)"),
         y_var_type     = "num",
-        y_initial      = initial$var_y,
+        y_initial      = initial$y_var,
         y_select_mode  = "single",
 
         gr_title       = gettext_bs("Groups variable\n(pick one, several or none)"),
         gr_var_type    = "fct_like",
-        gr_initial     = initial$var_gr,
+        gr_initial     = initial$gr_var,
         gr_select_mode = "multiple",
 
         ch_initial     = initial$by_group
@@ -602,7 +618,7 @@ window_test_normality <- function() {
     f2_round_p <- bs_radiobuttons(
         parent  = f2_num_sub,
         title   = "Round p-values to decimal digits: ",
-        buttons = c("2" = "2", "3" = "3", "4" = "4", "5" = "5", "0" = "more"),
+        buttons = c("2" = "2", "3" = "3", "4" = "4", "5" = "5", "8" = "8"),
         layout  = "horizontal",
         value   = initial$digits_p
     )
