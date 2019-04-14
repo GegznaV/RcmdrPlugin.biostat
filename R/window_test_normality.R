@@ -88,7 +88,7 @@ window_test_normality <- function() {
                 "{gettext_bs("Lilliefors (Kolmogorov-Smirnov)")}" = "lillie.test",
                 "{gettext_bs("Shapiro-Francia")}"                 = "sf.test",
                 "{gettext_bs("Pearson chi-square")}"              = "pearson.test",
-                stop("unknown value in `f2_test_name`")
+                stop("Unknown value in `f2_test_name`")
             )')
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -102,7 +102,7 @@ window_test_normality <- function() {
                 "{gettext_bs("Parametric bootstrap (boot)")}"  = "boot",
                 "{gettext_bs("Kolmogorov-Smirnov (ks)")}"      = "ks",
                 "{gettext_bs("Tail-sensitive (ts)")}"          = "ts",
-                stop("unknown value in `f2_band`:", res)
+                stop("Unknown value in `f2_band`:", res)
             )'
         )
     }
@@ -122,15 +122,19 @@ window_test_normality <- function() {
         digits_p         <- get_values(f2_round_p)
         bins             <- get_values(f2_pearson_opts)
 
-        add_plot         <- get_values(f2_plot_enable)
+        use_plot         <- get_values(f2_plot_enable)
         new_plots_window <- get_values(f2_plot_opts, "new_plots_window")
         plot_in_colors   <- get_values(f2_plot_opts, "plot_in_colors")
         qq_detrend       <- get_values(f2_plot_opts, "qq_detrend")
         qq_line          <- get_values(f2_plot_opts, "qq_line")
         qq_band          <- get_values(f2_plot_opts, "qq_band")
         qq_band_type     <- get_band_type()
-        bootstrap_n      <- as.integer(get_values(f2_band_boot))  # positive integer in range 1000 - 1E4
-        conf_level       <- as.numeric(get_values(f2_conf))       # between 0 - 1
+
+        # positive integer in range 1000 - 1E4
+        bootstrap_n      <- as.integer(get_values(f2_band_boot))
+
+        # between 0 - 1
+        conf_level       <- as.numeric(get_values(f2_conf))
 
 
         # Chi-square bins ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -169,13 +173,15 @@ window_test_normality <- function() {
                 by_group         = by_group         ,
                 y_var            = y_var            ,
                 gr_var           = gr_var           ,
+
                 use_test         = use_test         ,
                 test_name        = test_name        ,
                 keep_results     = keep_results     ,
                 as_markdown      = as_markdown      ,
                 digits_p         = digits_p         ,
                 bins             = bins             ,
-                add_plot         = add_plot         ,
+
+                use_plot         = use_plot         ,
                 new_plots_window = new_plots_window ,
                 plot_in_colors   = plot_in_colors   ,
                 qq_detrend       = qq_detrend       ,
@@ -287,7 +293,7 @@ window_test_normality <- function() {
         #
         # qqplot_1
 
-        if (add_plot == TRUE) {
+        if (use_plot == TRUE) {
 
             if (new_plots_window == TRUE) {
                 open_new_plots_window()
@@ -339,29 +345,6 @@ window_test_normality <- function() {
     initializeDialog(title = gettext_bs("Test Normality by Group"))
     tk_title(top, text = "Normality Tests and Normal QQ Plots")
 
-
-    # by_group         = by_group
-    # y_var            = y_var
-    # gr_var           = gr_var
-
-    # use_test         = use_test
-    # test_name             = test_name
-    # keep_results     = keep_results
-    # as_markdown      = as_markdown
-    # digits_p         = digits_p
-    # bins             = bins
-
-    # add_plot         = add_plot
-    # new_plots_window = new_plots_window
-    # plot_in_colors   = plot_in_colors
-    # qq_detrend       = qq_detrend
-    # qq_line          = qq_line
-    # qq_band          = qq_band
-    # qq_band_type     = qq_band_type
-    # bootstrap_n      = bootstrap_n
-    # conf_level       = conf_level
-
-
     defaults <- list(
         # Variables
         y_var     = NULL,
@@ -383,9 +366,8 @@ window_test_normality <- function() {
         digits_p         = "3",
         bins             = gettext_bs("<auto>"),
 
-
         # QQ plot
-        add_plot         = TRUE,
+        use_plot         = TRUE,
         new_plots_window = TRUE,
         plot_in_colors   = TRUE,
         qq_detrend       = FALSE,
@@ -399,14 +381,7 @@ window_test_normality <- function() {
 
     initial <- getDialog("window_test_normality", defaults)
 
-
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Variables
-
-    # upper_frame <- labeled_frame(top, "Select variables")
-    # upper_frame <- tkframe(top)
-
     f0 <- tkframe(top)
 
     # F1 ---------------------------------------------------------------------
@@ -427,13 +402,10 @@ window_test_normality <- function() {
         ch_initial     = initial$by_group
     )
 
-
     # F2 ---------------------------------------------------------------------
     f2 <- tkframe(f0)
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # F2 test ----------------------------------------------------------------
-
     f2_num <- tk2labelframe(f2, text = "Test options")
 
     f2_num_enable <- bs_checkboxes(
@@ -448,7 +420,6 @@ window_test_normality <- function() {
 
     f2_num_opts <- bs_checkboxes(
         parent = f2_num_sub,
-        # title = "Numerical output options",
         border = FALSE,
         boxes = c("keep_results", "as_markdown"),
         labels = gettext_bs(c(
@@ -459,6 +430,7 @@ window_test_normality <- function() {
             initial$as_markdown
         )
     )
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f2_round_p <- bs_radiobuttons(
         parent  = f2_num_sub,
@@ -467,6 +439,7 @@ window_test_normality <- function() {
         layout  = "horizontal",
         value   = initial$digits_p
     )
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f2_test_name <- bs_combobox(
         parent = f2_num_sub,
@@ -499,17 +472,16 @@ window_test_normality <- function() {
 
     f2_plot_enable <- bs_checkboxes(
         parent   = f2_plot,
-        boxes    = "add_plot",
+        boxes    = "use_plot",
         labels   = gettext_bs("Draw normal QQ plot"),
-        values   = initial$add_plot,
-        commands = list("add_plot" = activate_plots)
+        values   = initial$use_plot,
+        commands = list("use_plot" = activate_plots)
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f2_plot_sub <- tk2frame(f2_plot)
 
     f2_plot_opts <- bs_checkboxes(
         parent = f2_plot_sub,
-        # title  = "Plot options",
         border = FALSE,
         boxes  = c("new_plots_window",
                    "plot_in_colors",
@@ -577,11 +549,12 @@ window_test_normality <- function() {
             ))
 
     # Layout -----------------------------------------------------------------
-
     tkgrid(f0)
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(f1, sticky = "nwe", padx = c(0, 4))
     tkgrid(f1_widget_y_gr$frame, sticky = "nwe", padx = c(10, 0))
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(f2, pady = c(5, 0), sticky = "")
     tkgrid(f2_num, f2_plot, padx = c(0, 5), sticky = "nse")
@@ -604,7 +577,6 @@ window_test_normality <- function() {
     tkgrid(f2_band_boot$frame, sticky = "e", padx = 0, pady = c(2, 0))
     tkgrid(f2_conf$frame,      sticky = "e", padx = 0, pady = 4)
 
-
     # Buttons ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ok_cancel_help(
         helpSubject = "shapiro.test",
@@ -613,12 +585,9 @@ window_test_normality <- function() {
         apply = "window_test_normality")
 
     tkgrid(buttonsFrame, sticky = "ew")
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     dialogSuffix()
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     activate_all()
-
 }
-
 
