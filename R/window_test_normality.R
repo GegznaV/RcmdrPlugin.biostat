@@ -22,6 +22,25 @@ window_test_normality <- function() {
         }
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    activate_results_name <- function() {
+        if (get_values(f2_num_opts, "keep_results")) {
+            tkgrid(f2_results_name$frame)
+
+        } else {
+            tkgrid.remove(f2_results_name$frame)
+        }
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    activate_pearson <- function() {
+
+        if (get_selection(f2_test_name) == gettext_bs("Pearson chi-square test")) {
+            tkgrid(f2_pearson_opts$frame)
+
+        } else {
+            tkgrid.remove(f2_pearson_opts$frame)
+        }
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     activate_plots <- function() {
 
         if (get_values(f2_plot_enable)) {
@@ -43,16 +62,6 @@ window_test_normality <- function() {
         }
     }
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    activate_pearson <- function() {
-
-        if (get_selection(f2_test_name) == gettext_bs("Pearson chi-square")) {
-            tkgrid(f2_pearson_opts$frame)
-
-        } else {
-            tkgrid.remove(f2_pearson_opts$frame)
-        }
-    }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     activate_band_options <- function() {
@@ -68,6 +77,7 @@ window_test_normality <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     activate_all <- function() {
         activate_tests()
+        activate_results_name()
         activate_pearson()
         activate_plots()
         activate_band()
@@ -78,13 +88,13 @@ window_test_normality <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_test_list <- function() {
         tibble::tribble(
-            ~name,                                          ~fun,
-            gettext_bs("Shapiro-Wilk")                    , "shapiro.test",
-            gettext_bs("Anderson-Darling")                , "ad.test",
-            gettext_bs("Cramer-von Mises")                , "cvm.test",
-            gettext_bs("Lilliefors (Kolmogorov-Smirnov)") , "lillie.test",
-            gettext_bs("Shapiro-Francia")                 , "sf.test",
-            gettext_bs("Pearson chi-square")              , "pearson.test")
+            ~name,                                             ~fun,
+            gettext_bs("Shapiro-Wilk test")                    , "shapiro.test",
+            gettext_bs("Anderson-Darling test")                , "ad.test",
+            gettext_bs("Cramer-von Mises test")                , "cvm.test",
+            gettext_bs("Lilliefors (Kolmogorov-Smirnov) test") , "lillie.test",
+            gettext_bs("Shapiro-Francia test")                 , "sf.test",
+            gettext_bs("Pearson chi-square test")              , "pearson.test")
     }
 
     get_test_function <- function() {
@@ -128,8 +138,9 @@ window_test_normality <- function() {
 
         use_test             <- get_values(f2_num_enable)
         test_function        <- get_test_function()
-        keep_results         <- get_values(f2_num_opts, "keep_results")
         as_markdown          <- get_values(f2_num_opts, "as_markdown")
+        keep_results         <- get_values(f2_num_opts, "keep_results")
+        results_name         <- get_values(f2_results_name)
         digits_p             <- get_values(f2_round_p)
         bins                 <- get_values(f2_pearson_opts)
 
@@ -147,14 +158,12 @@ window_test_normality <- function() {
         # between 0 - 1
         conf_level       <- as.numeric(get_values(f2_conf))
 
-
         # Chi-square bins ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         warn  <- options(warn = -1)
         nbins <- as.numeric(bins)
         options(warn)
 
-        if (bins != gettext_bs("<auto>") &&
-            (is.na(nbins) || nbins < 4)) {
+        if (bins != bins_auto && (is.na(nbins) || nbins < 4)) {
             errorCondition(
                 recall = window_test_normality,
                 message = gettext_bs("Number of bins must be a number >= 4")
@@ -163,7 +172,7 @@ window_test_normality <- function() {
         }
 
         chi_sq_params <-
-            if (test_function != "pearson.test" || bins == gettext_bs("<auto>")) {
+            if (test_function != "pearson.test" || bins == bins_auto) {
                 ""
             } else {
                 str_glue(",\n n.classes = ", bins)
@@ -190,15 +199,15 @@ window_test_normality <- function() {
                 digits_p         = digits_p         ,
                 bins             = bins             ,
 
-                use_plot             = use_plot         ,
-                new_plots_window     = new_plots_window ,
-                plot_in_colors       = plot_in_colors   ,
-                qq_detrend           = qq_detrend       ,
-                qq_line              = qq_line          ,
-                qq_band              = qq_band          ,
-                bootstrap_n          = bootstrap_n      ,
-                conf_level           = conf_level       ,
-                qq_bandtype_function = get_bandtype_name(qq_band_type)
+                use_plot         = use_plot         ,
+                new_plots_window = new_plots_window ,
+                plot_in_colors   = plot_in_colors   ,
+                qq_detrend       = qq_detrend       ,
+                qq_line          = qq_line          ,
+                qq_band          = qq_band          ,
+                bootstrap_n      = bootstrap_n      ,
+                conf_level       = conf_level       ,
+                qq_band_type     = get_bandtype_name(qq_bandtype_function)
             )
         )
 
@@ -211,8 +220,6 @@ window_test_normality <- function() {
         Library("nortest")
         Library("qqplotr")
 
-
-        test_obj <- unique_obj_names("shapiro_test_results")
 
         # For many groups ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (length(gr_var) > 0) {
@@ -265,17 +272,17 @@ window_test_normality <- function() {
             if (keep_results) {
                 ""
             } else {
-                "\n remove({test_obj})"
+                "\n remove({results_name})"
             }
 
         # Test results ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Command
         command <- str_glue(
-            "{test_obj} <- {.ds} %>%\n",
+            "{results_name} <- {.ds} %>%\n",
             "    {by_gr_str}",
             "    do(broom::tidy({test_function}(.${y_var}{chi_sq_params})))\n\n",
 
-            "{test_obj} %>% \n",
+            "{results_name} %>% \n",
             round_str,
             print_as_report,
             keep_results_str)
@@ -350,6 +357,7 @@ window_test_normality <- function() {
     # Initialize -------------------------------------------------------------
     .ds   <- active_dataset_0()
     nrows <- getRcmdr("nrow") # nrows in active dataset
+    bins_auto <- gettext("<auto>")
 
     initializeDialog(title = gettext_bs("Test Normality by Group"))
     tk_title(top, text = "Normality Tests and Normal QQ Plots")
@@ -368,12 +376,12 @@ window_test_normality <- function() {
             } else {
                 gettext_bs("Anderson-Darling")
             },
-        bins = gettext_bs("<auto>"),
+        bins = bins_auto,
 
         keep_results     = FALSE,
         as_markdown      = FALSE,
         digits_p         = "3",
-        bins             = gettext_bs("<auto>"),
+        bins             = bins_auto,
 
         # QQ plot
         use_plot         = TRUE,
@@ -430,16 +438,28 @@ window_test_normality <- function() {
     f2_num_opts <- bs_checkboxes(
         parent = f2_num_sub,
         border = FALSE,
-        boxes = c("keep_results", "as_markdown"),
+        boxes = c("as_markdown", "keep_results"),
         labels = gettext_bs(c(
-            "Keep test results in R memory",
-            "Print as Markdown table")),
+            "Print as Markdown table",
+            "Keep test results in R memory"
+            )),
+        commands = list(keep_results = activate_results_name),
         values = c(
-            initial$keep_results,
-            initial$as_markdown
+            initial$as_markdown,
+            initial$keep_results
         )
     )
 
+    f2_results_name <- bs_entry(
+        parent = f2_num_sub,
+        value  = unique_obj_names("normality"),
+        width  = 33,
+        label  = gettext_bs("Dataset name:"),
+        label_position = "above",
+        validate = "focus",
+        validatecommand = validate_var_name_string,
+        invalidcommand  = make_red_text
+    )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f2_round_p <- bs_radiobuttons(
         parent  = f2_num_sub,
@@ -452,26 +472,43 @@ window_test_normality <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f2_test_name <- bs_combobox(
         parent = f2_num_sub,
-        width = 29,
-        label = "Test:",
-        label_position = "above",
+        width = 30,
+        # label = "Test:",
+        # label_position = "above",
         values = c(
-            if (nrows <= 5000) gettext_bs("Shapiro-Wilk"),
-            gettext_bs("Anderson-Darling"),
-            gettext_bs("Cramer-von Mises"),
-            gettext_bs("Lilliefors (Kolmogorov-Smirnov)"),
-            if (nrows <= 5000) gettext_bs("Shapiro-Francia"),
-            gettext_bs("Pearson chi-square")
+            if (nrows <= 5000) gettext_bs("Shapiro-Wilk test"),
+            gettext_bs("Anderson-Darling test"),
+            gettext_bs("Cramer-von Mises test"),
+            gettext_bs("Lilliefors (Kolmogorov-Smirnov) test"),
+            if (nrows <= 5000) gettext_bs("Shapiro-Francia test"),
+            gettext_bs("Pearson chi-square test")
         ),
+        tip = "Name of normality test",
         value = initial$test_name,
         on_select = activate_pearson
     )
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    validate_pearson_bins <- function(P, W) {
+        # P - value
+        res <- is_pos_integer_str(P) || str_detect(P, bins_auto)
+
+        if (res == TRUE) {
+            tkconfigure(W, foreground = "black")
+            return(tcl("expr", "TRUE"))
+        } else {
+            return(tcl("expr", "FALSE"))
+        }
+    }
 
     f2_pearson_opts <- bs_entry(
         parent = f2_num_sub,
         value  = initial$bins,
         width  = "8",
         label  = gettext_bs("Number of bins for\nPearson chi-square"),
+        validate = "focus",
+        validatecommand = validate_pearson_bins,
+        invalidcommand  = make_red_text_reset_val(to = bins_auto)
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -529,6 +566,7 @@ window_test_normality <- function() {
             "Kolmogorov-Smirnov (ks)",
             "Tail-sensitive (ts)")),
         value = initial$qq_band_type,
+        tip = "Type of confidence band for qq-line",
         on_select = activate_band_options)
 
     f2_band_boot <-
@@ -551,11 +589,15 @@ window_test_normality <- function() {
             justify = "center",
             label   = "Confidence level",
             tip     = str_c(
-                "Number between 0 and 1.       \n\n",
+                "Number between 0 and 1.         \n",
+                "Usually 0.90, 0.95 or 0.99      \n\n",
                 "If signif - significance level, \n",
                 "conf - confidence level, then   \n",
                 "signif = 1 - conf"
-            ))
+            ),
+            validate = "key",
+            validatecommand = validate_num_0_1,
+            invalidcommand  = make_red_text)
 
     # Layout -----------------------------------------------------------------
     tkgrid(f0)
@@ -565,18 +607,21 @@ window_test_normality <- function() {
     tkgrid(f1_widget_y_gr$frame, sticky = "nwe", padx = c(10, 0))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(f2, pady = c(5, 0), sticky = "")
+    tkgrid(f2, pady = c(5, 0),  sticky = "")
     tkgrid(f2_num, f2_plot,     sticky = "nse", padx = c(0, 5))
 
     # Numerical options
-    tkgrid(f2_num_enable$frame, sticky = "nwe", padx = c(5, 60))
+    tkgrid(f2_num_enable$frame, sticky = "nwe", padx = c(5, 70))
     tkgrid(f2_num_sub)
-    tkgrid(f2_num_opts$frame,    sticky = "w",  padx = c(5, 0))
-    tkgrid(f2_round_p$frame,     sticky = "w",  padx = 5, pady = c(5, 0))
-    tkgrid(f2_round_p$frame_obj, sticky = "w")
     tkgrid(f2_test_name$frame,                  padx = 5, pady = c(3, 5))
     tkgrid(f2_pearson_opts$frame,
            sticky = "nse", padx = c(8, 5), pady = c(0, 0))
+    tkgrid(f2_num_opts$frame,    sticky = "w",  padx = c(5, 0))
+
+    tkgrid(f2_results_name$frame,sticky = "w",  padx = c(5, 0), pady = c(0, 0))
+    tkgrid(f2_round_p$frame,     sticky = "w",  padx = 5, pady = c(5, 0))
+    tkgrid(f2_round_p$frame_obj, sticky = "w")
+
 
     # Plot
     tkgrid(f2_plot_enable$frame, sticky = "nwe", padx = c(5, 43))
