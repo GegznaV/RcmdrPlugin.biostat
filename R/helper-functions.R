@@ -323,7 +323,7 @@ function_not_implemented <- function() {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-print_help <- function(topic, package = NULL, ...) {
+open_help <- function(topic, package = NULL, ...) {
     function() {
         print(utils::help((topic), package = (package), ...))
     }
