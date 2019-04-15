@@ -1,10 +1,11 @@
 # TODO:
-# - write onOK function.
 # - add tips.
 # - enable "groups in color" only if groups are selected (???)
-#
-
-# `qqplotr` Documentation: https://aloy.github.io/qqplotr/
+# - Context menu for dataset name:
+#       + to update and make unique name
+#       + to correct the name (apply clean_str())
+# - Add context menus to other entry fields:
+#       + e.g., to reset to default value.
 
 
 #' @rdname Menu-window-functions
@@ -24,6 +25,7 @@ window_test_normality <- function() {
             tkgrid.remove(f2_num_sub)
         }
     }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     activate_results_name <- function() {
         if (get_values(f2_keep_results, "keep_results")) {
@@ -44,6 +46,7 @@ window_test_normality <- function() {
             tkgrid.remove(f2_round_p$frame)
         }
     }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     activate_pearson <- function() {
 
@@ -76,7 +79,6 @@ window_test_normality <- function() {
             tkgrid.remove(f2_band$frame)
         }
     }
-
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     activate_band_options <- function() {
@@ -145,6 +147,7 @@ window_test_normality <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
+
         # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         cursor_set_busy(top)
         on.exit(cursor_set_idle(top))
@@ -182,11 +185,6 @@ window_test_normality <- function() {
 
         options(warn)
 
-
-        # Reset widget properties before checking ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-        # tkconfigure(name_entry, foreground = "black")
-
         # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         if ((!use_test) && (!use_plot)) {
@@ -199,7 +197,6 @@ window_test_normality <- function() {
 
             return()
         }
-
 
         # Checking - test ----------------------------------------------------
         if (use_test) {
@@ -326,40 +323,40 @@ window_test_normality <- function() {
 
             if (qq_detrend) {
 
-                y_label <- "Distance between empirical quantiles\\n and QQ line"
-                title_0 <- " (detrended)"
-                detrend_code <- "detrend = TRUE"
-
-                qq_points_code <- '    qqplotr::stat_qq_point(detrend = TRUE) + \n'
+                y_label <- "Distance between empirical \\n quantiles and QQ line"
+                title_detrend  <- " (detrended)"
+                detrend_code   <- "detrend = TRUE"
+                qq_points_code <- 'qqplotr::stat_qq_point(detrend = TRUE) + '
 
             } else {
 
                 y_label <- "Empirical quantiles"
-                title_0 <- ""
+                title_detrend <- ""
                 detrend_code <- NULL
-
-                qq_points_code <- '    qqplotr::stat_qq_point() + \n'
-
+                qq_points_code <- 'qqplotr::stat_qq_point() + '
             }
+
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             # If plot by group
-            use_color_code   <- 'color = "grey50"'
-            use_fill_code    <- ""
-            fill_legend_code <- ""
-            facet_code       <- ""
+            use_color_code <- 'color = "grey50"'
+            use_fill_code  <- ""
+            gr_legend_code <- NULL
+            facet_code     <- ""
 
             if (by_group) {
-                facet_code       <- str_glue('facet_wrap(~{gr_var_plot}, scales = "free") + ')
-                fill_legend_code <- 'fill = "Groups", \n color = "Groups",  \n'
+                facet_code     <- str_glue('facet_wrap(~{gr_var_plot}, scales = "free") + ')
+                gr_legend_code <- 'fill = "Groups", \n color = "Groups"'
 
                 if (plot_in_colors) {
                     if (length(gr_var) > 1) {
                         # Several grouping variables
-                        use_fill_code <- str_c(",\n", str_glue(
-                            'fill = interaction({gr_var_str}, sep = "|")'))
+                        use_fill_code <- str_glue(
+                            .trim = FALSE,
+                            ',\n fill = interaction({gr_var_str}, sep = "|")')
 
-                        use_color_code <- str_c("\n", str_glue(
-                            'mapping = aes(color = interaction({gr_var_str}, sep = "|"))'))
+                        use_color_code <- str_glue(
+                            .trim = FALSE,
+                            '\n mapping = aes(color = interaction({gr_var_str}, sep = "|"))')
 
                     } else if (length(gr_var) == 1) {
                         # One grouping variable
@@ -370,67 +367,75 @@ window_test_normality <- function() {
             }
 
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
             if (qq_band) {
+                bootstrap_n_code <- NULL
+                title_boot       <- ""
+                conf_band_name <-
+                    str_remove(get_bandtype_name(qq_bandtype_function), " \\(.*?\\)")
+                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-
-                    if (qq_bandtype_function == "boot") {
-                        bootstrap_n_code <- str_glue("B = {bootstrap_n}")
-                        title_boot       <- str_glue("({bootstrap_n} rep.)")
-
-                    } else {
-                        bootstrap_n_code <- NULL
-                        title_boot       <- ""
-                    }
+                if (qq_bandtype_function == "boot") {
+                    bootstrap_n_code <- str_glue("B = {bootstrap_n}", .trim = FALSE)
+                    title_boot       <- str_glue(" ({bootstrap_n} rep.)")
+                }
 
                 band_arg_code <- str_glue(str_c(
                     detrend_code,
                     "alpha = 0.3",
-                    'bandType = "{qq_bandtype_function}"',
-                    bootstrap_n_code,
                     "conf = {conf_level}",
+                    '\n bandType = "{qq_bandtype_function}"',
+                    bootstrap_n_code,
                     sep = ", "))
 
-                qq_band_code <- str_glue('    qqplotr::stat_qq_band({band_arg_code}) + ')
+                qq_band_code <- str_glue('qqplotr::stat_qq_band(\n{band_arg_code}) + ')
+
+                labs_subtitle <- str_glue(
+                    'subtitle = "Band: {conf_band_name}{title_boot}, ',
+                    'confidence level: {conf_level}"')
+
             } else {
                 qq_band_code <- ""
+                labs_subtitle <- NULL
             }
 
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             if (qq_line) {
                 line_arg_code <- str_c(detrend_code, {use_color_code}, sep = ", ")
-                qq_line_code <- str_glue('    qqplotr::stat_qq_line({line_arg_code}) + ')
+                qq_line_code <- str_glue('qqplotr::stat_qq_line({line_arg_code}) + ')
             } else {
                 qq_line_code <- ""
             }
 
-
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            conf_band_name <-
-                str_remove(get_bandtype_name(qq_bandtype_function), " \\(.*?\\)")
+            labs_x     <- 'x = "Theoretical quantiles"'
+            labs_y     <- str_glue('y = "{y_label}"')
+            labs_title <- str_glue('title = "Normal QQ plot{title_detrend} of {y_var}"')
+
+            lab_args_code <- str_c(
+                labs_x, labs_y, gr_legend_code, labs_title, labs_subtitle,
+                sep = ",\n        "
+            )
 
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             command_plot <-
                 str_glue(
                     .sep = "\n",
+                    .trim = FALSE,
                     "## Normal QQ plot",
                     'ggplot({.ds}, aes(sample = {y_var}{use_fill_code})) + ',
                     '    {qq_band_code}',
                     '    {qq_line_code}',
                     '    {qq_points_code}',
                     '    {facet_code}',
-
-                    '    labs(x = "Theoretical quantiles", ',
-                    '        y = "{y_label}",',
-                    '        {fill_legend_code}',
-                    '        title = "Normal QQ plot{title_0} of {y_var}",    ',
-                    '        subtitle = "Confidence level: {conf_level}, band: {conf_band_name}{title_boot}") + ',
+                    '    labs({lab_args_code}) + ',
                     '    theme_bw()') %>%
-                str_replace_all("((\n)?\n( )*?\n)", "\n")
+                str_replace_all("((\n)?    \n( )*?\n|\n\n|\n    \n)", "\n")
 
-
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             Library("qqplotr")
 
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             if (new_plots_window == TRUE) {
                 open_new_plots_window()
             }
@@ -492,8 +497,11 @@ window_test_normality <- function() {
                 print_results_code, "\n",
                 keep_results_str)
 
-
-            Library("nortest")
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            if (test_function != "shapiro.test") {
+                Library("nortest")
+            }
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         } else {
             command_do_test <- NULL
@@ -621,24 +629,6 @@ window_test_normality <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f2_num_sub <- tk2frame(f2_num)
 
-    # f2_num_opts <- bs_checkboxes(
-    #     parent = f2_num_sub,
-    #     border = FALSE,
-    #     boxes = c("as_markdown", "keep_results"),
-    #     labels = gettext_bs(c(
-    #         "Print as Markdown table",
-    #         "Keep test results in R memory"
-    #     )),
-    #     commands = list(
-    #         keep_results = activate_results_name,
-    #         as_markdown  = activate_round_p
-    #         ),
-    #     values = c(
-    #         initial$as_markdown,
-    #         initial$keep_results
-    #     )
-    # )
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f2_as_markdown <- bs_checkboxes(
         parent   = f2_num_sub,
@@ -652,7 +642,7 @@ window_test_normality <- function() {
     f2_round_p <- bs_radiobuttons(
         parent  = f2_num_sub,
         title   = "Round p-values to decimal digits: ",
-        buttons = c("2" = "2", "3" = "3", "4" = "4", "5" = "5", "8" = "more"),
+        buttons = c("2" = "2", "3" = "3", "4" = "4", "5" = "5", "10" = "more"),
         layout  = "horizontal",
         value   = initial$digits_p
     )
@@ -669,7 +659,7 @@ window_test_normality <- function() {
 
     f2_results_name <- bs_entry(
         parent = f2_num_sub,
-        value  = unique_obj_names("normality"),
+        value  = unique_obj_names("normality", all_numbered = TRUE),
         width  = 33,
         label  = gettext_bs("Dataset name:"),
         label_position = "above",
@@ -719,8 +709,8 @@ window_test_normality <- function() {
         validatecommand = validate_pearson_bins,
         invalidcommand  = make_red_text_reset_val(to = bins_auto)
     )
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # F2 plot ----------------------------------------------------------------
 
     f2_plot <- tk2labelframe(f2, text = "Plot options")
@@ -771,9 +761,9 @@ window_test_normality <- function() {
         label_position = "above",
         values = gettext_bs(c(
             "Point-wise (pointwise)",
-            "Parametric bootstrap (boot)",
+            "Tail-sensitive (ts)",
             "Kolmogorov-Smirnov (ks)",
-            "Tail-sensitive (ts)")),
+            "Parametric bootstrap (boot)")),
         value = initial$qq_band_type,
         tip = "Type of confidence band for qq-line",
         on_select = activate_band_options)
@@ -802,11 +792,11 @@ window_test_normality <- function() {
             justify = "center",
             label   = "Confidence level",
             tip     = str_c(
-                "Number between 0 and 1.         \n",
-                "Usually 0.90, 0.95 or 0.99.      \n\n",
-                "If 'signif' be significance level, \n",
-                "and 'conf' be confidence level.   \n",
-                "Then signif = 1 - conf."
+                "Number between 0 and 1.            \n",
+                "Usually 0.90, 0.95 or 0.99.        \n\n",
+                "Let 'signif' be significance level \n",
+                "and 'conf' be confidence level.    \n",
+                "Then: signif = 1 - conf"
             ),
             validate = "key",
             validatecommand = validate_num_0_1,
@@ -845,11 +835,81 @@ window_test_normality <- function() {
     tkgrid(f2_band_boot$frame,   sticky = "e",   padx = 0, pady = c(2, 0))
     tkgrid(f2_conf$frame,        sticky = "e",   padx = 0, pady = 4)
 
+    # Help menus -------------------------------------------------------------
+    help_menu <- function() {
+
+        menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
+
+        menu_qq <- tk2menu(menu_main, tearoff = FALSE)
+        menu_test <- tk2menu(menu_main, tearoff = FALSE)
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        tkadd(menu_main, "cascade",
+              label    = "Normality tests",
+              menu     = menu_test)
+
+        tkadd(menu_test, "command",
+              label    = "Shapiro-Wilk test for normality",
+              command  = open_help("shapiro.test", package = "stats"))
+
+        tkadd(menu_test, "command",
+              label    = "Anderson-Darling test for normality",
+              command  = open_help("ad.test", package = "nortest"))
+
+        tkadd(menu_test, "command",
+              label    = "Cramer-von Mises test for normality",
+              command  = open_help("cvm.test", package = "nortest"))
+
+        tkadd(menu_test, "command",
+              label    = "Shapiro-Francia test for normality",
+              command  = open_help("sf.test", package = "nortest"))
+
+        tkadd(menu_test, "command",
+              label    = "Pearson chi-square test for normality",
+              command  = open_help("pearson.test", package = "nortest"))
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        tkadd(menu_main, "cascade",
+              label    = "Quantile comparison (QQ) plot",
+              menu     = menu_qq)
+
+        tkadd(menu_qq, "command",
+              label    = "QQ points",
+              command  = open_help("stat_qq_point", package = "qqplotr"))
+
+        tkadd(menu_qq, "command",
+              label    = "QQ line",
+              command  = open_help("stat_qq_line", package = "qqplotr"))
+
+        tkadd(menu_qq, "command",
+              label    = "QQ band",
+              command  = open_help("stat_qq_band", package = "qqplotr"))
+
+        tkadd(menu_qq, "separator")
+
+        tkadd(menu_qq, "command",
+              label    = "Package 'qqplotr'",
+              command  = open_online_fun("https://aloy.github.io/qqplotr/articles/introduction.html"))
+
+        tkadd(menu_qq, "command",
+              label    = "QQ plot explained (YouTube)",
+              command  = open_online_fun("https://www.youtube.com/watch?v=okjYjClSjOg#t=9"))
+
+        tkadd(menu_qq, "command",
+              label    = "QQ plot interpretation (Stack Overflow forum)",
+              command  = open_online_fun("https://stats.stackexchange.com/questions/101274/how-to-interpret-a-qq-plot"))
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        tkpopup(menu_main,
+                tkwinfo("pointerx", top),
+                tkwinfo("pointery", top))
+    }
+
     # Buttons ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ok_cancel_help(
         close_on_ok = TRUE,
-        helpSubject = "shapiro.test",
-        # helpPackage = "stats",
+        on_help = help_menu,
+        reset_location = TRUE,
         reset = "window_test_normality",
         apply = "window_test_normality")
 
