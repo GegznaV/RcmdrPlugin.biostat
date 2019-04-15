@@ -848,30 +848,30 @@ bs_mode_menu__analyze <- function() {
     top <- CommanderWindow()
     menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
-    tkadd(menu_p, "command",
-          label      = "Association between categorical variables...",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          state      = set_menu_state(factorsP(2)),
-          command    = window_summary_count)
+    # tkadd(menu_p, "command",
+    #       label      = "Association between categorical variables...",
+    #       # compound = "left",
+    #       # image    = "::image::bs_open_file",
+    #       state      = set_menu_state(factorsP(2)),
+    #       command    = window_summary_count)
 
-    tkadd(menu_p, "command",
-          label      = "Normality test (univariate)...",
-          # compound = "left",
-          # image    = "::image::bs_open_file",
-          state      = set_menu_state(numericP()),
-          command    = window_test_normality)
+    # tkadd(menu_p, "command",
+    #       label      = "Normality test (univariate)...",
+    #       # compound = "left",
+    #       # image    = "::image::bs_open_file",
+    #       state      = set_menu_state(numericP()),
+    #       command    = window_test_normality)
 
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # # ~ Association / Correlation --------------------------------------------
-    # menu_a <- tk2menu(menu_p, tearoff = FALSE)
-    #
-    # tkadd(menu_p, "cascade",
-    #       label    = "Association / Correlation",
-    #       # compound = "left",
-    #       # image    = "::image::bs_open_file",
-    #       menu     = menu_a)
+    menu_a <- tk2menu(menu_p, tearoff = FALSE)
+
+    tkadd(menu_p, "cascade",
+          label    = "Association & Correlation",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          menu     = menu_a)
     #
     # tkadd(menu_a, "command",
     #       label      = "Correlation... [Rcmdr]",
@@ -902,29 +902,29 @@ bs_mode_menu__analyze <- function() {
     #       command    = RcmdrPlugin.EZR::StatMedSpearman)
     #
     # tkadd(menu_a, "separator")
-    #
-    # tkadd(menu_a, "command",
-    #       label      = "Association between categorical variables...",
-    #       # compound = "left",
-    #       # image    = "::image::bs_open_file",
-    #       state      = set_menu_state(factorsP(2)),
-    #       command    = window_summary_count)
+
+    tkadd(menu_a, "command",
+          label      = "Association between categorical variables...",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          # state      = set_menu_state(factorsP(2)),
+          command    = window_summary_count)
     #
     # # ~ Tests ----------------------------------------------------------------
-    # menu_t <- tk2menu(menu_p, tearoff = FALSE)
-    #
-    # tkadd(menu_p, "cascade",
-    #       label    = "Tests",
-    #       # compound = "left",
-    #       # image    = "::image::bs_open_file",
-    #       menu     = menu_t)
-    #
-    # tkadd(menu_t, "command",
-    #       label      = "Normality test (univariate)...",
-    #       # compound = "left",
-    #       # image    = "::image::bs_open_file",
-    #       state      = set_menu_state(numericP()),
-    #       command    = window_test_normality)
+    menu_t <- tk2menu(menu_p, tearoff = FALSE)
+
+    tkadd(menu_p, "cascade",
+          label    = "Tests",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          menu     = menu_t)
+
+    tkadd(menu_t, "command",
+          label      = "Normality test (univariate)...",
+          # compound = "left",
+          # image    = "::image::bs_open_file",
+          state      = set_menu_state(numericP()),
+          command    = window_test_normality)
 
     #
     #     # ~~ Central tendency ----------------------------------------------------
@@ -1206,7 +1206,7 @@ bs_mode_menu__settings <- function() {
           command  = window_online_homepage)
 
     tkadd(menu_ab, "command",
-          label    = "Feedback & bug report",
+          label    = "Feedback & bug reports",
           compound = "left",
           image    = "::image::bs_bug",
           command  = window_online_bug_report)
