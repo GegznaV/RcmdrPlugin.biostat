@@ -428,3 +428,4 @@ command_chk_packages_bs19 <- function() {
         doItAndPrint(command)
     }
 }
+
