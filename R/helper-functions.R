@@ -323,12 +323,19 @@ function_not_implemented <- function() {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Function that creates a function to be used in 'Help' context menus.
 open_help <- function(topic, package = NULL, ...) {
     function() {
         print(utils::help((topic), package = (package), ...))
     }
 }
 
+# Function that creates a function to be used in 'Help' context menus.
+open_online_fun <- function(url) {
+    function() {
+        open_online_tool(url)
+    }
+}
 
 # ___ Translate ___ ==========================================================
 
