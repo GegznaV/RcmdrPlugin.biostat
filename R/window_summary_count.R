@@ -264,7 +264,7 @@ window_summary_count <- function() {
         Library("tidyverse")
 
         vars_select <- c(x_var, y_var, z_var)
-        all_vars <- stringr::str_c("`", vars_select, "`", collapse = ", ")
+        all_vars <- stringr::str_c(safe_names(vars_select), collapse = ", ")
 
         n_vars <- length(vars_select)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -308,7 +308,7 @@ window_summary_count <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         my_table <- unique_obj_names("table", all_numbered = TRUE)
         command1 <-
-            str_glue('## Frequency table / Multi-way table\n\n',
+            str_glue('## Frequency table / Multi-way table\n',
                      "{my_table} <- {.ds} %>% \n",
                      'with(table({all_vars}, useNA = "ifany"))\n',
                      as_df_command,

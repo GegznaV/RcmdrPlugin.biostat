@@ -229,19 +229,19 @@ window_dataset_bind_rows <- function() {
                    ds_ids <- c(ds_1_id, ds_2_id, ds_3_id)
 
                    ds_names_cmd <-
-                       stringr::str_c("`", ds_ids, "` = `", ds_names, "`",
+                       stringr::str_c(safe_names(ds_ids), " = ", safe_names(ds_names),
                                       collapse = ", \n")
                    use_ids <- TRUE
                },
                id_numeric = {
                    ds_names_cmd <-
-                       stringr::str_c("`", ds_names, "`", collapse = ", ")
+                       stringr::str_c(safe_names(ds_names), collapse = ", ")
                    use_ids <- TRUE
 
                },
                id_none    = {
                    ds_names_cmd <-
-                       stringr::str_c("`", ds_names, "`", collapse = ", ")
+                       stringr::str_c(safe_names(ds_names), collapse = ", ")
                    use_ids <- FALSE
                }
         )
