@@ -25,7 +25,7 @@ window_test_normality <- function() {
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     activate_results_name <- function() {
-        if (get_values(f2_num_opts, "keep_results")) {
+        if (get_values(f2_keep_results, "keep_results")) {
             tkgrid(f2_results_name$frame)
 
         } else {
@@ -36,7 +36,7 @@ window_test_normality <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     activate_round_p <- function() {
 
-        if (get_values(f2_num_opts, "as_markdown")) {
+        if (get_values(f2_as_markdown, "as_markdown")) {
             tkgrid(f2_round_p$frame)
 
         } else {
@@ -156,8 +156,8 @@ window_test_normality <- function() {
 
         use_test             <- get_values(f2_num_enable)
         test_function        <- get_test_function()
-        as_markdown          <- get_values(f2_num_opts, "as_markdown")
-        keep_results         <- get_values(f2_num_opts, "keep_results")
+        as_markdown          <- get_values(f2_as_markdown, "as_markdown")
+        keep_results         <- get_values(f2_keep_results, "keep_results")
         results_name         <- get_values(f2_results_name)
         digits_p             <- get_values(f2_round_p)
         bins                 <- get_values(f2_pearson_opts)
@@ -319,17 +319,17 @@ window_test_normality <- function() {
             gr_var_plot <- ""
         }
 
-        # plot ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Commands - plot ----------------------------------------------------
 
         if (use_plot == TRUE) {
 
             if (qq_detrend) {
 
-                y_label <- "Distance between empirical \nquantiles and QQ line"
+                y_label <- "Distance between empirical \\nquantiles and QQ line"
                 title_0 <- " (detrended)"
                 detrend_code <- "detrend = TRUE"
 
-                qq_points_code <- '    qqplotr::stat_qq_point(detrend = TRUE) + '
+                qq_points_code <- '    qqplotr::stat_qq_point(detrend = TRUE) + \n'
 
             } else {
 
@@ -337,7 +337,7 @@ window_test_normality <- function() {
                 title_0 <- ""
                 detrend_code <- NULL
 
-                qq_points_code <- '    qqplotr::stat_qq_point() + '
+                qq_points_code <- '    qqplotr::stat_qq_point() + \n'
 
             }
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -349,15 +349,15 @@ window_test_normality <- function() {
             fill_legend_code <- ""
 
             if (by_group) {
-                facet_code       <- str_glue('facet_wrap(~{gr_var_plot}, scales = "free") + ')
-                fill_legend_code <- '\n fill = "Groups", \n color = "Groups",  '
+                facet_code       <- str_glue('facet_wrap(~{gr_var_plot}, scales = "free") + \n')
+                fill_legend_code <- 'fill = "Groups", \n color = "Groups",  \n'
 
                 if (plot_in_colors) {
                     if (length(gr_var) > 1) {
                         use_fill_code <- str_glue(
-                            ', fill = interaction({gr_var_str}, sep = "|")')
+                            ',\n fill = interaction({gr_var_str}, sep = "|")')
                         use_color_code <- str_glue(
-                            'mapping = aes(color = interaction({gr_var_str}, sep = "|"))')
+                            '\n mapping = aes(color = interaction({gr_var_str}, sep = "|"))')
 
                     } else if (length(gr_var) == 1) {
                         use_fill_code <- str_glue(', fill = {gr_var_str}')
@@ -374,7 +374,7 @@ window_test_normality <- function() {
                     'bandType = "{qq_bandtype_function}"',
                     sep = ", "))
 
-                qq_band_code <- str_glue('    qqplotr::stat_qq_band({band_arg_code}) + ')
+                qq_band_code <- str_glue('    qqplotr::stat_qq_band({band_arg_code}) + \n')
             } else {
                 qq_band_code <- ""
             }
@@ -382,7 +382,7 @@ window_test_normality <- function() {
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             if (qq_line) {
                 line_arg_code <- str_c(detrend_code, {use_color_code}, sep = ", ")
-                qq_line_code <- str_glue('    qqplotr::stat_qq_line({line_arg_code}) + ')
+                qq_line_code <- str_glue('    qqplotr::stat_qq_line({line_arg_code}) + \n')
             } else {
                 qq_line_code <- ""
             }
@@ -394,21 +394,18 @@ window_test_normality <- function() {
 
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             command_plot <- str_glue(
-                .sep = "\n",
-                "## Normal QQ plot",
-                'ggplot({.ds}, aes(sample = {y_var}{use_fill_code})) + ',
+                "## Normal QQ plot \n",
+                'ggplot({.ds}, aes(sample = {y_var}{use_fill_code})) + \n',
                 '    {qq_band_code}',
                 '    {qq_line_code}',
                 '    {qq_points_code}',
                 '    {facet_code}',
 
-                '    labs(x = "Theoretical quantiles", ',
-                '         y = "{y_label}",   {fill_legend_code}',
-                '         title = "Normal QQ plot{title_0} of {y_var}",    ',
-                '         subtitle = "Confidence level: {conf_level}, band: {conf_band_name}")')
-
-
-            command_plot <- str_replace(command_plot, "(\n){2,}", "\n")
+                '    labs(x = "Theoretical quantiles", \n',
+                '        y = "{y_label}",              \n',
+                '        {fill_legend_code}',
+                '        title = "Normal QQ plot{title_0} of {y_var}",    \n',
+                '        subtitle = "Confidence level: {conf_level}, band: {conf_band_name}") \n')
 
             Library("qqplotr")
 
@@ -420,7 +417,11 @@ window_test_normality <- function() {
             command_plot <- NULL
         }
 
+
+
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Commands - test ----------------------------------------------------
+
         if (use_test) {
 
             chi_sq_params <-
@@ -597,25 +598,54 @@ window_test_normality <- function() {
         values   = initial$use_test,
         commands = list("do_test"  = activate_tests)
     )
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f2_num_sub <- tk2frame(f2_num)
 
-    f2_num_opts <- bs_checkboxes(
-        parent = f2_num_sub,
-        border = FALSE,
-        boxes = c("as_markdown", "keep_results"),
-        labels = gettext_bs(c(
-            "Print as Markdown table",
-            "Keep test results in R memory"
-        )),
-        commands = list(
-            keep_results = activate_results_name,
-            as_markdown  = activate_round_p
-            ),
-        values = c(
-            initial$as_markdown,
-            initial$keep_results
-        )
+    # f2_num_opts <- bs_checkboxes(
+    #     parent = f2_num_sub,
+    #     border = FALSE,
+    #     boxes = c("as_markdown", "keep_results"),
+    #     labels = gettext_bs(c(
+    #         "Print as Markdown table",
+    #         "Keep test results in R memory"
+    #     )),
+    #     commands = list(
+    #         keep_results = activate_results_name,
+    #         as_markdown  = activate_round_p
+    #         ),
+    #     values = c(
+    #         initial$as_markdown,
+    #         initial$keep_results
+    #     )
+    # )
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    f2_as_markdown <- bs_checkboxes(
+        parent   = f2_num_sub,
+        border   = FALSE,
+        boxes    = "as_markdown",
+        labels   = gettext_bs("Print as Markdown table"),
+        commands = list(as_markdown  = activate_round_p),
+        values   = initial$as_markdown
+    )
+
+    f2_round_p <- bs_radiobuttons(
+        parent  = f2_num_sub,
+        title   = "Round p-values to decimal digits: ",
+        buttons = c("2" = "2", "3" = "3", "4" = "4", "5" = "5", "8" = "more"),
+        layout  = "horizontal",
+        value   = initial$digits_p
+    )
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    f2_keep_results <- bs_checkboxes(
+        parent   = f2_num_sub,
+        border   = FALSE,
+        boxes    = "keep_results",
+        labels   = gettext_bs("Keep test results in R memory"),
+        commands = list(keep_results = activate_results_name),
+        values   = initial$keep_results
     )
 
     f2_results_name <- bs_entry(
@@ -627,14 +657,6 @@ window_test_normality <- function() {
         validate = "focus",
         validatecommand = validate_var_name_string,
         invalidcommand  = make_red_text
-    )
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    f2_round_p <- bs_radiobuttons(
-        parent  = f2_num_sub,
-        title   = "Round p-values to decimal digits: ",
-        buttons = c("2" = "2", "3" = "3", "4" = "4", "5" = "5", "8" = "8"),
-        layout  = "horizontal",
-        value   = initial$digits_p
     )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -745,9 +767,9 @@ window_test_normality <- function() {
             justify = "right",
             label   = "Number of boot-\nstrap replicates",
             tip     = str_c(
-                "Positive integer. Usually number \n",
-                "between 1000 and 10 000. Larger numbers\n",
-                "result in longer calculations."),
+                "Positive integer. Usually number between \n",
+                "1000 and 10 000. Larger numbers result   \n",
+                "in longer calculations."),
             validate = "key",
             validatecommand = validate_pos_int,
             invalidcommand  = make_red_text
@@ -762,10 +784,10 @@ window_test_normality <- function() {
             label   = "Confidence level",
             tip     = str_c(
                 "Number between 0 and 1.         \n",
-                "Usually 0.90, 0.95 or 0.99      \n\n",
-                "If signif - significance level, \n",
-                "conf - confidence level, then   \n",
-                "signif = 1 - conf"
+                "Usually 0.90, 0.95 or 0.99.      \n\n",
+                "If 'signif' be significance level, \n",
+                "and 'conf' be confidence level.   \n",
+                "Then signif = 1 - conf."
             ),
             validate = "key",
             validatecommand = validate_num_0_1,
@@ -786,13 +808,14 @@ window_test_normality <- function() {
     tkgrid(f2_num_enable$frame, sticky = "nwe", padx = c(5, 70))
     tkgrid(f2_num_sub)
     tkgrid(f2_test_name$frame,                  padx = 5, pady = c(3, 5))
-    tkgrid(f2_pearson_opts$frame,
-           sticky = "nse", padx = c(8, 5), pady = c(0, 0))
-    tkgrid(f2_num_opts$frame,    sticky = "w",  padx = c(5, 0))
+    tkgrid(f2_pearson_opts$frame,sticky = "nse",padx = c(8, 5), pady = c(0, 2))
 
-    tkgrid(f2_results_name$frame,sticky = "w",  padx = c(5, 0), pady = c(0, 0))
-    tkgrid(f2_round_p$frame,     sticky = "w",  padx = 5, pady = c(5, 0))
+    tkgrid(f2_as_markdown$frame, sticky = "w",  padx = c(5, 0))
+    tkgrid(f2_round_p$frame,     sticky = "w",  padx = 5, pady = c(0, 5))
     tkgrid(f2_round_p$frame_obj, sticky = "w")
+
+    tkgrid(f2_keep_results$frame,sticky = "w",  padx = c(5, 0), pady = c(0, 0))
+    tkgrid(f2_results_name$frame,sticky = "w",  padx = c(5, 0), pady = c(0, 5))
 
 
     # Plot
