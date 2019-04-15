@@ -1,7 +1,7 @@
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-# This macro is based on function from Rcmdr package
+# This macro is based on function from Rcmdr package v2.5-1
 # window = top          -- parent window
 # helpSubject = NULL,   -- string with a help subject
 # model = FALSE,        --
@@ -9,7 +9,10 @@
 # apply = NULL,         -- string with a function to recall
 # helpPackage = NULL    -- package to search help topic in
 # on_help               -- function to run on help button press
-
+# close_on_ok           -- (flag) should `close_dialog()` be called, if onOK()
+#                          is successful.
+#                          # TRUE -> close on OK and do not reopen on Apply
+#
 ok_cancel_help <- Rcmdr::defmacro(
     window      = top,
     helpSubject = NULL,
@@ -18,8 +21,12 @@ ok_cancel_help <- Rcmdr::defmacro(
     apply       = NULL,
     helpPackage = NULL,
     on_help     = NULL,
+    on_apply    = NULL,
+    on_reset    = NULL,
+    close_on_ok = FALSE,
     sticky      = "w",
     ok_label    = "OK",
+    apply_label = "Apply",
     expr = {
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -51,9 +58,10 @@ ok_cancel_help <- Rcmdr::defmacro(
         button.strings <- c(
             gettext_bs(ok_label),
             gettext_bs("Cancel"),
+            if (!is.null(on_help))         gettext_bs("Help"),
             if (!is.null(helpSubject))     gettext_bs("Help"),
             if (!is.null(reset) && memory) gettext_bs("Reset"),
-            if (!is.null(apply))           gettext_bs("Apply")
+            if (!is.null(apply))           gettext_bs(apply_label)
         )
 
         width <- max(nchar(gettext_bs(button.strings)))
@@ -81,7 +89,11 @@ ok_cancel_help <- Rcmdr::defmacro(
             cursor_set_busy()
             on.exit(cursor_set_idle())
 
-            onOK()
+            res_of_ok <- onOK()
+
+            if (isTRUE(close_on_ok) && isTRUE(res_of_ok)) {
+                close_dialog()
+            }
 
             if (model) putDialog("effectPlots", NULL)
 
@@ -150,11 +162,12 @@ ok_cancel_help <- Rcmdr::defmacro(
         if (!is.null(helpSubject) || is.function(on_help)) {
             onHelp <- function() {
                 if (GrabFocus() && (!WindowsP())) tkgrab.release(window)
+
                 if (is.function(on_help)) {
                     on_help()
 
                 } else {
-                    # Conventional way to run help
+                    # Conventional Rcmdr way to run help
                     if (as.numeric(R.Version()$major) >= 2) {
                         print(help(helpSubject, package = helpPackage))
                     } else {
@@ -177,17 +190,28 @@ ok_cancel_help <- Rcmdr::defmacro(
 
         # START: reset -------------------------------------------------------
         if (!is.null(reset) && memory) {
+
+
             onReset <- function() {
                 ID <- window$ID
                 putRcmdr("cancelDialogReopen", TRUE)
-                putRcmdr("open.dialog.here", as.character(.Tcl(paste("winfo geometry", ID))))
+                putRcmdr("open.dialog.here",
+                         as.character(.Tcl(paste("winfo geometry", ID))))
+
                 if (model) putRcmdr("modelNumber", getRcmdr("modelNumber") - 1)
+
                 putDialog(reset, NULL)
                 putDialog(reset, NULL, resettable = FALSE)
 
-                closeDialog()
+                if (is.function(on_reset)) {
+                    on_reset()
 
-                eval_text(reset_fun)
+                } else {
+
+                    close_dialog()
+                    eval_text(reset_fun)
+                }
+
                 putRcmdr("open.dialog.here", NULL)
                 putRcmdr("restoreTab", FALSE)
             }
@@ -205,6 +229,7 @@ ok_cancel_help <- Rcmdr::defmacro(
 
         # START: apply -------------------------------------------------------
         if (!is.null(apply)) {
+
             onApply <- function() {
                 putRcmdr("restoreTab", TRUE)
                 putRcmdr("cancelDialogReopen", FALSE)
@@ -216,6 +241,7 @@ ok_cancel_help <- Rcmdr::defmacro(
                     putRcmdr("startNewCommandBlock", FALSE)
                     beginRmdBlock()
                 }
+
                 if (getRcmdr("use.knitr")) {
                     putRcmdr("startNewKnitrCommandBlock", FALSE)
                     beginRnwBlock()
@@ -257,9 +283,11 @@ ok_cancel_help <- Rcmdr::defmacro(
                     putRcmdr("cancelDialogReopen", FALSE)
 
                 } else {
-                    putRcmdr("open.dialog.here", wininfo)
-                    eval_text(apply_fun)
-                    putRcmdr("open.dialog.here", NULL)
+                    if (!isTRUE(close_on_ok)) { # close on OK and do not reopen on Apply
+                        putRcmdr("open.dialog.here", wininfo)
+                        eval_text(apply_fun)
+                        putRcmdr("open.dialog.here", NULL)
+                    }
                 }
             }
 
