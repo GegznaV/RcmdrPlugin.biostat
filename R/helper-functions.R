@@ -269,8 +269,15 @@ style_cmd <- function(command, indent_by = 2, ...) {
 try_command <- function(x) {
     safe_parse <-
         purrr::safely(parse, otherwise = structure("", class = "try-error"))
+    rez <- safe_parse(text = x)
 
-    safe_parse(text = x)$result
+    if (!is.null(rez$error)) {
+        structure(rez$error, class = "try-error")
+
+    } else {
+        rez$result
+    }
+
     # On error returns class "try-error" as `justDoIt()` does
 }
 
