@@ -32,16 +32,28 @@ window_test_normality <- function() {
             tkgrid.remove(f2_results_name$frame)
         }
     }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    activate_round_p <- function() {
+
+        if (get_values(f2_num_opts, "as_markdown")) {
+            tkgrid(f2_round_p$frame)
+
+        } else {
+            tkgrid.remove(f2_round_p$frame)
+        }
+    }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     activate_pearson <- function() {
 
-        if (get_selection(f2_test_name) == gettext_bs("Pearson chi-square test")) {
+        if (get_test_function() == "pearson.test") {
             tkgrid(f2_pearson_opts$frame)
 
         } else {
             tkgrid.remove(f2_pearson_opts$frame)
         }
     }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     activate_plots <- function() {
 
@@ -80,6 +92,7 @@ window_test_normality <- function() {
     activate_all <- function() {
         activate_tests()
         activate_results_name()
+        activate_round_p()
         activate_pearson()
         activate_plots()
         activate_band()
@@ -316,7 +329,7 @@ window_test_normality <- function() {
                 title_0 <- " (detrended)"
                 detrend_code <- "detrend = TRUE"
 
-                qq_points_code <- '    qqplotr::geom_qq_point(detrend = TRUE) + '
+                qq_points_code <- '    qqplotr::stat_qq_point(detrend = TRUE) + '
 
             } else {
 
@@ -324,8 +337,33 @@ window_test_normality <- function() {
                 title_0 <- ""
                 detrend_code <- NULL
 
-                qq_points_code <- '    qqplotr::geom_qq_point() + '
+                qq_points_code <- '    qqplotr::stat_qq_point() + '
 
+            }
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # ??? Manke less code here:
+
+            use_color_code <- 'color = "grey50"'
+            facet_code       <- ""
+            use_fill_code    <- ""
+            fill_legend_code <- ""
+
+            if (by_group) {
+                facet_code       <- str_glue('facet_wrap(~{gr_var_plot}, scales = "free") + ')
+                fill_legend_code <- '\n fill = "Groups", \n color = "Groups",  '
+
+                if (plot_in_colors) {
+                    if (length(gr_var) > 1) {
+                        use_fill_code <- str_glue(
+                            ', fill = interaction({gr_var_str}, sep = "|")')
+                        use_color_code <- str_glue(
+                            'mapping = aes(color = interaction({gr_var_str}, sep = "|"))')
+
+                    } else if (length(gr_var) == 1) {
+                        use_fill_code <- str_glue(', fill = {gr_var_str}')
+                        use_color_code <- str_glue('mapping = aes(color = {gr_var_str})')
+                    }
+                }
             }
 
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -336,49 +374,20 @@ window_test_normality <- function() {
                     'bandType = "{qq_bandtype_function}"',
                     sep = ", "))
 
-                qq_band_code <- str_glue('    qqplotr::geom_qq_band({band_arg_code}) + ')
+                qq_band_code <- str_glue('    qqplotr::stat_qq_band({band_arg_code}) + ')
             } else {
                 qq_band_code <- ""
             }
 
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             if (qq_line) {
-                line_arg_code <- str_c(detrend_code, 'color = "grey50"', sep = ", ")
-                qq_line_code <- str_glue('    qqplotr::geom_qq_line({line_arg_code}) + ')
+                line_arg_code <- str_c(detrend_code, {use_color_code}, sep = ", ")
+                qq_line_code <- str_glue('    qqplotr::stat_qq_line({line_arg_code}) + ')
             } else {
                 qq_line_code <- ""
             }
 
-            # ??? Manke less code here:
-            if (by_group) {
-                facet_code       <- str_glue('facet_wrap(~{gr_var_plot}, scales = "free") + ')
-                fill_legend_code <- 'fill = "Groups",   '
-                use_fill_code    <- ""
 
-                if (plot_in_colors) {
-                    if (length(gr_var) > 1) {
-                        use_fill_code <- str_glue(
-                            ', fill = interaction({gr_var_str}, sep = "|")')
-
-                    } else if (length(gr_var) == 1) {
-                        use_fill_code <- str_glue(', fill = {gr_var_str}')
-
-
-                    } else {
-                        use_fill_code    <- ""
-                        fill_legend_code <- ""
-
-                    }
-                } else {
-                    use_fill_code    <- ""
-                    fill_legend_code <- ""
-                }
-
-            } else {
-                facet_code       <- ""
-                use_fill_code    <- ""
-                fill_legend_code <- ""
-            }
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             conf_band_name <-
                 str_remove(get_bandtype_name(qq_bandtype_function), " \\(.*?\\)")
@@ -398,6 +407,8 @@ window_test_normality <- function() {
                 '         title = "Normal QQ plot{title_0} of {y_var}",    ',
                 '         subtitle = "Confidence level: {conf_level}, band: {conf_band_name}")')
 
+
+            command_plot <- str_replace(command_plot, "(\n){2,}", "\n")
 
             Library("qqplotr")
 
@@ -474,7 +485,7 @@ window_test_normality <- function() {
         result <- try_command(command)
 
         if (class(result)[1] == "try-error") {
-            logger_error(command, error_msg = result)
+            logger_error(command, error_msg = as.character(result))
             show_code_evaluation_error_message(parent = top)
             return()
         }
@@ -597,7 +608,10 @@ window_test_normality <- function() {
             "Print as Markdown table",
             "Keep test results in R memory"
         )),
-        commands = list(keep_results = activate_results_name),
+        commands = list(
+            keep_results = activate_results_name,
+            as_markdown  = activate_round_p
+            ),
         values = c(
             initial$as_markdown,
             initial$keep_results
