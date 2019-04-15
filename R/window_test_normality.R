@@ -2,6 +2,7 @@
 # - write onOK function.
 # - add tips.
 # - enable "groups in color" only if groups are selected (???)
+#
 
 # `qqplotr` Documentation: https://aloy.github.io/qqplotr/
 
@@ -325,7 +326,7 @@ window_test_normality <- function() {
 
             if (qq_detrend) {
 
-                y_label <- "Distance between empirical \\nquantiles and QQ line"
+                y_label <- "Distance between empirical quantiles\\n and QQ line"
                 title_0 <- " (detrended)"
                 detrend_code <- "detrend = TRUE"
 
@@ -341,26 +342,28 @@ window_test_normality <- function() {
 
             }
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            # ??? Manke less code here:
-
-            use_color_code <- 'color = "grey50"'
-            facet_code       <- ""
+            # If plot by group
+            use_color_code   <- 'color = "grey50"'
             use_fill_code    <- ""
             fill_legend_code <- ""
+            facet_code       <- ""
 
             if (by_group) {
-                facet_code       <- str_glue('facet_wrap(~{gr_var_plot}, scales = "free") + \n')
+                facet_code       <- str_glue('facet_wrap(~{gr_var_plot}, scales = "free") + ')
                 fill_legend_code <- 'fill = "Groups", \n color = "Groups",  \n'
 
                 if (plot_in_colors) {
                     if (length(gr_var) > 1) {
-                        use_fill_code <- str_glue(
-                            ',\n fill = interaction({gr_var_str}, sep = "|")')
-                        use_color_code <- str_glue(
-                            '\n mapping = aes(color = interaction({gr_var_str}, sep = "|"))')
+                        # Several grouping variables
+                        use_fill_code <- str_c(",\n", str_glue(
+                            'fill = interaction({gr_var_str}, sep = "|")'))
+
+                        use_color_code <- str_c("\n", str_glue(
+                            'mapping = aes(color = interaction({gr_var_str}, sep = "|"))'))
 
                     } else if (length(gr_var) == 1) {
-                        use_fill_code <- str_glue(', fill = {gr_var_str}')
+                        # One grouping variable
+                        use_fill_code  <- str_glue(', fill = {gr_var_str}')
                         use_color_code <- str_glue('mapping = aes(color = {gr_var_str})')
                     }
                 }
@@ -368,13 +371,27 @@ window_test_normality <- function() {
 
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             if (qq_band) {
+
+
+
+                    if (qq_bandtype_function == "boot") {
+                        bootstrap_n_code <- str_glue("B = {bootstrap_n}")
+                        title_boot       <- str_glue("({bootstrap_n} rep.)")
+
+                    } else {
+                        bootstrap_n_code <- NULL
+                        title_boot       <- ""
+                    }
+
                 band_arg_code <- str_glue(str_c(
                     detrend_code,
                     "alpha = 0.3",
                     'bandType = "{qq_bandtype_function}"',
+                    bootstrap_n_code,
+                    "conf = {conf_level}",
                     sep = ", "))
 
-                qq_band_code <- str_glue('    qqplotr::stat_qq_band({band_arg_code}) + \n')
+                qq_band_code <- str_glue('    qqplotr::stat_qq_band({band_arg_code}) + ')
             } else {
                 qq_band_code <- ""
             }
@@ -382,7 +399,7 @@ window_test_normality <- function() {
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             if (qq_line) {
                 line_arg_code <- str_c(detrend_code, {use_color_code}, sep = ", ")
-                qq_line_code <- str_glue('    qqplotr::stat_qq_line({line_arg_code}) + \n')
+                qq_line_code <- str_glue('    qqplotr::stat_qq_line({line_arg_code}) + ')
             } else {
                 qq_line_code <- ""
             }
@@ -393,19 +410,24 @@ window_test_normality <- function() {
                 str_remove(get_bandtype_name(qq_bandtype_function), " \\(.*?\\)")
 
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            command_plot <- str_glue(
-                "## Normal QQ plot \n",
-                'ggplot({.ds}, aes(sample = {y_var}{use_fill_code})) + \n',
-                '    {qq_band_code}',
-                '    {qq_line_code}',
-                '    {qq_points_code}',
-                '    {facet_code}',
+            command_plot <-
+                str_glue(
+                    .sep = "\n",
+                    "## Normal QQ plot",
+                    'ggplot({.ds}, aes(sample = {y_var}{use_fill_code})) + ',
+                    '    {qq_band_code}',
+                    '    {qq_line_code}',
+                    '    {qq_points_code}',
+                    '    {facet_code}',
 
-                '    labs(x = "Theoretical quantiles", \n',
-                '        y = "{y_label}",              \n',
-                '        {fill_legend_code}',
-                '        title = "Normal QQ plot{title_0} of {y_var}",    \n',
-                '        subtitle = "Confidence level: {conf_level}, band: {conf_band_name}") \n')
+                    '    labs(x = "Theoretical quantiles", ',
+                    '        y = "{y_label}",',
+                    '        {fill_legend_code}',
+                    '        title = "Normal QQ plot{title_0} of {y_var}",    ',
+                    '        subtitle = "Confidence level: {conf_level}, band: {conf_band_name}{title_boot}") + ',
+                    '    theme_bw()') %>%
+                str_replace_all("((\n)?\n( )*?\n)", "\n")
+
 
             Library("qqplotr")
 
@@ -416,8 +438,6 @@ window_test_normality <- function() {
         } else {
             command_plot <- NULL
         }
-
-
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Commands - test ----------------------------------------------------
@@ -482,7 +502,7 @@ window_test_normality <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         command <- str_c(command_plot, command_do_test, sep = "\n\n")
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # Checks for syntax error
+        # Checks for syntax errors
         result <- try_command(command)
 
         if (class(result)[1] == "try-error") {
@@ -492,20 +512,19 @@ window_test_normality <- function() {
         }
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # Checks for evaluation error
+        # Checks for code evaluation errors
         result <- doItAndPrint(style_cmd(command))
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (class(result)[1] != "try-error") {
+        if (class(result)[1] == "try-error") {
 
-            # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            closeDialog()
-
-
-        } else {
             logger_error(command, error_msg = result)
             show_code_evaluation_error_message(parent = top)
             return()
+
+        } else {
+            # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # close_dialog()
         }
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -525,7 +544,7 @@ window_test_normality <- function() {
     nrows <- getRcmdr("nrow") # nrows in active dataset
     bins_auto <- gettext("<auto>")
 
-    initializeDialog(title = gettext_bs("Test Normality by Group"))
+    initialize_dialog(title = gettext_bs("Test Normality by Group"))
     tk_title(top, text = "Normality Tests and Normal QQ Plots")
 
     defaults <- list(
@@ -828,6 +847,7 @@ window_test_normality <- function() {
 
     # Buttons ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ok_cancel_help(
+        close_on_ok = TRUE,
         helpSubject = "shapiro.test",
         # helpPackage = "stats",
         reset = "window_test_normality",
