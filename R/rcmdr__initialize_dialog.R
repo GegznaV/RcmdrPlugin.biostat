@@ -1,3 +1,5 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Based on funcrion from Rcmdr v 2.5-1
 initialize_dialog <- defmacro(
     window   = top,
     title    = "",
@@ -33,3 +35,4 @@ initialize_dialog <- defmacro(
         if (suppress.window.resize.buttons) tkwm.transient(window, parent)
     }
 )
+
