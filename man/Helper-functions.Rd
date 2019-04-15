@@ -473,8 +473,8 @@ get_selection_combobox(combobox)
 \method{tk_get_state}{combobox}(obj, ...)
 
 ok_cancel_help(window = top, helpSubject = NULL, model = FALSE,
-  reset = NULL, apply = NULL, helpPackage = NULL, sticky = "w",
-  ok_label = "OK")
+  reset = NULL, apply = NULL, helpPackage = NULL, on_help = NULL,
+  sticky = "w", ok_label = "OK")
 
 variableListBox2(parentWindow, variableList = Variables(),
   bg = "white", selectmode = "single", export = "FALSE",
