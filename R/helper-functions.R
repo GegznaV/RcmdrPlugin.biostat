@@ -322,6 +322,13 @@ function_not_implemented <- function() {
     Message(msg, type = "warning")
 }
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+print_help <- function(topic, package = NULL, ...) {
+    function() {
+        print(utils::help((topic), package = (package), ...))
+    }
+}
+
 
 # ___ Translate ___ ==========================================================
 
