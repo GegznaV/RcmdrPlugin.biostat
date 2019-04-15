@@ -8,6 +8,7 @@
 # reset = NULL,         -- string with a function to recall
 # apply = NULL,         -- string with a function to recall
 # helpPackage = NULL    -- package to search help topic in
+# on_help               -- function to run on help button press
 
 ok_cancel_help <- Rcmdr::defmacro(
     window      = top,
@@ -16,6 +17,7 @@ ok_cancel_help <- Rcmdr::defmacro(
     reset       = NULL,
     apply       = NULL,
     helpPackage = NULL,
+    on_help     = NULL,
     sticky      = "w",
     ok_label    = "OK",
     expr = {
@@ -145,15 +147,22 @@ ok_cancel_help <- Rcmdr::defmacro(
 
 
         # START: help --------------------------------------------------------
-        if (!is.null(helpSubject)) {
+        if (!is.null(helpSubject) || is.function(on_help)) {
             onHelp <- function() {
                 if (GrabFocus() && (!WindowsP())) tkgrab.release(window)
-                if (as.numeric(R.Version()$major) >= 2) {
-                    print(help(helpSubject, package = helpPackage))
+                if (is.function(on_help)) {
+                    on_help()
+
                 } else {
-                    help(helpSubject, package = helpPackage)
+                    # Conventional way to run help
+                    if (as.numeric(R.Version()$major) >= 2) {
+                        print(help(helpSubject, package = helpPackage))
+                    } else {
+                        help(helpSubject, package = helpPackage)
+                    }
                 }
             }
+
             helpButton <- buttonRcmdr(
                 leftButtonsBox,
                 text          = gettext_bs("Help"),
@@ -175,11 +184,14 @@ ok_cancel_help <- Rcmdr::defmacro(
                 if (model) putRcmdr("modelNumber", getRcmdr("modelNumber") - 1)
                 putDialog(reset, NULL)
                 putDialog(reset, NULL, resettable = FALSE)
+
                 closeDialog()
+
                 eval_text(reset_fun)
                 putRcmdr("open.dialog.here", NULL)
                 putRcmdr("restoreTab", FALSE)
             }
+
             resetButton <- buttonRcmdr(
                 leftButtonsBox,
                 text     = gettext_bs("Reset"),
