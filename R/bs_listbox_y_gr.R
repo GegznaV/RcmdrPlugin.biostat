@@ -1,8 +1,7 @@
 # * Y and Groups box =====================================================
 
-
-#' @name bs_listboxes_y_gr
 #' Widget: two listboxes with checkbox
+#'
 #' @keywords internal
 #' @export
 #' @examples
