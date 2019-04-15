@@ -868,7 +868,8 @@ bs_mode_menu__analyze <- function() {
     menu_a <- tk2menu(menu_p, tearoff = FALSE)
 
     tkadd(menu_p, "cascade",
-          label    = "Association & Correlation",
+          label      = "Relationship",
+          # label    = "Association & Correlation",
           # compound = "left",
           # image    = "::image::bs_open_file",
           menu     = menu_a)
