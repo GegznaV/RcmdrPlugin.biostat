@@ -186,7 +186,6 @@ set_biostat_mode <- function() {
     # New layout -------------------------------------------------------------
     tkgrid(logo,
            button_import,
-           button_datasets,
            button_export,
            button_view,
            button_summary,
@@ -194,6 +193,7 @@ set_biostat_mode <- function() {
            button_variables,
            button_analysis,
            button_plots,
+           button_datasets,
            button_other,
            button_refresh,
            lab_data, button_data,
