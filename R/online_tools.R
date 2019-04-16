@@ -407,7 +407,7 @@ window_online_bug_report <- function() {
 command_chk_packages_bs19 <- function() {
     command <- str_c(
         '## Check R, RStudio and R package versions required for BS-2019 course\n',
-        '## (output is in Lithuanian)\n',
+        '## (output is in Lithuanian)\n\n',
         'source("https://mokymai.github.io/biostatistika-2019/tikrink_paketus.R", ',
         'encoding = "UTF-8")')
 
