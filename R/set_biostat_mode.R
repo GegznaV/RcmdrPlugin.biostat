@@ -1301,20 +1301,20 @@ bs_mode_menu__datasets <- function() {
 
     tkadd(menu_j, "command",
           label    = "Join two datasets by matching rows...",
-          # compound = "left",
-          # image    = "::image::bs_folder",
+          compound = "left",
+          image    = "::image::bs_join",
           command  = window_dataset_join)
 
     tkadd(menu_j, "command",
           label    = "Bind rows of several datasets...",
-          # compound = "left",
-          # image    = "::image::bs_copy",
+          compound = "left",
+          image    = "::image::bs_bind_rows",
           command  = window_dataset_bind_rows)
 
     tkadd(menu_j, "command",
           label    = "Bind columns of several datasets...",
-          # compound = "left",
-          # image    = "::image::bs_rename",
+          compound = "left",
+          image    = "::image::bs_bind_cols",
           command  = window_dataset_bind_cols)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

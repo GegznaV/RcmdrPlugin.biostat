@@ -131,7 +131,12 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_find"     , "icons/edit-find-7.png")
     bs_tkimage_create("::image::bs_refresh"  , "icons/refresh.png")
 
-    bs_tkimage_create("::image::bs_chk_pkgs" , "icons/refresh.png")
+
+    bs_tkimage_create("::image::bs_chk_pkgs" , "icons/view-refresh-6.png")
+
+    bs_tkimage_create("::image::bs_join"     , "icons/application-side-list.png")
+    bs_tkimage_create("::image::bs_bind_rows", "icons/application-tile-vertical.png")
+    bs_tkimage_create("::image::bs_bind_cols", "icons/application-tile-horizontal.png")
 
     bs_tkimage_create("::image::bs_open_file", "icons/document-open.png")
     bs_tkimage_create("::image::bs_open_dir" , "icons/document-open-folder.png")
