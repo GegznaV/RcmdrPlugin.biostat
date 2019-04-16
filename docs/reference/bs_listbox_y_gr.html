@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Does active dataset contain logicals? — logicalP • RcmdrPlugin.biostat</title>
+<title>Widget: two listboxes with checkbox — bs_listbox_y_gr • RcmdrPlugin.biostat</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -31,9 +31,9 @@
 
 
 
-<meta property="og:title" content="Does active dataset contain logicals? — logicalP" />
+<meta property="og:title" content="Widget: two listboxes with checkbox — bs_listbox_y_gr" />
 
-<meta property="og:description" content="Return TRUE, if at least n locical variables exist in the active dataset." />
+<meta property="og:description" content="Widget: two listboxes with checkbox" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -104,35 +104,45 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Does active dataset contain logicals?</h1>
+    <h1>Widget: two listboxes with checkbox</h1>
     
-    <div class="hidden name"><code>logicalP.Rd</code></div>
+    <div class="hidden name"><code>bs_listbox_y_gr.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Return TRUE, if at least n locical variables exist in the active dataset.</p>
+    <p>Widget: two listboxes with checkbox</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>logicalP</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>n</th>
-      <td><p>Minimum number of logical variables</p></td>
-    </tr>
-    </table>
-    
+    <pre class="usage"><span class='fu'>bs_listbox_y_gr</span>(<span class='kw'>parent</span> <span class='kw'>=</span> <span class='no'>top</span>, <span class='kw'>y_title</span> <span class='kw'>=</span> <span class='no'>title_var_1</span>,
+  <span class='kw'>y_var_type</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>, <span class='kw'>y_vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y_initial</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>y_select_mode</span> <span class='kw'>=</span> <span class='st'>"single"</span>, <span class='kw'>y_params</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(),
+  <span class='kw'>gr_title</span> <span class='kw'>=</span> <span class='no'>title_gr_0_n</span>, <span class='kw'>gr_var_type</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>,
+  <span class='kw'>gr_vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>gr_initial</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>gr_select_mode</span> <span class='kw'>=</span> <span class='st'>"multiple"</span>,
+  <span class='kw'>gr_on_select</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>gr_params</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(),
+  <span class='kw'>ch_label</span> <span class='kw'>=</span> <span class='st'>"Use groups"</span>, <span class='kw'>ch_initial</span> <span class='kw'>=</span> <span class='st'>"0"</span>, <span class='kw'>ch_command</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>ch_params</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='kw'>list_height</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>list_width</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>25</span>, <span class='fl'>Inf</span>),
+  <span class='kw'>add_to_grid</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+        
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"># NOT RUN {
+\donttest{
+# Active dataset must be selected
+top <- tktoplevel()
+lb <- bs_listbox_y_gr(top)
+tkgrid(lb$frame)
+}
+# }
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-                </ul>
+            
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

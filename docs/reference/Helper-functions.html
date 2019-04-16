@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RcmdrPlugin.biostat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.27</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.28</span>
       </span>
     </div>
 
@@ -213,15 +213,6 @@
 
 <span class='co'># S3 method for listbox</span>
 <span class='fu'><a href='tk_activate.html'>tk_get_state</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
-
-<span class='fu'>tk_widget_boxes_y_gr</span>(<span class='kw'>parent_frame</span> <span class='kw'>=</span> <span class='no'>top</span>, <span class='kw'>y_title</span> <span class='kw'>=</span> <span class='no'>title_var_1</span>,
-  <span class='kw'>y_var_type</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>, <span class='kw'>y_vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y_initial</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>y_select_mode</span> <span class='kw'>=</span> <span class='st'>"single"</span>, <span class='kw'>y_params</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(),
-  <span class='kw'>gr_title</span> <span class='kw'>=</span> <span class='no'>title_gr_0_n</span>, <span class='kw'>gr_var_type</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>,
-  <span class='kw'>gr_vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>gr_initial</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>gr_select_mode</span> <span class='kw'>=</span> <span class='st'>"multiple"</span>,
-  <span class='kw'>gr_params</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='kw'>ch_label</span> <span class='kw'>=</span> <span class='st'>"Use groups"</span>, <span class='kw'>ch_initial</span> <span class='kw'>=</span> <span class='st'>"0"</span>,
-  <span class='kw'>ch_commands</span> <span class='kw'>=</span> <span class='kw'>function</span>() { }, <span class='kw'>ch_params</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='kw'>listHeight</span> <span class='kw'>=</span> <span class='fl'>7</span>,
-  <span class='kw'>listWidth</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>25</span>, <span class='fl'>Inf</span>), <span class='kw'>add_to_grid</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># S3 method for bs_radiobuttons</span>
 <span class='fu'>get_values</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
@@ -488,8 +479,9 @@
 <span class='fu'><a href='tk_activate.html'>tk_get_state</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
 
 <span class='fu'>ok_cancel_help</span>(<span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>top</span>, <span class='kw'>helpSubject</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>model</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>reset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>apply</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>helpPackage</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sticky</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
-  <span class='kw'>ok_label</span> <span class='kw'>=</span> <span class='st'>"OK"</span>)
+  <span class='kw'>reset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>apply</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>helpPackage</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>on_help</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>close_on_ok</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>reset_location</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>sticky</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
+  <span class='kw'>ok_label</span> <span class='kw'>=</span> <span class='st'>"OK"</span>, <span class='kw'>apply_label</span> <span class='kw'>=</span> <span class='st'>"Apply"</span>, <span class='kw'>reset_label</span> <span class='kw'>=</span> <span class='st'>"Reset"</span>)
 
 <span class='fu'>variableListBox2</span>(<span class='no'>parentWindow</span>, <span class='kw'>variableList</span> <span class='kw'>=</span> <span class='fu'>Variables</span>(),
   <span class='kw'>bg</span> <span class='kw'>=</span> <span class='st'>"white"</span>, <span class='kw'>selectmode</span> <span class='kw'>=</span> <span class='st'>"single"</span>, <span class='kw'>export</span> <span class='kw'>=</span> <span class='st'>"FALSE"</span>,
