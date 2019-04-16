@@ -37,9 +37,11 @@ The names must match the values of "buttons".}
 
 \item{layout}{(string) One of "vertical" (default) and "horizontal".}
 
-\item{sticky_buttons}{(string) `sticky` option for buttons.}
+\item{sticky_buttons}{(string) tkgrid `sticky` option for buttons.}
 
-\item{sticky_title}{(string) `sticky` option for title (if no border is used).}
+\item{sticky_buttons_frame}{(string) tkgrid `sticky` option for buttons frame}
+
+\item{sticky_title}{(string) tkgrid `sticky` option for title (if no border is used).}
 }
 \value{
 A named list with fields `frame` (frame with the radiobuttons),
