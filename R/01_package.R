@@ -145,7 +145,8 @@ biostat_env$use_relative_path <- TRUE
 
     bs_tkimage_create("::image::bs_import",    "icons/bs_import.png")
     bs_tkimage_create("::image::bs_export",    "icons/bs_export.png")
-    bs_tkimage_create("::image::bs_object",    "icons/page-white.png")
+    bs_tkimage_create("::image::bs_object",    "icons/emblem-documents.png")
+    bs_tkimage_create("::image::bs_object1",   "icons/page-white.png")
     bs_tkimage_create("::image::bs_new_doc",   "icons/document-new-3.png")
     bs_tkimage_create("::image::bs_preview",   "icons/document-preview.png")
     bs_tkimage_create("::image::bs_new_window","icons/window-new.png")
@@ -158,7 +159,7 @@ biostat_env$use_relative_path <- TRUE
 
 
     bs_tkimage_create("::image::bs_package",   "icons/package-green.png")
-    bs_tkimage_create("::image::bs_text",      "icons/bs_t.png")
+    bs_tkimage_create("::image::bs_text",      "icons/bs_txt.png")
     bs_tkimage_create("::image::bs_pptx",      "icons/page-white_powerpoint.png")
     bs_tkimage_create("::image::bs_excel",     "icons/page-white_excel.png")
     bs_tkimage_create("::image::bs_word",      "icons/page-white_word.png")
