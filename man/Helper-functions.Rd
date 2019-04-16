@@ -475,7 +475,8 @@ get_selection_combobox(combobox)
 ok_cancel_help(window = top, helpSubject = NULL, model = FALSE,
   reset = NULL, apply = NULL, helpPackage = NULL, on_help = NULL,
   close_on_ok = FALSE, reset_location = FALSE, sticky = "w",
-  ok_label = "OK", apply_label = "Apply", reset_label = "Reset")
+  ok_label = "OK", apply_label = "Apply", reset_label = "Reset",
+  after_apply_fun = do_nothing)
 
 variableListBox2(parentWindow, variableList = Variables(),
   bg = "white", selectmode = "single", export = "FALSE",
