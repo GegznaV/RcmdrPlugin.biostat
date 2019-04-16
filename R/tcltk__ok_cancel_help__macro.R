@@ -28,7 +28,8 @@ ok_cancel_help <- Rcmdr::defmacro(
     ok_label       = "OK",
     apply_label    = "Apply",
     reset_label    = "Reset",
-    after_apply_fun = do_nothing,
+    after_apply_fun         = do_nothing, # is always applied.
+    after_apply_success_fun = do_nothing, # is applied if onOK() returns TRUE.
 
     expr = {
 
@@ -294,6 +295,10 @@ ok_cancel_help <- Rcmdr::defmacro(
                 }
 
                 after_apply_fun()
+
+                if (isTRUE(res_of_ok)) {
+                    after_apply_success_fun()
+                }
             }
 
             applyButton <- buttonRcmdr(
