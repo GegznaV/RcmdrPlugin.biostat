@@ -28,6 +28,7 @@ ok_cancel_help <- Rcmdr::defmacro(
     ok_label       = "OK",
     apply_label    = "Apply",
     reset_label    = "Reset",
+    after_apply_fun = do_nothing,
 
     expr = {
 
@@ -291,6 +292,8 @@ ok_cancel_help <- Rcmdr::defmacro(
                         putRcmdr("open.dialog.here", NULL)
                     }
                 }
+
+                after_apply_fun()
             }
 
             applyButton <- buttonRcmdr(
