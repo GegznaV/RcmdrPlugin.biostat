@@ -15,6 +15,7 @@
 #' @import stringr
 #' @import purrr
 #' @import nortest
+#' @import ggplot2
 #' @importFrom dplyr glimpse is_grouped_df
 #' @importFrom magrittr "%>%"  "%<>%"  "%T>%"  "%$%"
 #' @importFrom graphics plot
