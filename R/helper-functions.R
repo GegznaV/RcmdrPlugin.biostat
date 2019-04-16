@@ -387,18 +387,19 @@ logger_error <- function(command = NULL, error_msg = NULL) {
 
     if (!is.null(command)) {
         logger(str_c("#### START (code with error) ", spaces(50, "-")), rmd = FALSE)
-        rez <- logger(str_c("   #   ", str_split(command,"\n")[[1]],
-                            collapse = "\n"), rmd = FALSE)
+        rez <- logger(str_c(
+            "   #   ", str_split(command,"\n")[[1]], collapse = "\n"),  rmd = FALSE)
 
         txt <- "-----"
+
     } else {
         txt <- "START"
     }
 
     if (!is.null(error_msg)) {
         logger(str_c("#### ", txt ," (error message) ", spaces(52, "-")), rmd = FALSE)
-        rez <- logger(str_c("   #   ", str_split(error_msg,"\n")[[1]],
-                            collapse = "\n"), rmd = FALSE)
+        rez <- logger(str_c(
+            "   #   ", str_split(error_msg,"\n")[[1]], collapse = "\n"),  rmd = FALSE)
     }
 
     logger(str_c("#### END ", spaces(70, "-")), rmd = FALSE)
