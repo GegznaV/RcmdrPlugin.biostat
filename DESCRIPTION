@@ -61,6 +61,7 @@ Imports:
     dplyr (>= 0.8.0),
     forcats,
     fs (>= 1.2.7),
+    ggplot2,
     ggfortify,
     graphics,
     grDevices,
