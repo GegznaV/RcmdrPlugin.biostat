@@ -17,8 +17,9 @@
 #' @param default_tip (string) a default tip.
 #' @param border (logical) Flag if the frame should have a border.
 #' @param layout (string) One of "vertical" (default) and "horizontal".
-#' @param sticky_buttons (string) `sticky` option for buttons.
-#' @param sticky_title (string) `sticky` option for title (if no border is used).
+#' @param sticky_buttons (string) tkgrid `sticky` option for buttons.
+#' @param sticky_buttons_frame (string) tkgrid `sticky` option for buttons frame
+#' @param sticky_title (string) tkgrid `sticky` option for title (if no border is used).
 #'
 #' @return A named list with fields `frame` (frame with the radiobuttons),
 #'  `var` (tcl/tk variables for each box),
