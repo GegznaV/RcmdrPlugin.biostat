@@ -1,10 +1,9 @@
 # TODO:
 # - Add tips to fields.
-# - After pessing "Apply" or "Reset", incorrect size of plot is generated.
-# - Add buttons for code field.
+# - Add buttons (Paste, Clear, etc.) for code field.
 # - Add better code checking or linting messages are needed.
 # - Add syntax highlighting.
-# - Code error mesage could be shown as a pop-up message.
+# - Add radiobuttons for units of measurement: [+]inch, [+] cm.
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -115,10 +114,10 @@ window_export_fig_to_pptx <- function() {
 
         switch(
             rez,
-            "Code as-is"            = "code_base",
-            "Call function print()" = "code_print",
-            "Call function plot()"  = "code_plot",
-            "'ggplot2' plot"        = "code_gg",
+            "Code as-is / Base plot" = "code_base",
+            "Call function print()"  = "code_print",
+            "Call function plot()"   = "code_plot",
+            "'ggplot2' plot"         = "code_gg",
             stop("unknown option of `f3_code_options`: ", rez)
         )
     }
@@ -463,7 +462,7 @@ window_export_fig_to_pptx <- function() {
         command <- str_c(
             sep = "\n",
             '## Save plot',
-            '    {file_open} officer::read_pptx() %>%',
+            '    {file_open}officer::read_pptx() %>%',
             '    officer::add_slide(layout = "Blank", master = "Office Theme") %>%',
             '    rvg::ph_with_vg_at(',
             '        width  = {pos_width}, # {in_units}',
@@ -492,11 +491,29 @@ window_export_fig_to_pptx <- function() {
             logger(style_cmd(command))
 
             # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            closeDialog()
+            # closeDialog()
 
         } else {
-            logger_error(command, error_msg = result)
-            show_code_evaluation_error_message()
+            popup_msg <- str_c(
+                result,
+                "\nTry one of the following:\n",
+                "  1) select a more appropriate code option;\n",
+                "  2) check if the code really creates a plot; \n",
+                "  3) correct all the errors in the code.     \n\n",
+                "Print additional information related to this error?")
+
+            ans <- tk_messageBox(
+                parent  = top,
+                message = popup_msg,
+                caption = "Incorrent Options or Error in Code",
+                type    = "yesno",
+                default = "no",
+                icon    = "error")
+
+            if (ans == "yes") {
+                logger_error(command, error_msg = result)
+                # show_code_evaluation_error_message()
+            }
             return()
         }
 
@@ -529,7 +546,7 @@ window_export_fig_to_pptx <- function() {
     defaults <- list(
         pptx_file      = default_pptx_name,
         source_of_plot = "code",
-        code_options   = "Call function print()",
+        code_options   = "Code as-is / Base plot",
         code           = "",
         open_file      = FALSE,
         pos_width      = 7,
@@ -540,9 +557,7 @@ window_export_fig_to_pptx <- function() {
     initial <- getDialog("window_export_fig_to_pptx", defaults)
 
 
-    # ... Widgets ============================================================
     # Widgets ----------------------------------------------------------------
-
 
     file_msg <- bs_label(parent = top, text = "", fg = "darkred")
 
@@ -693,9 +708,9 @@ window_export_fig_to_pptx <- function() {
         label = "Code options:",
         label_position = "above",
         parent = f3_but,
-        width  = 18,
+        width  = 19,
         value  = initial$code_options,
-        values = c("Code as-is",
+        values = c("Code as-is / Base plot",
                    "Call function print()",
                    "Call function plot()",
                    "'ggplot2' plot"
@@ -808,12 +823,61 @@ window_export_fig_to_pptx <- function() {
     tkgrid(f2_open_file_box$frame,  pady = c(0, 8), sticky = "e")
     tkgrid.configure(f2_open_file_box$frame, sticky = "e", padx = c(15, 0))
 
+
+    # Help menus -------------------------------------------------------------
+    help_menu <- function() {
+
+        menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        tkadd(menu_main, "command",
+              label    = "Read or create a 'PowerPoint' file",
+              command  = open_help("read_pptx", package = "officer"))
+
+        tkadd(menu_main, "command",
+              label    = "Add a 'PowerPoint' slide",
+              command  = open_help("add_slide", package = "officer"))
+
+        tkadd(menu_main, "command",
+              label    = "Add an editable plot into a 'PowerPoint' slide",
+              command  = open_help("ph_with_vg_at", package = "rvg"))
+
+        tkadd(menu_main, "command",
+              label    = "Open file from 'R'",
+              command  = open_help("browseURL", package = "utils"))
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        tkpopup(menu_main,
+                tkwinfo("pointerx", top),
+                tkwinfo("pointery", top))
+    }
+
+
     # Finalize ---------------------------------------------------------------
 
-    ok_cancel_help(helpSubject = "ph_with_vg_at", helpPackage = "rvg",
-                   # reset = "window_export_fig_to_pptx()",
-                   # apply = "window_export_fig_to_pptx()",
-                   ok_label = "Save")
+    ok_cancel_help(
+        # helpSubject = "ph_with_vg_at", helpPackage = "rvg",
+        on_help = help_menu,
+        close_on_ok = TRUE,
+        reset_location = TRUE,
+        reset = "window_export_fig_to_pptx()",
+        apply = "window_export_fig_to_pptx()",
+        after_apply_fun =  function() {
+            set_check_pptx_msg()
+            activate_options()
+        },
+
+        after_apply_success_fun = function() {
+            tk_messageBox(
+                parent = top,
+                message = "The plot was saved.",
+                caption = "Done",
+                type = "ok",
+                icon = "info")
+        },
+
+        ok_label = "Save")
 
     tkgrid(buttonsFrame, sticky = "ew")
     dialogSuffix(bindReturn = FALSE)
@@ -830,5 +894,4 @@ window_export_fig_to_pptx <- function() {
     if (!is_try_error(code_clip)) {
         set_values(f4_code_input, code_clip)
     }
-
 }
