@@ -12,13 +12,14 @@
 #' tkgrid(lb$frame)
 #' }}
 bs_listbox_y_gr <- function(
-    parent   = top,
+    parent = top,
 
     y_title        = title_var_1,
-    y_var_type     = NA_character_,  # use either y_var_type or y_vars, y_initial
+    y_var_type     = NA_character_, # use either y_var_type or y_vars, y_initial
     y_vars         = NULL,
     y_initial      = NULL,
     y_select_mode  = "single",
+    y_tip          = "",
     y_params       = list(), # Not implemented yet
 
     gr_title       = title_gr_0_n,
@@ -27,16 +28,18 @@ bs_listbox_y_gr <- function(
     gr_initial     = NULL,
     gr_select_mode = "multiple",
     gr_on_select   = do_nothing,
+    gr_tip         = "",
     gr_params      = list(), # Not implemented yet
 
     ch_label       = "Use groups",
     ch_initial     = "0",
     ch_command     = do_nothing,
+    ch_tip         = "",
     ch_params      = list(), # Not implemented yet
 
-    list_height     = 7,
-    list_width      = c(25, Inf), # min max width
-    add_to_grid     = TRUE
+    list_height    = 7,
+    list_width     = c(25, Inf), # min max width
+    add_to_grid    = TRUE
 ) {
 
     checkmate::assert_choice(y_var_type,     c(bs_var_types, NA))
@@ -138,7 +141,9 @@ bs_listbox_y_gr <- function(
             value      = y_initial,
             selectmode = y_select_mode,
             height     = list_height,
-            width      = list_width)
+            width      = list_width,
+            tip        = y_tip
+        )
     )
 
     f1_box_y <- do.call(bs_listbox, y_params)
@@ -156,7 +161,8 @@ bs_listbox_y_gr <- function(
             selectmode  = gr_select_mode,
             height      = list_height - 1,
             width       = list_width,
-            on_release  = cmd_gr_box
+            on_release  = cmd_gr_box,
+            tip         = gr_tip
         )
     )
 
@@ -169,7 +175,8 @@ bs_listbox_y_gr <- function(
             parent   = f2,
             boxes    = c("use_groups" = ch_label),
             values   = ch_initial,
-            commands = list("use_groups" = cmd_ch_box)
+            commands = list("use_groups" = cmd_ch_box),
+            default_tip = ch_tip
         ))
 
     f2_box_ch <- do.call(bs_checkboxes, ch_params)
