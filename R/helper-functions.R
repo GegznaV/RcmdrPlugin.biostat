@@ -323,12 +323,23 @@ function_not_implemented <- function() {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Function that creates a function to be used in 'Help' context menus.
-open_help <- function(topic, package = NULL, ...) {
+# Function that creates a function to be used in 'Help' context menus.) {
+open_help <- function(topic = NULL, package = NULL, vignette = NULL, ...) {
     function() {
-        print(utils::help((topic), package = (package), ...))
+
+        if (!is.null(topic)) {
+            print((topic), utils::help(package = (package), ...))
+
+        } else if (!is.null(vignette)) {
+            print(vignette(topic = (vignette), package = (package)))
+
+        } else {
+            print(utils::help(package = (package), ...))
+        }
+
     }
 }
+
 
 # Function that creates a function to be used in 'Help' context menus.
 open_online_fun <- function(url) {
