@@ -554,6 +554,14 @@ bs_mode_menu__summary  <- function() {
     #       command  = window_summary_variables)
 
     tkadd(menu_p, "command",
+          label    = "Summary for single or pair of variables...",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = window_summary_desc)
+
+    tkadd(menu_p, "separator")
+
+    tkadd(menu_p, "command",
           label    = "Frequency & multi-way tables...",
           # compound = "left",
           # image    = "::image::bs_locale",
