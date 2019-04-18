@@ -31,14 +31,27 @@ set_plots_to_rstudio_window <- function() {
 }
 
 which_graphical_device <- function() {
-    switch(
-        options("device")$device,
-        "windows"   = ,
-        "X11"       = ,
-        "quartz"    = "separate_window",
-        "RStudioGD" = "RStudioGD",
+
+    cur_dev <- options("device")$device
+
+    if (is.function(cur_dev)) {
+        # In RGUI a function is returned
+        return("function")
+
+    } else if (is.character(cur_dev)) {
+
+        switch(
+            cur_dev,
+            "windows"   = ,
+            "X11"       = ,
+            "quartz"    = "separate_window",
+            "RStudioGD" = "RStudioGD",
+            "other"
+        )
+
+    } else {
         "unidentified"
-    )
+    }
 }
 
 
