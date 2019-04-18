@@ -218,20 +218,21 @@ window_xxx <- function() {
     tkgrid(f1_buttons$frame)
 
     # Radiobuttons horizontal
-    rb_frame <- tkframe(upper_frame)
-    radioButtons_horizontal(
-        rb_frame,
-        title = "Column position: ",
-        title.color = fg_col,
 
-        # right.buttons = FALSE,
-        name = "position",
-        sticky_buttons = "w",
-        buttons = c("first",  "last"),
-        values =  c("first",  "last"),
-        labels =  c("First  ","Last  "),
-        initialValue = initial$position
-    )
+    # rb_frame <- tkframe(upper_frame)
+    # radioButtons_horizontal(
+    #     rb_frame,
+    #     title = "Column position: ",
+    #     title.color = fg_col,
+    #
+    #     # right.buttons = FALSE,
+    #     name = "position",
+    #     sticky_buttons = "w",
+    #     buttons = c("first",  "last"),
+    #     values =  c("first",  "last"),
+    #     labels =  c("First  ","Last  "),
+    #     initialValue = initial$position
+    # )
 
     # Layout
     tkgrid(upper_frame, pady = c(0, 5))
@@ -321,14 +322,64 @@ window_xxx <- function() {
     var_gr     <- get_selection(widget_y_gr$gr)
 
 
+    # Help menus -------------------------------------------------------------
+    help_menu <- function() {
+
+        menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
+
+        menu_qq   <- tk2menu(menu_main, tearoff = FALSE)
+        menu_test <- tk2menu(menu_main, tearoff = FALSE)
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        tkadd(menu_main, "cascade",
+              label    = "Normality tests",
+              menu     = menu_test)
+
+        tkadd(menu_test, "command",
+              label    = "xxx",
+              command  = open_help("xxx", package = "xxx"))
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        tkadd(menu_main, "cascade",
+              label    = "xxx-B",
+              menu     = menu_qq)
+
+        tkadd(menu_qq, "command",
+              label    = "xxx",
+              command  = open_help("xxx", package = "xxx"))
+
+        tkadd(menu_qq, "separator")
+
+        tkadd(menu_qq, "command",
+              label    = "Package 'xxx'",
+              command  = open_online_fun("https://   xxx"))
+
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        tkpopup(menu_main,
+                tkwinfo("pointerx", top),
+                tkwinfo("pointery", top))
+    }
     # Finalize ---------------------------------------------------------------
+
+    # Buttons ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ok_cancel_help(
+        close_on_ok = TRUE,
+        on_help = help_menu,
+        reset_location = TRUE,
+        reset = "window_test_normality",
+        apply = "window_test_normality")
+
 
     # Help topic
     # OKCancelHelp(helpSubject = "mutate", helpPackage = "dplyr")
 
     ok_cancel_help(
-        helpSubject = "xxx",
-        helpPackage = "xxx",
+        # helpSubject = "xxx",
+        # helpPackage = "xxx",
+        close_on_ok = TRUE,
+        on_help = help_menu,
+        reset_location = TRUE,
         reset = "window_xxx()",
         apply = "window_xxx()")
 
