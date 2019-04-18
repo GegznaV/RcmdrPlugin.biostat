@@ -114,10 +114,10 @@ window_export_fig_to_pptx <- function() {
 
         switch(
             rez,
-            "Code as-is / Base plot" = "code_base",
-            "Call function print()"  = "code_print",
-            "Call function plot()"   = "code_plot",
-            "'ggplot2' plot"         = "code_gg",
+            "Base plot / Code as-is"  = "code_base",
+            "'ggplot2' plot"          = "code_gg",
+            "Other plot: print()"     = "code_print",
+            "Other plot: plot()"      = "code_plot",
             stop("unknown option of `f3_code_options`: ", rez)
         )
     }
@@ -497,7 +497,7 @@ window_export_fig_to_pptx <- function() {
             popup_msg <- str_c(
                 result,
                 "\nTry one of the following:\n",
-                "  1) select a more appropriate code option;\n",
+                "  1) select a more appropriate purpose of the code;\n",
                 "  2) check if the code really creates a plot; \n",
                 "  3) correct all the errors in the code.     \n\n",
                 "Print additional information related to this error?")
@@ -546,7 +546,7 @@ window_export_fig_to_pptx <- function() {
     defaults <- list(
         pptx_file      = default_pptx_name,
         source_of_plot = "code",
-        code_options   = "Code as-is / Base plot",
+        code_options   = "Base plot / Code as-is",
         code           = "",
         open_file      = FALSE,
         pos_width      = 7,
@@ -705,20 +705,25 @@ window_export_fig_to_pptx <- function() {
 
 
     f3_code_options <- bs_combobox(
-        label = "Code options:",
+        label = "Purpose of code:",
         label_position = "above",
         parent = f3_but,
-        width  = 19,
+        width  = 20,
         value  = initial$code_options,
-        values = c("Code as-is / Base plot",
-                   "Call function print()",
-                   "Call function plot()",
-                   "'ggplot2' plot"
+        values = c("Base plot / Code as-is",
+                   "'ggplot2' plot",
+                   "Other plot: print()",
+                   "Other plot: plot()"
         ),
-        tip = str_c(
-            "Additional modification for the code. \n",
-            "You should try, which one works best \n",
-            "(or works at all) for your plot."))
+        tip = str_c(sep = "\n",
+            "Additional modification for the code. ",
+            "You should try, which one works best  ",
+            "(or works at all) for your plot:",
+            "  - Code as-is - no modification.",
+            "  - ggplot2 - best gor 'ggplot2' polots. ",
+            "  - print() - additionally calls function `print()`.",
+            "  - plot()  - additionally calls function `plot()`."
+            ))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f3_gg_obj_name_box <- bs_listbox(
@@ -739,9 +744,8 @@ window_export_fig_to_pptx <- function() {
         state = "normal",
         font = font_consolas_regular,
         tip = str_c(
-            "Code that generates either an 'R' plot.\n",
-            "Try several options for the best result.\n",
-            "Right-click to clear or paste."),
+            "Code that generates a plot.\n",
+            "Right-click to clear or paste the code."),
         label = "R Code of Plot to Export"
     )
 
@@ -801,7 +805,7 @@ window_export_fig_to_pptx <- function() {
 
     # F3 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(f3,     sticky = "nw")
-    tkgrid(f3_pos, f3_but, f3_gg, sticky = "nw", padx = c(10, 0))
+    tkgrid(f3_pos, f3_but, f3_gg, sticky = "nw", padx = c(7, 0))
 
     tkgrid(f3_pos_lab, sticky = "w")
     tkgrid(f3_width$frame,  padx = c(0, 10), sticky = "e", pady = c(0, 2))
