@@ -403,7 +403,7 @@ window_export_fig_to_pptx <- function() {
                         "code = {{ \n",
                         "    # Code that draws the plot \n",
                         "    {code} \n",
-                        "}}")
+                        "    }}")
                 },
 
                 "code_print" = {
