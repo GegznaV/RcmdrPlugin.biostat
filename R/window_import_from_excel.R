@@ -615,7 +615,7 @@ window_import_from_excel <- function() {
         Library("tidyverse")
         Library("readxl")
 
-        command <- str_glue(
+        command <- str_glue(.trim = FALSE,
             '## Import data from Excel file \n',
             '{new_name} <- readxl::read_excel(\n',
             '"{file_name}"',
