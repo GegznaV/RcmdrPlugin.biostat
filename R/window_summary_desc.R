@@ -231,6 +231,9 @@ window_summary_desc <- function() {
 
         # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+        y_var  <- safe_names(y_var)
+        gr_var <- safe_names(gr_var)
+
         rez <- unique_obj_names("desc_summary", all_numbered = TRUE)
 
         if (isTRUE(print_num)) {
@@ -290,7 +293,7 @@ window_summary_desc <- function() {
             .trim = FALSE,
             "## Summary of variables\n",
             "{opts_code}",
-            "{rez} <- with({.ds}, DescTools::Desc({variables})) \n",
+            "{rez} <- \n   with({.ds}, DescTools::Desc({variables})) \n",
             "{print_code}",
             "{plot_code}",
             "{rm_code}")
