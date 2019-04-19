@@ -123,7 +123,7 @@ set_biostat_mode <- function() {
 
     button_view <- tk2button(
         buttons_bar,
-        tip = "View, edit and print active dataset",
+        tip = "View and print active dataset",
         image = "::image::viewIcon",
         command = bs_mode_menu__print)
 
@@ -468,27 +468,6 @@ bs_mode_menu__print <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_p, "separator")
 
-    tkadd(menu_p, "command",
-          label    = "Number of rows and columns",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = command_dataset_dim)
-
-    tkadd(menu_p, "command",
-          label    = "Variable types & size of dataset", #  & dataset size
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = summary_var_types)
-
-    tkadd(menu_p, "command",
-          label    = "Glimpse: structure of dataset",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = command_glimpse)
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkadd(menu_p, "separator")
-
     menu_md <- tk2menu(menu_p, tearoff = FALSE)
 
     tkadd(menu_p, "cascade",
@@ -552,6 +531,29 @@ bs_mode_menu__summary  <- function() {
     #       # compound = "left",
     #       # image    = "::image::bs_locale",
     #       command  = window_summary_variables)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    tkadd(menu_p, "command",
+          label    = "Number of rows and columns",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = command_dataset_dim)
+
+    tkadd(menu_p, "command",
+          label    = "Variable types & size of dataset", #  & dataset size
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = summary_var_types)
+
+    tkadd(menu_p, "command",
+          label    = "Glimpse: structure of dataset",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = command_glimpse)
+
+
+    tkadd(menu_p, "separator")
 
     tkadd(menu_p, "command",
           label    = "Desc: summarize variables (single or pair)...",
