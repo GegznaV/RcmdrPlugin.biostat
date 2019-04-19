@@ -986,12 +986,13 @@ is_empty_name <- function(name, which_name = "name", parent = CommanderWindow())
 # }
 
 is_not_empty_name <- function(name, which_name = "name",
-                              parent = CommanderWindow()) {
+                              parent = CommanderWindow(),
+                              article = "a") {
 
     if (length(name) < 1) {
         message  <-
             str_glue("The object does not contain any strings.\n",
-                     " Please, enter a {which_name}.")
+                     " Please, enter {article} {which_name}.")
 
         show_error_messages(
             message, message,
@@ -1022,7 +1023,7 @@ is_not_empty_name <- function(name, which_name = "name",
 
     } else if (name == "") {
         message  <- str_glue('The {which_name} field must not be empty.\n',
-                             'Please, enter a {which_name}.')
+                             'Please, enter {article} {which_name}.')
         show_error_messages(
             message, message,
             title = str_glue("Empty {str_to_title(which_name)}"),
@@ -1043,16 +1044,17 @@ is_not_empty_name <- function(name, which_name = "name",
 #' @export
 #' @keywords internal
 variable_is_not_selected <- function(obj, obj_type = "variable",
-                                     parent = CommanderWindow()) {
+                                     parent = CommanderWindow(),
+                                     article = "a") {
 
     if (length(obj) < 1 || (length(obj) == 1 && any(obj == ""))) {
         message  <- str_glue(
             "No {obj_type} is selected.\n",
-            "Please, select a {obj_type}.")
+            "Please, select {article} {obj_type}.")
 
         show_error_messages(
             message, message,
-            title = str_glue("Select a {obj_type}"),
+            title = str_glue("Select {article} {obj_type}"),
             parent = parent)
 
         return(TRUE)
@@ -1066,16 +1068,17 @@ variable_is_not_selected <- function(obj, obj_type = "variable",
 #' @export
 #' @keywords internal
 object_is_not_selected <- function(obj, obj_type = "object",
-                                   parent = CommanderWindow()) {
+                                   parent = CommanderWindow(),
+                                   article = "an") {
 
     if (length(obj) < 1 || (length(obj) == 1 && any(obj == ""))) {
         message  <- str_glue(
             "No {obj_type} is selected.\n",
-            "Please, select an {obj_type}.")
+            "Please, select {article} {obj_type}.")
 
         show_error_messages(
             message, message,
-            title = str_glue("Select an {obj_type}"),
+            title = str_glue("Select {article} {obj_type}"),
             parent = parent)
         return(TRUE)
 
