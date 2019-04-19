@@ -307,6 +307,10 @@ window_test_normality <- function() {
 
         Library("tidyverse")
 
+        y_var  <- safe_names(y_var)
+        gr_var <- safe_names(gr_var)
+
+
         # For many groups ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (by_group && length(gr_var) > 0) {
             gr_var_str  <- paste0(gr_var, collapse = ", ")
