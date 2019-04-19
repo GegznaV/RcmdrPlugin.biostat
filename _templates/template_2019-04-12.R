@@ -104,6 +104,13 @@ window_xxx <- function() {
         ))
 
         # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        y_var  <- safe_names(y_var)
+        gr_var <- safe_names(gr_var)
+
+
+
+
         cmd_position <-
             switch(which_position,
                    "first" = str_glue(
