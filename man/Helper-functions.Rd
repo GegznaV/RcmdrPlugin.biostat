@@ -383,13 +383,13 @@ is_not_valid_name(name, parent = CommanderWindow())
 is_empty_name(name, which_name = "name", parent = CommanderWindow())
 
 is_not_empty_name(name, which_name = "name",
-  parent = CommanderWindow())
+  parent = CommanderWindow(), article = "a")
 
 variable_is_not_selected(obj, obj_type = "variable",
-  parent = CommanderWindow())
+  parent = CommanderWindow(), article = "a")
 
 object_is_not_selected(obj, obj_type = "object",
-  parent = CommanderWindow())
+  parent = CommanderWindow(), article = "an")
 
 are_not_valid_names(name, parent = CommanderWindow())
 
