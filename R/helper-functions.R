@@ -328,10 +328,10 @@ open_help <- function(topic = NULL, package = NULL, vignette = NULL, ...) {
     function() {
 
         if (!is.null(topic)) {
-            print((topic), utils::help(package = (package), ...))
+            print(utils::help((topic), package = (package), ...))
 
         } else if (!is.null(vignette)) {
-            print(vignette(topic = (vignette), package = (package)))
+            print(utils::vignette(topic = (vignette), package = (package)))
 
         } else {
             print(utils::help(package = (package), ...))
