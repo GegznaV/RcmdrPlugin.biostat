@@ -554,7 +554,7 @@ bs_mode_menu__summary  <- function() {
     #       command  = window_summary_variables)
 
     tkadd(menu_p, "command",
-          label    = "Summary for single or pair of variables...",
+          label    = "Desc: summarize variables (single or pair)...",
           # compound = "left",
           # image    = "::image::bs_locale",
           command  = window_summary_desc)
