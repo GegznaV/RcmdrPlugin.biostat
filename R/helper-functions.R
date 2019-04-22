@@ -1284,15 +1284,17 @@ forbid_to_replace_file <- function(name, parent = CommanderWindow()) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-show_code_evaluation_error_message <- function(parent = CommanderWindow()) {
+show_code_evaluation_error_message <- function(parent = CommanderWindow(),
+                                               add_msg = "") {
     show_error_messages(
-        str_c("Something went wrong while evaluating the code.\n",
-              "Please, check if all the options are selected \n",
-              "correctly and try to fix the issue."),
+        str_c("Something went wrong. Please, try to fix the issue."),
 
-        str_c("Something went wrong while evaluating the code.\n\n",
-              "Please, check if all the options are selected \n",
-              "correctly and try to fix the issue."
+        str_c("Please, read the error message carefully. \n\n",
+              "Something went wrong. \n",
+              "Note that selecting more appropriate options may solve the issue. ",
+              "The issue may also be caused by non-standard variable (object) ",
+              "names as well as by an error in R code syntax. \n\n",
+              c(add_msg)
 
               # "If no error was found, you may consider reporting\n",
               # "the bug in the package `RcmdrPlugin.biostat`\n",
