@@ -402,7 +402,8 @@ forbid_to_replace_object(name, envir = .GlobalEnv,
 
 forbid_to_replace_file(name, parent = CommanderWindow())
 
-show_code_evaluation_error_message(parent = CommanderWindow())
+show_code_evaluation_error_message(parent = CommanderWindow(),
+  add_msg = "")
 
 dataset_not_persent(parent = CommanderWindow())
 
