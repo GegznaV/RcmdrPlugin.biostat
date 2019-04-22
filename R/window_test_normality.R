@@ -165,6 +165,7 @@ window_test_normality <- function() {
         results_name         <- get_values(f2_results_name)
         digits_p             <- get_values(f2_round_p)
         bins                 <- get_values(f2_pearson_opts)
+        test_safely          <- get_values(f2_test_safely, "test_safely")
 
         use_plot             <- get_values(f2_plot_enable)
         new_plots_window     <- get_values(f2_plot_opts, "new_plots_window")
@@ -460,8 +461,19 @@ window_test_normality <- function() {
                     str_glue("n.classes = ", bins)
                 }
 
+
+                if (test_safely) {
+                    perform_test_code <- str_glue("possibly({test_function}, otherwise = NA)({chi_sq_params})")
+                    # perform_test_code <- str_glue("safely({test_function})({chi_sq_params}) %>% .$result")
+
+                } else {
+                    perform_test_code <- str_glue("{test_function}({chi_sq_params})")
+                }
+
+
             single_test_code <-
-                str_glue(".${y_var} %>% {test_function}({chi_sq_params}) %>% broom::tidy()")
+                str_glue(".${y_var} %>% {perform_test_code} %>% broom::tidy()")
+                # str_glue(".${y_var} %>% {test_function}({chi_sq_params}) %>% broom::tidy()")
             # str_glue("broom::tidy({test_function}(.${y_var}{chi_sq_params}))")
 
             main_test_code <-
@@ -496,7 +508,7 @@ window_test_normality <- function() {
                 "{results_name} <- \n {.ds} %>%\n",
                 "    {main_test_code} \n\n",
 
-                "## Print results \n",
+                "## Print the results \n",
                 "{results_name} ",
                 print_results_code, "\n",
                 keep_results_str)
@@ -519,7 +531,8 @@ window_test_normality <- function() {
 
         if (class(result)[1] == "try-error") {
             logger_error(command, error_msg = as.character(result))
-            show_code_evaluation_error_message(parent = top)
+            show_code_evaluation_error_message(parent = top,
+                                               add_msg = result$message) # ??? `result$message` or just `result`
             return()
         }
 
@@ -568,17 +581,20 @@ window_test_normality <- function() {
         # Normality test
         use_test  = TRUE,
         test_name =
-            if (nrows <= 5000) {
+            # if (nrows <= 5000) {
                 gettext_bs("Shapiro-Wilk test")
-            } else {
-                gettext_bs("Anderson-Darling test")
-            },
+            # } else {
+            #     gettext_bs("Anderson-Darling test")
+            # }
+,
         bins = bins_auto,
 
         keep_results     = FALSE,
         as_markdown      = TRUE,
         digits_p         = "3",
         bins             = bins_auto,
+
+        test_safely      = FALSE,
 
         # QQ plot
         use_plot         = TRUE,
@@ -643,6 +659,7 @@ window_test_normality <- function() {
         values   = initial$as_markdown
     )
 
+
     f2_round_p <- bs_radiobuttons(
         parent  = f2_num_sub,
         title   = "Round p-values to decimal digits: ",
@@ -679,11 +696,13 @@ window_test_normality <- function() {
         # label = "Test:",
         # label_position = "above",
         values = c(
-            if (nrows <= 5000) gettext_bs("Shapiro-Wilk test"),
+            # if (nrows <= 5000)
+                gettext_bs("Shapiro-Wilk test"),
             gettext_bs("Anderson-Darling test"),
             gettext_bs("Cramer-von Mises test"),
             gettext_bs("Lilliefors (Kolmogorov-Smirnov) test"),
-            if (nrows <= 5000) gettext_bs("Shapiro-Francia test"),
+            # if (nrows <= 5000)
+                gettext_bs("Shapiro-Francia test"),
             gettext_bs("Pearson chi-square test")
         ),
         tip = "Name of normality test",
@@ -712,6 +731,18 @@ window_test_normality <- function() {
         validate = "focus",
         validatecommand = validate_pearson_bins,
         invalidcommand  = make_red_text_reset_val(to = bins_auto)
+    )
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    f2_test_safely <- bs_checkboxes(
+        parent   = f2_num_sub,
+        border   = FALSE,
+        boxes    = "test_safely",
+        labels   = gettext_bs("Try safely"),
+        tips     = list(test_safely =
+                            "Try this option if an error \nin normality test occurs."),
+        # commands = list(test_safely  = activate_round_p),
+        values   = initial$test_safely
     )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -829,6 +860,8 @@ window_test_normality <- function() {
 
     tkgrid(f2_keep_results$frame,sticky = "w",  padx = c(5, 0), pady = c(0, 0))
     tkgrid(f2_results_name$frame,sticky = "w",  padx = c(5, 0), pady = c(0, 5))
+
+    tkgrid(f2_test_safely$frame, sticky = "w",  padx = c(5, 5))
 
 
     # Plot
