@@ -202,6 +202,23 @@ window_summary_desc <- function() {
         # if (is_not_valid_name(new_name, parent = top))          {return()}
         # if (forbid_to_replace_variable(new_name, parent = top)) {return()}
 
+
+        all_selected <- str_c(y_var, gr_var)
+        non_standard <- all_selected == make.names(all_selected)
+
+        if (by_group && any(non_standard)) {
+            # RcmdrTkmessageBox(popup_msg, icon = "error", title = title, type = "ok")
+            tk_messageBox(
+                # parent = top,
+                message = str_c(collapse = "\n",
+                    "The calculations may fail due to non-standard variable names: ",
+                    all_selected[non_standard]
+                ),
+                caption = "Non-standard Variable Names",
+                type = "ok",
+                icon = "warning")
+        }
+
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -233,6 +250,7 @@ window_summary_desc <- function() {
 
         y_var  <- safe_names(y_var)
         gr_var <- safe_names(gr_var)
+
 
         rez <- unique_obj_names("desc_summary", all_numbered = TRUE)
 
@@ -306,7 +324,7 @@ window_summary_desc <- function() {
 
         if (class(result)[1] == "try-error") {
             logger_error(command, error_msg = as.character(result))
-            show_code_evaluation_error_message(parent = top)
+            show_code_evaluation_error_message(parent = top, result$message)
             return()
         }
 
@@ -319,7 +337,7 @@ window_summary_desc <- function() {
         if (class(result)[1] == "try-error") {
 
             logger_error(command, error_msg = result)
-            show_code_evaluation_error_message(parent = top)
+            show_code_evaluation_error_message(parent = top, result)
             return()
         }
 
