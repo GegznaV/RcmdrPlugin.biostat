@@ -203,15 +203,15 @@ window_summary_desc <- function() {
         # if (forbid_to_replace_variable(new_name, parent = top)) {return()}
 
 
-        all_selected <- str_c(y_var, gr_var)
-        non_standard <- all_selected == make.names(all_selected)
+        all_selected <- c(y_var, gr_var)
+        non_standard <- all_selected != make.names(all_selected)
 
         if (by_group && any(non_standard)) {
             # RcmdrTkmessageBox(popup_msg, icon = "error", title = title, type = "ok")
             tk_messageBox(
                 # parent = top,
                 message = str_c(collapse = "\n",
-                    "The calculations may fail due to non-standard variable names: ",
+                    "The calculations may fail due to non-standard variable names: \n",
                     all_selected[non_standard]
                 ),
                 caption = "Non-standard Variable Names",
@@ -220,8 +220,6 @@ window_summary_desc <- function() {
         }
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
         # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         putDialog("window_summary_desc", list(
             # Variables
