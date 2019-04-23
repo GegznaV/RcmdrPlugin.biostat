@@ -85,6 +85,10 @@ window_summary_missings <- function() {
             Library("DescTools")
             command_count <- str_glue(
                 "## Count missing values\n",
+                "#  vname - variable name\n",
+                "# cifnot - complete cases if current variable is removed\n",
+                "#    nas - missing values\n",
+                "#     _p - percentage\n",
                 'DescTools::CountCompCases({.ds}) %>% \n print(digits = 1)')
 
             result <- try_command(command_count)
