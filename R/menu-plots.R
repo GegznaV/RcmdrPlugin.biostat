@@ -54,7 +54,10 @@ which_graphical_device <- function() {
     }
 }
 
-
+# Check if plot should be in a new separate window
+is_plot_in_separate_window <- function(variables) {
+    isTRUE(which_graphical_device() != "RStudioGD")
+}
 
 
 
