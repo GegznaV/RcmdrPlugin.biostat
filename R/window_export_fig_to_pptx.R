@@ -496,7 +496,7 @@ window_export_fig_to_pptx <- function() {
         } else {
             popup_msg <- str_c(
                 result,
-                "\nTry one of the following:\n",
+                "\nTry one of the following options:\n",
                 "  1) select a more appropriate purpose of the code;\n",
                 "  2) check if the code really creates a plot; \n",
                 "  3) correct all the errors in the code.     \n\n",
