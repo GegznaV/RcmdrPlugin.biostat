@@ -68,7 +68,7 @@ window_summary_missings <- function() {
             result <- justDoIt(command_plot)
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             if (class(result)[1] != "try-error") {
-                doi(style_cmd(command_plot))
+                doItAndPrint(style_cmd(command_plot))
 
             } else {
                 logger_error(command_plot, error_msg = result)
