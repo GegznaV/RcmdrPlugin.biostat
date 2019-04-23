@@ -19,10 +19,10 @@
 %   R/window_rows_rm_with_na.R, R/window_rows_rowid_to_col.R,
 %   R/window_rows_rownames_to_col.R, R/window_rows_slice.R,
 %   R/window_summary_count.R, R/window_summary_desc.R,
-%   R/window_summary_variables.R, R/window_test_normality.R,
-%   R/window_variable_gather.R, R/window_variable_mutate.R,
-%   R/window_variable_recode.R, R/window_variable_rename.R,
-%   R/window_variable_select.R
+%   R/window_summary_missings.R, R/window_summary_variables.R,
+%   R/window_test_normality.R, R/window_variable_gather.R,
+%   R/window_variable_mutate.R, R/window_variable_recode.R,
+%   R/window_variable_rename.R, R/window_variable_select.R
 \name{Menu-window-functions}
 \alias{Menu-window-functions}
 \alias{command_dataset_refresh}
@@ -162,6 +162,7 @@
 \alias{window_rows_slice}
 \alias{window_summary_count}
 \alias{window_summary_desc}
+\alias{window_summary_missings}
 \alias{window_summary_variables}
 \alias{window_test_normality}
 \alias{window_variable_gather}
@@ -450,6 +451,8 @@ window_rows_slice()
 window_summary_count()
 
 window_summary_desc()
+
+window_summary_missings()
 
 window_summary_variables()
 
