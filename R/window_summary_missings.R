@@ -68,7 +68,7 @@ window_summary_missings <- function() {
             result <- justDoIt(command_plot)
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             if (class(result)[1] != "try-error") {
-                logger(style_cmd(command_plot))
+                doi(style_cmd(command_plot))
 
             } else {
                 logger_error(command_plot, error_msg = result)
@@ -87,10 +87,10 @@ window_summary_missings <- function() {
                 "## Count missing values\n",
                 'DescTools::CountCompCases({.ds}) %>% \n print(digits = 1)')
 
-            result <- justDoIt(command_count)
+            result <- try_command(command_count)
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             if (class(result)[1] != "try-error") {
-                logger(style_cmd(command_count))
+                doItAndPrint(style_cmd(command_count))
 
             } else {
                 logger_error(command_count, error_msg = result)
