@@ -369,7 +369,7 @@ window_summary_desc <- function() {
 
         keep_results  = FALSE,
         force_options = FALSE,  # Not implemented
-        conf_level   = 0.95,    # Not implemented
+        conf_level    = 0.95,   # Not implemented
 
         # Numeric output
         print_num  = TRUE,
@@ -380,7 +380,7 @@ window_summary_desc <- function() {
 
         # Plots
         use_plot         = TRUE,
-        new_plots_window = TRUE,
+        new_plots_window = is_plot_in_separate_window(),
         labels_direction = gettext_bs("Parallel to the axis")
     )
 
