@@ -604,7 +604,7 @@ window_test_normality <- function() {
 
         # QQ plot
         use_plot         = TRUE,
-        new_plots_window = TRUE,
+        new_plots_window = is_plot_in_separate_window(),
         plot_in_colors   = TRUE,
         qq_detrend       = FALSE,
         qq_line          = TRUE,
