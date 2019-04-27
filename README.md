@@ -10,10 +10,10 @@
 status](https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.r-project.org/package=RcmdrPlugin.biostat)
 [![GitHub
 version](https://img.shields.io/badge/GitHub-v0.0.32-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/hm4h2rjb8ayr2df1/branch/master?svg=true)](https://ci.appveyor.com/project/GegznaV/rcmdrplugin-biostat/branch/master)
 [![Travis-CI Build
 Status](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/GegznaV/RcmdrPlugin.biostat?branch=master&svg=true)](https://ci.appveyor.com/project/GegznaV/rcmdrplugin-biostat)
 [![Updated-on](https://img.shields.io/badge/Updated%20on-2019--04--27-yellowgreen.svg)](/commits/master)
 <!-- badges: end -->
 
@@ -41,7 +41,6 @@ To install the development version of the package from “GitHub”:
 
 ``` r
 if (!"devtools" %in% installed.packages())  install.packages("devtools")
-
 devtools::install_github("GegznaV/RcmdrPlugin.biostat")
 ```
 
