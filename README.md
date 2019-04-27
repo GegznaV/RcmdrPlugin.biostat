@@ -94,7 +94,7 @@ functions, are added below the menu bar. The meaning of these buttons:
 
 <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/05--buttons-in-biostat-mode.png" style="display: block; margin: auto;" />
 
-Note, that if active dataset is not selected, some buttons are inactive
+Note: if active dataset is not selected, some buttons are inactive.
 
 ### Close *BioStat* mode
 

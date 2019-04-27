@@ -129,7 +129,7 @@ knitr::include_graphics(paste0(fig_dir, "05--buttons-in-biostat-mode.png"))
 CAPTION = "" # Figure caption/description.
 ```
 
-Note, that if active dataset is not selected, some buttons are inactive
+Note: if active dataset is not selected, some buttons are inactive.
 
 
 ### Close *BioStat* mode
