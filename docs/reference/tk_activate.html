@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Activate/Disable TK Objects — tk_activate • RcmdrPlugin.biostat18</title>
+<title>Control activation state of TCL/TK widget.
+Activate/Disable Tcl/Tk Objects — tk_get_state • RcmdrPlugin.biostat</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -16,7 +17,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
@@ -30,7 +32,8 @@
 
 
 
-<meta property="og:title" content="Activate/Disable TK Objects — tk_activate" />
+<meta property="og:title" content="Control activation state of TCL/TK widget.
+Activate/Disable Tcl/Tk Objects — tk_get_state" />
 
 <meta property="og:description" content="Modify state of tk objects." />
 <meta name="twitter:card" content="summary" />
@@ -63,8 +66,8 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">RcmdrPlugin.biostat18</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.22</span>
+        <a class="navbar-link" href="../index.html">RcmdrPlugin.biostat</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.32</span>
       </span>
     </div>
 
@@ -103,7 +106,8 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Activate/Disable TK Objects</h1>
+    <h1>Control activation state of TCL/TK widget.
+Activate/Disable Tcl/Tk Objects</h1>
     
     <div class="hidden name"><code>tk_activate.Rd</code></div>
     </div>
@@ -114,17 +118,33 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>tk_activate</span>(<span class='no'>tk_obj</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>tk_get_state</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
 
-<span class='fu'>tk_disable</span>(<span class='no'>tk_obj</span>, <span class='no'>...</span>)
+<span class='fu'>tk_activate</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
 
-<span class='fu'>tk_normalize</span>(<span class='no'>tk_obj</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>tk_disable</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+
+<span class='fu'>tk_normalize</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+
+<span class='fu'>tk_read_only</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>tk_activate</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>tk_normalize</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>tk_read_only</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>tk_disable</span>(<span class='no'>obj</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>tk_obj</th>
+      <th>obj</th>
       <td><p>TK object.</p></td>
     </tr>
     <tr>
@@ -135,8 +155,8 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'># tk_activate(tk_obj)
-# tk_disable(tk_obj)
+    <pre class="examples"><div class='input'># tk_activate(obj)
+# tk_disable(obj)
 
 </div></pre>
   </div>
