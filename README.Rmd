@@ -14,11 +14,14 @@ knitr::opts_chunk$set(
 
 ***
 
+<!-- badges: start -->
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![CRAN version](http://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.rstudio.com/web/packages/RcmdrPlugin.biostat/index.html)
-[![GitHub version](https://img.shields.io/badge/GitHub-v`r desc::desc_get_version()`-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
+[![CRAN status](https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.r-project.org/package=RcmdrPlugin.biostat)
+[![GitHub version](https://img.shields.io/badge/GitHub-v`r packageVersion("RcmdrPlugin.biostat")`-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
 [![Travis-CI Build Status](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/GegznaV/RcmdrPlugin.BioStat?branch=master&svg=true)](https://ci.appveyor.com/project/GegznaV/RcmdrPlugin.BioStat)
 [![Updated-on](https://img.shields.io/badge/Updated%20on-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](/commits/master)
+<!-- badges: end -->
 
 ***
 
@@ -32,10 +35,10 @@ knitr::opts_chunk$set(
 An *R Commander* Plugin for Basic (Bio)Statistical Routines  
 -->
 
-An R Commander Plug-in for Basic Data Management and Analysis Tasks {#intro}
+R Commander Plug-in for Basic Data Management and Analysis Tasks {#intro}
 ==============================================================================
 
-**RcmdrPlugin.biostat** is an [**Rcmdr**](https://cran.r-project.org/web/packages/Rcmdr/index.html) plug-in for the most common data wrangling, visualisation and analysis tasks using "tidyverse" family functions as well as functions from other packages.
+**RcmdrPlugin.biostat** is an [**Rcmdr**](https://CRAN.R-project.org/package=Rcmdr) plug-in for the most common data wrangling, visualisation and analysis tasks using "tidyverse" family functions as well as functions from other packages.
 
 
 Documentation and more information available at http://gegznav.github.io/RcmdrPlugin.biostat
@@ -48,35 +51,59 @@ To install a developement version of the package from `GitHub`:
 ```{r Install package, eval=FALSE}
 if (!"devtools" %in% installed.packages())  install.packages("devtools")
 
-devtools::install_github("GegznaV/biostat")
 devtools::install_github("GegznaV/RcmdrPlugin.biostat")
 ```
 
 
+## Previous versions
 
-# Other related packages {#related-packages}
+If you need previous versions of `RcmdrPlugin.biostat`, you can install them from `GitHub`:
 
-Other related packages:
+- BioStat'19 (2019):
+```{r Install BioStat-19, eval=FALSE}
+devtools::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat19")
+```
 
-a. **RcmdrPlugin.EZR.2** -- an *R Commander* plugin for the most common statistical analyses (the same as *RcmdrPlugin.EZR*, except that *RcmdrPlugin.EZR.2* does not modify original *Rcmdr* menu so dramatically);
-b. **RcmdrPlugin.KMggplot2** -- an *R Commander* plugin for *ggplot2* graphics.
+
+- BioStat'18 (2018):
+```{r Install BioStat-18, eval=FALSE}
+devtools::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat18")
+```
+
+
+***
+
+# Other useful packages {#related-packages}
+
+Other useful **Rcmdr** plug-ins:
+
+a. **RcmdrPlugin.EZR.as.menu** -- an *R Commander* plugin for the most common statistical analyses (functionality is the same as in **RcmdrPlugin.EZR**, except that **RcmdrPlugin.EZR.as.menu** creates a separate "EZR" menu in a menu bar and does not reorganize the original **Rcmdr** menus in the menu bar);
+b. **RcmdrPlugin.KMggplot2** -- an *R Commander* plugin for **ggplot2** graphics.
 
 
 To install these packages, use the following code:
 
 
 ```{r Install other packages, eval=FALSE}
-# RcmdrPlugin.EZR.2
-devtools::install_github("GegznaV/RcmdrPlugin.EZR@unmodified_Rcmdr_menu")
+# RcmdrPlugin.EZR.as.menu
+devtools::install_github("GegznaV/RcmdrPlugin.EZR", ref = "ezr_as_menu")
 
 # RcmdrPlugin.KMggplot2
 install.packages("RcmdrPlugin.KMggplot2")
 ```
 
 
+
 # Important
 
-Some of the functions in the package are based on and modified from functions in packages *Rcmdr*, *RcmdrPlugin.EZR* and *RcmdrPlugin.KMggplot2*.
+Some of the functions in the package are based on and modified from functions in packages *Rcmdr*<!--, *RcmdrPlugin.KMggplot2*-->, and *RcmdrPlugin.EZR*.
 All of those packages are under GPL-2/GPL-3 license.
 
 ***
+
+
+
+
+<!-- * * * -->
+
+<!--  <p align="right"> </p>     -->
