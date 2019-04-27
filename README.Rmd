@@ -195,6 +195,13 @@ options(Rcmdr = list(plugins = c(
 library(Rcmdr)
 ```
 
+If package **Rcmdr** is loaded **and R Commander window is closed**, instead of `library(Rcmdr)` use:
+
+```{r eval=FALSE}
+Commander()
+```
+
+
 # Important
 
 Some of the functions in the package are based on and modified from functions in packages *Rcmdr*<!--, *RcmdrPlugin.KMggplot2*-->, and *RcmdrPlugin.EZR*.
