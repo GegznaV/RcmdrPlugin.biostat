@@ -7,11 +7,11 @@
 #' @export
 #' @keywords internal
 window_rows_slice <- function(){
-    dataSet <- activeDataSet()
+    dataSet <- active_dataset()
 
-    initializeDialog(title = gettextRcmdr("Select / Remove rows by position"))
+    initializeDialog(title = gettext_bs("Select / Remove Rows by Position"))
 
-    indexVariable <- tclVar(gettextRcmdr(""))
+    indexVariable <- tclVar(gettext_bs(""))
     indexFrame <- tkframe(top)
     indexEntry <- ttkentry(indexFrame, width = "60", textvariable = indexVariable)
 
@@ -43,14 +43,14 @@ window_rows_slice <- function(){
         if (!is.valid.name(new_dsname)) {
             errorCondition(
                 recall = window_rows_slice,
-                message = paste0( '"',new_dsname,'" ', gettextRcmdr("is not a valid name."))
+                message = paste0( '"',new_dsname,'" ', gettext_bs("is not a valid name."))
             )
             return()
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (is.element(new_dsname, listDataSets())) {
             if ("no" == tclvalue(checkReplace(new_dsname,
-                                              type = gettextRcmdr("Data set")))) {
+                                              type = gettext_bs("Data set")))) {
                 closeDialog()
                 window_rows_slice()
                 return()
@@ -65,7 +65,7 @@ window_rows_slice <- function(){
         }
 
         # indexRows <- paste0("c(", gsub(" ", ",", index), ")")
-        # index <- try(eval_glue(indexRows), silent = TRUE)
+        # index <- try(str_glue_eval(indexRows), silent = TRUE)
 
         if (class(index) == "try-error") {
             errorCondition(recall = window_rows_slice,
@@ -79,12 +79,12 @@ window_rows_slice <- function(){
 
         # If multiple comma separated conditions are selected
         if (stringr::str_detect(index, ",")) {
-           index <-  glue("c({index})")
+            index <-  str_glue("c({index})")
         }
 
-        command <- glue(
-            "## ", gettext_Bio("Select/Remove rows by index"), "\n\n",
-            "{new_dsname} <- {activeDataSet()} %>% \n",
+        command <- str_glue(
+            "## ", gettext_bs("Select/Remove rows by index"), "\n",
+            "{new_dsname} <- {active_dataset()} %>% \n",
             "dplyr::slice({index})") %>%
             style_cmd()
 
@@ -93,7 +93,7 @@ window_rows_slice <- function(){
         result <- justDoIt(command)
 
         if (class(result)[1] !=  "try-error")
-            activeDataSet(new_dsname)
+            active_dataset(new_dsname)
 
         tkfocus(CommanderWindow())
     }
@@ -102,9 +102,9 @@ window_rows_slice <- function(){
 
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(label_rcmdr(
+    tkgrid(bs_label(
         top,
-        text = gettextRcmdr("Slice: select/remove rows by index"),
+        text = gettext_bs("Slice: select/remove rows by index"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col),
         pady = c(5, 9))
@@ -112,16 +112,15 @@ window_rows_slice <- function(){
     row_number_frame <- tkframe(top)
     tkgrid(row_number_frame)
     tkgrid(
-        label_rcmdr(row_number_frame, text = "Number of rows in the dataset: "),
-        label_rcmdr(row_number_frame, text = nrow(get(activeDataSet())),
-                    fg = "darkred"),
+        bs_label(row_number_frame, text = "Number of rows in the dataset: "),
+        bs_label(row_number_frame, text = getRcmdr("nrow"), fg = "darkred"),
         sticky = "sw"
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(
-        label_rcmdr(
+        bs_label(
             indexFrame,
-            text = gettextRcmdr("Row indices:"),
+            text = gettext_bs("Row indices:"),
             foreground = getRcmdr("title.color"),
             font = "RcmdrTitleFont"
         ),
@@ -133,7 +132,7 @@ window_rows_slice <- function(){
     tkgrid(indexFrame,  sticky = "w")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(labelRcmdr(dataSetNameFrame,
-                      text = gettextRcmdr("Name for sliced dataset:   ")),
+                      text = gettext_bs("Name for sliced dataset:   ")),
            dataSetNameEntry,
            sticky = "w")
 
@@ -144,11 +143,11 @@ window_rows_slice <- function(){
         labelRcmdr(
             top,
             text = paste0(
-                gettextRcmdr("Row indices should be:\n"),
-                gettextRcmdr(" - comma separated;\n"),
-                gettextRcmdr(" - either positive integers to select rows;\n"),
-                gettextRcmdr(" - or negative integers to remove rows.\n"),
-                gettextRcmdr("Use colon to select ranges from:to. Function n() denotes the last row.\n")
+                gettext_bs("Row indices should be:\n"),
+                gettext_bs(" - comma separated;\n"),
+                gettext_bs(" - either positive integers to select rows;\n"),
+                gettext_bs(" - or negative integers to remove rows.\n"),
+                gettext_bs("Use colon to select ranges from:to. Function n() indicates the last row.\n")
             ),
             foreground = getRcmdr("title.color"),
             font = "RcmdrTitleFont"
@@ -158,7 +157,7 @@ window_rows_slice <- function(){
     )
 
     tkgrid(
-        label_rcmdr(
+        bs_label(
             top,
             text = paste0(
                 "Example 1 (select): 1, 3, 19:52, n()\n",
@@ -178,16 +177,16 @@ window_rows_slice <- function(){
 # window_rows_slice__ <- function() {
 #     Library("tidyverse")
 #
-#     doItAndPrint(glue::glue(
+#     doItAndPrint(str_glue(
 #
 #         '\n# Select the first row: \n',
-#         '# new_df <- dplyr::slice({ActiveDataSet()}, 1) \n',
+#         '# new_df <- dplyr::slice({active_dataset_0()}, 1) \n',
 #         '\n# Select the last row: \n',
-#         '# new_df <- dplyr::slice({ActiveDataSet()}, n()) \n',
+#         '# new_df <- dplyr::slice({active_dataset_0()}, n()) \n',
 #         '\n# Select several adjacent rows: \n',
-#         '# new_df <- dplyr::slice({ActiveDataSet()}, 5:n()) \n',
+#         '# new_df <- dplyr::slice({active_dataset_0()}, 5:n()) \n',
 #         '\n# Use negative indices to drop rows: \n',
-#         '# new_df <- dplyr::slice({ActiveDataSet()}, -5:-n()) \n'
+#         '# new_df <- dplyr::slice({active_dataset_0()}, -5:-n()) \n'
 #
 #     ))
 #

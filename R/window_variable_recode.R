@@ -1,6 +1,15 @@
 # TODO:
+# 1. Solve problem of window duplication on error when apply button is pressed.
 #
-# 1. Add popup menu for right-click, that enables quick change of row position, deletion, etc.
+# 1. Add buttons on the window to insert `recode_values_template` and `
+# recode_values_template_2`.
+#
+# 2. Better handling for code evaluation error, e. g. if only '.missing = "NA"'
+# is enered and other values are not.
+#
+# 3. Add popup menu for right-click and key stroke bindings, that enable quick
+# change of row position, deletion, etc.
+#
 #
 # [+] DONE:
 #
@@ -63,19 +72,26 @@ right_click_menu <- function(tcl_widget) {
         # focused <- tkfocus()
         focused <- tcl_widget
 
-        initializeDialog(title=gettextRcmdr("Find"))
+        initializeDialog(title = gettext_bs("Find"))
         textFrame <- tkframe(top)
         textVar <- tclVar(getRcmdr("last.search"))
-        textEntry <- ttkentry(textFrame, width="20", textvariable=textVar)
-        checkBoxes(frame="optionsFrame", boxes=c("regexpr", "case"), initialValues=c("0", "1"),
-                   labels=gettextRcmdr(c("Regular-expression search", "Case sensitive")))
-        radioButtons(name="direction", buttons=c("foward", "backward"), labels=gettextRcmdr(c("Forward", "Backward")),
-                     values=c("-forward", "-backward"), title=gettextRcmdr("Search Direction"))
+        textEntry <- ttkentry(textFrame, width = "20", textvariable = textVar)
+        checkBoxes(frame = "optionsFrame",
+                   boxes = c("regexpr", "case"),
+                   initialValues = c("0", "1"),
+                   labels = gettext_bs(c("Regular-expression search", "Case sensitive"))
+        )
+        radioButtons(name    = "direction",
+                     buttons = c("foward", "backward"),
+                     labels  = gettext_bs(c("Forward", "Backward")),
+                     values  = c("-forward", "-backward"),
+                     title   = gettext_bs("Search Direction"))
+
         onOK <- function() {
             text <- tclvalue(textVar)
             putRcmdr("last.search", text)
-            if (text == ""){
-                errorCondition(recall=onFind, message=gettextRcmdr("No search text specified."))
+            if (text == "") {
+                errorCondition(recall=onFind, message=gettext_bs("No search text specified."))
                 return()
             }
             type <- if (tclvalue(regexprVariable) == 1) "-regexp" else "-exact"
@@ -86,7 +102,7 @@ right_click_menu <- function(tcl_widget) {
             else tksearch(focused, type, direction, "-nocase", "--", text, "insert", stop)
             where.txt <- tclvalue(where.txt)
             if (where.txt == "") {
-                Message(message=gettextRcmdr("Text not found."),
+                Message(message=gettext_bs("Text not found."),
                         type="note")
                 if (GrabFocus()) tkgrab.release(top)
                 tkdestroy(top)
@@ -105,7 +121,8 @@ right_click_menu <- function(tcl_widget) {
             return("")
         }
         OKCancelHelp()
-        tkgrid(labelRcmdr(textFrame, text=gettextRcmdr("Search for:")), textEntry, sticky="w")
+        tkgrid(labelRcmdr(textFrame, text=gettext_bs("Search for:")),
+               textEntry, sticky="w")
         tkgrid(textFrame, sticky="w")
         tkgrid(optionsFrame, sticky="w")
         tkgrid(directionFrame, sticky="w")
@@ -118,6 +135,7 @@ right_click_menu <- function(tcl_widget) {
         tktag.add(tcl_widget, "sel", "1.0", "end")
         tkfocus(tcl_widget)
     }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onSelectRow <- function() {
         # focused <- tkfocus()
@@ -125,12 +143,12 @@ right_click_menu <- function(tcl_widget) {
         tkfocus(tcl_widget)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    onDeleteRow <- function(){
+    onDeleteRow <- function() {
         onSelectRow()
         onDelete()
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    onClear <- function(){
+    onClear <- function() {
         onSelectAll()
         onDelete()
     }
@@ -156,29 +174,41 @@ right_click_menu <- function(tcl_widget) {
 
         contextMenu <- tkmenu(tkmenu(tcl_widget), tearoff = FALSE)
 
-        # tkadd(contextMenu, "command", label = gettextRcmdr("Submit"), command = onSubmit)
+        # tkadd(contextMenu, "command", label = gettext_bs("Submit"), command = onSubmit)
 
         # tkadd(contextMenu, "separator")
-        tkadd(contextMenu, "command", label = gettextRcmdr("Cut"),        command = onCut)
-        tkadd(contextMenu, "command", label = gettextRcmdr("Copy"),       command = onCopy)
-        tkadd(contextMenu, "command", label = gettextRcmdr("Paste"),      command = onPaste)
-        tkadd(contextMenu, "command", label = gettextRcmdr("Delete"),     command = onDelete)
+
+        # tkadd(contextMenu, "command", label = gettext_bs("Move row up"),    command = onUp)
+        # tkadd(contextMenu, "command", label = gettext_bs("Move row down"),  command = onDown)
+        # tkadd(contextMenu, "command", label = gettext_bs("Move row to top"), command = onTop)
+        #
+        # tkadd(contextMenu, "separator")
+        tkadd(contextMenu, "command", label = gettext_bs("Cut"),    command = onCut)
+        tkadd(contextMenu, "command", label = gettext_bs("Copy"),   command = onCopy)
+        tkadd(contextMenu, "command", label = gettext_bs("Paste"),  command = onPaste)
+        tkadd(contextMenu, "command", label = gettext_bs("Delete"), command = onDelete)
+        tkadd(contextMenu, "command", label = gettext_bs("Delete all"), command = onClear)
+
+
+        # tkadd(contextMenu, "separator")
+        # tkadd(contextMenu, "command", label = gettext_bs("Find..."),    command = onFind)
+        # tkadd(contextMenu, "command", label = gettext_bs("Select all"), command = onSelectAll)
+        # tkadd(contextMenu, "command", label = gettext_bs("Select row"), command = onSelectRow)
+        # tkadd(contextMenu, "command", label = gettext_bs("Delete row"), command = onDeleteRow)
 
         tkadd(contextMenu, "separator")
-        # tkadd(contextMenu, "command", label = gettextRcmdr("Find..."),    command = onFind)
-        # tkadd(contextMenu, "command", label = gettextRcmdr("Select all"), command = onSelectAll)
-        tkadd(contextMenu, "command", label = gettextRcmdr("Select row"), command = onSelectRow)
-        tkadd(contextMenu, "command", label = gettextRcmdr("Delete row"), command = onDeleteRow)
+        tkadd(contextMenu, "command", label = gettext_bs("Undo"), command = onUndo)
+        tkadd(contextMenu, "command", label = gettext_bs("Redo"), command = onRedo)
+
 
         # tkadd(contextMenu, "separator")
-        # tkadd(contextMenu, "command", label = gettextRcmdr("Undo"),       command = onUndo)
-        # tkadd(contextMenu, "command", label = gettextRcmdr("Redo"),       command = onRedo)
+        # tkadd(contextMenu, "command", label = gettext_bs("Reset directives"), command = variable_doubleclick)
 
-        # tkadd(contextMenu, "separator")
-        # tkadd(contextMenu, "command", label = gettextRcmdr("Clear directives"), command = onClear)
-        # tkadd(contextMenu, "command", label = gettextRcmdr("Reset directives"), command = variable_doubleclick)
+        tkpopup(contextMenu,
+                tkwinfo("pointerx", tcl_widget),
+                tkwinfo("pointery", tcl_widget))
 
-        tkpopup(contextMenu, tkwinfo("pointerx", tcl_widget), tkwinfo("pointery", tcl_widget))
+
     }
 
 
@@ -190,8 +220,8 @@ right_click_menu <- function(tcl_widget) {
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Helper functions
-
-recode_values_template <- function(x) {
+# x - a vector
+recode_values_template <- function(x, template = "1") {
 
     if (is.character(x)) {
         x <- forcats::as_factor(x)
@@ -205,31 +235,80 @@ recode_values_template <- function(x) {
             sort(unique(x))
         }
 
-    rez <-
-        glue::glue('"{unique_values}" = ""') %>%
-        paste(collapse = "\n") %>%
-        paste('\n',
-              '\n.default = ""',
-              '\n.missing = ""')
+    switch(as.character(template),
+           "1" = {
+               rez <-
+                   str_glue('"{unique_values}" = ""') %>%
+                   paste(collapse = "\n") %>%
+                   paste('\n',
+                         '\n.default = ""',
+                         '\n.missing = ""')
+           },
+           "1a" = {
+               rez <-
+                   str_glue('"{unique_values}" = ""') %>%
+                   paste(collapse = "\n") %>%
+                   paste('\n',
+                         '\n.default = ""',
+                         '\n.missing = ""')
+               # %>% align_at_equal()
+           },
+           "2" = {
+               rez <-
+                   str_glue('"{unique_values}" = "{unique_values}"') %>%
+                   paste(collapse = "\n") %>%
+                   paste('\n',
+                         '\n.default = ""',
+                         '\n.missing = ""')
+           },
+           "2a" = {
+               rez <-
+                   str_glue('"{unique_values}" = "{unique_values}"') %>%
+                   paste(collapse = "\n") %>%
+                   paste('\n',
+                         '\n.default = ""',
+                         '\n.missing = ""')
+               # %>% align_at_equal()
+           }
+    )
+
     rez
     # writeLines(rez)
 }
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# widget - tktext widget
+# i, j - row numbers
+swap_rows_in_tktext <- function(widget, i, j) {
+
+    recodes_text <- trimws(tclvalue(tkget(widget, "1.0", "end")))
+    tmp <- str_split(recodes_text, "\n")[[1]]
+    n <- length(tmp)
+    i <- correct_row_index(i, n)
+    j <- correct_row_index(j, n)
+
+    swapped <- str_c(swap(tmp, i, j), collapse = "\n")
+
+    tkdelete(widget, "1.0", "end")
+    tkinsert(widget, "1.0", swapped)
+}
+
+# ___ Main function ___ ======================================================
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 window_variable_recode0 <- function() {
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_Bio("Recode Variable Values"))
+    initializeDialog(title = gettext_bs("Recode Variable Values"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     defaults <-
         list(
             # initial_make_factor     = 1,
             initial_recode_into       = "nominal",
             initial_variables         = NULL,
-            initial_name              = "recoded_variable",
+            initial_name              = unique_colnames("recoded_variable"),
             initial_recode_directives = "",
             initial_selected_variable = "{none}"
         )
@@ -240,20 +319,29 @@ window_variable_recode0 <- function() {
     selected_variable  <- tclVar(dialog_values$initial_selected_variable)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    variable_doubleclick <- function() {
+    insert_template <- function(template = "1") {
         active_variable  <- getSelection(variablesBox)
-        var_val          <- eval_glue("{activeDataSet()}${active_variable}")
+        var_val          <- get_active_ds()[[active_variable]]
+        # var_val        <- str_glue_eval("{active_dataset()}${active_variable}")
+
+        get_active_ds()[[active_variable]]
 
         tclvalue(selected_variable) <- active_variable
 
         # Change contents of "recodes" box
         tkdelete(recodes, "1.0", "end")
-        tkinsert(recodes, "1.0", recode_values_template(var_val))
+        tkinsert(recodes, "1.0", recode_values_template(var_val, template))
 
         # Change new variable name
         tclvalue(newVariableName) <-
             unique_colnames(active_variable, suffix = "_recoded")
     }
+
+    insert_template_1  <- function() {insert_template("1")}
+    insert_template_1a <- function() {insert_template("1a")}
+    insert_template_2  <- function() {insert_template("2")}
+    insert_template_2a <- function() {insert_template("2a")}
+
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
@@ -263,9 +351,12 @@ window_variable_recode0 <- function() {
             listHeight = 7,
             upper_frame,
             Variables(),
-            onDoubleClick_fun = variable_doubleclick,
+            onDoubleClick_fun  = insert_template_1,
+            onTripleClick_fun  = insert_template_1a,
+            onDoubleClick3_fun = insert_template_2,
+            onTripleClick3_fun = insert_template_2a,
             # selectmode = "multiple",
-            title = gettext_Bio("Variable to recode \n(double-click to pick one)"),
+            title = gettext_bs("Variable to recode \n(double-click to pick one)"),
             initialSelection = varPosn(dialog_values$initial_variables, "all")
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -323,19 +414,23 @@ window_variable_recode0 <- function() {
     #                                         variable = make_factorVariable)
 
     Rcmdr::radioButtons(variable_type_frame,
-                            name          = "recode_into",
-                            # title       = gettext_Bio("Use functions: "),
-                            # title.color = getRcmdr("title.color"),
-                            buttons       = c("nominal", "ordinal", "other"),
-                            values        = c("nominal", "ordinal", "other"),
-                            initialValue  = dialog_values$initial_recode_into,
-                            labels        = gettext_Bio(c("Nominal factor",
-                                                          "Ordinal factor",
-                                                          "Do not convert")))
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                        name          = "recode_into",
+                        # title       = gettext_bs("Use functions: "),
+                        # title.color = getRcmdr("title.color"),
+                        buttons       = c("nominal", "ordinal", "other"),
+                        values        = c("nominal", "ordinal", "other"),
+                        initialValue  = dialog_values$initial_recode_into,
+                        labels        = gettext_bs(c("Nominal factor",
+                                                      "Ordinal factor",
+                                                      "Do not convert")))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
+        # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        cursor_set_busy(top)
+        on.exit(cursor_set_idle(top))
+
+        # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # make_factor <- tclvalue(make_factorVariable) == "1"
         # make_factor <- tclvalue_lgl(make_factorVariable)
         recode_into       <- tclvalue(recode_intoVariable)
@@ -344,10 +439,9 @@ window_variable_recode0 <- function() {
         name              <- trim.blanks(tclvalue(newVariableName))
 
         # Read recode directives
-        save_recodes <- trim.blanks(tclvalue(tkget(recodes, "1.0", "end")))
+        save_recodes <- trimws(tclvalue(tkget(recodes, "1.0", "end")))
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        closeDialog()
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
         # Format code into one row
         recode_directives <-
             stringr::str_replace_all(save_recodes,
@@ -368,50 +462,9 @@ window_variable_recode0 <- function() {
                                        "^[, ]*"    = "",
                                        # Remove tailing commas and spaces
                                        "[, ]*$"    = "")
-                   )
+            )
         # str_detect(recode_directives,
         #            "[\\p{Alphabetic}\\p{Mark}\\p{Decimal_Number}]")
-
-        # Is empty? ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (recode_directives == "") {
-            errorCondition(
-                recall  = window_variable_recode0,
-                message = gettext_Bio("No recode directives specified.")
-            )
-            return()
-        }
-
-
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # variables
-        # If no variable is selected
-        if (length(variables) == 0 || selected_variable == "{none}") {
-            errorCondition(
-                recall  = window_variable_recode0,
-                message = gettext_Bio("You must select a variable.")
-            )
-            return()
-        }
-
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # name
-
-        # check variable name for validity
-        if (!is.valid.name(name)) {
-            errorCondition(
-                recall  = window_variable_recode0,
-                message = glue::glue('"{name}"',
-                                     gettext_Bio("is not a valid name."))
-            )
-            return()
-        }
-
-        if (name %in% Variables()) {
-            if ("no" == tclvalue(checkReplace(name))) {
-                window_variable_recode0()
-                return()
-            }
-        }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         putDialog("window_variable_recode0",
                   list(
@@ -424,7 +477,34 @@ window_variable_recode0 <- function() {
                   )
         )
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # variables
+        # If no variable is selected
+        if (length(variables) == 0 || selected_variable == "{none}") {
+            show_error_messages(
+                "No variable is selected.",
+                str_c("Prease, select a variable."),
+                title = "No Variable Selected"
+            )
+            return()
+        }
+        # Is empty? ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (recode_directives == "") {
+            show_error_messages(
+                "No recode directives were specified.",
+                str_c("No recode directives were specified.\n\n",
+                      "Double-click on a variable name to insert a template:\n",
+                      "use either right or left mouse button.\n",
+                      "Then fill in the template where necessary."),
+                title = "Missing Recode Directives"
+            )
+            return()
 
+        }
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (is_empty_name(name))              {return()}
+        if (is_not_valid_name(name))          {return()}
+        if (forbid_to_replace_variable(name)) {return()}
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         switch(recode_into,
                "nominal" = {
                    recode_fun     <- "dplyr::recode_factor"
@@ -439,70 +519,83 @@ window_variable_recode0 <- function() {
                    ordered_factor <- ""
                })
 
-        dataSet <- activeDataSet()
+        dataSet <- active_dataset()
 
-        command <- glue::glue(
-            "## ", gettext_Bio("Recode variable values"), "\n\n",
+        command <- str_glue(
+            "## ", gettext_bs("Recode variable values"), "\n\n",
             "{dataSet} <- {dataSet} %>% \n",
-            "   dplyr::mutate({name} = {recode_fun}({selected_variable}, ",
-            " {recode_directives}{ordered_factor}))"
-        ) %>%
-            style_cmd()
+            "   dplyr::mutate(\n",
+            "   {name} = {recode_fun}({selected_variable}, ",
+            "   {recode_directives}{ordered_factor}))"
+        )
 
-        result <- doItAndPrint(command)
+        result <- justDoIt(command)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (class(result)[1] != "try-error")
-            activeDataSet(dataSet,
-                          flushModel = FALSE,
-                          flushDialogMemory = FALSE)
+        if (class(result)[1] != "try-error") {
+            closeDialog()
+            logger(style_cmd(command))
+            active_dataset(dataSet, flushModel = FALSE, flushDialogMemory = FALSE)
+
+        } else {
+            logger_error(command, error_msg = result)
+            show_code_evaluation_error_message()
+            return()
+        }
+
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkfocus(CommanderWindow())
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Announce about the success to run the function `onOk()`
+        TRUE
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(label_rcmdr(
+    tkgrid(bs_label(
         top,
-        text = gettextRcmdr("Recode variable values"),
+        text = gettext_bs("Recode variable values"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col),
         pady = c(5, 9))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(selected_var_frame) # selected_variable
     tkgrid(
-        label_rcmdr(selected_var_frame, text = "Selected variable: "),
-        label_rcmdr(selected_var_frame,
+        bs_label(selected_var_frame, text = "Selected variable: "),
+        bs_label(selected_var_frame,
                     textvariable = selected_variable,
                     font = tkfont.create(weight = "bold", size = 8),
                     fg = "darkred"),
         pady = c(0, 9)
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     OKCancelHelp(helpSubject = "recode_factor", helpPackage = "dplyr",
-                 reset = "window_variable_recode0",
-                 apply = "window_variable_recode0")
+
+    ok_cancel_help(helpSubject = "recode_factor", helpPackage = "dplyr",
+                   reset = "window_variable_recode0()",
+                   apply = "window_variable_recode0()")
 
     tkgrid(upper_frame, sticky = "nw")
     tkgrid(getFrame(variablesBox),
-           label_rcmdr(upper_frame, text = "  "),
+           bs_label(upper_frame, text = "  "),
            recodesFrame, sticky = "nw")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # tkgrid()
 
-    tkgrid(label_rcmdr(
+    tkgrid(bs_label(
         variablesFrame,
         fg = getRcmdr("title.color"),
-        text = gettext_Bio("Name for recoded variable: ")),
+        text = gettext_bs("Name for recoded variable: ")),
         sticky = "w",
         pady = c(2, 0))
     tkgrid(newVariable, sticky = "w")
 
     tkgrid(
-        label_rcmdr(variable_type_frame,
-                   text = gettext_Bio("Convert variable into: "),
-                   fg = getRcmdr("title.color")),
+        bs_label(variable_type_frame,
+                    text = gettext_bs("Convert variable into: "),
+                    fg = getRcmdr("title.color")),
         sticky = "w",
         pady = c(10, 0)
     )
@@ -510,11 +603,11 @@ window_variable_recode0 <- function() {
     tkgrid(recode_intoFrame, sticky = "w")
 
     tkgrid(
-        label_rcmdr(
+        bs_label(
             recodesFrame,
-            text = gettext_Bio(
+            text = gettext_bs(
                 "Enter recode directives\n(one directive per row; change order of rows, if needed)"),
-                # "Enter recode directives\n(one directive per row or comma separated)"),
+            # "Enter recode directives\n(one directive per row or comma separated)"),
             fg = getRcmdr("title.color"),
             font = "RcmdrTitleFont"
         ),
@@ -534,15 +627,15 @@ window_variable_recode0 <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid_text <- function(text = "", frame = examples_frame, fg = "black",
                             sticky = "w", padx = 10, pady = 0, ...) {
-        tkgrid(label_rcmdr(frame, text = gettext_Bio(text), fg = fg),
+        tkgrid(bs_label(frame, text = gettext_bs(text), fg = fg),
                sticky = sticky, padx = padx, pady = pady, ...)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid_text("Examples of recode directives:", fg = fg_col, pady = c(2, 0))
     tkgrid_text(paste(
         '      Example 1:       "old value 1" = "new value 1"\n',
-                           '\t\t"old value 3" = "new value 3"\n',
-                           '\t\t"old value 2" = "new value 2"\n'))
+        '\t\t"old value 3" = "new value 3"\n',
+        '\t\t"old value 2" = "new value 2"\n'))
 
     # tkgrid_text('      Example 2:       "old 1" = "new 1", "old 2" = "new 2"\n')
     tkgrid_text('      .default - a default value for all non-specified values.')

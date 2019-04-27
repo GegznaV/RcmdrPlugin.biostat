@@ -12,12 +12,12 @@
 #' @export
 #' @keywords internal
 window_fct_lvls_reorder_manual <- function() {
-    initializeDialog(title = gettext_Bio("Reorder factor levels"))
+    initializeDialog(title = gettext_bs("Reorder factor levels"))
     variableBox <-
         variableListBox2(
             top,
             variables_fct(),
-            title = gettext_Bio("Factor (pick one)"),
+            title = gettext_bs("Factor (pick one)"),
             listHeight = 7
         )
     orderedFrame <- tkframe(top)
@@ -25,13 +25,13 @@ window_fct_lvls_reorder_manual <- function() {
     orderedCheckBox <-
         tkcheckbutton(orderedFrame, variable = orderedVariable)
     factorName <-
-        tclVar(gettext_Bio("<same as original>"))
+        tclVar(gettext_bs("<same as original>"))
     factorNameField <-
         ttkentry(top, width = "20", textvariable = factorName)
     onOK <- function() {
         # logger(paste(
         #     "#####",
-        #     gettext_Bio("Reorder Factor Levels"),
+        #     gettext_bs("Reorder Factor Levels"),
         #     "#####",
         #     sep = ""
         # ))
@@ -40,12 +40,12 @@ window_fct_lvls_reorder_manual <- function() {
         if (length(variable) == 0) {
             errorCondition(
                 recall = window_fct_lvls_reorder_manual,
-                message = gettext_Bio("You must select a variable.")
+                message = gettext_bs("You must select a variable.")
             )
             return()
         }
         name <- trim.blanks(tclvalue(factorName))
-        if (name == gettext_Bio("<same as original>"))
+        if (name == gettext_bs("<same as original>"))
             name <- variable
         if (!is.valid.name(name)) {
             errorCondition(recall = window_fct_lvls_reorder_manual,
@@ -53,7 +53,7 @@ window_fct_lvls_reorder_manual <- function() {
                                '"',
                                name,
                                '" ',
-                               gettext_Bio("is not a valid name."),
+                               gettext_bs("is not a valid name."),
                                sep = ""
                            ))
             return()
@@ -64,7 +64,7 @@ window_fct_lvls_reorder_manual <- function() {
                 return()
             }
         }
-        .activeDataSet <- ActiveDataSet()
+        .activeDataSet <- active_dataset_0()
         old.levels <-
             eval(parse(
                 text = paste("levels(", .activeDataSet, "$", variable, ")",
@@ -75,13 +75,13 @@ window_fct_lvls_reorder_manual <- function() {
         if (nvalues > 30) {
             errorCondition(recall = window_fct_lvls_reorder_manual,
                            message = sprintf(
-                               gettext_Bio("Number of levels (%d) too large."),
+                               gettext_bs("Number of levels (%d) too large."),
                                nvalues
                            ))
             return()
         }
         initializeDialog(subdialog,
-                         title = gettext_Bio("Reorder Levels"))
+                         title = gettext_bs("Reorder Levels"))
         order <- 1:nvalues
         onOKsub <- function() {
             closeDialog(subdialog)
@@ -96,7 +96,7 @@ window_fct_lvls_reorder_manual <- function() {
             if (any(sort(order) != 1:nvalues) || any(is.na(order))) {
                 errorCondition(recall = window_fct_lvls_reorder_manual,
                                message = paste(
-                                   gettext_Bio("Order of levels must include all integers from 1 to "
+                                   gettext_bs("Order of levels must include all integers from 1 to "
                                    ),
                                    nvalues,
                                    sep = ""
@@ -114,7 +114,7 @@ window_fct_lvls_reorder_manual <- function() {
 
             Library("forcats")
             command <-
-                glue(
+                str_glue(
                     "{.activeDataSet} <- within({.activeDataSet}, {{",
                     "{name} <- factor({variable}, levels = c({levels_ok}){ordered})",
                     "}})"
@@ -124,18 +124,18 @@ window_fct_lvls_reorder_manual <- function() {
             logger(command)
 
             if (class(result)[1] !=  "try-error")
-                activeDataSet(.activeDataSet, flushModel = FALSE)
+                active_dataset(.activeDataSet, flushModel = FALSE)
         }
         subOKCancelHelp()
         tkgrid(
             labelRcmdr(
                 subdialog,
-                text = gettext_Bio("Old Levels"),
+                text = gettext_bs("Old Levels"),
                 fg = "blue"
             ),
             labelRcmdr(
                 subdialog,
-                text = gettext_Bio("New order"),
+                text = gettext_bs("New order"),
                 fg = "blue"
             ),
             sticky = "w"
@@ -171,21 +171,21 @@ window_fct_lvls_reorder_manual <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(label_rcmdr(
+    tkgrid(bs_label(
         top,
-        text = gettextRcmdr("Reorder factor levels"),
+        text = gettext_bs("Reorder factor levels"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col),
         pady = c(5, 9))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     OKCancelHelp(helpSubject = "factor")
     tkgrid(getFrame(variableBox), sticky = "nw")
-    tkgrid(labelRcmdr(top, text = gettext_Bio("Name for factor")), sticky =
+    tkgrid(labelRcmdr(top, text = gettext_bs("Name for factor")), sticky =
                "w")
     tkgrid(factorNameField, sticky = "w")
     tkgrid(labelRcmdr(
         orderedFrame,
-        text = gettext_Bio("Make ordered factor")
+        text = gettext_bs("Make ordered factor")
     ),
     orderedCheckBox,
     sticky = "w")

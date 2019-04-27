@@ -1,124 +1,116 @@
 # "Summany" menu related functions ============================================
 
+#  Overview ------------------------------------------------------------------
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+command_dataset_dim <- function() {
+  command_dataset_dim_0(.ds = active_dataset_0())
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+command_dataset_dim_0 <- function(.ds) {
+  doItAndPrint(str_glue(
+    "## Number of rows and columns\n",
+    "dim({.ds})"))
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 command_glimpse <- function() {
     Library("tidyverse")
-    # doItAndPrint('library("tidyverse")')
-    doItAndPrint(glue::glue("dplyr::glimpse({ActiveDataSet()})"))
-}
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-command_summary <- function() {
-    # doItAndPrint('library("tidyverse")')
-    doItAndPrint(glue::glue("# Quick summary of whole dataset\n",
-                            "summary({ActiveDataSet()})"))
+    command <-
+        str_glue(
+            "## Structure of dataset \n",
+            "dplyr::glimpse({active_dataset_0()})"
+        ) %>%
+        style_cmd()
+
+    doItAndPrint(command)
 }
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 summary_head_tail <- function() {
-    Library("biostat")
-    doItAndPrint(glue::glue("## Top and bottom rows of the dataset\n",
-        "biostat::head_tail({ActiveDataSet()}, 4)"))
-}
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-summary_head <- function() {
-    doItAndPrint(glue::glue("# Top rows\n",
-                            "head({ActiveDataSet()}, 4)"))
-}
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-summary_tail <- function() {
-    Library("biostat")
-    doItAndPrint(glue::glue("# Bottom rows\n",
-                            "tail({ActiveDataSet()}, 4)"))
-}
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    .ds <- active_dataset_0()
+     ds <- eval_text(.ds, envir = .GlobalEnv)
 
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-summary_Hmisc_describe <- function() {
-    Library("Hmisc")
-    # doItAndPrint('library("Hmisc")')
-
-    doItAndPrint(glue::glue("# Summary of all variables\n",
-
-                            "Hmisc::describe({ActiveDataSet()})"))
-}
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-summary_ds_screener <- function() {
-    Library("descriptr")
-
-    doItAndPrint(glue::glue("# Screen the dataset\n",
-
-                            "descriptr::ds_screener({ActiveDataSet()})"))
-}
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-summary_psych_describe <- function() {
     Library("tidyverse")
-    Library("psych")
+    Library("data.table")
 
-    # doItAndPrint('library("tidyverse")\n library("psych")\n')
+    keep_rownames_txt <-
+        if (tibble::has_rownames(ds)) {
+            rn <- unique_colnames("row_names")
+            str_glue('keep.rownames = "{rn}"')
 
-    doItAndPrint(glue::glue("# Summary of numeric variables\n",
+        } else {
+            ""
+        }
 
-                            "{ActiveDataSet()} %>% \n",
-                            "  dplyr::select_if(is.numeric) %>% \n",
-                            "  psych::describe(quant = c(.05, .25, .75, .95),  IQR = TRUE, trim = .10) \n"))
-    # logger(glue::glue("# * - Statistics of variables marked with  * should be interpreted\n",
-    #                   "#     cautiously (if at all) as they are either categorical or logical. \n\n"))
+    str_glue(
+        "## Top and bottom rows\n",
+        "{.ds} %>% \n",
+        "as.data.table({keep_rownames_txt}) %>% \n",
+        "print(topn = 5, nrows = 10)"
+    ) %>%
+        style_cmd() %>%
+        doItAndPrint()
 }
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-summary_psych_describeBy <- function() {
-    Library("tidyverse")
-    Library("psych")
+summary_var_types <- function() {
+    summary_var_types_0(.ds = active_dataset_0())
+}
 
-#
-#
-#     "education", "gender"
-#
-#     .groups <- as.list('{ActiveDataSet()}[, c(gr_variables)]')
-#
-#     describeBy(sat.act$age, group = .groups), mat = TRUE, digits = 2)
-#
-# mat_status # TRUE, FALSE
-# round_to   # integer
-
-    # doItAndPrint('library("tidyverse")\n library("psych")\n')
-
-    doItAndPrint(glue::glue("# Summary of numeric variables\n",
-
-                            "{ActiveDataSet()} %>% \n",
-                            "  dplyr::select_if(is.numeric) %>% \n",
-                            "  psych::describeBy(group = .groups,\n",
-                            "                    digits = {round_to}, \n",
-                            "                    mat = {mat_status}) \n"
-
-                            ))
-
+summary_var_types_0 <- function(.ds) {
+    Library("skimr")
+    doItAndPrint(str_glue(
+        "## Variable type summary & size of dataset '{.ds}'\n",
+        "summary(skimr::skim({.ds}))"
+    ))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+summary_skim_0 <- function() {
+    summary_skim(.ds = active_dataset_0())
+}
+
+summary_skim <- function(.ds) {
+    Library("tidyverse")
+    Library("skimr")
+
+  if ((utils::packageVersion("skimr") < "2.0")) {
+
+        doItAndPrint(
+            str_c(
+                "skimr::skim_with(\n",
+                "    numeric = list(hist = NULL),\n",
+                "    integer = list(hist = NULL) \n",
+                ")\n\n"
+            ))
+
+        doItAndPrint(str_glue(
+            "## Summary of the variables in dataset '{.ds}'\n",
+            "skimr::skim({.ds})"
+        ))
+
+    } else {
+        doItAndPrint(str_glue(
+            "## Summary of the variables in dataset '{.ds}'\n",
+
+            "do_skim <- skimr::skim_with(numeric = sfl(hist = NULL))\n",
+            "do_skim({.ds})\n\n"
+        ))
+    }
+}
+

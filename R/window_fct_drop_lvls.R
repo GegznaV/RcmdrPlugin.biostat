@@ -8,16 +8,18 @@
 #' @export
 #' @keywords internal
 window_factor_lvls_drop <- function() {
-    dataSet <- activeDataSet()
-    initializeDialog(title = gettext_Bio("Drop Unused Factor Levels"))
+    dataSet <- active_dataset()
+    initializeDialog(title = gettext_bs("Drop Unused Factor Levels"))
     allfactorsVariable <- tclVar("0")
     allFrame <- tkframe(top)
-    allfactorsCheckBox <-
-        ttkcheckbutton(allFrame, variable = allfactorsVariable)
+    allfactorsCheckBox <- ttkcheckbutton(
+        allFrame,
+        variable = allfactorsVariable
+    )
     variablesBox <- variableListBox2(
         top,
         variables_fct(),
-        title = gettext_Bio("Factors(s) to drop levels \n(pick one or more)"),
+        title = gettext_bs("Factors(s) to drop levels \n(pick one or more)"),
         selectmode = "multiple",
         initialSelection = NULL,
         listHeight = 6
@@ -26,7 +28,7 @@ window_factor_lvls_drop <- function() {
     onOK <- function() {
         # logger(paste(
         #     "#####",
-        #     gettext_Bio("Drop unused factor levels"),
+        #     gettext_bs("Drop unused factor levels"),
         #     "#####",
         #     sep = ""
         # ))
@@ -36,20 +38,20 @@ window_factor_lvls_drop <- function() {
         if (all == 0 && length(variables) == 0) {
             errorCondition(
                 recall = window_factor_lvls_drop,
-                message = gettext_Bio("You must select one or more variables.")
+                message = gettext_bs("You must select one or more variables.")
             )
             return()
         }
         response <-
-            tclvalue(
-                RcmdrTkmessageBox(
-                    message = gettext_Bio("Drop unused factor levels\nPlease confirm."),
-                    icon = "warning",
-                    type = "okcancel",
-                    default = "cancel"
-                )
+            tk_messageBox(
+                # parent = top,
+                caption = "Drop Unused Levels",
+                message = gettext_bs("Unused factor levels will be dropped.\nDo you agree?"),
+                icon = "warning",
+                type = "yesno",
+                default = "no"
             )
-        if (response == "cancel") {
+        if (response != "yes") {
             onCancel()
             return()
         }
@@ -64,7 +66,7 @@ window_factor_lvls_drop <- function() {
             }
         }
         doItAndPrint(command)
-        activeDataSet(dataSet,
+        active_dataset(dataSet,
                       flushModel = FALSE,
                       flushDialogMemory = FALSE)
         tkfocus(CommanderWindow())
@@ -72,27 +74,25 @@ window_factor_lvls_drop <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(label_rcmdr(
+    tkgrid(bs_label(
         top,
-        text = gettextRcmdr("Drop unused factor levels"),
+        text = gettext_bs("Drop unused factor levels"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col),
         pady = c(5, 9))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     OKCancelHelp(helpSubject = "droplevels")
+
+    tkgrid(getFrame(variablesBox), sticky = "nw")
+
     tkgrid(allfactorsCheckBox,
            labelRcmdr(
                allFrame,
-               text = gettext_Bio("all factors")
+               text = gettext_bs("All factor variables")
            ),
-           sticky = "w")
-    tkgrid(allFrame, sticky = "w")
-    tkgrid(labelRcmdr(
-        top,
-        text = gettext_Bio("OR"),
-        fg = "red"
-    ), sticky = "w")
-    tkgrid(getFrame(variablesBox), sticky = "nw")
+           sticky = "w", pady = c(2, 0))
+    tkgrid(allFrame, sticky = "ew")
+
     tkgrid(buttonsFrame, sticky = "w")
     dialogSuffix()
 }

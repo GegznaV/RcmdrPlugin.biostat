@@ -1,114 +1,83 @@
-# Create new window for plots
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-command_load_packages <- function() {
-    Rcmdr::doItAndPrint(paste0(
-        "library(tidyverse) \n",
-        "library(biostat)   \n",
-        "library(magrittr)  \n"))
-}
+# Workspace and Settings menu functions ======================================
+
+# Working directory ----------------------------------------------------------
+#
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 command_getwd <- function() {
     Rcmdr::doItAndPrint(paste(
-        '# You are working in folder:',
+        '## You are working in folder:',
         'getwd()',
         sep = " \n"))
 }
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-command_get_locale <- function() {
-    paste0(
-        '## Show current locale  \n',
-        'Sys.getlocale()') %>%
-        Rcmdr::doItAndPrint()
+command_setwd <- function() {
+    new_wd <- tclvalue(tkchooseDirectory(initialdir = getwd(),
+                                         parent = CommanderWindow()))
+    if (new_wd != "") {
+        Rcmdr::doItAndPrint(str_glue('setwd("{new_wd}")'))
+    }
 }
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+command_openwd <- function() {
+    fs::file_show(getwd())
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+command_get_file_info <- function() {
+    f_path <- fs::path_tidy(file.choose())
+    Rcmdr::doItAndPrint(str_glue(
+        '## Information about file "{basename(f_path)}"\n\n',
+        't(fs::file_info("{f_path}"))'))
+}
+
+
+# Workspace ------------------------------------------------------------------
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # TODO:
-# 1. Chaeck if it works in UBUNTU
+#  Convert to window
 #
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-command_set_locale_lt <- function() {
-    # [!!!] Check if works in non-Windows.
+command_list_objects <- function() {
 
-    locale <- if (.Platform$OS.type == "windows") {
-        "Lithuanian"
+    # Inputs (not implemented) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    show_hidden <- TRUE
+
+    if (show_hidden) {
+        all_names <- "all.names = TRUE"
+        all_txt   <- " all "
     } else {
-        "lt_LT"
+        all_names <- ""
+        all_txt   <- " "
+
     }
 
-    Rcmdr::doItAndPrint(glue::glue(
-        '## Set locale to Lithuanian \n',
-        'Sys.setlocale(locale = "{locale}")'
-        # 'locale_info <- Sys.setlocale(locale = "{locale}")\n',
-        # 'writeLines(gsub(";", "\\n", locale_info))\n'
-        ))
-}
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-command_set_locale_en <- function() {
-    # [!!!] Check if works in non-Windows.
-    locale <- if (.Platform$OS.type == "windows") {
-        "English"
-    } else {
-        "en_US"
-    }
+    # Code ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    command <-  str_glue(
+        "## List{all_txt}objects in R workspace \n",
+        "objects({all_names})"
+    )
 
-    Rcmdr::doItAndPrint(glue::glue(
-        '## Set locale to English \n',
-        'Sys.setlocale(locale = "{locale}")'
-        # 'locale_info <- Sys.setlocale(locale = "{locale}")\n',
-        # 'writeLines(gsub(";", "\\n", locale_info))\n'
-        ))
-}
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-command_set_locale_ru <- function() {
-    # [!!!] Check if works in non-Windows.
-    locale <- if (.Platform$OS.type == "windows") {
-        "Russian"
-    } else {
-        "ru_RU"
-    }
+    doItAndPrint(command)
 
-    Rcmdr::doItAndPrint(glue::glue(
-        '## Set locale to Russian \n',
-        'Sys.setlocale(locale = "{locale}")'
-        # 'locale_info <- Sys.setlocale(locale = "{locale}")\n',
-        # 'writeLines(gsub(";", "\\n", locale_info))\n'
-        ))
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-# TODO:
-# 1. make code more robust in non-windows
-#
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-command_set_locale_default <- function() {
-    # [!!!] works only in Windows
-
-    paste0(
-        "## Set locale to system's default \n",
-        'Sys.setlocale(locale = "")') %>%
-
-        Rcmdr::doItAndPrint()
-}
-
+# Session information --------------------------------------------------------
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export

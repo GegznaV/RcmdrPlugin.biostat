@@ -11,46 +11,57 @@ open_new_plots_window <- function() {
         grDevices::X11()
     }
 }
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Create new window for plots
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-window_easyPlot <- function() {
-    Library("easyPlot")
 
-    command <- glue::glue(
-        '## To call tool "easyPlot" for making plots (the app),  \n',
-        "## run the following code in either R or \n",
-        "## RStudio console (and NOT in Rcmdr windows):\n\n",
-        "# ", 'easyPlot::easyPlot("{ActiveDataSet()}")')
-    logger(command)
-    # justDoIt(command)
+# New plot is drawn in a separare R window for plots
+set_plots_to_separate_window <- function() {
+    if (.Platform$OS.type == "windows") {
+        options(device = "windows")
+    } else {
+        options(device = "X11")
+        # options(device = "quartz") # For Mac
+    }
 }
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Create new window for plots
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-window_ggplotgui <- function() {
-    Library("ggplotgui")
 
-    # system.file(package = "ggplotgui") %>% dir()
-    # system.file(package = "descriptr", "application")
-    # shiny::runApp(system.file(package = "descriptr", "application"),
-    #               launch.browser = TRUE)
+# New plot is drawn in RStudio plots window
+set_plots_to_rstudio_window <- function() {
+    if (.Platform$GUI == "RStudio") {
+        options(device = "RStudioGD")
+    }
 
-    command <- glue::glue(
-    '## To call tool "ggplotgui" for making plots (the app),  \n',
-    "## run the following code in either R or RStudio console\n",
-    "## (and NOT in Rcmdr windows).\n",
-    '## In the code you copy form the app, change `ds`\n',
-    '## into the name of your dataset (e.g., `{ActiveDataSet()}`)"\n\n',
-    "# ", 'ggplotgui::ggplot_shiny({ActiveDataSet()})')
-
-    logger(command)
-    # justDoIt(command)
 }
+
+which_graphical_device <- function() {
+
+    cur_dev <- options("device")$device
+
+    if (is.function(cur_dev)) {
+        # In RGUI a function is returned
+        return("function")
+
+    } else if (is.character(cur_dev)) {
+
+        switch(
+            cur_dev,
+            "windows"   = ,
+            "X11"       = ,
+            "quartz"    = "separate_window",
+            "RStudioGD" = "RStudioGD",
+            "other"
+        )
+
+    } else {
+        "unidentified"
+    }
+}
+
+# Check if plot should be in a new separate window
+is_plot_in_separate_window <- function(variables) {
+    isTRUE(which_graphical_device() != "RStudioGD")
+}
+
+
+
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Visualize color names/codes as colors
@@ -70,78 +81,30 @@ window_show_colors <- function() {
     # Code:
     color_names <- paste0('"', color_names, '"', collapse = ", ")
 
-    command <- style_cmd(glue::glue(
+    command <- style_cmd(str_glue(
         "## This is just an example of code to show colors. \n",
         "## Please write either color names or color codes of inerest: \n\n",
         'scales::show_col(c({color_names}))'))
 
     doItAndPrint(command)
 }
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Create color palette
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_colourPicker <- function() {
-    # [!!!] This function should be updated for more interactive use.
-    Library("colourpicker")
+window_plots_image_digitizer <- function() {
+    # digitizeR::wpd.launch()
+}
 
-    color_names <- NULL
-    color_names <- colourpicker::colourPicker()
-
-    # If cancelled
-    if (is.null(color_names)) {
-        return()
-    }
-
-    # Code:
-    color_names2 <- paste0('"', color_names, '"', collapse = ", ")
-
-    # [!!!] Name should be changeable:
-    palette_name <- "my_palette"
-
-    command <- style_cmd(glue::glue(
-        "## The color palette you created:\n",
-        '{palette_name} <- c({color_names2})'
-        ))
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_plots_ggplotly <- function() {
+    command <- str_c(
+        "## Convert the last ggplot to an interactive plot.\n",
+        'plotly::ggplotly()')
 
     doItAndPrint(command)
 }
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Create ...
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-window_histogram <- function() {
-    function_not_implemented("Function for Histograms")
-}
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Create ...
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-window_density_plot <- function() {
-    function_not_implemented("Function for Density plots")
-}
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Create ...
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-window_plot_dot_err <- function() {
-    function_not_implemented("Function for these plots")
-}
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Create ...
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-window_plot_bar_err <- function() {
-    function_not_implemented("Function for these plots")
-}
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-

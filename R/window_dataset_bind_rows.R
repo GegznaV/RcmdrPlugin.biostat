@@ -69,21 +69,23 @@ window_dataset_bind_rows <- function() {
     }
     choose_id_fun <- function(variables) {
         switch(tclvalue(which_idVariable),
-             id_names   = id_names_fun(),
-             id_numeric = id_numeric_fun(),
-             id_none    = id_none_fun()
-             )
+               id_names   = id_names_fun(),
+               id_numeric = id_numeric_fun(),
+               id_none    = id_none_fun()
+        )
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettextRcmdr("Bind rows of datasets"))
+    initializeDialog(title = gettext_bs("Bind rows of datasets"))
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(label_rcmdr(
-        top,
-        text = gettextRcmdr("Bind rows of datasets"),
-        font = tkfont.create(weight = "bold", size = 9),
-        fg = fg_col),
-        pady = c(5, 15), columnspan = 3)
+    tkgrid(
+        bs_label(
+            top,
+            text = gettext_bs("Bind rows of datasets"),
+            font = tkfont.create(weight = "bold", size = 9),
+            fg = fg_col),
+        pady = c(5, 15),
+        columnspan = 3)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Widgets ----------------------------------------------------------------
     new_ds_name_variable <- tclVar(
@@ -113,26 +115,26 @@ window_dataset_bind_rows <- function() {
                             name = "which_id",
                             buttons = c("id_names", "id_numeric","id_none"),
                             values  = c("id_names", "id_numeric","id_none"),
-                            labels  =  gettext_Bio(c("Names  ",
-                                                     "Numeric (1, 2, ...) ",
-                                                     "Do not use ID")),
+                            labels  =  gettext_bs(c("Names  ",
+                                                    "Numeric (1, 2, ...) ",
+                                                    "Do not use ID")),
                             command = choose_id_fun
                             # initialValue = dialog_values$which_names,
-                            )
+    )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     dataSets       <- listDataSets()
-    .activeDataSet <- ActiveDataSet()
+    .activeDataSet <- active_dataset()
 
     ds_1_box <-
         variableListBox2(
             top,
             dataSets,
             listHeight = 7,
-            title = gettextRcmdr("First dataset \n(pick one)"),
+            title = gettext_bs("First dataset \n(pick one)"),
             onRelease_fun = function() {
                 set_id_name1()
                 set_ds_name()
-                },
+            },
             initialSelection = if (is.null(.activeDataSet)) {
                 NULL
             } else {
@@ -145,14 +147,14 @@ window_dataset_bind_rows <- function() {
                          dataSets,
                          listHeight = 7,
                          onRelease_fun = set_id_name2,
-                         title = gettextRcmdr("Second dataset \n(pick one)"))
+                         title = gettext_bs("Second dataset \n(pick one)"))
 
     ds_3_box <-
         variableListBox2(top,
                          dataSets,
                          listHeight = 7,
                          onRelease_fun = set_id_name3,
-                         title = gettextRcmdr("Third dataset \n(pick one or none)"))
+                         title = gettext_bs("Third dataset \n(pick one or none)"))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     set_id_name1()
@@ -177,7 +179,7 @@ window_dataset_bind_rows <- function() {
         if (new_ds_name == "") {
             errorCondition(
                 recall = window_dataset_bind_rows,
-                message = gettextRcmdr("You must enter the name of the new dataset.")
+                message = gettext_bs("You must enter the name of the new dataset.")
             )
             return()
         }
@@ -185,15 +187,15 @@ window_dataset_bind_rows <- function() {
         if (!is.valid.name(new_ds_name)) {
             errorCondition(
                 recall = window_dataset_bind_rows,
-                message = glue::glue('"{new_ds_name}" ',
-                                     gettextRcmdr("is not a valid name."))
+                message = str_glue('"{new_ds_name}" ',
+                                   gettext_bs("is not a valid name."))
             )
             return()
         }
 
         if (is.element(new_ds_name, listDataSets())) {
             if ("no" == tclvalue(checkReplace(new_ds_name,
-                                              gettextRcmdr("Dataset")))) {
+                                              gettext_bs("Dataset")))) {
                 closeDialog()
                 window_dataset_bind_rows()
                 return()
@@ -203,14 +205,14 @@ window_dataset_bind_rows <- function() {
         if (length(name_ds_1) == 0) {
             errorCondition(
                 recall = window_dataset_bind_rows,
-                message = gettextRcmdr("You must select the first dataset.")
+                message = gettext_bs("You must select the first dataset.")
             )
             return()
         }
         if (length(c(name_ds_1, name_ds_2, name_ds_3)) < 2) {
             errorCondition(
                 recall = window_dataset_bind_rows,
-                message = gettextRcmdr("You must select at least two datasets.")
+                message = gettext_bs("You must select at least two datasets.")
             )
             return()
         }
@@ -227,19 +229,19 @@ window_dataset_bind_rows <- function() {
                    ds_ids <- c(ds_1_id, ds_2_id, ds_3_id)
 
                    ds_names_cmd <-
-                       stringr::str_c("`", ds_ids, "` = `", ds_names, "`",
+                       stringr::str_c(safe_names(ds_ids), " = ", safe_names(ds_names),
                                       collapse = ", \n")
                    use_ids <- TRUE
                },
                id_numeric = {
                    ds_names_cmd <-
-                       stringr::str_c("`", ds_names, "`", collapse = ", ")
+                       stringr::str_c(safe_names(ds_names), collapse = ", ")
                    use_ids <- TRUE
 
                },
                id_none    = {
                    ds_names_cmd <-
-                       stringr::str_c("`", ds_names, "`", collapse = ", ")
+                       stringr::str_c(safe_names(ds_names), collapse = ", ")
                    use_ids <- FALSE
                }
         )
@@ -248,7 +250,7 @@ window_dataset_bind_rows <- function() {
         annotation <- "## Bind rows of datasets \n"
         if (use_ids) {
             # Use .id variable
-            command <- style_cmd(glue::glue(
+            command <- style_cmd(str_glue(
                 annotation,
                 "{new_ds_name} <- ",
                 "dplyr::bind_rows(\n{ds_names_cmd}, \n",
@@ -256,7 +258,7 @@ window_dataset_bind_rows <- function() {
 
         } else {
             # No .id variable
-            command <- style_cmd(glue::glue(
+            command <- style_cmd(str_glue(
                 annotation,
                 "{new_ds_name} <- ",
                 "dplyr::bind_rows(\n{ds_names_cmd})"))
@@ -264,7 +266,7 @@ window_dataset_bind_rows <- function() {
 
         doItAndPrint(command)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        activeDataSet(new_ds_name)
+        active_dataset(new_ds_name)
         tkfocus(CommanderWindow())
     }
     # Layout -----------------------------------------------------------------
@@ -273,14 +275,14 @@ window_dataset_bind_rows <- function() {
     tkgrid(getFrame(ds_1_box), getFrame(ds_2_box), getFrame(ds_3_box),
            sticky = "nwe")
 
-    # text_id <- gettextRcmdr("Name in ID column\n(optional):")
+    # text_id <- gettext_bs("Name in ID column\n(optional):")
     tkgrid(
         labelRcmdr(top, fg = getRcmdr("title.color"),
-                   text = gettextRcmdr("First dataset's ID:")),
+                   text = gettext_bs("First dataset's ID:")),
         labelRcmdr(top, fg = getRcmdr("title.color"),
-                   text = gettextRcmdr("Second dataset's ID:")),
+                   text = gettext_bs("Second dataset's ID:")),
         labelRcmdr(top, fg = getRcmdr("title.color"),
-                   text = gettextRcmdr("Third dataset's ID:")),
+                   text = gettext_bs("Third dataset's ID:")),
         sticky = "w")
 
     tkgrid(ds_1_id_entry, ds_2_id_entry, ds_3_id_entry, sticky = "w")
@@ -288,7 +290,7 @@ window_dataset_bind_rows <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(radiobuttons_frame, sticky = "w", pady = c(10, 0), columnspan = 3)
     tkgrid(labelRcmdr(radiobuttons_frame,
-                      text = gettext_Bio("Type of datasets' ID:   "),
+                      text = gettext_bs("Type of datasets' ID:   "),
                       fg = fg_col),
 
            which_idFrame)
@@ -297,7 +299,7 @@ window_dataset_bind_rows <- function() {
     # tkgrid(id_var_name, pady = c(15, 5), columnspan = 3, sticky = "ew")
     tkgrid(labelRcmdr(enter_names_frame,
                       fg = fg_col,
-                      text = gettextRcmdr(paste0("Name for ID column:    "))),
+                      text = gettext_bs(paste0("Name for ID column:    "))),
            entry_id_name,
            sticky = "w")
 
@@ -306,14 +308,14 @@ window_dataset_bind_rows <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # tkgrid(new_df_name_frame, pady = c(0, 0), columnspan = 3, sticky = "sw")
     tkgrid(labelRcmdr(enter_names_frame,
-                      text = gettextRcmdr("Name for resulting dataset:  "),
+                      text = gettext_bs("Name for resulting dataset:  "),
                       fg = fg_col),
            entry_dsname, pady = c(5, 0), sticky = "w")
 
     # tkgrid(
     #     commonButton,
     #     labelRcmdr(commonFrame,
-    #                text = gettextRcmdr("Merge only common\nrows or columns")),
+    #                text = gettext_bs("Merge only common\nrows or columns")),
     #     sticky = "nw"
     # )
 

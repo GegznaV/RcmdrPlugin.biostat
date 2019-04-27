@@ -27,7 +27,7 @@ window_rows_filter <- function(new_dsname = NULL,
     onDoubleClick_variable <- function() {
         var <- trim.blanks(getSelection(y_var_box))
 
-        word <- glue('\\[{gettext_EZR("factor")}\\]')
+        word <- str_glue('\\[{gettext_bs("factor")}\\]')
 
         if (length(grep(word, var)) == 1)
             var <- trim.blanks(sub(word, "", var))
@@ -48,21 +48,21 @@ window_rows_filter <- function(new_dsname = NULL,
 
     # Dialog -----------------------------------------------------------------
     initializeDialog(
-        title = gettext_EZR("Filter: create a subset of rows that match conditions"))
+        title = gettext_bs("Filter: Create a Subset of Rows That Match Conditions"))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
 
     variable_labels <-
         paste(Variables(), ifelse(Variables() %in% Factors(),
-                                  yes = gettext_EZR("[factor]"),
+                                  yes = gettext_bs("[factor]"),
                                   no  = ""
         ))
 
     y_var_box <-
         variableListBox2(
             upper_frame,
-            title = gettext_EZR("Current variables \n(double-click to add to conditions)"),
+            title = gettext_bs("Current variables \n(double-click to add to conditions)"),
             variableList = variable_labels,
             listHeight = 8,
             onDoubleClick_fun = onDoubleClick_variable
@@ -107,8 +107,8 @@ window_rows_filter <- function(new_dsname = NULL,
 
         # Check validity of var name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (!is.valid.name(new_dsname)) {
-            msg <- glue(gettext_EZR("Dataset name"), ' "{new_dsname}" ',
-                        gettext_EZR("is not valid!"))
+            msg <- str_glue(gettext_bs("Dataset name"), ' "{new_dsname}" ',
+                            gettext_bs("is not valid!"))
 
             Message(message = msg, type = "error")
             window_rows_filter(new_dsname = make.names(new_dsname),
@@ -122,7 +122,7 @@ window_rows_filter <- function(new_dsname = NULL,
         check.empty <- gsub(";", "", gsub(" ", "", conditions))
 
         if ("" == check.empty) {
-            Message(message = gettext_EZR("No conditions were specified!"),
+            Message(message = gettext_bs("No conditions were specified!"),
                     type = "error")
             window_rows_filter(new_dsname = new_dsname,
                                init_conditions = conditions,
@@ -133,31 +133,31 @@ window_rows_filter <- function(new_dsname = NULL,
         # Check if dataset name already exists ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (is.element(new_dsname, listDataSets())) {
             if ("no" == tclvalue(checkReplace(new_dsname,
-                                              gettext_EZR("Data set")))) {
+                                              gettext_bs("Data set")))) {
                 window_rows_filter(new_dsname         = new_dsname,
                                    init_conditions    = conditions,
                                    incorrect_cond_msg =
-                                       glue('Chose other name than "{new_dsname}".'))
+                                       str_glue('Chose other name than "{new_dsname}".'))
                 return()
             }
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Library("dplyr")
-        command <- glue(
+        command <- str_glue(
             "## Select rows that match conditions \n",
-            "{new_dsname} <- {activeDataSet()} %>% \n",
-                        "dplyr::filter({conditions})") %>%
+            "{new_dsname} <- {active_dataset()} %>% \n",
+            "dplyr::filter({conditions})") %>%
             style_cmd()
 
         result <- justDoIt(command)
 
         if (class(result)[1] !=  "try-error") {
             # Change active dataset
-            activeDataSet(new_dsname, flushModel = FALSE)
+            active_dataset(new_dsname, flushModel = FALSE)
 
         } else {
             # If evaluation of conditions results in error
-            Message(message = gettext_EZR("Evaluation of conditions resulted in error!"),
+            Message(message = gettext_bs("Evaluation of conditions resulted in error!"),
                     type = "error")
             window_rows_filter(new_dsname = new_dsname,
                                init_conditions = conditions,
@@ -170,15 +170,15 @@ window_rows_filter <- function(new_dsname = NULL,
     }
 
     # ========================================================================
-    OKCancelHelp(helpSubject = "filter", helpPackage = "dplyr",
-                 reset = "window_rows_filter"
-                 # , apply = "window_rows_filter"
-                 )
+    ok_cancel_help(helpSubject = "filter", helpPackage = "dplyr",
+                   reset = "window_rows_filter"
+                   # , apply = "window_rows_filter"
+    )
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(label_rcmdr(
+    tkgrid(bs_label(
         top,
-        text = gettextRcmdr("Filter: create a subset of rows that match conditions"),
+        text = gettext_bs("Filter: create a subset of rows that match conditions"),
         font = tkfont.create(weight = "bold", size = 9),
         fg = fg_col),
         pady = c(5, 9))
@@ -189,7 +189,7 @@ window_rows_filter <- function(new_dsname = NULL,
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid_text <- function(text = "", frame = examples_frame, fg = "black",
                             sticky = "w", padx = 20, pady = 0, ...) {
-        tkgrid(labelRcmdr(frame, text = gettext_EZR(text), fg = fg),
+        tkgrid(labelRcmdr(frame, text = gettext_bs(text), fg = fg),
                sticky = sticky, padx = padx, pady = pady, ...)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -214,11 +214,11 @@ window_rows_filter <- function(new_dsname = NULL,
     tkgrid(
         labelRcmdr(lower_frame,
                    fg = getRcmdr("title.color"),
-                   text = gettext_EZR("Name for filtered dataset")),
+                   text = gettext_bs("Name for filtered dataset")),
         labelRcmdr(lower_frame, text = "   "),
         labelRcmdr(lower_frame,
                    fg = getRcmdr("title.color"),
-                   text = gettext_EZR("Conditions for rows to include")),
+                   text = gettext_bs("Conditions for rows to include")),
         pady = c(15, 0),
         sticky = "nw")
 
