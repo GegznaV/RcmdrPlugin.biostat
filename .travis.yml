@@ -4,12 +4,8 @@ language: R
 sudo: false
 cache: packages
 warnings_are_errors: false
-
 r_packages:
-  - remotes
-  - devtools
-  - tcltk2
-  - covr
+    - remotes
+    - devtools
+    - tcltk2
 
-after_success:
-  - Rscript -e 'library(covr); codecov()'
