@@ -75,13 +75,16 @@ library(Rcmdr)
 ```
 
 Or by selecting **Rcmdr** in RStudio „Packages“ menu:
+
 ```{r, echo=FALSE, fig.cap=CAPTION}
 knitr::include_graphics(paste0(fig_dir, "01--load-rcmdr-in-rs.png")) 
 
 CAPTION = "" # Figure caption/description.
 ```
 
-2. Then load the plug-in through `Rcmdr` menu bar:
+Wait until *R Commander* window opens.
+
+2. Then load the plug-in through `Tools` → `Load Rcmdr plug-in(s)` in the menu bar.
 
 ```{r, echo=FALSE, fig.cap=CAPTION}
 knitr::include_graphics(paste0(fig_dir, "02--load-plugin--biostat.png")) 
@@ -89,8 +92,9 @@ knitr::include_graphics(paste0(fig_dir, "02--load-plugin--biostat.png"))
 CAPTION = "" # Figure caption/description.
 ```
 
+If you need more than one plug-in to be loaded, hold <kbd>Ctrl</kbd> key while selecting the plug-ins. To load the plug-ins, *R Commander* must restart.
 
-3. If `RcmdrPlugin.biostat` is loaded, you can access its functionality through `BioStat'19` menu in the menu bar:
+3. If **RcmdrPlugin.biostat** is loaded, you can access its functionality through `BioStat'19` menu in the menu bar:
 
 
 ```{r, echo=FALSE, fig.cap=CAPTION}
@@ -112,7 +116,9 @@ library(Rcmdr)
 
 ### Activate *BioStat* (green) mode
 
-A more convenient way to use the plug-in is to activate the *BioStat* mode (green icon):
+A more convenient way to use the plug-in is to activate the *BioStat* mode.
+This mode uses the green icon instead of the blue one.
+
 
 ```{r, echo=FALSE, fig.cap=CAPTION}
 knitr::include_graphics(paste0(fig_dir, "04--activate-biostat-mode.png")) 
@@ -120,8 +126,7 @@ knitr::include_graphics(paste0(fig_dir, "04--activate-biostat-mode.png"))
 CAPTION = "" # Figure caption/description.
 ```
 
-In this mode, additional buttons, which enable access to the most common functions, are added below the menu bar.
-The meaning of these buttons:
+In this mode, additional buttons, which enable access to the most common functions, are added below the menu bar:
 
 ```{r, echo=FALSE, fig.cap=CAPTION}
 knitr::include_graphics(paste0(fig_dir, "05--buttons-in-biostat-mode.png")) 
@@ -134,7 +139,7 @@ Note: if active dataset is not selected, some buttons are inactive.
 
 ### Close *BioStat* mode
 
-To close this green mode, simply restart the *R Commander*: 
+To close this mode, simply restart the *R Commander*: 
 
 * R Commander menu bar → BioStat'19 → Session → Restart R Commander
 
@@ -189,6 +194,13 @@ options(Rcmdr = list(plugins = c(
 
 library(Rcmdr)
 ```
+
+If package **Rcmdr** is loaded **and R Commander window is closed**, instead of `library(Rcmdr)` use:
+
+```{r eval=FALSE}
+Commander()
+```
+
 
 # Important
 

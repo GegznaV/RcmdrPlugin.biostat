@@ -100,13 +100,16 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 <li>Never load the plug-in directly by loading package <strong>RcmdrPlugin.biostat</strong>. Instead, load package <strong>Rcmdr</strong> first either by using R code:</li>
 </ol>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(Rcmdr)</a></code></pre></div>
-<p>Or by selecting <strong>Rcmdr</strong> in RStudio „Packages“ menu: <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/01--load-rcmdr-in-rs.png" style="display: block; margin: auto;"></p>
+<p>Or by selecting <strong>Rcmdr</strong> in RStudio „Packages“ menu:</p>
+<p><img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/01--load-rcmdr-in-rs.png" style="display: block; margin: auto;"></p>
+<p>Wait until <em>R Commander</em> window opens.</p>
 <ol start="2" style="list-style-type: decimal">
-<li>Then load the plug-in through <code>Rcmdr</code> menu bar:</li>
+<li>Then load the plug-in through <code>Tools</code> → <code>Load Rcmdr plug-in(s)</code> in the menu bar.</li>
 </ol>
 <p><img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/02--load-plugin--biostat.png" style="display: block; margin: auto;"></p>
+<p>If you need more than one plug-in to be loaded, hold <kbd>Ctrl</kbd> key while selecting the plug-ins. To load the plug-ins, <em>R Commander</em> must restart.</p>
 <ol start="3" style="list-style-type: decimal">
-<li>If <code>RcmdrPlugin.biostat</code> is loaded, you can access its functionality through <code>BioStat'19</code> menu in the menu bar:</li>
+<li>If <strong>RcmdrPlugin.biostat</strong> is loaded, you can access its functionality through <code>BioStat'19</code> menu in the menu bar:</li>
 </ol>
 <p><img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/03--biostat-plugin-loaded.png" style="display: block; margin: auto;"></p>
 </div>
@@ -120,16 +123,16 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 <div id="activate-biostat-green-mode" class="section level3">
 <h3 class="hasAnchor">
 <a href="#activate-biostat-green-mode" class="anchor"></a>Activate <em>BioStat</em> (green) mode</h3>
-<p>A more convenient way to use the plug-in is to activate the <em>BioStat</em> mode (green icon):</p>
+<p>A more convenient way to use the plug-in is to activate the <em>BioStat</em> mode. This mode uses the green icon instead of the blue one.</p>
 <p><img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/04--activate-biostat-mode.png" style="display: block; margin: auto;"></p>
-<p>In this mode, additional buttons, which enable access to the most common functions, are added below the menu bar. The meaning of these buttons:</p>
+<p>In this mode, additional buttons, which enable access to the most common functions, are added below the menu bar:</p>
 <p><img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/05--buttons-in-biostat-mode.png" style="display: block; margin: auto;"></p>
 <p>Note: if active dataset is not selected, some buttons are inactive.</p>
 </div>
 <div id="close-biostat-mode" class="section level3">
 <h3 class="hasAnchor">
 <a href="#close-biostat-mode" class="anchor"></a>Close <em>BioStat</em> mode</h3>
-<p>To close this green mode, simply restart the <em>R Commander</em>:</p>
+<p>To close this mode, simply restart the <em>R Commander</em>:</p>
 <ul>
 <li>R Commander menu bar → BioStat’19 → Session → Restart R Commander</li>
 </ul>
@@ -177,6 +180,8 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 <a class="sourceLine" id="cb7-7" title="7">    <span class="dt">console.output =</span> <span class="ot">FALSE</span>))</a>
 <a class="sourceLine" id="cb7-8" title="8"></a>
 <a class="sourceLine" id="cb7-9" title="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(Rcmdr)</a></code></pre></div>
+<p>If package <strong>Rcmdr</strong> is loaded <strong>and R Commander window is closed</strong>, instead of <code><a href="https://www.rdocumentation.org/packages/base/topics/library">library(Rcmdr)</a></code> use:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/Rcmdr/topics/Commander">Commander</a></span>()</a></code></pre></div>
 </div>
 <div id="important" class="section level1">
 <h1 class="hasAnchor">
