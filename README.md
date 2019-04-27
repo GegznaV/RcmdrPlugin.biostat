@@ -62,14 +62,22 @@ library(Rcmdr)
 ```
 
 Or by selecting **Rcmdr** in RStudio „Packages“ menu:
+
 <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/01--load-rcmdr-in-rs.png" style="display: block; margin: auto;" />
 
-2.  Then load the plug-in through `Rcmdr` menu bar:
+Wait until *R Commander* window opens.
+
+2.  Then load the plug-in through `Tools` → `Load Rcmdr plug-in(s)` in
+    the menu bar.
 
 <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/02--load-plugin--biostat.png" style="display: block; margin: auto;" />
 
-3.  If `RcmdrPlugin.biostat` is loaded, you can access its functionality
-    through `BioStat'19` menu in the menu bar:
+If you need more than one plug-in to be loaded, hold <kbd>Ctrl</kbd> key
+while selecting the plug-ins. To load the plug-ins, *R Commander* must
+restart.
+
+3.  If **RcmdrPlugin.biostat** is loaded, you can access its
+    functionality through `BioStat'19` menu in the menu bar:
 
 <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/03--biostat-plugin-loaded.png" style="display: block; margin: auto;" />
 
@@ -85,12 +93,12 @@ library(Rcmdr)
 ### Activate *BioStat* (green) mode
 
 A more convenient way to use the plug-in is to activate the *BioStat*
-mode (green icon):
+mode. This mode uses the green icon instead of the blue one.
 
 <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/04--activate-biostat-mode.png" style="display: block; margin: auto;" />
 
 In this mode, additional buttons, which enable access to the most common
-functions, are added below the menu bar. The meaning of these buttons:
+functions, are added below the menu bar:
 
 <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/05--buttons-in-biostat-mode.png" style="display: block; margin: auto;" />
 
@@ -98,7 +106,7 @@ Note: if active dataset is not selected, some buttons are inactive.
 
 ### Close *BioStat* mode
 
-To close this green mode, simply restart the *R Commander*:
+To close this mode, simply restart the *R Commander*:
 
   - R Commander menu bar → BioStat’19 → Session → Restart R Commander
 
