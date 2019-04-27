@@ -29,7 +29,12 @@ knitr::opts_chunk$set(
  knitr::include_graphics("https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/docs/logo.png") 
 ``` 
  
+```{r include=FALSE}
+# fig_dir <- "https://github.com/GegznaV/RcmdrPlugin.biostat/tree/master/inst/etc/fig/"
+fig_dir <- "https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/"
 
+knitr::opts_chunk$set(fig.align  = "center")
+```
 
 <!-- 
 An *R Commander* Plugin for Basic (Bio)Statistical Routines  
@@ -38,7 +43,7 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 R Commander Plug-in for Basic Data Management and Analysis Tasks {#intro}
 ==============================================================================
 
-**RcmdrPlugin.biostat** is an [**Rcmdr**](https://CRAN.R-project.org/package=Rcmdr) plug-in for the most common data wrangling, visualisation and analysis tasks using "tidyverse" family functions as well as functions from other packages.
+**RcmdrPlugin.biostat** is an [**Rcmdr**](https://CRAN.R-project.org/package=Rcmdr) plug-in for the most common data wrangling, visualization and analysis tasks using **tidyverse** family functions as well as functions from other packages.
 
 
 Documentation and more information available at http://gegznav.github.io/RcmdrPlugin.biostat
@@ -46,7 +51,7 @@ Documentation and more information available at http://gegznav.github.io/RcmdrPl
 
 ## Install the package {#install}
 
-To install a developement version of the package from `GitHub`:
+To install the development version of the package from “GitHub”:
 
 ```{r Install package, eval=FALSE}
 if (!"devtools" %in% installed.packages())  install.packages("devtools")
@@ -56,31 +61,86 @@ devtools::install_github("GegznaV/RcmdrPlugin.biostat")
 
 ## Load the plug-in correctly {#load}
 
-To load the plug-in correctly you should follow the following steps.
+To load the plug-in correctly, you should follow the following steps.
+You can choose a manual or an automatic loading.
+
+
 
 ### Load manually
 
-1. Load package `Rcmdr` only. 
+1. Never load the plug-in directly by loading package **RcmdrPlugin.biostat**.
+Instead, load package **Rcmdr** first either by using R code:
 
-```{r}
+```{r eval=FALSE}
 library(Rcmdr)
 ```
-And never load `RcmdrPlugin.biostat` directly.
 
-2. 
+Or by selecting **Rcmdr** in RStudio „Packages“ menu:
+```{r, echo=FALSE, fig.cap=CAPTION}
+knitr::include_graphics(paste0(fig_dir, "01--load-rcmdr-in-rs.png")) 
+
+CAPTION = "" # Figure caption/description.
+```
+
+2. Then load the plug-in through `Rcmdr` menu bar:
+
+```{r, echo=FALSE, fig.cap=CAPTION}
+knitr::include_graphics(paste0(fig_dir, "02--load-plugin--biostat.png")) 
+
+CAPTION = "" # Figure caption/description.
+```
+
+
+3. If `RcmdrPlugin.biostat` is loaded, you can access its functionality through `BioStat'19` menu in the menu bar:
+
+
+```{r, echo=FALSE, fig.cap=CAPTION}
+knitr::include_graphics(paste0(fig_dir, "03--biostat-plugin-loaded.png")) 
+
+CAPTION = "" # Figure caption/description.
+```
+
 
 
 ### Load automatically
 
+To load `RcmdrPlugin.biostat` automatically, run the code:
 
+```{r eval=FALSE}
+options(Rcmdr = list(plugins = c("RcmdrPlugin.biostat"), console.output = FALSE))
+library(Rcmdr)
+```
 
 ### Activate BioStat (green) mode
 
+A more convenient way to use the plug-in is to activate the BioStat mode (green icon):
+
+```{r, echo=FALSE, fig.cap=CAPTION}
+knitr::include_graphics(paste0(fig_dir, "04--activate-biostat-mode.png")) 
+
+CAPTION = "" # Figure caption/description.
+```
+
+In this mode, additional buttons, which enable access to the most common functions, are added below the menu bar.
+The meaning of these buttons:
+
+```{r, echo=FALSE, fig.cap=CAPTION}
+knitr::include_graphics(paste0(fig_dir, "05--buttons-in-biostat-mode.png")) 
+
+CAPTION = "" # Figure caption/description.
+```
+
+Note, that if active dataset is not selected, some buttons are inactive
 
 
+### Close BioStat mode
+
+To close this green mode, simply restart the R Commander: 
+
+* R Commander menu bar → BioStat'19 → Session → Restart R Commander
 
 
-## Previous versions
+## Install previous versions of `RcmdrPlugin.biostat`
 
 If you need previous versions of `RcmdrPlugin.biostat`, you can install them from `GitHub`:
 
@@ -98,7 +158,7 @@ devtools::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat18")
 
 ***
 
-# Other useful packages {#related-packages}
+# The other useful packages {#related-packages}
 
 Other useful **Rcmdr** plug-ins:
 
@@ -117,7 +177,19 @@ devtools::install_github("GegznaV/RcmdrPlugin.EZR", ref = "ezr_as_menu")
 install.packages("RcmdrPlugin.KMggplot2")
 ```
 
+After the packages are installed, you can load them the automatically:
 
+```{r eval=FALSE}
+options(Rcmdr = list(plugins = c(
+    "RcmdrPlugin.KMggplot2",
+    "RcmdrPlugin.EZR.as.menu",
+    "RcmdrPlugin.biostat",
+    NULL
+    ), 
+    console.output = FALSE))
+
+library(Rcmdr)
+```
 
 # Important
 
