@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.r-project.org/package=RcmdrPlugin.biostat)
 [![GitHub version](https://img.shields.io/badge/GitHub-v`r packageVersion("RcmdrPlugin.biostat")`-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
 [![Travis-CI Build Status](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/GegznaV/RcmdrPlugin.BioStat?branch=master&svg=true)](https://ci.appveyor.com/project/GegznaV/RcmdrPlugin.BioStat)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/GegznaV/RcmdrPlugin.biostat?branch=master&svg=true)](https://ci.appveyor.com/project/GegznaV/RcmdrPlugin.biostat)
 [![Updated-on](https://img.shields.io/badge/Updated%20on-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](/commits/master)
 <!-- badges: end -->
 
@@ -54,6 +54,31 @@ if (!"devtools" %in% installed.packages())  install.packages("devtools")
 devtools::install_github("GegznaV/RcmdrPlugin.biostat")
 ```
 
+## Load the plug-in correctly {#load}
+
+To load the plug-in correctly you should follow the following steps.
+
+### Load manually
+
+1. Load package `Rcmdr` only. 
+
+```{r}
+library(Rcmdr)
+```
+And never load `RcmdrPlugin.biostat` directly.
+
+2. 
+
+
+### Load automatically
+
+
+
+### Activate BioStat (green) mode
+
+
+
+
 
 ## Previous versions
 
@@ -61,7 +86,7 @@ If you need previous versions of `RcmdrPlugin.biostat`, you can install them fro
 
 - BioStat'19 (2019):
 ```{r Install BioStat-19, eval=FALSE}
-devtools::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat19_not_final")
+devtools::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat19")
 ```
 
 
@@ -86,7 +111,7 @@ To install these packages, use the following code:
 
 ```{r Install other packages, eval=FALSE}
 # RcmdrPlugin.EZR.as.menu
-devtools::install_github("GegznaV/RcmdrPlugin.EZR@ezr_as_menu")
+devtools::install_github("GegznaV/RcmdrPlugin.EZR", ref = "ezr_as_menu")
 
 # RcmdrPlugin.KMggplot2
 install.packages("RcmdrPlugin.KMggplot2")
