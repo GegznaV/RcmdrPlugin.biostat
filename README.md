@@ -10,10 +10,10 @@
 status](https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.r-project.org/package=RcmdrPlugin.biostat)
 [![GitHub
 version](https://img.shields.io/badge/GitHub-v0.0.32-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/hm4h2rjb8ayr2df1/branch/master?svg=true)](https://ci.appveyor.com/project/GegznaV/rcmdrplugin-biostat/branch/master)
 [![Travis-CI Build
 Status](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/GegznaV/RcmdrPlugin.biostat?branch=master&svg=true)](https://ci.appveyor.com/project/GegznaV/RcmdrPlugin.biostat)
 [![Updated-on](https://img.shields.io/badge/Updated%20on-2019--04--27-yellowgreen.svg)](/commits/master)
 <!-- badges: end -->
 
@@ -41,7 +41,6 @@ To install the development version of the package from “GitHub”:
 
 ``` r
 if (!"devtools" %in% installed.packages())  install.packages("devtools")
-
 devtools::install_github("GegznaV/RcmdrPlugin.biostat")
 ```
 
@@ -76,17 +75,17 @@ Or by selecting **Rcmdr** in RStudio „Packages“ menu:
 
 ### Load automatically
 
-To load `RcmdrPlugin.biostat` automatically, run the code:
+To load **RcmdrPlugin.biostat** automatically, run the code:
 
 ``` r
 options(Rcmdr = list(plugins = c("RcmdrPlugin.biostat"), console.output = FALSE))
 library(Rcmdr)
 ```
 
-### Activate BioStat (green) mode
+### Activate *BioStat* (green) mode
 
-A more convenient way to use the plug-in is to activate the BioStat mode
-(green icon):
+A more convenient way to use the plug-in is to activate the *BioStat*
+mode (green icon):
 
 <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/04--activate-biostat-mode.png" style="display: block; margin: auto;" />
 
@@ -95,18 +94,18 @@ functions, are added below the menu bar. The meaning of these buttons:
 
 <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/05--buttons-in-biostat-mode.png" style="display: block; margin: auto;" />
 
-Note, that if active dataset is not selected, some buttons are inactive
+Note: if active dataset is not selected, some buttons are inactive.
 
-### Close BioStat mode
+### Close *BioStat* mode
 
-To close this green mode, simply restart the R Commander:
+To close this green mode, simply restart the *R Commander*:
 
   - R Commander menu bar → BioStat’19 → Session → Restart R Commander
 
-## Install previous versions of `RcmdrPlugin.biostat`
+## Install previous versions of **RcmdrPlugin.biostat**
 
-If you need previous versions of `RcmdrPlugin.biostat`, you can install
-them from `GitHub`:
+If you need previous versions of **RcmdrPlugin.biostat**, you can
+install them from `GitHub`:
 
   - BioStat’19 (2019):
 

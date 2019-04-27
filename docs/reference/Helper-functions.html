@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RcmdrPlugin.biostat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.28</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.32</span>
       </span>
     </div>
 
@@ -378,13 +378,13 @@
 <span class='fu'>is_empty_name</span>(<span class='no'>name</span>, <span class='kw'>which_name</span> <span class='kw'>=</span> <span class='st'>"name"</span>, <span class='kw'>parent</span> <span class='kw'>=</span> <span class='fu'>CommanderWindow</span>())
 
 <span class='fu'>is_not_empty_name</span>(<span class='no'>name</span>, <span class='kw'>which_name</span> <span class='kw'>=</span> <span class='st'>"name"</span>,
-  <span class='kw'>parent</span> <span class='kw'>=</span> <span class='fu'>CommanderWindow</span>())
+  <span class='kw'>parent</span> <span class='kw'>=</span> <span class='fu'>CommanderWindow</span>(), <span class='kw'>article</span> <span class='kw'>=</span> <span class='st'>"a"</span>)
 
 <span class='fu'>variable_is_not_selected</span>(<span class='no'>obj</span>, <span class='kw'>obj_type</span> <span class='kw'>=</span> <span class='st'>"variable"</span>,
-  <span class='kw'>parent</span> <span class='kw'>=</span> <span class='fu'>CommanderWindow</span>())
+  <span class='kw'>parent</span> <span class='kw'>=</span> <span class='fu'>CommanderWindow</span>(), <span class='kw'>article</span> <span class='kw'>=</span> <span class='st'>"a"</span>)
 
 <span class='fu'>object_is_not_selected</span>(<span class='no'>obj</span>, <span class='kw'>obj_type</span> <span class='kw'>=</span> <span class='st'>"object"</span>,
-  <span class='kw'>parent</span> <span class='kw'>=</span> <span class='fu'>CommanderWindow</span>())
+  <span class='kw'>parent</span> <span class='kw'>=</span> <span class='fu'>CommanderWindow</span>(), <span class='kw'>article</span> <span class='kw'>=</span> <span class='st'>"an"</span>)
 
 <span class='fu'>are_not_valid_names</span>(<span class='no'>name</span>, <span class='kw'>parent</span> <span class='kw'>=</span> <span class='fu'>CommanderWindow</span>())
 
@@ -397,7 +397,8 @@
 
 <span class='fu'>forbid_to_replace_file</span>(<span class='no'>name</span>, <span class='kw'>parent</span> <span class='kw'>=</span> <span class='fu'>CommanderWindow</span>())
 
-<span class='fu'>show_code_evaluation_error_message</span>(<span class='kw'>parent</span> <span class='kw'>=</span> <span class='fu'>CommanderWindow</span>())
+<span class='fu'>show_code_evaluation_error_message</span>(<span class='kw'>parent</span> <span class='kw'>=</span> <span class='fu'>CommanderWindow</span>(),
+  <span class='kw'>add_msg</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>add_note</span> <span class='kw'>=</span> <span class='st'>""</span>)
 
 <span class='fu'>dataset_not_persent</span>(<span class='kw'>parent</span> <span class='kw'>=</span> <span class='fu'>CommanderWindow</span>())
 
@@ -481,7 +482,8 @@
 <span class='fu'>ok_cancel_help</span>(<span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>top</span>, <span class='kw'>helpSubject</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>model</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>reset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>apply</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>helpPackage</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>on_help</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>close_on_ok</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>reset_location</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>sticky</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
-  <span class='kw'>ok_label</span> <span class='kw'>=</span> <span class='st'>"OK"</span>, <span class='kw'>apply_label</span> <span class='kw'>=</span> <span class='st'>"Apply"</span>, <span class='kw'>reset_label</span> <span class='kw'>=</span> <span class='st'>"Reset"</span>)
+  <span class='kw'>ok_label</span> <span class='kw'>=</span> <span class='st'>"OK"</span>, <span class='kw'>apply_label</span> <span class='kw'>=</span> <span class='st'>"Apply"</span>, <span class='kw'>reset_label</span> <span class='kw'>=</span> <span class='st'>"Reset"</span>,
+  <span class='kw'>after_apply_fun</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>after_apply_success_fun</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>)
 
 <span class='fu'>variableListBox2</span>(<span class='no'>parentWindow</span>, <span class='kw'>variableList</span> <span class='kw'>=</span> <span class='fu'>Variables</span>(),
   <span class='kw'>bg</span> <span class='kw'>=</span> <span class='st'>"white"</span>, <span class='kw'>selectmode</span> <span class='kw'>=</span> <span class='st'>"single"</span>, <span class='kw'>export</span> <span class='kw'>=</span> <span class='st'>"FALSE"</span>,
