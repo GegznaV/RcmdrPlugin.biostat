@@ -1,9 +1,20 @@
-#
+options(Rcmdr = list(
+    plugins = c(
+        "RcmdrPlugin.KMggplot2",
+        "RcmdrPlugin.EZR.as.menu",
+        "RcmdrPlugin.biostat",
+        NULL)
+    , console.output = FALSE
+    # , use.rgl = FALSE
+    # , rmd.template = rmd_template_filename
+))
+
+
 # # install.packages("RcmdrPlugin.KMggplot2")
 # #
 # # if (!"devtools" %in% installed.packages())  install.packages("devtools")
 # #
-# # devtools::install_github("GegznaV/RcmdrPlugin.EZR@unmodified_Rcmdr_menu")
+# # devtools::install_github("GegznaV/RcmdrPlugin.EZR@ezr_as_menu")
 # # devtools::install_github("GegznaV/biostat")
 # # devtools::install_github("GegznaV/RcmdrPlugin.biostat")
 #
@@ -29,7 +40,7 @@
 #
 #
 #
-#     # devtools::install_github("GegznaV/RcmdrPlugin.EZR@unmodified_Rcmdr_menu",
+#     # devtools::install_github("GegznaV/RcmdrPlugin.EZR@ezr_as_menu",
 #     #                          dependencies = c("Depends", "Imports", "Suggests"))
 #     #
 #     # devtools::install_github("GegznaV/biostat",
@@ -50,16 +61,17 @@
 #     dir(.libPaths(), pattern = "RcmdrPlugin.biostat", full.names = TRUE),
 #     "/etc/biostat-RMarkdown-Template.Rmd"
 # )
-#
-# ###! Rcmdr Options Begin !###
-# options(Rcmdr = list(plugins = c("RcmdrPlugin.KMggplot2",
-#                                  "RcmdrPlugin.EZR.2",
-#                                  "RcmdrPlugin.biostat",
-#                                  NULL),
-#                      console.output = FALSE,
-#                      use.rgl = FALSE,
-#                      rmd.template = rmd_template_filename)
-#         )
+# #
+# # ###! Rcmdr Options Begin !###
+# options(Rcmdr = list(
+#     plugins = c("RcmdrPlugin.KMggplot2",
+#                 "RcmdrPlugin.EZR.as.menu",
+#                 "RcmdrPlugin.biostat",
+#                 NULL)
+#     # , console.output = FALSE
+#     # , use.rgl = FALSE
+#     # , rmd.template = rmd_template_filename
+# ))
 #
 # if (.Platform$OS.type == "windows") {
 #     Sys.setlocale(locale = "Lithuanian")
@@ -68,6 +80,7 @@
 #     # Sys.setlocale(locale = "lt_LT")
 # }
 #
+# # devtools::session_info("RcmdrPlugin.biostat")
 #
 # # library(biostat)
 #
@@ -90,3 +103,11 @@
 #
 #
 # message("--- Papildinys uzkrautas: RcmdrPlugin.biostat ---")
+
+
+# nth <- Sys.setlocale(locale = "Lithuanian")
+
+# options(blogdown.ext    = ".Rmd",
+#         blogdown.author = "Ą Ę Ė Į Š Č Ų")
+
+# print("Ą Ę Ė Į Š Č Ų")
