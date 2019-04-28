@@ -471,7 +471,7 @@ menu	bs19_about_menu	biostat19_menu	""	""	""	""
 item	biostat19_menu	cascade	"About"	bs19_about_menu	""	""
 
 # item	bs19_about_menu	command 'About package "RcmdrPlugin.biostat"'	window_about_package	""	""
-item	bs19_about_menu	command "About BioStat'19..."	window_about_package	""	""
+item	bs19_about_menu	command "About BioStat'19..."	window_about_biostat_version	""	""
 item	bs19_about_menu	command "Go to Homepage"	window_online_homepage	""	""
 item	bs19_about_menu	command "Feedback & bug reports"	window_online_bug_report	""	""
 item	bs19_about_menu	separator	""	""	""	""

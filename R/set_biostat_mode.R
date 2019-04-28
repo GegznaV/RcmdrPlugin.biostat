@@ -1213,7 +1213,7 @@ bs_mode_menu__settings <- function() {
           label    = "About BioStat'19...",
           compound = "left",
           image    = "::image::bs_about",
-          command  = window_about_package)
+          command  = window_about_biostat_version)
 
     tkadd(menu_ab, "command",
           label    = "Go to Homepage",
