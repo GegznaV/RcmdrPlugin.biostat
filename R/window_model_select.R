@@ -255,7 +255,7 @@ window_model_select <- function() {
     i7 <- tk2button(
         row_2,
         text = "Augment",
-        tip  = str_c("Add data from model to original data frame.",
+        tip  = str_c("Add data from the model to the original data frame.",
                      sep = "\n"),
         width = 9,
         command = function() {
@@ -265,7 +265,7 @@ window_model_select <- function() {
     i8 <- tk2button(
         row_2,
         text = "Basic diagnostic plots",
-        tip  = str_c("Draw basic diagnostic plots for model.",
+        tip  = str_c("Draw basic diagnostic plots for the model.",
                      sep = "\n"),
         width = 0,
         command = function() {
@@ -288,14 +288,18 @@ window_model_select <- function() {
         width = 0,
         command = function() {
             .mod <- activeModel()
+
             Library("tidyverse")
             Library("ggfortify")
+
             open_new_plots_window()
             doItAndPrint(str_glue(
-                '## Cooks distance, d (outlier if d > 1) \n',
-                'autoplot({.mod}, which = 4) + \n',
-                'geom_hline(yintercept = 1, color = "red", lty = 2) + \n',
-                'theme_bw()'))
+                '## Cooks distance, d \n',
+                '#  Outlier if distance d is above 1 (d > 1) \n',
+                'library(ggfortify)\n',
+                'autoplot({.mod}, which = 4, nrow = 1, ncol = 1) + \n',
+                '  geom_hline(yintercept = 1, color = "red", lty = 2) + \n',
+                '  theme_bw()'))
         })
 
     i10 <- tk2button(
@@ -307,8 +311,6 @@ window_model_select <- function() {
         width = 0,
         command = function() {
             .mod <- activeModel()
-            Library("tidyverse")
-            Library("ggfortify")
             doItAndPrint(str_glue(
                 "## Explore model's object \n",
                 'View({.mod})'))
