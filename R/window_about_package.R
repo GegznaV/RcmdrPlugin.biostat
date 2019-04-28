@@ -1,8 +1,8 @@
-#' window_about_package
+#' window_about_biostat_version
 #'
 #' @export
 #' @keywords internal
-window_about_package <- function() {
+window_about_biostat_version <- function() {
     initializeDialog(title = gettext_bs("Information About The Package"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {closeDialog(); tkfocus(CommanderWindow())}

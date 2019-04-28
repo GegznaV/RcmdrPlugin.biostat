@@ -30,7 +30,7 @@ ok_cancel_help <- Rcmdr::defmacro(
     reset_label    = "Reset",
     after_apply_fun         = do_nothing, # is always applied.
     after_apply_success_fun = do_nothing, # is applied if onOK() returns TRUE.
-
+    before_cancel_fun = do_nothing,
     expr = {
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -138,10 +138,14 @@ ok_cancel_help <- Rcmdr::defmacro(
 
         # START: cancel ------------------------------------------------------
         onCancel <- function() {
+
+            before_cancel_fun()
+
             if (exists(".exit")) {
                 result <- .exit()
                 if (result == "abort") return()
             }
+
             putRcmdr("restoreTab", FALSE)
             if (model) putRcmdr("modelNumber", getRcmdr("modelNumber") - 1)
             if (GrabFocus()) tkgrab.release(window)

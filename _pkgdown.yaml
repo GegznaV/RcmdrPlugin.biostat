@@ -13,8 +13,8 @@ navbar:
     href: /index.html
 #  - text: Functions
 #    href: reference/index.html
-#   - text: Turorials and Examples
-#     href: articles/index.html
+#  - text: Turorials and Examples
+#    href: articles/index.html
   right:
   - icon: fa-github fa-lg
     href: https://github.com/GegznaV/RcmdrPlugin.biostat

@@ -4,31 +4,45 @@
 #' @export
 #' @keywords internal
 command_model_std_lm_coeffs <- function() {
-    .mod <- activeModel()
     .ds  <- active_dataset()
+    .mod <- activeModel()
 
     obj <-
         str_glue("{.ds}_{.mod}") %>%
         str_trunc(width = 40, ellipsis = "") %>%
-        str_c("_std_tidy") %>%
-        unique_obj_names()
+        unique_obj_names(suffix = "_std")
 
     Library("tidyverse")
     Library("lm.beta")
-    Library("broom")
+    # Library("broom")
 
     str_glue(
-        "## Statistical findings of the model\n",
-        "# std_estimate \u2014 standardized coefficients\n",
+        "## Statistical findings of the model \n",
+        "## with standardized coefficients\n\n",
 
         "{obj} <- \n {.mod} %>% \n ",
-        "lm.beta::lm.beta() %>% \n ",
-        "broom::tidy() \n\n",
-        "{obj}"
-
+        "lm.beta::lm.beta() \n\n",
+        "summary({obj})"
     ) %>%
         style_cmd() %>%
         doItAndPrint()
+
+    doItAndPrint(str_glue(
+        "## Standardized coefficients\n",
+        "coef({obj})"))
+
+    # # Does not work without `quick = TRUE`:
+    # doItAndPrint(str_glue("broom::tidy({obj}, quick = TRUE)"))
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    # "## Statistical findings of the model\n",
+    # "# std_estimate \u2014 standardized coefficients\n",
+    #
+    # "{obj} <- \n {.mod} %>% \n ",
+    # "lm.beta::l)m.beta() %>% \n ",
+    # "broom::tidy() \n\n",
+    # "{obj}"
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # str_glue(
     #     "## Standardized regression coefficients\n",
@@ -73,7 +87,6 @@ command_model_summary <- function() {
         "## The summary of the model (base R style)\n",
         "summary({.mod})"))
 }
-
 
 #' @rdname Menu-window-functions
 #' @export
@@ -133,8 +146,8 @@ command_model_augment <- function() {
     Library("broom")
 
     doItAndPrint(str_glue(
-        "## Add data from model to original data frame\n",
-        "{.ds} <- broom::augment({.mod})\n"))
+        "## Add data from model to original dataset\n",
+        "{.ds} <- broom::augment({.mod}, data = {.ds})\n"))
 
     # Refresh data
     command_dataset_refresh_0(flushModel = FALSE)
