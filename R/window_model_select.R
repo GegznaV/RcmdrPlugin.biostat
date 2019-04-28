@@ -255,8 +255,10 @@ window_model_select <- function() {
     i7 <- tk2button(
         row_2,
         text = "Augment",
-        tip  = str_c("Add data from the model to the original data frame.",
-                     sep = "\n"),
+        tip  = str_c(
+            "Add data from the model to",
+            "the original data frame.",
+            sep = "\n"),
         width = 9,
         command = function() {
             command_model_augment()
@@ -282,9 +284,10 @@ window_model_select <- function() {
     i9 <- tk2button(
         row_2,
         text = "Cook's distance plot",
-        tip  = str_c("Plot Cook's distances",
-                     "(for outlier detection).",
-                     sep = "\n"),
+        tip  = str_c(
+            "Plot Cook's distances",
+            "(for outlier detection).",
+            sep = "\n"),
         width = 0,
         command = function() {
             .mod <- activeModel()
