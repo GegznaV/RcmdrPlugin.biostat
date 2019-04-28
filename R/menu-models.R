@@ -133,8 +133,8 @@ command_model_augment <- function() {
     Library("broom")
 
     doItAndPrint(str_glue(
-        "## Add data from model to original data frame\n",
-        "{.ds} <- broom::augment({.mod})\n"))
+        "## Add data from model to original dataset\n",
+        "{.ds} <- broom::augment({.mod}, data = {.ds})\n"))
 
     # Refresh data
     command_dataset_refresh_0(flushModel = FALSE)
