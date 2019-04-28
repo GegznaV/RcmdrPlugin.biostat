@@ -66,7 +66,7 @@ window_summary_missings <- function() {
             }
 
             result <- justDoIt(command_plot)
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             if (class(result)[1] != "try-error") {
                 doItAndPrint(style_cmd(command_plot))
 
@@ -79,7 +79,7 @@ window_summary_missings <- function() {
             remove(result)
 
         }
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (use_numeric) {
 
             Library("DescTools")
@@ -92,7 +92,7 @@ window_summary_missings <- function() {
                 'DescTools::CountCompCases({.ds}) %>% \n print(digits = 1)')
 
             result <- try_command(command_count)
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             if (class(result)[1] != "try-error") {
                 doItAndPrint(style_cmd(command_count))
 
@@ -104,7 +104,7 @@ window_summary_missings <- function() {
 
             remove(result)
         }
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkfocus(CommanderWindow())
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
