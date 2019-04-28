@@ -1,5 +1,4 @@
 
-
 # ============================================================================
 # Import dataset =============================================================
 # ============================================================================
@@ -24,33 +23,34 @@ list_packages <- function(which = c("loaded", "installed"), decreasing = FALSE, 
     }
 }
 
-#' Get number of datasets in a package
-#'
-#' @param package String with valid name of inst6alled package
-#'
-#' @return Number with number of datasets in a package
-#' @export
-#'
-#' @examples
-#' get_n_datasets("datasets")
-#' get_n_datasets("purrr")
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Get number of datasets in a package
+#
+# @param package String with valid name of inst6alled package
+#
+# @return Number with number of datasets in a package
+# @export
+#
+# @examples
+# get_n_datasets("datasets")
+# get_n_datasets("purrr")
 
 get_n_datasets <- function(package) {
     ds_in_pkg <- data(package = package)$results
     nrow(ds_in_pkg)
 }
 
-
-#' Get either dimensions or length of a dataset
-#'
-#' @param obj An R object (dataset).
-#'
-#' @return A string wiht dimensions of matrix-like or array-like oblect and
-#'         length of other objects.
-#' @export
-#'
-#' @examples
-#' get_obj_dims(iris)
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Get either dimensions or length of a dataset
+#
+# @param obj An R object (dataset).
+#
+# @return A string wiht dimensions of matrix-like or array-like oblect and
+#         length of other objects.
+# @export
+#
+# @examples
+# get_obj_dims(iris)
 get_obj_dims <- function(obj) {
     dim_obj <- dim(obj)
 
@@ -61,15 +61,16 @@ get_obj_dims <- function(obj) {
     }
 }
 
-#' Get information about dataset
-#'
-#' @param str sting with datasets name, e.g, "datasets::iris"
-#'
-#' @return Dataframe with size, class and some other information about a dataset.
-#' @export
-#'
-#' @examples
-#' get_ds_info("datasets::iris")
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Get information about dataset
+#
+# @param str sting with datasets name, e.g, "datasets::iris"
+#
+# @return Dataframe with size, class and some other information about a dataset.
+# @export
+#
+# @examples
+# get_ds_info("datasets::iris")
 get_ds_info <- function(str) {
 
     ds <- eval(parse(text = str))
@@ -85,15 +86,16 @@ get_ds_info <- function(str) {
     )
 }
 
-#' Get information about dataset and its variables
-#'
-#' @param str sting with datasets name, e.g, "datasets::iris"
-#'
-#' @return Dataframe with size and variable type frequency
-#' @export
-#'
-#' @examples
-#' get_ds_info_2("datasets::iris")
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Get information about dataset and its variables
+#
+# @param str sting with datasets name, e.g, "datasets::iris"
+#
+# @return Dataframe with size and variable type frequency
+# @export
+#
+# @examples
+# get_ds_info_2("datasets::iris")
 
 # str <- "datasets::iris"
 
@@ -148,8 +150,7 @@ get_ds_info_2 <- function(str) {
     )
 }
 
-
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # @examples
 # get_info_about_datasets("ggplot2")
 
@@ -184,7 +185,7 @@ get_info_about_datasets <- function(package = NULL) {
 
     # If no datasets are present
     if (nrow(res) < 1) {
-        res <- tibble(
+        res <- tibble::tibble(
             "Package"       = character(),
             "Dataset"       = character(),
             "Title"         = character(),
