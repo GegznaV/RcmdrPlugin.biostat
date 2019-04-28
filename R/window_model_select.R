@@ -273,7 +273,10 @@ window_model_select <- function() {
         command = function() {
             .mod <- activeModel()
 
-            open_new_plots_window()
+            if (is_plot_in_separate_window()) {
+                open_new_plots_window()
+            }
+
             doItAndPrint(str_glue(
                 "## Basic diagnostic plots for the model \n",
                 "old_par <- par(oma = c(0, 0, 3, 0), mfrow = c(2, 2)) \n",
@@ -295,7 +298,10 @@ window_model_select <- function() {
             Library("tidyverse")
             Library("ggfortify")
 
-            open_new_plots_window()
+            if (is_plot_in_separate_window()) {
+                open_new_plots_window()
+            }
+
             doItAndPrint(str_glue(
                 '## Cooks distance, d \n',
                 '#  Outlier if distance d is above 1 (d > 1) \n',
