@@ -53,6 +53,7 @@ Depends:
 Imports:
     binom,
     boot,
+    broom (>= 0.5.2),
     checkmate,
     clipr,
     data.table (>= 1.12.0),
