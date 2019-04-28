@@ -8,8 +8,6 @@
 #
 # Now 'on_double = onOk' is disabled
 # ----------------------------------------------------------------------------
-# 2. On Cancel, restore previous active dateset and active model
-# ----------------------------------------------------------------------------
 
 
 #' @rdname Menu-window-functions
@@ -327,7 +325,12 @@ window_model_select <- function() {
     tkgrid(info_buttons_frame, sticky = "e")
 
     # ========================================================================
-    ok_cancel_help()
+    ok_cancel_help(
+        before_cancel_fun = function() {
+            active_dataset(.ds)
+            activeModel(.activeModel)}
+    )
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(buttonsFrame)
     dialogSuffix()
