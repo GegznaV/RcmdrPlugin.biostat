@@ -61,7 +61,7 @@ window_summary_missings <- function() {
                 'DescTools::PlotMiss({.ds}) \n',
                 'title(main = "Missing values in dataset \'{.ds}\'",\n xlab = "Row number")\n')
 
-            if (new_plots_window) {
+            if (new_plots_window == TRUE) {
                 open_new_plots_window()
             }
 
