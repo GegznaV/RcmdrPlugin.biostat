@@ -327,7 +327,7 @@ window_model_select <- function() {
     # ========================================================================
     ok_cancel_help(
         before_cancel_fun = function() {
-            active_dataset(.ds)
+            active_dataset_0(.ds)
             activeModel(.activeModel)}
     )
 
