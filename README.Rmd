@@ -60,9 +60,9 @@ devtools::install_github("GegznaV/RcmdrPlugin.biostat")
 
 ## Load the plug-in correctly {#load}
 
-To load the plug-in correctly, you should follow the following steps.
-You can choose a manual or an automatic loading.
-
+You should **never** load the **RcmdrPlugin.biostat** directly as you do with other an R packages.
+Instead, you should load it manually by using the R Commander tool to load the plug-ins or automatically by using a configuration script.
+Please find the instructions in the following sections.
 
 
 ### Load manually
@@ -105,14 +105,15 @@ CAPTION = "" # Figure caption/description.
 
 
 
-### Load automatically
+### Load by using script
 
 To load **RcmdrPlugin.biostat** automatically, run the code:
 
 ```{r eval=FALSE}
-options(Rcmdr = list(plugins = c("RcmdrPlugin.biostat"), console.output = FALSE))
+options(Rcmdr = list(plugins = "RcmdrPlugin.biostat", console.output = FALSE))
 library(Rcmdr)
 ```
+
 
 ### Activate *BioStat* (green) mode
 
