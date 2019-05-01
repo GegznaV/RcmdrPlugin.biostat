@@ -68,6 +68,7 @@ Imports:
     grDevices,
     janitor,
     lm.beta,
+    lmtest  (>= 0.9-3), 
     magrittr,
     methods,
     nortest,
