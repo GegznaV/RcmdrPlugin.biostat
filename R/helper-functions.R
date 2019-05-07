@@ -1293,11 +1293,12 @@ show_code_evaluation_error_message <- function(parent = CommanderWindow(),
 
         str_c(
             "Something went wrong.  \n\n",
-            "To solve the issue, you may try: \n",
-            "  1. choosing more appropriate options in the dialogue window. \n",
-            "  2. using standard variable (object) names, if they are not.  \n",
-            "  3. fixing an error in R code, if you wrote the code.  \n",
-            "  4. choosing more appropriate model for your data. \n\n",
+            "To solve the issue, you may try to: \n",
+            "  1. choose the other more appropriate options. \n",
+            "  2. use standard variable (object) names, if they are not.  \n",
+            "  3. fix an error in R code, if you wrote the code.  \n",
+            "  4. choose a more appropriate model for your data. \n",
+            "\n",
             c(add_msg),
             c(add_note)
 
