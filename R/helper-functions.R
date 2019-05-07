@@ -479,8 +479,9 @@ correct_row_index <- function(i, n_max) {
 #' @export
 #' @param str sring
 #' @param ... other arguments
-clean_str <- function(str, ...) {
-    snakecase::to_any_case(make.names(str), ...)
+clean_str <- function(str, transliterations = "Latin-ASCII", ...) {
+    snakecase::to_any_case(
+        make.names(str), transliterations = transliterations, ...)
 }
 
 #' @rdname Helper-functions
