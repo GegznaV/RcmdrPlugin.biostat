@@ -6,6 +6,9 @@ version: 0.0.33.{build}-{branch}
 build:
   verbosity: minimal
 
+environment:
+  R_VERSION: oldrel
+
 # Download script file from GitHub
 init:
   ps: |
