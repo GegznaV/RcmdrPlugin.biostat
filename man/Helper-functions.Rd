@@ -349,7 +349,7 @@ swap_rows(x, i, j)
 
 correct_row_index(i, n_max)
 
-clean_str(str, ...)
+clean_str(str, transliterations = "Latin-ASCII", ...)
 
 get_obj_names(include_class = NULL, exclude_class = NULL,
   include2_class = NULL, all.names = TRUE, envir = globalenv())
