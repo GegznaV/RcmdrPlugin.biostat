@@ -50,7 +50,8 @@ window_variable_mutate <- function(var_name = NULL,
     }
 
     # Dialog -----------------------------------------------------------------
-    dataSet <- active_dataset()
+    .ds <- active_dataset()
+
     initializeDialog(
         title = gettext_bs("Mutate: create new or replace existing variable"))
 
@@ -114,88 +115,102 @@ window_variable_mutate <- function(var_name = NULL,
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
-        # logger(paste0("##### ", gettext_bs("Create a new variable")," #####"))
-        closeDialog()
+        # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        cursor_set_busy(top)
+        on.exit(cursor_set_idle(top))
 
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        newVar  <- trim.blanks(tclvalue(newVariableName))
+        # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        new_name  <- trim.blanks(tclvalue(newVariableName))
         express <- tclvalue(computeVar)
 
-        # Check validity of var name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (!is.valid.name(newVar)) {
-            msg <- str_glue(gettext_bs("Variable name"), ' "{newVar}" ',
-                            gettext_bs("is not valid!"))
 
-            Message(message = msg, type = "error")
-            window_variable_mutate(var_name = make.names(newVar),
-                                   init_express = express,
-                                   incorrect_expr_msg = msg)
-            return()
-        }
 
         # Check if expression is not empty ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        check.empty <- gsub(";", "", gsub(" ", "", express))
+        check_empty <- gsub(";", "", gsub(" ", "", express))
 
-        if ("" == check.empty) {
-            Message(message = gettext_bs("No expression was specified!"),
-                    type = "error")
-            window_variable_mutate(
-                var_name = newVar,
-                init_express = express,
-                incorrect_expr_msg = "No expression was specified!")
+        if (check_empty == "") {
+            show_error_messages(
+                gettext_bs("No expression was specified!"),
+                # "No ???  was selected.\nPlease select a ???.",
+                title = "Expression Is Missing",
+                parent = top)
             return()
         }
 
-        # Check if variable name already exists ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (is.element(newVar, Variables())) {
-            if ("no" == tclvalue(checkReplace(newVar,
-                                              gettext_bs("Variable")))) {
-
-                window_variable_mutate(
-                    var_name = newVar,
-                    init_express = express,
-                    incorrect_expr_msg =
-                        str_glue('Chose other name than "{newVar}".'))
-                return()
-            }
+        # Add linting for the expression [???]
+        # Message box should contain
+        if (is_try_error(try_command(check_empty))) {
+            show_error_messages(
+                str_c(
+                    "The expression is incomplete or contains error(s)!\n",
+                    "Please, correct the expression."),
+                title = "Invalid Expression",
+                parent = top)
+            return()
         }
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        # Check validity of var name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (is_empty_name(new_name, parent = top)) {
+            return()
+        }
+
+        if (is_not_valid_name(new_name, parent = top)) {
+            return()
+        }
+
+        if (forbid_to_replace_variables(new_name, parent = top)) {
+            return()
+        }
+
+        # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        command <- str_glue(
+            "## Compute a variable: {new_name}\n",
+            "{.ds} <- \n ",
+            "   {.ds} %>% \n",
+            "   mutate({new_name} = {express})")
+
+        # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         Library("tidyverse")
-        # command <- str_glue("{dataSet}${newVar} <- with({active_dataset_0()}, {express})")
-        command <- str_glue("{dataSet} <- {dataSet} %>% \n",
-                            "mutate({newVar} = {express})")
 
         result <- justDoIt(command)
 
-        if (class(result)[1] !=  "try-error") {
-            active_dataset(dataSet, flushModel = FALSE)
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (class(result)[1] != "try-error") {
+            logger(style_cmd(command))
+            # doItAndPrint(style_cmd(command))
+
+            active_dataset(.ds, flushModel = FALSE, flushDialogMemory = FALSE)
+
+            # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # closeDialog()
+
+
         } else {
-            # If expression results in error
-            Message(message = gettext_bs("Error in the expression!"),
-                    type = "error")
-            window_variable_mutate(
-                var_name = newVar,
-                init_express = express,
-                incorrect_expr_msg = "The expression contains error(s) or is invalid!")
+            logger_error(command, error_msg = result)
+            show_code_evaluation_error_message(parent = top)
             return()
         }
 
-
-        command <-
-            # str_glue("## ", gettext_bs("Create/Replace a variable:"), " {newVar}\n",
-            str_glue("## ", gettext_bs("Compute a variable:"), " {newVar}\n",
-                     style_cmd(command))
-        logger(command)
-
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        command_dataset_refresh()
         tkfocus(CommanderWindow())
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Announce about the success to run the function `onOk()`
+        TRUE
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    ok_cancel_help(helpSubject = "mutate", helpPackage = "dplyr",
-                   reset = "window_variable_mutate"
-                   # , apply = "window_variable_mutate"
+    ok_cancel_help(
+        close_on_ok = TRUE,
+        helpSubject = "mutate", helpPackage = "dplyr",
+        reset = "window_variable_mutate",
+        apply = "window_variable_mutate"
     )
 
     tkgrid(var_box_Frame, sticky = "nw")
@@ -217,6 +232,7 @@ window_variable_mutate <- function(var_name = NULL,
     tkgrid_text("Example 3: as.factor(color)")
     tkgrid_text("Example 4: weight / (height^2)")
     tkgrid_text('Example 5: ifelse(age < 50, "young", "old")')
+
     if (!is.null(incorrect_expr_msg)) {
         tkgrid_text(incorrect_expr_msg, fg = "darkred", sticky = "e",
                     pady = c(5, 0))
