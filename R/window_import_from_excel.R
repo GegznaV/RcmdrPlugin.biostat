@@ -10,9 +10,10 @@ window_import_from_excel <- function() {
     # Variables --------------------------------------------------------------
     previous_file_name        <- tclVar("")
     previous_nrows_to_preview <- tclVar("")
+    previous_sheet            <- tclVar("")
 
-    biostat_env$file_contents <- ""
-    biostat_env$worksheets    <- NULL
+    biostat_env$file_contents      <- ""
+    biostat_env$worksheets         <- NULL
     biostat_env$possibly_more_rows <- NULL
 
     on.exit({
@@ -28,7 +29,6 @@ window_import_from_excel <- function() {
     # ~ Read import options --------------------------------------------------
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     get_xl_sheet <- function() {
         val <- get_selection(f1_box_sheet)
         if (val == "") {
@@ -49,7 +49,6 @@ window_import_from_excel <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     read_range <- function() {
         val <- get_values(f1_ent_range)
         if (val == "") {
@@ -68,6 +67,7 @@ window_import_from_excel <- function() {
             str_glue(', range = "{val}"')
         }
     }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_header <- function() {
         as.logical(get_values(f2_but_head))
@@ -132,8 +132,9 @@ window_import_from_excel <- function() {
 
     get_code_na_str <- function() {
         val <- get_values(f2_ent_na)
-        if(val == "") "" else str_c(',\n na = "', get_na_str(), '"')
+        if (val == "") "" else str_c(',\n na = "', get_na_str(), '"')
     }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_name_repair <- function() {
         val <- get_selection(f2_box_rep)
@@ -142,7 +143,8 @@ window_import_from_excel <- function() {
                "unique"    = ,
                "universal" = val,
                "check unique" = "check_unique",
-               "make names" = ~ make.names(., unique = TRUE),
+               "snake case"   = ~ janitor::make_clean_names(.),
+               "make names"   = ~ make.names(., unique = TRUE),
                stop("Value '", val, "' is unknown (f2_box_out).")
         )
     }
@@ -154,6 +156,7 @@ window_import_from_excel <- function() {
                "unique"       = "",
                "universal"    = ', .name_repair = "universal"',
                "check unique" = ', .name_repair = "check_unique"',
+               "snake case"   = ', .name_repair = ~ janitor::make_clean_names(.)',
                "make names"   = ', .name_repair = ~ make.names(., unique = TRUE)',
                stop("Value '", val, "' is unknown (f2_box_out).")
         )
@@ -269,7 +272,6 @@ window_import_from_excel <- function() {
             if (!isTRUE(silent)) {
                 msg_box_import_file_not_found(top)
             }
-
         }
 
         on_failure()
@@ -279,14 +281,18 @@ window_import_from_excel <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Check if file contents need to be updated and return TRUE or FALSE
     need_update_from_file <- function() {
-        filename <- read_path_to_file()
+        filename       <- read_path_to_file()
+        selected_sheet <- get_xl_sheet()
 
         changed_filename <- tclvalue_chr(previous_file_name) != filename
 
         changed_nrows_to_preview <-
             tclvalue_chr(previous_nrows_to_preview) != get_selection(f3_box_nrow_1)
 
-        any(changed_nrows_to_preview, changed_filename)
+        changed_sheet <-
+            !isTRUE(tclvalue_chr(previous_sheet) == selected_sheet)
+
+        any(changed_nrows_to_preview, changed_filename, changed_sheet)
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -294,6 +300,7 @@ window_import_from_excel <- function() {
     update_previous_values <- function(variables) {
         tclvalue(previous_nrows_to_preview) <- get_selection(f3_box_nrow_1)
         tclvalue(previous_file_name)        <- read_path_to_file()
+        tclvalue(previous_sheet)            <- get_selection(f1_box_sheet)
     }
 
 
@@ -314,21 +321,25 @@ window_import_from_excel <- function() {
     # ~ Read data ------------------------------------------------------------
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # `fread` with options from dialogue window
+    # `read_excel` with options from dialogue window
     do_read_excel <- function(input = read_path_to_file(), nrows = get_nrows_to_import()) {
-        readxl::read_excel(
-            input,
-            sheet        = get_xl_sheet(), # NULL
-            range        = read_range(), # NULL  # Takes precedence over skip, n_max and sheet.
-            col_names    = get_header(),
-            skip         = get_skip(),     # 0
-            n_max        = nrows,          # Inf
-            na           = get_na_str(),
-            trim_ws      = get_values(f2_opts, "strip_white"),
-            .name_repair = get_name_repair()
-        ) %>%
-            # get_output_type() %>%
-            get_stringsAsFactors()
+
+        suppressMessages({
+            readxl::read_excel(
+                input,
+                sheet        = get_xl_sheet(), # NULL
+                range        = read_range(),   # NULL  # Takes precedence over skip, n_max and sheet.
+                col_names    = get_header(),
+                skip         = get_skip(),     # 0
+                n_max        = nrows,          # Inf
+                na           = get_na_str(),
+                trim_ws      = get_values(f2_opts, "strip_white"),
+                .name_repair = get_name_repair()
+            ) %>%
+                # get_output_type() %>%
+                get_stringsAsFactors()
+
+        })
     }
 
 
@@ -429,11 +440,12 @@ window_import_from_excel <- function() {
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Default function
-        refresh_dataset_window_0(widget           = f3_dataset,
-                                 ds_contents      = ds_contents,
-                                 preview_type     = get_selection(f3_box_type),
-                                 nrow_preview_ds  = get_nrows_preview_ds(),
-                                 expect_more_rows = possibly_more_rows())
+        refresh_dataset_window_0(
+            widget           = f3_dataset,
+            ds_contents      = ds_contents,
+            preview_type     = get_selection(f3_box_type),
+            nrow_preview_ds  = get_nrows_preview_ds(),
+            expect_more_rows = possibly_more_rows())
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -476,20 +488,24 @@ window_import_from_excel <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     highlight_update_button <- function() {
+
         if (is_file_name_missing()) {
             tk_disable(f1_but_update)
+
         } else {
             tk_normalize(f1_but_update)
+
             if (need_update_from_file()) {
                 tk_activate(f1_but_update)
                 tkconfigure(f1_but_update, default = "active")
+
             } else {
                 tkconfigure(f1_but_update, default = "normal")
             }
         }
     }
 
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     range_activation <- function() {
 
         rng_val <- read_range()
@@ -616,22 +632,23 @@ window_import_from_excel <- function() {
         Library("readxl")
 
         command <- str_glue(.trim = FALSE,
-            '## Import data from Excel file \n',
-            '{new_name} <- readxl::read_excel(\n',
-            '"{file_name}"',
+                            '## Import data from Excel file \n',
+                            '{new_name} <- \n ',
+                            '  readxl::read_excel(\n',
+                            '  "{file_name}"',
 
-            get_code_xl_sheet(),
-            get_code_xl_range(),
-            get_code_header(),
-            get_code_skip(),
-            get_code_nrows(),
-            get_code_na_str(),
-            get_code_strip_white(),
-            get_code_name_repair(),
-            ")",
+                            get_code_xl_sheet(),
+                            get_code_xl_range(),
+                            get_code_header(),
+                            get_code_skip(),
+                            get_code_nrows(),
+                            get_code_na_str(),
+                            get_code_strip_white(),
+                            get_code_name_repair(),
+                            "  )",
 
-            get_code_output_type(),
-            get_code_stringsAsFactors()
+                            get_code_output_type(),
+                            get_code_stringsAsFactors()
         )
 
         # ~~ Apply commands --------------------------------------------------
@@ -751,7 +768,13 @@ window_import_from_excel <- function() {
         label = "Sheet: ",
         values = "",
         tip = "Choose worksheet to import data from.",
-        # onSelect_fun     = correct_worksheet_selection,
+        # on_select     = correct_worksheet_selection,
+        on_select     = function() {
+            refresh_dataset_window()   # [???] Possible issues for URL and
+            # big files, as multiple times of
+            # downloading or import is needed.
+            highlight_update_button()
+        },
         width = 25
     )
 
@@ -856,7 +879,7 @@ window_import_from_excel <- function() {
 
     f2_box_rep  <- bs_combobox(
         f2, width = entry_width - 3,
-        values    = c("check unique", "unique", "universal", "make names"),
+        values    = c("check unique", "unique", "universal", "snake case", "make names"),
         value = "unique",
         tip       = tip_box_rep,
         selection = 1,
@@ -1008,18 +1031,19 @@ window_import_from_excel <- function() {
 
     tkgrid(f1_but_f_choose, f1_but_paste, f1_but_clear, f1_but_update,  sticky = "e")
 
-    tkgrid.configure(f1_lab_file, f1_lab_ds_name,
-                     f1_ent_range$frame_label, f1_ent_range$obj_label,
-                     sticky = "e")
+    tkgrid.configure(
+        f1_lab_file, f1_lab_ds_name,
+        f1_ent_range$frame_label, f1_ent_range$obj_label,
+        sticky = "e")
 
-    tkgrid.configure(f1_ent_file$frame,  f1_ent_file$obj_text,  f1_ent_file$frame_text,
-                     f1_ent_ds_name$frame,  f1_ent_ds_name$obj_text,  f1_ent_ds_name$frame_text,
-                     f1_ent_range$obj_text, f1_ent_range$frame_text,
-                     sticky = "we")
+    tkgrid.configure(
+        f1_ent_file$frame,  f1_ent_file$obj_text,  f1_ent_file$frame_text,
+        f1_ent_ds_name$frame,  f1_ent_ds_name$obj_text,  f1_ent_ds_name$frame_text,
+        f1_ent_range$obj_text, f1_ent_range$frame_text,
+        sticky = "we")
 
-    tkgrid.configure(f1_ent_file$frame, f1_ent_ds_name$frame,
-                     padx = 2)
-    tkgrid.configure(f1_ent_range$frame, f1_box_sheet$frame, padx = c(10, 2))
+    tkgrid.configure(f1_ent_file$frame, f1_ent_ds_name$frame, padx = 2)
+    tkgrid.configure(f1_ent_range$frame, f1_box_sheet$frame,  padx = c(10, 2))
 
     tkgrid.configure(f1_ent_file$frame, columnspan = 5)
     tkgrid.configure(
@@ -1098,9 +1122,9 @@ window_import_from_excel <- function() {
     tkgrid.columnconfigure(f1, 3, weight = 0) # Text entries
     tkgrid.columnconfigure(f1, 4, weight = 0) # Buttons
 
-    tkgrid.columnconfigure(f1_ent_file$frame_text, 0, weight = 1, minsize = 20)
+    tkgrid.columnconfigure(f1_ent_file$frame_text,    0, weight = 1, minsize = 20)
     tkgrid.columnconfigure(f1_ent_ds_name$frame_text, 0, weight = 1, minsize = 20)
-    tkgrid.columnconfigure(f1_ent_file$obj_text,   0, weight = 1, minsize = 20)
+    tkgrid.columnconfigure(f1_ent_file$obj_text,      0, weight = 1, minsize = 20)
     tkgrid.columnconfigure(f1_ent_ds_name$obj_text,   0, weight = 1, minsize = 20)
 
     tkgrid.columnconfigure(f_middle, 0, weight = 0)
@@ -1117,7 +1141,7 @@ window_import_from_excel <- function() {
     # Interactive bindings ---------------------------------------------------
 
     # Prevents from closing window accidentally
-    tkbind(top, "<Return>", do_nothing)
+    tkbind(top, "<Return>", refresh_dataset_window)
 
     tkbind(f1_ent_range$frame, "<<Paste>>", range_activation)
     tkbind(f1_but_paste$frame, "<<Paste>>", highlight_update_button)
@@ -1125,9 +1149,9 @@ window_import_from_excel <- function() {
     # tkbind(f1_ent_range$frame, "<<Enter>>", range_activation)
     tkbind(f1_ent_range$obj_text, "<FocusOut>", refresh_dataset_window)
 
-    tkbind(f2_ent_max$frame,  "<FocusOut>", refresh_dataset_window)
-    tkbind(f2_ent_skip$frame, "<FocusOut>", refresh_dataset_window)
-    tkbind(f2_ent_na$frame,   "<FocusOut>", refresh_dataset_window)
+    tkbind(f2_ent_max$frame,  "<FocusOut>",  refresh_dataset_window)
+    tkbind(f2_ent_skip$frame, "<FocusOut>",  refresh_dataset_window)
+    tkbind(f2_ent_na$frame,   "<FocusOut>",  refresh_dataset_window)
     tkbind(top,               "<Control-S>", refresh_dataset_window)
     tkbind(top,               "<Control-s>", refresh_dataset_window)
 
