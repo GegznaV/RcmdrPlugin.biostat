@@ -451,20 +451,29 @@ window_import_from_excel <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Update contents of dataset entry box.
     update_name_entry <- function() {
-        filename <- read_path_to_file()
+        filename  <- read_path_to_file()
+        sheetname <- get_selection(f1_box_sheet)
 
         if (filename != "") {
             new_name <-
                 filename %>%
                 fs::path_file() %>%
                 fs::path_ext_remove() %>%
+                str_c("_", sheetname) %>%
                 clean_str() %>%
+                str_trunc(77, ellipsis = "") %>%
                 unique_df_name()
 
             set_values(f1_ent_ds_name, new_name)
         }
     }
+    # Update the the last number in name entry field
+    update_name_entry_number <- function() {
+        current_name <- get_values(f1_ent_ds_name)
+        new_name <- unique_df_name(str_remove(current_name, "_\\d+$"))
+        set_values(f1_ent_ds_name, new_name)
 
+    }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Clear both preview windows
     clear_preview <- function() {
@@ -474,9 +483,9 @@ window_import_from_excel <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Update input preview, dataset (DS) preview, and DS name boxes.
     update_all <- function() {
-        update_name_entry()
         read_sheets_from_file()
         put_sheets_in_gui()
+        update_name_entry()
         read_data_from_file()
         highlight_update_button()
         # update_from_file()
@@ -533,6 +542,12 @@ window_import_from_excel <- function() {
             tk_read_only(f1_box_sheet)
         }
     }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    range_to_upper <- function(variables) {
+        set_values(f1_ent_range, str_to_upper(get_values(f1_ent_range)))
+    }
+
     # ~ Input validation -----------------------------------------------------
     make_red_text_reset_val <- function(to = "") {
         function(P, W, S, v, s) {
@@ -659,7 +674,7 @@ window_import_from_excel <- function() {
             active_dataset(new_name, flushModel = FALSE, flushDialogMemory = FALSE)
 
             # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            closeDialog()
+            # closeDialog()
 
         } else {
             logger_error(command, error_msg = result)
@@ -761,7 +776,7 @@ window_import_from_excel <- function() {
 
     f1_ent_ds_name <- bs_entry(
         f1, width = 30, sticky = "ew",
-        tip = "Create a name for the dataset.")
+        tip = "The name for the dataset.")
 
     f1_box_sheet <- bs_combobox(
         parent = f1,
@@ -771,8 +786,9 @@ window_import_from_excel <- function() {
         # on_select     = correct_worksheet_selection,
         on_select     = function() {
             refresh_dataset_window()   # [???] Possible issues for URL and
-            # big files, as multiple times of
-            # downloading or import is needed.
+                                       # big files, as multiple times of
+                                       # downloading or import is needed.
+            update_name_entry()
             highlight_update_button()
         },
         width = 25
@@ -784,6 +800,7 @@ window_import_from_excel <- function() {
         on_key_release = function() {
             highlight_update_button()
             range_activation()
+            range_to_upper()
         },
         tip = str_c("(Optional)\n",
                     "Range of cells in Excel sheet, e.g., B2:F18 or Sheet2!B2:F18. \n",
@@ -1029,7 +1046,7 @@ window_import_from_excel <- function() {
            pady = c(0,  10), sticky = "we")
     tkgrid(f1_ent_range$frame)
 
-    tkgrid(f1_but_f_choose, f1_but_paste, f1_but_clear, f1_but_update,  sticky = "e")
+    tkgrid(f1_but_f_choose, f1_but_paste, f1_but_clear, f1_but_update, sticky = "e")
 
     tkgrid.configure(
         f1_lab_file, f1_lab_ds_name,
@@ -1037,8 +1054,8 @@ window_import_from_excel <- function() {
         sticky = "e")
 
     tkgrid.configure(
-        f1_ent_file$frame,  f1_ent_file$obj_text,  f1_ent_file$frame_text,
-        f1_ent_ds_name$frame,  f1_ent_ds_name$obj_text,  f1_ent_ds_name$frame_text,
+        f1_ent_file$frame, f1_ent_file$obj_text, f1_ent_file$frame_text,
+        f1_ent_ds_name$frame, f1_ent_ds_name$obj_text, f1_ent_ds_name$frame_text,
         f1_ent_range$obj_text, f1_ent_range$frame_text,
         sticky = "we")
 
@@ -1078,9 +1095,13 @@ window_import_from_excel <- function() {
     # Finalize ---------------------------------------------------------------
 
     # Help topic
-    ok_cancel_help(helpSubject = "read_excel", helpPackage = "readxl",
-                   reset = "window_import_from_excel()",
-                   ok_label = "Import")
+    ok_cancel_help(
+        close_on_ok = TRUE,
+        helpSubject = "read_excel", helpPackage = "readxl",
+        reset = "window_import_from_excel()",
+        apply = "window_import_from_excel()",
+        after_apply_success_fun = update_name_entry_number,
+        ok_label = "Import")
 
     dialogSuffix(grid.buttons = TRUE, resizable = TRUE, bindReturn = FALSE)
 
