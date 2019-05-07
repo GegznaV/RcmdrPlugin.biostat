@@ -162,12 +162,12 @@ bs_entry(parent = top, width = "28", value = "", label = "",
   sticky = "w", sticky_label = sticky, sticky_text = sticky,
   main_frame = tk2frame(parent), text_frame = tk2frame(main_frame),
   label_frame = tk2frame(main_frame), tip = "", label_tip = "",
-  on_click = do_nothing, on_double_click = do_nothing,
-  on_triple_click = do_nothing, on_release = do_nothing,
-  on_click_3 = do_nothing, on_double_click_3 = do_nothing,
-  on_triple_click_3 = do_nothing, on_release_3 = do_nothing,
-  on_key_release = do_nothing, use_context_menu = TRUE,
-  bind_clear = TRUE, ...)
+  scroll_x = FALSE, on_click = do_nothing,
+  on_double_click = do_nothing, on_triple_click = do_nothing,
+  on_release = do_nothing, on_click_3 = do_nothing,
+  on_double_click_3 = do_nothing, on_triple_click_3 = do_nothing,
+  on_release_3 = do_nothing, on_key_release = do_nothing,
+  use_context_menu = TRUE, bind_clear = TRUE, ...)
 
 \method{set_values}{bs_entry}(obj, values, ..., add = FALSE)
 
