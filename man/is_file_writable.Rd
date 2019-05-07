@@ -2,7 +2,7 @@
 % Please edit documentation in R/helper-functions.R
 \name{is_file_writable}
 \alias{is_file_writable}
-\title{Check if file writtable.}
+\title{Check if file is writable.}
 \usage{
 is_file_writable(file = "")
 }
@@ -13,5 +13,5 @@ is_file_writable(file = "")
 Logical. If \code{FALSE} it means that file is busy, locked or open.
 }
 \description{
-Check if file writtable.
+Check if file is writable.
 }

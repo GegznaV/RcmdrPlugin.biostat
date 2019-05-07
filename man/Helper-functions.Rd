@@ -354,21 +354,21 @@ clean_str(str, transliterations = "Latin-ASCII", ...)
 get_obj_names(include_class = NULL, exclude_class = NULL,
   include2_class = NULL, all.names = TRUE, envir = globalenv())
 
-unique_obj_names(names, preffix = "", suffix = "",
+unique_obj_names(names, prefix = "", suffix = "",
   list_of_choices = objects(all.names = TRUE, envir = .GlobalEnv),
   all_numbered = FALSE)
 
-unique_df_name(names = active_dataset_0(), preffix = "", suffix = "",
+unique_df_name(names = active_dataset_0(), prefix = "", suffix = "",
   list_of_choices = objects(all.names = TRUE, envir = .GlobalEnv),
   all_numbered = FALSE)
 
 unique_file_name(name = "file", dir = getwd(),
   list_of_choices = dir(dir, all.files = TRUE), all_numbered = FALSE)
 
-unique_colnames(names = "", preffix = "", suffix = "",
+unique_colnames(names = "", prefix = "", suffix = "",
   list_of_choices = listVariables(), all_numbered = FALSE)
 
-unique_colnames_2(names = "", preffix = "", suffix = "",
+unique_colnames_2(names = "", prefix = "", suffix = "",
   list_of_choices = listVariables(), all_numbered = TRUE)
 
 safe_names(str)
