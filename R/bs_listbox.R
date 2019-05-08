@@ -6,6 +6,7 @@
 # Variable list box with constant length (numer of rows)
 # onClick_fun - function on mouse click
 # onRelease_fun - function on mouse release
+# bind_row_swap - if TRUE, Ctrl/Alt + Up/Down move rows in the listbox
 bs_listbox <-
   function(parent,
            values       = variables_all(), # NULL
@@ -36,6 +37,8 @@ bs_listbox <-
 
            on_keyboard = c("select", "scroll", "ignore"),
            on_keyboard_fun = do_nothing,
+           bind_row_swap = FALSE,
+
            title_sticky = "w",
            subtitle_sticky = title_sticky
 
@@ -215,6 +218,12 @@ bs_listbox <-
         columnspan = 2, sticky = subtitle_sticky)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    if (bind_row_swap) {
+        bind_row_swap_listbox(listbox)
+    }
+
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(listbox, sticky = sticky)
     # tkgrid(listbox, scrollbar,  sticky = "nw")
     # tkgrid.configure(scrollbar, sticky = "wns")
@@ -322,6 +331,71 @@ bs_listbox <-
 
 
 # Helpers and methods ========================================================
+# Function
+#
+# listbox - listbox widget
+# k - action:
+#     "top" - selected row becomes 1-st
+#     "end" - selected row becomes last
+#     "+1" - position inreases by 1
+#     "-1" - position decreases by 1
+#
+# i, j - row numbers
+# swap_two_rows_in_listbox
+move_selected_row_in_listbox <- function(listbox, k = "") {
+
+    pre_i <- as.integer(tkcurselection(listbox)) + 1
+
+    # Return, if not selected
+    if (length(pre_i) == 0) {
+        return()
+    }
+
+    i   <- min(pre_i) # i -- first selected row
+    tmp <- get_values_listbox(listbox) # vals_old_order
+    n   <- length(tmp)
+
+    j <- switch(
+        k,
+        "start" = ,
+        "top"   = 1,
+        "+1"    = ,
+        "+"     = i + 1,
+        "-1"    = ,
+        "-"     = i - 1,
+        "end"   = n,
+        i)
+
+    i <- correct_row_index(i, n)
+    j <- correct_row_index(j, n)
+
+    swapped <- swap(tmp, i, j)
+
+    set_values(listbox, swapped, clear = TRUE)
+
+    tk_see(listbox, j)
+    tkselection.set(listbox, j - 1)
+}
+
+bind_row_swap_listbox <- function(listbox, ...) {
+    tkbind(listbox, "<Alt-Up>",   function() {move_selected_row_in_listbox(listbox, "-1")})
+    tkbind(listbox, "<Alt-Down>", function() {move_selected_row_in_listbox(listbox, "+1")})
+    tkbind(listbox, "<Control-Down>", function() {move_selected_row_in_listbox(listbox, "end")})
+    tkbind(listbox, "<Control-Up>",   function() {move_selected_row_in_listbox(listbox, "top")})
+}
+
+
+bind_row_swap.listbox <- function(obj, ...) {
+    bind_row_swap_listbox(obj$listbox, ...)
+}
+
+bind_row_swap.tk2listbox <- function(obj, ...) {
+    bind_row_swap_listbox(obj, ...)
+}
+
+
+
+
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
@@ -399,7 +473,6 @@ set_selection_listbox <- function(listbox, sel, clear = TRUE) {
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
@@ -450,7 +523,6 @@ add_selection.listbox <- function(obj, sel, ...) {
 get_values.listbox <- function(obj, vals, ...) {
   get_values_listbox(obj$listbox, ...)
 }
-
 
 #' @rdname Helper-functions
 #' @export
@@ -527,4 +599,102 @@ tk_normalize.listbox <- function(obj, ..., background = "white") {
 tk_get_state.listbox <- function(obj, ...) {
   tk_get_state(obj$listbox, ...)
 }
+
+# ----------------------------------------------------------------------------
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+get_selection.tk2listbox <- function(obj, ...) {
+    get_selection_listbox(obj)
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+get_selection_length.tk2listbox <- function(obj, ...) {
+    length(get_selection(obj))
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+set_selection.tk2listbox <- function(obj, sel, clear = TRUE, ...) {
+    set_selection_listbox(obj, sel = sel, clear = clear, ...)
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+add_selection.tk2listbox <- function(obj, sel, ...) {
+    set_selection_listbox(obj, sel = sel, clear = FALSE, ...)
+}
+
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+get_values.tk2listbox <- function(obj, vals, ...) {
+    get_values_listbox(obj, ...)
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+set_values.tk2listbox <- function(obj, values, ..., clear = TRUE) {
+    set_values_listbox(obj, values = values, ..., clear = clear)
+}
+
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+set_yview.tk2listbox <- function(obj, ind, ...) {
+    if (is.numeric(ind)) {
+        ind <- as.integer(ind) - 1
+
+    } else if (is.character(ind)) {
+        ind <- ind %in% get_values(obj)
+    }
+
+    tkyview(obj, ind, ...)
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+# Ind must be either numeric or character.
+tk_see.tk2listbox <- function(obj, ind, ...) {
+    if (is.numeric(ind)) {
+        ind <- as.integer(ind) - 1
+
+    } else if (is.character(ind)) {
+        ind <- ind %in% get_values(obj)
+    }
+
+    tksee(obj, ind, ...)
+}
+
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+tk_disable.tk2listbox <- function(obj, ..., background = "grey95") {
+    tk_disable(obj, background = background, ...)
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+tk_normalize.tk2listbox <- function(obj, ..., background = "white") {
+    tk_normalize(obj, background = background, ...)
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+tk_get_state.tk2listbox <- function(obj, ...) {
+    tk_get_state(obj, ...)
+}
+
 

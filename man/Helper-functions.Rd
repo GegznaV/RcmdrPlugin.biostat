@@ -34,6 +34,17 @@
 \alias{tk_disable.listbox}
 \alias{tk_normalize.listbox}
 \alias{tk_get_state.listbox}
+\alias{get_selection.tk2listbox}
+\alias{get_selection_length.tk2listbox}
+\alias{set_selection.tk2listbox}
+\alias{add_selection.tk2listbox}
+\alias{get_values.tk2listbox}
+\alias{set_values.tk2listbox}
+\alias{set_yview.tk2listbox}
+\alias{tk_see.tk2listbox}
+\alias{tk_disable.tk2listbox}
+\alias{tk_normalize.tk2listbox}
+\alias{tk_get_state.tk2listbox}
 \alias{get_values.bs_radiobuttons}
 \alias{set_values.bs_radiobuttons}
 \alias{bs_text}
@@ -189,8 +200,8 @@ bs_listbox(parent, values = variables_all(), value = NULL,
   on_release = do_nothing, on_click_3 = do_nothing,
   on_double_click_3 = do_nothing, on_triple_click_3 = do_nothing,
   on_release_3 = do_nothing, on_keyboard = c("select", "scroll",
-  "ignore"), on_keyboard_fun = do_nothing, title_sticky = "w",
-  subtitle_sticky = title_sticky, ...)
+  "ignore"), on_keyboard_fun = do_nothing, bind_row_swap = FALSE,
+  title_sticky = "w", subtitle_sticky = title_sticky, ...)
 
 get_values_listbox(listbox)
 
@@ -229,6 +240,28 @@ set_selection_listbox(listbox, sel, clear = TRUE)
 \method{tk_normalize}{listbox}(obj, ..., background = "white")
 
 \method{tk_get_state}{listbox}(obj, ...)
+
+\method{get_selection}{tk2listbox}(obj, ...)
+
+\method{get_selection_length}{tk2listbox}(obj, ...)
+
+\method{set_selection}{tk2listbox}(obj, sel, clear = TRUE, ...)
+
+\method{add_selection}{tk2listbox}(obj, sel, ...)
+
+\method{get_values}{tk2listbox}(obj, vals, ...)
+
+\method{set_values}{tk2listbox}(obj, values, ..., clear = TRUE)
+
+\method{set_yview}{tk2listbox}(obj, ind, ...)
+
+\method{tk_see}{tk2listbox}(obj, ind, ...)
+
+\method{tk_disable}{tk2listbox}(obj, ..., background = "grey95")
+
+\method{tk_normalize}{tk2listbox}(obj, ..., background = "white")
+
+\method{tk_get_state}{tk2listbox}(obj, ...)
 
 \method{get_values}{bs_radiobuttons}(obj, ...)
 
