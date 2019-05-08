@@ -20,6 +20,7 @@ bs_entry <- function(
     label_frame = tk2frame(main_frame),
     tip       = "",
     label_tip = "",
+    scroll_x  = FALSE,
     on_click           = do_nothing,
     on_double_click    = do_nothing,
     on_triple_click    = do_nothing,
@@ -143,6 +144,24 @@ bs_entry <- function(
     tkgrid.columnconfigure(obj_label,   0, weight = 0)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    if (isTRUE(scroll_x)) {
+        computeXscroll <- ttkscrollbar(
+            text_frame,
+            orient = "horizontal",
+            command = function(...)
+                tkxview(f2_entry_expr$obj_text, ...)
+        )
+        tkconfigure(
+            obj_text,
+            xscrollcommand = function(...)
+                tkset(computeXscroll, ...)
+        )
+        tkgrid(computeXscroll, sticky = "ew")
+        tkgrid.columnconfigure(computeXscroll, 0, weight = 1)
+    }
+
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     structure(list(
         frame       = main_frame,
         frame_text  = text_frame,
@@ -190,8 +209,8 @@ set_values.bs_entry <- function(obj, values, ..., add = FALSE) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-get_values.bs_entry <- function(obj, ...) {
-    tclvalue_chr(obj$var_text)
+get_values.bs_entry <- function(obj, ..., trim = TRUE) {
+    tclvalue_chr(obj$var_text, ..., trim = trim)
 }
 
 

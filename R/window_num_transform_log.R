@@ -1,7 +1,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # TODO:
 # [v] 1. Change interface for name input and prefix/suffix input:
-#        make separate options either to write names or to add preffix and suffix.
+#        make separate options either to write names or to add prefix
+#        and suffix.
 
 
 #' Rcmdr window for log transformation

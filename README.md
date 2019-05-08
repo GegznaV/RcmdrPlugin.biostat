@@ -9,12 +9,12 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.r-project.org/package=RcmdrPlugin.biostat)
 [![GitHub
-version](https://img.shields.io/badge/GitHub-v0.0.33-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
+version](https://img.shields.io/badge/GitHub-v0.0.35-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/hm4h2rjb8ayr2df1/branch/master?svg=true)](https://ci.appveyor.com/project/GegznaV/rcmdrplugin-biostat/branch/master)
 [![Travis-CI Build
 Status](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat)
-[![Updated-on](https://img.shields.io/badge/Updated%20on-2019--04--28-yellowgreen.svg)](/commits/master)
+[![Updated-on](https://img.shields.io/badge/Updated%20on-2019--05--09-yellowgreen.svg)](/commits/master)
 <!-- badges: end -->
 
 -----
@@ -46,8 +46,11 @@ devtools::install_github("GegznaV/RcmdrPlugin.biostat")
 
 ## Load the plug-in correctly
 
-To load the plug-in correctly, you should follow the following steps.
-You can choose a manual or an automatic loading.
+You should **never** load the **RcmdrPlugin.biostat** directly as you do
+with other an R packages. Instead, you should load it manually by using
+the R Commander tool to load the plug-ins or automatically by using a
+configuration script. Please find the instructions in the following
+sections.
 
 ### Load manually
 
@@ -81,12 +84,12 @@ restart.
 
 <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/03--biostat-plugin-loaded.png" style="display: block; margin: auto;" />
 
-### Load automatically
+### Load by using script
 
 To load **RcmdrPlugin.biostat** automatically, run the code:
 
 ``` r
-options(Rcmdr = list(plugins = c("RcmdrPlugin.biostat"), console.output = FALSE))
+options(Rcmdr = list(plugins = "RcmdrPlugin.biostat", console.output = FALSE))
 library(Rcmdr)
 ```
 
