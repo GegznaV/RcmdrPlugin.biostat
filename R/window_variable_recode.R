@@ -1,17 +1,21 @@
 # TODO:
-# 1. Solve problem of window duplication on error when apply button is pressed.
 #
-# 1. Add buttons on the window to insert `recode_values_template` and `
-# recode_values_template_2`.
+# 1. Solve problem of window duplication on error when apply button is pressed.
 #
 # 2. Better handling for code evaluation error, e. g. if only '.missing = "NA"'
 # is enered and other values are not.
 #
-# 3. Add popup menu for right-click and key stroke bindings, that enable quick
+# [+/-] 3. Add popup menu for right-click and key stroke bindings, that enable quick
 # change of row position, deletion, etc.
 #
+# 4. Update onOk function.
+#
+# 5. Add tk_see or set_yview for [->] and [->|] buttons.
 #
 # [+] DONE:
+#
+#  1. Add buttons on the window to insert `recode_values_template` and `
+# recode_values_template_2`.
 #
 # 1. Add interactivity for double click.
 #    a.  It should add all unique values to recodes window as
@@ -102,8 +106,8 @@ right_click_menu <- function(tcl_widget) {
             else tksearch(focused, type, direction, "-nocase", "--", text, "insert", stop)
             where.txt <- tclvalue(where.txt)
             if (where.txt == "") {
-                Message(message=gettext_bs("Text not found."),
-                        type="note")
+                Message(message = gettext_bs("Text not found."),
+                        type = "note")
                 if (GrabFocus()) tkgrab.release(top)
                 tkdestroy(top)
                 tkfocus(CommanderWindow())
@@ -178,16 +182,41 @@ right_click_menu <- function(tcl_widget) {
 
         # tkadd(contextMenu, "separator")
 
-        # tkadd(contextMenu, "command", label = gettext_bs("Move row up"),    command = onUp)
-        # tkadd(contextMenu, "command", label = gettext_bs("Move row down"),  command = onDown)
+        # tkadd(contextMenu, "command", label = gettext_bs("Move row up"),     command = onUp)
+        # tkadd(contextMenu, "command", label = gettext_bs("Move row down"),   command = onDown)
         # tkadd(contextMenu, "command", label = gettext_bs("Move row to top"), command = onTop)
         #
         # tkadd(contextMenu, "separator")
-        tkadd(contextMenu, "command", label = gettext_bs("Cut"),    command = onCut)
-        tkadd(contextMenu, "command", label = gettext_bs("Copy"),   command = onCopy)
-        tkadd(contextMenu, "command", label = gettext_bs("Paste"),  command = onPaste)
-        tkadd(contextMenu, "command", label = gettext_bs("Delete"), command = onDelete)
-        tkadd(contextMenu, "command", label = gettext_bs("Delete all"), command = onClear)
+
+        tkadd(contextMenu, "command",
+              label = gettext_bs("Copy"),
+              image = "::image::bs_copy",
+              compound = "left",
+              command = onCopy)
+
+        tkadd(contextMenu, "command",
+              label = gettext_bs("Paste"),
+              image = "::image::bs_paste",
+              compound = "left",
+              command = onPaste)
+
+        tkadd(contextMenu, "command",
+              label = gettext_bs("Cut"),
+              image = "::image::bs_cut",
+              compound = "left",
+              command = onCut)
+
+        tkadd(contextMenu, "command",
+              label = gettext_bs("Delete"),
+              image = "::image::bs_delete",
+              compound = "left",
+              command = onDelete)
+
+        tkadd(contextMenu, "command",
+              label = gettext_bs("Delete all"),
+              image = "::image::bs_delete",
+              compound = "left",
+              command = onClear)
 
 
         # tkadd(contextMenu, "separator")
@@ -197,8 +226,16 @@ right_click_menu <- function(tcl_widget) {
         # tkadd(contextMenu, "command", label = gettext_bs("Delete row"), command = onDeleteRow)
 
         tkadd(contextMenu, "separator")
-        tkadd(contextMenu, "command", label = gettext_bs("Undo"), command = onUndo)
-        tkadd(contextMenu, "command", label = gettext_bs("Redo"), command = onRedo)
+        tkadd(contextMenu, "command",
+              label = gettext_bs("Undo"),
+              image = "::image::bs_undo",
+              compound = "left",
+              command = onUndo)
+        tkadd(contextMenu, "command",
+              label = gettext_bs("Redo"),
+              image = "::image::bs_redo",
+              compound = "left",
+              command = onRedo)
 
 
         # tkadd(contextMenu, "separator")
@@ -277,6 +314,69 @@ recode_values_template <- function(x, template = "1") {
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+get_cursor_position <- function(recodes) {
+    setNames(
+        as.integer(
+            str_split_fixed(
+                tkindex(recodes, "insert"), # gets cursor position
+                "\\.", n = 2)
+        ),
+        c("row", "col")
+    )
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+select_line <- function(recodes, i) {
+    tktag.delete(recodes, "sel")
+    tktag.add(recodes, "sel", str_glue("{i}.0"), str_glue("{i}.end"))
+}
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+move_selected_row_in_tktext <- function(recodes, k = "+1") {
+
+    # selection <- tclvalue(tktag.ranges(recodes, "sel"))
+
+    # if (selection == "") {
+    #     select_line(recodes, i)
+    #     return()
+    # }
+
+    i <- get_cursor_position(recodes)["row"]
+    # select_line(recodes, i)
+
+    recodes_text <- str_remove(tclvalue(tkget(recodes, "1.0", "end")), "\\n$")
+    tmp <- structure(str_split(recodes_text, "\n")[[1]], class = "glue")
+
+    n <- length(tmp)
+
+    j <- get_j(k, i, n)
+
+    i <- correct_row_index(i, n)
+    j <- correct_row_index(j, n)
+
+    swapped <- structure(str_c(swap(tmp, i, j), collapse = "\n"), class = "glue")
+
+    # str_count(recodes_text, "\n")
+    # str_count(swapped, "\n")
+
+    tkdelete(recodes, "1.0", "end")
+    tkinsert(recodes, "1.0", swapped)
+
+    pos_j <- str_glue("{j}.0")
+
+    tkmark.set(recodes, "insert", pos_j)
+
+    tclAfter(1, function() {
+        tksee(recodes, pos_j)
+        select_line(recodes, j)
+        tkfocus(recodes)
+    })
+
+    # # Suppress default bindings
+    # tcl("expr", "{break}")
+    #
+}
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # widget - tktext widget
 # i, j - row numbers
@@ -344,12 +444,12 @@ window_variable_recode0 <- function() {
 
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    upper_frame <- tkframe(top)
+    f1 <- tkframe(top)
 
     variablesBox <-
         variableListBox2(
             listHeight = 7,
-            upper_frame,
+            f1,
             Variables(),
             onDoubleClick_fun  = insert_template_1,
             onTripleClick_fun  = insert_template_1a,
@@ -360,7 +460,7 @@ window_variable_recode0 <- function() {
             initialSelection = varPosn(dialog_values$initial_variables, "all")
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    recodesFrame <- tkframe(upper_frame)
+    recodesFrame <- tkframe(f1)
     recodes <-
         tktext(
             recodesFrame,
@@ -395,11 +495,82 @@ window_variable_recode0 <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkinsert(recodes, "1.0", dialog_values$initial_recode_directives)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    lower_frame <- tkframe(top)
-    lower_options_frame <- tkframe(lower_frame)
+
+    f1_but_set_2 <- tkframe(f1)
+
+    f1_but_2_1 <- tk2button(
+        f1_but_set_2,
+        image = "::image::bs_go_next",
+        command =  function() {
+            if (get_selection_length(variablesBox) == 0) {
+                set_selection(variablesBox, 1)
+            }
+            insert_template_1()
+        },
+        tip = "Create a template to recode \n values of selected variable."
+    )
+    f1_but_2_2 <- tk2button(
+        f1_but_set_2,
+        image = "::image::bs_go_last",
+        command = function() {
+            if (get_selection_length(variablesBox) == 0) {
+                set_selection(variablesBox, 1)
+            }
+            insert_template_2()
+        },
+        tip = "Create a template to reorder \nvalues of selected variable."
+    )
+    tkgrid(f1_but_2_1)
+    tkgrid(f1_but_2_2)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    f1_but_set_1 <- tkframe(f1)
+
+    f1_but_1_1 <- tk2button(
+        f1_but_set_1,
+        image = "::image::bs_go_top",
+        command = function() {
+            move_selected_row_in_tktext(recodes, "top")
+        },
+        tip = "Move selected line \nto the top."
+    )
+    f1_but_1_2 <- tk2button(
+        f1_but_set_1,
+        image = "::image::bs_go_up",
+        command = function() {
+            move_selected_row_in_tktext(recodes, "-1")
+        },
+        tip = "Move selected line \nup by 1 position."
+    )
+    f1_but_1_3 <- tk2button(
+        f1_but_set_1,
+        image = "::image::bs_go_down",
+        command = function() {
+            move_selected_row_in_tktext(recodes, "+1")
+        },
+        tip = "Move selected line \ndown by 1 position."
+    )
+    f1_but_1_4 <- tk2button(
+        f1_but_set_1,
+        image = "::image::bs_go_bottom",
+        command = function() {
+            move_selected_row_in_tktext(recodes, "bottom")
+        },
+        tip = "Move selected line \nto the bottom."
+    )
+
+    tkgrid(f1_but_1_1)
+    tkgrid(f1_but_1_2)
+    tkgrid(f1_but_1_3)
+    tkgrid(f1_but_1_4)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    f2 <- tkframe(top)
+    lower_options_frame <- tkframe(f2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     variablesFrame  <- tkframe(lower_options_frame)
     newVariableName <- tclVar(dialog_values$initial_name)
+
     newVariable <-
         ttkentry(variablesFrame,
                  width = "23",
@@ -407,22 +578,18 @@ window_variable_recode0 <- function() {
     # ------------------------------------------------------------------------
     variable_type_frame <- tkframe(lower_options_frame)
 
-    # factor_checkbox_frame <- tkframe(variable_type_frame)
 
-    # make_factorVariable   <- tclVar(dialog_values$initial_make_factor)
-    # make_factorCheckBox   <- ttkcheckbutton(factor_checkbox_frame,
-    #                                         variable = make_factorVariable)
-
-    Rcmdr::radioButtons(variable_type_frame,
-                        name          = "recode_into",
-                        # title       = gettext_bs("Use functions: "),
-                        # title.color = getRcmdr("title.color"),
-                        buttons       = c("nominal", "ordinal", "other"),
-                        values        = c("nominal", "ordinal", "other"),
-                        initialValue  = dialog_values$initial_recode_into,
-                        labels        = gettext_bs(c("Nominal factor",
-                                                      "Ordinal factor",
-                                                      "Do not convert")))
+    Rcmdr::radioButtons(
+        variable_type_frame,
+        name          = "recode_into",
+        # title       = gettext_bs("Use functions: "),
+        # title.color = getRcmdr("title.color"),
+        buttons       = c("nominal", "ordinal", "other"),
+        values        = c("nominal", "ordinal", "other"),
+        initialValue  = dialog_values$initial_recode_into,
+        labels        = gettext_bs(c("Nominal factor",
+                                     "Ordinal factor",
+                                     "Do not convert")))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
@@ -431,8 +598,6 @@ window_variable_recode0 <- function() {
         on.exit(cursor_set_idle(top))
 
         # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # make_factor <- tclvalue(make_factorVariable) == "1"
-        # make_factor <- tclvalue_lgl(make_factorVariable)
         recode_into       <- tclvalue(recode_intoVariable)
         variables         <- getSelection(variablesBox)
         selected_variable <- tclvalue(selected_variable)
@@ -444,24 +609,31 @@ window_variable_recode0 <- function() {
 
         # Format code into one row
         recode_directives <-
-            stringr::str_replace_all(save_recodes,
-                                     # Remove intact rows
-                                     c('".*" = ""' = "",
-                                       '\\.default = (NULL|"")' = "",
-                                       '\\.missing = (NULL|"")' = "",
-                                       # Remove leading commas and spaces
-                                       "[, ]+(\n)"    = "\\1",
-                                       # Remove emplty lines
-                                       "(\n){2,}"  = "\n",
-                                       # Remove tailing new line
-                                       "\n$"       = "",
-                                       # Remove leading spaces in each non-first row
-                                       "\n( )*"    = ", ",
-                                       # Remove leading spaces and commas in
-                                       # the first row
-                                       "^[, ]*"    = "",
-                                       # Remove tailing commas and spaces
-                                       "[, ]*$"    = "")
+            stringr::str_replace_all(
+                save_recodes,
+                # Remove intact rows
+                c('".*" = ""' = "",
+                  '\\.default = (NULL|"")' = "",
+                  '\\.missing = (NULL|"")' = "",
+
+                  # Remove leading commas and spaces
+                  "[, ]+(\n)"    = "\\1",
+
+                  # Remove emplty lines
+                  "(\n){2,}"  = "\n",
+
+                  # Remove tailing new line
+                  "\n$"       = "",
+
+                  # Remove leading spaces in each non-first row
+                  "\n( )*"    = ", ",
+
+                  # Remove leading spaces and commas in
+                  # the first row
+                  "^[, ]*"    = "",
+
+                  # Remove tailing commas and spaces
+                  "[, ]*$"    = "")
             )
         # str_detect(recode_directives,
         #            "[\\p{Alphabetic}\\p{Mark}\\p{Decimal_Number}]")
@@ -523,9 +695,10 @@ window_variable_recode0 <- function() {
 
         command <- str_glue(
             "## ", gettext_bs("Recode variable values"), "\n\n",
-            "{dataSet} <- {dataSet} %>% \n",
+            "{dataSet} <- \n",
+            "   {dataSet} %>% \n",
             "   dplyr::mutate(\n",
-            "   {name} = {recode_fun}({selected_variable}, ",
+            "   {name} = {recode_fun}({selected_variable}, \n",
             "   {recode_directives}{ordered_factor}))"
         )
 
@@ -554,20 +727,18 @@ window_variable_recode0 <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(bs_label(
-        top,
-        text = gettext_bs("Recode variable values"),
-        font = tkfont.create(weight = "bold", size = 9),
-        fg = fg_col),
-        pady = c(5, 9))
+
+    title_text <- gettext_bs("Recode Variable Values")
+    tk_title(top, title_text)
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(selected_var_frame) # selected_variable
     tkgrid(
         bs_label(selected_var_frame, text = "Selected variable: "),
         bs_label(selected_var_frame,
-                    textvariable = selected_variable,
-                    font = tkfont.create(weight = "bold", size = 8),
-                    fg = "darkred"),
+                 textvariable = selected_variable,
+                 font = tkfont.create(weight = "bold", size = 8),
+                 fg = "darkred"),
         pady = c(0, 9)
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -576,10 +747,13 @@ window_variable_recode0 <- function() {
                    reset = "window_variable_recode0()",
                    apply = "window_variable_recode0()")
 
-    tkgrid(upper_frame, sticky = "nw")
-    tkgrid(getFrame(variablesBox),
-           bs_label(upper_frame, text = "  "),
-           recodesFrame, sticky = "nw")
+    tkgrid(f1, sticky = "nw")
+
+    tkgrid(getFrame(variablesBox), f1_but_set_2, recodesFrame, f1_but_set_1,
+           sticky = "nw")
+
+    tkgrid.configure(f1_but_set_1, sticky = "")
+    tkgrid.configure(f1_but_set_2, sticky = "", padx = c(3, 4))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # tkgrid()
@@ -594,8 +768,8 @@ window_variable_recode0 <- function() {
 
     tkgrid(
         bs_label(variable_type_frame,
-                    text = gettext_bs("Convert variable into: "),
-                    fg = getRcmdr("title.color")),
+                 text = gettext_bs("Convert variable into: "),
+                 fg = getRcmdr("title.color")),
         sticky = "w",
         pady = c(10, 0)
     )
@@ -617,12 +791,12 @@ window_variable_recode0 <- function() {
     tkgrid(recodes, recodesYscroll, sticky = "nw")
     tkgrid(recodesXscroll)
 
-    tkgrid(lower_frame,         sticky = "w")
+    tkgrid(f2,         sticky = "w")
     tkgrid(variablesFrame,      sticky = "w")
     tkgrid(variable_type_frame, sticky = "w")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    examples_frame <- tkframe(lower_frame)
+    examples_frame <- tkframe(f2)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid_text <- function(text = "", frame = examples_frame, fg = "black",
@@ -647,14 +821,13 @@ window_variable_recode0 <- function() {
     #                 pady = c(5, 0))
     # }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     tkgrid(lower_options_frame, examples_frame,
            sticky = "nw",
            columnspan = 2)
     # ==========================================================================
 
-
-    tkgrid(buttonsFrame, sticky = "w", columnspan = 2)
+    tkgrid(buttonsFrame, sticky = "ew")
+    # tkgrid(buttonsFrame, sticky = "w", columnspan = 2)
     tkgrid.configure(recodesXscroll, sticky = "ew")
     tkgrid.configure(recodesYscroll, sticky = "ns")
 

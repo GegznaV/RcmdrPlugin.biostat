@@ -181,6 +181,16 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_bug",       "icons/bug.png")
     bs_tkimage_create("::image::bs_home",      "icons/go-home-6.png")
     bs_tkimage_create("::image::bs_about",     "icons/help-about-3.png")
+
+    bs_tkimage_create("::image::bs_go_top",     "icons/go-top-3.png")
+    bs_tkimage_create("::image::bs_go_up",      "icons/go-up-4.png")
+    bs_tkimage_create("::image::bs_go_down",    "icons/go-down-4.png")
+    bs_tkimage_create("::image::bs_go_bottom",  "icons/go-bottom-3.png")
+
+    bs_tkimage_create("::image::bs_go_first",     "icons/go-first-2.png")
+    bs_tkimage_create("::image::bs_go_prev",      "icons/go-previous-4.png")
+    bs_tkimage_create("::image::bs_go_next",      "icons/go-next-4.png")
+    bs_tkimage_create("::image::bs_go_last",      "icons/go-last-2.png")
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

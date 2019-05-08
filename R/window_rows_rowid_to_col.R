@@ -13,7 +13,7 @@ window_rows_rowid_to_col <- function() {
 
     initializeDialog(title = gettext_bs("Create Row Numbers"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    ds     <- active_dataset()
+    .ds    <- active_dataset()
     fg_col <- Rcmdr::getRcmdr("title.color")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
@@ -36,6 +36,7 @@ window_rows_rowid_to_col <- function() {
                             labels =  c("First  ","Last  "),
                             initialValue = dialog_values$initial_position
     )
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
 
@@ -77,11 +78,12 @@ window_rows_rowid_to_col <- function() {
                        "%>% \n dplyr::select({new_name}, everything())"),
                    "last" = "")
 
+        ds <- get(.ds, envir = globalenv())
         cmd_ungroup <- if (is_grouped_df(ds)) "ungroup() %>% \n" else ""
 
         command <- style_cmd(str_glue(
             '## Add column with row numbers \n',
-            "{ds} <- {ds} %>% \n",
+            "{.ds} <- {.ds} %>% \n",
             "{cmd_ungroup}",
             "dplyr::mutate({new_name} = 1:n())",
             "{cmd_position}"))
