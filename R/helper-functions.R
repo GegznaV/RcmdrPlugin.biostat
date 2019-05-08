@@ -221,7 +221,7 @@ list_summaries_Models <- function(envir = .GlobalEnv, ...) {
 # ?parse
 # ?eval
 #
-# envir_eval  - environment to evalueate in.
+# envir_eval  - environment to evaluate in.
 # envir_glue  - environment to glue in.
 str_glue_eval <- function(..., envir = parent.frame(),
                           # .collapse = "\n",
@@ -242,8 +242,8 @@ str_glue_eval <- function(..., envir = parent.frame(),
 #' @export
 #' @keywords internal
 
-# x - commans written as text;
-# envir - environment to evalueate in.
+# x - commands written as text;
+# envir - environment to evaluate in.
 eval_text <- function(x, envir = parent.frame(), ...) {
     eval(parse(text = x), envir = envir, ...)
 }
@@ -392,7 +392,7 @@ spaces <- function(n, symbol = " ") {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-# Print code if code evaluation error occured
+# Print code if code evaluation error occurred
 logger_error <- function(command = NULL, error_msg = NULL) {
 
 
@@ -479,8 +479,9 @@ correct_row_index <- function(i, n_max) {
 #' @export
 #' @param str sring
 #' @param ... other arguments
-clean_str <- function(str, ...) {
-    snakecase::to_any_case(make.names(str), ...)
+clean_str <- function(str, transliterations = "Latin-ASCII", ...) {
+    snakecase::to_any_case(
+        make.names(str), transliterations = transliterations, ...)
 }
 
 #' @rdname Helper-functions
@@ -488,7 +489,7 @@ clean_str <- function(str, ...) {
 #' @keywords internal
 # Get object names by class
 #
-# @param name - name of dataset before suffix and preffix are added.
+# @param name - name of dataset before suffix and prefix are added.
 get_obj_names <-  function(
     include_class  = NULL,
     exclude_class  = NULL,
@@ -525,9 +526,9 @@ get_obj_names <-  function(
 #' @keywords internal
 # Make a unique name for an object (e.g., data frame) by adding numbers
 #
-# @param name - name of dataset before suffix and preffix are added.
+# @param name - name of dataset before suffix and prefix are added.
 unique_obj_names <- function(names,
-                             preffix = "",
+                             prefix = "",
                              suffix  = "",
                              list_of_choices = objects(all.names = TRUE,
                                                        envir = .GlobalEnv),
@@ -535,7 +536,7 @@ unique_obj_names <- function(names,
     if (length(names) == 0)
         return(NULL)
 
-    initial_names <- str_glue("{preffix}{names}{suffix}")
+    initial_names <- str_glue("{prefix}{names}{suffix}")
 
     n_names <- length(names)
 
@@ -558,13 +559,13 @@ unique_obj_names <- function(names,
 #' @export
 #' @keywords internal
 unique_df_name <- function(names = active_dataset_0(),
-                           preffix = "",
+                           prefix = "",
                            suffix = "",
                            list_of_choices = objects(all.names = TRUE,
                                                      envir = .GlobalEnv),
                            all_numbered = FALSE) {
 
-    unique_obj_names(names, preffix, suffix, list_of_choices, all_numbered)
+    unique_obj_names(names, prefix, suffix, list_of_choices, all_numbered)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Helper-functions
@@ -652,23 +653,23 @@ unique_file_name_2 <- function(name = "file", # all names are converted to lower
 #' @export
 #' @keywords internal
 unique_colnames <- function(names = "",
-                            preffix = "",
+                            prefix = "",
                             suffix = "",
                             list_of_choices = listVariables(),
                             all_numbered = FALSE) {
 
-    unique_obj_names(names, preffix, suffix, list_of_choices, all_numbered)
+    unique_obj_names(names, prefix, suffix, list_of_choices, all_numbered)
 }
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 unique_colnames_2 <- function(names = "",
-                              preffix = "",
+                              prefix = "",
                               suffix = "",
                               list_of_choices = listVariables(),
                               all_numbered = TRUE) {
 
-    unique_obj_names(names, preffix, suffix, list_of_choices, all_numbered)
+    unique_obj_names(names, prefix, suffix, list_of_choices, all_numbered)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -765,7 +766,7 @@ set_multi_ext  <- function(path, ext) {
 }
 
 
-#' Check if file writtable.
+#' Check if file is writable.
 #' @param file (character) Path to file.
 #'
 #' @return Logical. If \code{FALSE} it means that file is busy, locked or open.
@@ -1292,11 +1293,12 @@ show_code_evaluation_error_message <- function(parent = CommanderWindow(),
 
         str_c(
             "Something went wrong.  \n\n",
-            "To solve the issue, you may try: \n",
-            "  1. choosing more appropriate options in the dialogue window. \n",
-            "  2. using standard variable (object) names, if they are not.  \n",
-            "  3. fixing an error in R code, if you wrote the code.  \n",
-            "  4. choosing more appropriate model for your data. \n\n",
+            "To solve the issue, you may try to: \n",
+            "  1. choose the other more appropriate options. \n",
+            "  2. use standard variable (object) names, if they are not.  \n",
+            "  3. fix an error in R code, if you wrote the code.  \n",
+            "  4. choose a more appropriate model for your data. \n",
+            "\n",
             c(add_msg),
             c(add_note)
 

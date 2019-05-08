@@ -30,10 +30,21 @@
 \alias{set_values.listbox}
 \alias{set_values.listbox_with_filter}
 \alias{set_yview.listbox}
+\alias{set_yview.tk2listbox}
 \alias{tk_see.listbox}
+\alias{tk_see.tk2listbox}
 \alias{tk_disable.listbox}
 \alias{tk_normalize.listbox}
 \alias{tk_get_state.listbox}
+\alias{get_selection.tk2listbox}
+\alias{get_selection_length.tk2listbox}
+\alias{set_selection.tk2listbox}
+\alias{add_selection.tk2listbox}
+\alias{get_values.tk2listbox}
+\alias{set_values.tk2listbox}
+\alias{tk_disable.tk2listbox}
+\alias{tk_normalize.tk2listbox}
+\alias{tk_get_state.tk2listbox}
 \alias{get_values.bs_radiobuttons}
 \alias{set_values.bs_radiobuttons}
 \alias{bs_text}
@@ -162,12 +173,12 @@ bs_entry(parent = top, width = "28", value = "", label = "",
   sticky = "w", sticky_label = sticky, sticky_text = sticky,
   main_frame = tk2frame(parent), text_frame = tk2frame(main_frame),
   label_frame = tk2frame(main_frame), tip = "", label_tip = "",
-  on_click = do_nothing, on_double_click = do_nothing,
-  on_triple_click = do_nothing, on_release = do_nothing,
-  on_click_3 = do_nothing, on_double_click_3 = do_nothing,
-  on_triple_click_3 = do_nothing, on_release_3 = do_nothing,
-  on_key_release = do_nothing, use_context_menu = TRUE,
-  bind_clear = TRUE, ...)
+  scroll_x = FALSE, on_click = do_nothing,
+  on_double_click = do_nothing, on_triple_click = do_nothing,
+  on_release = do_nothing, on_click_3 = do_nothing,
+  on_double_click_3 = do_nothing, on_triple_click_3 = do_nothing,
+  on_release_3 = do_nothing, on_key_release = do_nothing,
+  use_context_menu = TRUE, bind_clear = TRUE, ...)
 
 \method{set_values}{bs_entry}(obj, values, ..., add = FALSE)
 
@@ -175,7 +186,7 @@ bs_entry(parent = top, width = "28", value = "", label = "",
 
 \method{tclvalue}{bs_entry}(x) <- value
 
-\method{get_values}{bs_entry}(obj, ...)
+\method{get_values}{bs_entry}(obj, ..., trim = TRUE)
 
 bs_listbox(parent, values = variables_all(), value = NULL,
   selection = NULL, selectmode = c("single", "extended", "browse",
@@ -189,8 +200,8 @@ bs_listbox(parent, values = variables_all(), value = NULL,
   on_release = do_nothing, on_click_3 = do_nothing,
   on_double_click_3 = do_nothing, on_triple_click_3 = do_nothing,
   on_release_3 = do_nothing, on_keyboard = c("select", "scroll",
-  "ignore"), on_keyboard_fun = do_nothing, title_sticky = "w",
-  subtitle_sticky = title_sticky, ...)
+  "ignore"), on_keyboard_fun = do_nothing, bind_row_swap = FALSE,
+  title_sticky = "w", subtitle_sticky = title_sticky, ...)
 
 get_values_listbox(listbox)
 
@@ -214,7 +225,7 @@ set_selection_listbox(listbox, sel, clear = TRUE)
 
 \method{add_selection}{listbox}(obj, sel, ...)
 
-\method{get_values}{listbox}(obj, vals, ...)
+\method{get_values}{listbox}(obj, ...)
 
 \method{set_values}{listbox}(obj, values, ..., clear = TRUE)
 
@@ -222,13 +233,35 @@ set_selection_listbox(listbox, sel, clear = TRUE)
 
 \method{set_yview}{listbox}(obj, ind, ...)
 
+\method{set_yview}{tk2listbox}(obj, ind, ...)
+
 \method{tk_see}{listbox}(obj, ind, ...)
+
+\method{tk_see}{tk2listbox}(obj, ind, ...)
 
 \method{tk_disable}{listbox}(obj, ..., background = "grey95")
 
 \method{tk_normalize}{listbox}(obj, ..., background = "white")
 
 \method{tk_get_state}{listbox}(obj, ...)
+
+\method{get_selection}{tk2listbox}(obj, ...)
+
+\method{get_selection_length}{tk2listbox}(obj, ...)
+
+\method{set_selection}{tk2listbox}(obj, sel, clear = TRUE, ...)
+
+\method{add_selection}{tk2listbox}(obj, sel, ...)
+
+\method{get_values}{tk2listbox}(obj, vals, ...)
+
+\method{set_values}{tk2listbox}(obj, values, ..., clear = TRUE)
+
+\method{tk_disable}{tk2listbox}(obj, ..., background = "grey95")
+
+\method{tk_normalize}{tk2listbox}(obj, ..., background = "white")
+
+\method{tk_get_state}{tk2listbox}(obj, ...)
 
 \method{get_values}{bs_radiobuttons}(obj, ...)
 
@@ -349,26 +382,26 @@ swap_rows(x, i, j)
 
 correct_row_index(i, n_max)
 
-clean_str(str, ...)
+clean_str(str, transliterations = "Latin-ASCII", ...)
 
 get_obj_names(include_class = NULL, exclude_class = NULL,
   include2_class = NULL, all.names = TRUE, envir = globalenv())
 
-unique_obj_names(names, preffix = "", suffix = "",
+unique_obj_names(names, prefix = "", suffix = "",
   list_of_choices = objects(all.names = TRUE, envir = .GlobalEnv),
   all_numbered = FALSE)
 
-unique_df_name(names = active_dataset_0(), preffix = "", suffix = "",
+unique_df_name(names = active_dataset_0(), prefix = "", suffix = "",
   list_of_choices = objects(all.names = TRUE, envir = .GlobalEnv),
   all_numbered = FALSE)
 
 unique_file_name(name = "file", dir = getwd(),
   list_of_choices = dir(dir, all.files = TRUE), all_numbered = FALSE)
 
-unique_colnames(names = "", preffix = "", suffix = "",
+unique_colnames(names = "", prefix = "", suffix = "",
   list_of_choices = listVariables(), all_numbered = FALSE)
 
-unique_colnames_2(names = "", preffix = "", suffix = "",
+unique_colnames_2(names = "", prefix = "", suffix = "",
   list_of_choices = listVariables(), all_numbered = TRUE)
 
 safe_names(str)

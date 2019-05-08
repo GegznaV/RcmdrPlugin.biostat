@@ -462,8 +462,7 @@ window_variable_gather()
 
 window_variable_mutate0(variables)
 
-window_variable_mutate(var_name = NULL, init_express = NULL,
-  incorrect_expr_msg = NULL)
+window_variable_mutate()
 
 window_variable_recode0()
 
