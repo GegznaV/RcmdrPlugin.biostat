@@ -90,6 +90,7 @@ Imports:
     svTools,
     tibble (>= 2.0.1),
     tidyverse,
+    tidyr,
     utils,
     vcd,
     withr
