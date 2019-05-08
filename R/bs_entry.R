@@ -209,8 +209,8 @@ set_values.bs_entry <- function(obj, values, ..., add = FALSE) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-get_values.bs_entry <- function(obj, ...) {
-    tclvalue_chr(obj$var_text)
+get_values.bs_entry <- function(obj, ..., trim = TRUE) {
+    tclvalue_chr(obj$var_text, ..., trim = trim)
 }
 
 
