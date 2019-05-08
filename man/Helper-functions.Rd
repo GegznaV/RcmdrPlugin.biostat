@@ -30,7 +30,9 @@
 \alias{set_values.listbox}
 \alias{set_values.listbox_with_filter}
 \alias{set_yview.listbox}
+\alias{set_yview.tk2listbox}
 \alias{tk_see.listbox}
+\alias{tk_see.tk2listbox}
 \alias{tk_disable.listbox}
 \alias{tk_normalize.listbox}
 \alias{tk_get_state.listbox}
@@ -40,8 +42,6 @@
 \alias{add_selection.tk2listbox}
 \alias{get_values.tk2listbox}
 \alias{set_values.tk2listbox}
-\alias{set_yview.tk2listbox}
-\alias{tk_see.tk2listbox}
 \alias{tk_disable.tk2listbox}
 \alias{tk_normalize.tk2listbox}
 \alias{tk_get_state.tk2listbox}
@@ -186,7 +186,7 @@ bs_entry(parent = top, width = "28", value = "", label = "",
 
 \method{tclvalue}{bs_entry}(x) <- value
 
-\method{get_values}{bs_entry}(obj, ...)
+\method{get_values}{bs_entry}(obj, ..., trim = TRUE)
 
 bs_listbox(parent, values = variables_all(), value = NULL,
   selection = NULL, selectmode = c("single", "extended", "browse",
@@ -225,7 +225,7 @@ set_selection_listbox(listbox, sel, clear = TRUE)
 
 \method{add_selection}{listbox}(obj, sel, ...)
 
-\method{get_values}{listbox}(obj, vals, ...)
+\method{get_values}{listbox}(obj, ...)
 
 \method{set_values}{listbox}(obj, values, ..., clear = TRUE)
 
@@ -233,7 +233,11 @@ set_selection_listbox(listbox, sel, clear = TRUE)
 
 \method{set_yview}{listbox}(obj, ind, ...)
 
+\method{set_yview}{tk2listbox}(obj, ind, ...)
+
 \method{tk_see}{listbox}(obj, ind, ...)
+
+\method{tk_see}{tk2listbox}(obj, ind, ...)
 
 \method{tk_disable}{listbox}(obj, ..., background = "grey95")
 
@@ -252,10 +256,6 @@ set_selection_listbox(listbox, sel, clear = TRUE)
 \method{get_values}{tk2listbox}(obj, vals, ...)
 
 \method{set_values}{tk2listbox}(obj, values, ..., clear = TRUE)
-
-\method{set_yview}{tk2listbox}(obj, ind, ...)
-
-\method{tk_see}{tk2listbox}(obj, ind, ...)
 
 \method{tk_disable}{tk2listbox}(obj, ..., background = "grey95")
 
