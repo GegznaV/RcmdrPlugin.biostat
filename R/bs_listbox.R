@@ -333,12 +333,35 @@ bs_listbox <-
 # Helpers and methods ========================================================
 # Function
 #
-# listbox - listbox widget
+# k - string
+# i - row index
+# n - total number of rows
+get_j <- function(k, i, n) {
+    j <- switch(
+        k,
+        "start"  = ,
+        "top"    = 1,
+
+        "-1"     = ,
+        "-"      = max(i - 1, 1),
+
+        "+1"     = ,
+        "+"      = min(i + 1, n),
+
+        "bottom" = ,
+        "end"    = n,
+
+        i)
+    j
+}
+
+
+## listbox - listbox widget
 # k - action:
 #     "top" - selected row becomes 1-st
+#     "-1"  - position decreases by 1
+#     "+1"  - position inreases by 1
 #     "end" - selected row becomes last
-#     "+1" - position inreases by 1
-#     "-1" - position decreases by 1
 #
 # i, j - row numbers
 # swap_two_rows_in_listbox
@@ -355,16 +378,7 @@ move_selected_row_in_listbox <- function(listbox, k = "") {
     tmp <- get_values_listbox(listbox) # vals_old_order
     n   <- length(tmp)
 
-    j <- switch(
-        k,
-        "start" = ,
-        "top"   = 1,
-        "+1"    = ,
-        "+"     = i + 1,
-        "-1"    = ,
-        "-"     = i - 1,
-        "end"   = n,
-        i)
+    j <- get_j(k, i, n)
 
     i <- correct_row_index(i, n)
     j <- correct_row_index(j, n)
@@ -392,7 +406,6 @@ bind_row_swap.listbox <- function(obj, ...) {
 bind_row_swap.tk2listbox <- function(obj, ...) {
     bind_row_swap_listbox(obj, ...)
 }
-
 
 
 
