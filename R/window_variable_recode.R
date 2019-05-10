@@ -331,7 +331,7 @@ get_selection_ind <- function(recodes) {
 
     setNames(
         as.integer(str_split_fixed(selection, "[. ]", n = 4)),
-        c("from_row", "from_col", "to_row", "to_col")
+        c("start_row", "start_col", "end_row", "end_col")
     )
 }
 
@@ -391,42 +391,45 @@ move_selected_row_in_tktext <- function(recodes, move_to = "+1") {
 
     move_to <- match.arg(move_to, choices = c("top", "-1", "+1", "end"))
 
-    # selection <- tclvalue(tktag.ranges(recodes, "sel"))
+    # Get text
+    recodes_text  <- str_remove(tclvalue(tkget(recodes, "1.0", "end")), "\\n$")
+    original_text <- structure(str_split(recodes_text, "\n")[[1]], class = "glue")
 
-    # if (selection == "") {
+    # Get y view
+    y_view <- str_split_fixed(tkyview(recodes), " ", n = 2)[1]
+
+    # # Get selection
+
+    # selection <- get_selection_ind(recodes)
+    # n_rows <- selection["end_row"] - selection["start_row"] + 1
+    #
+    # if (is.na(n_rows)) {
+    #     i <- get_cursor_position(recodes)["row"]
     #     select_line(recodes, i)
+    #     tksee(recodes, str_glue("{i}.0"))
     #     return()
+    #
+    # } else if (n_rows > 1) {
+    #     i <- get_j(move_to, selection[c("start_row", "end_row")], length(original_text))
+    #     select_line(recodes, i)
+    #     tksee(recodes, str_glue("{i}.0"))
+    #     return()
+    #
+    # } else {
+    #     i <- selection["start_row"]
     # }
 
     i <- get_cursor_position(recodes)["row"]
-    # select_line(recodes, i)
-
-    recodes_text <- str_remove(tclvalue(tkget(recodes, "1.0", "end")), "\\n$")
-    tmp <- structure(str_split(recodes_text, "\n")[[1]], class = "glue")
-
-    # n <- length(tmp)
-    #
-    # j <- get_j(move_to, i, n)
-    #
-    # i <- correct_row_index(i, n)
-    # j <- correct_row_index(j, n)
-    #
-    #
-    # new_text <- swap(tmp, i, j)
-
-    new_text <- move_elements(x = tmp, ind = i, move_to = move_to)
+    new_text <- move_elements(x = original_text, ind = i, move_to = move_to)
 
     swapped <- structure(str_c(new_text, collapse = "\n"), class = "glue")
 
-    # str_count(recodes_text, "\n")
-    # str_count(swapped, "\n")
-
     tkdelete(recodes, "1.0", "end")
     tkinsert(recodes, "1.0", swapped)
+    tkyview.moveto(recodes, y_view) # reset y view
 
     # [???] adapt for multiple selected lines
-    j <- get_j(move_to, i, length(tmp))
-
+    j <- get_j(move_to, i, length(original_text))
     pos_j <- str_glue("{j}.0")
 
     tkmark.set(recodes, "insert", pos_j)
@@ -436,10 +439,6 @@ move_selected_row_in_tktext <- function(recodes, move_to = "+1") {
         select_line(recodes, j)
         tksee(recodes, pos_j)
     })
-
-    # # Suppress default bindings
-    # tcl("expr", "{break}")
-    #
 }
 
 # ___ Main function ___ ======================================================
@@ -485,11 +484,35 @@ window_variable_recode0 <- function() {
             unique_colnames(active_variable, suffix = "_recoded")
     }
 
-    insert_template_1  <- function() {insert_template("1")}
-    insert_template_1a <- function() {insert_template("1a")}
-    insert_template_2  <- function() {insert_template("2")}
-    insert_template_2a <- function() {insert_template("2a")}
+    tk_see_current_variable <- function() {
+        tk_see(
+            variablesBox,
+            which(get_selection(variablesBox) == get_values(variablesBox)))
+    }
 
+    insert_template_1  <- function() {
+        insert_template("1")
+        tk_see_current_variable()
+        tkmark.set(recodes, "insert", "1.0")
+    }
+
+    insert_template_1a <- function() {
+        insert_template("1a")
+        tk_see_current_variable()
+        tkmark.set(recodes, "insert", "1.0")
+    }
+
+    insert_template_2  <- function() {
+        insert_template("2")
+        tk_see_current_variable()
+        tkmark.set(recodes, "insert", "1.0")
+    }
+
+    insert_template_2a <- function() {
+        insert_template("2a")
+        tk_see_current_variable()
+        tkmark.set(recodes, "insert", "1.0")
+    }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f1 <- tkframe(top)
