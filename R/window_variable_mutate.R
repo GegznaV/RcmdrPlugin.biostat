@@ -155,12 +155,6 @@ window_variable_mutate <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (class(result)[1] != "try-error") {
             logger(style_cmd(command))
-            # doItAndPrint(style_cmd(command))
-
-            active_dataset(.ds, flushModel = FALSE, flushDialogMemory = FALSE)
-
-            # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            # closeDialog()
 
         } else {
             logger_error(command, error_msg = result)
