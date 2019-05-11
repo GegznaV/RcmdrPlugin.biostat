@@ -13,6 +13,7 @@
 #                  factor_key = TRUE
 #              )
 #
+# 3. Add option to sort values of key column.
 
 #' @rdname Menu-window-functions
 #' @export
