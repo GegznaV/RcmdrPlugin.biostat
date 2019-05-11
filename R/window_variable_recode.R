@@ -10,7 +10,7 @@
 #
 # 4. Update onOk function.
 #
-# 5. Add tk_see or set_yview for [->] and [->|] buttons.
+# .
 #
 # [+] DONE:
 #
@@ -36,6 +36,8 @@
 #
 # 4. Change new variable name and add _1, _2, _3, etc. if variable with that
 #    name exists in active dataframe
+#
+# 5. Add tk_see or set_yview for [->] and [->|] buttons
 #
 
 
@@ -578,7 +580,7 @@ window_variable_recode0 <- function() {
             }
             insert_template_1()
         },
-        tip = "Create a template to recode \n values of selected variable."
+        tip = "Create/Reset a template to recode \n values of selected variable."
     )
     f1_but_2_2 <- tk2button(
         f1_but_set_2,
@@ -589,7 +591,7 @@ window_variable_recode0 <- function() {
             }
             insert_template_2()
         },
-        tip = "Create a template to reorder \nvalues of selected variable."
+        tip = "Create/Reset a template to reorder \nlevels of selected variable."
     )
     tkgrid(f1_but_2_1)
     tkgrid(f1_but_2_2)
@@ -709,15 +711,16 @@ window_variable_recode0 <- function() {
         # str_detect(recode_directives,
         #            "[\\p{Alphabetic}\\p{Mark}\\p{Decimal_Number}]")
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        putDialog("window_variable_recode0",
-                  list(
-                      # initial_make_factor       = make_factor,
-                      initial_variables         = variables,
-                      initial_name              = name,
-                      initial_recode_directives = save_recodes,
-                      initial_recode_into       = recode_into,
-                      initial_selected_variable = selected_variable
-                  )
+        putDialog(
+            "window_variable_recode0",
+            list(
+                # initial_make_factor       = make_factor,
+                initial_variables         = variables,
+                initial_name              = name,
+                initial_recode_directives = save_recodes,
+                initial_recode_into       = recode_into,
+                initial_selected_variable = selected_variable
+            )
         )
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # variables
