@@ -5,189 +5,135 @@
 # 2. Quote variable names with ticks where needed:
 # (if include space or special symbol or if make.names(x) != x):
 #
-# # > ## Convert to long-format data frame
-# Piestilgiai_long <- Piestilgiai %>%
-#         tidyr::gather(
-#                  key = "key", value = "values",
-#                  Nr.1, `Nr 2`, Nr.3, Nr.4, Nr.5,
-#                  factor_key = TRUE
-#              )
-#
-# 3. Add option to sort values of key column.
+# 3. Add option to sort values of key column:
+#        - move multiple selected rows
 
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 window_variable_gather <- function() {
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_bs("Gather / Stack variables"))
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    defaults <- list(initial_y_var         = NULL,
-                     initial_dsname        = unique_df_name(suffix = "_long"),
-                     initial_key_colname   = "key",
-                     initial_value_colname = "values",
-                     initial_gather_all    = TRUE,
-                     initial_na_rm         = FALSE,
-                     initial_factor_key    = TRUE,
-                     initial_convert_key   = FALSE
-                     # include_exclude     = ...
-    )
 
-    dialog_values <- getDialog("window_variable_gather", defaults)
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Functions --------------------------------------------------------------
 
-    cmd_onClick_gather_all <- function() {
-        if (tclvalue_lgl(gather_allVariable) == TRUE) {
-            # Clear factor variable box
-            for (sel in seq_along(y_var_box$varlist) - 1)
-                tkselection.clear(y_var_box$listbox, sel)
-        }
-    }
+    reset_y_var_box_selection <- function() {
+        if (isTRUE(get_values(f1_opts, "gather_all"))) {
+            set_selection(y_var_box, 0, clear = TRUE) # Clear variable box
 
-    cmd_onRelease_y_var_box <- function() {
-        # On mouse relese select/deselect checkbox
-        if (length(getSelection(y_var_box)) == 0) {
-            tclvalue(gather_allVariable) <- "1"
         } else {
-            tclvalue(gather_allVariable) <- "0"
+            set_selection(y_var_box, 1, clear = TRUE) # Clear variable box
+            tk_see(y_var_box, 1)
         }
+
+        show_selected_variables()
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    upper_frame <- tkframe(top)
 
-    y_var_box <-
-        variableListBox2(
-            upper_frame,
-            initialSelection = dialog_values$initial_y_var,
-            listHeight = 6,
-            # Numeric(),
-            selectmode = "multiple",
-            onRelease_fun = cmd_onRelease_y_var_box,
-            title = gettext_bs("Variables to gather \n(pick none, one or more)"))
+    activate_gather_all_box <- function() {
+        # On mouse relese select/deselect checkbox
+        if (get_selection_length(y_var_box) == 0) {
+            set_values(f1_opts, gather_all = 1)
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    options_right_frame <- tkframe(upper_frame)
+        } else {
+            set_values(f1_opts, gather_all = 0)
+        }
 
-    bs_check_boxes(options_right_frame,
-                   ttk = TRUE,
-                   frame = "gather_options_frame",
-                   title = "Options",
-                   boxes = c("gather_all","na_rm", "factor_key", "convert_key"),
-                   initialValues = c(
-                       dialog_values$initial_gather_all,
-                       dialog_values$initial_na_rm,
-                       dialog_values$initial_factor_key,
-                       dialog_values$initial_convert_key
-                   ),
-                   labels = gettext_bs(
-                       c(  "Gather all variables",
-                           "Remove missing values from output",
-                           "Convert key column to factor",
-                           "Convert key column to numeric, integer, or logical"
-                       )
-                   ),
-                   commands = list("gather_all"  = cmd_onClick_gather_all,
-                                   "na_rm"       = function(){},
-                                   "factor_key"  = function(){},
-                                   "convert_key" = function(){}
-                   )
-    )
+        show_selected_variables()
+    }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    lower_frame <- tkframe(top)
 
-    key_colname_variable    <- tclVar(dialog_values$initial_key_colname)
-    key_colnameField        <- ttkentry(lower_frame,
-                                        width        = "48",
-                                        textvariable = key_colname_variable)
+    show_selected_variables <- function() {
+        n <- get_selection_length(y_var_box)
 
-    values_colname_variable <- tclVar(dialog_values$initial_value_colname)
-    values_colnameField     <- ttkentry(lower_frame,
-                                        width        = "48",
-                                        textvariable = values_colname_variable)
+        color <- "green"
 
-    dataset_name_variable   <- tclVar(dialog_values$initial_dsname)
-    dataset_nameField       <- ttkentry(lower_frame,
-                                        width        = "48",
-                                        textvariable = dataset_name_variable)
+        if (n == 0) {
+            n <- "all"
+
+        } else if (n == 1) {
+            color <- "darkred"
+        }
+
+        txt <- str_glue("Number of variables to gather: {n}")
+
+        tkconfigure(f1_text, text = txt, foreground = color)
+    }
+
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    # =========================================================================
+    # Function onOK ----------------------------------------------------------
     onOK <- function() {
-        variables     <- getSelection(y_var_box)
-        key_colname   <- tclvalue(key_colname_variable)
-        value_colname <- tclvalue(values_colname_variable)
-        dsname        <- tclvalue(dataset_name_variable)
-        gather_all    <- tclvalue_lgl(gather_allVariable)
-        factor_key    <- tclvalue_lgl(factor_keyVariable)
-        convert_key   <- tclvalue_lgl(convert_keyVariable)
-        na_rm         <- tclvalue_lgl(na_rmVariable)
+        variables     <- get_selection(y_var_box)
 
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        closeDialog()
-        # --------------------------------------------------------------------
-        putDialog("window_variable_gather",
-                  list(# initial_y_var  = y_var,
-                      # initial_dsname      = str_glue("{active_dataset()}_long"),
-                      initial_key_colname   = key_colname,
-                      initial_value_colname = value_colname,
-                      initial_gather_all    = gather_all,
-                      initial_factor_key    = factor_key,
-                      initial_convert_key   = convert_key,
-                      initial_na_rm         = na_rm
-                      # include_exclude     = ...
-                  )
-        )
+        key_colname   <- get_values(f1_key)
+        value_colname <- get_values(f1_value)
+        new_dataset   <- get_values(f1_dsname)
+
+        gather_all    <- get_values(f1_opts, "gather_all")
+        factor_key    <- get_values(f1_opts, "factor_key")
+        convert_key   <- get_values(f1_opts, "convert_key")
+        na_rm         <- get_values(f1_opts, "na_rm")
+
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Check input
 
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # if (length(variables) == 1) {
-        #     errorCondition(recall = window_variable_gather,
-        #                    message = gettext_bs("You must select either none or at least two variables."))
-        #     return()
-        # }
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (!is.valid.name(key_colname)) {
-            errorCondition(recall = window_variable_gather,
-                           message = str_glue('"{key_colname}" ',
-                                              gettext_bs("is not a valid name.")))
+        if (is_empty_name(key_colname, which_name = "key column name", parent = top)) {
             return()
         }
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (!is.valid.name(value_colname)) {
-            errorCondition(recall = window_variable_gather,
-                           message = str_glue('"{value_colname}" ',
-                                              gettext_bs("is not a valid name.")))
 
+        if (is_not_valid_name(key_colname, parent = top)) {
             return()
         }
+
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (!is.valid.name(dsname)) {
-            errorCondition(recall = window_variable_gather,
-                           message = str_glue('"{dsname}" ',
-                                              gettext_bs("is not a valid name.")))
+
+        if (is_empty_name(value_colname, which_name = "values column name", parent = top)) {
             return()
         }
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (is.element(dsname, listDataSets())) {
-            if ("no" == tclvalue(checkReplace(dsname, gettext_bs("Data set")))) {
-                window_variable_gather()
-                return()
-            }
+
+        if (is_not_valid_name(value_colname, parent = top)) {
+            return()
         }
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        if (is_empty_name(new_dataset, which_name = "output dataset's name", parent = top)) {
+            return()
+        }
+
+        if (is_not_valid_name(new_dataset, parent = top)) {
+            return()
+        }
+
+        if (forbid_to_replace_object(new_dataset, parent = top)) {
+            return()
+        }
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # closeDialog()
+        # --------------------------------------------------------------------
+        putDialog("window_variable_gather", list(
+            # y_var  = y_var,
+            # dsname       = str_glue("{active_dataset()}_long"),
+            key_colname    = key_colname,
+            value_colname  = value_colname,
+            gather_all     = gather_all,
+            factor_key     = factor_key,
+            convert_key    = convert_key,
+            na_rm          = na_rm
+            # include_exclude     = ...
+        ))
+
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Construct code
         variables <-
             if (gather_all == TRUE) {
                 ""
+
             } else {
-                # stringr::str_c(
-                #     ",\n", stringr::str_c("`", variables, "`", collapse = ", "))
                 stringr::str_c(
                     ",\n", stringr::str_c(safe_names(variables), collapse = ", "))
             }
@@ -226,69 +172,230 @@ window_variable_gather <- function() {
             stringr::str_c(na_rm_text, factor_key_text, convert_key_text,
                            sep = ", "))
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        Library("tidyr")
 
         command <- str_glue(
             "## Convert to long-format data frame \n",
-            '{dsname} <- {active_dataset()} %>% \n',
-            'tidyr::gather(key = "{key_colname}", value = "{value_colname}"',
-            '{variables}{opts_text}',
-            ')') %>%
-            style_cmd()
+            '{new_dataset} <- \n",
+            "    {.ds} %>% \n',
+            '    tidyr::gather(key = "{key_colname}", value = "{value_colname}"',
+            '    {variables}{opts_text}',
+            ')')
 
-        logger(command)
+        # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Library("tidyr")
 
         result <- justDoIt(command)
+
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (class(result)[1] !=  "try-error") active_dataset(dsname)
+        if (class(result)[1] != "try-error") {
+            logger(style_cmd(command))
+
+            active_dataset(new_dataset)
+
+        } else {
+            logger_error(command, error_msg = result)
+            show_code_evaluation_error_message(parent = top)
+            return()
+        }
+
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkfocus(CommanderWindow())
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Announce about the success to run the function `onOk()`
+        TRUE
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    # Initial values ---------------------------------------------------------
+
+    # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    .ds <- active_dataset() # active_dataset_0()
+
+
+    # Initialize dialog window and title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    initializeDialog(title = gettext_bs("Gather: Convert Dataset into Long Format"))
+    tk_title(top, gettext_bs("Gather / Stack Columns into Key-Value Pairs"))
+
+
+    # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    defaults <- list(
+        y_var          = NULL,
+        dsname         = unique_df_name(suffix = "_long"),
+        key_colname    = "key",
+        value_colname  = "values",
+        gather_all     = TRUE,
+        na_rm          = FALSE,
+        factor_key     = TRUE,
+        convert_key    = FALSE
+        # include_exclude = ...
+    )
+
+    dialog_values <- getDialog("window_variable_gather", defaults)
+
+    # Widgets ----------------------------------------------------------------
+
+    f1 <- tkframe(top)
+
+    y_var_box <- bs_listbox(
+        parent = f1,
+        height = 7,
+        selection  = dialog_values$y_var,
+        selectmode = "multiple",
+        on_release = activate_gather_all_box,
+        tip = "Select variables to gather.",
+        title = gettext_bs("Variables to gather \n(pick none, one or more)"))
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    f1_but_set_1 <- tkframe(f1)
+
+    f1_but_1_1 <- tk2button(
+        f1_but_set_1,
+        image = "::image::bs_go_top",
+        command = function() {
+            move_selected_row_in_listbox(y_var_box, move_to = "top")
+            show_selected_variables()
+        },
+        tip = "Move selected line \nto the top."
+    )
+
+    f1_but_1_2 <- tk2button(
+        f1_but_set_1,
+        image = "::image::bs_go_up",
+        command = function() {
+            move_selected_row_in_listbox(y_var_box, move_to = "-1")
+            show_selected_variables()
+        },
+        tip = "Move selected line \nup by 1 position."
+    )
+
+    f1_but_1_3 <- tk2button(
+        f1_but_set_1,
+        image = "::image::bs_go_down",
+        command = function() {
+            move_selected_row_in_listbox(y_var_box, move_to = "+1")
+            show_selected_variables()
+        },
+        tip = "Move selected line \ndown by 1 position."
+    )
+
+    f1_but_1_4 <- tk2button(
+        f1_but_set_1,
+        image = "::image::bs_go_bottom",
+        command = function() {
+            move_selected_row_in_listbox(y_var_box, move_to = "end")
+            show_selected_variables()
+        },
+        tip = "Move selected line \nto the bottom."
+    )
+
+    tkgrid(f1_but_1_1)
+    tkgrid(f1_but_1_2)
+    tkgrid(f1_but_1_3)
+    tkgrid(f1_but_1_4)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    f1_opts_frame <- tkframe(f1)
+
+    f1_opts <- bs_checkboxes(
+        parent = f1_opts_frame,
+        border = TRUE,
+        title  = "Options",
+        boxes  = c("gather_all", "na_rm", "factor_key", "convert_key"),
+        labels = gettext_bs(
+            c(  "Gather all variables",
+                "Remove missing values from output",
+                "Convert key column to factor",
+                "Convert key column to numeric, integer, or logical ")),
+        values = c(
+            dialog_values$gather_all,
+            dialog_values$na_rm,
+            dialog_values$factor_key,
+            dialog_values$convert_key
+        ),
+        commands = list("gather_all"  = reset_y_var_box_selection,
+                        "na_rm"       = do_nothing,
+                        "factor_key"  = do_nothing,
+                        "convert_key" = do_nothing
+        )
+    )
+
+    f1_text <- bs_label(f1_opts_frame, text = "", fg = "green")
+
+
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    f2 <- tkframe(top)
+
+    f1_dsname <- bs_entry(
+        parent   = top,
+        width    = 48,
+        value    = dialog_values$dsname,
+        label    = gettext_bs("Output dataset name: "),
+        tip      = "Name for the new long-format dataset.  ",
+        validate = "focus",
+        validatecommand = validate_var_name_string,
+        invalidcommand  = make_red_text
+    )
+
+    f1_value  <- bs_entry(
+        parent   = top,
+        width    = 48,
+        label    = gettext_bs("Value column name:"),
+        value    = dialog_values$value_colname,
+        tip      = "Name for the value column.  ",
+        validate = "focus",
+        validatecommand = validate_var_name_string,
+        invalidcommand  = make_red_text
+    )
+
+    f1_key    <- bs_entry(
+        parent   = top,
+        width    = 48,
+        label    = gettext_bs("Key column name:"),
+        value    = dialog_values$key_colname,
+        tip      = "Name for the key column.  ",
+        validate = "focus",
+        validatecommand = validate_var_name_string,
+        invalidcommand  = make_red_text
+    )
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    tkgrid(f1)
+
+    tkgrid(f1_but_set_1, y_var_box$frame, f1_opts_frame, sticky = "nw", columnspan = 3)
+
+    # tkgrid(gather_options_frame, pady = c(15, 0))
+    tkgrid(f1_opts$frame, pady = c(15, 0))
+    tkgrid(f1_text, sticky = "ws", pady = c(2, 0))
+
+    tkgrid.configure(f1_but_set_1, sticky = "s", pady = c(0, 6), padx = c(0, 4))
+    tkgrid.configure(y_var_box$frame, padx = c(0, 6))
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    tkgrid(f2, pady = c(10, 0))
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkgrid(f1_dsname$frame, sticky = "e", pady = 2)
+    tkgrid(f1_key$frame,    sticky = "e", pady = 2)
+    tkgrid(f1_value$frame,  sticky = "e", pady = 2)
+
     # ========================================================================
-    OKCancelHelp(helpSubject = "gather", helpPackage = "tidyr")
+    ok_cancel_help(
+        helpSubject = "gather", helpPackage = "tidyr",
+        close_on_ok = TRUE,
+        apply = "window_variable_gather()",
+        reset = "window_variable_gather()")
 
-    # Title ------------------------------------------------------------------
-    fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(bs_label(
-        top,
-        text = gettext_bs("Gather columns into key-value pairs: convert dataset into long format"),
-        font = tkfont.create(weight = "bold", size = 9),
-        fg = fg_col),
-        pady = c(5, 9))
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(upper_frame)
-
-    tkgrid(getFrame(y_var_box), options_right_frame,
-           sticky = "nw",
-           columnspan = 2)
-
-    tkgrid(gather_options_frame, pady = c(15, 0))
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    # tkgrid(labelRcmdr(top, text = ""))
-
-    tkgrid(lower_frame, pady = c(20, 0))
-
-
-    tkgrid(bs_label(lower_frame, text = gettext_bs("Output dataset name:        "),
-                    fg = fg_col),
-           dataset_nameField,
-           sticky = "w",
-           pady = 2)
-
-    tkgrid(bs_label(lower_frame, text = gettext_bs("Key column name:  "),
-                    fg = fg_col),
-           key_colnameField,
-           sticky = "w",
-           pady = 2)
-
-    tkgrid(bs_label(lower_frame, text = gettext_bs("Value column name:"),
-                    fg = fg_col),
-           values_colnameField,
-           sticky = "w",
-           pady = 2)
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(buttonsFrame, sticky = "we", columnspan = 2)
     dialogSuffix(preventGrabFocus = TRUE)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    activate_gather_all_box()
+    reset_y_var_box_selection()
 }
