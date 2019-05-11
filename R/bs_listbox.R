@@ -337,20 +337,15 @@ bs_listbox <-
 # i - row index
 # n - total number of rows
 get_j <- function(k, i, n) {
+
+    k <- match.arg(k, choices = c("top", "-1", "+1", "end"))
+
     j <- switch(
         k,
-        "start"  = ,
         "top"    = 1,
-
-        "-1"     = ,
-        "-"      = max(i - 1, 1),
-
-        "+1"     = ,
-        "+"      = min(i + 1, n),
-
-        "bottom" = ,
+        "-1"     = max(i - 1, 1),
+        "+1"     = min(i + 1, n),
         "end"    = n,
-
         i)
     j
 }
@@ -366,7 +361,7 @@ get_j <- function(k, i, n) {
 # i, j - row numbers
 # swap_two_rows_in_listbox
 move_selected_row_in_listbox <- function(listbox, k = "") {
-
+    # [???] adapt code according to `move_selected_row_in_tktext()`
     pre_i <- as.integer(tkcurselection(listbox)) + 1
 
     # Return, if not selected
