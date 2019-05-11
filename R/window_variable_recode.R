@@ -727,6 +727,7 @@ window_variable_recode0 <- function() {
         # If no variable is selected
         if (length(variables) == 0 || selected_variable == "{none}") {
             show_error_messages(
+                parent = top,
                 "No variable is selected.",
                 str_c("Prease, select a variable."),
                 title = "No Variable Selected"
@@ -736,20 +737,24 @@ window_variable_recode0 <- function() {
         # Is empty? ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (recode_directives == "") {
             show_error_messages(
-                "No recode directives were specified.",
-                str_c("No recode directives were specified.\n\n",
-                      "Double-click on a variable name to insert a template:\n",
-                      "use either right or left mouse button.\n",
-                      "Then fill in the template where necessary."),
+                parent = top,
+                "No recode directives were specified: the template was not filled.",
+                str_c("No recode directives were specified: ",
+                      "the template was not filled.\n\n",
+                      "Please create a template and fill it where necessary. ",
+                      "Some (but not all) fields may be left empty.  \n\n",
+                      "To create a template, either use arrow buttons that are ",
+                      "between the boxes or double left/right click on a variable name."
+                      ),
                 title = "Missing Recode Directives"
             )
             return()
 
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (is_empty_name(name))              {return()}
-        if (is_not_valid_name(name))          {return()}
-        if (forbid_to_replace_variable(name)) {return()}
+        if (is_empty_name(name, parent = top))              {return()}
+        if (is_not_valid_name(name, parent = top))          {return()}
+        if (forbid_to_replace_variable(name, parent = top)) {return()}
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         switch(recode_into,
                "nominal" = {
