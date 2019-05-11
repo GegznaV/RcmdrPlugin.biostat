@@ -731,6 +731,7 @@ window_variable_recode0 <- function() {
         },
         tip = "Create/Reset a template to recode \n values of selected variable."
     )
+
     f1_but_2_2 <- tk2button(
         f1_but_set_2,
         image = "::image::bs_go_last",
@@ -742,6 +743,7 @@ window_variable_recode0 <- function() {
         },
         tip = "Create/Reset a template to reorder \nlevels of selected variable."
     )
+
     tkgrid(f1_but_2_1)
     tkgrid(f1_but_2_2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -756,6 +758,7 @@ window_variable_recode0 <- function() {
         },
         tip = "Move selected line \nto the top."
     )
+
     f1_but_1_2 <- tk2button(
         f1_but_set_1,
         image = "::image::bs_go_up",
@@ -764,6 +767,7 @@ window_variable_recode0 <- function() {
         },
         tip = "Move selected line \nup by 1 position."
     )
+
     f1_but_1_3 <- tk2button(
         f1_but_set_1,
         image = "::image::bs_go_down",
@@ -772,6 +776,7 @@ window_variable_recode0 <- function() {
         },
         tip = "Move selected line \ndown by 1 position."
     )
+
     f1_but_1_4 <- tk2button(
         f1_but_set_1,
         image = "::image::bs_go_bottom",
