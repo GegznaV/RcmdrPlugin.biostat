@@ -770,12 +770,12 @@ window_variable_recode0 <- function() {
                    ordered_factor <- ""
                })
 
-        dataSet <- active_dataset()
+        .ds <- active_dataset()
 
         command <- str_glue(
             "## ", gettext_bs("Recode variable values"), "\n\n",
-            "{dataSet} <- \n",
-            "   {dataSet} %>% \n",
+            "{.ds} <- \n",
+            "   {.ds} %>% \n",
             "   dplyr::mutate(\n",
             "   {name} = {recode_fun}({selected_variable}, \n",
             "   {recode_directives}{ordered_factor}))"
@@ -787,7 +787,7 @@ window_variable_recode0 <- function() {
         if (class(result)[1] != "try-error") {
             closeDialog()
             logger(style_cmd(command))
-            active_dataset(dataSet, flushModel = FALSE, flushDialogMemory = FALSE)
+            active_dataset(.ds, flushModel = FALSE, flushDialogMemory = FALSE)
 
         } else {
             logger_error(command, error_msg = result)
