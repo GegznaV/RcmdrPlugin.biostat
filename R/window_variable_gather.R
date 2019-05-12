@@ -17,11 +17,11 @@ window_variable_gather <- function() {
 
     reset_y_var_box_selection <- function() {
         if (isTRUE(get_values(f1_opts, "gather_all"))) {
-            set_selection(y_var_box, 0, clear = TRUE) # Clear variable box
+            set_selection(f1_y_var_box, 0, clear = TRUE) # Clear variable box
 
         } else {
-            set_selection(y_var_box, 1, clear = TRUE) # Clear variable box
-            tk_see(y_var_box, 1)
+            set_selection(f1_y_var_box, 1, clear = TRUE) # Clear variable box
+            tk_see(f1_y_var_box, 1)
         }
 
         show_selected_variables()
@@ -31,7 +31,7 @@ window_variable_gather <- function() {
 
     activate_gather_all_box <- function() {
         # On mouse relese select/deselect checkbox
-        if (get_selection_length(y_var_box) == 0) {
+        if (get_selection_length(f1_y_var_box) == 0) {
             set_values(f1_opts, gather_all = 1)
 
         } else {
@@ -44,7 +44,7 @@ window_variable_gather <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     show_selected_variables <- function() {
-        n <- get_selection_length(y_var_box)
+        n <- get_selection_length(f1_y_var_box)
 
         color <- "green"
 
@@ -64,7 +64,9 @@ window_variable_gather <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Function onOK ----------------------------------------------------------
     onOK <- function() {
-        variables     <- get_selection(y_var_box)
+        .ds <- active_dataset() # active_dataset_0()
+
+        variables     <- get_selection(f1_y_var_box)
 
         key_colname   <- get_values(f1_key)
         value_colname <- get_values(f1_value)
@@ -115,8 +117,7 @@ window_variable_gather <- function() {
         # closeDialog()
         # --------------------------------------------------------------------
         putDialog("window_variable_gather", list(
-            # y_var  = y_var,
-            # dsname       = str_glue("{active_dataset()}_long"),
+            y_var          = variables,
             key_colname    = key_colname,
             value_colname  = value_colname,
             gather_all     = gather_all,
@@ -124,6 +125,7 @@ window_variable_gather <- function() {
             convert_key    = convert_key,
             na_rm          = na_rm
             # include_exclude     = ...
+            # dsname       = str_glue("{active_dataset()}_long"),
         ))
 
 
@@ -174,11 +176,11 @@ window_variable_gather <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         command <- str_glue(
-            "## Convert to long-format data frame \n",
-            '{new_dataset} <- \n",
-            "    {.ds} %>% \n',
-            '    tidyr::gather(key = "{key_colname}", value = "{value_colname}"',
-            '    {variables}{opts_text}',
+            '## Convert to long-format data frame \n',
+            '{new_dataset} <- \n',
+            '{.ds} %>% \n',
+            'tidyr::gather(key = "{key_colname}", value = "{value_colname}"',
+            '{variables}{opts_text}',
             ')')
 
         # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -211,10 +213,6 @@ window_variable_gather <- function() {
 
     # Initial values ---------------------------------------------------------
 
-    # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    .ds <- active_dataset() # active_dataset_0()
-
-
     # Initialize dialog window and title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     initializeDialog(title = gettext_bs("Gather: Convert Dataset into Long Format"))
@@ -224,8 +222,8 @@ window_variable_gather <- function() {
     # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     defaults <- list(
-        y_var          = NULL,
-        dsname         = unique_df_name(suffix = "_long"),
+        # y_var        = NULL,
+        # dsname       = unique_df_name(suffix = "_long"),
         key_colname    = "key",
         value_colname  = "values",
         gather_all     = TRUE,
@@ -241,7 +239,7 @@ window_variable_gather <- function() {
 
     f1 <- tkframe(top)
 
-    y_var_box <- bs_listbox(
+    f1_y_var_box <- bs_listbox(
         parent = f1,
         height = 7,
         selection  = dialog_values$y_var,
@@ -258,40 +256,40 @@ window_variable_gather <- function() {
         f1_but_set_1,
         image = "::image::bs_go_top",
         command = function() {
-            move_selected_row_in_listbox(y_var_box, move_to = "top")
+            move_selected_row_in_listbox(f1_y_var_box, move_to = "top")
             show_selected_variables()
         },
-        tip = "Move selected line \nto the top."
+        tip = "Move the first selected line \nto the top."
     )
 
     f1_but_1_2 <- tk2button(
         f1_but_set_1,
         image = "::image::bs_go_up",
         command = function() {
-            move_selected_row_in_listbox(y_var_box, move_to = "-1")
+            move_selected_row_in_listbox(f1_y_var_box, move_to = "-1")
             show_selected_variables()
         },
-        tip = "Move selected line \nup by 1 position."
+        tip = "Move the first selected line \nup by 1 position."
     )
 
     f1_but_1_3 <- tk2button(
         f1_but_set_1,
         image = "::image::bs_go_down",
         command = function() {
-            move_selected_row_in_listbox(y_var_box, move_to = "+1")
+            move_selected_row_in_listbox(f1_y_var_box, move_to = "+1")
             show_selected_variables()
         },
-        tip = "Move selected line \ndown by 1 position."
+        tip = "Move the first selected line \ndown by 1 position."
     )
 
     f1_but_1_4 <- tk2button(
         f1_but_set_1,
         image = "::image::bs_go_bottom",
         command = function() {
-            move_selected_row_in_listbox(y_var_box, move_to = "end")
+            move_selected_row_in_listbox(f1_y_var_box, move_to = "end")
             show_selected_variables()
         },
-        tip = "Move selected line \nto the bottom."
+        tip = "Move the first selected line \nto the bottom."
     )
 
     tkgrid(f1_but_1_1)
@@ -327,15 +325,13 @@ window_variable_gather <- function() {
 
     f1_text <- bs_label(f1_opts_frame, text = "", fg = "green")
 
-
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f2 <- tkframe(top)
 
     f1_dsname <- bs_entry(
         parent   = top,
         width    = 48,
-        value    = dialog_values$dsname,
+        value    = unique_df_name(suffix = "_long"),
         label    = gettext_bs("Output dataset name: "),
         tip      = "Name for the new long-format dataset.  ",
         validate = "focus",
@@ -369,14 +365,14 @@ window_variable_gather <- function() {
 
     tkgrid(f1)
 
-    tkgrid(f1_but_set_1, y_var_box$frame, f1_opts_frame, sticky = "nw", columnspan = 3)
+    tkgrid(f1_but_set_1, f1_y_var_box$frame, f1_opts_frame, sticky = "nw", columnspan = 3)
 
     # tkgrid(gather_options_frame, pady = c(15, 0))
     tkgrid(f1_opts$frame, pady = c(15, 0))
     tkgrid(f1_text, sticky = "ws", pady = c(2, 0))
 
     tkgrid.configure(f1_but_set_1, sticky = "s", pady = c(0, 6), padx = c(0, 4))
-    tkgrid.configure(y_var_box$frame, padx = c(0, 6))
+    tkgrid.configure(f1_y_var_box$frame, padx = c(0, 6))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     tkgrid(f2, pady = c(10, 0))
@@ -391,7 +387,14 @@ window_variable_gather <- function() {
         helpSubject = "gather", helpPackage = "tidyr",
         close_on_ok = TRUE,
         apply = "window_variable_gather()",
-        reset = "window_variable_gather()")
+        reset = "window_variable_gather()",
+        after_apply_success_fun = function() {
+
+            set_values(f1_y_var_box, Variables())
+            set_values(f1_dsname, unique_df_name(suffix = "_long"))
+            activate_gather_all_box()
+            reset_y_var_box_selection()
+        })
 
     tkgrid(buttonsFrame, sticky = "we", columnspan = 2)
     dialogSuffix(preventGrabFocus = TRUE)
