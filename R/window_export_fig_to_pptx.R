@@ -567,7 +567,8 @@ window_export_fig_to_pptx <- function() {
 
     f1_lab_file <- bs_label_b(f1, text = "File: ")
     f1_ent_file <- bs_entry(
-        f1, width = 60, sticky = "we", tip = "PowerPoint file name (new or existing)",
+        f1, width = 60, sticky = "we",
+        tip = "PowerPoint file name (new or existing)",
         value = initial$pptx_file,
         on_key_release = set_check_pptx_msg)
 

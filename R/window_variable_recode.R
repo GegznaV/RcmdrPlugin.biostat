@@ -516,6 +516,155 @@ window_variable_recode0 <- function() {
         tkmark.set(recodes, "insert", "1.0")
     }
 
+    clean_directives <- function(str) {
+        stringr::str_replace_all(
+            str,
+            # Remove intact rows
+            c('".*" = ""' = "",
+              '\\.default = (NULL|"")' = "",
+              '\\.missing = (NULL|"")' = "",
+
+              # Remove leading commas and spaces
+              "[, ]+(\n)"    = "\\1",
+
+              # Remove emplty lines
+              "(\n){2,}"  = "\n",
+
+              # Remove tailing new line
+              "\n$"       = "",
+
+              # Remove leading spaces in each non-first row
+              "\n( )*"    = ", ",
+
+              # Remove leading spaces and commas in
+              # the first row
+              "^[, ]*"    = "",
+
+              # Remove tailing commas and spaces
+              "[, ]*$"    = "")
+        )
+        # str_detect(recode_directives,
+        #            "[\\p{Alphabetic}\\p{Mark}\\p{Decimal_Number}]")
+    }
+
+    onOK <- function() {
+        # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        cursor_set_busy(top)
+        on.exit(cursor_set_idle(top))
+
+        # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        recode_into       <- tclvalue(recode_intoVariable)
+        variables         <- getSelection(variablesBox)
+        selected_variable <- tclvalue(selected_variable)
+        name              <- trim.blanks(tclvalue(newVariableName))
+
+        # Read recode directives
+        save_recodes <- trimws(tclvalue(tkget(recodes, "1.0", "end")))
+
+        # Format code into one row
+        recode_directives <- clean_directives(save_recodes)
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        putDialog(
+            "window_variable_recode0",
+            list(
+                # initial_make_factor       = make_factor,
+                initial_variables         = variables,
+                initial_name              = name,
+                initial_recode_directives = save_recodes,
+                initial_recode_into       = recode_into,
+                initial_selected_variable = selected_variable
+            )
+        )
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # variables
+        # If no variable is selected
+        if (length(variables) == 0 || selected_variable == "{none}") {
+            show_error_messages(
+                parent = top,
+                "No variable is selected.",
+                str_c("Prease, select a variable."),
+                title = "No Variable Selected"
+            )
+            return()
+        }
+        # Is empty? ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (recode_directives == "") {
+            show_error_messages(
+                parent = top,
+                "No recode directives were specified: the template was not filled.",
+                str_c("No recode directives were specified: ",
+                      "the template was not filled.\n\n",
+                      "Please create a template and fill it where necessary. ",
+                      "Some (but not all) fields may be left empty.  \n\n",
+                      "To create a template, either use arrow buttons that are ",
+                      "between the boxes or double left/right click on a variable name."
+                ),
+                title = "Missing Recode Directives"
+            )
+            return()
+
+        }
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (is_empty_name(name, parent = top))              {return()}
+        if (is_not_valid_name(name, parent = top))          {return()}
+        if (forbid_to_replace_variable(name, parent = top)) {return()}
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        switch(recode_into,
+               "nominal" = {
+                   recode_fun     <- "dplyr::recode_factor"
+                   ordered_factor <- ""
+               },
+               "ordinal" = {
+                   recode_fun     <- "dplyr::recode_factor"
+                   ordered_factor <- ", .ordered = TRUE" # .ordered = FALSE ???
+               },
+               "other" = {
+                   recode_fun     <- "dplyr::recode"
+                   ordered_factor <- ""
+               })
+
+        .ds <- active_dataset()
+
+        command <- str_glue(
+            "## ", gettext_bs("Recode variable values"), "\n\n",
+            "{.ds} <- \n",
+            "   {.ds} %>% \n",
+            "   dplyr::mutate(\n",
+            "   {name} = {recode_fun}({selected_variable}, \n",
+            "   {recode_directives}{ordered_factor}))"
+        )
+
+        result <- justDoIt(command)
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        if (class(result)[1] != "try-error") {
+            closeDialog()
+            logger(style_cmd(command))
+            active_dataset(.ds, flushModel = FALSE, flushDialogMemory = FALSE)
+
+        } else {
+            logger_error(command, error_msg = result)
+            show_code_evaluation_error_message()
+            return()
+        }
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        tkfocus(CommanderWindow())
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Announce about the success to run the function `onOk()`
+        TRUE
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    }
+    # Title ------------------------------------------------------------------
+    fg_col <- Rcmdr::getRcmdr("title.color")
+
+    title_text <- gettext_bs("Recode Variable Values")
+    tk_title(top, title_text)
+
+    # Widgets ----------------------------------------------------------------
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f1 <- tkframe(top)
 
@@ -582,6 +731,7 @@ window_variable_recode0 <- function() {
         },
         tip = "Create/Reset a template to recode \n values of selected variable."
     )
+
     f1_but_2_2 <- tk2button(
         f1_but_set_2,
         image = "::image::bs_go_last",
@@ -593,6 +743,7 @@ window_variable_recode0 <- function() {
         },
         tip = "Create/Reset a template to reorder \nlevels of selected variable."
     )
+
     tkgrid(f1_but_2_1)
     tkgrid(f1_but_2_2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -607,6 +758,7 @@ window_variable_recode0 <- function() {
         },
         tip = "Move selected line \nto the top."
     )
+
     f1_but_1_2 <- tk2button(
         f1_but_set_1,
         image = "::image::bs_go_up",
@@ -615,6 +767,7 @@ window_variable_recode0 <- function() {
         },
         tip = "Move selected line \nup by 1 position."
     )
+
     f1_but_1_3 <- tk2button(
         f1_but_set_1,
         image = "::image::bs_go_down",
@@ -623,6 +776,7 @@ window_variable_recode0 <- function() {
         },
         tip = "Move selected line \ndown by 1 position."
     )
+
     f1_but_1_4 <- tk2button(
         f1_but_set_1,
         image = "::image::bs_go_bottom",
@@ -665,152 +819,7 @@ window_variable_recode0 <- function() {
                                      "Do not convert")))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    onOK <- function() {
-        # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        cursor_set_busy(top)
-        on.exit(cursor_set_idle(top))
 
-        # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        recode_into       <- tclvalue(recode_intoVariable)
-        variables         <- getSelection(variablesBox)
-        selected_variable <- tclvalue(selected_variable)
-        name              <- trim.blanks(tclvalue(newVariableName))
-
-        # Read recode directives
-        save_recodes <- trimws(tclvalue(tkget(recodes, "1.0", "end")))
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-        # Format code into one row
-        recode_directives <-
-            stringr::str_replace_all(
-                save_recodes,
-                # Remove intact rows
-                c('".*" = ""' = "",
-                  '\\.default = (NULL|"")' = "",
-                  '\\.missing = (NULL|"")' = "",
-
-                  # Remove leading commas and spaces
-                  "[, ]+(\n)"    = "\\1",
-
-                  # Remove emplty lines
-                  "(\n){2,}"  = "\n",
-
-                  # Remove tailing new line
-                  "\n$"       = "",
-
-                  # Remove leading spaces in each non-first row
-                  "\n( )*"    = ", ",
-
-                  # Remove leading spaces and commas in
-                  # the first row
-                  "^[, ]*"    = "",
-
-                  # Remove tailing commas and spaces
-                  "[, ]*$"    = "")
-            )
-        # str_detect(recode_directives,
-        #            "[\\p{Alphabetic}\\p{Mark}\\p{Decimal_Number}]")
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        putDialog(
-            "window_variable_recode0",
-            list(
-                # initial_make_factor       = make_factor,
-                initial_variables         = variables,
-                initial_name              = name,
-                initial_recode_directives = save_recodes,
-                initial_recode_into       = recode_into,
-                initial_selected_variable = selected_variable
-            )
-        )
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # variables
-        # If no variable is selected
-        if (length(variables) == 0 || selected_variable == "{none}") {
-            show_error_messages(
-                parent = top,
-                "No variable is selected.",
-                str_c("Prease, select a variable."),
-                title = "No Variable Selected"
-            )
-            return()
-        }
-        # Is empty? ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (recode_directives == "") {
-            show_error_messages(
-                parent = top,
-                "No recode directives were specified: the template was not filled.",
-                str_c("No recode directives were specified: ",
-                      "the template was not filled.\n\n",
-                      "Please create a template and fill it where necessary. ",
-                      "Some (but not all) fields may be left empty.  \n\n",
-                      "To create a template, either use arrow buttons that are ",
-                      "between the boxes or double left/right click on a variable name."
-                      ),
-                title = "Missing Recode Directives"
-            )
-            return()
-
-        }
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (is_empty_name(name, parent = top))              {return()}
-        if (is_not_valid_name(name, parent = top))          {return()}
-        if (forbid_to_replace_variable(name, parent = top)) {return()}
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        switch(recode_into,
-               "nominal" = {
-                   recode_fun     <- "dplyr::recode_factor"
-                   ordered_factor <- ""
-               },
-               "ordinal" = {
-                   recode_fun     <- "dplyr::recode_factor"
-                   ordered_factor <- ", .ordered = TRUE" # .ordered = FALSE ???
-               },
-               "other" = {
-                   recode_fun     <- "dplyr::recode"
-                   ordered_factor <- ""
-               })
-
-        .ds <- active_dataset()
-
-        command <- str_glue(
-            "## ", gettext_bs("Recode variable values"), "\n\n",
-            "{.ds} <- \n",
-            "   {.ds} %>% \n",
-            "   dplyr::mutate(\n",
-            "   {name} = {recode_fun}({selected_variable}, \n",
-            "   {recode_directives}{ordered_factor}))"
-        )
-
-        result <- justDoIt(command)
-
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (class(result)[1] != "try-error") {
-            closeDialog()
-            logger(style_cmd(command))
-            active_dataset(.ds, flushModel = FALSE, flushDialogMemory = FALSE)
-
-        } else {
-            logger_error(command, error_msg = result)
-            show_code_evaluation_error_message()
-            return()
-        }
-
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        tkfocus(CommanderWindow())
-
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # Announce about the success to run the function `onOk()`
-        TRUE
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Title ------------------------------------------------------------------
-    fg_col <- Rcmdr::getRcmdr("title.color")
-
-    title_text <- gettext_bs("Recode Variable Values")
-    tk_title(top, title_text)
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(selected_var_frame) # selected_variable
     tkgrid(
         bs_label(selected_var_frame, text = "Selected variable: "),
