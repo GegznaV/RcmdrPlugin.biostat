@@ -145,7 +145,7 @@ window_variable_gather <- function() {
             if (any(na_rm, convert_key, factor_key)) {
                 ",\n"
             } else {
-                NULL
+                ""
             }
 
         na_rm_text <-
