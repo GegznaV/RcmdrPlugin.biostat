@@ -392,8 +392,14 @@ window_variable_gather <- function() {
 
             set_values(f1_y_var_box, Variables())
             set_values(f1_dsname, unique_df_name(suffix = "_long"))
+
             activate_gather_all_box()
             reset_y_var_box_selection()
+
+            tkselection.range(f1_dsname$obj_text, "0", "end")
+            tkfocus(f1_dsname$obj_text)
+            tkicursor(f1_dsname$obj_text, "0")
+
         })
 
     tkgrid(buttonsFrame, sticky = "we", columnspan = 2)
