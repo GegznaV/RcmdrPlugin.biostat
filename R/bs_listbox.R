@@ -337,27 +337,22 @@ bs_listbox <-
 # i - row index
 # n - total number of rows
 get_j <- function(k, i, n) {
+
+    k <- match.arg(k, choices = c("top", "-1", "+1", "end"))
+
     j <- switch(
         k,
-        "start"  = ,
         "top"    = 1,
-
-        "-1"     = ,
-        "-"      = max(i - 1, 1),
-
-        "+1"     = ,
-        "+"      = min(i + 1, n),
-
-        "bottom" = ,
+        "-1"     = max(i - 1, 1),
+        "+1"     = min(i + 1, n),
         "end"    = n,
-
         i)
     j
 }
 
 
 ## listbox - listbox widget
-# k - action:
+# move_to - action:
 #     "top" - selected row becomes 1-st
 #     "-1"  - position decreases by 1
 #     "+1"  - position inreases by 1
@@ -365,8 +360,16 @@ get_j <- function(k, i, n) {
 #
 # i, j - row numbers
 # swap_two_rows_in_listbox
-move_selected_row_in_listbox <- function(listbox, k = "") {
+move_selected_row_in_listbox <- function(listbox, move_to = "") {
 
+    if (inherits(y_var_box,  "listbox")) {
+        listbox <- listbox$listbox
+    }
+
+    # Get y view
+    y_view <- str_split_fixed(tkyview(listbox), " ", n = 2)[1]
+
+    # [???] adapt code according to `move_selected_row_in_tktext()`
     pre_i <- as.integer(tkcurselection(listbox)) + 1
 
     # Return, if not selected
@@ -378,7 +381,7 @@ move_selected_row_in_listbox <- function(listbox, k = "") {
     tmp <- get_values_listbox(listbox) # vals_old_order
     n   <- length(tmp)
 
-    j <- get_j(k, i, n)
+    j <- get_j(move_to, i, n)
 
     i <- correct_row_index(i, n)
     j <- correct_row_index(j, n)
@@ -386,16 +389,17 @@ move_selected_row_in_listbox <- function(listbox, k = "") {
     swapped <- swap(tmp, i, j)
 
     set_values(listbox, swapped, clear = TRUE)
+    tkyview.moveto(listbox, y_view) # reset y view
 
     tk_see(listbox, j)
     tkselection.set(listbox, j - 1)
 }
 
 bind_row_swap_listbox <- function(listbox, ...) {
-    tkbind(listbox, "<Alt-Up>",   function() {move_selected_row_in_listbox(listbox, "-1")})
-    tkbind(listbox, "<Alt-Down>", function() {move_selected_row_in_listbox(listbox, "+1")})
-    tkbind(listbox, "<Control-Down>", function() {move_selected_row_in_listbox(listbox, "end")})
     tkbind(listbox, "<Control-Up>",   function() {move_selected_row_in_listbox(listbox, "top")})
+    tkbind(listbox, "<Alt-Up>",       function() {move_selected_row_in_listbox(listbox, "-1")})
+    tkbind(listbox, "<Alt-Down>",     function() {move_selected_row_in_listbox(listbox, "+1")})
+    tkbind(listbox, "<Control-Down>", function() {move_selected_row_in_listbox(listbox, "end")})
 }
 
 
