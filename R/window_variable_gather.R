@@ -15,6 +15,55 @@ window_variable_gather <- function() {
 
     # Functions --------------------------------------------------------------
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    activate_arrow_buttons <- function(variables) {
+        # Arrow buttons are enabled if anything in f1_y_var_box is selected
+        n <- get_selection_length(f1_y_var_box)
+
+        objs <- list(f1_but_1_1, f1_but_1_2, f1_but_1_3, f1_but_1_4)
+
+        tips <- list(
+            tip1 = "Move the first selected line \nto the top.  ",
+            tip2 = "Move the first selected line \nup by 1 position.  ",
+            tip3 = "Move the first selected line \ndown by 1 position.",
+            tip4 = "Move the first selected line \nto the bottom."
+        )
+
+        tip_disabled <- "Select a variable to enable \narrow buttons."
+
+        if (n == 0) {
+            walk(objs, tk_disable)
+            walk(objs, ~ (tip(.x) <- tip_disabled))
+
+        } else {
+            walk(objs, tk_normalize)
+            walk2(objs, tips, ~ (tip(.x) <- .y))
+        }
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    show_selected_variables <- function() {
+        n <- get_selection_length(f1_y_var_box)
+
+        color <- "green"
+
+        if (n == 0) {
+            n <- "all"
+
+        } else if (n == 1) {
+            color <- "darkred"
+        }
+
+        txt <- str_glue("Number of variables to gather: {n}")
+
+        tkconfigure(f1_text, text = txt, foreground = color)
+        activate_arrow_buttons()
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     reset_y_var_box_selection <- function() {
         if (isTRUE(get_values(f1_opts, "gather_all"))) {
             set_selection(f1_y_var_box, 0, clear = TRUE) # Clear variable box
@@ -40,26 +89,6 @@ window_variable_gather <- function() {
 
         show_selected_variables()
     }
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    show_selected_variables <- function() {
-        n <- get_selection_length(f1_y_var_box)
-
-        color <- "green"
-
-        if (n == 0) {
-            n <- "all"
-
-        } else if (n == 1) {
-            color <- "darkred"
-        }
-
-        txt <- str_glue("Number of variables to gather: {n}")
-
-        tkconfigure(f1_text, text = txt, foreground = color)
-    }
-
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Function onOK ----------------------------------------------------------
@@ -258,8 +287,7 @@ window_variable_gather <- function() {
         command = function() {
             move_selected_row_in_listbox(f1_y_var_box, move_to = "top")
             show_selected_variables()
-        },
-        tip = "Move the first selected line \nto the top."
+        }
     )
 
     f1_but_1_2 <- tk2button(
@@ -268,8 +296,7 @@ window_variable_gather <- function() {
         command = function() {
             move_selected_row_in_listbox(f1_y_var_box, move_to = "-1")
             show_selected_variables()
-        },
-        tip = "Move the first selected line \nup by 1 position."
+        }
     )
 
     f1_but_1_3 <- tk2button(
@@ -278,8 +305,7 @@ window_variable_gather <- function() {
         command = function() {
             move_selected_row_in_listbox(f1_y_var_box, move_to = "+1")
             show_selected_variables()
-        },
-        tip = "Move the first selected line \ndown by 1 position."
+        }
     )
 
     f1_but_1_4 <- tk2button(
@@ -288,8 +314,7 @@ window_variable_gather <- function() {
         command = function() {
             move_selected_row_in_listbox(f1_y_var_box, move_to = "end")
             show_selected_variables()
-        },
-        tip = "Move the first selected line \nto the bottom."
+        }
     )
 
     tkgrid(f1_but_1_1)
@@ -365,7 +390,8 @@ window_variable_gather <- function() {
 
     tkgrid(f1)
 
-    tkgrid(f1_but_set_1, f1_y_var_box$frame, f1_opts_frame, sticky = "nw", columnspan = 3)
+    tkgrid(f1_but_set_1, f1_y_var_box$frame, f1_opts_frame, sticky = "nw",
+           columnspan = 3)
 
     # tkgrid(gather_options_frame, pady = c(15, 0))
     tkgrid(f1_opts$frame, pady = c(15, 0))
