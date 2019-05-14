@@ -914,7 +914,7 @@ window_variable_recode0 <- function() {
     tkgrid(lower_options_frame, examples_frame,
            sticky = "nw",
            columnspan = 2)
-    # ==========================================================================
+    # ========================================================================
 
     tkgrid(buttonsFrame, sticky = "ew")
     # tkgrid(buttonsFrame, sticky = "w", columnspan = 2)
