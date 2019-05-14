@@ -362,7 +362,7 @@ get_j <- function(k, i, n) {
 # swap_two_rows_in_listbox
 move_selected_row_in_listbox <- function(listbox, move_to = "") {
 
-    if (inherits(y_var_box,  "listbox")) {
+    if (inherits(listbox,  "listbox")) {
         listbox <- listbox$listbox
     }
 
