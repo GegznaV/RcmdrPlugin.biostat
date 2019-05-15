@@ -129,7 +129,7 @@ bs_listbox <-
         #   ...
         # )
 
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Adds ability to deselect in single-selection boxes
         if (selectmode %in% c("single", "browse")) {
 
@@ -148,7 +148,7 @@ bs_listbox <-
 
             tkbind(listbox, "<Control-ButtonPress-1>", toggle_single_selection)
         }
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (on_keyboard %in% c("select", "scroll")) {
             onLetter <- function(letter) {
                 # Letter binding is good for read-only listboxes only
@@ -201,12 +201,12 @@ bs_listbox <-
             str_glue_eval('tkbind(listbox, "<{letters}>", function() onLetter("{letters}"))')
             str_glue_eval('tkbind(listbox, "<{LETTERS}>", function() onLetter("{letters}"))')
         }
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         bind_mouse_keys(listbox)
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         tkbind(listbox, "<<ListboxSelect>>", on_select)
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (!is.null(title)) {
             tkgrid(
                 bs_label_b(frame, text = title, font = "RcmdrTitleFont"),
@@ -217,25 +217,25 @@ bs_listbox <-
                 bs_label(frame, text = subtitle, font = "RcmdrTitleFont"),
                 columnspan = 2, sticky = subtitle_sticky)
         }
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # if (bind_row_swap) {
         #     bind_row_swap_listbox(listbox)
         # }
 
 
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkgrid(listbox, sticky = sticky)
         # tkgrid(listbox, scrollbar,  sticky = "nw")
         # tkgrid.configure(scrollbar, sticky = "wns")
         # tkgrid.configure(listbox,   sticky = "ewns")
 
 
-        # Add textbox with filter ------------------------------------------------
+        # Add textbox with filter ----------------------------------------------
         values_env <- new.env()
         values_env$all_values <- values
 
         if (use_filter == TRUE) {
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             cmd_update_list <- function() {
 
                 s_txt <- get_values(text_box_1)
@@ -271,12 +271,12 @@ bs_listbox <-
                 set_values_listbox(listbox, new_list)
             }
 
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             clear_textbox <- function() {
                 set_values(text_box_1, "")
                 cmd_update_list()
             }
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             text_box_1 <- bs_entry(
                 parent = frame,
                 width = width,
@@ -293,17 +293,17 @@ bs_listbox <-
                                 "regex" = cmd_update_list)
             )
 
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             tkgrid(text_box_1$frame, sticky = sticky)
             # tkgrid(options_frame,    sticky = sticky)
             tkgrid(options$frame,    sticky = sticky)
 
             # tkgrid.forget(text_box_1$frames)
 
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             tkbind(text_box_1$obj_text, "<KeyRelease>",      cmd_update_list)
             tkbind(text_box_1$obj_text, "<Double-Button-3>", clear_textbox)
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             add_class <- "listbox_with_filter"
 
         } else {
@@ -312,7 +312,7 @@ bs_listbox <-
             options    <- NULL
         }
 
-        # Output ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Output ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         structure(
             list(frame      = frame,
                  listbox    = listbox,
