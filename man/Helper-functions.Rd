@@ -267,7 +267,7 @@ set_selection_listbox(listbox, sel, clear = TRUE)
 
 \method{set_values}{bs_radiobuttons}(obj, values, ...)
 
-bs_text(parent, ..., label = "", undo = TRUE)
+bs_text(parent, ..., label = "", undo = TRUE, context_menu = FALSE)
 
 \method{tk_activate}{bs_tk_buttonset}(obj, ..., .which = NULL)
 
