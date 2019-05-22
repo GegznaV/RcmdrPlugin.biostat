@@ -52,63 +52,6 @@ window_summary_desc <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Returns only those options that have to be changed.
-    # .force = TRUE  -- print options string even if options are not changed
-    get_desctools_opts_str <- function(
-        num_digits = 3, per_digits = 1, scipen = 9,
-        big_mark = "", abs_big_mark = big_mark, num_big_mark = big_mark,
-        .force = FALSE) {
-
-        x <- DescTools::Fmt()
-        str <- ""
-
-        if (options("scipen")$scipen != scipen || .force) {
-            str <- str_c(str, str_glue(
-                .trim = FALSE,
-                "options(scipen = {scipen}) \n"
-            ))
-        }
-
-        if (isTRUE(x$abs$big.mark != abs_big_mark) || .force) {
-            str <- str_c(str, str_glue(
-                .trim = FALSE,
-                'Fmt(abs = Fmt("abs", big.mark = "{abs_big_mark}")) # Whole numbers \n'
-            ))
-        }
-
-        if (isTRUE(x$num$big.mark != num_big_mark) || .force) {
-            str <- str_c(str, str_glue(
-                .trim = FALSE,
-                'Fmt(num = Fmt("num", big.mark = "{num_big_mark}")) # Real numbers\n'
-            ))
-        }
-
-        if (isTRUE(x$num$digits != num_digits) || .force) {
-            str <- str_c(str, str_glue(
-                .trim = FALSE,
-                'Fmt(num = Fmt("num", digits = {num_digits})) # Real numbers \n'
-            ))
-        }
-
-        if (isTRUE(x$per$digits != per_digits) || .force) {
-            str <- str_c(str, str_glue(
-                .trim = FALSE,
-                'Fmt(per = Fmt("per", digits = {per_digits})) # Percentages \n'
-            ))
-        }
-
-        # Suppress output of `Fmt()`
-        if (str_detect(str, "Fmt")) {
-            str <- str_glue(.trim = FALSE, "invisible({{\n{str}}})")
-        }
-
-        if (str_detect(str, "Fmt|options")) {
-            str <- str %>% style_cmd() %>% str_c("\n")
-        }
-
-        structure(str, class = c("glue", "string"))
-    }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_big_mark_list <- function() {
         tibble::tribble(
             ~name,                       ~fun,
@@ -257,8 +200,10 @@ window_summary_desc <- function() {
 
             opts_code <-
                 get_desctools_opts_str(
-                    big_mark = big_mark, num_digits = digits_num,
-                    per_digits = digits_per, scipen = scipen,
+                    big_mark = big_mark,
+                    num_digits = digits_num,
+                    per_digits = digits_per,
+                    scipen = scipen,
                     .force = force_options)
 
         } else {
@@ -638,3 +583,64 @@ window_summary_desc <- function() {
     activate_all()
 
 }
+
+# Helper functions ===========================================================
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Returns only those options that have to be changed.
+# .force = TRUE  -- print options string even if options are not changed
+get_desctools_opts_str <- function(
+    num_digits = 3, per_digits = 1, scipen = 9,
+    big_mark = "", abs_big_mark = big_mark, num_big_mark = big_mark,
+    .force = FALSE) {
+
+    x <- DescTools::Fmt()
+    str <- ""
+
+    if (options("scipen")$scipen != scipen || .force) {
+        str <- str_c(str, str_glue(
+            .trim = FALSE,
+            "options(scipen = {scipen}) \n"
+        ))
+    }
+
+    if (isTRUE(x$abs$big.mark != abs_big_mark) || .force) {
+        str <- str_c(str, str_glue(
+            .trim = FALSE,
+            'Fmt(abs = Fmt("abs", big.mark = "{abs_big_mark}")) # Whole numbers \n'
+        ))
+    }
+
+    if (isTRUE(x$num$big.mark != num_big_mark) || .force) {
+        str <- str_c(str, str_glue(
+            .trim = FALSE,
+            'Fmt(num = Fmt("num", big.mark = "{num_big_mark}")) # Real numbers\n'
+        ))
+    }
+
+    if (isTRUE(x$num$digits != num_digits) || .force) {
+        str <- str_c(str, str_glue(
+            .trim = FALSE,
+            'Fmt(num = Fmt("num", digits = {num_digits})) # Real numbers \n'
+        ))
+    }
+
+    if (isTRUE(x$per$digits != per_digits) || .force) {
+        str <- str_c(str, str_glue(
+            .trim = FALSE,
+            'Fmt(per = Fmt("per", digits = {per_digits})) # Percentages \n'
+        ))
+    }
+
+    # Suppress output of `Fmt()`
+    if (str_detect(str, "Fmt")) {
+        str <- str_glue(.trim = FALSE, "invisible({{\n{str}}})")
+    }
+
+    if (str_detect(str, "Fmt|options")) {
+        str <- str %>% style_cmd() %>% str_c("\n")
+    }
+
+    structure(str, class = c("glue", "string"))
+}
+
