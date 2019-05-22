@@ -158,6 +158,10 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
     #' @keywords internal
     cmd_get_locale_of_os <- function() {
 
+        # Cursor
+        cursor_set_busy(top)
+        on.exit(cursor_set_idle(top))
+
         # Get information
         if (isTRUE(tclvalue_lgl(print_os_locale))) {
 
