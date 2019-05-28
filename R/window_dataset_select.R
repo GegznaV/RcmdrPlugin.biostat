@@ -98,6 +98,7 @@ window_dataset_select <- function() {
                            ~inherits(., "factor"))
 
         if (any(ds_factors)) {
+            Library("tidyverse")
             doItAndPrint(style_cmd(str_glue(
                 "## Summary of categorical variables\n",
                 "{.ds_1} %>% \n ",
