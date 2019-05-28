@@ -184,7 +184,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
                 msg <-
                     c('## Current locale of operating system (OS):\n',
                       os_locale,
-                      "\n# NOTE: OS locale cannot be changed by using R.") %>%
+                      "\n# NOTE: OS locale cannot be changed from R.") %>%
                     str_c(collapse = "\n")
 
 
@@ -379,7 +379,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
             "Short names of locales.\n",
             "NOTE: some of the listed locales may \n",
             "not be available on your computer. \n",
-            'Click and release to update "Locale" box. \n',
+            'Select one to update "Locale" box. \n',
             'Double-click to set the selected locale.'
         )
     )
@@ -392,8 +392,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
         label_position = "above",
         label = "Locale:",
         tip = str_c(
-            "Enter either short or full name of locale.\n",
-            "Double-right-click to clear entry."
+            "Enter either a name (short or full) of locale."
         ),
         width = 46,
         on_key_release    = cmd_update_yview,
@@ -411,7 +410,6 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
             "Check if locale can be used on this computer",
             "Print information about locale after it is set"))
     )
-
 
     # Layout
 
@@ -436,6 +434,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
     ok_cancel_help(helpSubject = "locales")
     tkgrid(buttonsFrame, sticky = "ew")
     dialogSuffix()
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Interactive bindings ---------------------------------------------------
 
