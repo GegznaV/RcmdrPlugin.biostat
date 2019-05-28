@@ -174,9 +174,7 @@ window_dataset_select <- function() {
               command  = cmd_var_names_print)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        tkpopup(menu_p,
-                tkwinfo("pointerx", top),
-                tkwinfo("pointery", top))
+        tkpopup(menu_p, tkwinfo("pointerx", top), tkwinfo("pointery", top))
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     menu_summary <- function() {
@@ -199,16 +197,14 @@ window_dataset_select <- function() {
               # image    = "::image::bs_locale",
               command  = cmd_var_summary_skim)
 
-        tkadd(menu_p, "command",
-              label    = "Summary of factor variables",
-              # compound = "left",
-              # image    = "::image::bs_locale",
-              command  = cmd_var_summary_fct)
+        # tkadd(menu_p, "command",
+        #       label    = "Summary of factor variables",
+        #       # compound = "left",
+        #       # image    = "::image::bs_locale",
+        #       command  = cmd_var_summary_fct)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        tkpopup(menu_p,
-                tkwinfo("pointerx", top),
-                tkwinfo("pointery", top))
+        tkpopup(menu_p, tkwinfo("pointerx", top), tkwinfo("pointery", top))
     }
 
 
