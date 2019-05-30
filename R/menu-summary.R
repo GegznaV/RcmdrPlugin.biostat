@@ -76,7 +76,8 @@ summary_var_types <- function() {
 summary_var_types_0 <- function(.ds) {
     Library("skimr")
     doItAndPrint(str_glue(
-        "## Variable type summary & size of dataset '{.ds}'\n",
+        "## Variable type summary and size \n",
+        "## of dataset '{.ds}'\n",
         "summary(skimr::skim({.ds}))"
     ))
 }

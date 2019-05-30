@@ -397,7 +397,7 @@ window_variable_gather <- function() {
     tkgrid(f1_opts$frame, pady = c(15, 0))
     tkgrid(f1_text, sticky = "ws", pady = c(2, 0))
 
-    tkgrid.configure(f1_but_set_1, sticky = "s", pady = c(0, 6), padx = c(0, 4))
+    tkgrid.configure(f1_but_set_1, sticky = "s", pady = c(0, 6), padx = c(0, 7))
     tkgrid.configure(f1_y_var_box$frame, padx = c(0, 6))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

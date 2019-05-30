@@ -747,45 +747,9 @@ window_export_fig_to_pptx <- function() {
         tip = str_c(
             "Code that generates a plot.\n",
             "Right-click to clear or paste the code."),
-        label = "R Code of Plot to Export"
+        label = "R Code of Plot to Export",
+        context_menu = TRUE
     )
-
-
-    context_menu_for_code <- function() {
-
-        top <- CommanderWindow()
-
-        menu_i <- tk2menu(tk2menu(top), tearoff = FALSE)
-
-        # tkadd(menu_i, "command",
-        #       label    = "Copy",
-        #       compound = "left",
-        #       image    = "::image::bs_delete",
-        #       command  = do_nothing)
-
-        tkadd(menu_i, "command",
-              label    = "Clear",
-              compound = "left",
-              image    = "::image::bs_delete",
-              command  = function() {
-                  set_values(f4_code_input, "")
-              })
-
-        tkadd(menu_i, "command",
-              label    = "Clear and paste",
-              compound = "left",
-              image    = "::image::bs_paste",
-              command  = function() {
-                  set_values(f4_code_input, read_clipboard())
-              })
-
-        tkpopup(menu_i,
-                tkwinfo("pointerx", top),
-                tkwinfo("pointery", top))
-    }
-
-    tkbind(f4_code_input$text, "<ButtonPress-3>", context_menu_for_code)
-
 
     # Widgets ================================================================
 

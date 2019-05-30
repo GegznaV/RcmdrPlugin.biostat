@@ -1,7 +1,7 @@
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-bs_text <- function(parent, ..., label = "", undo = TRUE) {
+bs_text <- function(parent, ..., label = "", undo = TRUE, context_menu = FALSE) {
 
     frame <- tk2frame(parent)
 
@@ -39,6 +39,10 @@ bs_text <- function(parent, ..., label = "", undo = TRUE) {
     tkgrid.rowconfigure(frame, 0, weight = 1,  minsize = 1)
     tkgrid.rowconfigure(frame, 1, weight = 10, minsize = 3)
     tkgrid.rowconfigure(frame, 2, weight = 0)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    if (context_menu == TRUE) {
+        right_click_menu_text(obj_txt, undo = undo)
+    }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     structure(list(
@@ -46,7 +50,9 @@ bs_text <- function(parent, ..., label = "", undo = TRUE) {
         label    = obj_label,
         text     = obj_txt,
         x_scroll = obj_xsc,
-        y_scroll = obj_ysc
+        y_scroll = obj_ysc,
+        context_menu_fun =
+            purrr::partial(right_click_menu_text, tcl_widget = obj_txt, undo = undo)
     ),
     class = c("bs_text", "bs_tk_widget", "list"))
 }
