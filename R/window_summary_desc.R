@@ -1,3 +1,8 @@
+# TODO:
+#
+# 1) implement function `activate_results_name`
+# 2) DescTools options may be incorrect at start up, if only some options are reset.
+
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
@@ -5,7 +10,7 @@ window_summary_desc <- function() {
     # Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_default <- function(val, default) {
-        if (is.null(val)) {
+        if (is.null(val) || is.na(val)) {
             default
         } else {
             val
@@ -35,6 +40,8 @@ window_summary_desc <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     activate_results_name <- function() {
+
+        # [???]
 
         # if (get_values(f1_keep_results)) {
         #     tkgrid(...)
@@ -198,6 +205,12 @@ window_summary_desc <- function() {
         if (isTRUE(print_num)) {
             print_code <- str_glue("print({rez}, plotit = FALSE) \n", .trim = FALSE)
 
+            # Ensure required DescTools options are set properly
+            if (!isTRUE(biostat_env$desctools_opts_are_set)) {
+                force_options <- TRUE
+                biostat_env$desctools_opts_are_set <- TRUE
+            }
+
             opts_code <-
                 get_desctools_opts_str(
                     big_mark = big_mark,
@@ -313,14 +326,14 @@ window_summary_desc <- function() {
         by_group  = FALSE,
 
         keep_results  = FALSE,
-        force_options = FALSE,  # Not implemented
+        force_options = FALSE,
         conf_level    = 0.95,   # Not implemented
 
         # Numeric output
         print_num  = TRUE,
-        digits_per = get_default(DescTools::Fmt()$per$digits, 1),
-        digits_num = get_default(DescTools::Fmt()$num$digits, 3),
-        scipen     = 9,
+        digits_per = get_default(DescTools::Fmt()$per$digits,       1),
+        digits_num = get_default(DescTools::Fmt()$num$digits,       3),
+        scipen     = get_default(dplyr::na_if(options()$scipen, 0), 9),
         big_mark   = gettext_bs("None"),
 
         # Plots
@@ -342,12 +355,12 @@ window_summary_desc <- function() {
 
     f1_widget_y_gr <- bs_listbox_y_gr(
         parent         = f1,
-        y_title        = gettext_bs("Response variable\n(pick one)"),
+        y_title        = gettext_bs("Response variable (Y)\n(pick one)"),
         y_var_type     = "all",
         y_initial      = initial$y_var,
         y_select_mode  = "single",
 
-        gr_title       = gettext_bs("Explanatory/Groups variable\n(pick one, several or none)"),
+        gr_title       = gettext_bs("Explanatory/Groups variable (X)\n(pick one or none)"),
         gr_var_type    = "all",
         gr_initial     = initial$gr_var,
         gr_select_mode = "single",
@@ -450,10 +463,13 @@ window_summary_desc <- function() {
     f2_force_options <- bs_checkboxes(
         parent   = f2_num_sub,
         boxes    = "force_options",
-        labels   = gettext_bs("Always print all code of options"),
-        values   = initial$force_options,
-        commands = list("force_options"  = activate_results_name)
+        labels   = gettext_bs("Force to print rounding options"),
+        default_tip = str_c(
+            "Force to print the code of rounding options\n",
+            "even if the options are not changed."),
+        values   = initial$force_options
     )
+
 
     # F2 plot ----------------------------------------------------------------
 
@@ -643,4 +659,3 @@ get_desctools_opts_str <- function(
 
     structure(str, class = c("glue", "string"))
 }
-
