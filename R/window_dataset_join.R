@@ -4,17 +4,11 @@
 window_dataset_join <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     dataSets <- listDataSets()
-    .activeDataSet <- active_dataset_0()
+    .ds <- active_dataset_0()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = gettext_bs("Join Two Datasets"))
-    # Title ------------------------------------------------------------------
-    fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(bs_label(
-        top,
-        text = gettext_bs("Join two datasets"),
-        font = tkfont.create(weight = "bold", size = 9),
-        fg = fg_col),
-        pady = c(5, 9), columnspan = 3)
+    tk_title(top, text = gettext_bs("Join Two Datasets"), columnspan = 3)
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Functions --------------------------------------------------------------
 
@@ -23,6 +17,7 @@ window_dataset_join <- function() {
         tkconfigure(obj$combobox, values = values, ...)
     }
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tk_pair_control <- function(obj1, obj2,
                                 state = c("readonly", "disabled", "active", "normal"),
                                 reset = FALSE,
@@ -37,6 +32,7 @@ window_dataset_join <- function() {
         tkconfigure(obj2$combobox, state = state, ...)
     }
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     check_v2_v3 <- function() {
         if (getSelection(v_x1) != "" && getSelection(v_y1) != "") {
             # Enable
@@ -50,6 +46,7 @@ window_dataset_join <- function() {
 
         }
     }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     check_v3 <- function() {
         if (getSelection(v_x2) != "" && getSelection(v_y2) != "") {
             # enable
@@ -62,6 +59,7 @@ window_dataset_join <- function() {
         }
     }
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_onRelease_ds_x <- function() {
         # On mouse relese
         ds <- getSelection(ds_1_box)
@@ -73,6 +71,7 @@ window_dataset_join <- function() {
         reset_combobox(v_x3, values = vars_in_ds)
     }
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_onRelease_ds_y <- function() {
         # On mouse relese
         ds <- getSelection(ds_2_box)
@@ -83,6 +82,8 @@ window_dataset_join <- function() {
         reset_combobox(v_y2, values = vars_in_ds)
         reset_combobox(v_y3, values = vars_in_ds)
     }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     set_ds_name <- function() {
         join_type                  <- tclvalue(join_typeVariable)
         ds_1                       <- getSelection(ds_1_box)
@@ -91,7 +92,7 @@ window_dataset_join <- function() {
         unique_base_name           <- unique_df_name(base_name, all_numbered = TRUE)
         tclvalue(ds_name_variable) <- unique_base_name
     }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Widgets ----------------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ds_name_variable <- tclVar("joint_dataset")
@@ -145,6 +146,14 @@ window_dataset_join <- function() {
 
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    initial_selection =
+        if (is.null(.ds)) {
+            NULL
+        } else {
+            which(.ds == dataSets) - 1
+        }
+
+
     ds_1_box <-
         variableListBox2(
             middle_Frame,
@@ -155,23 +164,22 @@ window_dataset_join <- function() {
                 set_ds_name()
                 cmd_onRelease_ds_x()
             },
-            initialSelection = if (is.null(.activeDataSet)) {
-                NULL
-            } else {
-                which(.activeDataSet == dataSets) - 1
-            }
+            initialSelection = initial_selection
         )
 
+    tksee(ds_1_box$listbox, initial_selection)
+
     ds_2_box <-
-        variableListBox2(middle_Frame,
-                         dataSets,
-                         listHeight = 7,
-                         initialSelection = 0,
-                         onRelease_fun = function() {
-                             set_ds_name()
-                             cmd_onRelease_ds_y()
-                         },
-                         title = gettext_bs("Second dataset (right, y) \n(pick one)"))
+        variableListBox2(
+            middle_Frame,
+            dataSets,
+            listHeight = 7,
+            initialSelection = 0,
+            onRelease_fun = function() {
+                set_ds_name()
+                cmd_onRelease_ds_y()
+            },
+            title = gettext_bs("Second dataset (right, y) \n(pick one)"))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_onRelease_ds_x()
