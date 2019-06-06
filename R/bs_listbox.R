@@ -86,67 +86,6 @@ bs_listbox <-
             ...)
         ")
 
-        # if (is.null(value) & is.null(selection)) {
-        #     listbox <- tk2listbox(
-        #         parent     = frame,
-        #         values     = values,
-        #         # value      = value,
-        #         # selection  = selection,
-        #         selectmode = selectmode,
-        #         height     = height,
-        #         width      = width,
-        #         scroll     = scroll,
-        #         autoscroll = autoscroll,
-        #         enabled    = enabled,
-        #         tip        = tip,
-        #         ...
-        #     )
-        #
-        # } else if (!is.null(selection)) {
-        #     listbox <- tk2listbox(
-        #         parent     = frame,
-        #         values     = values,
-        #         # value      = value,
-        #         selection  = selection,
-        #         selectmode = selectmode,
-        #         height     = height,
-        #         width      = width,
-        #         scroll     = scroll,
-        #         autoscroll = autoscroll,
-        #         enabled    = enabled,
-        #         tip        = tip,
-        #
-        #         ...
-        #     )
-        # } else {
-        #     listbox <- tk2listbox(
-        #         parent     = frame,
-        #         values     = values,
-        #         value      = value,
-        #         # selection  = selection,
-        #         selectmode = selectmode,
-        #         height     = height,
-        #         width      = width,
-        #         scroll     = scroll,
-        #         autoscroll = autoscroll,
-        #         enabled    = enabled,
-        #         tip        = tip,
-        #
-        #         ...
-        #     )
-        # }
-
-
-        # listbox <- tklistbox(
-        #   parent     = frame,
-        #   height     = height,
-        #   selectmode = selectmode,
-        #   background = bg,
-        #   exportselection = export,
-        #   width = width,
-        #   ...
-        # )
-
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Adds ability to deselect in single-selection boxes
         if (selectmode %in% c("single", "browse")) {
@@ -261,14 +200,7 @@ bs_listbox <-
                     new_list <- values_env$all_values
 
                 } else {
-                    # ignore_case <- !tclvalue_lgl(case_Variable)
                     ignore_case <- !tclvalue_lgl(options$var$case)
-
-                    # filter_fun <- switch(
-                    #   tclvalue_chr(regex_Variable), #
-                    #   "0" = stringr::fixed,
-                    #   "1" = stringr::regex
-                    # )
 
                     filter_fun <- switch(
                         tclvalue_chr(options$var$regex), #
@@ -277,7 +209,8 @@ bs_listbox <-
                     )
 
                     s_filter <- filter_fun(s_txt, ignore_case = ignore_case)
-                    rez <- try(silent = TRUE, {# To prevet from invalid regular exressions
+                    # To prevet from invalid regular exressions `try` is used
+                    rez <- try(silent = TRUE, {
                         new_list <- str_subset(values_env$all_values, s_filter)
                     })
 
