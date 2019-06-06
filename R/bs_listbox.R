@@ -43,8 +43,6 @@ bs_listbox <-
              subtitle_sticky = title_sticky
 
              , ...
-
-
     )
     {
 
@@ -66,57 +64,77 @@ bs_listbox <-
         if (length(width) == 1) {
             width <- c(width, width)
         }
+
         width  <- min(max(width[1], 2 + nchar(values)), width[2]) # Set width
 
-        if (is.null(value) & is.null(selection)) {
-            listbox <- tk2listbox(
-                parent     = frame,
-                values     = values,
-                # value      = value,
-                # selection  = selection,
-                selectmode = selectmode,
-                height     = height,
-                width      = width,
-                scroll     = scroll,
-                autoscroll = autoscroll,
-                enabled    = enabled,
-                tip        = tip,
-                ...
-            )
+        selection_code <- if(!is.null(selection)) "selection  = {selection}," else ""
+        value_code     <- if(!is.null(value))     "value      = {value},"     else ""
 
-        } else if (!is.null(selection)) {
-            listbox <- tk2listbox(
-                parent     = frame,
-                values     = values,
-                # value      = value,
-                selection  = selection,
-                selectmode = selectmode,
-                height     = height,
-                width      = width,
-                scroll     = scroll,
-                autoscroll = autoscroll,
-                enabled    = enabled,
-                tip        = tip,
+        listbox <-  str_glue_eval("
+        tk2listbox(
+            parent     = frame,
+            values     = values,
+            {selection_code}
+            {value_code}
+            selectmode = selectmode,
+            height     = height,
+            width      = width,
+            scroll     = scroll,
+            autoscroll = autoscroll,
+            enabled    = enabled,
+            tip        = tip,
+            ...)
+        ")
 
-                ...
-            )
-        } else {
-            listbox <- tk2listbox(
-                parent     = frame,
-                values     = values,
-                value      = value,
-                # selection  = selection,
-                selectmode = selectmode,
-                height     = height,
-                width      = width,
-                scroll     = scroll,
-                autoscroll = autoscroll,
-                enabled    = enabled,
-                tip        = tip,
-
-                ...
-            )
-        }
+        # if (is.null(value) & is.null(selection)) {
+        #     listbox <- tk2listbox(
+        #         parent     = frame,
+        #         values     = values,
+        #         # value      = value,
+        #         # selection  = selection,
+        #         selectmode = selectmode,
+        #         height     = height,
+        #         width      = width,
+        #         scroll     = scroll,
+        #         autoscroll = autoscroll,
+        #         enabled    = enabled,
+        #         tip        = tip,
+        #         ...
+        #     )
+        #
+        # } else if (!is.null(selection)) {
+        #     listbox <- tk2listbox(
+        #         parent     = frame,
+        #         values     = values,
+        #         # value      = value,
+        #         selection  = selection,
+        #         selectmode = selectmode,
+        #         height     = height,
+        #         width      = width,
+        #         scroll     = scroll,
+        #         autoscroll = autoscroll,
+        #         enabled    = enabled,
+        #         tip        = tip,
+        #
+        #         ...
+        #     )
+        # } else {
+        #     listbox <- tk2listbox(
+        #         parent     = frame,
+        #         values     = values,
+        #         value      = value,
+        #         # selection  = selection,
+        #         selectmode = selectmode,
+        #         height     = height,
+        #         width      = width,
+        #         scroll     = scroll,
+        #         autoscroll = autoscroll,
+        #         enabled    = enabled,
+        #         tip        = tip,
+        #
+        #         ...
+        #     )
+        # }
 
 
         # listbox <- tklistbox(
