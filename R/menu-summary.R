@@ -1,5 +1,28 @@
 # "Summany" menu related functions ============================================
 
+#  Graphical overview --------------------------------------------------------
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_summary_inspect <- function() {
+    Library("tidyverse")
+    Library("inspectdf")
+
+    # command <- str_glue("{active_dataset_0()} %>% inspect_na() %>% show_plot()")
+
+    # if (is_plot_in_separate_window()) {
+    #     open_new_plots_window()
+    # }
+
+    # command <- str_glue("{active_dataset_0()} %>% inspect_mem() %>% show_plot()")
+    # command <- str_glue("{active_dataset_0()} %>% inspect_types() %>% show_plot()")
+    command <- str_glue("{active_dataset_0()} %>% inspect_num() %>% show_plot()")
+    command <- str_glue("{active_dataset_0()} %>% inspect_cat() %>% show_plot()")
+
+    doItAndPrint(command)
+}
+
 #  Overview ------------------------------------------------------------------
 #' @rdname Menu-window-functions
 #' @export
@@ -28,6 +51,25 @@ command_glimpse <- function() {
         str_glue(
             "## Structure of dataset \n",
             "dplyr::glimpse({active_dataset_0()})"
+        ) %>%
+        style_cmd()
+
+    doItAndPrint(command)
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+window_summary_desc_all <- function() {
+    Library("DescTools")
+
+
+    command <-
+        str_glue(
+            "## Summarize all variables \n",
+            "options(scipen = 9) \n",
+            "DescTools::Desc({active_dataset_0()}, plotit = FALSE)"
         ) %>%
         style_cmd()
 
@@ -74,12 +116,25 @@ summary_var_types <- function() {
 }
 
 summary_var_types_0 <- function(.ds) {
+    Library("tidyverse")
     Library("skimr")
+    Library("inspectdf")
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     doItAndPrint(str_glue(
         "## Variable type summary and size \n",
         "## of dataset '{.ds}'\n",
         "summary(skimr::skim({.ds}))"
     ))
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Each plot in a separate window
+    if (is_plot_in_separate_window()) {open_new_plots_window()}
+    doItAndPrint(str_glue("{.ds} %>% inspect_mem() %>% show_plot()"))
+
+    if (is_plot_in_separate_window()) {open_new_plots_window()}
+    doItAndPrint(str_glue("{.ds} %>% inspect_types() %>% show_plot()"))
+
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 summary_skim_0 <- function() {
