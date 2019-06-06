@@ -57,9 +57,11 @@
 \alias{command_list_objects}
 \alias{command_session_info_devtools}
 \alias{command_session_info_utils}
+\alias{window_summary_inspect}
 \alias{command_dataset_dim}
 \alias{command_dataset_dim_0}
 \alias{command_glimpse}
+\alias{window_summary_desc_all}
 \alias{summary_head_tail}
 \alias{summary_var_types}
 \alias{command_colnames}
@@ -238,11 +240,15 @@ command_session_info_devtools()
 
 command_session_info_utils()
 
+window_summary_inspect()
+
 command_dataset_dim()
 
 command_dataset_dim_0(.ds)
 
 command_glimpse()
+
+window_summary_desc_all()
 
 summary_head_tail()
 
