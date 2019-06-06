@@ -72,7 +72,7 @@ window_dataset_new_rcmdr <- function() {
         tkfocus(CommanderWindow())
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "editDataset")
+    ok_cancel_help(helpSubject = "editDataset")
     tkgrid(labelRcmdr(
         top,
         text = gettext_bs("Enter dataset's name:   ")),
