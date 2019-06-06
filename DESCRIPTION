@@ -68,6 +68,7 @@ Imports:
     ggfortify,
     graphics,
     grDevices,
+    inspectdf,
     janitor (>= 1.2.0),
     lm.beta,
     lmtest  (>= 0.9-3), 
