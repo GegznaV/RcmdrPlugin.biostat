@@ -10,18 +10,22 @@ window_data_obj_delete <- function() {
 
         switch(
             obj_class,
-            "All"                = get_obj_names(all.names = hidden),
-            "Data frame"         = get_obj_names(all.names = hidden, "data.frame"),
-            "Matrix"             = get_obj_names(all.names = hidden, "matrix"),
-            "List"               = get_obj_names(all.names = hidden, "list"),
-            "Table"              = get_obj_names(all.names = hidden, "table"),
-            "lm, glm, htest"     = get_obj_names(all.names = hidden, c("lm", "glm", "htest")),
-            "ggplot"             = get_obj_names(all.names = hidden, "ggplot"),
-            "ggplot, gg"         = get_obj_names(all.names = hidden, c("ggplot", "gg")),
-            "gg (except ggplot)" = get_obj_names(all.names = hidden,
-                                                 "gg", exclude_class = "ggplot"),
-            "Function"           = get_obj_names(all.names = hidden, "function"),
-            "Other"              = get_obj_names(
+            "All"                    = get_obj_names(all.names = hidden),
+            "Data frame"             = get_obj_names(all.names = hidden, "data.frame"),
+            "Matrix"                 = get_obj_names(all.names = hidden, "matrix"),
+            "Table"                  = get_obj_names(all.names = hidden, "table"),
+            "List"                   = get_obj_names(all.names = hidden, "list"),
+
+            "Model (lm, glm, htest)" = get_obj_names(all.names = hidden, c("lm", "glm", "htest")),
+            "lm, glm, htest"         = get_obj_names(all.names = hidden, c("lm", "glm", "htest")),
+
+            "Plot (ggplot, gg)"      = get_obj_names(all.names = hidden, c("ggplot", "gg")),
+            "ggplot"                 = get_obj_names(all.names = hidden, "ggplot"),
+            "ggplot, gg"             = get_obj_names(all.names = hidden, c("ggplot", "gg")),
+            "gg (except ggplot)"     = get_obj_names(all.names = hidden, "gg", exclude_class = "ggplot"),
+
+            "Function"               = get_obj_names(all.names = hidden, "function"),
+            "Other"                  = get_obj_names(
                 all.names = hidden,
                 exclude_class = c("data.frame", "ggplot", "gg", "function",
                                   "lm", "glm", "htest",
@@ -120,7 +124,7 @@ window_data_obj_delete <- function() {
         height       = 8,
         width        = c(30, Inf),
         on_keyboard  = "scroll",
-        tip          = "Hold 'Ctrl' key to deselect \nor select several objects.",
+        tip          = "Hold 'Ctrl' key to  select several \nor deselect objects.",
         use_filter   = TRUE,
         filter_label = "Object name filter"
     )
@@ -131,15 +135,15 @@ window_data_obj_delete <- function() {
         label_position = "above",
         width  = 30 - 2, # Get width var_y_box
         value  = "Data frame",
-        values = c("Data frame", "Matrix", "List", "Table", "ggplot, gg",
-                   "lm, glm, htest", "Function", "Other", "All"),
+        values = c("Data frame", "List", "Matrix", "Table", "Plot (ggplot, gg)",
+                   "Model (lm, glm, htest)", "Function", "Other", "All"),
         tip = "",
         on_select = update_list_of_objects
     )
 
     include_hidden_box <- bs_checkboxes(
         parent = var_y_box$frame,
-        boxes = c(hidden = "Show hidden objects"),
+        boxes  = c(hidden = "Show hidden objects"),
         values = 0,
         commands = c(hidden = update_list_of_objects)
     )
