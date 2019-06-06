@@ -35,6 +35,7 @@ window_dataset_select <- function() {
             str_glue_eval("tk_normalize({button_obj})", eval_envir = envir)
         }
     }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_ds_class_print <- function() {
         .ds_1 <- get_selection(var_ds_box) %>% safe_names()
@@ -62,6 +63,7 @@ window_dataset_select <- function() {
             "names({.ds_1})"
         ))
     }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_ds_glimpse <- function() {
         .ds_1 <- get_selection(var_ds_box) %>% safe_names()
@@ -69,6 +71,7 @@ window_dataset_select <- function() {
             "## The structure of dataset '{.ds_1}'\n",
             "dplyr::glimpse({.ds_1})"))
     }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_var_summary_desc <- function() {
         .ds_1     <- get_selection(var_ds_box) %>% safe_names()
@@ -88,6 +91,7 @@ window_dataset_select <- function() {
         .ds_1 <- get_selection(var_ds_box) %>% safe_names()
         summary_skim(.ds_1)
     }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_var_summary_fct <- function() {
         .ds_1 <- get_selection(var_ds_box) %>% safe_names()
@@ -121,7 +125,6 @@ window_dataset_select <- function() {
             "View({.ds_1})"
         ))
     }
-
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
@@ -176,6 +179,7 @@ window_dataset_select <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkpopup(menu_p, tkwinfo("pointerx", top), tkwinfo("pointery", top))
     }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     menu_summary <- function() {
 
