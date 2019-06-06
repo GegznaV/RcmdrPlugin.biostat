@@ -123,31 +123,31 @@ set_biostat_mode <- function() {
 
     button_view <- tk2button(
         buttons_bar,
-        tip = "View and print active dataset",
+        tip = "View, summarize and print \nactive dataset",
         image = "::image::viewIcon",
         command = bs_mode_menu__print)
 
     button_summary <- tk2button(
         buttons_bar,
-        tip = "Summarize active dataset",
+        tip = "Summarize variables \nof active dataset",
         image = "::image::bs_summary",
         command = bs_mode_menu__summary)
 
     button_rows <- tk2button(
         buttons_bar,
-        tip = "Rows (observations) of active dataset",
+        tip = "Manage rows (observations)\nof active dataset",
         image = "::image::bs_rows",
         command = bs_mode_menu__rows)
 
     button_variables <- tk2button(
         buttons_bar,
-        tip = "Variables (columns) of active dataset",
+        tip = "Manage variables (columns)\nof active dataset",
         image = "::image::bs_columns",
         command = bs_mode_menu__variables)
 
     button_analysis <- tk2button(
         buttons_bar,
-        tip = "Analyze active dataset",
+        tip = "Analysis",
         image = "::image::bs_analyze",
         command = bs_mode_menu__analyze)
 
@@ -443,7 +443,7 @@ bs_mode_menu__print <- function() {
 
     menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     view_style <- if (.Platform$GUI == "RStudio") {
         tkadd(menu_p, "command",
               label    = "View dataset (in RStudio)",
@@ -464,6 +464,32 @@ bs_mode_menu__print <- function() {
               image    = "::image::viewIcon",
               command  = window_dataset_view_rcmdr)
     }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkadd(menu_p, "separator")
+
+    tkadd(menu_p, "command",
+          label    = "Size (number of rows and columns)",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = command_dataset_dim)
+
+    tkadd(menu_p, "command",
+          label    = "Variable types", #  & dataset size
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = summary_var_types)
+
+    tkadd(menu_p, "command",
+          label    = "Glimpse: structure of dataset",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = command_glimpse)
+
+    tkadd(menu_p, "command",
+          label    = "Screen missing data...",
+          state    = activate_if_active_ds(),
+          command  = window_summary_missings)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_p, "separator")
@@ -520,7 +546,7 @@ bs_mode_menu__print <- function() {
             tkwinfo("pointery", top))
 }
 
-# Summary menus --------------------------------------------------------------
+# Summarize variables menus ---------------------------------------------------
 bs_mode_menu__summary  <- function() {
 
     top <- CommanderWindow()
@@ -535,30 +561,10 @@ bs_mode_menu__summary  <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     tkadd(menu_p, "command",
-          label    = "Number of rows and columns",
+          label    = "Desc: summarize all variables",
           # compound = "left",
           # image    = "::image::bs_locale",
-          command  = command_dataset_dim)
-
-    tkadd(menu_p, "command",
-          label    = "Variable types & size of dataset", #  & dataset size
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = summary_var_types)
-
-    tkadd(menu_p, "command",
-          label    = "Screen missing data...",
-          state    = activate_if_active_ds(),
-          command  = window_summary_missings)
-
-    tkadd(menu_p, "command",
-          label    = "Glimpse: structure of dataset",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = command_glimpse)
-
-
-    tkadd(menu_p, "separator")
+          command  = window_summary_desc_all)
 
     tkadd(menu_p, "command",
           label    = "Desc: summarize variables (single or pair)...",
