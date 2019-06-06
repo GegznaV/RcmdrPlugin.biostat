@@ -4,6 +4,7 @@
 #'
 # TODO:
 # 1. Add checkbox to toggle between non-hidden and all objects.
+# 2. Use safe_names()
 #
 
 window_data_obj_copy <- function() {
@@ -33,7 +34,7 @@ window_data_obj_copy <- function() {
         # Construct the command ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         command_0 <- str_glue("{new_obj_names} <- {obj_names}\n")
         command   <- str_glue(
-            "## Creato a copy of the object \n",
+            "## Create a copy of the object/dataset \n",
             "{command_0}\n"
         )
 
