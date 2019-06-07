@@ -13,17 +13,19 @@ window_dataset_bind_rows <- function() {
     # Functions --------------------------------------------------------------
     set_id_name1 <- function() {
         if (tclvalue(which_idVariable) == "id_names") {
-            tclvalue(ds_1_id_var) <- getSelection(ds_1_box)
+            tclvalue(ds_1_id_var) <- get_selection(ds_1_box)
         }
     }
+
     set_id_name2 <- function() {
         if (tclvalue(which_idVariable) == "id_names") {
-            tclvalue(ds_2_id_var) <- getSelection(ds_2_box)
+            tclvalue(ds_2_id_var) <- get_selection(ds_2_box)
         }
     }
+
     set_id_name3 <- function() {
         if (tclvalue(which_idVariable) == "id_names") {
-            tclvalue(ds_3_id_var) <- getSelection(ds_3_box)
+            tclvalue(ds_3_id_var) <- get_selection(ds_3_box)
         }
     }
 
@@ -44,6 +46,7 @@ window_dataset_bind_rows <- function() {
         set_id_name2()
         set_id_name3()
     }
+
     id_numeric_fun <- function(variables) {
         tk_activate(entry_id_name)
         tk_disable(ds_1_id_entry)
@@ -55,6 +58,7 @@ window_dataset_bind_rows <- function() {
         tclvalue(ds_2_id_var) <- ""
         tclvalue(ds_3_id_var) <- ""
     }
+
     id_none_fun <- function(variables) {
         tk_disable(entry_id_name)
         tk_disable(ds_1_id_entry)
@@ -67,6 +71,7 @@ window_dataset_bind_rows <- function() {
         tclvalue(ds_3_id_var) <- ""
 
     }
+
     choose_id_fun <- function(variables) {
         switch(tclvalue(which_idVariable),
                id_names   = id_names_fun(),
@@ -75,17 +80,10 @@ window_dataset_bind_rows <- function() {
         )
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_bs("Bind rows of datasets"))
-    # Title ------------------------------------------------------------------
-    fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(
-        bs_label(
-            top,
-            text = gettext_bs("Bind rows of datasets"),
-            font = tkfont.create(weight = "bold", size = 9),
-            fg = fg_col),
-        pady = c(5, 15),
-        columnspan = 3)
+    win_title <- gettext_bs("Bind rows of datasets")
+    initializeDialog(title = win_title)
+    tk_title(top, win_title, pady = c(5, 15), columnspan = 3)
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Widgets ----------------------------------------------------------------
     new_ds_name_variable <- tclVar(
@@ -122,39 +120,42 @@ window_dataset_bind_rows <- function() {
                             # initialValue = dialog_values$which_names,
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    dataSets       <- listDataSets()
-    .activeDataSet <- active_dataset()
+    dataSets <- listDataSets()
+    .ds      <- active_dataset()
 
     ds_1_box <-
-        variableListBox2(
-            top,
-            dataSets,
-            listHeight = 7,
-            title = gettext_bs("First dataset \n(pick one)"),
-            onRelease_fun = function() {
+        bs_listbox(
+            parent = top,
+            values = dataSets,
+            value  = .ds,
+            height = 7,
+            title  = gettext_bs("First dataset \n(pick one)"),
+            on_select = function() {
                 set_id_name1()
                 set_ds_name()
-            },
-            initialSelection = if (is.null(.activeDataSet)) {
-                NULL
-            } else {
-                which(.activeDataSet == dataSets) - 1
             }
         )
 
+    if (!is.null(.ds)) {
+        tk_see(ds_1_box, dataSets)
+    }
+
+
     ds_2_box <-
-        variableListBox2(top,
-                         dataSets,
-                         listHeight = 7,
-                         onRelease_fun = set_id_name2,
-                         title = gettext_bs("Second dataset \n(pick one)"))
+        bs_listbox(
+            parent    = top,
+            values    = dataSets,
+            height    = 7,
+            on_select = set_id_name2,
+            title     = gettext_bs("Second dataset \n(pick one)"))
 
     ds_3_box <-
-        variableListBox2(top,
-                         dataSets,
-                         listHeight = 7,
-                         onRelease_fun = set_id_name3,
-                         title = gettext_bs("Third dataset \n(pick one or none)"))
+        bs_listbox(
+            parent    = top,
+            values    = dataSets,
+            height    = 7,
+            on_select = set_id_name3,
+            title     = gettext_bs("Third dataset \n(pick one or none)"))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     set_id_name1()
@@ -163,16 +164,16 @@ window_dataset_bind_rows <- function() {
     set_ds_name()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
-        new_ds_name <- trim.blanks(tclvalue(new_ds_name_variable))
-        id_name     <- trim.blanks(tclvalue(id_name_variable))
+        new_ds_name <- tclvalue_chr(new_ds_name_variable)
+        id_name     <- tclvalue_chr(id_name_variable)
 
-        name_ds_1 <- getSelection(ds_1_box)
-        name_ds_2 <- getSelection(ds_2_box)
-        name_ds_3 <- getSelection(ds_3_box)
+        name_ds_1 <- get_selection(ds_1_box)
+        name_ds_2 <- get_selection(ds_2_box)
+        name_ds_3 <- get_selection(ds_3_box)
 
-        ds_1_id <- trim.blanks(tclvalue(ds_1_id_var))
-        ds_2_id <- trim.blanks(tclvalue(ds_2_id_var))
-        ds_3_id <- trim.blanks(tclvalue(ds_3_id_var))
+        ds_1_id <- tclvalue_chr(ds_1_id_var)
+        ds_2_id <- tclvalue_chr(ds_2_id_var)
+        ds_3_id <- tclvalue_chr(ds_3_id_var)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         closeDialog()
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -270,10 +271,9 @@ window_dataset_bind_rows <- function() {
         tkfocus(CommanderWindow())
     }
     # Layout -----------------------------------------------------------------
-    OKCancelHelp(helpSubject = "bind_rows", helpPackage = "dplyr")
+    ok_cancel_help(helpSubject = "bind_rows", helpPackage = "dplyr")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkgrid(getFrame(ds_1_box), getFrame(ds_2_box), getFrame(ds_3_box),
-           sticky = "nwe")
+    tkgrid(ds_1_box$frame, ds_2_box$frame, ds_3_box$frame, sticky = "nwe")
 
     # text_id <- gettext_bs("Name in ID column\n(optional):")
     tkgrid(
