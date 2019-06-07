@@ -2,10 +2,6 @@
 #
 # 1) for line `values       = variables_all()`  maybe a better default is
 #    NULL, as it does not fail if no dataset is selected
-# 2) if any value is selected, make it visible
-#     if (!is.null(.ds)) {
-#           tk_see(ds_1_box, dataSets)
-#     }
 
 
 # Listbox functions ==========================================================
@@ -57,7 +53,7 @@
 #' @param bind_row_swap (Does not work yet!) if TRUE, Ctrl/Alt + Up/Down keys move rows in the list box
 #' @param title_sticky (combination of "n", "e", "w", "s" or "")
 #' @param subtitle_sticky (combination of "n", "e", "w", "s" or "")
-#' @param ... \enumerate{
+#' @param ... Additional arguments.  \enumerate{
 #'    \item For \code{bs_listbox()}: arguments passed to function \code{\link[tcltk2]{tk2listbox}()}.
 #'    \item For other functions: arguments passed to further methods.
 #' }
@@ -81,7 +77,18 @@
 #' @seealso \code{\link[tcltk2]{tk2listbox}()}, \cr
 #'          \url{https://www.tcl.tk/man/tcl8.4/TkCmd/listbox.htm}
 #' @export
-
+#' @examples
+#'
+#' \dontrun{\donttest{
+#'
+#' # Active dataset must be selected
+#' top <- tktoplevel()
+#' lb1 <- bs_listbox(top, values = LETTERS, value = "K")
+#' lb2 <- bs_listbox(top, values = LETTERS, selection = c(12, 15), selectmode = "multiple")
+#' tkgrid(lb1$frame, lb2$frame)
+#'
+#' }}
+#'
 
 bs_listbox <-
     function(parent,
@@ -336,8 +343,8 @@ bs_listbox <-
             options    <- NULL
         }
 
-        # Output ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        structure(
+        # Output object ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        output_object <- structure(
             list(frame      = frame,
                  listbox    = listbox,
                  # scrollbar = scrollbar,
@@ -350,7 +357,20 @@ bs_listbox <-
             ),
             class = c(add_class, "listbox", "bs_tk_widget", "list")
         )
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Put the first selected value in view
+        if (!is.null(value) || length(value) > 0) {
+            tk_see(output_object, value[1])
+
+        } else if (!is.null(selection) || length(selection) > 0) {
+            tk_see(output_object, selection[1])
+        }
+
+        # Output ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        output_object
     }
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~ ==================================================
 
 
@@ -415,6 +435,12 @@ set_values.listbox <- function(obj, values, ..., clear = TRUE) {
 
 #' @rdname bs_listbox
 #' @export
+set_values.tk2listbox <- function(obj, values, ..., clear = TRUE) {
+    set_values_listbox(obj, values = values, ..., clear = clear)
+}
+
+#' @rdname bs_listbox
+#' @export
 set_values.listbox_with_filter <- function(obj, values, ..., clear = TRUE) {
     # Set new set of possible values
     if (clear == TRUE) {
@@ -428,12 +454,6 @@ set_values.listbox_with_filter <- function(obj, values, ..., clear = TRUE) {
 
     # Clear filter box
     set_values(obj$filter$entry, "")
-}
-
-#' @rdname bs_listbox
-#' @export
-set_values.tk2listbox <- function(obj, values, ..., clear = TRUE) {
-    set_values_listbox(obj, values = values, ..., clear = clear)
 }
 
 
