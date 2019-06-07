@@ -16,11 +16,11 @@ inputComboBox <- function(parentWindow,
                           onRelease_fun      = function(){},
                           width              = 20) {
 
-# variableList <- c(gettext_bs(default_text), variableList)
-frame <- tkframe(parentWindow)
-combovar <- tclVar()
-tclvalue(combovar) <- initialSelection
-combobox <- ttkcombobox(
+    # variableList <- c(gettext_bs(default_text), variableList)
+    frame <- tkframe(parentWindow)
+    combovar <- tclVar()
+    tclvalue(combovar) <- initialSelection
+    combobox <- ttkcombobox(
         parent = frame,
         values       = variableList,
         textvariable = combovar,
@@ -28,68 +28,68 @@ combobox <- ttkcombobox(
         export       = export,
         width        = width)
 
-firstChar <- tolower(substr(variableList, 1, 1))
+    firstChar <- tolower(substr(variableList, 1, 1))
 
-onLetter <- function(letter) {
+    onLetter <- function(letter) {
         letter  <- tolower(letter)
         current <- as.numeric(tcl(combobox, "current"))
         current <- if (current == -1) 1 else current + 1
         mat     <- match(letter, firstChar[-(1:current)])
         if (is.na(mat)) return()
         tcl(combobox, "current", current + mat - 1)
-}
+    }
 
-# str_glue_eval('on{LETTERS} <- function() onLetter{"letters"}')
-# str_glue_eval('tkbind(combobox, "<{letters}>", get("on{LETTERS}"))')
-# str_glue_eval('tkbind(combobox, "<{LETTERS}>", get("on{LETTERS}"))')
+    # str_glue_eval('on{LETTERS} <- function() onLetter{"letters"}')
+    # str_glue_eval('tkbind(combobox, "<{letters}>", get("on{LETTERS}"))')
+    # str_glue_eval('tkbind(combobox, "<{LETTERS}>", get("on{LETTERS}"))')
 
-str_glue_eval('tkbind(combobox, "<{letters}>", function() onLetter("{letters}"))')
-str_glue_eval('tkbind(combobox, "<{LETTERS}>", function() onLetter("{letters}"))')
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-onClick <- function() {
+    str_glue_eval('tkbind(combobox, "<{letters}>", function() onLetter("{letters}"))')
+    str_glue_eval('tkbind(combobox, "<{LETTERS}>", function() onLetter("{letters}"))')
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    onClick <- function() {
         tkfocus(combobox)
         onClick_fun()
-}
+    }
 
-onDoubleClick <- function() {
+    onDoubleClick <- function() {
         tkfocus(combobox)
         onDoubleClick_fun()
-}
+    }
 
-onRelease <- function() {
+    onRelease <- function() {
         tkfocus(combobox)
         onRelease_fun()
-}
+    }
 
-onSelect <- function() {
+    onSelect <- function() {
         tkfocus(combobox)
         onSelect_fun()
-}
+    }
 
-tkbind(combobox, "<ButtonPress-1>",      onClick)
-tkbind(combobox, "<Double-Button-1>",    onDoubleClick)
-tkbind(combobox, "<ButtonRelease-1>",    onRelease)
+    tkbind(combobox, "<ButtonPress-1>",      onClick)
+    tkbind(combobox, "<Double-Button-1>",    onDoubleClick)
+    tkbind(combobox, "<ButtonRelease-1>",    onRelease)
 
-tkbind(combobox, "<<ComboboxSelected>>", onSelect) # on change of selected value
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkbind(combobox, "<<ComboboxSelected>>", onSelect) # on change of selected value
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-if (!is.null(title)) {
+    if (!is.null(title)) {
         tkgrid(labelRcmdr(frame,
                           text = title,
                           fg   = getRcmdr("title.color"),
                           font = "RcmdrTitleFont"),
                sticky = title_sticky)
-}
+    }
 
-tkgrid(combobox, sticky = combobox_sticky)
+    tkgrid(combobox, sticky = combobox_sticky)
 
-result <- list(frame    = frame,
-               combobox = combobox,
-               varlist  = variableList,
-               combovar = combovar)
+    result <- list(frame    = frame,
+                   combobox = combobox,
+                   varlist  = variableList,
+                   combovar = combovar)
 
-class(result) <- "combobox"
-result
+    class(result) <- "combobox"
+    result
 }
 
 
