@@ -257,8 +257,8 @@ item	biostat19_menu	cascade	"Summaries"	bs19_summary_menu	""	""
 
 item	bs19_summary_menu	command	"Number of rows and columns"	command_dataset_dim	"activeDataSetP()"	""
 item	bs19_summary_menu	command	"Variable type summary"	summary_var_types	"activeDataSetP()"	"" # & dataset size
-item	bs19_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
 item	bs19_summary_menu	command	"Screen missing data..."	window_summary_missings	"activeDataSetP()"	"packageAvailable('DescTools')"
+item	bs19_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
 
 
 
