@@ -118,7 +118,7 @@ set_biostat_mode <- function() {
     button_datasets <- tk2button(
         buttons_bar,
         tip     = "Datasets and objects",
-        image   = "::image::bs_object",
+        image   = "::image::bs_objects",
         command = bs_mode_menu__datasets)
 
     button_view <- tk2button(
@@ -1272,40 +1272,6 @@ bs_mode_menu__datasets <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    # menu_ws <- tk2menu(menu_p, tearoff = FALSE)
-    #
-    # tkadd(menu_p, "cascade",
-    #       label    = "Datasets & objects",
-    #       compound = "left",
-    #       image    = "::image::bs_workspace",
-    #       menu     = menu_ws)
-
-    menu_ws <- menu_p
-
-    tkadd(menu_ws, "command",
-          label    = "List loaded objects and datasets",
-          compound = "left",
-          image    = "::image::bs_workspace",
-          command  = command_list_objects)
-
-    tkadd(menu_ws, "command",
-          label    = "Manage objects and datasets...",
-          compound = "left",
-          image    = "::image::bs_workspace",
-          command  = window_data_obj_manage)
-
-    tkadd(menu_p, "command",
-          label    = "Edit active dataset...",
-          compound = "left",
-          image    = "::image::editIcon",
-          state    = activate_if_active_ds(),
-          command  = window_dataset_edit_rcmdr)
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    tkadd(menu_p, "separator")
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # menu_j  <- tk2menu(menu_p, tearoff = FALSE)
     #
     # tkadd(menu_p, "cascade",
@@ -1332,6 +1298,39 @@ bs_mode_menu__datasets <- function() {
           compound = "left",
           image    = "::image::bs_bind_cols",
           command  = window_dataset_bind_cols)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkadd(menu_p, "separator")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    # menu_ws <- tk2menu(menu_p, tearoff = FALSE)
+    #
+    # tkadd(menu_p, "cascade",
+    #       label    = "Datasets & objects",
+    #       compound = "left",
+    #       image    = "::image::bs_workspace",
+    #       menu     = menu_ws)
+
+    menu_ws <- menu_p
+
+    tkadd(menu_ws, "command",
+          label    = "List loaded objects and datasets",
+          compound = "left",
+          image    = "::image::bs_workspace",
+          command  = command_list_objects)
+
+    tkadd(menu_ws, "command",
+          label    = "Manage objects and datasets...",
+          compound = "left",
+          image    = "::image::bs_objects",
+          command  = window_data_obj_manage)
+
+    tkadd(menu_p, "command",
+          label    = "Edit active dataset...",
+          compound = "left",
+          image    = "::image::editIcon",
+          state    = activate_if_active_ds(),
+          command  = window_dataset_edit_rcmdr)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
