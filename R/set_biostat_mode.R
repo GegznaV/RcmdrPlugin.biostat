@@ -490,15 +490,15 @@ bs_mode_menu__print <- function() {
           command  = summary_var_types)
 
     tkadd(menu_p, "command",
+          label    = "Screen missing data...",
+          state    = activate_if_active_ds(),
+          command  = window_summary_missings)
+
+    tkadd(menu_p, "command",
           label    = "Glimpse: structure of dataset",
           # compound = "left",
           # image    = "::image::bs_locale",
           command  = command_glimpse)
-
-    tkadd(menu_p, "command",
-          label    = "Screen missing data...",
-          state    = activate_if_active_ds(),
-          command  = window_summary_missings)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_p, "separator")
