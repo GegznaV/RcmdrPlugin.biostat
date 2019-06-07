@@ -170,7 +170,9 @@ window_dataset_join <- function() {
             initialSelection = initial_selection
         )
 
-    tksee(ds_1_box$listbox, initial_selection)
+    if (!is.null(.ds)) {
+        tk_see(ds_1_box, .ds)
+    }
 
     ds_2_box <-
         variableListBox2(
