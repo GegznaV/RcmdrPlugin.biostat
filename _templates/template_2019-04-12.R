@@ -275,13 +275,16 @@ window_xxx <- function() {
 
     # Radiobuttons vertical
     into_outter_frame <- tkframe(upper_frame)
+
+
+    # TODO: [???] change this widget into bs_radiobuttons()
     Rcmdr::radioButtons(
         window  = into_outter_frame,
         name    = "into_",
         title   = gettext_bs("Convert into"),
         buttons = c("character", "nominal", "ordinal", "integer", "numeric", "logical"),
         values  = c("character", "nominal", "ordinal", "integer", "numeric", "logical"),
-        # initialValue = dialog_values$into,
+        # initialValue = initial$into,
         labels  = gettext_bs(
             c("Text (character)",
               "Nominal factors",
