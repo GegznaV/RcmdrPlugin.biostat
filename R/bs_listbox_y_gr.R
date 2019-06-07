@@ -6,10 +6,12 @@
 #' @export
 #' @examples
 #' \dontrun{\donttest{
+#'
 #' # Active dataset must be selected
 #' top <- tktoplevel()
 #' lb <- bs_listbox_y_gr(top)
 #' tkgrid(lb$frame)
+#'
 #' }}
 bs_listbox_y_gr <- function(
     parent = top,
