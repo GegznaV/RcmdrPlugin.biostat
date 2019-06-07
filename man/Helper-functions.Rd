@@ -2,10 +2,10 @@
 % Please edit documentation in R/bs_checkboxes.R, R/bs_entry.R,
 %   R/bs_listbox.R, R/bs_radiobuttons.R, R/bs_text.R, R/bs_tk_buttonset.R,
 %   R/bs_widget_modify_names.R, R/deprecated__bs_check_boxes.R,
-%   R/deprecated__bs_tk_textbox.R, R/deprecated__radiobuttons_horizintal.R,
-%   R/generic_functions.R, R/helper-functions.R, R/set_biostat_mode.R,
-%   R/tcltk__bs_combobox.R, R/tcltk__ok_cancel_help__macro.R,
-%   R/tcltk__variableListBox2.R, R/tcltk_commands.R
+%   R/deprecated__radiobuttons_horizintal.R, R/generic_functions.R,
+%   R/helper-functions.R, R/set_biostat_mode.R, R/tcltk__bs_combobox.R,
+%   R/tcltk__ok_cancel_help__macro.R, R/tcltk__variableListBox2.R,
+%   R/tcltk_commands.R
 \name{get_values.bs_checkboxes}
 \alias{get_values.bs_checkboxes}
 \alias{set_values.bs_checkboxes}
@@ -54,11 +54,6 @@
 \alias{tk_get_state.bs_tk_buttonset}
 \alias{tk_widget_modify_names}
 \alias{bs_check_boxes}
-\alias{bs_tk_textbox}
-\alias{set_values.bs_tk_textbox}
-\alias{values<-.bs_tk_textbox}
-\alias{tclvalue<-.bs_tk_textbox}
-\alias{get_values.bs_tk_textbox}
 \alias{radioButtons_horizontal}
 \alias{get_size}
 \alias{get_values}
@@ -287,25 +282,6 @@ bs_check_boxes(window = top, frame = stop("frame not supplied"),
   boxes = stop("boxes not supplied"), initialValues = NULL,
   labels = stop("labels not supplied"), title = NULL, ttk = FALSE,
   commands = list())
-
-bs_tk_textbox(parent = top, width = "28", value = "", label = "",
-  label_position = c("left", "above", "right", "none"),
-  label_color = getRcmdr("title.color"), padx = 0, pady = 0,
-  sticky = "w", main_frame = tkframe(parent),
-  text_frame = tkframe(main_frame), label_frame = tkframe(main_frame),
-  tip = "", on_click = function() { }, on_double_click = function() {
-  }, on_triple_click = function() { }, on_release = function() { },
-  on_click_3 = function() { }, on_double_click_3 = function() { },
-  on_triple_click_3 = function() { }, on_release_3 = function() { },
-  ...)
-
-\method{set_values}{bs_tk_textbox}(obj, values, ..., add = FALSE)
-
-\method{values}{bs_tk_textbox}(x) <- value
-
-\method{tclvalue}{bs_tk_textbox}(x) <- value
-
-\method{get_values}{bs_tk_textbox}(obj, ...)
 
 radioButtons_horizontal(window = top, name = stop("name not supplied"),
   buttons = stop("buttons not supplied"), values = NULL,

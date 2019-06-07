@@ -194,7 +194,7 @@ window_rows_rm_duplicated <- function() {
         str_trunc(50, ellipsis = "") %>%
         unique_obj_names()
 
-    name_box <- bs_tk_textbox(
+    name_box <- bs_entry(
         left_frame,
         width = 32,
         value = init_name,
