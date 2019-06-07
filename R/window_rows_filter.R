@@ -25,7 +25,7 @@ window_rows_filter <- function(new_dsname = NULL,
 
     # Functions --------------------------------------------------------------
     onDoubleClick_variable <- function() {
-        var <- trim.blanks(getSelection(y_var_box))
+        var <- trim.blanks(get_selection(y_var_box))
 
         word <- str_glue('\\[{gettext_bs("factor")}\\]')
 
@@ -33,7 +33,7 @@ window_rows_filter <- function(new_dsname = NULL,
             var <- trim.blanks(sub(word, "", var))
         tkfocus(conditions_field)
 
-        conds <- trim.blanks(tclvalue(conditions_variable))
+        conds <- tclvalue_chr(conditions_variable)
         tclvalue(conditions_variable) <-
             if (conds == "") {
                 var
@@ -47,8 +47,9 @@ window_rows_filter <- function(new_dsname = NULL,
     }
 
     # Dialog -----------------------------------------------------------------
-    initializeDialog(
-        title = gettext_bs("Filter: Create a Subset of Rows That Match Conditions"))
+    win_title <- gettext_bs("Filter: Create a Subset of Rows That Match Conditions")
+    initializeDialog(title = win_title)
+    tk_title(top, win_title)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
@@ -60,12 +61,12 @@ window_rows_filter <- function(new_dsname = NULL,
         ))
 
     y_var_box <-
-        variableListBox2(
-            upper_frame,
+        bs_listbox(
+            parent = upper_frame,
             title = gettext_bs("Current variables \n(double-click to add to conditions)"),
-            variableList = variable_labels,
-            listHeight = 8,
-            onDoubleClick_fun = onDoubleClick_variable
+            values = variable_labels,
+            height = 8,
+            on_double_click = onDoubleClick_variable
         )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -174,14 +175,6 @@ window_rows_filter <- function(new_dsname = NULL,
                    reset = "window_rows_filter"
                    # , apply = "window_rows_filter"
     )
-    # Title ------------------------------------------------------------------
-    fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(bs_label(
-        top,
-        text = gettext_bs("Filter: create a subset of rows that match conditions"),
-        font = tkfont.create(weight = "bold", size = 9),
-        fg = fg_col),
-        pady = c(5, 9))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(upper_frame, sticky = "nw")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
