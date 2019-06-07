@@ -19,7 +19,7 @@ menu	bs19_active_ds_menu	bs19_data_menu	""	""	""	""
 item	bs19_data_menu	cascade	"Active dataset"	bs19_active_ds_menu	"activeDataSetP()"	""
 
 item	bs19_active_ds_menu	command	"View active dataset"	command_dataset_view	"activeDataSetP()"	""
-item	bs19_active_ds_menu	command	"Change class of active dataset"	window_dataset_class	"activeDataSetP()"	""
+item	bs19_active_ds_menu	command	"Class of active dataset..."	window_dataset_class	"activeDataSetP()"	""
 
 
 # --- + > Print ---------------------------------------------------
@@ -165,7 +165,7 @@ menu	bs19_several_ds_menu	bs19_data_menu	""	""	""	""
 item	bs19_data_menu	cascade	"Several datasets"	bs19_several_ds_menu	""	""
 
 # item	bs19_several_ds_menu	separator	""	""	""	""
-item	bs19_several_ds_menu	command	"Join two datasets by matching rows..."	window_dataset_join	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	bs19_several_ds_menu	command	"Join two datasets by matching row ID..."	window_dataset_join	"dataSetsP(2)"	"packageAvailable('dplyr')"
 item	bs19_several_ds_menu	command	"Bind rows of several datasets..."	window_dataset_bind_rows	"dataSetsP(2)"	"packageAvailable('dplyr')"
 item	bs19_several_ds_menu	command	"Bind columns of several datasets..."	window_dataset_bind_cols	"dataSetsP(2)"	"packageAvailable('dplyr')"
 
@@ -174,7 +174,8 @@ item	bs19_several_ds_menu	command	"Bind columns of several datasets..."	window_d
 menu	bs19_objects_menu	bs19_data_menu	""	""	""	""
 item	bs19_data_menu	cascade	"Workspace"	bs19_objects_menu	"activeDataSetP()"	""
 
-item	bs19_objects_menu	command	"List objects in R workspace"	command_list_objects	""	""
+item	bs19_objects_menu	command	"List objects loaded in R workspace"	command_list_objects	""	""
+item	bs19_objects_menu	command	"Manage objects and datasets..."	window_data_obj_manage	""	""
 item	bs19_objects_menu	command	"Create copy of object (dataset)..."	window_data_obj_copy	""	""
 item	bs19_objects_menu	command	"Delete object (dataset)..."	window_data_obj_delete	""	""
 item	bs19_objects_menu	command	"Rename object (dataset)..."	window_data_obj_rename	""	""
@@ -258,9 +259,9 @@ item	biostat19_menu	cascade	"Summaries"	bs19_summary_menu	""	""
 # ---- Overview / Structure --------------------------------------------------------------
 
 item	bs19_summary_menu	command	"Number of rows and columns"	command_dataset_dim	"activeDataSetP()"	""
-item	bs19_summary_menu	command	"Variable types & size of dataset"	summary_var_types	"activeDataSetP()"	"" # & dataset size
-item	bs19_summary_menu	command	"Screen missing data..."	window_summary_missings	"activeDataSetP()"	"packageAvailable('DescTools')"
+item	bs19_summary_menu	command	"Variable type summary"	summary_var_types	"activeDataSetP()"	"" # & dataset size
 item	bs19_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
+item	bs19_summary_menu	command	"Screen missing data..."	window_summary_missings	"activeDataSetP()"	"packageAvailable('DescTools')"
 
 
 
