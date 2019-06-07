@@ -9,8 +9,8 @@
 \alias{get_values.tk2listbox}
 \alias{set_values_listbox}
 \alias{set_values.listbox}
-\alias{set_values.listbox_with_filter}
 \alias{set_values.tk2listbox}
+\alias{set_values.listbox_with_filter}
 \alias{get_selection_ind_listbox}
 \alias{get_selection_listbox}
 \alias{get_selection.listbox}
@@ -66,9 +66,9 @@ set_values_listbox(listbox, values, clear = TRUE)
 
 \method{set_values}{listbox}(obj, values, ..., clear = TRUE)
 
-\method{set_values}{listbox_with_filter}(obj, values, ..., clear = TRUE)
-
 \method{set_values}{tk2listbox}(obj, values, ..., clear = TRUE)
+
+\method{set_values}{listbox_with_filter}(obj, values, ..., clear = TRUE)
 
 get_selection_ind_listbox(listbox)
 
@@ -191,7 +191,7 @@ Indicates scrollbar position.}
 
 \item{subtitle_sticky}{(combination of "n", "e", "w", "s" or "")}
 
-\item{...}{\enumerate{
+\item{...}{Additional arguments.  \enumerate{
    \item For \code{bs_listbox()}: arguments passed to function \code{\link[tcltk2]{tk2listbox}()}.
    \item For other functions: arguments passed to further methods.
 }}
@@ -222,6 +222,19 @@ Indicates scrollbar position.}
 }
 \description{
 A list box with constant number of rows.
+}
+\examples{
+
+\dontrun{\donttest{
+
+# Active dataset must be selected
+top <- tktoplevel()
+lb1 <- bs_listbox(top, values = LETTERS, value = "K")
+lb2 <- bs_listbox(top, values = LETTERS, selection = c(12, 15), selectmode = "multiple")
+tkgrid(lb1$frame, lb2$frame)
+
+}}
+
 }
 \seealso{
 \code{\link[tcltk2]{tk2listbox}()}, \cr
