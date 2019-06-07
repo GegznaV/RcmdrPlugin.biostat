@@ -189,7 +189,7 @@ window_xxx <- function() {
     upper_frame <- tkframe(top)
 
     # Text entry box
-    name_entry <- bs_tk_textbox(
+    name_entry <- bs_entry(
         parent = upper_frame,
         width = 28,
         value = unique_colnames("row_number"),
