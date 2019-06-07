@@ -2,23 +2,22 @@
 % Please edit documentation in R/menu-data.R, R/menu-models.R,
 %   R/menu-plots.R, R/menu-rows.R, R/menu-settings.R, R/menu-summary.R,
 %   R/menu-variables.R, R/online_tools.R, R/rcmdr__active_dataset.R,
-%   R/tcltk__refresh_dataset_window_0.R, R/window_data_obj_copy.R,
-%   R/window_data_obj_delete.R, R/window_data_obj_manage.R,
-%   R/window_data_obj_rename.R, R/window_dataset_bind_cols.R,
-%   R/window_dataset_bind_rows.R, R/window_dataset_class.R,
-%   R/window_dataset_join.R, R/window_dataset_print_as_md.R,
-%   R/window_dataset_select.R, R/window_export_fig_to_pptx.R,
-%   R/window_export_to_clipboard.R, R/window_export_to_excel.R,
-%   R/window_export_to_rdata.R, R/window_export_to_rds.R,
-%   R/window_export_to_text.R, R/window_fct_drop_lvls.R,
-%   R/window_fct_lvls_reorder_manual.R, R/window_import_from_excel.R,
-%   R/window_import_from_pkg.R, R/window_import_from_rds.R,
-%   R/window_import_from_text.R, R/window_import_rdata.R,
-%   R/window_locale_set.R, R/window_model_select.R, R/window_rows_arrange.R,
-%   R/window_rows_col_to_rownames.R, R/window_rows_filter.R,
-%   R/window_rows_rm_duplicated.R, R/window_rows_rm_with_na.R,
-%   R/window_rows_rowid_to_col.R, R/window_rows_rownames_to_col.R,
-%   R/window_rows_slice.R, R/window_summary_count.R, R/window_summary_desc.R,
+%   R/tcltk__refresh_dataset_window_0.R, R/window_data_obj_manage.R,
+%   R/window_dataset_bind_cols.R, R/window_dataset_bind_rows.R,
+%   R/window_dataset_class.R, R/window_dataset_join.R,
+%   R/window_dataset_print_as_md.R, R/window_dataset_select.R,
+%   R/window_export_fig_to_pptx.R, R/window_export_to_clipboard.R,
+%   R/window_export_to_excel.R, R/window_export_to_rdata.R,
+%   R/window_export_to_rds.R, R/window_export_to_text.R,
+%   R/window_fct_drop_lvls.R, R/window_fct_lvls_reorder_manual.R,
+%   R/window_import_from_excel.R, R/window_import_from_pkg.R,
+%   R/window_import_from_rds.R, R/window_import_from_text.R,
+%   R/window_import_rdata.R, R/window_locale_set.R, R/window_model_select.R,
+%   R/window_rows_arrange.R, R/window_rows_col_to_rownames.R,
+%   R/window_rows_filter.R, R/window_rows_rm_duplicated.R,
+%   R/window_rows_rm_with_na.R, R/window_rows_rowid_to_col.R,
+%   R/window_rows_rownames_to_col.R, R/window_rows_slice.R,
+%   R/window_summary_count.R, R/window_summary_desc.R,
 %   R/window_summary_missings.R, R/window_summary_variables.R,
 %   R/window_test_normality.R, R/window_variable_gather.R,
 %   R/window_variable_mutate.R, R/window_variable_recode.R,
@@ -120,10 +119,7 @@
 \alias{active_dataset}
 \alias{refresh_dataset_window_0}
 \alias{configure_tags}
-\alias{window_data_obj_copy}
-\alias{window_data_obj_delete}
 \alias{window_data_obj_manage}
-\alias{window_data_obj_rename}
 \alias{window_dataset_bind_cols}
 \alias{window_dataset_bind_rows}
 \alias{window_dataset_class}
@@ -369,13 +365,7 @@ refresh_dataset_window_0(widget, ds_contents, preview_type,
 
 configure_tags(text_widget)
 
-window_data_obj_copy()
-
-window_data_obj_delete()
-
 window_data_obj_manage()
-
-window_data_obj_rename()
 
 window_dataset_bind_cols()
 

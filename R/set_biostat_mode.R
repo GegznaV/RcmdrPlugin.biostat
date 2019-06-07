@@ -1294,24 +1294,6 @@ bs_mode_menu__datasets <- function() {
           image    = "::image::bs_workspace",
           command  = window_data_obj_manage)
 
-    # tkadd(menu_ws, "command",
-    #       label    = "Create copy of object (dataset)...",
-    #       compound = "left",
-    #       image    = "::image::bs_copy",
-    #       command  = window_data_obj_copy)
-    #
-    # tkadd(menu_ws, "command",
-    #       label    = "Delete object (dataset)...",
-    #       compound = "left",
-    #       image    = "::image::bs_delete",
-    #       command  = window_data_obj_delete)
-    #
-    # tkadd(menu_ws, "command",
-    #       label    = "Rename object (dataset)...",
-    #       compound = "left",
-    #       image    = "::image::bs_rename",
-    #       command  = window_data_obj_rename)
-
     tkadd(menu_p, "command",
           label    = "Edit active dataset...",
           compound = "left",
