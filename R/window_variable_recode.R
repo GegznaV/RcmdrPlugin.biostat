@@ -240,15 +240,15 @@ window_variable_recode0 <- function() {
             # make_factor     = 1,
             recode_into       = "nominal",
             variables         = NULL,
-            name              = unique_colnames("recoded_variable"),
+            name              = unique_colnames("recoded"),
             recode_directives = "",
             selected_variable = "{none}"
         )
 
-    dialog_values <- getDialog("window_variable_recode0", defaults)
+    initial <- getDialog("window_variable_recode0", defaults)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     selected_var_frame <- tkframe(top)
-    selected_variable  <- tclVar(dialog_values$selected_variable)
+    selected_variable  <- tclVar(initial$selected_variable)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     insert_template <- function(template = "1") {
@@ -422,7 +422,7 @@ window_variable_recode0 <- function() {
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (class(result)[1] != "try-error") {
-            closeDialog()
+            # closeDialog()
             logger(style_cmd(command))
             active_dataset(.ds, flushModel = FALSE, flushDialogMemory = FALSE)
 
@@ -462,7 +462,7 @@ window_variable_recode0 <- function() {
             on_triple_click_3 = insert_template_2a,
             # selectmode = "multiple",
             title = gettext_bs("Variable to recode \n(double-click to pick one)"),
-            value = dialog_values$variables
+            value = initial$variables
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     recodesFrame <- tkframe(f1)
@@ -498,7 +498,7 @@ window_variable_recode0 <- function() {
         yscrollcommand = function(...) tkset(recodesYscroll, ...)
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkinsert(recodes, "1.0", dialog_values$recode_directives)
+    tkinsert(recodes, "1.0", initial$recode_directives)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     f1_but_set_2 <- tkframe(f1)
@@ -579,7 +579,7 @@ window_variable_recode0 <- function() {
     lower_options_frame <- tkframe(f2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     variablesFrame  <- tkframe(lower_options_frame)
-    newVariableName <- tclVar(dialog_values$name)
+    newVariableName <- tclVar(initial$name)
 
     newVariable <-
         ttkentry(variablesFrame,
@@ -596,7 +596,7 @@ window_variable_recode0 <- function() {
         # title.color = getRcmdr("title.color"),
         buttons       = c("nominal", "ordinal", "other"),
         values        = c("nominal", "ordinal", "other"),
-        initialValue  = dialog_values$recode_into,
+        initialValue  = initial$recode_into,
         labels        = gettext_bs(c("Nominal factor",
                                      "Ordinal factor",
                                      "Do not convert")))
@@ -616,8 +616,24 @@ window_variable_recode0 <- function() {
 
     ok_cancel_help(
         helpSubject = "recode_factor", helpPackage = "dplyr",
+        close_on_ok = TRUE,
         reset = "window_variable_recode0()",
-        apply = "window_variable_recode0()")
+        apply = "window_variable_recode0()",
+        after_apply_success_fun = function() {
+            new_name <- tclvalue_chr(newVariableName)
+
+            set_values(variablesBox, variables_all())
+            tk_see(variablesBox, new_name)
+            set_selection(variablesBox, new_name)
+
+            tclvalue(selected_variable) <- new_name
+
+            tkdelete(recodes, "1.0", "end")
+
+            tclvalue(newVariableName) <-
+                unique_colnames(new_name, all_numbered = TRUE)
+        })
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     tkgrid(f1, sticky = "nw")
 
