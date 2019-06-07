@@ -2,9 +2,9 @@
 % Please edit documentation in R/bs_checkboxes.R, R/bs_entry.R,
 %   R/bs_listbox.R, R/bs_radiobuttons.R, R/bs_text.R, R/bs_tk_buttonset.R,
 %   R/bs_widget_modify_names.R, R/deprecated__bs_check_boxes.R,
-%   R/deprecated__radiobuttons_horizintal.R, R/deprecated__variableListBox2.R,
-%   R/generic_functions.R, R/helper-functions.R, R/set_biostat_mode.R,
-%   R/tcltk__bs_combobox.R, R/tcltk__ok_cancel_help__macro.R, R/tcltk_commands.R
+%   R/deprecated__radiobuttons_horizintal.R, R/generic_functions.R,
+%   R/helper-functions.R, R/set_biostat_mode.R, R/tcltk__bs_combobox.R,
+%   R/tcltk__ok_cancel_help__macro.R, R/tcltk_commands.R
 \name{get_values.bs_checkboxes}
 \alias{get_values.bs_checkboxes}
 \alias{set_values.bs_checkboxes}
@@ -54,7 +54,6 @@
 \alias{tk_widget_modify_names}
 \alias{bs_check_boxes}
 \alias{radioButtons_horizontal}
-\alias{variableListBox2}
 \alias{get_size}
 \alias{get_values}
 \alias{set_values}
@@ -287,17 +286,6 @@ radioButtons_horizontal(window = top, name = stop("name not supplied"),
   initialValue = ..values[1], labels = stop("labels not supplied"),
   title = NULL, title.color = NULL, right.buttons = FALSE,
   command = function() { }, sticky_title = "w", sticky_buttons = "e")
-
-variableListBox2(parentWindow, variableList = Variables(),
-  bg = "white", selectmode = "single", export = "FALSE",
-  initialSelection = NULL,
-  listHeight = getRcmdr("variable.list.height"),
-  listWidth = getRcmdr("variable.list.width"), onClick_fun = function()
-  { }, onDoubleClick_fun = function() { },
-  onTripleClick_fun = function() { }, onRelease_fun = function() { },
-  onClick3_fun = function() { }, onDoubleClick3_fun = function() { },
-  onTripleClick3_fun = function() { }, onRelease3_fun = function() { },
-  title)
 
 get_size(obj, ...)
 
