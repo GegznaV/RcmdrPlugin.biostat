@@ -14,8 +14,8 @@ tk_widget_modify_names <- function(
     init_val_prefix   = "",
     init_val_suffix   = "",
     width             = 37,
-    cmd_radiobuttons  = function(){},
-    cmd_checkbox      = function(){}
+    cmd_radiobuttons  = do_nothing,
+    cmd_checkbox      = do_nothing
 ) {
     fg_col <- fg_col <- Rcmdr::getRcmdr("title.color")
     init_val_radiobuttons <- match.arg(init_val_radiobuttons)
@@ -38,12 +38,13 @@ tk_widget_modify_names <- function(
 
     make_unique_outer_frame <- tkframe(var_name_opts_frame)
 
-    bs_check_boxes(make_unique_outer_frame,
-                   frame         = "make_unique_frame",
-                   boxes         = c("make_unique"),
-                   commands      = list("make_unique" = cmd_checkbox),
-                   initialValues = init_val_checkbox,
-                   labels        = gettext_bs(c("Make unique"))
+    bs_check_boxes(
+        make_unique_outer_frame,
+        frame         = "make_unique_frame",
+        boxes         = c("make_unique"),
+        commands      = list("make_unique" = cmd_checkbox),
+        initialValues = init_val_checkbox,
+        labels        = gettext_bs(c("Make unique"))
     )
 
     lower_frame <- tkframe(main_frame)

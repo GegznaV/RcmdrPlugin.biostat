@@ -256,15 +256,17 @@ window_xxx <- function() {
 
 
 
+    # TODO: [???] change this widget into bs_checkboxes()
     # Check box
-    # bs_check_boxes(upper_frame,
-    #                frame         = "check_locale_frame",
-    #                boxes         = c("check_locale_", "hide_output_"),
-    #                # commands      = list("check_locale_" = cmd_checkbox),
-    #                initialValues = c("1", "0"),
-    #                labels        = gettext_bs(c(
-    #                    "Check if the locale can be used on this computer",
-    #                    "Hide output"))
+    # bs_check_boxes(
+    #     upper_frame,
+    #     frame         = "check_locale_frame",
+    #     boxes         = c("check_locale_", "hide_output_"),
+    #     # commands      = list("check_locale_" = cmd_checkbox),
+    #     initialValues = c("1", "0"),
+    #     labels        = gettext_bs(c(
+    #         "Check if the locale can be used on this computer",
+    #         "Hide output"))
     # )
 
     #     bs_checkboxes(

@@ -83,18 +83,20 @@ window_... <- function() {
     model <- ttkentry(model_boxlFrame, width = "20", textvariable = modelName)
 
 
-    bs_check_boxes(model_boxlFrame,
-                   # ttk = TRUE,
-                   frame = "keep_model_Frame",
-                   # title = "Plot options",
-                   boxes = c("as_df", "keep_model"),
-                   initialValues = c(initial$as_df,
-                                     initial$keep_model),
-                   labels = gettext_bs(
-                       c("Summary as data frame", "Keep summary")
-                   ),
-                   commands = list("as_df" = function(){},
-                                   "keep_model" = function(){})
+    bs_check_boxes(
+        model_boxlFrame,
+        # ttk = TRUE,
+        frame = "keep_model_Frame",
+        # title = "Plot options",
+        boxes = c("as_df", "keep_model"),
+        initialValues = c(initial$as_df,
+                          initial$keep_model),
+        labels = gettext_bs(
+            c("Summary as data frame", "Keep summary")
+        ),
+        commands = list(
+            "as_df" = do_nothing,
+            "keep_model" = do_nothing)
     )
 
     tkgrid(keep_model_Frame, sticky = "ew")

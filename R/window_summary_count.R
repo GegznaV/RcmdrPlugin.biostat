@@ -172,24 +172,27 @@ window_summary_count <- function() {
     # Choose model name ------------------------------------------------------
     main_frame_b <- tkframe(main_frame)
 
-    initial_model_name      <- unique_obj_names(active_dataset(),
-                                                suffix       = "_freq_table",
-                                                all_numbered = TRUE)
-    model_name_var          <- tclVar(initial_model_name)
-    model_name_box          <- ttkentry(main_frame_b,
-                                        width        = "20",
-                                        textvariable = model_name_var)
+    initial_model_name <- unique_obj_names(
+        active_dataset(),
+        suffix       = "_freq_table",
+        all_numbered = TRUE)
+
+    model_name_var     <- tclVar(initial_model_name)
+    model_name_box     <- ttkentry(main_frame_b,
+                                   width        = "20",
+                                   textvariable = model_name_var)
 
     keep_model_frame <- tkframe(main_frame_b)
-    bs_check_boxes(keep_model_frame,
-                   frame = "keep_model_inner_frame",
-                   boxes = c("keep_model"),
-                   initialValues = c(
-                       initial$keep_model),
-                   labels = gettext_bs(
-                       c("Keep summary in R memory")
-                   ),
-                   commands = list("keep_model"  = function(){})
+    bs_check_boxes(
+        keep_model_frame,
+        frame = "keep_model_inner_frame",
+        boxes = c("keep_model"),
+        initialValues = c(
+            initial$keep_model),
+        labels = gettext_bs(
+            c("Keep summary in R memory")
+        ),
+        commands = list("keep_model"  = function(){})
     )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
