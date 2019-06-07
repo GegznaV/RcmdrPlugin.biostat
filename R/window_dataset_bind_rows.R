@@ -109,15 +109,16 @@ window_dataset_bind_rows <- function() {
     ds_3_id_entry <- ttkentry(top, width = "21", textvariable = ds_3_id_var)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     radiobuttons_frame <- tkframe(top)
-    radioButtons_horizontal(radiobuttons_frame,
-                            name = "which_id",
-                            buttons = c("id_names", "id_numeric","id_none"),
-                            values  = c("id_names", "id_numeric","id_none"),
-                            labels  =  gettext_bs(c("Names  ",
-                                                    "Numeric (1, 2, ...) ",
-                                                    "Do not use ID")),
-                            command = choose_id_fun
-                            # initialValue = dialog_values$which_names,
+    radioButtons_horizontal(
+        radiobuttons_frame,
+        name = "which_id",
+        buttons = c("id_names", "id_numeric","id_none"),
+        values  = c("id_names", "id_numeric","id_none"),
+        labels  =  gettext_bs(c("Names  ",
+                                "Numeric (1, 2, ...) ",
+                                "Do not use ID")),
+        command = choose_id_fun
+        # initialValue = initial$which_names,
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     dataSets <- listDataSets()
