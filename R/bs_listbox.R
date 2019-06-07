@@ -10,13 +10,83 @@
 
 # Listbox functions ==========================================================
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Helper-functions
-#' @export
-#' @keywords internal
-# Variable list box with constant length (numer of rows)
-# onClick_fun - function on mouse click
-# onRelease_fun - function on mouse release
+
+# Variable
+# on_click - function on mouse click
+# on_release - function on mouse release
 # bind_row_swap - if TRUE, Ctrl/Alt + Up/Down move rows in the listbox
+# values
+
+#' List box widget (TCL/TK)
+#'
+#' A list box with constant number of rows.
+#'
+#' @param parent Parent TCL/TK frame.
+#' @param values (character) Vector of possible values.
+#' @param value (character or NULL) Values that should be initially selected.
+#' @param selection (integer) Numeric indices of initially selected lines.
+#'                  Can be used instead of \code{value}.
+#' @param selectmode ("single", "extended", "browse", "multiple") Selection mode.
+#' @param title (string) Title.
+#' @param subtitle (string) Subtitle.
+#' @param tip (string) Message that is displayed on muse hover.
+#' @param height (integer) Height of list box in lines.
+#' @param width (one or two integers) Minimum and maximum width of list box.
+#' @param enabled (logical) If \code{TRUE}, widget is enabled by default.
+#' @param scroll ("both", "x", "y", "none") Do we add scrollbars?
+#'               Indicates scrollbar position.
+#' @param autoscroll ("x", "y", "both", "none")
+#'                  Do we automatically hide scrollbars if not needed?
+#'                  Indicates scrollbar position.
+#' @param use_filter (logical) Should list box values filter box be displayed.
+#' @param filter_label (string) Label for filter entry box.
+#' @param sticky (combination of "n", "e", "w", "s" or "").
+#' @param on_select Function that is activated on value selection.
+#' @param on_click Function that is activated on single left-click.
+#' @param on_double_click  on double left-click.
+#' @param on_triple_click Function that is activated on triple left-click.
+#' @param on_release Function that is activated on release of left-click.
+#' @param on_click_3 Function that is activated on single right-click.
+#' @param on_double_click_3 Function that is activated on double right-click.
+#' @param on_triple_click_3 Function that is activated on triple right-click.
+#' @param on_release_3 Function that is activated on release of right-click.
+#' @param on_keyboard ("select", "scroll", "ignore") Action on keyboard letter click:
+#' \describe{
+#'     \item{"select"}{toggle selection of values that start with the pressed letter.
+#'     This letter binding is good for single-selection boxes, otherwise selection should not be toggled (see "scroll")}
+#'     \item{"scroll"}{toggle view of values that start with the pressed letter.
+#'      Do not toggle selection (i.e., do not select or deselect). }
+#'     \item{"ignore"}{Do not bind any action. Letter binding is good for read-only list boxes only.}
+#'}
+#' @param on_keyboard_fun Function that is activated on keyboard button press, if
+#'        \code{on_keyboard} is "select" or "scroll".
+#' @param bind_row_swap (Does not work yet!) if TRUE, Ctrl/Alt + Up/Down keys move rows in the list box
+#' @param title_sticky (combination of "n", "e", "w", "s" or "")
+#' @param subtitle_sticky (combination of "n", "e", "w", "s" or "")
+#' @param ... \enumerate{
+#'    \item For \code{bs_listbox()}: arguments passed to function \code{\link[tcltk2]{tk2listbox}()}.
+#'    \item For other functions: arguments passed to further methods.
+#' }
+#'
+#' @param obj Widget.
+#' @param listbox - List box widget.
+#' @param ind Index.
+#' @param sel Selection.
+#' @param vals Values.
+#' @param values Values.
+#' @param clear (logical) Should values be cleared?
+#' @param background (string) background color.
+#' @param move_to (string) Action:
+#' \itemize{
+#'    \item "top" - selected row is moved to the first row.
+#'    \item "-1"  - position is decreased by 1 row.
+#'    \item "+1"  - position inreased by 1row.
+#'    \item "end" - selected row is moved to the last row.
+#' }
+#'
+#' @seealso \code{\link[tcltk2]{tk2listbox}()}, \url{https://www.tcl.tk/man/tcl8.4/TkCmd/listbox.htm}
+#' @export
+
 
 bs_listbox <-
     function(parent,
@@ -78,8 +148,8 @@ bs_listbox <-
 
         width  <- min(max(width[1], 2 + nchar(values)), width[2]) # Set width
 
-        selection_code <- if(!is.null(selection)) "selection  = {selection}," else ""
-        value_code     <- if(!is.null(value))     "value      = {value},"     else ""
+        selection_code <- if (!is.null(selection)) "selection  = {selection}," else ""
+        value_code     <- if (!is.null(value))     "value      = {value},"     else ""
 
         listbox <-  str_glue_eval("
         tk2listbox(
@@ -119,9 +189,6 @@ bs_listbox <-
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (on_keyboard %in% c("select", "scroll")) {
             onLetter <- function(letter) {
-                # Letter binding is good for read-only listboxes only
-                #         # Letter binding is good for single-selection comboboxes:
-                #        otherwise selecton should not be toggled.
 
                 get_first_letter <- function(str) {
                     tolower(substr(str, 1, 1))
@@ -312,6 +379,8 @@ get_j <- function(k, i, n) {
     j
 }
 
+#' @rdname bs_listbox
+#' @export
 
 ## listbox - listbox widget
 # move_to - action:
@@ -322,6 +391,7 @@ get_j <- function(k, i, n) {
 #
 # i, j - row numbers
 # swap_two_rows_in_listbox
+
 move_selected_row_in_listbox <- function(listbox, move_to = "") {
 
     if (inherits(listbox,  "listbox")) {
@@ -357,6 +427,7 @@ move_selected_row_in_listbox <- function(listbox, move_to = "") {
     tkselection.set(listbox, j - 1)
 }
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 bind_row_swap_listbox <- function(listbox, ...) {
     tkbind(listbox, "<Control-Up>",   function() {move_selected_row_in_listbox(listbox, "top")})
     tkbind(listbox, "<Alt-Up>",       function() {move_selected_row_in_listbox(listbox, "-1")})
@@ -364,20 +435,23 @@ bind_row_swap_listbox <- function(listbox, ...) {
     tkbind(listbox, "<Control-Down>", function() {move_selected_row_in_listbox(listbox, "end")})
 }
 
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname bs_listbox
+#' @export
 bind_row_swap.listbox <- function(obj, ...) {
     bind_row_swap_listbox(obj$listbox, ...)
 }
 
+#' @rdname bs_listbox
+#' @export
 bind_row_swap.tk2listbox <- function(obj, ...) {
     bind_row_swap_listbox(obj, ...)
 }
 
 
-
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 get_values_listbox <- function(listbox) {
     n <- tclvalue_int(tksize(listbox))
     vars <-
@@ -387,9 +461,9 @@ get_values_listbox <- function(listbox) {
     vars
 }
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 set_values_listbox <- function(listbox, values, clear = TRUE) {
     if (isTRUE(clear)) {
         tkdelete(listbox, 0, "end")
@@ -397,16 +471,16 @@ set_values_listbox <- function(listbox, values, clear = TRUE) {
     for (val in values)  tkinsert(listbox, "end", as.character(val))
 }
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 get_selection_ind_listbox <- function(listbox) {
     as.numeric(tkcurselection(listbox)) + 1
 }
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 # Get selected values
 get_selection_listbox <- function(listbox) {
     vals <- get_values_listbox(listbox)
@@ -414,9 +488,9 @@ get_selection_listbox <- function(listbox) {
     vals[inds]
 }
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 # Set selection
 # sel - either character values of indices
 set_selection_listbox <- function(listbox, sel, clear = TRUE) {
@@ -452,67 +526,67 @@ set_selection_listbox <- function(listbox, sel, clear = TRUE) {
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 get_size.listbox <- function(obj, ...) {
     tclvalue_int(tksize(obj$listbox))
 }
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 get_size.tkwin <- function(obj, ...) {
     tclvalue_int(tksize(obj))
 }
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 get_selection.listbox <- function(obj, ...) {
     get_selection_listbox(obj$listbox)
 }
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 get_selection_length.listbox <- function(obj, ...) {
     length(get_selection(obj))
 }
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 set_selection.listbox <- function(obj, sel, clear = TRUE, ...) {
     listbox <- obj$listbox
     set_selection_listbox(listbox, sel = sel, clear = clear, ...)
 }
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 add_selection.listbox <- function(obj, sel, ...) {
     listbox <- obj$listbox
     set_selection_listbox(listbox, sel = sel, clear = FALSE, ...)
 }
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 get_values.listbox <- function(obj, ...) {
     get_values_listbox(obj$listbox, ...)
 }
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 set_values.listbox <- function(obj, values, ..., clear = TRUE) {
     set_values_listbox(obj$listbox, values = values, ..., clear = clear)
 }
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 set_values.listbox_with_filter <- function(obj, values, ..., clear = TRUE) {
     # Set new set of possible values
     if (clear == TRUE) {
@@ -541,17 +615,17 @@ get_0_based_ind <- function(obj, ind) {
 }
 
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 set_yview.listbox <- function(obj, ind, ...) {
     ind <- get_0_based_ind(obj, ind)
     tkyview(obj$listbox, ind, ...)
 }
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 set_yview.tk2listbox <- function(obj, ind, ...) {
     ind <- get_0_based_ind(obj, ind)
     tkyview(obj, ind, ...)
@@ -559,19 +633,18 @@ set_yview.tk2listbox <- function(obj, ind, ...) {
 
 
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 # Ind must be either numeric or character.
 tk_see.listbox <- function(obj, ind, ...) {
     ind <- get_0_based_ind(obj, ind)
     tksee(obj$listbox, ind, ...)
 }
 
-
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 # Ind must be either numeric or character.
 tk_see.tk2listbox <- function(obj, ind, ...) {
     ind <- get_0_based_ind(obj, ind)
@@ -579,89 +652,90 @@ tk_see.tk2listbox <- function(obj, ind, ...) {
 }
 
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 tk_disable.listbox <- function(obj, ..., background = "grey95") {
     tk_disable(obj$listbox, background = background, ...)
 }
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 tk_normalize.listbox <- function(obj, ..., background = "white") {
     tk_normalize(obj$listbox, background = background, ...)
 }
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 tk_get_state.listbox <- function(obj, ...) {
     tk_get_state(obj$listbox, ...)
 }
 
 # ----------------------------------------------------------------------------
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 get_selection.tk2listbox <- function(obj, ...) {
     get_selection_listbox(obj)
 }
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 get_selection_length.tk2listbox <- function(obj, ...) {
     length(get_selection(obj))
 }
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 set_selection.tk2listbox <- function(obj, sel, clear = TRUE, ...) {
     set_selection_listbox(obj, sel = sel, clear = clear, ...)
 }
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 add_selection.tk2listbox <- function(obj, sel, ...) {
     set_selection_listbox(obj, sel = sel, clear = FALSE, ...)
 }
 
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 get_values.tk2listbox <- function(obj, vals, ...) {
     get_values_listbox(obj, ...)
 }
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 set_values.tk2listbox <- function(obj, values, ..., clear = TRUE) {
     set_values_listbox(obj, values = values, ..., clear = clear)
 }
 
-#' @rdname Helper-functions
+
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 tk_disable.tk2listbox <- function(obj, ..., background = "grey95") {
     tk_disable.default(obj, background = background, ...)
 }
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 tk_normalize.tk2listbox <- function(obj, ..., background = "white") {
     tk_normalize.default(obj, background = background, ...)
 }
 
-#' @rdname Helper-functions
+#' @rdname bs_listbox
 #' @export
-#' @keywords internal
+
 tk_get_state.tk2listbox <- function(obj, ...) {
     tk_get_state.default(obj, ...)
 }
