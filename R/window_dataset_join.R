@@ -6,8 +6,9 @@ window_dataset_join <- function() {
     dataSets <- listDataSets()
     .ds <- active_dataset_0()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_bs("Join Two Datasets"))
-    tk_title(top, text = gettext_bs("Join Two Datasets"), columnspan = 3)
+    win_title <- gettext_bs("Join Two Datasets")
+    initializeDialog(title = win_title)
+    tk_title(top, text = win_title, columnspan = 3)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Functions --------------------------------------------------------------
@@ -34,7 +35,7 @@ window_dataset_join <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     check_v2_v3 <- function() {
-        if (getSelection(v_x1) != "" && getSelection(v_y1) != "") {
+        if (get_selection(v_x1) != "" && get_selection(v_y1) != "") {
             # Enable
             tk_pair_control(v_x2, v_y2, "readonly")
             # tk_pair_control(v_x3, v_y3, "readonly")
@@ -46,9 +47,10 @@ window_dataset_join <- function() {
 
         }
     }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     check_v3 <- function() {
-        if (getSelection(v_x2) != "" && getSelection(v_y2) != "") {
+        if (get_selection(v_x2) != "" && get_selection(v_y2) != "") {
             # enable
             tk_pair_control(v_x3, v_y3, "readonly")
 
@@ -62,7 +64,7 @@ window_dataset_join <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_onRelease_ds_x <- function() {
         # On mouse relese
-        ds <- getSelection(ds_1_box)
+        ds <- get_selection(ds_1_box)
         # Names of variables plus blank:
         vars_in_ds <- c("", str_glue_eval("colnames({ds})", envir_eval = .GlobalEnv))
 
@@ -74,7 +76,7 @@ window_dataset_join <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_onRelease_ds_y <- function() {
         # On mouse relese
-        ds <- getSelection(ds_2_box)
+        ds <- get_selection(ds_2_box)
         # Names of variables plus blank:
         vars_in_ds <- c("", str_glue_eval("colnames({ds})", envir_eval = .GlobalEnv))
 
@@ -86,15 +88,17 @@ window_dataset_join <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     set_ds_name <- function() {
         join_type                  <- tclvalue(join_typeVariable)
-        ds_1                       <- getSelection(ds_1_box)
-        ds_2                       <- getSelection(ds_2_box)
+        ds_1                       <- get_selection(ds_1_box)
+        ds_2                       <- get_selection(ds_2_box)
         base_name                  <- paste(ds_1, ds_2, join_type, sep = "_")
         unique_base_name           <- unique_df_name(base_name, all_numbered = TRUE)
         tclvalue(ds_name_variable) <- unique_base_name
     }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Widgets ----------------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     ds_name_variable <- tclVar("joint_dataset")
     # ds_name_variable <- tclVar(unique_df_name("joint_dataset", all_numbered = TRUE))
     ds_name_Frame <- tkframe(top)
@@ -102,6 +106,7 @@ window_dataset_join <- function() {
                               textvariable = ds_name_variable)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     middle_Frame <- tkframe(top)
+
     Rcmdr::radioButtons(
         middle_Frame,
         "join_type",
@@ -127,22 +132,20 @@ window_dataset_join <- function() {
 
     var_names_Frame <- tkframe(top)
 
-    v_x1 <- inputComboBox(var_names_Frame, variableList = "",
-                          onSelect_fun = check_v2_v3)
+    v_x1 <- bs_combobox(var_names_Frame, values = "", on_select = check_v2_v3)
 
-    v_x2 <- inputComboBox(var_names_Frame, variableList = "", state = "disabled",
-                          onSelect_fun = check_v3)
+    v_x2 <- bs_combobox(var_names_Frame, values = "", state = "disabled",
+                        on_select = check_v3)
 
-    v_x3 <- inputComboBox(var_names_Frame, variableList = "", state = "disabled")
+    v_x3 <- bs_combobox(var_names_Frame, values = "", state = "disabled")
 
 
-    v_y1 <- inputComboBox(var_names_Frame, variableList = "",
-                          onSelect_fun = check_v2_v3)
+    v_y1 <- bs_combobox(var_names_Frame, values = "", on_select = check_v2_v3)
 
-    v_y2 <- inputComboBox(var_names_Frame, variableList = "", state = "disabled",
-                          onSelect_fun = check_v3)
+    v_y2 <- bs_combobox(var_names_Frame, values = "", state = "disabled",
+                        on_select = check_v3)
 
-    v_y3 <- inputComboBox(var_names_Frame, variableList = "", state = "disabled")
+    v_y3 <- bs_combobox(var_names_Frame, values = "", state = "disabled")
 
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -187,25 +190,24 @@ window_dataset_join <- function() {
     set_ds_name()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
     # commonVar <- tclVar("0")
     # commonFrame <- tkframe(top)
     # commonButton <- ttkcheckbutton(commonFrame, variable = commonVar)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
-        ds_name_x <- getSelection(ds_1_box)
-        ds_name_y <- getSelection(ds_2_box)
+        ds_name_x <- get_selection(ds_1_box)
+        ds_name_y <- get_selection(ds_2_box)
 
-        ds_name <- trim.blanks(tclvalue(ds_name_variable))
+        ds_name <- tclvalue_chr(ds_name_variable)
 
-        by_x_name_1_Value <- getSelection(v_x1)
-        by_y_name_1_Value <- getSelection(v_y1)
+        by_x_name_1_Value <- get_selection(v_x1)
+        by_y_name_1_Value <- get_selection(v_y1)
 
-        by_x_name_2_Value <- getSelection(v_x2)
-        by_y_name_2_Value <- getSelection(v_y2)
+        by_x_name_2_Value <- get_selection(v_x2)
+        by_y_name_2_Value <- get_selection(v_y2)
 
-        by_x_name_3_Value <- getSelection(v_x3)
-        by_y_name_3_Value <- getSelection(v_y3)
+        by_x_name_3_Value <- get_selection(v_x3)
+        by_y_name_3_Value <- get_selection(v_y3)
 
         join_type <- tclvalue(join_typeVariable)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -330,7 +332,6 @@ window_dataset_join <- function() {
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Layout -----------------------------------------------------------------
-    OKCancelHelp(helpSubject = "join", helpPackage = "dplyr")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(middle_Frame, sticky = "sw", columnspan = 3)
 
@@ -378,6 +379,8 @@ window_dataset_join <- function() {
 
     tkgrid(ds_name_Frame, pady = c(0, 5), sticky = "sw", columnspan = 3)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    ok_cancel_help(helpSubject = "join", helpPackage = "dplyr")
 
     tkgrid(buttonsFrame, sticky = "ew", columnspan = 3, pady = c(5, 0))
     dialogSuffix()
