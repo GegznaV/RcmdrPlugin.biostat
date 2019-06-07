@@ -28,16 +28,16 @@ window_summary_inspect <- function() {
 #' @export
 #' @keywords internal
 command_dataset_dim <- function() {
-  command_dataset_dim_0(.ds = active_dataset_0())
+    command_dataset_dim_0(.ds = active_dataset_0())
 }
 
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 command_dataset_dim_0 <- function(.ds) {
-  doItAndPrint(str_glue(
-    "## Number of rows and columns\n",
-    "dim({.ds})"))
+    doItAndPrint(str_glue(
+        "## Number of rows and columns\n",
+        "dim({.ds})"))
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -82,7 +82,7 @@ window_summary_desc_all <- function() {
 #' @keywords internal
 summary_head_tail <- function() {
     .ds <- active_dataset_0()
-     ds <- eval_text(.ds, envir = .GlobalEnv)
+    ds <- eval_text(.ds, envir = .GlobalEnv)
 
     Library("tidyverse")
     Library("data.table")
@@ -121,19 +121,25 @@ summary_var_types_0 <- function(.ds) {
     Library("inspectdf")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Each plot in a separate window
+    if (is_plot_in_separate_window()) {open_new_plots_window()}
+    doItAndPrint(str_glue(
+        "## Variable sizes in memory \n",
+        "{.ds} %>% inspect_mem() %>% show_plot()"
+    ))
+
+    if (is_plot_in_separate_window()) {open_new_plots_window()}
+    doItAndPrint(str_glue(
+        "## Plot of variable type frequency \n",
+        "{.ds} %>% inspect_types() %>% show_plot()"
+    ))
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     doItAndPrint(str_glue(
         "## Variable type summary and size \n",
         "## of dataset '{.ds}'\n",
         "summary(skimr::skim({.ds}))"
     ))
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Each plot in a separate window
-    if (is_plot_in_separate_window()) {open_new_plots_window()}
-    doItAndPrint(str_glue("{.ds} %>% inspect_mem() %>% show_plot()"))
-
-    if (is_plot_in_separate_window()) {open_new_plots_window()}
-    doItAndPrint(str_glue("{.ds} %>% inspect_types() %>% show_plot()"))
 
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -145,7 +151,7 @@ summary_skim <- function(.ds) {
     Library("tidyverse")
     Library("skimr")
 
-  if ((utils::packageVersion("skimr") < "2.0")) {
+    if ((utils::packageVersion("skimr") < "2.0")) {
 
         doItAndPrint(
             str_c(
