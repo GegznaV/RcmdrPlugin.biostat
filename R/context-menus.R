@@ -218,7 +218,6 @@ right_click_menu_text <- function(tcl_widget, undo = TRUE, menu_rm = FALSE) {
         tkpopup(contextMenu,
                 tkwinfo("pointerx", tcl_widget),
                 tkwinfo("pointery", tcl_widget))
-
     }
 
     tkbind(tcl_widget, "<ButtonPress-3>", crete_context_menu)
