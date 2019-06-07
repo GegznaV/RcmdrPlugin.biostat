@@ -159,12 +159,7 @@ window_dataset_join <- function() {
             on_select = function() {
                 set_ds_name()
                 cmd_on_release_ds_x()
-            }
-        )
-
-    if (!is.null(.ds)) {
-        tk_see(ds_1_box, .ds)
-    }
+            })
 
     ds_2_box <-
         bs_listbox(

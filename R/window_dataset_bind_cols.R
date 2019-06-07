@@ -40,6 +40,7 @@ window_dataset_bind_cols <- function() {
     .ds      <- active_dataset_0()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
+
     ds_1_box <-
         bs_listbox(
             parent    = upper_frame,
@@ -47,12 +48,7 @@ window_dataset_bind_cols <- function() {
             value     = .ds,
             height    = 7,
             on_select = set_ds_name,
-            title = gettext_bs("First dataset (left) \n(pick one)")
-        )
-
-    if (!is.null(.ds)) {
-        tk_see(ds_1_box, .ds)
-    }
+            title = gettext_bs("First dataset (left) \n(pick one)"))
 
     ds_2_box <-
         bs_listbox(

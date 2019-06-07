@@ -133,13 +133,7 @@ window_dataset_bind_rows <- function() {
             on_select = function() {
                 set_id_name1()
                 set_ds_name()
-            }
-        )
-
-    if (!is.null(.ds)) {
-        tk_see(ds_1_box, dataSets)
-    }
-
+            })
 
     ds_2_box <-
         bs_listbox(
