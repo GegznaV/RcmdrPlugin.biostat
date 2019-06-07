@@ -69,7 +69,6 @@
 \alias{get_active_ds}
 \alias{list_objects_of_class}
 \alias{variables_with_unique_values}
-\alias{var_pos_n}
 \alias{list_summaries_Models}
 \alias{str_glue_eval}
 \alias{eval_text}
@@ -315,11 +314,6 @@ list_objects_of_class(class = NULL, all.names = TRUE,
   envir = parent.frame())
 
 variables_with_unique_values()
-
-var_pos_n(variables, type = c("all", "numeric", "num", "factor",
-  "fct_like", "factor_strict", "fct", "twoLevelFactor", "fct_like_2_lvls",
-  "nonfactor", "non_fct", "character", "chr", "logical", "lgl"),
-  vars = NULL)
 
 list_summaries_Models(envir = .GlobalEnv, ...)
 

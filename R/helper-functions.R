@@ -152,51 +152,6 @@ variables_oth <- function() {
             c(Numeric(), variables_chr(), variables_lgl(), variables_fct()))
 }
 
-
-#' @rdname Helper-functions
-#'
-#' @keywords internal
-#' @export
-var_pos_n <- function(variables,
-                      type = c("all",
-                               "numeric",        "num",
-                               "factor",         "fct_like",
-                               "factor_strict",  "fct",
-                               "twoLevelFactor", "fct_like_2_lvls",
-                               "nonfactor",      "non_fct",
-                               "character",      "chr",
-                               "logical",        "lgl"),
-                      vars = NULL)
-{
-    if (is.null(variables))
-        return(NULL)
-    type <- match.arg(type)
-    if (is.null(vars))
-        vars <- switch(
-            type,
-            all            = variables_all(),
-            character      = ,
-            chr            = variables_chr(),
-            logical        = ,
-            lgl            = variables_lgl(),
-            factor_strict  = ,
-            fct            = variables_fct(),
-            factor         = ,
-            fct_like       = variables_fct_like(),
-            numeric        = ,
-            num            = variables_num(),
-            nonfactor      = ,
-            non_fct        = variables_non_fct(),
-            twoLevelFactor = ,
-            fct2_like      = variables_fct_like_2_lvls())
-
-    if (any(!variables %in% vars)) {
-        NULL
-    } else {
-        apply(outer(variables, vars, "=="), 1, which) - 1
-    }
-}
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Helper-functions
 #' @export
