@@ -314,7 +314,7 @@ window_summary_desc <- function() {
 
     # Initialize dialog window and title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    dialogue_title <- gettext_bs("Summarize Single or Pair of Variables")
+    dialogue_title <- gettext_bs("Summarize Single Variable or Pair of Variables")
     initializeDialog(title = dialogue_title)
     tk_title(top, dialogue_title)
 
