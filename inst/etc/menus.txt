@@ -176,9 +176,6 @@ item	bs19_data_menu	cascade	"Workspace"	bs19_objects_menu	"activeDataSetP()"	""
 
 item	bs19_objects_menu	command	"List objects loaded in R workspace"	command_list_objects	""	""
 item	bs19_objects_menu	command	"Manage objects and datasets..."	window_data_obj_manage	""	""
-item	bs19_objects_menu	command	"Create copy of object (dataset)..."	window_data_obj_copy	""	""
-item	bs19_objects_menu	command	"Delete object (dataset)..."	window_data_obj_delete	""	""
-item	bs19_objects_menu	command	"Rename object (dataset)..."	window_data_obj_rename	""	""
 
 
 # --- + Import Data  ---------------------------------------------------------
