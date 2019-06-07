@@ -3,7 +3,11 @@
 # 1. Check code for possible inconsisnencies and bugs.
 # 2. When push "Apply" and error occurs, two windows open. Apply is now disabled.
 #    It should be fixed.
-# 3. Add buttons "==", "!=", "<" etc. in style as used in "fit linear model" window
+# 3. Add buttons "==", "!=", "<" etc. in the same style as used in "fit linear model" window
+# 4. By clicking on variable name, a list of possible values should appear:
+#       - ranges from min to max for numeric;
+#       - possible values, if just a few different numeric values are present;
+#       - quoted values for other variable types (e.g. "Setosa")
 
 #' @rdname Menu-window-functions
 #' @export
