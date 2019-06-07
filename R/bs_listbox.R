@@ -1,3 +1,9 @@
+# TODO:
+#
+# 1) for line `values       = variables_all()`  maybe a better default is
+#    NULL, as it does not fail if no dataset is selected
+
+
 # Listbox functions ==========================================================
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Helper-functions
@@ -7,9 +13,10 @@
 # onClick_fun - function on mouse click
 # onRelease_fun - function on mouse release
 # bind_row_swap - if TRUE, Ctrl/Alt + Up/Down move rows in the listbox
+
 bs_listbox <-
     function(parent,
-             values       = variables_all(), # NULL
+             values       = variables_all(), # NULL  # [???]
              value        = NULL,
              selection    = NULL,
              selectmode   = c("single", "extended", "browse", "multiple"),
