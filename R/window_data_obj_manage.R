@@ -43,17 +43,54 @@ window_data_obj_manage <- function() {
     update_list_of_objects <- function() {
         new_vals <- get_list_of_objs()
         set_values(var_y_box, new_vals)
+        buttons_activation()
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     update_new_name <- function() {
         # [???]
-        tclvalue(text_box_1) <-
-            get_selection(var_y_box) %>%
-            unique_obj_names()
+        if (get_selection_length(var_y_box) == 1) {
+            tclvalue(text_box_1) <-
+                get_selection(var_y_box) %>%
+                unique_obj_names()
+        }
     }
 
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    buttons_activation <- function() {
+
+        len <- get_selection_length(var_y_box)
+
+        if (len == 0) {
+            # None is selected
+            tk_disable(f1_b1)
+            # tk_disable(f1_b2)
+            tk_disable(f1_b3)
+            tk_disable(f1_b4)
+            tk_disable(f1_b5)
+            tk_disable(f1_b6)
+
+        } else if (len == 1) {
+            # One is selected
+            tk_normalize(f1_b1)
+            # tk_normalize(f1_b2)
+            tk_normalize(f1_b3)
+            tk_normalize(f1_b4)
+            tk_normalize(f1_b5)
+            tk_normalize(f1_b6)
+
+        } else {
+            # Several are selected
+            tk_disable(f1_b1)
+            # tk_disable(f1_b2)
+            tk_disable(f1_b3)
+            tk_normalize(f1_b4)
+            tk_disable(f1_b5)
+            tk_normalize(f1_b6)
+        }
+
+    }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     on_close <- function() {
         if (GrabFocus()) tkgrab.release(top)
@@ -62,11 +99,26 @@ window_data_obj_manage <- function() {
         tkfocus(CommanderWindow())
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    on_show_details <- function() { }
-    on_change_class <- function() { }
-    on_copy_name    <- function() { }
+    on_view <- function() {
+        buttons_activation()
+
+        obj_names <- get_selection(var_y_box) %>% safe_names()
+        if (length(obj_names) < 1) {
+            return
+        }
+
+        str_glue("View({obj_names})") %>%
+            str_c(collapse = "\n") %>%
+            doItAndPrint()
+
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    on_show_details <- function() { buttons_activation() }
+    on_change_class <- function() { buttons_activation() }
+    on_copy_name    <- function() { buttons_activation() }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     on_rename_obj   <- function() {
+        buttons_activation()
 
         # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         cursor_set_busy(top)
@@ -122,6 +174,7 @@ window_data_obj_manage <- function() {
         set_selection(var_y_box, new_obj_names)
         tk_see(var_y_box, new_obj_names)
         update_new_name()
+        buttons_activation()
 
         # tkfocus(CommanderWindow())
         tkfocus(top)
@@ -132,7 +185,7 @@ window_data_obj_manage <- function() {
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     on_copy_obj <- function() {
-
+        buttons_activation()
         # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         cursor_set_busy(top)
         on.exit(cursor_set_idle(top))
@@ -177,6 +230,7 @@ window_data_obj_manage <- function() {
         set_selection(var_y_box, new_obj_names)
         tk_see(var_y_box, new_obj_names)
         update_new_name()
+        buttons_activation()
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # tkfocus(CommanderWindow())
@@ -189,6 +243,7 @@ window_data_obj_manage <- function() {
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     on_delete_obj <- function() {
+        buttons_activation()
         # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         cursor_set_busy(top)
         on.exit(cursor_set_idle(top))
@@ -254,6 +309,7 @@ window_data_obj_manage <- function() {
         set_selection(var_y_box, ind)
         tk_see(var_y_box, ind)
         update_new_name()
+        buttons_activation()
 
         tkfocus(top)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -283,8 +339,8 @@ window_data_obj_manage <- function() {
         label_position = "above",
         width  = 30 - 2, # Get width var_y_box
         value  = "Data frame",
-        values = c("Data frame", "List", "Matrix", "Table", "Plot (ggplot, gg)",
-                   "Model (lm, glm, htest)", "Function", "Other", "All"),
+        values = c( "All", "Data frame", "List", "Matrix", "Table", "Plot (ggplot, gg)",
+                   "Model (lm, glm, htest)", "Function", "Other"),
         tip = "",
         on_select = update_list_of_objects
     )
@@ -299,15 +355,18 @@ window_data_obj_manage <- function() {
     var_y_box <- bs_listbox(
         parent       = f1a,
         title        = "Objects",
-        # values       = "",
+        values       = "",
         # value        = .ds,
-        selectmode   = "single", #"multiple",
+        selectmode   = "multiple", # "single",
         height       = 8,
         width        = c(30, Inf),
         on_keyboard  = "scroll",
         tip          = tip_multiple_ctrl_letters,
         use_filter   = TRUE,
-        on_select    = update_new_name,
+        on_select    = function() {
+            update_new_name()
+            buttons_activation()
+        },
         filter_label = "Object name filter"
     )
 
@@ -352,7 +411,15 @@ window_data_obj_manage <- function() {
         tip      = "Change class",
         image    = "::image::bs_refresh",
         compound = "left",
-        command  = do_nothing)
+        command  = on_change_class)
+
+    f1_b6 <- tk2button(
+        f1b,
+        text     = "View",
+        tip      = "View object (if possible)",
+        image    = "::image::viewIcon",
+        compound = "left",
+        command  = on_view)
 
     tkgrid(f1, sticky = "w")
     tkgrid(f1a, f1b, sticky = "w")
@@ -368,6 +435,7 @@ window_data_obj_manage <- function() {
     tkgrid(f1_b3, sticky = "w")
     tkgrid(f1_b4, sticky = "w")
     # tkgrid(f1_b5, sticky = "w")
+    tkgrid(f1_b6, sticky = "w")
 
 
 
@@ -376,6 +444,7 @@ window_data_obj_manage <- function() {
     tkconfigure(f1_b3, width = 10)
     tkconfigure(f1_b4, width = 10)
     # tkconfigure(f1_b5, width = 10)
+    tkconfigure(f1_b6, width = 10)
 
     # tkgrid(f1_close, sticky = "e")
 
@@ -389,7 +458,7 @@ window_data_obj_manage <- function() {
         compound = "left",
         command  = on_close)
 
-    text_box_1 <- bs_tk_textbox(
+    text_box_1 <- bs_entry(
         parent = top,
         width  = 30,
         label  = "New name: ",
@@ -411,4 +480,5 @@ window_data_obj_manage <- function() {
         tk_see(var_y_box, .ds)
     }
     update_new_name()
+    buttons_activation()
 }
