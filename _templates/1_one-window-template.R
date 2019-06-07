@@ -38,22 +38,24 @@ window_... <- function() {
 
 
     dataFrame <- tkframe(main_frame)
-    yBox <- bs_listbox(
-        parent = dataFrame,
-        values = variables_fct_like(),
-        selectmode = "multiple",
-        height = 7,
-        title = gettext_bs("Variables\n(pick one or several)"),
-        value = initial$y_var
-    )
+    yBox <-
+        bs_listbox(
+            parent     = dataFrame,
+            values     = variables_fct_like(),
+            selectmode = "multiple",
+            height     = 7,
+            title      = gettext_bs("Variables\n(pick one or several)"),
+            value      = initial$y_var
+        )
 
-    # groupBox <- bs_listbox(
-    #     parent = dataFrame,
-    #     selectmode = "multiple",
-    #     values = variables_fct_like(),
-    #     height = 6,
-    #     title = gettext_bs("Grouping variable(s) \n(pick one, several or none)"),
-    #     value = initial$gr_var)
+    # groupBox <-
+    #     bs_listbox(
+    #         parent = dataFrame,
+    #         selectmode = "multiple",
+    #         values = variables_fct_like(),
+    #         height = 6,
+    #         title = gettext_bs("Grouping variable(s) \n(pick one, several or none)"),
+    #         value = initial$gr_var)
     #
     # tkgrid(
     #     getFrame(yBox),

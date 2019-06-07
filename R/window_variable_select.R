@@ -23,21 +23,21 @@ window_variable_select <- function(new_dsname = NULL, incorrect_cond_msg = NULL)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
 
-    var_select_box <- bs_listbox(
-        parent     = upper_frame,
-        values     = variables_all(),
-        title      = gettext_bs("Select / Include \n(pick one or more)"),
-        selectmode = "multiple",
-        height     = 8
-    )
+    var_select_box <-
+        bs_listbox(
+            parent     = upper_frame,
+            values     = variables_all(),
+            title      = gettext_bs("Select / Include \n(pick one or more)"),
+            selectmode = "multiple",
+            height     = 8)
 
-    var_delete_box <- bs_listbox(
-        parent     = upper_frame,
-        values     = variables_all(),
-        title      = gettext_bs("Remove \n(pick one or more)"),
-        selectmode = "multiple",
-        height     = 8
-    )
+    var_delete_box <-
+        bs_listbox(
+            parent     = upper_frame,
+            values     = variables_all(),
+            title      = gettext_bs("Remove \n(pick one or more)"),
+            selectmode = "multiple",
+            height     = 8)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     lower_frame <- tkframe(top)

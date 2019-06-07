@@ -22,13 +22,14 @@ window_factor_lvls_drop <- function() {
         variable = allfactorsVariable
     )
 
-    variablesBox <- bs_listbox(
-        parent     = top,
-        values     = variables_fct(),
-        title      = gettext_bs("Factors(s) to drop levels \n(pick one or more)"),
-        selectmode = "multiple",
-        height     = 6
-    )
+    variablesBox <-
+        bs_listbox(
+            parent     = top,
+            values     = variables_fct(),
+            title      = gettext_bs("Factors(s) to drop levels \n(pick one or more)"),
+            selectmode = "multiple",
+            height     = 6
+        )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         # logger(paste(
@@ -74,8 +75,8 @@ window_factor_lvls_drop <- function() {
         }
         doItAndPrint(command)
         active_dataset(.ds,
-                      flushModel = FALSE,
-                      flushDialogMemory = FALSE)
+                       flushModel = FALSE,
+                       flushDialogMemory = FALSE)
         tkfocus(CommanderWindow())
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

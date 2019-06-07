@@ -328,47 +328,45 @@ window_data_obj_manage <- function() {
     tk_title(top, text = win_title, columnspan = 2)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    f1 <- tk2frame(top)
-
+    f1  <- tk2frame(top)
     f1a <- tk2frame(top)
 
-    class_filter_box <- bs_combobox(
-        parent = f1a, # var_y_box$frame,
-        label  = "Type of objects to list",
-        label_position = "above",
-        width  = 30 - 2, # Get width var_y_box
-        value  = "Data frame",
-        values = c( "All", "Data frame", "List", "Matrix", "Table", "Plot (ggplot, gg)",
-                   "Model (lm, glm, htest)", "Function", "Other"),
-        tip = "",
-        on_select = update_list_of_objects
-    )
+    class_filter_box <-
+        bs_combobox(
+            parent = f1a, # var_y_box$frame,
+            label  = "Type of objects to list",
+            label_position = "above",
+            width  = 30 - 2, # Get width var_y_box
+            value  = "Data frame",
+            values = c( "All", "Data frame", "List", "Matrix", "Table", "Plot (ggplot, gg)",
+                        "Model (lm, glm, htest)", "Function", "Other"),
+            tip = "",
+            on_select = update_list_of_objects)
 
-    include_hidden_box <- bs_checkboxes(
-        parent = f1a,
-        boxes  = c(hidden = "Show hidden objects"),
-        values = 0,
-        commands = c(hidden = update_list_of_objects)
-    )
+    include_hidden_box <-
+        bs_checkboxes(
+            parent = f1a,
+            boxes  = c(hidden = "Show hidden objects"),
+            values = 0,
+            commands = c(hidden = update_list_of_objects))
 
-    var_y_box <- bs_listbox(
-        parent       = f1a,
-        title        = "Objects",
-        values       = "",
-        # value        = .ds,
-        selectmode   = "multiple", # "single",
-        height       = 8,
-        width        = c(30, Inf),
-        on_keyboard  = "scroll",
-        tip          = tip_multiple_ctrl_letters,
-        use_filter   = TRUE,
-        on_select    = function() {
-            update_new_name()
-            buttons_activation()
-        },
-        filter_label = "Object name filter"
-    )
+    var_y_box <-
+        bs_listbox(
+            parent       = f1a,
+            title        = "Objects",
+            values       = "",
+            # value        = .ds,
+            selectmode   = "multiple", # "single",
+            height       = 8,
+            width        = c(30, Inf),
+            on_keyboard  = "scroll",
+            tip          = tip_multiple_ctrl_letters,
+            use_filter   = TRUE,
+            on_select    = function() {
+                update_new_name()
+                buttons_activation()
+            },
+            filter_label = "Object name filter")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f1b <- tk2frame(top)

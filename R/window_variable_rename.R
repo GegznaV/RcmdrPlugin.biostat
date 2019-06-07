@@ -125,7 +125,7 @@ window_variable_rename <- function() {
             assign(valVar, tclVar(""))
             assign(x = paste0("entry", i),
                    value =  ttkentry(subdialog, width = "20", textvariable = get(valVar)
-            ))
+                   ))
 
             tkgrid(labelRcmdr(subdialog, text = old_names[i]),
                    get(paste0("entry", i)),
@@ -149,20 +149,21 @@ window_variable_rename <- function() {
     tk_title(top, "Rename variables (columns)")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     variables_frame <- tkframe(top)
-    var_y_box <- bs_listbox(
-        parent       = variables_frame,
-        title        = gettext_bs("Variables\n(pick one or more)"),
-        values       = Variables(),
-        selectmode   = "multiple",
-        height       = 10,
-        width        = 30,
-        on_keyboard  = "select",
-        tip          = str_c(
-            "Select variables to rename and push 'OK' button.\n\n",
-            "Hold 'Ctrl' key and left-click mouse to either \n",
-            "select several objects or deselect one.\n",
-            "Use letters on the keyboard to navigate quicker.")
-    )
+    var_y_box <-
+        bs_listbox(
+            parent       = variables_frame,
+            title        = gettext_bs("Variables\n(pick one or more)"),
+            values       = variables_all(),
+            selectmode   = "multiple",
+            height       = 10,
+            width        = 30,
+            on_keyboard  = "select",
+            tip          = str_c(
+                "Select variables to rename and push 'OK' button.\n\n",
+                "Hold 'Ctrl' key and left-click mouse to either \n",
+                "select several objects or deselect one.\n",
+                "Use letters on the keyboard to navigate quicker.")
+        )
 
     tkgrid(var_y_box$frame, sticky = "w", padx = c(10, 0))
 

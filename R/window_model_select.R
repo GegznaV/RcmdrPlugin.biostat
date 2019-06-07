@@ -166,22 +166,23 @@ window_model_select <- function() {
     tk_title(top, "Select and Explore Model")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    var_model_box <- bs_listbox(
-        parent       = top,
-        values       = models,
-        value        = .activeModel,
-        height       = 10,
-        width        = c(47, Inf),
-        title        = gettext_bs("Models (pick one)"),
-        title_sticky = "",
-        on_release   = function() {
-            select_model()
-            cmd_model_selection_callback()
-        },
-        on_double_click  = function() {
-            # onOK()
-        }
-    )
+    var_model_box <-
+        bs_listbox(
+            parent       = top,
+            values       = models,
+            value        = .activeModel,
+            height       = 10,
+            width        = c(47, Inf),
+            title        = gettext_bs("Models (pick one)"),
+            title_sticky = "",
+            on_release   = function() {
+                select_model()
+                cmd_model_selection_callback()
+            },
+            on_double_click  = function() {
+                # onOK()
+            }
+        )
 
     tkgrid(getFrame(var_model_box), sticky = "e",  pady = c(10, 0))
 

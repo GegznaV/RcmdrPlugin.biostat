@@ -11,13 +11,13 @@ window_rows_rm_with_na <- function() {
                "search_all" = {
                    tk_disable(var_y_box)
                    tkconfigure(label_bottom, text = label_bottom_text_all)
-                   },
+               },
 
                # Search in the selected variables
                {
                    tk_normalize(var_y_box)
                    tkconfigure(label_bottom, text = label_bottom_text_selected)
-                   }
+               }
         )
     }
     # Function onOK ----------------------------------------------------------
@@ -132,17 +132,18 @@ window_rows_rm_with_na <- function() {
     tkgrid(left_frame, right_frame, sticky = "nsw")
 
     # Listbox
-    var_y_box <- bs_listbox(
-        right_frame,
-        values      = variables_all(),
-        value       = initial$var_y,
-        title       = title_var_n,
-        selectmode  = "extended",
-        on_keyboard = "scroll",
-        height      = 7,
-        width       = c(26, Inf),
-        tip         = tip_multiple_ctrl_letters
-    )
+    var_y_box <-
+        bs_listbox(
+            right_frame,
+            values      = variables_all(),
+            value       = initial$var_y,
+            title       = title_var_n,
+            selectmode  = "extended",
+            on_keyboard = "scroll",
+            height      = 7,
+            width       = c(26, Inf),
+            tip         = tip_multiple_ctrl_letters
+        )
 
     tkgrid(var_y_box$frame, padx = c(5, 0))
 

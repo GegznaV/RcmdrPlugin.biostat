@@ -99,36 +99,35 @@ window_summary_count <- function() {
 
     main_data_frame <- tkframe(main_frame)
 
-    xBox <- bs_listbox(
-        parent = main_data_frame,
-        values = variables_all(),
-        selectmode = "single",
-        height = 7,
-        title = gettext_bs("First/Row variable \n(select one)"),
-        value = initial$x_var,
-        on_select = activate_checkboxes
-    )
+    xBox <-
+        bs_listbox(
+            parent     = main_data_frame,
+            values     = variables_all(),
+            selectmode = "single",
+            height     = 7,
+            title      = gettext_bs("First/Row variable \n(select one)"),
+            value      = initial$x_var,
+            on_select  = activate_checkboxes)
 
-    yBox <- bs_listbox(
-        parent = main_data_frame,
-        values = variables_all(),
-        selectmode = "single",
-        # selectmode = "multiple",
-        height = 7,
-        title = gettext_bs("Second/Column variable \n(select one or none)"),
-        value = initial$y_var,
-        on_select = activate_checkboxes
-    )
+    yBox <-
+        bs_listbox(
+            parent     = main_data_frame,
+            values     = variables_all(),
+            selectmode = "single",
+            height     = 7,
+            title      = gettext_bs("Second/Column variable \n(select one or none)"),
+            value      = initial$y_var,
+            on_select  = activate_checkboxes)
 
-    zBox <- bs_listbox(
-        parent = main_data_frame,
-        values = variables_all(),
-        selectmode = "multiple",
-        height = 7,
-        title = gettext_bs("Other/Control variables \n(select one, several or none)"),
-        value = initial$z_var,
-        on_select = activate_checkboxes
-    )
+    zBox <-
+        bs_listbox(
+            parent     = main_data_frame,
+            values     = variables_all(),
+            selectmode = "multiple",
+            height     = 7,
+            title      = gettext_bs("Other/Control variables \n(select one, several or none)"),
+            value      = initial$z_var,
+            on_select  = activate_checkboxes)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # ** Options tab ---------------------------------------------------------

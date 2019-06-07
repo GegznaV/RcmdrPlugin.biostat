@@ -705,33 +705,37 @@ window_export_fig_to_pptx <- function() {
         default_command = activate_options)
 
 
-    f3_code_options <- bs_combobox(
-        label = "Purpose of code:",
-        label_position = "above",
-        parent = f3_but,
-        width  = 20,
-        value  = initial$code_options,
-        values = c("Base plot / Code as-is",
-                   "'ggplot2' plot",
-                   "Other plot: print()",
-                   "Other plot: plot()"
-        ),
-        tip = str_c(sep = "\n",
-            "Additional modification for the code. ",
-            "You should try, which one works best  ",
-            "(or works at all) for your plot:",
-            "  - Code as-is - no modification.",
-            "  - ggplot2 - best gor 'ggplot2' polots. ",
-            "  - print() - additionally calls function `print()`.",
-            "  - plot()  - additionally calls function `plot()`."
+    f3_code_options <-
+        bs_combobox(
+            parent = f3_but,
+            label  = "Purpose of code:",
+            label_position = "above",
+            width  = 20,
+            value  = initial$code_options,
+            values = c(
+                "Base plot / Code as-is",
+                "'ggplot2' plot",
+                "Other plot: print()",
+                "Other plot: plot()"
+            ),
+            tip = str_c(
+                sep = "\n",
+                "Additional modification for the code. ",
+                "You should try, which one works best  ",
+                "(or works at all) for your plot:",
+                "  - Code as-is - no modification.",
+                "  - ggplot2 - best gor 'ggplot2' polots. ",
+                "  - print() - additionally calls function `print()`.",
+                "  - plot()  - additionally calls function `plot()`."
             ))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    f3_gg_obj_name_box <- bs_listbox(
-        parent = f3_gg,
-        values = list_objects_of_class("gg", envir = .GlobalEnv),
-        title  = "List of ggplot2 objects:",
-        width  = 25, height = 7)
+    f3_gg_obj_name_box <-
+        bs_listbox(
+            parent = f3_gg,
+            values = list_objects_of_class("gg", envir = .GlobalEnv),
+            title  = "List of ggplot2 objects:",
+            width  = 25, height = 7)
 
     # F4, Frame 4, Preview ---------------------------------------------------
     # F4 <- tk2labelframe(top, relief = "flat", text = "Code input")

@@ -324,17 +324,16 @@ window_variable_convert_type <- function() {
     upper_frame     <- tk2frame(main_frame)
     variables_frame <- tk2frame(upper_frame)
 
-    var_y_box <- bs_listbox(
-        parent = variables_frame,
-        values      = NULL, # <-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        height      = 7,
-        width       = 35,
-        selectmode  = "multiple",
-        title       = gettext_bs("Variables (pick one or more)"),
-        on_keyboard = "scroll",
-        tip         = tip_multiple_ctrl_letters
-    )
-
+    var_y_box <-
+        bs_listbox(
+            parent = variables_frame,
+            values      = NULL, # <-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            height      = 7,
+            width       = 35,
+            selectmode  = "multiple",
+            title       = gettext_bs("Variables (pick one or more)"),
+            on_keyboard = "scroll",
+            tip         = tip_multiple_ctrl_letters)
 
     type_frame <- tk2frame(variables_frame)
 

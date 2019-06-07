@@ -133,17 +133,18 @@ window_rows_rm_duplicated <- function() {
     tkgrid(left_frame, right_frame, sticky = "w")
 
     # Listbox
-    var_y_box <- bs_listbox(
-        right_frame,
-        values      = variables_all(),
-        value       = initial$var_y,
-        title       = title_var_n,
-        selectmode  = "extended",
-        on_keyboard = "scroll",
-        height      = 7,
-        width       = c(26, Inf),
-        tip         = tip_multiple_ctrl_letters
-    )
+    var_y_box <-
+        bs_listbox(
+            right_frame,
+            values      = variables_all(),
+            value       = initial$var_y,
+            title       = title_var_n,
+            selectmode  = "extended",
+            on_keyboard = "scroll",
+            height      = 7,
+            width       = c(26, Inf),
+            tip         = tip_multiple_ctrl_letters
+        )
 
     tkgrid(var_y_box$frame, padx = c(5, 0))
 
