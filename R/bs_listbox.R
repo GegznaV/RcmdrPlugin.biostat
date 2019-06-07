@@ -11,12 +11,6 @@
 # Listbox functions ==========================================================
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# Variable
-# on_click - function on mouse click
-# on_release - function on mouse release
-# bind_row_swap - if TRUE, Ctrl/Alt + Up/Down move rows in the listbox
-# values
-
 #' List box widget (TCL/TK)
 #'
 #' A list box with constant number of rows.
@@ -69,9 +63,9 @@
 #' }
 #'
 #' @param obj Widget.
-#' @param listbox - List box widget.
-#' @param ind Index.
-#' @param sel Selection.
+#' @param listbox List box widget.
+#' @param ind Index. Usually either character values or numeric indices.
+#' @param sel Selection. Usually either character values or numeric indices.
 #' @param vals Values.
 #' @param values Values.
 #' @param clear (logical) Should values be cleared?
@@ -84,7 +78,8 @@
 #'    \item "end" - selected row is moved to the last row.
 #' }
 #'
-#' @seealso \code{\link[tcltk2]{tk2listbox}()}, \url{https://www.tcl.tk/man/tcl8.4/TkCmd/listbox.htm}
+#' @seealso \code{\link[tcltk2]{tk2listbox}()}, \cr
+#'          \url{https://www.tcl.tk/man/tcl8.4/TkCmd/listbox.htm}
 #' @export
 
 
@@ -236,12 +231,12 @@ bs_listbox <-
             str_glue_eval('tkbind(listbox, "<{letters}>", function() onLetter("{letters}"))')
             str_glue_eval('tkbind(listbox, "<{LETTERS}>", function() onLetter("{letters}"))')
         }
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         bind_mouse_keys(listbox)
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         tkbind(listbox, "<<ListboxSelect>>", on_select)
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (!is.null(title)) {
             tkgrid(
                 bs_label_b(frame, text = title, font = "RcmdrTitleFont"),
@@ -252,25 +247,25 @@ bs_listbox <-
                 bs_label(frame, text = subtitle, font = "RcmdrTitleFont"),
                 columnspan = 2, sticky = subtitle_sticky)
         }
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # if (bind_row_swap) {
         #     bind_row_swap_listbox(listbox)
         # }
 
 
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkgrid(listbox, sticky = sticky)
         # tkgrid(listbox, scrollbar,  sticky = "nw")
         # tkgrid.configure(scrollbar, sticky = "wns")
         # tkgrid.configure(listbox,   sticky = "ewns")
 
 
-        # Add textbox with filter ------------------------------------------------
+        # Add textbox with filter ---------------------------------------------
         values_env <- new.env()
         values_env$all_values <- values
 
         if (use_filter == TRUE) {
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             cmd_update_list <- function() {
 
                 s_txt <- get_values(text_box_1)
@@ -300,12 +295,12 @@ bs_listbox <-
                 set_values_listbox(listbox, new_list)
             }
 
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             clear_textbox <- function() {
                 set_values(text_box_1, "")
                 cmd_update_list()
             }
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             text_box_1 <- bs_entry(
                 parent = frame,
                 width = width,
@@ -322,17 +317,17 @@ bs_listbox <-
                                 "regex" = cmd_update_list)
             )
 
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             tkgrid(text_box_1$frame, sticky = sticky)
             # tkgrid(options_frame,    sticky = sticky)
             tkgrid(options$frame,    sticky = sticky)
 
             # tkgrid.forget(text_box_1$frames)
 
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             tkbind(text_box_1$obj_text, "<KeyRelease>",      cmd_update_list)
             tkbind(text_box_1$obj_text, "<Double-Button-3>", clear_textbox)
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             add_class <- "listbox_with_filter"
 
         } else {
@@ -341,7 +336,7 @@ bs_listbox <-
             options    <- NULL
         }
 
-        # Output ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Output ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         structure(
             list(frame      = frame,
                  listbox    = listbox,
@@ -356,15 +351,209 @@ bs_listbox <-
             class = c(add_class, "listbox", "bs_tk_widget", "list")
         )
     }
-# ~~~~~~~~~~~~~~~~~~~~~ ======================================================
+# ~~~~~~~~~~~~~~~~~~~~~~~~~ ==================================================
 
 
 # Helpers and methods ========================================================
-# Function
-#
+
+# Size ===================== =================================================
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname bs_listbox
+#' @export
+get_size.listbox <- function(obj, ...) {
+    tclvalue_int(tksize(obj$listbox))
+}
+
+#' @rdname bs_listbox
+#' @export
+get_size.tkwin <- function(obj, ...) {
+    tclvalue_int(tksize(obj))
+}
+
+
+# Values =================== ================================================
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname bs_listbox
+#' @export
+get_values_listbox <- function(listbox) {
+    n <- tclvalue_int(tksize(listbox))
+    vars <-
+        (seq_len(n) - 1) %>% # zero based index
+        purrr::map_chr(~tclvalue_chr(tkget(listbox, ., .))) %>%
+        stringr::str_replace("^\\{(.* .*)\\}$", "\\1") # removes { } if several words are used
+    vars
+}
+
+#' @rdname bs_listbox
+#' @export
+get_values.listbox <- function(obj, ...) {
+    get_values_listbox(obj$listbox, ...)
+}
+
+#' @rdname bs_listbox
+#' @export
+get_values.tk2listbox <- function(obj, vals, ...) {
+    get_values_listbox(obj, ...)
+}
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname bs_listbox
+#' @export
+set_values_listbox <- function(listbox, values, clear = TRUE) {
+    if (isTRUE(clear)) {
+        tkdelete(listbox, 0, "end")
+    }
+    for (val in values)  tkinsert(listbox, "end", as.character(val))
+}
+
+#' @rdname bs_listbox
+#' @export
+set_values.listbox <- function(obj, values, ..., clear = TRUE) {
+    set_values_listbox(obj$listbox, values = values, ..., clear = clear)
+}
+
+#' @rdname bs_listbox
+#' @export
+set_values.listbox_with_filter <- function(obj, values, ..., clear = TRUE) {
+    # Set new set of possible values
+    if (clear == TRUE) {
+        obj$values_env$all_values <- values
+    } else {
+        obj$values_env$all_values <- c(obj$values_env$all_values, values)
+    }
+
+    # Set listbox values
+    set_values_listbox(obj$listbox, values = values, ..., clear = clear)
+
+    # Clear filter box
+    set_values(obj$filter$entry, "")
+}
+
+#' @rdname bs_listbox
+#' @export
+set_values.tk2listbox <- function(obj, values, ..., clear = TRUE) {
+    set_values_listbox(obj, values = values, ..., clear = clear)
+}
+
+
+# Selection ================ =================================================
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname bs_listbox
+#' @export
+get_selection_ind_listbox <- function(listbox) {
+    as.numeric(tkcurselection(listbox)) + 1
+}
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname bs_listbox
+#' @export
+# Get selected values
+get_selection_listbox <- function(listbox) {
+    vals <- get_values_listbox(listbox)
+    inds <- get_selection_ind_listbox(listbox)
+    vals[inds]
+}
+
+#' @rdname bs_listbox
+#' @export
+get_selection.listbox <- function(obj, ...) {
+    get_selection_listbox(obj$listbox)
+}
+
+#' @rdname bs_listbox
+#' @export
+get_selection.tk2listbox <- function(obj, ...) {
+    get_selection_listbox(obj)
+}
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname bs_listbox
+#' @export
+get_selection_length.listbox <- function(obj, ...) {
+    length(get_selection(obj))
+}
+
+#' @rdname bs_listbox
+#' @export
+get_selection_length.tk2listbox <- function(obj, ...) {
+    length(get_selection(obj))
+}
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname bs_listbox
+#' @export
+# Set selection
+# sel - either character values of indices
+set_selection_listbox <- function(listbox, sel, clear = TRUE) {
+
+    if (is.null(sel) || length(sel) == 0) {
+        # ind <- NULL
+        return()
+
+    } else if (is.character(sel)) {
+        ind <- which(get_values_listbox(listbox) %in% sel) - 1
+
+    } else if (is.numeric(sel)) {
+        ind <- sel - 1
+
+    } else if (is.na(sel)) {
+        ind <- -1
+
+    } else {
+        stop("Incorrect value of argument `sel`: \n", sel)
+    }
+
+    if (isTRUE(clear)) {
+        tkselection.clear(listbox, 0, "end")
+    }
+
+    # if (is.null(ind)) {
+    #   return
+    # }
+
+    for (i in ind)
+        tkselection.set(listbox, i)
+}
+
+#' @rdname bs_listbox
+#' @export
+set_selection.listbox <- function(obj, sel, clear = TRUE, ...) {
+    listbox <- obj$listbox
+    set_selection_listbox(listbox, sel = sel, clear = clear, ...)
+}
+
+#' @rdname bs_listbox
+#' @export
+set_selection.tk2listbox <- function(obj, sel, clear = TRUE, ...) {
+    set_selection_listbox(obj, sel = sel, clear = clear, ...)
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname bs_listbox
+#' @export
+add_selection.listbox <- function(obj, sel, ...) {
+    listbox <- obj$listbox
+    set_selection_listbox(listbox, sel = sel, clear = FALSE, ...)
+}
+
+#' @rdname bs_listbox
+#' @export
+add_selection.tk2listbox <- function(obj, sel, ...) {
+    set_selection_listbox(obj, sel = sel, clear = FALSE, ...)
+}
+
+# Move rows =============== ==================================================
+
 # k - string
 # i - row index
 # n - total number of rows
+#
+# i, j - row numbers
+# swap_two_rows_in_listbox
 get_j <- function(k, i, n) {
 
     k <- match.arg(k, choices = c("top", "-1", "+1", "end"))
@@ -379,19 +568,29 @@ get_j <- function(k, i, n) {
     j
 }
 
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+get_0_based_ind <- function(obj, ind) {
+    if (is.numeric(ind)) {
+        ind <- as.integer(ind) - 1
+
+    } else if (is.character(ind)) {
+        ind <- which(get_values(obj) %in% ind) - 1
+    }
+
+    ind
+}
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname bs_listbox
 #' @export
-
 ## listbox - listbox widget
 # move_to - action:
 #     "top" - selected row becomes 1-st
 #     "-1"  - position decreases by 1
 #     "+1"  - position inreases by 1
 #     "end" - selected row becomes last
-#
-# i, j - row numbers
-# swap_two_rows_in_listbox
-
 move_selected_row_in_listbox <- function(listbox, move_to = "") {
 
     if (inherits(listbox,  "listbox")) {
@@ -448,176 +647,10 @@ bind_row_swap.tk2listbox <- function(obj, ...) {
     bind_row_swap_listbox(obj, ...)
 }
 
-
-#' @rdname bs_listbox
-#' @export
-
-get_values_listbox <- function(listbox) {
-    n <- tclvalue_int(tksize(listbox))
-    vars <-
-        (seq_len(n) - 1) %>% # zero based index
-        purrr::map_chr(~tclvalue_chr(tkget(listbox, ., .))) %>%
-        stringr::str_replace("^\\{(.* .*)\\}$", "\\1") # remove { } if several words are used
-    vars
-}
-
-#' @rdname bs_listbox
-#' @export
-
-set_values_listbox <- function(listbox, values, clear = TRUE) {
-    if (isTRUE(clear)) {
-        tkdelete(listbox, 0, "end")
-    }
-    for (val in values)  tkinsert(listbox, "end", as.character(val))
-}
-
-#' @rdname bs_listbox
-#' @export
-
-get_selection_ind_listbox <- function(listbox) {
-    as.numeric(tkcurselection(listbox)) + 1
-}
-
-#' @rdname bs_listbox
-#' @export
-
-# Get selected values
-get_selection_listbox <- function(listbox) {
-    vals <- get_values_listbox(listbox)
-    inds <- get_selection_ind_listbox(listbox)
-    vals[inds]
-}
-
-#' @rdname bs_listbox
-#' @export
-
-# Set selection
-# sel - either character values of indices
-set_selection_listbox <- function(listbox, sel, clear = TRUE) {
-
-    if (is.null(sel) || length(sel) == 0) {
-        # ind <- NULL
-        return()
-
-    } else if (is.character(sel)) {
-        ind <- which(get_values_listbox(listbox) %in% sel) - 1
-
-    } else if (is.numeric(sel)) {
-        ind <- sel - 1
-
-    } else if (is.na(sel)) {
-        ind <- -1
-
-    } else {
-        stop("Incorrect value of argument `sel`: \n", sel)
-    }
-
-    if (isTRUE(clear)) {
-        tkselection.clear(listbox, 0, "end")
-    }
-
-    # if (is.null(ind)) {
-    #   return
-    # }
-
-    for (i in ind)
-        tkselection.set(listbox, i)
-}
-
+# Visibility ================== ==============================================
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 #' @rdname bs_listbox
 #' @export
-
-get_size.listbox <- function(obj, ...) {
-    tclvalue_int(tksize(obj$listbox))
-}
-
-#' @rdname bs_listbox
-#' @export
-
-get_size.tkwin <- function(obj, ...) {
-    tclvalue_int(tksize(obj))
-}
-
-#' @rdname bs_listbox
-#' @export
-
-get_selection.listbox <- function(obj, ...) {
-    get_selection_listbox(obj$listbox)
-}
-
-#' @rdname bs_listbox
-#' @export
-
-get_selection_length.listbox <- function(obj, ...) {
-    length(get_selection(obj))
-}
-
-#' @rdname bs_listbox
-#' @export
-
-set_selection.listbox <- function(obj, sel, clear = TRUE, ...) {
-    listbox <- obj$listbox
-    set_selection_listbox(listbox, sel = sel, clear = clear, ...)
-}
-
-#' @rdname bs_listbox
-#' @export
-
-add_selection.listbox <- function(obj, sel, ...) {
-    listbox <- obj$listbox
-    set_selection_listbox(listbox, sel = sel, clear = FALSE, ...)
-}
-
-#' @rdname bs_listbox
-#' @export
-
-get_values.listbox <- function(obj, ...) {
-    get_values_listbox(obj$listbox, ...)
-}
-
-#' @rdname bs_listbox
-#' @export
-
-set_values.listbox <- function(obj, values, ..., clear = TRUE) {
-    set_values_listbox(obj$listbox, values = values, ..., clear = clear)
-}
-
-#' @rdname bs_listbox
-#' @export
-
-set_values.listbox_with_filter <- function(obj, values, ..., clear = TRUE) {
-    # Set new set of possible values
-    if (clear == TRUE) {
-        obj$values_env$all_values <- values
-    } else {
-        obj$values_env$all_values <- c(obj$values_env$all_values, values)
-    }
-
-    # Set listbox values
-    set_values_listbox(obj$listbox, values = values, ..., clear = clear)
-
-    # Clear filter box
-    set_values(obj$filter$entry, "")
-}
-
-
-get_0_based_ind <- function(obj, ind) {
-    if (is.numeric(ind)) {
-        ind <- as.integer(ind) - 1
-
-    } else if (is.character(ind)) {
-        ind <- which(get_values(obj) %in% ind) - 1
-    }
-
-    ind
-}
-
-
-#' @rdname bs_listbox
-#' @export
-
 set_yview.listbox <- function(obj, ind, ...) {
     ind <- get_0_based_ind(obj, ind)
     tkyview(obj$listbox, ind, ...)
@@ -625,17 +658,15 @@ set_yview.listbox <- function(obj, ind, ...) {
 
 #' @rdname bs_listbox
 #' @export
-
 set_yview.tk2listbox <- function(obj, ind, ...) {
     ind <- get_0_based_ind(obj, ind)
     tkyview(obj, ind, ...)
 }
 
 
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname bs_listbox
 #' @export
-
 # Ind must be either numeric or character.
 tk_see.listbox <- function(obj, ind, ...) {
     ind <- get_0_based_ind(obj, ind)
@@ -644,100 +675,51 @@ tk_see.listbox <- function(obj, ind, ...) {
 
 #' @rdname bs_listbox
 #' @export
-
 # Ind must be either numeric or character.
 tk_see.tk2listbox <- function(obj, ind, ...) {
     ind <- get_0_based_ind(obj, ind)
     tksee(obj, ind, ...)
 }
 
+# State of widget ============== =============================================
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname bs_listbox
+#' @export
+tk_get_state.listbox <- function(obj, ...) {
+    tk_get_state(obj$listbox, ...)
+}
 
 #' @rdname bs_listbox
 #' @export
+tk_get_state.tk2listbox <- function(obj, ...) {
+    tk_get_state.default(obj, ...)
+}
 
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname bs_listbox
+#' @export
 tk_disable.listbox <- function(obj, ..., background = "grey95") {
     tk_disable(obj$listbox, background = background, ...)
 }
 
 #' @rdname bs_listbox
 #' @export
+tk_disable.tk2listbox <- function(obj, ..., background = "grey95") {
+    tk_disable.default(obj, background = background, ...)
+}
 
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname bs_listbox
+#' @export
 tk_normalize.listbox <- function(obj, ..., background = "white") {
     tk_normalize(obj$listbox, background = background, ...)
 }
 
 #' @rdname bs_listbox
 #' @export
-
-tk_get_state.listbox <- function(obj, ...) {
-    tk_get_state(obj$listbox, ...)
-}
-
-# ----------------------------------------------------------------------------
-
-#' @rdname bs_listbox
-#' @export
-
-get_selection.tk2listbox <- function(obj, ...) {
-    get_selection_listbox(obj)
-}
-
-#' @rdname bs_listbox
-#' @export
-
-get_selection_length.tk2listbox <- function(obj, ...) {
-    length(get_selection(obj))
-}
-
-#' @rdname bs_listbox
-#' @export
-
-set_selection.tk2listbox <- function(obj, sel, clear = TRUE, ...) {
-    set_selection_listbox(obj, sel = sel, clear = clear, ...)
-}
-
-#' @rdname bs_listbox
-#' @export
-
-add_selection.tk2listbox <- function(obj, sel, ...) {
-    set_selection_listbox(obj, sel = sel, clear = FALSE, ...)
-}
-
-
-#' @rdname bs_listbox
-#' @export
-
-get_values.tk2listbox <- function(obj, vals, ...) {
-    get_values_listbox(obj, ...)
-}
-
-#' @rdname bs_listbox
-#' @export
-
-set_values.tk2listbox <- function(obj, values, ..., clear = TRUE) {
-    set_values_listbox(obj, values = values, ..., clear = clear)
-}
-
-
-#' @rdname bs_listbox
-#' @export
-
-tk_disable.tk2listbox <- function(obj, ..., background = "grey95") {
-    tk_disable.default(obj, background = background, ...)
-}
-
-#' @rdname bs_listbox
-#' @export
-
 tk_normalize.tk2listbox <- function(obj, ..., background = "white") {
     tk_normalize.default(obj, background = background, ...)
 }
-
-#' @rdname bs_listbox
-#' @export
-
-tk_get_state.tk2listbox <- function(obj, ...) {
-    tk_get_state.default(obj, ...)
-}
-
 
