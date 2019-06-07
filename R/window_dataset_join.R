@@ -62,7 +62,7 @@ window_dataset_join <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    cmd_onRelease_ds_x <- function() {
+    cmd_on_release_ds_x <- function() {
         # On mouse relese
         ds <- get_selection(ds_1_box)
         # Names of variables plus blank:
@@ -74,7 +74,7 @@ window_dataset_join <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    cmd_onRelease_ds_y <- function() {
+    cmd_on_release_ds_y <- function() {
         # On mouse relese
         ds <- get_selection(ds_2_box)
         # Names of variables plus blank:
@@ -149,25 +149,17 @@ window_dataset_join <- function() {
 
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initial_selection =
-        if (is.null(.ds)) {
-            NULL
-        } else {
-            which(.ds == dataSets) - 1
-        }
-
-
     ds_1_box <-
-        variableListBox2(
-            middle_Frame,
-            dataSets,
-            listHeight = 7,
+        bs_listbox(
+            parent = middle_Frame,
+            values = dataSets,
+            value  = .ds,
+            height = 7,
             title = gettext_bs("First dataset (left, x) \n(pick one)"),
-            onRelease_fun = function() {
+            on_select = function() {
                 set_ds_name()
-                cmd_onRelease_ds_x()
-            },
-            initialSelection = initial_selection
+                cmd_on_release_ds_x()
+            }
         )
 
     if (!is.null(.ds)) {
@@ -175,20 +167,20 @@ window_dataset_join <- function() {
     }
 
     ds_2_box <-
-        variableListBox2(
-            middle_Frame,
-            dataSets,
-            listHeight = 7,
-            initialSelection = 0,
-            onRelease_fun = function() {
+        bs_listbox(
+            parent = middle_Frame,
+            values = dataSets,
+            height = 7,
+            selection = 1,
+            on_select = function() {
                 set_ds_name()
-                cmd_onRelease_ds_y()
+                cmd_on_release_ds_y()
             },
             title = gettext_bs("Second dataset (right, y) \n(pick one)"))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    cmd_onRelease_ds_x()
-    cmd_onRelease_ds_y()
+    cmd_on_release_ds_x()
+    cmd_on_release_ds_y()
     set_ds_name()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
