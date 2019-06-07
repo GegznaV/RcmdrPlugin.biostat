@@ -2,6 +2,10 @@
 #
 # 1) for line `values       = variables_all()`  maybe a better default is
 #    NULL, as it does not fail if no dataset is selected
+# 2) if any value is selected, make it visible
+#     if (!is.null(.ds)) {
+#           tk_see(ds_1_box, dataSets)
+#     }
 
 
 # Listbox functions ==========================================================
