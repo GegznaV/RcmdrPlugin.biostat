@@ -145,7 +145,7 @@ biostat_env$use_relative_path <- TRUE
 
     bs_tkimage_create("::image::bs_import",    "icons/bs_import.png")
     bs_tkimage_create("::image::bs_export",    "icons/bs_export.png")
-    bs_tkimage_create("::image::bs_object",    "icons/emblem-documents.png")
+    bs_tkimage_create("::image::bs_objects",   "icons/emblem-documents.png")
     bs_tkimage_create("::image::bs_new_doc",   "icons/document-new-3.png")
     bs_tkimage_create("::image::bs_preview",   "icons/document-preview.png")
     bs_tkimage_create("::image::bs_new_window","icons/window-new.png")
