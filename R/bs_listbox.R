@@ -241,7 +241,6 @@ bs_listbox <-
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         bind_mouse_keys(listbox)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
         tkbind(listbox, "<<ListboxSelect>>", on_select)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (!is.null(title)) {
@@ -259,13 +258,11 @@ bs_listbox <-
         #     bind_row_swap_listbox(listbox)
         # }
 
-
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkgrid(listbox, sticky = sticky)
         # tkgrid(listbox, scrollbar,  sticky = "nw")
         # tkgrid.configure(scrollbar, sticky = "wns")
         # tkgrid.configure(listbox,   sticky = "ewns")
-
 
         # Add textbox with filter ---------------------------------------------
         values_env <- new.env()
@@ -283,7 +280,7 @@ bs_listbox <-
                     ignore_case <- !tclvalue_lgl(options$var$case)
 
                     filter_fun <- switch(
-                        tclvalue_chr(options$var$regex), #
+                        tclvalue_chr(options$var$regex),
                         "0" = stringr::fixed,
                         "1" = stringr::regex
                     )
@@ -332,8 +329,14 @@ bs_listbox <-
             # tkgrid.forget(text_box_1$frames)
 
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            tkbind(text_box_1$obj_text, "<KeyRelease>",      cmd_update_list)
             tkbind(text_box_1$obj_text, "<Double-Button-3>", clear_textbox)
+            tkbind(text_box_1$obj_text, "<KeyRelease>",      cmd_update_list)
+            tkbind(text_box_1$obj_text, "<<Cut>>",           cmd_update_list)
+            tkbind(text_box_1$obj_text, "<<Copy>>",          cmd_update_list)
+            tkbind(text_box_1$obj_text, "<<Paste>>",         cmd_update_list)
+            tkbind(text_box_1$obj_text, "<<Clear>>",         cmd_update_list)
+            tkbind(text_box_1$obj_text, "<ButtonPress-1>",   cmd_update_list)
+
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             add_class <- "listbox_with_filter"
 
