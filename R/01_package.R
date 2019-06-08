@@ -120,7 +120,8 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_model"     , "icons/model.png")
     bs_tkimage_create("::image::bs_locale"    , "icons/locale.png")
 
-    bs_tkimage_create("::image::bs_down"      , "icons/down-blue.png")
+    bs_tkimage_create("::image::bs_ok",        "icons/dialog-ok-apply-5.png")
+    bs_tkimage_create("::image::bs_tick",      "icons/dialog-ok-apply-5.png")
     bs_tkimage_create("::image::bs_delete"    , "icons/delete.png")
     bs_tkimage_create("::image::bs_paste"     , "icons/edit-paste-7.png")
     bs_tkimage_create("::image::bs_copy"      , "icons/edit-copy-7.png")
@@ -133,6 +134,7 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_select_all", "icons/edit-select-all.png")
     bs_tkimage_create("::image::bs_sort_asc"  , "icons/view-sort-ascending.png")
     bs_tkimage_create("::image::bs_sort_desc" , "icons/view-sort-descending.png")
+    bs_tkimage_create("::image::bs_down"      , "icons/down-blue.png")
 
 
     bs_tkimage_create("::image::bs_chk_pkgs" , "icons/view-refresh-6.png")
@@ -180,7 +182,6 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_plot",      "icons/office-chart-pie.png")
     bs_tkimage_create("::image::bs_chart",     "icons/insert-chart-bar.png")
 
-    bs_tkimage_create("::image::bs_tick",      "icons/dialog-ok-apply-5.png")
     bs_tkimage_create("::image::bs_bug",       "icons/bug.png")
     bs_tkimage_create("::image::bs_home",      "icons/go-home-6.png")
     bs_tkimage_create("::image::bs_about",     "icons/help-about-3.png")
