@@ -1115,7 +1115,7 @@ msg_box_confirm_to_replace <- function(name, type = "Variable",
         caption = str_glue("Overwrite {Type}"),
         message = sprintf(
             str_c('%s "%s" already exists.\n\n',
-                  'Do you agree to DELETE the %s and \n',
+                  'Do you agree to DELETE existing %s and \n',
                   'REPLACE it with the new one?'),
             Type, name, tolower(type)),
         icon = "warning",
