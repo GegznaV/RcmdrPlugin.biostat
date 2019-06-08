@@ -1,5 +1,5 @@
 
-#' @rdname Helper-functions
+#'
 #' @export
 #' @keywords internal
 bs_entry <- function(
@@ -33,12 +33,14 @@ bs_entry <- function(
 
     use_context_menu = TRUE, # on single right-click
     bind_clear = TRUE,       # on double right-click
+    variable = tclVar(value),
     ...
 
 ) {
     label_position <- match.arg(label_position)
 
-    var_text <- tclVar(value)
+    # var_text <- tclVar(value)
+    var_text <- variable
 
     obj_text <- tk2entry(
         parent       = text_frame,
@@ -90,9 +92,51 @@ bs_entry <- function(
     bind_mouse_keys(obj_text)
     tkbind(obj_text, "<KeyRelease>", on_key_release)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    clear_entry_text <- function() {
+    on_copy <- function() {
+        anything_is_selected <- tclvalue_lgl(tkselection.present(obj_text))
+        if (anything_is_selected) {
+            # Continue, if anyting is selected.
+            sel_from <- tclvalue_int(tkindex(obj_text, "sel.first")) + 1
+            sel_to   <- tclvalue_int(tkindex(obj_text, "sel.last"))  + 1
+            all_text <- tclvalue_chr(var_text, trim = FALSE)
+            sel_text <- str_sub(all_text, sel_from, sel_to)
+
+            clipr::write_clip(sel_text)
+            # tkclipboard.clear()
+            # tkclipboard.append(sel_text)
+        }
+    }
+
+    on_delete <- function() {
+        anything_is_selected <- tclvalue_lgl(tkselection.present(obj_text))
+        if (anything_is_selected) {
+            # Continue, if anyting is selected.
+            del_from <- tkindex(obj_text, "sel.first")
+            del_to   <- tkindex(obj_text, "sel.last")
+            tkdelete(obj_text, del_from, del_to)
+        }
+    }
+
+    on_cut <- function() {
+        on_copy()
+        on_delete()
+    }
+
+    on_paste <- function() {
+        on_delete()
+        tkinsert(obj_text, "insert", read_clipboard())
+        # "insert" is cursor's position
+    }
+
+    on_clear_all <- function() {
         tclvalue(var_text) <- ""
     }
+
+    on_select_all <- function() {
+        tkselection.range(obj_text, 0, "end")
+        tkfocus(obj_text)
+    }
+
     clear_and_paste <- function() {
         tclvalue(var_text) <- read_clipboard()
         tkicursor(obj_text, "end")
@@ -100,7 +144,7 @@ bs_entry <- function(
     }
 
     if (isTRUE(bind_clear)) {
-        tkbind(obj_text, "<Double-Button-3>", clear_entry_text)
+        tkbind(obj_text, "<Double-Button-3>", on_clear_all)
     }
 
     if (isTRUE(use_context_menu)) {
@@ -118,23 +162,74 @@ bs_entry <- function(
             #       image    = "::image::bs_delete",
             #       command  = do_nothing)
 
-            tkadd(menu_i, "command",
-                  label    = "Clear",
-                  compound = "left",
-                  image    = "::image::bs_delete",
-                  command  = clear_entry_text)
+            # tkadd(menu_i, "command",
+            #       label    = "Clear and paste",
+            #       compound = "left",
+            #       image    = "::image::bs_paste",
+            #       command  = clear_and_paste)
 
-            tkadd(menu_i, "command",
-                  label    = "Clear and paste",
-                  compound = "left",
-                  image    = "::image::bs_paste",
-                  command  = clear_and_paste)
+            tkadd(
+                menu_i,
+                "command",
+                image = "::image::bs_cut",
+                compound = "left",
+                label = gettext_bs("Cut"),
+                command = on_cut
+            )
+
+            tkadd(
+                menu_i,
+                "command",
+                image = "::image::bs_copy",
+                compound = "left",
+                label = gettext_bs("Copy"),
+                command = on_copy
+            )
+
+            tkadd(
+                menu_i,
+                "command",
+                image = "::image::bs_paste",
+                compound = "left",
+                label = gettext_bs("Paste"),
+                command = on_paste
+            )
+
+            tkadd(
+                menu_i,
+                "command",
+                image = "::image::bs_delete",
+                compound = "left",
+                label = gettext_bs("Delete"),
+                command = on_delete
+            )
+#
+#             tkadd(menu_i, "command",
+#                   label    = "Delete all",
+#                   compound = "left",
+#                   image    = "::image::bs_delete",
+#                   command  = on_clear_all)
+
+            tkadd(
+                menu_i,
+                "command",
+                image = "::image::bs_select_all",
+                compound = "left",
+                label = gettext_bs("Select all"),
+                command = on_select_all
+            )
 
             tkpopup(menu_i,
                     tkwinfo("pointerx", top),
                     tkwinfo("pointery", top))
         }
-        tkbind(obj_text, "<ButtonPress-3>", context_menu)
+
+        tkbind(obj_text, "<ButtonPress-3>",          context_menu)
+        tkbind(obj_text, "<Control-ButtonPress-1>",  context_menu)
+        if (MacOSXP()) {
+            tkbind(obj_text, "<Meta-ButtonPress-1>", context_menu)
+        }
+
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid.columnconfigure(main_frame,  0, weight = 1)
@@ -160,7 +255,6 @@ bs_entry <- function(
         tkgrid.columnconfigure(computeXscroll, 0, weight = 1)
     }
 
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     structure(list(
         frame       = main_frame,
@@ -174,12 +268,21 @@ bs_entry <- function(
     class = c("bs_entry", "bs_tk_widget", "list"))
 }
 
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#
-#' @rdname Helper-functions
+# Get values =================================================================
+#' @rdname bs_entry
+#'
+#' @param trim (logical) Should leading and tailing whitespace be trimmed in the result?
 #' @export
-#' @keywords internal
+get_values.bs_entry <- function(obj, ..., trim = TRUE) {
+    tclvalue_chr(obj$var_text, ..., trim = trim)
+}
+
+
+# Set values =================================================================
+#' @rdname bs_entry
+#' @param add (logical) Should values be added to currently existing ones?
+#' @export
 set_values.bs_entry <- function(obj, values, ..., add = FALSE) {
     if (missing(values) || is.null(values)) {
         values <- ""
@@ -194,42 +297,44 @@ set_values.bs_entry <- function(obj, values, ..., add = FALSE) {
 
 #' @rdname Helper-functions
 #' @export
-#' @keywords internal
 `values<-.bs_entry` <- function(x, value) {
     set_values(x, value)
 }
 
 #' @rdname Helper-functions
 #' @export
-#' @keywords internal
 `tclvalue<-.bs_entry` <- function(x, value) {
     set_values(x, value)
 }
 
-#' @rdname Helper-functions
+
+# State ======================================================================
+#' @rdname bs_entry
 #' @export
-#' @keywords internal
-get_values.bs_entry <- function(obj, ..., trim = TRUE) {
-    tclvalue_chr(obj$var_text, ..., trim = trim)
+tk_get_state.bs_entry <- function(obj, ...) {
+    tk_get_state(obj$obj_text, ...)
 }
 
-
+#' @rdname bs_entry
+#'
+#' @param foreground (string) Label text color.
+#' @export
 tk_disable.bs_entry <- function(obj, ..., foreground = "grey") {
     tk_disable(obj$obj_text, ...)
     tk_disable(obj$obj_label, foreground = foreground)
 }
 
-
+#' @rdname bs_entry
+#' @export
 tk_normalize.bs_entry <- function(obj, ..., foreground = getRcmdr("title.color")) {
     tk_normalize(obj$obj_text, ...)
     tk_normalize(obj$obj_label, foreground = foreground)
 }
 
+#' @rdname bs_entry
+#' @export
 tk_activate.bs_entry <- function(obj, ..., foreground = getRcmdr("title.color")) {
     tk_activate(obj$obj_text)
     tk_activate(obj$obj_label, foreground = foreground)
 }
 
-tk_get_state.bs_entry <- function(obj, ...) {
-    tk_get_state(obj$obj_text, ...)
-}
