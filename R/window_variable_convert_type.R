@@ -367,15 +367,15 @@ window_variable_convert_type <- function() {
         into_outter_Frame,
         name    = "into_",
         title   = gettext_bs("Convert into"),
-        buttons = c("character", "nominal", "ordinal", "integer", "numeric", "logical"),
-        values  = c("character", "nominal", "ordinal", "integer", "numeric", "logical"),
+        buttons = c("character", "nominal", "ordinal", "numeric", "integer", "logical"),
+        values  = c("character", "nominal", "ordinal", "numeric", "integer", "logical"),
         initialValue = initial$into,
         labels  = gettext_bs(
             c("Text (character)",
               "Nominal factors",
               "Ordinal factors",
+              "Numbers (real)",
               "Integers",
-              "Real numbers",
               "Logical"
             )),
         command = change_name_suffix
