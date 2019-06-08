@@ -104,7 +104,7 @@ bs_checkboxes <- function(
         }
 
         labels <- unname(boxes)
-        boxes <- names(boxes)
+        boxes  <- names(boxes)
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -174,6 +174,7 @@ bs_checkboxes <- function(
     if (!is.null(title) && !border) {
         tkgrid(bs_label_b(frame, text = title), sticky = sticky_title)
     }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     objs <- pmap(
         list(vars, labels, commands, tips),
