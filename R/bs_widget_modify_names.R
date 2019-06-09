@@ -85,15 +85,15 @@ tk_widget_modify_names <- function(
             labels  = gettext_bs(c("Overwrite", "Create new ")),
             tips    = list(
                 overwrite = gettext_bs(
-                    str_c("Overwrite values of existing variables\n",
-                          "Do not change names. \n",
-                          "No warning will be issued."
+                    str_c("Overwrite values of existing variables.\n",
+                          "Do not change names. "
+                          # ,"\nNo warning will be issued."
                     )),
                 modify = gettext_bs(
                     str_c("Create new variables by adding \n",
                           "prefix/suffix to existing names \n",
-                          "A warning will be issued, if \n",
-                          "duplicate names are detected."))),
+                          "In case of duplicate names, a \n",
+                          "warning will be issued."))),
 
             default_command = function() {
                 control_checkbox_activation()
