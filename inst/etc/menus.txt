@@ -174,8 +174,8 @@ item	bs19_several_ds_menu	command	"Bind columns of several datasets..."	window_d
 menu	bs19_objects_menu	bs19_data_menu	""	""	""	""
 item	bs19_data_menu	cascade	"Workspace"	bs19_objects_menu	"activeDataSetP()"	""
 
-item	bs19_objects_menu	command	"List objects loaded in R workspace"	command_list_objects	""	""
-item	bs19_objects_menu	command	"Manage objects and datasets..."	window_data_obj_manage	""	""
+item	bs19_objects_menu	command	"List loaded objects (and datasets)"	command_list_objects	""	""
+item	bs19_objects_menu	command	"Manage objects (and datasets)..."	window_data_obj_manage	""	""
 
 
 # --- + Import Data  ---------------------------------------------------------
