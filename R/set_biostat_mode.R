@@ -1314,13 +1314,13 @@ bs_mode_menu__datasets <- function() {
     menu_ws <- menu_p
 
     tkadd(menu_ws, "command",
-          label    = "List loaded objects and datasets",
+          label    = "List loaded objects (and datasets)",
           compound = "left",
           image    = "::image::bs_workspace",
           command  = command_list_objects)
 
     tkadd(menu_ws, "command",
-          label    = "Manage objects and datasets...",
+          label    = "Manage objects (and datasets)...",
           compound = "left",
           image    = "::image::bs_objects",
           command  = window_data_obj_manage)
