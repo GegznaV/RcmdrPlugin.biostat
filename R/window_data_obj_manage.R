@@ -56,7 +56,6 @@ window_data_obj_manage <- function() {
             tk_disable(f1_rename)
             tk_disable(f1_copy)
             tk_disable(f1_delete)
-            tk_disable(f1_refresh)
 
         } else if (len == 1) {
             # One is selected
@@ -64,7 +63,6 @@ window_data_obj_manage <- function() {
             tk_normalize(f1_rename)
             tk_normalize(f1_copy)
             tk_normalize(f1_delete)
-            tk_normalize(f1_refresh)
 
         } else {
             # Several are selected
@@ -72,7 +70,6 @@ window_data_obj_manage <- function() {
             tk_disable(f1_rename)
             tk_disable(f1_copy)
             tk_normalize(f1_delete)
-            tk_disable(f1_refresh)
         }
     }
 
@@ -553,14 +550,6 @@ window_data_obj_manage <- function() {
         compound = "left",
         command  = on_delete_obj)
 
-    f1_refresh <- tk2button(
-        f1b,
-        text     = "Convert",
-        tip      = "Change class of an object.",
-        image    = "::image::bs_refresh",
-        compound = "left",
-        command  = on_change_class)
-
     f1_select_all <- tk2button(
         f1b,
         text     = "Select all",
@@ -589,14 +578,12 @@ window_data_obj_manage <- function() {
     tkgrid(f1_rename, sticky = "w")
     tkgrid(f1_copy, sticky = "w")
     tkgrid(f1_delete, sticky = "w")
-    # tkgrid(f1_refresh, sticky = "w")
     tkgrid(f1_select_all, sticky = "w")
 
     tkconfigure(f1_view, width = 10)
     tkconfigure(f1_rename, width = 10)
     tkconfigure(f1_copy, width = 10)
     tkconfigure(f1_delete, width = 10)
-    # tkconfigure(f1_refresh, width = 10)
     tkconfigure(f1_select_all, width = 10)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
