@@ -13,13 +13,15 @@
 #' @keywords internal
 window_fct_lvls_reorder_manual <- function() {
     initializeDialog(title = gettext_bs("Reorder factor levels"))
+
     variableBox <-
-        variableListBox2(
-            top,
-            variables_fct(),
+        bs_listbox(
+            parent = top,
+            values = variables_fct(),
             title = gettext_bs("Factor (pick one)"),
-            listHeight = 7
+            height = 7
         )
+
     orderedFrame <- tkframe(top)
     orderedVariable <- tclVar("0")
     orderedCheckBox <-
@@ -28,6 +30,7 @@ window_fct_lvls_reorder_manual <- function() {
         tclVar(gettext_bs("<same as original>"))
     factorNameField <-
         ttkentry(top, width = "20", textvariable = factorName)
+
     onOK <- function() {
         # logger(paste(
         #     "#####",

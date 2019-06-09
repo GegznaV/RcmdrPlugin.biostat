@@ -482,7 +482,7 @@ window_test_normality <- function() {
                 if (by_group) {
                     str_glue(
                         "group_by({gr_var_str}) %>% \n",
-                        "group_map( ~ {single_test_code})")
+                        "group_modify( ~ {single_test_code})")
                 } else {
                     single_test_code
                 }

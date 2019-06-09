@@ -189,7 +189,7 @@ window_xxx <- function() {
     upper_frame <- tkframe(top)
 
     # Text entry box
-    name_entry <- bs_tk_textbox(
+    name_entry <- bs_entry(
         parent = upper_frame,
         width = 28,
         value = unique_colnames("row_number"),
@@ -256,15 +256,17 @@ window_xxx <- function() {
 
 
 
+    # TODO: [???] change this widget into bs_checkboxes()
     # Check box
-    # bs_check_boxes(upper_frame,
-    #                frame         = "check_locale_frame",
-    #                boxes         = c("check_locale_", "hide_output_"),
-    #                # commands      = list("check_locale_" = cmd_checkbox),
-    #                initialValues = c("1", "0"),
-    #                labels        = gettext_bs(c(
-    #                    "Check if the locale can be used on this computer",
-    #                    "Hide output"))
+    # bs_check_boxes(
+    #     upper_frame,
+    #     frame         = "check_locale_frame",
+    #     boxes         = c("check_locale_", "hide_output_"),
+    #     # commands      = list("check_locale_" = cmd_checkbox),
+    #     initialValues = c("1", "0"),
+    #     labels        = gettext_bs(c(
+    #         "Check if the locale can be used on this computer",
+    #         "Hide output"))
     # )
 
     #     bs_checkboxes(
@@ -275,13 +277,16 @@ window_xxx <- function() {
 
     # Radiobuttons vertical
     into_outter_frame <- tkframe(upper_frame)
+
+
+    # TODO: [???] change this widget into bs_radiobuttons()
     Rcmdr::radioButtons(
         window  = into_outter_frame,
         name    = "into_",
         title   = gettext_bs("Convert into"),
         buttons = c("character", "nominal", "ordinal", "integer", "numeric", "logical"),
         values  = c("character", "nominal", "ordinal", "integer", "numeric", "logical"),
-        # initialValue = dialog_values$into,
+        # initialValue = initial$into,
         labels  = gettext_bs(
             c("Text (character)",
               "Nominal factors",

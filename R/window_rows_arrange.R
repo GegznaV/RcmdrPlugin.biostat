@@ -10,18 +10,19 @@
 #' @export
 #' @keywords internal
 window_rows_arrange <- function() {
-    initializeDialog(title = gettext_bs("Arrange Rows"))
+    win_title <- gettext_bs("Arrange Rows")
+    initializeDialog(title = win_title)
+    tk_title(top, win_title)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     var_y_box <-
-        variableListBox2(
-            upper_frame,
-            Variables(),
+        bs_listbox(
+            parent     = upper_frame,
+            values     = variables_all(),
             selectmode = "single",
-            initialSelection = NULL,
-            title            = gettext_bs("Variable for sorting"),
-            listHeight       = 8
+            title      = gettext_bs("Variable for sorting"),
+            height     = 8
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     optionsFrame <- tkframe(upper_frame)
@@ -91,7 +92,7 @@ window_rows_arrange <- function() {
     ok_cancel_help(helpSubject = "arrange", helpPackage = "dplyr")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(upper_frame, sticky = "new")
-    tkgrid(getFrame(var_y_box), optionsFrame, sticky = "new", columnspan = 2)
+    tkgrid(var_y_box$frame, optionsFrame, sticky = "new", columnspan = 2)
     tkgrid(decreasingFrame, sticky = "nw")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(buttonsFrame, sticky = "w", columnspan = 2)

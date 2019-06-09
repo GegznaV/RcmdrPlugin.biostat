@@ -8,22 +8,28 @@
 #' @export
 #' @keywords internal
 window_factor_lvls_drop <- function() {
-    dataSet <- active_dataset()
-    initializeDialog(title = gettext_bs("Drop Unused Factor Levels"))
+
+    win_title <- gettext_bs("Drop Unused Factor Levels")
+    initializeDialog(title = win_title)
+    tk_title(top, win_title)
+
+    .ds <- active_dataset()
+
     allfactorsVariable <- tclVar("0")
     allFrame <- tkframe(top)
     allfactorsCheckBox <- ttkcheckbutton(
         allFrame,
         variable = allfactorsVariable
     )
-    variablesBox <- variableListBox2(
-        top,
-        variables_fct(),
-        title = gettext_bs("Factors(s) to drop levels \n(pick one or more)"),
-        selectmode = "multiple",
-        initialSelection = NULL,
-        listHeight = 6
-    )
+
+    variablesBox <-
+        bs_listbox(
+            parent     = top,
+            values     = variables_fct(),
+            title      = gettext_bs("Factors(s) to drop levels \n(pick one or more)"),
+            selectmode = "multiple",
+            height     = 6
+        )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         # logger(paste(
@@ -33,7 +39,7 @@ window_factor_lvls_drop <- function() {
         #     sep = ""
         # ))
         all <- tclvalue(allfactorsVariable)
-        variables <- getSelection(variablesBox)
+        variables <- get_selection(variablesBox)
         closeDialog()
         if (all == 0 && length(variables) == 0) {
             errorCondition(
@@ -51,39 +57,32 @@ window_factor_lvls_drop <- function() {
                 type = "yesno",
                 default = "no"
             )
+
         if (response != "yes") {
             onCancel()
             return()
         }
+
         if (all == 1)
-            command <- paste0(dataSet, " <- droplevels(", dataSet, ")")
+            command <- paste0(.ds, " <- droplevels(", .ds, ")")
         else{
             command <- ""
             for (variable in variables) {
                 command <-
-                    paste0(command,dataSet,"$",variable," <- droplevels(",dataSet,"$",variable,")\n"
+                    paste0(command,.ds,"$",variable," <- droplevels(",.ds,"$",variable,")\n"
                     )
             }
         }
         doItAndPrint(command)
-        active_dataset(dataSet,
-                      flushModel = FALSE,
-                      flushDialogMemory = FALSE)
+        active_dataset(.ds,
+                       flushModel = FALSE,
+                       flushDialogMemory = FALSE)
         tkfocus(CommanderWindow())
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Title ------------------------------------------------------------------
-    fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(bs_label(
-        top,
-        text = gettext_bs("Drop unused factor levels"),
-        font = tkfont.create(weight = "bold", size = 9),
-        fg = fg_col),
-        pady = c(5, 9))
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "droplevels")
+    ok_cancel_help(helpSubject = "droplevels")
 
-    tkgrid(getFrame(variablesBox), sticky = "nw")
+    tkgrid(variablesBox$frame, sticky = "nw")
 
     tkgrid(allfactorsCheckBox,
            labelRcmdr(

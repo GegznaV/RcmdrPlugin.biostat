@@ -35,47 +35,66 @@ window_dataset_select <- function() {
             str_glue_eval("tk_normalize({button_obj})", eval_envir = envir)
         }
     }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_ds_class_print <- function() {
-        .ds_1 <- get_selection(var_ds_box)
+        .ds_1 <- get_selection(var_ds_box) %>% safe_names()
         doItAndPrint(str_glue(
             "## The class of dataset '{.ds_1}'\n",
             "class({.ds_1})"))
     }
 
     cmd_ds_size <- function() {
-        .ds_1 <- get_selection(var_ds_box)
+        .ds_1 <- get_selection(var_ds_box) %>% safe_names()
         command_dataset_dim_0(.ds_1)
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_var_type_summary <- function() {
-        .ds_1 <- get_selection(var_ds_box)
+        .ds_1 <- get_selection(var_ds_box) %>% safe_names()
         summary_var_types_0(.ds_1)
     }
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_var_names_print <- function() {
-        .ds_1 <- get_selection(var_ds_box)
+        .ds_1 <- get_selection(var_ds_box) %>% safe_names()
         doItAndPrint(str_glue(
             "## Variable names in dataset '{.ds_1}'\n",
             "names({.ds_1})"
         ))
     }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_ds_glimpse <- function() {
-        .ds_1 <- get_selection(var_ds_box)
+        .ds_1 <- get_selection(var_ds_box) %>% safe_names()
         doItAndPrint(str_glue(
             "## The structure of dataset '{.ds_1}'\n",
             "dplyr::glimpse({.ds_1})"))
     }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    cmd_var_summary_desc <- function() {
+        .ds_1     <- get_selection(var_ds_box) %>% safe_names()
+
+        opts_code <- get_desctools_opts_str()
+        Library("DescTools")
+        command <- str_glue(
+            .trim = FALSE,
+            "## Summary of all variables\n",
+            "{opts_code}",
+            "DescTools::Desc({.ds_1}, plotit = FALSE)")
+        doItAndPrint(command)
+    }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_var_summary_skim <- function() {
-        .ds_1 <- get_selection(var_ds_box)
+        .ds_1 <- get_selection(var_ds_box) %>% safe_names()
         summary_skim(.ds_1)
     }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_var_summary_fct <- function() {
-        .ds_1 <- get_selection(var_ds_box)
+        .ds_1 <- get_selection(var_ds_box) %>% safe_names()
 
         # If any factors exist
         ds_factors <-
@@ -83,6 +102,7 @@ window_dataset_select <- function() {
                            ~inherits(., "factor"))
 
         if (any(ds_factors)) {
+            Library("tidyverse")
             doItAndPrint(style_cmd(str_glue(
                 "## Summary of categorical variables\n",
                 "{.ds_1} %>% \n ",
@@ -99,13 +119,12 @@ window_dataset_select <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_ds_view <- function() {
-        .ds_1 <- get_selection(var_ds_box)
+        .ds_1 <- get_selection(var_ds_box) %>% safe_names()
         doItAndPrint(str_glue(
             "## Preview dataset '{.ds_1}'\n",
             "View({.ds_1})"
         ))
     }
-
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
@@ -126,7 +145,7 @@ window_dataset_select <- function() {
             return()
         }
 
-        selection <- getSelection(var_ds_box)
+        selection <- getSelection(var_ds_box) %>% safe_names()
         closeDialog()
 
         active_dataset(selection)
@@ -146,7 +165,7 @@ window_dataset_select <- function() {
         menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
         tkadd(menu_p, "command",
-              label    = "Variable type summary", #  & dataset size
+              label    = "Size and variable type summary", #  & dataset size
               # compound = "left",
               # image    = "::image::bs_locale",
               command  = cmd_var_type_summary)
@@ -158,10 +177,9 @@ window_dataset_select <- function() {
               command  = cmd_var_names_print)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        tkpopup(menu_p,
-                tkwinfo("pointerx", top),
-                tkwinfo("pointery", top))
+        tkpopup(menu_p, tkwinfo("pointerx", top), tkwinfo("pointery", top))
     }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     menu_summary <- function() {
 
@@ -172,21 +190,25 @@ window_dataset_select <- function() {
         menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
         tkadd(menu_p, "command",
-              label    = "Summary of all variables",
+              label    = "Summary of all variables (Desc)",
+              # compound = "left",
+              # image    = "::image::bs_locale",
+              command  = cmd_var_summary_desc)
+
+        tkadd(menu_p, "command",
+              label    = "Summary of all variables (skim)",
               # compound = "left",
               # image    = "::image::bs_locale",
               command  = cmd_var_summary_skim)
 
-        tkadd(menu_p, "command",
-              label    = "Summary of factor variables",
-              # compound = "left",
-              # image    = "::image::bs_locale",
-              command  = cmd_var_summary_fct)
+        # tkadd(menu_p, "command",
+        #       label    = "Summary of factor variables",
+        #       # compound = "left",
+        #       # image    = "::image::bs_locale",
+        #       command  = cmd_var_summary_fct)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        tkpopup(menu_p,
-                tkwinfo("pointerx", top),
-                tkwinfo("pointery", top))
+        tkpopup(menu_p, tkwinfo("pointerx", top), tkwinfo("pointery", top))
     }
 
 

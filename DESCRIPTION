@@ -1,7 +1,7 @@
 Package: RcmdrPlugin.biostat
 Type: Package
-Version: 0.0.38
-Date: 2019-05-14
+Version: 0.0.40
+Date: 2019-06-08
 Title: R Commander Plug-in for Basic Data Management and Analysis Tasks
 Description: An Rcmdr plug-in for the most common data wrangling, visualisation 
              and analysis tasks using "tidyverse" family functions as well as 
@@ -10,8 +10,10 @@ Authors@R: c(
     person("Vilmantas", "Gegzna", role = c("aut","cre"), 
            comment = c(ORCID = "0000-0002-9500-5167"),
            email = "GegznaV@gmail.com"),
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     #> As some functions are based on code from RcmdrPlugin.EZR:
     person("Yoshinobu", "Kanda", role = "ctb"),
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     #> As some functions are based on code from Rcmdr:
     person("John", "Fox", role = "ctb"),
     person("Milan", "Bouchet-Valat", role = "ctb"),
@@ -59,13 +61,14 @@ Imports:
     data.table (>= 1.12.0),
     desc,
     DescTools (>= 0.99.28),
-    dplyr (>= 0.8.0),
+    dplyr (>= 0.8.1),
     forcats,
     fs (>= 1.2.7),
     ggplot2,
     ggfortify,
     graphics,
     grDevices,
+    inspectdf,
     janitor (>= 1.2.0),
     lm.beta,
     lmtest  (>= 0.9-3), 

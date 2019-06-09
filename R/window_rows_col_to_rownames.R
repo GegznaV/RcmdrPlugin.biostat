@@ -20,14 +20,16 @@ window_rows_col_to_rownames <- function(new_dsname = NULL,
     # Dialog -----------------------------------------------------------------
 
     initializeDialog(title = gettext_bs("Set Row Names"))
+    tk_title(top, gettext_bs("Move Column Values to Row Names"), columnspan = 2)
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
     y_var_box <-
-        variableListBox2(
-            upper_frame,
-            title = gettext_bs("Variables with unique values\n(select one)"),
-            variableList = variables_with_unique_values(),
-            listHeight = 7
+        bs_listbox(
+            parent = upper_frame,
+            title  = gettext_bs("Variables with unique values\n(select one)"),
+            values = variables_with_unique_values(),
+            height = 7
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
@@ -50,16 +52,7 @@ window_rows_col_to_rownames <- function(new_dsname = NULL,
     }
 
     # ========================================================================
-    OKCancelHelp(helpSubject = "column_to_rownames", helpPackage = "tibble")
-    # Title ------------------------------------------------------------------
-    fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(bs_label(
-        top,
-        text = gettext_bs("Move column values to row names"),
-        font = tkfont.create(weight = "bold", size = 9),
-        fg = fg_col),
-        columnspan = 2,
-        pady = c(5, 9))
+    ok_cancel_help(helpSubject = "column_to_rownames", helpPackage = "tibble")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(upper_frame,
            columnspan = 2

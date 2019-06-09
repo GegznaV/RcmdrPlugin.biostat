@@ -705,33 +705,37 @@ window_export_fig_to_pptx <- function() {
         default_command = activate_options)
 
 
-    f3_code_options <- bs_combobox(
-        label = "Purpose of code:",
-        label_position = "above",
-        parent = f3_but,
-        width  = 20,
-        value  = initial$code_options,
-        values = c("Base plot / Code as-is",
-                   "'ggplot2' plot",
-                   "Other plot: print()",
-                   "Other plot: plot()"
-        ),
-        tip = str_c(sep = "\n",
-            "Additional modification for the code. ",
-            "You should try, which one works best  ",
-            "(or works at all) for your plot:",
-            "  - Code as-is - no modification.",
-            "  - ggplot2 - best gor 'ggplot2' polots. ",
-            "  - print() - additionally calls function `print()`.",
-            "  - plot()  - additionally calls function `plot()`."
+    f3_code_options <-
+        bs_combobox(
+            parent = f3_but,
+            label  = "Purpose of code:",
+            label_position = "above",
+            width  = 20,
+            value  = initial$code_options,
+            values = c(
+                "Base plot / Code as-is",
+                "'ggplot2' plot",
+                "Other plot: print()",
+                "Other plot: plot()"
+            ),
+            tip = str_c(
+                sep = "\n",
+                "Additional modification for the code. ",
+                "You should try, which one works best  ",
+                "(or works at all) for your plot:",
+                "  - Code as-is - no modification.",
+                "  - ggplot2 - best gor 'ggplot2' polots. ",
+                "  - print() - additionally calls function `print()`.",
+                "  - plot()  - additionally calls function `plot()`."
             ))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    f3_gg_obj_name_box <- bs_listbox(
-        parent = f3_gg,
-        values = list_objects_of_class("gg", envir = .GlobalEnv),
-        title  = "List of ggplot2 objects:",
-        width  = 25, height = 7)
+    f3_gg_obj_name_box <-
+        bs_listbox(
+            parent = f3_gg,
+            values = list_objects_of_class("gg", envir = .GlobalEnv),
+            title  = "List of ggplot2 objects:",
+            width  = 25, height = 7)
 
     # F4, Frame 4, Preview ---------------------------------------------------
     # F4 <- tk2labelframe(top, relief = "flat", text = "Code input")
@@ -747,45 +751,9 @@ window_export_fig_to_pptx <- function() {
         tip = str_c(
             "Code that generates a plot.\n",
             "Right-click to clear or paste the code."),
-        label = "R Code of Plot to Export"
+        label = "R Code of Plot to Export",
+        context_menu = TRUE
     )
-
-
-    context_menu_for_code <- function() {
-
-        top <- CommanderWindow()
-
-        menu_i <- tk2menu(tk2menu(top), tearoff = FALSE)
-
-        # tkadd(menu_i, "command",
-        #       label    = "Copy",
-        #       compound = "left",
-        #       image    = "::image::bs_delete",
-        #       command  = do_nothing)
-
-        tkadd(menu_i, "command",
-              label    = "Clear",
-              compound = "left",
-              image    = "::image::bs_delete",
-              command  = function() {
-                  set_values(f4_code_input, "")
-              })
-
-        tkadd(menu_i, "command",
-              label    = "Clear and paste",
-              compound = "left",
-              image    = "::image::bs_paste",
-              command  = function() {
-                  set_values(f4_code_input, read_clipboard())
-              })
-
-        tkpopup(menu_i,
-                tkwinfo("pointerx", top),
-                tkwinfo("pointery", top))
-    }
-
-    tkbind(f4_code_input$text, "<ButtonPress-3>", context_menu_for_code)
-
 
     # Widgets ================================================================
 
