@@ -14,7 +14,7 @@ version](https://img.shields.io/badge/GitHub-v0.0.40-brightgreen.svg)](https://g
 status](https://ci.appveyor.com/api/projects/status/hm4h2rjb8ayr2df1/branch/master?svg=true)](https://ci.appveyor.com/project/GegznaV/rcmdrplugin-biostat/branch/master)
 [![Travis-CI Build
 Status](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat)
-[![Updated-on](https://img.shields.io/badge/Updated%20on-2019--06--07-yellowgreen.svg)](/commits/master)
+[![Updated-on](https://img.shields.io/badge/Updated%20on-2019--06--09-yellowgreen.svg)](/commits/master)
 <!-- badges: end -->
 
 -----

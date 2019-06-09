@@ -115,30 +115,11 @@
 <span class='co'># S3 method for bs_checkboxes</span>
 <span class='fu'>set_values</span>(<span class='no'>obj</span>, <span class='no'>values</span>, <span class='no'>...</span>)
 
-<span class='fu'>bs_entry</span>(<span class='kw'>parent</span> <span class='kw'>=</span> <span class='no'>top</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>"28"</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>label_position</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"left"</span>, <span class='st'>"above"</span>, <span class='st'>"right"</span>, <span class='st'>"none"</span>),
-  <span class='kw'>label_color</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"title.color"</span>), <span class='kw'>padx</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>pady</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>sticky</span> <span class='kw'>=</span> <span class='st'>"w"</span>, <span class='kw'>sticky_label</span> <span class='kw'>=</span> <span class='no'>sticky</span>, <span class='kw'>sticky_text</span> <span class='kw'>=</span> <span class='no'>sticky</span>,
-  <span class='kw'>main_frame</span> <span class='kw'>=</span> <span class='fu'>tk2frame</span>(<span class='no'>parent</span>), <span class='kw'>text_frame</span> <span class='kw'>=</span> <span class='fu'>tk2frame</span>(<span class='no'>main_frame</span>),
-  <span class='kw'>label_frame</span> <span class='kw'>=</span> <span class='fu'>tk2frame</span>(<span class='no'>main_frame</span>), <span class='kw'>tip</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>label_tip</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>scroll_x</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>on_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_double_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>on_triple_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_release</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>on_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_double_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>on_triple_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_release_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>on_key_release</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>use_context_menu</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>bind_clear</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for bs_entry</span>
-<span class='fu'>set_values</span>(<span class='no'>obj</span>, <span class='no'>values</span>, <span class='no'>...</span>, <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
 <span class='co'># S3 method for bs_entry</span>
 <span class='fu'>values</span>(<span class='no'>x</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span>
 
 <span class='co'># S3 method for bs_entry</span>
 <span class='fu'>tclvalue</span>(<span class='no'>x</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span>
-
-<span class='co'># S3 method for bs_entry</span>
-<span class='fu'>get_values</span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>trim</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># S3 method for bs_radiobuttons</span>
 <span class='fu'>get_values</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
@@ -159,12 +140,6 @@
 
 <span class='co'># S3 method for bs_tk_buttonset</span>
 <span class='fu'><a href='tk_activate.html'>tk_get_state</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>.out</span> <span class='kw'>=</span> <span class='st'>"list"</span>)
-
-<span class='fu'>tk_widget_modify_names</span>(<span class='kw'>parent</span> <span class='kw'>=</span> <span class='no'>top</span>,
-  <span class='kw'>init_val_radiobuttons</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"overwrite"</span>, <span class='st'>"modify"</span>),
-  <span class='kw'>init_val_checkbox</span> <span class='kw'>=</span> <span class='st'>"0"</span>, <span class='kw'>init_val_prefix</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>init_val_suffix</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>37</span>, <span class='kw'>cmd_radiobuttons</span> <span class='kw'>=</span> <span class='kw'>function</span>() {
-  }, <span class='kw'>cmd_checkbox</span> <span class='kw'>=</span> <span class='kw'>function</span>() { })
 
 <span class='fu'>bs_check_boxes</span>(<span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>top</span>, <span class='kw'>frame</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/stop'>stop</a></span>(<span class='st'>"frame not supplied"</span>),
   <span class='kw'>boxes</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/stop'>stop</a></span>(<span class='st'>"boxes not supplied"</span>), <span class='kw'>initialValues</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
