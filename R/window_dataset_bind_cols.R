@@ -15,15 +15,9 @@
 #' @keywords internal
 window_dataset_bind_cols <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_bs("Bind columns of datasets"))
-    # Title ------------------------------------------------------------------
-    fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(bs_label(
-        top,
-        text = gettext_bs("Bind columns of datasets"),
-        font = tkfont.create(weight = "bold", size = 9),
-        fg = fg_col),
-        pady = c(5, 15), columnspan = 3)
+    win_title <- gettext_bs("Bind Columns of Datasets")
+    initializeDialog(title = win_title)
+    tk_title(top, win_title,  pady = c(5, 15), columnspan = 3)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Functions --------------------------------------------------------------
     set_ds_name <- function() {
@@ -42,45 +36,42 @@ window_dataset_bind_cols <- function() {
                                   width = "68",
                                   textvariable = new_ds_name_variable)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    dataSets       <- listDataSets()
-    .activeDataSet <- active_dataset()
+    dataSets <- listDataSets()
+    .ds      <- active_dataset_0()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
+
     ds_1_box <-
-        variableListBox2(
-            upper_frame,
-            dataSets,
-            listHeight = 7,
-            onRelease_fun = set_ds_name,
-            title = gettext_bs("First dataset (left) \n(pick one)"),
-            initialSelection = if (is.null(.activeDataSet)) {
-                NULL
-            } else {
-                which(.activeDataSet == dataSets) - 1
-            }
-        )
+        bs_listbox(
+            parent    = upper_frame,
+            values    = dataSets,
+            value     = .ds,
+            height    = 7,
+            on_select = set_ds_name,
+            title = gettext_bs("First dataset (left) \n(pick one)"))
 
     ds_2_box <-
-        variableListBox2(upper_frame,
-                         dataSets,
-                         listHeight = 7,
-                         title = gettext_bs("Second dataset \n(pick one)"))
+        bs_listbox(
+            parent = upper_frame,
+            values = dataSets,
+            height = 7,
+            title  = gettext_bs("Second dataset \n(pick one)"))
 
     ds_3_box <-
-        variableListBox2(upper_frame,
-                         dataSets,
-                         listHeight = 7,
-                         title = gettext_bs("Third dataset \n(pick none or one)"))
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    set_ds_name()
+        bs_listbox(
+            parent = upper_frame,
+            values = dataSets,
+            height =  7,
+            title  = gettext_bs("Third dataset \n(pick none or one)"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
-        new_ds_name <- trim.blanks(tclvalue(new_ds_name_variable))
+
+        new_ds_name <- tclvalue_chr(new_ds_name_variable)
         # idnameValue <- trim.blanks(tclvalue(idname))
 
-        name_ds_1 <- getSelection(ds_1_box)
-        name_ds_2 <- getSelection(ds_2_box)
-        name_ds_3 <- getSelection(ds_3_box)
+        name_ds_1 <- get_selection(ds_1_box)
+        name_ds_2 <- get_selection(ds_2_box)
+        name_ds_3 <- get_selection(ds_3_box)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         closeDialog()
@@ -158,8 +149,8 @@ window_dataset_bind_cols <- function() {
             }
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        all_new_ds_names <- stringr::str_c(name_ds_1, name_ds_2, name_ds_3,
-                                           sep = ", ")
+        all_new_ds_names <-
+            stringr::str_c(name_ds_1, name_ds_2, name_ds_3, sep = ", ")
 
         command <- style_cmd(str_glue(
             '## Bind columns of datasets\n',
@@ -174,11 +165,10 @@ window_dataset_bind_cols <- function() {
     }
     # Layout -----------------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "bind_cols", helpPackage = "dplyr")
+    ok_cancel_help(helpSubject = "bind_cols", helpPackage = "dplyr")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(upper_frame)
-    tkgrid(getFrame(ds_1_box), getFrame(ds_2_box), getFrame(ds_3_box),
-           sticky = "new")
+    tkgrid(ds_1_box$frame, ds_2_box$frame, ds_3_box$frame, sticky = "new")
 
     tkgrid(labelRcmdr(names_Frame,
                       text = gettext_bs("Name for resulting dataset:  "),
@@ -191,4 +181,7 @@ window_dataset_bind_cols <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(buttonsFrame, sticky = "we", columnspan = 3)
     dialogSuffix()
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    set_ds_name()
+
 }

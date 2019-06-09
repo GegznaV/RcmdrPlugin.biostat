@@ -8,8 +8,8 @@
 
 window_rows_rowid_to_col <- function() {
     # Initialize -------------------------------------------------------------
-    defaults      <- list(initial_position = "first")
-    dialog_values <- getDialog("window_rows_rowid_to_col", defaults)
+    defaults <- list(initial_position = "first")
+    initial  <- getDialog("window_rows_rowid_to_col", defaults)
 
     initializeDialog(title = gettext_bs("Create Row Numbers"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -24,17 +24,18 @@ window_rows_rowid_to_col <- function() {
                               textvariable = name_variable)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     rb_frame <- tkframe(upper_frame)
-    radioButtons_horizontal(rb_frame,
-                            title = "Column position: ",
-                            title.color = fg_col,
+    radioButtons_horizontal(
+        rb_frame,
+        title = "Column position: ",
+        title.color = fg_col,
 
-                            # right.buttons = FALSE,
-                            name = "position",
-                            sticky_buttons = "w",
-                            buttons = c("first",  "last"),
-                            values =  c("first",  "last"),
-                            labels =  c("First  ","Last  "),
-                            initialValue = dialog_values$initial_position
+        # right.buttons = FALSE,
+        name = "position",
+        sticky_buttons = "w",
+        buttons = c("first",  "last"),
+        values =  c("first",  "last"),
+        labels =  c("First  ","Last  "),
+        initialValue = initial$initial_position
     )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

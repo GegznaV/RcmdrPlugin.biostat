@@ -28,20 +28,19 @@ window_dataset_class <- function() {
     # Initial values ---------------------------------------------------------
 
     # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    .ds     <- active_dataset()
-    fg_col <- Rcmdr::getRcmdr("title.color")
+    .ds <- active_dataset()
 
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_bs("Change Class of Active Dataset"))
-
-    tk_title(top, "Change class of active dataset") # Title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    win_title <- gettext_bs("Class of Active Dataset")
+    initializeDialog(title = win_title)
+    tk_title(top, win_title)
 
     # Widgets ----------------------------------------------------------------
 
     classes <- str_c(str_glue_eval("class({.ds})", envir_eval = .GlobalEnv),
                      collapse = ", ")
 
-    tkgrid(bs_label_b(top, text = "Classes of active dataset:"))
+    tkgrid(bs_label_b(top, text = "Current class(es):"))
     tkgrid(bs_label(top, text = classes))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -57,19 +56,47 @@ window_dataset_class <- function() {
         values  = c("print", "df", "dt", "tibble"),
         initialValue = "print",
         labels  = gettext_bs(
-            c("Print current class to console",
-              "Convert to data frame ('data.frame')",
-              "Convert to data table ('data.table')",
-              "Convert to tibble ('tbl_df')")),
-        command = function(){}
+            c("Print class(es) of dataset to console",
+              "Convert dataset to data frame (class 'data.frame')",
+              "Convert dataset to data table (class 'data.table')",
+              "Convert dataset to tibble (class 'tbl_df')")),
+        command = do_nothing
     )
     # Layout
     tkgrid(upper_frame)
     tkgrid(class_outter_frame, sticky = "nw")
     tkgrid(class_Frame, padx = c(15, 5), pady = c(10, 10))
 
+    # Help menus -------------------------------------------------------------
+    help_menu <- function() {
+
+        menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
+
+        tkadd(menu_main, "command",
+              label    = "Function 'class'",
+              command  = open_help("class", package = "base"))
+
+        tkadd(menu_main, "separator")
+
+        tkadd(menu_main, "command",
+              label    = "Function 'as.data.frame'",
+              command  = open_help("as.data.frame", package = "base"))
+
+        tkadd(menu_main, "command",
+              label    = "Function 'as.data.table'",
+              command  = open_help("as.data.table", package = "data.table"))
+
+        tkadd(menu_main, "command",
+              label    = "Function 'as_tibble'",
+              command  = open_help("as_tibble", package = "tibble"))
+
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        tkpopup(menu_main,
+                tkwinfo("pointerx", top),
+                tkwinfo("pointery", top))
+    }
     # Finalize ---------------------------------------------------------------
-    ok_cancel_help()
+    ok_cancel_help(apply = "window_dataset_class", on_help = help_menu)
     tkgrid(buttonsFrame)
     dialogSuffix()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

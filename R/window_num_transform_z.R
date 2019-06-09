@@ -6,40 +6,33 @@
 #' @family transformations
 #'
 window_num_transform_z <- function() {
-    initializeDialog(title = gettext_bs("Z transformation (standardization)"))
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Title ------------------------------------------------------------------
-    fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(bs_label(
-        top,
-        text = gettext_bs("Standardize variables"),
-        font = tkfont.create(weight = "bold", size = 9),
-        fg = fg_col),
-        pady = c(5, 9), columnspan = 2)
+    initializeDialog(title = gettext_bs("Z Transformation (Standardization)"))
+    tk_title(top, gettext_bs("Standardize Variables"), columnspan = 2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     variableBox <-
-        variableListBox2(
-            top,
-            Numeric(),
-            listWidth = c(43, Inf),
+        bs_listbox(
+            parent     = top,
+            values     = variables_num(),
+            width      = c(43, Inf),
             selectmode = "multiple",
-            title = gettext_bs("Variables (pick one or more)"),
-            listHeight = 6
+            title      = gettext_bs("Variables (pick one or more)"),
+            height     = 6
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     prefix_var  <- tclVar("z_")
     prefixField <- ttkentry(top,
                             width = "25",
                             textvariable = prefix_var)
+
     suffix_var  <- tclVar("")
     suffixField <- ttkentry(top,
                             width = "25",
                             textvariable = suffix_var)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
-        variables <- getSelection(variableBox)
-        prefix    <- trim.blanks(tclvalue(prefix_var))
-        suffix    <- trim.blanks(tclvalue(suffix_var))
+        variables <- get_selection(variableBox)
+        prefix    <- tclvalue_chr(prefix_var)
+        suffix    <- tclvalue_chr(suffix_var)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         closeDialog()
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -112,7 +105,7 @@ window_num_transform_z <- function() {
         tkfocus(CommanderWindow())
     } # [end: onOK]
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "scale")
+    ok_cancel_help(helpSubject = "scale")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(getFrame(variableBox), sticky = "n", columnspan = 2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

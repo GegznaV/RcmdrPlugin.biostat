@@ -11,14 +11,14 @@ window_... <- function() {
     # Default values ---------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     defaults <- list(
-        initial_y_var = NULL,
-        initial_gr_var = NULL,
-        initial_digits = "NA",
+        y_var = NULL,
+        gr_var = NULL,
+        digits = "NA",
         # ...
-        initial_keep_model = FALSE
+        keep_model = FALSE
     )
 
-    dialog_values <- getDialog("window_...", defaults)
+    initial <- getDialog("window_...", defaults)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Dialog elements --------------------------------------------------------
@@ -38,22 +38,24 @@ window_... <- function() {
 
 
     dataFrame <- tkframe(main_frame)
-    yBox <- variableListBox2(
-        dataFrame,
-        Factors(),
-        selectmode = "multiple",
-        listHeight = 7,
-        title = gettext_bs("Variables\n(pick one or several)"),
-        initialSelection = varPosn(dialog_values$initial_y_var, "numeric")
-    )
+    yBox <-
+        bs_listbox(
+            parent     = dataFrame,
+            values     = variables_fct_like(),
+            selectmode = "multiple",
+            height     = 7,
+            title      = gettext_bs("Variables\n(pick one or several)"),
+            value      = initial$y_var
+        )
 
-    # groupBox <- variableListBox2(
-    #     dataFrame,
-    #     selectmode = "multiple",
-    #     Factors(),
-    #     listHeight = 6,
-    #     title = gettext_bs("Grouping variable(s) \n(pick one, several or none)"),
-    #     initialSelection = varPosn(dialog_values$initial_gr_var, "factor"))
+    # groupBox <-
+    #     bs_listbox(
+    #         parent = dataFrame,
+    #         selectmode = "multiple",
+    #         values = variables_fct_like(),
+    #         height = 6,
+    #         title = gettext_bs("Grouping variable(s) \n(pick one, several or none)"),
+    #         value = initial$gr_var)
     #
     # tkgrid(
     #     getFrame(yBox),
@@ -81,18 +83,20 @@ window_... <- function() {
     model <- ttkentry(model_boxlFrame, width = "20", textvariable = modelName)
 
 
-    bs_check_boxes(model_boxlFrame,
-                   # ttk = TRUE,
-                   frame = "keep_model_Frame",
-                   # title = "Plot options",
-                   boxes = c("as_df", "keep_model"),
-                   initialValues = c(dialog_values$initial_as_df,
-                                     dialog_values$initial_keep_model),
-                   labels = gettext_bs(
-                       c("Summary as data frame", "Keep summary")
-                   ),
-                   commands = list("as_df" = function(){},
-                                   "keep_model" = function(){})
+    bs_check_boxes(
+        model_boxlFrame,
+        # ttk = TRUE,
+        frame = "keep_model_Frame",
+        # title = "Plot options",
+        boxes = c("as_df", "keep_model"),
+        initialValues = c(initial$as_df,
+                          initial$keep_model),
+        labels = gettext_bs(
+            c("Summary as data frame", "Keep summary")
+        ),
+        commands = list(
+            "as_df" = do_nothing,
+            "keep_model" = do_nothing)
     )
 
     tkgrid(keep_model_Frame, sticky = "ew")
@@ -107,7 +111,7 @@ window_... <- function() {
     tkgrid(model_boxlFrame, sticky = "nw")
 
 
-    # digitsVar <- tclVar(dialog_values$initial_digits)
+    # digitsVar <- tclVar(initial$digits)
     #
     # digitsVarFrame <- tkframe(main_top_frame)
     # digitsBox      <- ttkentry(digitsVarFrame, width = "20", textvariable = digitsVar)
@@ -177,11 +181,11 @@ window_... <- function() {
         }
 
         putDialog("window_...",
-                  list(initial_y_var  = y_var,
-                       # initial_gr_var = gr_var,
-                       # initial_digits = as.character(digits),
-                       initial_as_df = as_df,
-                       initial_keep_model = keep_model
+                  list(y_var  = y_var,
+                       # gr_var = gr_var,
+                       # digits = as.character(digits),
+                       as_df = as_df,
+                       keep_model = keep_model
                   )
         )
 

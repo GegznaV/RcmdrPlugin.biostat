@@ -34,61 +34,64 @@ window_num_transform_log <- function() {
                      fun_type  = "Tidyverse",
                      variables = NULL)
 
-    dialog_values <- getDialog("window_num_transform_log", defaults)
+    initial <- getDialog("window_num_transform_log", defaults)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)
 
     variableBox <-
-        variableListBox2(upper_frame,
-                         Numeric(),
-                         selectmode = "multiple",
-                         title = gettext_bs("Variables (pick one or more)"),
-                         initialSelection = varPosn(dialog_values$variables, "numeric"),
-                         listHeight = 7
+        bs_listbox(
+            parent     = upper_frame,
+            values     = variables_num(),
+            selectmode = "multiple",
+            title      = gettext_bs("Variables (pick one or more)"),
+            value      = initial$variables,
+            height     = 7
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     middle_frame <- tkframe(top)
 
-    prefix_variable <- tclVar(dialog_values$prefix)
+    prefix_variable <- tclVar(initial$prefix)
     prefix_field    <- ttkentry(middle_frame,
                                 width = "29",
                                 textvariable = prefix_variable)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    suffix_variable <- tclVar(dialog_values$suffix)
+    suffix_variable <- tclVar(initial$suffix)
     suffix_field    <- ttkentry(middle_frame,
                                 width = "29",
                                 textvariable = suffix_variable)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     log_txt_outter_Frame <- tkframe(upper_frame)
-    Rcmdr::radioButtons(log_txt_outter_Frame,
-                        name         = "log_txt",
-                        title        = gettext_bs("Choose of logarithmic transformation"),
-                        buttons      = c("common", "binary", "natural", "natural_1p"),
-                        values       = c("log10", "log2", "log", "log1p"),
-                        initialValue = dialog_values$log_txt,
-                        labels       =  gettext_bs(
-                            c("Common,  log(x, base = 10)",
-                              "Binary,  log(x, base = 2)",
-                              "Natural, log(x, base = e)",
-                              "Natural, log(x + 1, base = e)")),
-                        command      = change_prefix
+    Rcmdr::radioButtons(
+        log_txt_outter_Frame,
+        name         = "log_txt",
+        title        = gettext_bs("Choose of logarithmic transformation"),
+        buttons      = c("common", "binary", "natural", "natural_1p"),
+        values       = c("log10", "log2", "log", "log1p"),
+        initialValue = initial$log_txt,
+        labels       =  gettext_bs(
+            c("Common,  log(x, base = 10)",
+              "Binary,  log(x, base = 2)",
+              "Natural, log(x, base = e)",
+              "Natural, log(x + 1, base = e)")),
+        command      = change_prefix
     )
     change_prefix()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    radioButtons_horizontal(name         = "fun_type",
-                            title        = gettext_bs("Use functions: "),
-                            title.color  = getRcmdr("title.color"),
-                            buttons      = c("tidyverse", "base"),
-                            values       = c("Tidyverse", "Base_R"),
-                            initialValue = dialog_values$fun_type,
-                            labels       = gettext_bs(c("Tidyverse", "Base R")))
+    radioButtons_horizontal(
+        name         = "fun_type",
+        title        = gettext_bs("Use functions: "),
+        title.color  = getRcmdr("title.color"),
+        buttons      = c("tidyverse", "base"),
+        values       = c("Tidyverse", "Base_R"),
+        initialValue = initial$fun_type,
+        labels       = gettext_bs(c("Tidyverse", "Base R")))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
-        prefix    <- trim.blanks(tclvalue(prefix_variable))
-        suffix    <- trim.blanks(tclvalue(suffix_variable))
+        prefix    <- tclvalue_chr(prefix_variable)
+        suffix    <- tclvalue_chr(suffix_variable)
         log_txt   <- tclvalue(log_txtVariable)
         fun_type  <- tclvalue(fun_typeVariable)
-        variables <- getSelection(variableBox)
+        variables <- get_selection(variableBox)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         putDialog("window_num_transform_log",
                   list(prefix    = prefix,
@@ -107,7 +110,7 @@ window_num_transform_log <- function() {
             return()
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        .activeDataSet <- active_dataset_0()
+        .ds <- active_dataset_0()
 
         new_names <- paste0(prefix, variables, suffix) %>% make.names()
 
@@ -130,35 +133,36 @@ window_num_transform_log <- function() {
         }
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        command <- switch(fun_type,
-                          # Use base R functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                          "Base_R" = {
-                              tans_txt <- str_glue("{new_names} <- {log_txt}({variables})")
+        command <- switch(
+            fun_type,
+            # Use base R functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            "Base_R" = {
+                tans_txt <- str_glue("{new_names} <- {log_txt}({variables})")
 
-                              str_glue("{.activeDataSet} <- within({.activeDataSet}, {{\n",
-                                       "{paste(tans_txt, collapse ='\n')} \n",
-                                       "}})\n")
-                          },
+                str_glue("{.ds} <- within({.ds}, {{\n",
+                         "{paste(tans_txt, collapse ='\n')} \n",
+                         "}})\n")
+            },
 
-                          # Use Tidyverse functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                          "Tidyverse" = {
-                              Library("tidyverse")
+            # Use Tidyverse functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            "Tidyverse" = {
+                Library("tidyverse")
 
-                              tans_txt <- str_glue("{new_names} = {log_txt}({variables})")
+                tans_txt <- str_glue("{new_names} = {log_txt}({variables})")
 
-                              if (length(tans_txt) == 1) {
-                                  str_glue("{.activeDataSet} <- {.activeDataSet} %>%\n",
-                                           "dplyr::mutate({tans_txt})\n")
+                if (length(tans_txt) == 1) {
+                    str_glue("{.ds} <- {.ds} %>%\n",
+                             "dplyr::mutate({tans_txt})\n")
 
-                              } else {
-                                  str_glue("{.activeDataSet} <- {.activeDataSet} %>%\n",
-                                           'dplyr::mutate(\n{paste0(tans_txt, collapse = ",\n")}\n',
-                                           ')\n')
-                              }
+                } else {
+                    str_glue("{.ds} <- {.ds} %>%\n",
+                             'dplyr::mutate(\n{paste0(tans_txt, collapse = ",\n")}\n',
+                             ')\n')
+                }
 
-                          },
-                          # default
-                          stop("Unrecognized option:", fun_type)
+            },
+            # default
+            stop("Unrecognized option:", fun_type)
         )
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         command <- style_cmd(command)
@@ -166,7 +170,7 @@ window_num_transform_log <- function() {
         result <- justDoIt(command)
 
         if (class(result)[1] != "try-error")
-            active_dataset(.activeDataSet, flushModel = FALSE)
+            active_dataset(.ds, flushModel = FALSE)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         msg <- str_glue(
@@ -179,7 +183,7 @@ window_num_transform_log <- function() {
         tkfocus(CommanderWindow())
     } # [end: onOK] ----------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    OKCancelHelp(helpSubject = "log")
+    ok_cancel_help(helpSubject = "log")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(upper_frame)
     tkgrid(log_txtFrame, padx = c(15, 5))

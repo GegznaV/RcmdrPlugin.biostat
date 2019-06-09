@@ -608,6 +608,8 @@ window_import_from_text <- function() {
             'Grey shading represents tabs.\n',
             'Press Ctrl+S to highlight tabs.')
 
+        f3_input$context_menu_fun()
+
         tclvalue(previous_file_name) <- ""
         biostat_env$possibly_more_rows <- NULL
 
@@ -639,6 +641,8 @@ window_import_from_text <- function() {
             "Preview of input file contents.\n",
             "Not editable.\n",
             "Grey shading represents tabs.")
+
+        f3_input$context_menu_fun(menu_rm = TRUE)
 
         update_name_entry()
     }
@@ -1381,7 +1385,8 @@ window_import_from_text <- function() {
         f3, width = 75, height = 11, wrap = "none",
         undo = FALSE, state = "disabled", font = font_consolas_regular,
         label = "Dataset",
-        tip = tip_variable_types
+        tip = tip_variable_types,
+        context_menu = FALSE
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

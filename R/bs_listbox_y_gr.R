@@ -6,10 +6,12 @@
 #' @export
 #' @examples
 #' \dontrun{\donttest{
+#'
 #' # Active dataset must be selected
 #' top <- tktoplevel()
 #' lb <- bs_listbox_y_gr(top)
 #' tkgrid(lb$frame)
+#'
 #' }}
 bs_listbox_y_gr <- function(
     parent = top,
@@ -109,7 +111,6 @@ bs_listbox_y_gr <- function(
         }
 
         y_vars    <- str_glue_eval("variables_{y_var_type}()")
-        # y_initial <- var_pos_n(y_initial, y_var_type)
         y_initial <- y_initial
     }
 
@@ -119,7 +120,6 @@ bs_listbox_y_gr <- function(
         }
 
         gr_vars    <- str_glue_eval("variables_{gr_var_type}()")
-        # gr_initial <- var_pos_n(gr_initial, gr_var_type)
         gr_initial <- gr_initial
     }
 

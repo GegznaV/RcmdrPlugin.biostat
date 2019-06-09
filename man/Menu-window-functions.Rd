@@ -2,8 +2,7 @@
 % Please edit documentation in R/menu-data.R, R/menu-models.R,
 %   R/menu-plots.R, R/menu-rows.R, R/menu-settings.R, R/menu-summary.R,
 %   R/menu-variables.R, R/online_tools.R, R/rcmdr__active_dataset.R,
-%   R/tcltk__refresh_dataset_window_0.R, R/window_data_obj_copy.R,
-%   R/window_data_obj_delete.R, R/window_data_obj_rename.R,
+%   R/tcltk__refresh_dataset_window_0.R, R/window_data_obj_manage.R,
 %   R/window_dataset_bind_cols.R, R/window_dataset_bind_rows.R,
 %   R/window_dataset_class.R, R/window_dataset_join.R,
 %   R/window_dataset_print_as_md.R, R/window_dataset_select.R,
@@ -57,9 +56,11 @@
 \alias{command_list_objects}
 \alias{command_session_info_devtools}
 \alias{command_session_info_utils}
+\alias{window_summary_inspect}
 \alias{command_dataset_dim}
 \alias{command_dataset_dim_0}
 \alias{command_glimpse}
+\alias{window_summary_desc_all}
 \alias{summary_head_tail}
 \alias{summary_var_types}
 \alias{command_colnames}
@@ -118,9 +119,7 @@
 \alias{active_dataset}
 \alias{refresh_dataset_window_0}
 \alias{configure_tags}
-\alias{window_data_obj_copy}
-\alias{window_data_obj_delete}
-\alias{window_data_obj_rename}
+\alias{window_data_obj_manage}
 \alias{window_dataset_bind_cols}
 \alias{window_dataset_bind_rows}
 \alias{window_dataset_class}
@@ -238,11 +237,15 @@ command_session_info_devtools()
 
 command_session_info_utils()
 
+window_summary_inspect()
+
 command_dataset_dim()
 
 command_dataset_dim_0(.ds)
 
 command_glimpse()
+
+window_summary_desc_all()
 
 summary_head_tail()
 
@@ -362,11 +365,7 @@ refresh_dataset_window_0(widget, ds_contents, preview_type,
 
 configure_tags(text_widget)
 
-window_data_obj_copy()
-
-window_data_obj_delete()
-
-window_data_obj_rename()
+window_data_obj_manage()
 
 window_dataset_bind_cols()
 

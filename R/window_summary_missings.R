@@ -52,14 +52,15 @@ window_summary_missings <- function() {
         # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (use_plot) {
 
-            Library("DescTools")
             Library("tidyverse")
+            Library("DescTools")
 
             command_plot <- str_glue(
                 .trim = FALSE,
                 "## Plot missing values\n",
                 'DescTools::PlotMiss({.ds}) \n',
-                'title(main = "Missing values in dataset \'{.ds}\'",\n xlab = "Row number")\n')
+                'title(main = "Missing values in dataset \'{.ds}\'",\n',
+                '      xlab = "Row number")\n')
 
             if (new_plots_window == TRUE) {
                 open_new_plots_window()
@@ -78,18 +79,34 @@ window_summary_missings <- function() {
 
             remove(result)
 
+
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # Library("tidyverse")
+            # Library("inspectdf")
+            #
+            # command_plot_2 <-
+            #     str_glue("{active_dataset_0()} %>% inspect_na() %>% show_plot()")
+            # if (new_plots_window == TRUE) {
+            #     open_new_plots_window()
+            # }
+            # # [???] Add error checking
+            # doItAndPrint(command_plot_2)
+
+
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (use_numeric) {
 
+            Library("tidyverse")
             Library("DescTools")
+
             command_count <- str_glue(
                 "## Count missing values\n",
                 "#  vname - variable name\n",
                 "# cifnot - complete cases if current variable is removed\n",
                 "#    nas - missing values\n",
                 "#     _p - percentage\n",
-                'DescTools::CountCompCases({.ds}) %>% \n print(digits = 1)')
+                '{.ds} %>% \n DescTools::CountCompCases() %>% \n print(digits = 1)')
 
             result <- try_command(command_count)
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

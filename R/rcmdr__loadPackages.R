@@ -9,35 +9,36 @@ window_load_packages <- function() {
 
     initializeDialog(title = gettextRcmdr("Load Packages"))
 
-    packagesBox <- bs_listbox(
-        top,
-        availablePackages,
-        title = gettextRcmdr("Available packages"),
-        use_filter = TRUE,
-        height = 10,
-        width = c(25, Inf),
-        filter_label = "Filter by name",
-        selectmode = "multiple"
-    )
+    packagesBox <-
+        bs_listbox(
+            parent       = top,
+            values       = availablePackages,
+            title        = gettextRcmdr("Available packages"),
+            use_filter   = TRUE,
+            height       = 10,
+            width        = c(25, Inf),
+            filter_label = "Filter by name",
+            selectmode   = "multiple")
 
-    # selected_box <- bs_listbox(
-    #     top,
-    #     "",
-    #     # availablePackages,
-    #     title = gettextRcmdr("Selected packages"),
-    #     use_filter = FALSE,
-    #     height = 10,
-    #     width = c(25, Inf),
-    #     # filter_label = "Filter by name",
-    #     selectmode = "multiple"
-    # )
+    # selected_box <-
+    #     bs_listbox(
+    #         top,
+    #         "",
+    #         # availablePackages,
+    #         title = gettextRcmdr("Selected packages"),
+    #         use_filter = FALSE,
+    #         height = 10,
+    #         width = c(25, Inf),
+    #         # filter_label = "Filter by name",
+    #         selectmode = "multiple"
+    #     )
 
     tkgrid(packagesBox$frame, sticky = "nw")
     # tkgrid(packagesBox$frame, selected_box$frame, sticky = "nw")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
-        packages <- getSelection(packagesBox)
+        packages <- get_selection(packagesBox)
         closeDialog(top)
         if (length(packages) == 0) {
             errorCondition(recall = loadPackages,

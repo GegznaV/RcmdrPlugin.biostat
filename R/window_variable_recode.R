@@ -40,223 +40,6 @@
 # 5. Add tk_see or set_yview for [->] and [->|] buttons
 #
 
-
-# right-click context menus
-right_click_menu <- function(tcl_widget) {
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    onCopy <- function() {
-        # focused <- tkfocus()
-        selection <- strsplit(tclvalue(tktag.ranges(tcl_widget, "sel")), " ")[[1]]
-        if (is.na(selection[1])) return()
-        text <- tclvalue(tkget(tcl_widget, selection[1], selection[2]))
-        tkclipboard.clear()
-        tkclipboard.append(text)
-    }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    onDelete <- function(){
-        # focused <- tkfocus()
-        selection <- strsplit(tclvalue(tktag.ranges(tcl_widget, "sel")), " ")[[1]]
-        if (is.na(selection[1])) return()
-        tkdelete(tcl_widget, selection[1], selection[2])
-    }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    onCut <- function(){
-        onCopy()
-        onDelete()
-    }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    onPaste <- function(){
-        onDelete()
-        # focused <- tkfocus()
-        text <- tclvalue(.Tcl("selection get -selection CLIPBOARD"))
-        if (length(text) == 0) return()
-        tkinsert(tcl_widget, "insert", text)
-    }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    onFind <- function() {
-        # focused <- tkfocus()
-        focused <- tcl_widget
-
-        initializeDialog(title = gettext_bs("Find"))
-        textFrame <- tkframe(top)
-        textVar <- tclVar(getRcmdr("last.search"))
-        textEntry <- ttkentry(textFrame, width = "20", textvariable = textVar)
-        checkBoxes(frame = "optionsFrame",
-                   boxes = c("regexpr", "case"),
-                   initialValues = c("0", "1"),
-                   labels = gettext_bs(c("Regular-expression search", "Case sensitive"))
-        )
-        radioButtons(name    = "direction",
-                     buttons = c("foward", "backward"),
-                     labels  = gettext_bs(c("Forward", "Backward")),
-                     values  = c("-forward", "-backward"),
-                     title   = gettext_bs("Search Direction"))
-
-        onOK <- function() {
-            text <- tclvalue(textVar)
-            putRcmdr("last.search", text)
-            if (text == "") {
-                errorCondition(
-                    recall = onFind,
-                    message = gettext_bs("No search text specified."))
-                return()
-            }
-            type <- if (tclvalue(regexprVariable) == 1) "-regexp" else "-exact"
-            case <- tclvalue(caseVariable) == 1
-            direction <- tclvalue(directionVariable)
-            stop <- if (direction == "-forward") "end" else "1.0"
-            where.txt <-
-                if (case) tksearch(focused, type, direction, "--", text, "insert", stop)
-            else tksearch(focused, type, direction, "-nocase", "--", text, "insert", stop)
-            where.txt <- tclvalue(where.txt)
-            if (where.txt == "") {
-                Message(message = gettext_bs("Text not found."),
-                        type = "note")
-                if (GrabFocus()) tkgrab.release(top)
-                tkdestroy(top)
-                tkfocus(CommanderWindow())
-                return()
-            }
-            if (GrabFocus()) tkgrab.release(top)
-            tkfocus(focused)
-            tkmark.set(focused, "insert", where.txt)
-            tksee(focused, where.txt)
-            tkdestroy(top)
-        }
-        .exit <- function(){
-            text <- tclvalue(textVar)
-            putRcmdr("last.search", text)
-            return("")
-        }
-        OKCancelHelp()
-        tkgrid(labelRcmdr(textFrame, text = gettext_bs("Search for:")),
-               textEntry, sticky = "w")
-        tkgrid(textFrame, sticky = "w")
-        tkgrid(optionsFrame, sticky = "w")
-        tkgrid(directionFrame, sticky = "w")
-        tkgrid(buttonsFrame, sticky = "w")
-        dialogSuffix(focus = textEntry)
-    }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    onSelectAll <- function() {
-        # focused <- tkfocus()
-        tktag.add(tcl_widget, "sel", "1.0", "end")
-        tkfocus(tcl_widget)
-    }
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    onSelectRow <- function() {
-        # focused <- tkfocus()
-        tktag.add(tcl_widget, "sel", "current linestart", "current lineend + 1 chars")
-        tkfocus(tcl_widget)
-    }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    onDeleteRow <- function() {
-        onSelectRow()
-        onDelete()
-    }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    onClear <- function() {
-        onSelectAll()
-        onDelete()
-    }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    onUndo <- function(){
-        # focused <- tkfocus()
-        tcl(tcl_widget, "edit", "undo")
-    }
-    #
-    # # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    onRedo <- function(){
-        # focused <- tkfocus()
-        tcl(tcl_widget, "edit", "redo")
-    }
-    # # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-
-    # ========================================================================
-    crete_context_menu <- function() {
-
-        # if (tclvalue(tkfocus()) != tcl_widget$ID) return()
-
-        contextMenu <- tkmenu(tkmenu(tcl_widget), tearoff = FALSE)
-
-        # tkadd(contextMenu, "command", label = gettext_bs("Submit"), command = onSubmit)
-
-        # tkadd(contextMenu, "separator")
-
-        # tkadd(contextMenu, "command", label = gettext_bs("Move row up"),     command = onUp)
-        # tkadd(contextMenu, "command", label = gettext_bs("Move row down"),   command = onDown)
-        # tkadd(contextMenu, "command", label = gettext_bs("Move row to top"), command = onTop)
-        #
-        # tkadd(contextMenu, "separator")
-
-        tkadd(contextMenu, "command",
-              label = gettext_bs("Copy"),
-              image = "::image::bs_copy",
-              compound = "left",
-              command = onCopy)
-
-        tkadd(contextMenu, "command",
-              label = gettext_bs("Paste"),
-              image = "::image::bs_paste",
-              compound = "left",
-              command = onPaste)
-
-        tkadd(contextMenu, "command",
-              label = gettext_bs("Cut"),
-              image = "::image::bs_cut",
-              compound = "left",
-              command = onCut)
-
-        tkadd(contextMenu, "command",
-              label = gettext_bs("Delete"),
-              image = "::image::bs_delete",
-              compound = "left",
-              command = onDelete)
-
-        tkadd(contextMenu, "command",
-              label = gettext_bs("Delete all"),
-              image = "::image::bs_delete",
-              compound = "left",
-              command = onClear)
-
-
-        # tkadd(contextMenu, "separator")
-        # tkadd(contextMenu, "command", label = gettext_bs("Find..."),    command = onFind)
-        # tkadd(contextMenu, "command", label = gettext_bs("Select all"), command = onSelectAll)
-        # tkadd(contextMenu, "command", label = gettext_bs("Select row"), command = onSelectRow)
-        # tkadd(contextMenu, "command", label = gettext_bs("Delete row"), command = onDeleteRow)
-
-        tkadd(contextMenu, "separator")
-        tkadd(contextMenu, "command",
-              label = gettext_bs("Undo"),
-              image = "::image::bs_undo",
-              compound = "left",
-              command = onUndo)
-        tkadd(contextMenu, "command",
-              label = gettext_bs("Redo"),
-              image = "::image::bs_redo",
-              compound = "left",
-              command = onRedo)
-
-
-        # tkadd(contextMenu, "separator")
-        # tkadd(contextMenu, "command", label = gettext_bs("Reset directives"), command = variable_doubleclick)
-
-        tkpopup(contextMenu,
-                tkwinfo("pointerx", tcl_widget),
-                tkwinfo("pointery", tcl_widget))
-
-
-    }
-
-
-    tkbind(tcl_widget, "<ButtonPress-3>", crete_context_menu)
-}
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Helper functions
 # x - a vector
@@ -454,22 +237,22 @@ window_variable_recode0 <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     defaults <-
         list(
-            # initial_make_factor     = 1,
-            initial_recode_into       = "nominal",
-            initial_variables         = NULL,
-            initial_name              = unique_colnames("recoded_variable"),
-            initial_recode_directives = "",
-            initial_selected_variable = "{none}"
+            # make_factor     = 1,
+            recode_into       = "nominal",
+            variables         = NULL,
+            name              = unique_colnames("recoded"),
+            recode_directives = "",
+            selected_variable = "{none}"
         )
 
-    dialog_values <- getDialog("window_variable_recode0", defaults)
+    initial <- getDialog("window_variable_recode0", defaults)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     selected_var_frame <- tkframe(top)
-    selected_variable  <- tclVar(dialog_values$initial_selected_variable)
+    selected_variable  <- tclVar(initial$selected_variable)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     insert_template <- function(template = "1") {
-        active_variable  <- getSelection(variablesBox)
+        active_variable  <- get_selection(variablesBox)
         var_val          <- get_active_ds()[[active_variable]]
         # var_val        <- str_glue_eval("{active_dataset()}${active_variable}")
 
@@ -554,9 +337,9 @@ window_variable_recode0 <- function() {
 
         # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         recode_into       <- tclvalue(recode_intoVariable)
-        variables         <- getSelection(variablesBox)
+        variables         <- get_selection(variablesBox)
         selected_variable <- tclvalue(selected_variable)
-        name              <- trim.blanks(tclvalue(newVariableName))
+        name              <- tclvalue_chr(newVariableName)
 
         # Read recode directives
         save_recodes <- trimws(tclvalue(tkget(recodes, "1.0", "end")))
@@ -568,12 +351,12 @@ window_variable_recode0 <- function() {
         putDialog(
             "window_variable_recode0",
             list(
-                # initial_make_factor       = make_factor,
-                initial_variables         = variables,
-                initial_name              = name,
-                initial_recode_directives = save_recodes,
-                initial_recode_into       = recode_into,
-                initial_selected_variable = selected_variable
+                # make_factor       = make_factor,
+                variables         = variables,
+                name              = name,
+                recode_directives = save_recodes,
+                recode_into       = recode_into,
+                selected_variable = selected_variable
             )
         )
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -639,7 +422,7 @@ window_variable_recode0 <- function() {
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (class(result)[1] != "try-error") {
-            closeDialog()
+            # closeDialog()
             logger(style_cmd(command))
             active_dataset(.ds, flushModel = FALSE, flushDialogMemory = FALSE)
 
@@ -669,17 +452,17 @@ window_variable_recode0 <- function() {
     f1 <- tkframe(top)
 
     variablesBox <-
-        variableListBox2(
-            listHeight = 7,
-            f1,
-            Variables(),
-            onDoubleClick_fun  = insert_template_1,
-            onTripleClick_fun  = insert_template_1a,
-            onDoubleClick3_fun = insert_template_2,
-            onTripleClick3_fun = insert_template_2a,
+        bs_listbox(
+            parent = f1,
+            height = 7,
+            values = variables_all(),
+            on_double_click = insert_template_1,
+            on_triple_click = insert_template_1a,
+            on_double_click_3 = insert_template_2,
+            on_triple_click_3 = insert_template_2a,
             # selectmode = "multiple",
             title = gettext_bs("Variable to recode \n(double-click to pick one)"),
-            initialSelection = varPosn(dialog_values$initial_variables, "all")
+            value = initial$variables
         )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     recodesFrame <- tkframe(f1)
@@ -693,7 +476,7 @@ window_variable_recode0 <- function() {
             wrap   = "none",
             undo   = TRUE)
 
-    right_click_menu(recodes)
+    right_click_menu_text(recodes, undo = TRUE)
 
     recodesXscroll <-
         ttkscrollbar(
@@ -715,7 +498,7 @@ window_variable_recode0 <- function() {
         yscrollcommand = function(...) tkset(recodesYscroll, ...)
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkinsert(recodes, "1.0", dialog_values$initial_recode_directives)
+    tkinsert(recodes, "1.0", initial$recode_directives)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     f1_but_set_2 <- tkframe(f1)
@@ -796,7 +579,7 @@ window_variable_recode0 <- function() {
     lower_options_frame <- tkframe(f2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     variablesFrame  <- tkframe(lower_options_frame)
-    newVariableName <- tclVar(dialog_values$initial_name)
+    newVariableName <- tclVar(initial$name)
 
     newVariable <-
         ttkentry(variablesFrame,
@@ -813,7 +596,7 @@ window_variable_recode0 <- function() {
         # title.color = getRcmdr("title.color"),
         buttons       = c("nominal", "ordinal", "other"),
         values        = c("nominal", "ordinal", "other"),
-        initialValue  = dialog_values$initial_recode_into,
+        initialValue  = initial$recode_into,
         labels        = gettext_bs(c("Nominal factor",
                                      "Ordinal factor",
                                      "Do not convert")))
@@ -833,8 +616,24 @@ window_variable_recode0 <- function() {
 
     ok_cancel_help(
         helpSubject = "recode_factor", helpPackage = "dplyr",
+        close_on_ok = TRUE,
         reset = "window_variable_recode0()",
-        apply = "window_variable_recode0()")
+        apply = "window_variable_recode0()",
+        after_apply_success_fun = function() {
+            new_name <- tclvalue_chr(newVariableName)
+
+            set_values(variablesBox, variables_all())
+            tk_see(variablesBox, new_name)
+            set_selection(variablesBox, new_name)
+
+            tclvalue(selected_variable) <- new_name
+
+            tkdelete(recodes, "1.0", "end")
+
+            tclvalue(newVariableName) <-
+                unique_colnames(new_name, all_numbered = TRUE)
+        })
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     tkgrid(f1, sticky = "nw")
 

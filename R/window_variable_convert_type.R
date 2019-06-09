@@ -9,13 +9,14 @@ window_variable_convert_type <- function() {
     # Functions --------------------------------------------------------------
     change_name_suffix <- function() {
 
-        opt_1 <- tclvalue_chr(widget_2$var_radiobuttons)
-        opt_2 <- tclvalue_chr(widget_2$var_suffix)
+        opt_1 <- get_values(widget_2$radiobutton)
+        opt_2 <- get_values(widget_2$suffix)
 
         if (opt_1 != "overwrite" &&
             opt_2 %in% c("", "_chr", "_fct", "_ord", "_num", "_int", "_lgl")) {
 
-            tclvalue(widget_2$var_suffix) <-
+            set_values(
+                widget_2$suffix,
                 switch(tclvalue(into_Variable),
                        "character" = "_chr",
                        "text"      = "_chr",
@@ -26,38 +27,10 @@ window_variable_convert_type <- function() {
                        "integer"   = "_int",
                        "logical"   = "_lgl",
                        "")
+            )
         }
     }
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    control_checkbox_activation <- function() {
-
-        opt_1 <- tclvalue_chr(widget_2$var_radiobuttons)
-        switch(opt_1,
-               "overwrite" = {
-                   # Clear values
-                   tclvalue(widget_2$var_checkbox) <- "0"
-                   tclvalue(widget_2$var_prefix)   <- ""
-                   tclvalue(widget_2$var_suffix)   <- ""
-
-                   # Disable widgets
-                   tk_disable(widget_2$obj_checkbox)
-                   tk_disable(widget_2$obj_prefix)
-                   tk_disable(widget_2$obj_suffix)
-               },
-
-               "modify" = {
-                   # Activate widgets
-                   tk_activate(widget_2$obj_checkbox)
-                   tk_activate(widget_2$obj_prefix)
-                   tk_activate(widget_2$obj_suffix)
-
-                   change_name_suffix()
-               },
-
-               stop("Unrecognized option")
-        )
-    }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_update_list_and_activation <- function() {
 
@@ -75,6 +48,7 @@ window_variable_convert_type <- function() {
                 tk_normalize(numericButton)
                 tk_normalize(logicalButton)
             },
+
             "Text (character)" = {
                 val_list <- variables_chr()
 
@@ -168,10 +142,10 @@ window_variable_convert_type <- function() {
         variables   <- get_selection(var_y_box)
         into        <- tclvalue_chr(into_Variable)
 
-        names_action <- tclvalue_chr(widget_2$var_radiobuttons)
-        make_unique  <- tclvalue_lgl(widget_2$var_checkbox)
-        prefix       <- tclvalue_chr(widget_2$var_prefix)
-        suffix       <- tclvalue_chr(widget_2$var_suffix)
+        names_action <- get_values(widget_2$radiobutton)
+        make_unique  <- get_values(widget_2$checkbox)
+        prefix       <- get_values(widget_2$prefix)
+        suffix       <- get_values(widget_2$suffix)
 
         selected_type <- get_selection(var_type_box)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -194,7 +168,7 @@ window_variable_convert_type <- function() {
             }
         )
 
-        if (make_unique) {
+        if (make_unique && names_action != "overwrite") {
             new_names <- unique_colnames(new_names)
         }
 
@@ -244,11 +218,11 @@ window_variable_convert_type <- function() {
 
         command <-
             if (length(tans_txt) == 1) {
-                str_glue("{ds} <- {ds} %>%\n",
+                str_glue("{.ds} <- {.ds} %>%\n",
                          "dplyr::mutate({tans_txt})\n")
 
             } else {
-                str_glue("{ds} <- {ds} %>%\n",
+                str_glue("{.ds} <- {.ds} %>%\n",
                          'dplyr::mutate(\n{paste0(tans_txt, collapse = ",\n")}\n',
                          ')\n')
             }
@@ -267,7 +241,7 @@ window_variable_convert_type <- function() {
                 paste("#   ", new_names, collapse = "\n"), "\n\n\n")
 
             logger(paste0(msg, style_cmd(command), collapse = "\n"))
-            active_dataset(ds, flushDialogMemory = FALSE)
+            active_dataset(.ds, flushDialogMemory = FALSE)
 
             # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             closeDialog()
@@ -297,7 +271,7 @@ window_variable_convert_type <- function() {
     # Initial values ---------------------------------------------------------
 
     # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    ds <- active_dataset()
+    .ds <- active_dataset()
 
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = gettext_bs("Convert Variable Types"))
@@ -311,7 +285,7 @@ window_variable_convert_type <- function() {
         # variables     = NULL,
         into          = "character",
         names_action  = "modify",
-        make_unique   = FALSE,
+        make_unique   = TRUE,
         prefix        = "",
         suffix        = "",
         selected_type = "All"
@@ -324,17 +298,16 @@ window_variable_convert_type <- function() {
     upper_frame     <- tk2frame(main_frame)
     variables_frame <- tk2frame(upper_frame)
 
-    var_y_box <- bs_listbox(
-        parent = variables_frame,
-        values      = NULL, # <-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        height      = 7,
-        width       = 35,
-        selectmode  = "multiple",
-        title       = gettext_bs("Variables (pick one or more)"),
-        on_keyboard = "scroll",
-        tip         = tip_multiple_ctrl_letters
-    )
-
+    var_y_box <-
+        bs_listbox(
+            parent = variables_frame,
+            values      = NULL, # <-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            height      = 7,
+            width       = 35,
+            selectmode  = "multiple",
+            title       = gettext_bs("Variables (pick one or more)"),
+            on_keyboard = "scroll",
+            tip         = tip_multiple_ctrl_letters)
 
     type_frame <- tk2frame(variables_frame)
 
@@ -351,14 +324,14 @@ window_variable_convert_type <- function() {
         type_frame,
         values = var_types,
         value  = initial$selected_type,
-        width  = 21,
+        width  = 25,
         tip    = "Filter variables by variable type",
         on_select = cmd_update_list_and_activation
     )
 
     tkgrid(var_y_box$frame, sticky = "w")
     tkgrid(type_frame, sticky = "w", pady = c(5, 0))
-    tkgrid(bs_label_b(type_frame, text = "Type filter: "),
+    tkgrid(bs_label_b(type_frame, text = "Types: "),
            var_type_box$frame,
            sticky = "w")
 
@@ -368,47 +341,48 @@ window_variable_convert_type <- function() {
         into_outter_Frame,
         name    = "into_",
         title   = gettext_bs("Convert into"),
-        buttons = c("character", "nominal", "ordinal", "integer", "numeric", "logical"),
-        values  = c("character", "nominal", "ordinal", "integer", "numeric", "logical"),
+        buttons = c("character", "nominal", "ordinal", "numeric", "integer", "logical"),
+        values  = c("character", "nominal", "ordinal", "numeric", "integer", "logical"),
         initialValue = initial$into,
         labels  = gettext_bs(
             c("Text (character)",
               "Nominal factors",
               "Ordinal factors",
+              "Numbers",
               "Integers",
-              "Real numbers",
               "Logical"
             )),
         command = change_name_suffix
     )
-
-    # Layout
-    tkgrid(upper_frame, sticky = "w")
-    tkgrid(variables_frame, into_outter_Frame, sticky = "nw")
-    tkgrid(into_Frame, padx = c(15, 5))
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     widget_2 <- tk_widget_modify_names(
         main_frame,
-        width = 65,
+        width = 37,
         init_val_radiobuttons = initial$names_action,
         init_val_checkbox     = initial$make_unique,
         init_val_prefix       = initial$prefix,
         init_val_suffix       = initial$suffix,
-        cmd_radiobuttons      = control_checkbox_activation
+        cmd_change_suffix     = change_name_suffix
     )
 
+    # Layout -----------------------------------------------------------------
+    tkgrid(upper_frame, sticky = "w")
+    tkgrid(variables_frame, into_outter_Frame, sticky = "nw")
+    tkgrid(into_Frame, padx = c(15, 5))
+    tkgrid(widget_2$frame, pady = c(5, 0), sticky = "w")
+
+
     # Finalize ---------------------------------------------------------------
-    ok_cancel_help(helpSubject = "as.character",
-                   apply = "window_variable_convert_type()",
-                   reset = "window_variable_convert_type()")
-    tkgrid(buttonsFrame, sticky = "ew", columnspan = 2)
-    dialogSuffix(rows = 4, columns = 2, preventGrabFocus = TRUE)
+    ok_cancel_help(
+        helpSubject = "as.character",
+        apply = "window_variable_convert_type()")
+
+    tkgrid(buttonsFrame, sticky = "ew")
+    dialogSuffix(preventGrabFocus = TRUE)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Apply initial configuration functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_update_list_and_activation()
-    control_checkbox_activation()
     change_name_suffix()
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

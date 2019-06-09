@@ -66,20 +66,20 @@ window_summary_count <- function() {
     # Default values ---------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     defaults <- list(
-        # initial_digits     = "NA",
-        # initial_gr_var     = NULL,
-        initial_x_var        = NULL,
-        initial_y_var        = NULL,
-        initial_z_var        = NULL,
-        initial_table_type   = "df",
+        # digits     = "NA",
+        # gr_var     = NULL,
+        x_var        = NULL,
+        y_var        = NULL,
+        z_var        = NULL,
+        table_type   = "df",
 
-        initial_chisq_test   = FALSE,
-        initial_fisher_test  = FALSE,
-        initial_assoc_stats  = FALSE,
-        initial_keep_model   = FALSE
+        chisq_test   = FALSE,
+        fisher_test  = FALSE,
+        assoc_stats  = FALSE,
+        keep_model   = FALSE
     )
 
-    dialog_values <- getDialog("window_summary_count", defaults)
+    initial <- getDialog("window_summary_count", defaults)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Dialog elements --------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -99,36 +99,35 @@ window_summary_count <- function() {
 
     main_data_frame <- tkframe(main_frame)
 
-    xBox <- variableListBox2(
-        main_data_frame,
-        Variables(),
-        selectmode = "single",
-        listHeight = 7,
-        title = gettext_bs("First/Row variable \n(select one)"),
-        initialSelection = var_pos_n(dialog_values$initial_x_var),
-        onRelease_fun = activate_checkboxes
-    )
+    xBox <-
+        bs_listbox(
+            parent     = main_data_frame,
+            values     = variables_all(),
+            selectmode = "single",
+            height     = 7,
+            title      = gettext_bs("First/Row variable \n(select one)"),
+            value      = initial$x_var,
+            on_select  = activate_checkboxes)
 
-    yBox <- variableListBox2(
-        main_data_frame,
-        Variables(),
-        selectmode = "single",
-        # selectmode = "multiple",
-        listHeight = 7,
-        title = gettext_bs("Second/Column variable \n(select one or none)"),
-        initialSelection = var_pos_n(dialog_values$initial_y_var),
-        onRelease_fun = activate_checkboxes
-    )
+    yBox <-
+        bs_listbox(
+            parent     = main_data_frame,
+            values     = variables_all(),
+            selectmode = "single",
+            height     = 7,
+            title      = gettext_bs("Second/Column variable \n(select one or none)"),
+            value      = initial$y_var,
+            on_select  = activate_checkboxes)
 
-    zBox <- variableListBox2(
-        main_data_frame,
-        Variables(),
-        selectmode = "multiple",
-        listHeight = 7,
-        title = gettext_bs("Other/Control variables \n(select one, several or none)"),
-        initialSelection = var_pos_n(dialog_values$initial_z_var),
-        onRelease_fun = activate_checkboxes
-    )
+    zBox <-
+        bs_listbox(
+            parent     = main_data_frame,
+            values     = variables_all(),
+            selectmode = "multiple",
+            height     = 7,
+            title      = gettext_bs("Other/Control variables \n(select one, several or none)"),
+            value      = initial$z_var,
+            on_select  = activate_checkboxes)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # ** Options tab ---------------------------------------------------------
@@ -141,7 +140,7 @@ window_summary_count <- function() {
         name         = "table_type",
         buttons      = c("df", "multiway"),
         labels       = gettext_bs(c("Frequency table\n(data frame)", "Multi-way table")),
-        initialValue = dialog_values$initial_table_type,
+        initialValue = initial$table_type,
         title        = gettext_bs("Type of table:")
     )
 
@@ -157,9 +156,9 @@ window_summary_count <- function() {
                              "assoc_stats"
                    ),
                    initialValues = c(
-                       dialog_values$initial_chisq_test ,
-                       dialog_values$initial_fisher_test,
-                       dialog_values$initial_assoc_stats),
+                       initial$chisq_test ,
+                       initial$fisher_test,
+                       initial$assoc_stats),
                    labels = gettext_bs(
                        c("Pearson's chi-square test",
                          "Fisher's exact test",
@@ -173,24 +172,27 @@ window_summary_count <- function() {
     # Choose model name ------------------------------------------------------
     main_frame_b <- tkframe(main_frame)
 
-    initial_model_name      <- unique_obj_names(active_dataset(),
-                                                suffix       = "_freq_table",
-                                                all_numbered = TRUE)
-    model_name_var          <- tclVar(initial_model_name)
-    model_name_box          <- ttkentry(main_frame_b,
-                                        width        = "20",
-                                        textvariable = model_name_var)
+    initial_model_name <- unique_obj_names(
+        active_dataset(),
+        suffix       = "_freq_table",
+        all_numbered = TRUE)
+
+    model_name_var     <- tclVar(initial_model_name)
+    model_name_box     <- ttkentry(main_frame_b,
+                                   width        = "20",
+                                   textvariable = model_name_var)
 
     keep_model_frame <- tkframe(main_frame_b)
-    bs_check_boxes(keep_model_frame,
-                   frame = "keep_model_inner_frame",
-                   boxes = c("keep_model"),
-                   initialValues = c(
-                       dialog_values$initial_keep_model),
-                   labels = gettext_bs(
-                       c("Keep summary in R memory")
-                   ),
-                   commands = list("keep_model"  = function(){})
+    bs_check_boxes(
+        keep_model_frame,
+        frame = "keep_model_inner_frame",
+        boxes = c("keep_model"),
+        initialValues = c(
+            initial$keep_model),
+        labels = gettext_bs(
+            c("Keep summary in R memory")
+        ),
+        commands = list("keep_model"  = function(){})
     )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -198,16 +200,16 @@ window_summary_count <- function() {
     activate_checkboxes()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
-        # gr_var         <- getSelection(groupBox)
-        x_var            <- getSelection(xBox)
-        y_var            <- getSelection(yBox)
-        z_var            <- getSelection(zBox)
+        # gr_var         <- get_selection(groupBox)
+        x_var            <- get_selection(xBox)
+        y_var            <- get_selection(yBox)
+        z_var            <- get_selection(zBox)
         # digits         <- suppressWarnings(tclvalue_int(digitsVar))
 
         table_type       <- tclvalue(table_typeVariable)
         # as_df          <- tclvalue_lgl(as_dfVariable)
 
-        model_name       <- trim.blanks(tclvalue(model_name_var))
+        model_name       <- tclvalue_chr(model_name_var)
         keep_model       <- tclvalue_lgl(keep_modelVariable)
         chisq_test       <- tclvalue_lgl(chisq_testVariable)
         fisher_test      <- tclvalue_lgl(fisher_testVariable)
@@ -241,19 +243,19 @@ window_summary_count <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         putDialog("window_summary_count",
                   list(
-                      # initial_gr_var = gr_var,
-                      # initial_digits = as.character(digits),
-                      # initial_as_df = as_df,
+                      # gr_var = gr_var,
+                      # digits = as.character(digits),
+                      # as_df = as_df,
 
-                      initial_x_var        = x_var,
-                      initial_y_var        = y_var,
-                      initial_z_var        = z_var,
-                      initial_table_type   = table_type,
+                      x_var        = x_var,
+                      y_var        = y_var,
+                      z_var        = z_var,
+                      table_type   = table_type,
 
-                      initial_chisq_test   = chisq_test,
-                      initial_fisher_test  = fisher_test,
-                      initial_assoc_stats  = assoc_stats,
-                      initial_keep_model   = keep_model
+                      chisq_test   = chisq_test,
+                      fisher_test  = fisher_test,
+                      assoc_stats  = assoc_stats,
+                      keep_model   = keep_model
 
                   )
         )
@@ -359,7 +361,7 @@ window_summary_count <- function() {
 
     # ** Footer ------------------------------------------------------------------
     # OKCancelHelp()
-    OKCancelHelp(
+    ok_cancel_help(
         helpSubject = "table",
         # helpPackage = "base",
         model = TRUE,
