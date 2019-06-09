@@ -168,7 +168,7 @@ window_variable_convert_type <- function() {
             }
         )
 
-        if (make_unique) {
+        if (make_unique && names_action != "overwrite") {
             new_names <- unique_colnames(new_names)
         }
 
@@ -218,11 +218,11 @@ window_variable_convert_type <- function() {
 
         command <-
             if (length(tans_txt) == 1) {
-                str_glue("{ds} <- {ds} %>%\n",
+                str_glue("{.ds} <- {.ds} %>%\n",
                          "dplyr::mutate({tans_txt})\n")
 
             } else {
-                str_glue("{ds} <- {ds} %>%\n",
+                str_glue("{.ds} <- {.ds} %>%\n",
                          'dplyr::mutate(\n{paste0(tans_txt, collapse = ",\n")}\n',
                          ')\n')
             }
@@ -241,7 +241,7 @@ window_variable_convert_type <- function() {
                 paste("#   ", new_names, collapse = "\n"), "\n\n\n")
 
             logger(paste0(msg, style_cmd(command), collapse = "\n"))
-            active_dataset(ds, flushDialogMemory = FALSE)
+            active_dataset(.ds, flushDialogMemory = FALSE)
 
             # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             closeDialog()
@@ -271,7 +271,7 @@ window_variable_convert_type <- function() {
     # Initial values ---------------------------------------------------------
 
     # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    ds <- active_dataset()
+    .ds <- active_dataset()
 
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = gettext_bs("Convert Variable Types"))
@@ -361,7 +361,8 @@ window_variable_convert_type <- function() {
         init_val_radiobuttons = initial$names_action,
         init_val_checkbox     = initial$make_unique,
         init_val_prefix       = initial$prefix,
-        init_val_suffix       = initial$suffix
+        init_val_suffix       = initial$suffix,
+        cmd_change_suffix     = change_name_suffix
     )
 
     # Layout -----------------------------------------------------------------
