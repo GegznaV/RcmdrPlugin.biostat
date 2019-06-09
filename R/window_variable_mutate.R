@@ -336,7 +336,7 @@ window_variable_mutate <- function() {
         menu_discretize   <- tk2menu(menu_main, tearoff = FALSE)
 
         tkadd(menu_main, "cascade",
-              label    = "discretize numbers",
+              label    = "Discretize numbers",
               menu     = menu_discretize)
 
         tkadd(menu_discretize, "command",

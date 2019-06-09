@@ -251,10 +251,10 @@ window_variable_gather <- function() {
     # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     defaults <- list(
-        # y_var        = NULL,
+        y_var          = NULL,
         # dsname       = unique_df_name(suffix = "_long"),
-        key_colname    = "key",
-        value_colname  = "values",
+        key_colname    = unique_colnames("key"),
+        value_colname  = unique_colnames("value"),
         gather_all     = TRUE,
         na_rm          = FALSE,
         factor_key     = TRUE,
@@ -262,20 +262,22 @@ window_variable_gather <- function() {
         # include_exclude = ...
     )
 
-    dialog_values <- getDialog("window_variable_gather", defaults)
+    initial <- getDialog("window_variable_gather", defaults)
 
     # Widgets ----------------------------------------------------------------
 
     f1 <- tkframe(top)
 
-    f1_y_var_box <- bs_listbox(
-        parent = f1,
-        height = 7,
-        selection  = dialog_values$y_var,
-        selectmode = "multiple",
-        on_release = activate_gather_all_box,
-        tip = "Select variables to gather.",
-        title = gettext_bs("Variables to gather \n(pick none, one or more)"))
+    f1_y_var_box <-
+        bs_listbox(
+            parent     = f1,
+            height     = 7,
+            values     = variables_all(),
+            value      = initial$y_var,
+            selectmode = "multiple",
+            on_release = activate_gather_all_box,
+            tip        = "Select variables to gather.",
+            title      = gettext_bs("Variables to gather \n(pick none, one or more)"))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -336,10 +338,10 @@ window_variable_gather <- function() {
                 "Convert key column to factor",
                 "Convert key column to numeric, integer, or logical ")),
         values = c(
-            dialog_values$gather_all,
-            dialog_values$na_rm,
-            dialog_values$factor_key,
-            dialog_values$convert_key
+            initial$gather_all,
+            initial$na_rm,
+            initial$factor_key,
+            initial$convert_key
         ),
         commands = list("gather_all"  = reset_y_var_box_selection,
                         "na_rm"       = do_nothing,
@@ -367,8 +369,8 @@ window_variable_gather <- function() {
     f1_value  <- bs_entry(
         parent   = top,
         width    = 48,
-        label    = gettext_bs("Value column name:"),
-        value    = dialog_values$value_colname,
+        label    = gettext_bs("Values column name:"),
+        value    = initial$value_colname,
         tip      = "Name for the value column.  ",
         validate = "focus",
         validatecommand = validate_var_name_string,
@@ -379,7 +381,7 @@ window_variable_gather <- function() {
         parent   = top,
         width    = 48,
         label    = gettext_bs("Key column name:"),
-        value    = dialog_values$key_colname,
+        value    = initial$key_colname,
         tip      = "Name for the key column.  ",
         validate = "focus",
         validatecommand = validate_var_name_string,
@@ -416,8 +418,10 @@ window_variable_gather <- function() {
         reset = "window_variable_gather()",
         after_apply_success_fun = function() {
 
-            set_values(f1_y_var_box, Variables())
-            set_values(f1_dsname, unique_df_name(suffix = "_long"))
+            set_values(f1_y_var_box, variables_all())
+            set_values(f1_dsname,    unique_df_name(suffix = "_long"))
+            set_values(f1_key,       unique_colnames("key"))
+            set_values(f1_value,     unique_colnames("value"))
 
             activate_gather_all_box()
             reset_y_var_box_selection()

@@ -363,26 +363,27 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
 
 
     # List of locales
-    var_y_box <- bs_listbox(
-        parent          = upper_frame,
-        title           = gettext_bs("List of locales"),
-        values          = locales,
-        value           = NULL,
-        height          = 7,
-        width           = c(44, Inf),
-        selectmode      = "single",
-        on_keyboard_fun = cmd_update_locale_entry,
-        on_release      = cmd_update_locale_entry,
-        on_double_click = onOK,
-        # on_triple_click = onOK,
-        tip = str_c(
-            "Short names of locales.\n",
-            "NOTE: some of the listed locales may \n",
-            "not be available on your computer. \n",
-            'Select one to update "Locale" box. \n',
-            'Double-click to set the selected locale.'
+    var_y_box <-
+        bs_listbox(
+            parent          = upper_frame,
+            title           = gettext_bs("List of locales"),
+            values          = locales,
+            value           = NULL,
+            height          = 7,
+            width           = c(44, Inf),
+            selectmode      = "single",
+            on_keyboard_fun = cmd_update_locale_entry,
+            on_release      = cmd_update_locale_entry,
+            on_double_click = onOK,
+            # on_triple_click = onOK,
+            tip = str_c(
+                "Short names of locales.\n",
+                "NOTE: some of the listed locales may \n",
+                "not be available on your computer. \n",
+                'Select one to update "Locale" box. \n',
+                'Double-click to set the selected locale.'
+            )
         )
-    )
 
     # Text entry box
     # locale_variable <- tclVar(Sys.getlocale())
