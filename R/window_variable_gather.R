@@ -213,6 +213,7 @@ window_variable_gather <- function() {
             ')')
 
         # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Library("tidyverse")
         Library("tidyr")
 
         result <- justDoIt(command)

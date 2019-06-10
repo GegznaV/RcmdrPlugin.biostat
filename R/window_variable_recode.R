@@ -318,6 +318,7 @@ window_variable_recode0 <- function() {
 
               # Remove leading spaces in each non-first row
               "\n( )*"    = ", ",
+              # "(\n)( )*"    = ",\\1", # TODO [???]: maybie this is a better option
 
               # Remove leading spaces and commas in
               # the first row
@@ -393,19 +394,20 @@ window_variable_recode0 <- function() {
         if (is_not_valid_name(name, parent = top))          {return()}
         if (forbid_to_replace_variable(name, parent = top)) {return()}
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        switch(recode_into,
-               "nominal" = {
-                   recode_fun     <- "dplyr::recode_factor"
-                   ordered_factor <- ""
-               },
-               "ordinal" = {
-                   recode_fun     <- "dplyr::recode_factor"
-                   ordered_factor <- ", .ordered = TRUE" # .ordered = FALSE ???
-               },
-               "other" = {
-                   recode_fun     <- "dplyr::recode"
-                   ordered_factor <- ""
-               })
+        switch(
+            recode_into,
+            "nominal" = {
+                recode_fun     <- "dplyr::recode_factor"
+                ordered_factor <- ""                  # TODO: .ordered = FALSE ???
+            },
+            "ordinal" = {
+                recode_fun     <- "dplyr::recode_factor"
+                ordered_factor <- ", .ordered = TRUE"
+            },
+            "other" = {
+                recode_fun     <- "dplyr::recode"
+                ordered_factor <- ""
+            })
 
         .ds <- active_dataset()
 
@@ -417,6 +419,10 @@ window_variable_recode0 <- function() {
             "   {name} = {recode_fun}({selected_variable}, \n",
             "   {recode_directives}{ordered_factor}))"
         )
+
+        # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        Library("tidyverse")
 
         result <- justDoIt(command)
 
