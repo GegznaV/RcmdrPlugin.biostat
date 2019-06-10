@@ -41,7 +41,7 @@ ttkentry <- function(parent, ...) {
     }
 
     right_click_menu <- function() {
-        menu_p <- tkmenu(tkmenu(widget), tearoff = FALSE)
+        menu_p <- tk2menu(tk2menu(widget), tearoff = FALSE)
         tkadd(
             menu_p,
             "command",

@@ -510,7 +510,7 @@ window_test_normality <- function() {
                 "{results_name} <- \n {.ds} %>%\n",
                 "    {main_test_code} \n\n",
 
-                "## Print the results \n",
+                "## Print the results of the notmality test \n",
                 "{results_name} ",
                 print_results_code, "\n",
                 keep_results_str)

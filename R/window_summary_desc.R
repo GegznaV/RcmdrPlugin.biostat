@@ -273,6 +273,7 @@ window_summary_desc <- function() {
             "{rm_code}")
 
         # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Library("DescTools")
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Checks for syntax errors
@@ -286,7 +287,6 @@ window_summary_desc <- function() {
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Checks for code evaluation errors
-        Library("DescTools")
 
         result <- doItAndPrint(style_cmd(command))
 
@@ -499,7 +499,7 @@ window_summary_desc <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f2_plot_las <- bs_combobox(
         parent = f2_plot_sub,
-        width  = 20,
+        width  = 24,
         label  = "Direction of plot axis labels:",
         label_position = "above",
         values = gettext_bs(c(
