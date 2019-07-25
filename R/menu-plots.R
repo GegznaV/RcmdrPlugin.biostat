@@ -24,7 +24,7 @@ set_plots_to_separate_window <- function() {
 
 # New plot is drawn in RStudio plots window
 set_plots_to_rstudio_window <- function() {
-    if (.Platform$GUI == "RStudio") {
+    if (is_rstudio()) {
         options(device = "RStudioGD")
     }
 
