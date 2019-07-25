@@ -85,6 +85,7 @@
 \alias{command_rcmdr_use_1_window}
 \alias{command_rcmdr_use_3_windows}
 \alias{command_rcmdr_set_output_mode}
+\alias{toggle_always_on_top}
 \alias{is_biostat_mode}
 \alias{use_relative_path}
 \alias{use_absolute_path}
@@ -299,6 +300,8 @@ command_rcmdr_use_1_window()
 command_rcmdr_use_3_windows()
 
 command_rcmdr_set_output_mode(console.output = NULL)
+
+toggle_always_on_top()
 
 is_biostat_mode()
 

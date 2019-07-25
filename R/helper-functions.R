@@ -1649,3 +1649,62 @@ command_rcmdr_set_output_mode <- function(console.output = NULL) {
         command_rcmdr_restart()
     }
 }
+
+#' @name always_on_top
+#'
+#' @title Always on Top
+#'
+#' Set (enable/disable) or get "always on top" mode.
+#' The "always on top" mode puts Tcl/Tk window in front of windows of the other programs.
+#' Functions that set (enable/disable) the mode:
+#' \itemize{
+#'   \item \code{set_always_on_top()}- for any Tcl/Tk window;
+#'   \item \code{rcmdr_set_always_on_top()}- for any R Commander window.
+#'  }
+#' Functions that get current mode:
+#' \itemize{
+#'   \item \code{get_always_on_top()}- for any Tcl/Tk window;
+#'   \item \code{rcmdr_get_always_on_top()}- for any R Commander window.
+#'  }
+#' @param obj Tcl/Tk window object.
+#' @param flag (logical) Flag to enable (if \code{TRUE}) or disable
+#'        (if \code{FALSE}) "always on top" mode.
+#'
+#' @return The "get" functions return logical value that indicates if "always
+#' on top" mode is enabled.
+#'
+#' @export
+set_always_on_top <- function(obj, flag = TRUE) {
+    tcl("wm", "attributes", obj, "-topmost", flag)
+}
+
+#' @rdname always_on_top
+#' @export
+rcmdr_set_always_on_top <- function(flag = TRUE) {
+    set_always_on_top(CommanderWindow(), flag)
+}
+
+#' @rdname always_on_top
+#' @export
+get_always_on_top <- function(obj) {
+    tclvalue_lgl(tcl("wm", "attributes", obj, "-topmost"))
+}
+
+#' @rdname always_on_top
+#' @export
+rcmdr_get_always_on_top <- function(flag = TRUE) {
+    get_always_on_top(CommanderWindow())
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+# Toggle "always on top" state or Rcmdr
+toggle_always_on_top <- function() {
+    if (isTRUE(rcmdr_get_always_on_top())) {
+        rcmdr_set_always_on_top(FALSE)
+
+    } else {
+        rcmdr_set_always_on_top(TRUE)
+    }
+}

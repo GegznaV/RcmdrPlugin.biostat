@@ -1134,12 +1134,23 @@ bs_mode_menu__settings <- function() {
 
     menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkadd(menu_p, "command",
+          label    = "Always on top",
+          compound = "left",
+          image    =
+              if (isTRUE(rcmdr_get_always_on_top())) {
+                  "::image::bs_tick"
+              } else {
+                  ""
+              },
+          command    = toggle_always_on_top)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_p, "command",
           label    = "Locale...",
           compound = "left",
           image    = "::image::bs_locale",
           command  = window_locale_set)
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     menu_s  <- tk2menu(menu_p, tearoff = FALSE)
 
