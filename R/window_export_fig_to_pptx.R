@@ -4,6 +4,13 @@
 # - Add better code checking or linting messages are needed.
 # - Add syntax highlighting.
 # - Add radiobuttons for units of measurement: [+]inch, [+] cm.
+#
+# - Due to changes in RVG v.0.2.1:
+#   + ---> use function ph_with.dml()
+#   + https://cran.rstudio.com/web/packages/rvg/NEWS
+#   + https://davidgohel.github.io/officer/articles/offcran/graphics.html#powerpoint-documents-and-graphics
+#   + https://www.rdocumentation.org/packages/rvg/versions/0.2.1/topics/dml
+#   + https://www.rdocumentation.org/packages/rvg/versions/0.2.1/topics/ph_with.dml
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
