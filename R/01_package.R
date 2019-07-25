@@ -21,7 +21,7 @@
 #' @importFrom graphics plot par
 #' @importFrom stats p.adjust.methods C setNames
 #' @importFrom utils browseURL packageVersion data installed.packages modifyList
-#'                   capture.output tail vignette help
+#'                   capture.output tail vignette help globalVariables
 #' @importFrom RcmdrPlugin.EZR
 #'    StatMedCorrelation
 #'    StatMedSpearman
