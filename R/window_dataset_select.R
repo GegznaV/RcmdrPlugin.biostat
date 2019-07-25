@@ -279,7 +279,7 @@ window_dataset_select <- function() {
 
 
     tip_i6 <-
-        if (.Platform$GUI == "RStudio") {
+        if (is_rstudio()) {
             "View selected dataset \n(in RStudio)"
         } else {
             "View selected dataset \n((in a separate window))"

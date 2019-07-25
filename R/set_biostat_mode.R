@@ -446,7 +446,7 @@ bs_mode_menu__print <- function() {
     menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    view_style <- if (.Platform$GUI == "RStudio") {
+    view_style <- if (is_rstudio()) {
         tkadd(menu_p, "command",
               label    = "View dataset (in RStudio)",
               compound = "left",
@@ -1072,7 +1072,7 @@ bs_mode_menu__plots <- function() {
               },
           command    = set_plots_to_separate_window)
 
-    if (.Platform$GUI == "RStudio") {
+    if (is_rstudio()) {
         tkadd(menu_a, "command",
               label    = "RStudio 'Plots' tab",
               compound = "left",
@@ -1191,6 +1191,14 @@ bs_mode_menu__settings <- function() {
           # compound = "left",
           # image    = "::image::bs_open_wd",
           command  = command_rcmdr_restart)
+
+    if (is_rstudio()) {
+        tkadd(menu_s, "command",
+              label    = "Restart R session in RStudio",
+              # compound = "left",
+              # image    = "::image::viewIcon",
+              command  = command_restart_rs_session)
+    }
 
     tkadd(menu_s, "command",
           label    = "Close R Commander",

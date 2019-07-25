@@ -1589,6 +1589,14 @@ command_rcmdr_restart <- function() {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
+command_restart_rs_session <- function() {
+    Rcmdr::closeCommander(ask = FALSE, ask.save = TRUE)
+    rstudioapi::restartSession(command = "library(Rcmdr)")
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 command_rcmdr_close <- function() {
     Rcmdr::closeCommander(
         ask = getRcmdr("ask.to.exit"),
@@ -1648,6 +1656,14 @@ command_rcmdr_set_output_mode <- function(console.output = NULL) {
         options(Rcmdr = updated_opts)
         command_rcmdr_restart()
     }
+}
+
+#' Is R Session in RStudio?
+#' @export
+#' @return Logical value indicating if GUI/IDE is RStudio.
+#' @keywords internal
+is_rstudio <- function() {
+    .Platform$GUI == "RStudio"
 }
 
 #' @name always_on_top

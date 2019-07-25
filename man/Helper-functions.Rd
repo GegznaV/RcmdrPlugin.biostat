@@ -79,6 +79,7 @@
 \alias{objects_in_env_P}
 \alias{variables_with_unique_values_P}
 \alias{command_rcmdr_restart}
+\alias{command_restart_rs_session}
 \alias{command_rcmdr_close}
 \alias{command_rcmdr_close_r}
 \alias{is_console_output}
@@ -288,6 +289,8 @@ objects_in_env_P(n = 1, envir = .GlobalEnv, ...)
 variables_with_unique_values_P(n = 1)
 
 command_rcmdr_restart()
+
+command_restart_rs_session()
 
 command_rcmdr_close()
 
