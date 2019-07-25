@@ -192,7 +192,8 @@ Indicates scrollbar position.}
 \item{subtitle_sticky}{(combination of "n", "e", "w", "s" or "")}
 
 \item{...}{Additional arguments.  \enumerate{
-   \item For \code{bs_listbox()}: arguments passed to function \code{\link[tcltk2]{tk2listbox}()}.
+   \item For \code{bs_listbox()}: arguments passed to function
+   \code{tk2listbox()} (see \link[tcltk2]{tk2widgets}).
    \item For other functions: arguments passed to further methods.
 }}
 
@@ -237,6 +238,6 @@ tkgrid(lb1$frame, lb2$frame)
 
 }
 \seealso{
-\code{\link[tcltk2]{tk2listbox}()}, \cr
+\code{tk2listbox()} at \link[tcltk2]{tk2widgets}, \cr
          \url{https://www.tcl.tk/man/tcl8.4/TkCmd/listbox.htm}
 }
