@@ -84,6 +84,7 @@ Imports:
     qqplotr,
     readr,
     readxl (>= 1.3.1),
+    rstudioapi,
     scales,
     skimr,
     snakecase,
@@ -102,4 +103,4 @@ Suggests:
     knitr,
     rmarkdown,
     rvg
-RoxygenNote: 6.1.1
+RoxygenNote: 6.1.1.9000
