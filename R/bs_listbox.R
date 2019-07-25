@@ -54,7 +54,8 @@
 #' @param title_sticky (combination of "n", "e", "w", "s" or "")
 #' @param subtitle_sticky (combination of "n", "e", "w", "s" or "")
 #' @param ... Additional arguments.  \enumerate{
-#'    \item For \code{bs_listbox()}: arguments passed to function \code{\link[tcltk2]{tk2listbox}()}.
+#'    \item For \code{bs_listbox()}: arguments passed to function
+#'    \code{tk2listbox()} (see \link[tcltk2]{tk2widgets}).
 #'    \item For other functions: arguments passed to further methods.
 #' }
 #'
@@ -63,7 +64,6 @@
 #' @param ind Index. Usually either character values or numeric indices.
 #' @param sel Selection. Usually either character values or numeric indices.
 #' @param vals Values.
-#' @param values Values.
 #' @param clear (logical) Should values be cleared?
 #' @param background (string) background color.
 #' @param move_to (string) Action:
@@ -74,7 +74,7 @@
 #'    \item "end" - selected row is moved to the last row.
 #' }
 #'
-#' @seealso \code{\link[tcltk2]{tk2listbox}()}, \cr
+#' @seealso \code{tk2listbox()} at \link[tcltk2]{tk2widgets}, \cr
 #'          \url{https://www.tcl.tk/man/tcl8.4/TkCmd/listbox.htm}
 #' @export
 #' @examples
