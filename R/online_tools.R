@@ -4,7 +4,7 @@
 #' @export
 #' @keywords internal
 open_online_tool <- function(url = NULL, copy_to_clipboard = FALSE,
-                             parent = CommanderWindow()) {
+    parent = CommanderWindow()) {
     checkmate::assert_string(url, null.ok = TRUE)
     checkmate::assert_logical(copy_to_clipboard)
 
@@ -405,27 +405,71 @@ window_online_bug_report <- function() {
 #' @export
 #' @keywords internal
 command_chk_packages_bs19 <- function() {
-    command <- str_c(
-        '## Check R, RStudio and R package versions required for BS-2019 course\n',
-        '## (output is in Lithuanian)\n\n',
-        'source("https://mokymai.github.io/biostatistika-2019/tikrink_paketus.R", ',
+  command_chk_r_config_online(
+    course  = "BS-2019",
+    msg_url = "https://mokymai.github.io/resursai/tikrink-bs-2019.R"
+  )
+}
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+command_chk_packages_r19 <- function() {
+  command_chk_r_config_online(
+    course  = "R-2019",
+    msg_url = "https://mokymai.github.io/resursai/tikrink-r-2019.R"
+  )
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+command_chk_r_config_online <- function() {
+
+
+    old_locale <- Sys.getlocale("LC_COLLATE")
+
+    if (WindowsP()) {
+        loc <- Sys.setlocale(locale = "Lithuanian")
+    } else {
+        loc <- Sys.setlocale(locale = "lt_LT.UTF-8")
+    }
+
+    if (loc != "") {
+        msg <- "# (Locale was set to Lithuanian)\n\n"
+    } else {
+        msg <- ""
+    }
+
+    command <- str_glue(
+        '## Check if R, RStudio and R package versions required for {course} course\n',
+        '## are installed (output is in Lithuanian)\n\n',
+        msg,
+        'source("{msg_url}", ',
         'encoding = "UTF-8")')
 
     if (!pingr::is_online()) {
-        logger(command)
-        open_browser <-
+        proceed <-
             tk_messageBox(
                 parent = CommanderWindow(),
                 message = str_c(
-                    "This feature requires an Internet connection, \n",
-                    "but your computer is offline now."
+                    "This feature requires an Internet connection, ",
+                    "but your computer is offline now.\n\n",
+                    "Do you want to continue?\n",
+                    "    Yes - continue anyway;\n",
+                    "    No - just ptint the command;\n",
+                    "    Cancel - abort the operation."
                 ),
                 icon  = "warning",
                 caption = "No Internet Connection",
-                type  = "ok")
+                type  = "yesnocancel", default = "cancel")
 
     } else {
-        doItAndPrint(command)
+        proceed <- "yes"
     }
+
+    switch(proceed,
+        "no"  = logger(command),
+        "yes" = doItAndPrint(command)
+    )
+
 }
 
