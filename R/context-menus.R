@@ -37,8 +37,13 @@ right_click_menu_text <- function(tcl_widget, undo = TRUE, menu_rm = FALSE) {
     onPaste <- function(){
         onDelete()
         # focused <- tkfocus()
-        text <- tcltk::tclvalue(.Tcl("selection get -selection CLIPBOARD"))
-        if (length(text) == 0) return()
+
+        # text <- tcltk::tclvalue(.Tcl("selection get -selection CLIPBOARD"))
+        # if (length(text) == 0) return()
+
+        text <- read_clipboard()
+        if (nchar(text) == 0) return()
+
         tkinsert(tcl_widget, "insert", text)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
