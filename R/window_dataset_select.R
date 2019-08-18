@@ -54,6 +54,11 @@ window_dataset_select <- function() {
         .ds_1 <- get_selection(var_ds_box) %>% safe_names()
         summary_var_types_0(.ds_1)
     }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    cmd_var_type_summary_plot <- function() {
+        .ds_1 <- get_selection(var_ds_box) %>% safe_names()
+        summary_var_types_plot_0(.ds_1)
+    }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_var_names_print <- function() {
@@ -82,7 +87,7 @@ window_dataset_select <- function() {
             .trim = FALSE,
             "## Summary of all variables\n",
             "{opts_code}",
-            "DescTools::Desc({.ds_1}, plotit = FALSE)")
+            'DescTools::Desc({.ds_1}, plotit = FALSE, ord = "level")')
         doItAndPrint(command)
     }
 
@@ -165,16 +170,22 @@ window_dataset_select <- function() {
         menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
         tkadd(menu_p, "command",
-              label    = "Size and variable type summary", #  & dataset size
+              label    = "Variable names",
+              # compound = "left",
+              # image    = "::image::bs_locale",
+              command  = cmd_var_names_print)
+
+        tkadd(menu_p, "command",
+              label    = "Variable type summary and size", #  & dataset size
               # compound = "left",
               # image    = "::image::bs_locale",
               command  = cmd_var_type_summary)
 
         tkadd(menu_p, "command",
-              label    = "Variable names",
+              label    = "Variable type summary plots", #  & dataset size
               # compound = "left",
               # image    = "::image::bs_locale",
-              command  = cmd_var_names_print)
+              command  = cmd_var_type_summary_plot)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkpopup(menu_p, tkwinfo("pointerx", top), tkwinfo("pointery", top))
