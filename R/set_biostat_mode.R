@@ -1142,7 +1142,7 @@ bs_mode_menu__settings <- function() {
               if (isTRUE(rcmdr_get_always_on_top())) {
                   "::image::bs_tick"
               } else {
-                  ""
+                  "::image::bs_delete"
               },
           command    = toggle_always_on_top)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1276,6 +1276,12 @@ bs_mode_menu__settings <- function() {
           compound = "left",
           image    = "::image::bs_chk_pkgs",
           command  = command_chk_packages_bs19)
+
+    tkadd(menu_ab, "command",
+          label    = "Check for updates for [R-2019] course",
+          compound = "left",
+          image    = "::image::bs_chk_pkgs",
+          command  = command_chk_packages_r19)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkpopup(menu_p,
             tkwinfo("pointerx", top),
