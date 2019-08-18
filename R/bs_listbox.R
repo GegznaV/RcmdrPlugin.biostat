@@ -92,7 +92,7 @@
 
 bs_listbox <-
     function(parent,
-             values       = variables_all(), # NULL  # [???]
+             values       = variables_all(), # TODO: set to NULL
              value        = NULL,
              selection    = NULL,
              selectmode   = c("single", "extended", "browse", "multiple"),
@@ -150,8 +150,8 @@ bs_listbox <-
 
         width  <- min(max(width[1], 2 + nchar(values)), width[2]) # Set width
 
-        selection_code <- if (!is.null(selection)) "selection  = {selection}," else ""
-        value_code     <- if (!is.null(value))     "value      = {value},"     else ""
+        selection_code <- if (length(selection) > 0) "selection  = {selection}," else ""
+        value_code     <- if (length(value) > 0)     "value      = {value},"     else ""
 
         listbox <-  str_glue_eval("
         tk2listbox(
@@ -363,10 +363,10 @@ bs_listbox <-
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Put the first selected value in view
-        if (!is.null(value) || length(value) > 0) {
+        if (length(value) > 0) {
             tk_see(output_object, value[1])
 
-        } else if (!is.null(selection) || length(selection) > 0) {
+        } else if (length(selection) > 0) {
             tk_see(output_object, selection[1])
         }
 
@@ -623,7 +623,7 @@ move_selected_row_in_listbox <- function(listbox, move_to = "") {
     # Get y view
     y_view <- str_split_fixed(tkyview(listbox), " ", n = 2)[1]
 
-    # [???] adapt code according to `move_selected_row_in_tktext()`
+    # TODO [???] adapt code according to `move_selected_row_in_tktext()`
     pre_i <- as.integer(tkcurselection(listbox)) + 1
 
     # Return, if not selected
