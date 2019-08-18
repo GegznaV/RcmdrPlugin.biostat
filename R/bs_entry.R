@@ -1,5 +1,5 @@
 
-#' TCL/TK text entry widget.
+#' Tcl/Tk text entry widget.
 #'
 #' @export
 #' @keywords internal
