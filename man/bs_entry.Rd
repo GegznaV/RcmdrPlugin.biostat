@@ -8,7 +8,7 @@
 \alias{tk_disable.bs_entry}
 \alias{tk_normalize.bs_entry}
 \alias{tk_activate.bs_entry}
-\title{TCL/TK text entry widget.}
+\title{Tcl/Tk text entry widget.}
 \usage{
 bs_entry(parent = top, width = "28", value = "", label = "",
   label_position = c("left", "above", "right", "none"),
@@ -46,6 +46,6 @@ bs_entry(parent = top, width = "28", value = "", label = "",
 \item{foreground}{(string) Label text color.}
 }
 \description{
-TCL/TK text entry widget.
+Tcl/Tk text entry widget.
 }
 \keyword{internal}

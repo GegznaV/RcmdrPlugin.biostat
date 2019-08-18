@@ -218,8 +218,6 @@ Indicates scrollbar position.}
 \item{ind}{Index. Usually either character values or numeric indices.}
 
 \item{background}{(string) background color.}
-
-\item{values}{Values.}
 }
 \description{
 A list box with constant number of rows.
