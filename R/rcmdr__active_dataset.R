@@ -45,7 +45,7 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
   }
 
   varnames <- names(get(dsname, envir = .GlobalEnv))
-  newnames <- make.names(varnames)  # <---------------------------------- ???
+  newnames <- make.names(varnames)  # TODO avoid make.names <------------- ???
   badnames <- varnames != newnames
 
   if (any(badnames)) {
