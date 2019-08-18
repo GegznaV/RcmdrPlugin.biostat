@@ -161,7 +161,7 @@ window_data_obj_manage <- function() {
 
                 # Re-choose active dataset
                 if (active_ds_is_renamed) {
-                    active_dataset(new_obj_names[which_is_active_ds]) # [???]
+                    active_dataset(new_obj_names[which_is_active_ds]) # TODO [???]
                 }
 
             } else {
