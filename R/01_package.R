@@ -120,8 +120,8 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_model"     , "icons/model.png")
     bs_tkimage_create("::image::bs_locale"    , "icons/locale.png")
 
-    bs_tkimage_create("::image::bs_ok",        "icons/dialog-ok-apply-5.png")
-    bs_tkimage_create("::image::bs_tick",      "icons/dialog-ok-apply-5.png")
+    bs_tkimage_create("::image::bs_ok"        , "icons/dialog-ok-apply-5.png")
+    bs_tkimage_create("::image::bs_tick"      , "icons/dialog-ok-apply-5.png")
     bs_tkimage_create("::image::bs_delete"    , "icons/delete.png")
     bs_tkimage_create("::image::bs_paste"     , "icons/edit-paste-7.png")
     bs_tkimage_create("::image::bs_copy"      , "icons/edit-copy-7.png")
