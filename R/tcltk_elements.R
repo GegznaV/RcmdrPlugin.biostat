@@ -29,7 +29,7 @@ bs_label <- function(..., fg = NULL) {
 #' @export
 #' @keywords internal
 labeled_frame <- function(parent, label = NULL, ...) {
-  # [???] needs review
+  # TODO: needs review
   ttklabelframe(parent = parent,
                 labelwidget = tklabel(
                   parent,
