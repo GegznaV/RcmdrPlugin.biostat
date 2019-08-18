@@ -149,7 +149,7 @@ variables_with_unique_values <- function() {
 #' @export
 variables_oth <- function() {
     setdiff(Variables(),
-            c(Numeric(), variables_chr(), variables_lgl(), variables_fct()))
+        c(Numeric(), variables_chr(), variables_lgl(), variables_fct()))
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -179,15 +179,15 @@ list_summaries_Models <- function(envir = .GlobalEnv, ...) {
 # envir_eval  - environment to evaluate in.
 # envir_glue  - environment to glue in.
 str_glue_eval <- function(..., envir = parent.frame(),
-                          # .collapse = "\n",
-                          .sep = "", .open = "{", .close = "}",
-                          envir_eval = envir,
-                          envir_glue = envir) {
+    # .collapse = "\n",
+    .sep = "", .open = "{", .close = "}",
+    envir_eval = envir,
+    envir_glue = envir) {
 
     commands_as_text <- stringr::str_glue(...,
-                                          .envir = envir_glue,
-                                          .open  = .open,
-                                          .close = .close)
+        .envir = envir_glue,
+        .open  = .open,
+        .close = .close)
     # commands_as_text <- stringr::str_c(commands_as_text, collapse = .collapse)
     eval(parse(text = commands_as_text), envir = envir_eval)
 }
@@ -268,10 +268,10 @@ function_not_implemented <- function() {
     }
 
     text <- str_glue("# ~~~ {x} will be implemented  \n ",
-                     "# ~~~ in the future versions of package `RcmdrPlugin.biostat`! ")
+        "# ~~~ in the future versions of package `RcmdrPlugin.biostat`! ")
 
     msg <- str_glue("{x} will be implemented in the future versions of package",
-                    " `RcmdrPlugin.biostat`! ")
+        " `RcmdrPlugin.biostat`! ")
 
     doItAndPrint(text)
     Message(msg, type = "warning")
@@ -381,21 +381,97 @@ tk_label_blue <- function(...) {
     bs_label(..., foreground = getRcmdr("title.color"))
 }
 
-
-#' Read text from clipboard
+# ___ Clipboard  ___ ==========================================================
+#' Read text from clipboard.
 #'
-#' @return A string.
-#' @export
+#' @param which (string) either `"tcltk"` or `"clipr"`.
+#'
+#' @return
+#' - `read_clipboard()` and `read_clipboard_tcltk()` return a string from
+#'  clipboard. If the clipboard contains non-sting object, empty sting (`""`)
+#'  is returned.
+#'
+#' @details
+#' - `read_clipboard_clipr()` uses **`clipr`** implementation.
+#'    Encoding issues may occur on Windows.
+#' - `read_clipboard_tcltk()` uses Tcl/Tk implementation of clipboard.
+#'    Tcl/Tk clipboard gets empty, if is window gets closed.
+#'
+#'  The functions in all cases must return a single string.
+#'  Possible different conditions on clipboard:
+#' - one line of text;
+#' - several lines of text;
+#' - non-text object.
+#'
+#' @tests
+#' expect_true(
+#'    all.equal(read_clipboard(), read_clipboard_tcltk())
+#' )
+#' expect_true(
+#'    all.equal(read_clipboard_clipr(), read_clipboard_tcltk())
+#' )
 #'
 #' @examples
 #' read_clipboard()
-read_clipboard <- function() {
+#'
+#' @export
+#' @md
+
+read_clipboard <- function(which = "tcltk") {
+
+    switch(
+        which,
+        tcltk = read_clipboard_tcltk(),
+        clipr = read_clipboard_clipr()
+    )
+
+}
+
+#' @rdname read_clipboard
+#' @export
+read_clipboard_clipr <- function() {
+
+    tryCatch(
+        paste0(clipr::read_clip(), collapse = "\n"),
+        warning = function(w) "",
+        error =   function(e) ""
+    )
+
+}
+
+#' @rdname read_clipboard
+#' @export
+read_clipboard_tcltk <- function() {
+
     str <- try(
         silent = TRUE,
         tcltk::tclvalue(tcltk::.Tcl("selection get -selection CLIPBOARD"))
     )
 
     if (!inherits(str, "try-error")) str else ""
+}
+
+#' Expotr text/dataframe to clipboard.
+#'
+#' @param ds_name (string) Dataset's name.
+#' @param sep (string) Data field separator, if data frame is exported.
+#'
+#' @export
+export_to_clipboard <- function(ds_name = active_dataset_0(), sep = ",") {
+    try(
+        clipr::write_clip(get(ds_name, envir = .GlobalEnv), sep = sep),
+        silent = TRUE
+    )
+}
+
+
+#' @rdname export_to_clipboard
+#' @export
+export_to_clipboard_active_ds_tab <- function() {
+    try(
+        clipr::write_clip(
+            get(active_dataset_0(), envir = .GlobalEnv), sep = "\t"),
+        silent = TRUE)
 }
 
 # ___ Vectors  ___ ===========================================================
@@ -483,11 +559,11 @@ get_obj_names <-  function(
 #
 # @param name - name of dataset before suffix and prefix are added.
 unique_obj_names <- function(names,
-                             prefix = "",
-                             suffix  = "",
-                             list_of_choices = objects(all.names = TRUE,
-                                                       envir = .GlobalEnv),
-                             all_numbered = FALSE) {
+    prefix = "",
+    suffix  = "",
+    list_of_choices = objects(all.names = TRUE,
+        envir = .GlobalEnv),
+    all_numbered = FALSE) {
     if (length(names) == 0)
         return(NULL)
 
@@ -514,11 +590,11 @@ unique_obj_names <- function(names,
 #' @export
 #' @keywords internal
 unique_df_name <- function(names = active_dataset_0(),
-                           prefix = "",
-                           suffix = "",
-                           list_of_choices = objects(all.names = TRUE,
-                                                     envir = .GlobalEnv),
-                           all_numbered = FALSE) {
+    prefix = "",
+    suffix = "",
+    list_of_choices = objects(all.names = TRUE,
+        envir = .GlobalEnv),
+    all_numbered = FALSE) {
 
     unique_obj_names(names, prefix, suffix, list_of_choices, all_numbered)
 }
@@ -527,9 +603,9 @@ unique_df_name <- function(names = active_dataset_0(),
 #' @export
 #' @keywords internal
 unique_file_name <- function(name = "file", # all names are converted to lower case.
-                             dir = getwd(),
-                             list_of_choices = dir(dir, all.files = TRUE),
-                             all_numbered = FALSE) {
+    dir = getwd(),
+    list_of_choices = dir(dir, all.files = TRUE),
+    all_numbered = FALSE) {
 
     if (length(name) == 0) {
         name <- "file"
@@ -560,9 +636,9 @@ unique_file_name <- function(name = "file", # all names are converted to lower c
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # TODO: [???] "Not implemented"
 unique_file_name_2 <- function(name = "file", # all names are converted to lower case.
-                               dir = NULL,
-                               list_of_choices = NULL,
-                               all_numbered = FALSE) {
+    dir = NULL,
+    list_of_choices = NULL,
+    all_numbered = FALSE) {
 
     stop("Not implemented") # TODO: [???]
 
@@ -608,10 +684,10 @@ unique_file_name_2 <- function(name = "file", # all names are converted to lower
 #' @export
 #' @keywords internal
 unique_colnames <- function(names = "",
-                            prefix = "",
-                            suffix = "",
-                            list_of_choices = listVariables(),
-                            all_numbered = FALSE) {
+    prefix = "",
+    suffix = "",
+    list_of_choices = listVariables(),
+    all_numbered = FALSE) {
 
     unique_obj_names(names, prefix, suffix, list_of_choices, all_numbered)
 }
@@ -619,10 +695,10 @@ unique_colnames <- function(names = "",
 #' @export
 #' @keywords internal
 unique_colnames_2 <- function(names = "",
-                              prefix = "",
-                              suffix = "",
-                              list_of_choices = listVariables(),
-                              all_numbered = TRUE) {
+    prefix = "",
+    suffix = "",
+    list_of_choices = listVariables(),
+    all_numbered = TRUE) {
 
     unique_obj_names(names, prefix, suffix, list_of_choices, all_numbered)
 }
@@ -677,8 +753,8 @@ path_truncate <- function(path, max_length = 30) {
         add_parts <- max(1, add_parts)
         show_trunc <-
             file.path(str_c(path_parts[1:add_parts], collapse = "/"),
-                      " ... ",
-                      path_parts[last_ind])
+                " ... ",
+                path_parts[last_ind])
     }
 
     show_trunc
@@ -746,11 +822,11 @@ is_file_writable <- function(file = "") {
 #                  caption = title, type = "ok")
 # }
 show_error_messages <- function(message, popup_msg = message, title = "Error",
-                                parent = CommanderWindow()) {
+    parent = CommanderWindow()) {
     Message(message = message, type = "error")
     # RcmdrTkmessageBox(popup_msg, icon = "error", title = title, type = "ok")
     tk_messageBox(parent = parent, message = popup_msg, caption = title,
-                  type = "ok", icon = "error")
+        type = "ok", icon = "error")
 }
 
 
@@ -942,13 +1018,13 @@ is_empty_name <- function(name, which_name = "name", parent = CommanderWindow())
 # }
 
 is_not_empty_name <- function(name, which_name = "name",
-                              parent = CommanderWindow(),
-                              article = "a") {
+    parent = CommanderWindow(),
+    article = "a") {
 
     if (length(name) < 1) {
         message  <-
             str_glue("The object does not contain any strings.\n",
-                     " Please, enter {article} {which_name}.")
+                " Please, enter {article} {which_name}.")
 
         show_error_messages(
             message, message,
@@ -969,7 +1045,7 @@ is_not_empty_name <- function(name, which_name = "name",
 
     } else if (!(is.character(name))) {
         message  <- str_glue('The class of the object with \n',
-                             'the {which_name} must be "character".')
+            'the {which_name} must be "character".')
         show_error_messages(
             message, message,
             title = "Invalid Class",
@@ -979,7 +1055,7 @@ is_not_empty_name <- function(name, which_name = "name",
 
     } else if (name == "") {
         message  <- str_glue('The {which_name} field must not be empty.\n',
-                             'Please, enter {article} {which_name}.')
+            'Please, enter {article} {which_name}.')
         show_error_messages(
             message, message,
             title = str_glue("Empty {str_to_title(which_name)}"),
@@ -1000,8 +1076,8 @@ is_not_empty_name <- function(name, which_name = "name",
 #' @export
 #' @keywords internal
 variable_is_not_selected <- function(obj, obj_type = "variable",
-                                     parent = CommanderWindow(),
-                                     article = "a") {
+    parent = CommanderWindow(),
+    article = "a") {
 
     if (length(obj) < 1 || (length(obj) == 1 && any(obj == ""))) {
         message  <- str_glue(
@@ -1024,8 +1100,8 @@ variable_is_not_selected <- function(obj, obj_type = "variable",
 #' @export
 #' @keywords internal
 object_is_not_selected <- function(obj, obj_type = "object",
-                                   parent = CommanderWindow(),
-                                   article = "an") {
+    parent = CommanderWindow(),
+    article = "an") {
 
     if (length(obj) < 1 || (length(obj) == 1 && any(obj == ""))) {
         message  <- str_glue(
@@ -1107,7 +1183,7 @@ are_not_valid_names <- function(name, parent = CommanderWindow()) {
 #' msg_box_confirm_to_replace()
 #' }}
 msg_box_confirm_to_replace <- function(name, type = "Variable",
-                                       parent = CommanderWindow()) {
+    parent = CommanderWindow()) {
     Type <- stringr::str_to_title(type)
 
     tk_messageBox(
@@ -1115,8 +1191,8 @@ msg_box_confirm_to_replace <- function(name, type = "Variable",
         caption = str_glue("Overwrite {Type}"),
         message = sprintf(
             str_c('%s "%s" already exists.\n\n',
-                  'Do you agree to DELETE existing %s and \n',
-                  'REPLACE it with the new one?'),
+                'Do you agree to DELETE existing %s and \n',
+                'REPLACE it with the new one?'),
             Type, name, tolower(type)),
         icon = "warning",
         type = "yesno",
@@ -1126,7 +1202,7 @@ msg_box_confirm_to_replace <- function(name, type = "Variable",
 #' @rdname msg_box_confirm_to_replace
 #' @export
 msg_box_confirm_to_replace_all <- function(name, type = "Variables",
-                                           parent = CommanderWindow()) {
+    parent = CommanderWindow()) {
     Type <- stringr::str_to_title(type)
     vars <- str_c(name, collapse = "\n")
 
@@ -1195,7 +1271,7 @@ forbid_to_replace_variables <- function(name, parent = CommanderWindow()) {
 #' @export
 #' @keywords internal
 forbid_to_replace_object <- function(name, envir = .GlobalEnv,
-                                     parent = CommanderWindow()) {
+    parent = CommanderWindow()) {
     # Checks if object exists in (Global) environment
     #
     # Returns FALSE if:
@@ -1241,8 +1317,8 @@ forbid_to_replace_file <- function(name, parent = CommanderWindow()) {
 #' @export
 #' @keywords internal
 show_code_evaluation_error_message <- function(parent = CommanderWindow(),
-                                               add_msg = "",
-                                               add_note = "") {
+    add_msg = "",
+    add_note = "") {
     show_error_messages(
         str_c("Something went wrong. Please, try to fix the issue."),
 
@@ -1723,4 +1799,21 @@ toggle_always_on_top <- function() {
     } else {
         rcmdr_set_always_on_top(TRUE)
     }
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+print.tk2frame <- function(x, ...) {
+
+    cat("A tk2widget of class '", class(x)[1], "'", "\n", sep = "")
+    cursize <- size(x)
+    if (cursize > 0)
+        cat("Size: ", cursize, "\n", sep = "")
+    val <- value(x)
+    if (!is.null(val)) {
+        cat("Value:\n")
+        print(value(x))
+    }
+    return(invisible(x))
 }
