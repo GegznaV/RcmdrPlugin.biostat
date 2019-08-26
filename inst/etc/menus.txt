@@ -479,8 +479,12 @@ item	bs19_about_menu	command "About BioStat'19..."	window_about_biostat_version	
 item	bs19_about_menu	command "Go to Homepage"	window_online_homepage	""	""
 item	bs19_about_menu	command "Feedback & bug reports"	window_online_bug_report	""	""
 item	bs19_about_menu	separator	""	""	""	""
+item	bs19_about_menu	command "Check recommended packages for BioStat"	command_chk_packages_biostat	""	""
+
+item	bs19_about_menu	separator	""	""	""	""
 
 item	bs19_about_menu	command "Check for updates for [BS-2019] course"	command_chk_packages_bs19	""	""
+item	bs19_about_menu	command "Check for updates for [R-2019] course"	command_chk_packages_r19	""	""
 
 # . ===========================================================================
 # ---- >>> Online menu -------------------------------------------------------
