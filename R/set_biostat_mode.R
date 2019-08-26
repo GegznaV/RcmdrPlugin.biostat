@@ -1272,6 +1272,14 @@ bs_mode_menu__settings <- function() {
     tkadd(menu_ab, "separator")
 
     tkadd(menu_ab, "command",
+          label    = "Check if recommended packages are installed",
+          compound = "left",
+          image    = "::image::bs_chk_pkgs",
+          command  = command_chk_packages_biostat)
+
+    tkadd(menu_ab, "separator")
+
+    tkadd(menu_ab, "command",
           label    = "Check for updates for [BS-2019] course",
           compound = "left",
           image    = "::image::bs_chk_pkgs",
