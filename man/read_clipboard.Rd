@@ -6,7 +6,7 @@
 \alias{read_clipboard_tcltk}
 \title{Read text from clipboard.}
 \usage{
-read_clipboard(which = "auto")
+read_clipboard(which = "tcltk")
 
 read_clipboard_clipr()
 
