@@ -1272,7 +1272,7 @@ bs_mode_menu__settings <- function() {
     tkadd(menu_ab, "separator")
 
     tkadd(menu_ab, "command",
-          label    = "Check if recommended packages are installed",
+          label    = "Check recommended packages for BioStat",
           compound = "left",
           image    = "::image::bs_chk_pkgs",
           command  = command_chk_packages_biostat)
