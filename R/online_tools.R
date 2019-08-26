@@ -441,8 +441,8 @@ command_chk_packages_biostat <- function() {
 #' @keywords internal
 command_chk_packages_bs19 <- function() {
   command_chk_r_config_online(
-    course  = "BS-2019",
-    msg_url = "https://mokymai.github.io/resursai/tikrink-bs-2019.R"
+    course     = "BS-2019",
+    source_url = "https://mokymai.github.io/resursai/tikrink-bs-2019.R"
   )
 }
 
@@ -451,14 +451,13 @@ command_chk_packages_bs19 <- function() {
 #' @keywords internal
 command_chk_packages_r19 <- function() {
   command_chk_r_config_online(
-    course  = "R-2019",
-    msg_url = "https://mokymai.github.io/resursai/tikrink-r-2019.R"
+    course     = "R-2019",
+    source_url = "https://mokymai.github.io/resursai/tikrink-r-2019.R"
   )
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-command_chk_r_config_online <- function() {
-
+command_chk_r_config_online <- function(course, source_url = "") {
 
   old_locale <- Sys.getlocale("LC_COLLATE")
 
@@ -478,7 +477,7 @@ command_chk_r_config_online <- function() {
     '## Check if R, RStudio and R package versions required for {course} course\n',
     '## are installed (output is in Lithuanian)\n\n',
     msg,
-    'source("{msg_url}", ',
+    'source("{source_url}", ',
     'encoding = "UTF-8")')
 
   if (!pingr::is_online()) {
