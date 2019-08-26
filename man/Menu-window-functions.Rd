@@ -67,6 +67,7 @@
 \alias{command_clean_names}
 \alias{command_all_chr_to_fctr}
 \alias{open_online_tool}
+\alias{source_online}
 \alias{window_online_geogebra_probability}
 \alias{window_online_statpages}
 \alias{window_online_image_digitizer}
@@ -115,6 +116,7 @@
 \alias{window_online_crossvalidated}
 \alias{window_online_homepage}
 \alias{window_online_bug_report}
+\alias{command_chk_packages_biostat}
 \alias{command_chk_packages_bs19}
 \alias{command_chk_packages_r19}
 \alias{active_dataset}
@@ -261,6 +263,8 @@ command_all_chr_to_fctr()
 open_online_tool(url = NULL, copy_to_clipboard = FALSE,
   parent = CommanderWindow())
 
+source_online(url = NULL, parent = CommanderWindow())
+
 window_online_geogebra_probability()
 
 window_online_statpages(variables)
@@ -356,6 +360,8 @@ window_online_crossvalidated()
 window_online_homepage()
 
 window_online_bug_report()
+
+command_chk_packages_biostat()
 
 command_chk_packages_bs19()
 
