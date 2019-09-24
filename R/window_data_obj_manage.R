@@ -474,9 +474,6 @@ window_data_obj_manage <- function() {
         buttons_activation()
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # FIXME: This line is not needed:
-        # close_pop_up_window()
-
         tkfocus(top)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Announce about the success to run the function `onOk()`
