@@ -170,11 +170,11 @@ window_dataset_bind_cols <- function() {
     tkgrid(upper_frame)
     tkgrid(ds_1_box$frame, ds_2_box$frame, ds_3_box$frame, sticky = "new")
 
-    tkgrid(labelRcmdr(names_Frame,
-                      text = gettext_bs("Name for resulting dataset:  "),
-                      fg = fg_col),
-           sticky = "w",
-           columnspan = 3)
+    tkgrid(
+      bs_label_b(names_Frame, text = gettext_bs("Name for resulting dataset:  ")),
+      sticky = "w",
+      columnspan = 3
+    )
     tkgrid(entry_new_ds_name, sticky = "ew")
 
     tkgrid(names_Frame, pady = c(10, 5), columnspan = 3, sticky = "sew")
