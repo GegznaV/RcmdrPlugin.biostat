@@ -13,11 +13,23 @@
 #   + https://www.rdocumentation.org/packages/rvg/versions/0.2.1/topics/ph_with.dml
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_export_fig_to_pptx <- function() {
+window_export_fig_to_pptx <- function(variables) {
+  if (packageVersion("rvg") < "0.2.1") {
+    window_export_fig_to_pptx__old()
+
+  } else {
+    window_export_fig_to_pptx_2()
+  }
+}
+
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# For "rvg" version "0.2.1" or newer
+window_export_fig_to_pptx_2 <- function() {
     # Fonts ------------------------------------------------------------------
     font_consolas_regular <- tkfont.create(family = "Consolas", size = 8)
 
