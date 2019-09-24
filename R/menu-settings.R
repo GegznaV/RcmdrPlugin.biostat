@@ -18,8 +18,10 @@ command_getwd <- function() {
 #' @export
 #' @keywords internal
 command_setwd <- function() {
-    new_wd <- tclvalue(tkchooseDirectory(initialdir = getwd(),
-                                         parent = CommanderWindow()))
+    new_wd <- tclvalue(tkchooseDirectory(
+      initialdir = getwd(),
+      parent = CommanderWindow()))
+
     if (new_wd != "") {
         Rcmdr::doItAndPrint(str_glue('setwd("{new_wd}")'))
     }
@@ -38,10 +40,19 @@ command_openwd <- function() {
 #' @export
 #' @keywords internal
 command_get_file_info <- function() {
-    f_path <- fs::path_tidy(file.choose())
-    Rcmdr::doItAndPrint(str_glue(
-        '## Information about file "{basename(f_path)}"\n\n',
-        't(fs::file_info("{f_path}"))'))
+
+    f_path <- fs::path_tidy(tkgetOpenFile(
+      title = "Choose File",
+      parent = CommanderWindow(),
+      initialdir = getwd()
+    ))
+
+    command <- str_glue(
+        '## Information about file "{basename(f_path)}" \n',
+        't(fs::file_info("{f_path}"))'
+      )
+
+    Rcmdr::doItAndPrint(command)
 }
 
 
