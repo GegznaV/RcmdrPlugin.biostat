@@ -39,6 +39,66 @@ bs_entry(parent = top, width = "28", value = "", label = "",
   foreground = getRcmdr("title.color"))
 }
 \arguments{
+\item{parent}{Parent Tcl/Tk window.}
+
+\item{width}{(numeric) Width of the widget.}
+
+\item{value}{(character) Initial value.}
+
+\item{label}{(character) Label of the widget.}
+
+\item{label_position}{(character) One of "left", "above", "right", "none"}
+
+\item{label_color}{(character)}
+
+\item{padx}{(numeric)}
+
+\item{pady}{(numeric)}
+
+\item{sticky}{(character)}
+
+\item{sticky_label}{(character)}
+
+\item{sticky_text}{(character)}
+
+\item{main_frame}{Tcl/Tk frame for all parts of the widget.}
+
+\item{text_frame}{Tcl/Tk frame for the entry widget.}
+
+\item{label_frame}{Tcl/Tk frame for the labels.}
+
+\item{tip}{(character) Text visible on hover.}
+
+\item{label_tip}{(character) Text visible on hover over the label.}
+
+\item{scroll_x}{(logical) Should scrollbar for x direction be added.}
+
+\item{on_click}{(function)}
+
+\item{on_double_click}{(function)}
+
+\item{on_triple_click}{(function)}
+
+\item{on_release}{(function)}
+
+\item{on_click_3}{(function)}
+
+\item{on_double_click_3}{(function)}
+
+\item{on_triple_click_3}{(function)}
+
+\item{on_release_3}{(function)}
+
+\item{on_key_release}{(function)}
+
+\item{use_context_menu}{(logical) Flag if the default context menu should be added}
+
+\item{bind_clear}{(logical)  Bind "clear" on double right-click}
+
+\item{variable}{Tcl/Tk variable.}
+
+\item{...}{Other parameters sent to \code{tk2entry}}
+
 \item{trim}{(logical) Should leading and tailing whitespace be trimmed in the result?}
 
 \item{add}{(logical) Should values be added to currently existing ones?}
