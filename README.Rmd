@@ -54,8 +54,8 @@ Documentation and more information available at http://gegznav.github.io/RcmdrPl
 To install the development version of the package from “GitHub”:
 
 ```{r Install package, eval=FALSE}
-if (!"devtools" %in% installed.packages())  install.packages("devtools")
-devtools::install_github("GegznaV/RcmdrPlugin.biostat")
+if (!require("remotes"))  install.packages("remotes")
+remotes::install_github("GegznaV/RcmdrPlugin.biostat")
 ```
 
 ## Load the plug-in correctly {#load}
@@ -149,7 +149,7 @@ To close this mode, simply restart the *R Commander*:
 
 If you need previous versions of **RcmdrPlugin.biostat**, you can install them from `GitHub`:
 
-- BioStat'19 (2019):
+- BioStat'19 (Spring 2019):
 ```{r Install BioStat-19, eval=FALSE}
 devtools::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat19")
 ```

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Does active dataset contain characters? — characterP • RcmdrPlugin.biostat</title>
+<title>Expotr text/dataframe to clipboard. — export_to_clipboard • RcmdrPlugin.biostat</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Does active dataset contain characters? — characterP" />
-<meta property="og:description" content="Return TRUE, if at least n character variables exist in the active dataset." />
+<meta property="og:title" content="Expotr text/dataframe to clipboard. — export_to_clipboard" />
+<meta property="og:description" content="Expotr text/dataframe to clipboard." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -103,23 +103,29 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Does active dataset contain characters?</h1>
+    <h1>Expotr text/dataframe to clipboard.</h1>
     
-    <div class="hidden name"><code>characterP.Rd</code></div>
+    <div class="hidden name"><code>export_to_clipboard.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Return TRUE, if at least n character variables exist in the active dataset.</p>
+    <p>Expotr text/dataframe to clipboard.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>characterP</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
+    <pre class="usage"><span class='fu'>export_to_clipboard</span>(<span class='kw'>ds_name</span> <span class='kw'>=</span> <span class='fu'>active_dataset_0</span>(), <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>","</span>)
+
+<span class='fu'>export_to_clipboard_active_ds_tab</span>()</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>n</th>
-      <td><p>Minimum number of character variables</p></td>
+      <th>ds_name</th>
+      <td><p>(string) Dataset's name.</p></td>
+    </tr>
+    <tr>
+      <th>sep</th>
+      <td><p>(string) Data field separator, if data frame is exported.</p></td>
     </tr>
     </table>
 
