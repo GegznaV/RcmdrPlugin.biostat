@@ -18,7 +18,8 @@
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_export_fig_to_pptx <- function(variables) {
+window_export_fig_to_pptx <- function() {
+
   if (packageVersion("rvg") < "0.2.1") {
     window_export_fig_to_pptx__old()
 
@@ -806,9 +807,9 @@ window_export_fig_to_pptx_2 <- function() {
         "You should try, which one works best  ",
         "(or works at all) for your plot:",
         "  - Code as-is - no modification.",
-        "  - ggplot2 - best gor 'ggplot2' polots. ",
+        "  - plot()  - additionally calls function `plot()`.",
         "  - print() - additionally calls function `print()`.",
-        "  - plot()  - additionally calls function `plot()`."
+        "  - ggplot2 - best for 'ggplot2' polots. "
       ))
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
