@@ -4,6 +4,8 @@
 # - Add better code checking or linting messages are needed.
 # - Add syntax highlighting.
 # - Add radiobuttons for units of measurement: [+]inch, [+] cm.
+# - Add button to choose the type of location (fullsize, manual, etc.)
+# - putDialogue(): make to remember options of location, filename, etc.
 #
 # - Due to changes in RVG v.0.2.1:
 #   + ---> use function ph_with.dml()
@@ -135,12 +137,21 @@ window_export_fig_to_pptx_2 <- function() {
       rez,
       "Base plot / Code as-is"  = "code_base",
       "'ggplot2' plot"          = "code_gg",
-      "Other plot: print()"     = "code_print",
-      "Other plot: plot()"      = "code_plot",
+      "Other plot via plot()"   = "code_plot",
+      "Other plot via print()"  = "code_print",
       stop("unknown option of `f3_code_options`: ", rez)
     )
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  activate_location <- function() {
+    switch(
+      get_selection(f3_location_type),
+      "Manual" = tkgrid(f3_left$frame, f3_top$frame, f3_width$frame, f3_height$frame),
+      # If other options
+      tkgrid.remove(f3_left$frame, f3_top$frame, f3_width$frame, f3_height$frame)
+    )
+  }
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   activate_options <- function() {
     switch(
       get_values(f3_source_of_plot),
@@ -216,6 +227,7 @@ window_export_fig_to_pptx_2 <- function() {
 
     open_after_saving   <- get_values(f2_open_file_box, "open_file")
 
+    location_type       <- get_selection(f3_location_type)
     pos_width           <- as.numeric(get_values(f3_width))
     pos_height          <- as.numeric(get_values(f3_height))
     pos_left            <- as.numeric(get_values(f3_left))
@@ -401,7 +413,8 @@ window_export_fig_to_pptx_2 <- function() {
       pos_width      = pos_width,
       pos_height     = pos_height,
       pos_left       = pos_left,
-      pos_top        = pos_top
+      pos_top        = pos_top,
+      location_type  = location_type
     ))
 
     # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -477,19 +490,49 @@ window_export_fig_to_pptx_2 <- function() {
         ""
       }
 
+    code__dml_plot <- str_glue(.sep = "\n",
+      'dml_plot <- rvg::dml(',
+      '    {gg_code},',
+      '    bg = NULL, # background color',
+      '    pointsize = 12,',
+      '    editable = TRUE',
+      ')'
+    )
+
+    code__location <-
+      switch(location_type,
+        "Full size"  = "officer::ph_location_fullsize()",
+        "Left side"  = "officer::ph_location_left()",
+        "Right side" = "officer::ph_location_right()",
+        "Center"     = str_glue(.sep = "\n",
+          ' officer::ph_location(',
+          '        left   = 1 ,  # {in_units}',
+          '        top    = 1,   # {in_units}',
+          '        width  = 8,   # {in_units}',
+          '        height = 5.5, # {in_units}',
+          '    )'
+        ),
+        "Manual"    = str_glue(.sep = "\n",
+          ' officer::ph_location(',
+          '        left   = {pos_left}, # {in_units}',
+          '        top    = {pos_top}, # {in_units}',
+          '        width  = {pos_width}, # {in_units}',
+          '        height = {pos_height}, # {in_units}',
+          '    )'
+        ),
+        stop("Unknown value of 'location_type': ", location_type)
+
+      )
+
     # Save plot
     command <- str_c(
       sep = "\n",
       '## Save plot',
+      '    {code__dml_plot}\n',
+
       '    {file_open}officer::read_pptx() %>%',
       '    officer::add_slide(layout = "Blank", master = "Office Theme") %>%',
-      '    rvg::ph_with_vg_at(',
-      '        width  = {pos_width}, # {in_units}',
-      '        height = {pos_height}, # {in_units}',
-      '        left   = {pos_left}, # {in_units}',
-      '        top    = {pos_top}, # {in_units}',
-      '        {gg_code}',
-      '    ) %>%',
+      '    officer::ph_with(dml_plot, location = {code__location}) %>%',
       '    print(target = "{pptx_file}")',
 
       '{code__open_after_saving}'
@@ -516,10 +559,11 @@ window_export_fig_to_pptx_2 <- function() {
       popup_msg <- str_c(
         result,
         "\nTry one of the following options:\n",
-        "  1) select a more appropriate purpose of the code;\n",
+        "  1) select a more appropriate value of 'Desired result';\n",
         "  2) check if the code really creates a plot; \n",
         "  3) correct all the errors in the code.     \n\n",
-        "Print additional information related to this error?")
+        "Print additional information related to this error?"
+      )
 
       ans <- tk_messageBox(
         parent  = top,
@@ -527,7 +571,8 @@ window_export_fig_to_pptx_2 <- function() {
         caption = "Incorrent Options or Error in Code",
         type    = "yesno",
         default = "no",
-        icon    = "error")
+        icon    = "error"
+      )
 
       if (ans == "yes") {
         logger_error(command, error_msg = result)
@@ -568,10 +613,11 @@ window_export_fig_to_pptx_2 <- function() {
     code_options   = "Base plot / Code as-is",
     code           = "",
     open_file      = FALSE,
-    pos_width      = 7,
-    pos_height     = 5,
-    pos_left       = 0,
-    pos_top        = 0
+    location_type  = "Full size",
+    pos_left       = 1, # If manual, by default the position is centered.
+    pos_top        = 1,
+    pos_width      = 8,
+    pos_height     = 5.5
   )
   initial <- getDialog("window_export_fig_to_pptx", defaults)
 
@@ -679,6 +725,21 @@ window_export_fig_to_pptx_2 <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   f3_pos_lab <- bs_label_b(parent = f3_pos, text = "Size and position of plot:")
 
+  f3_location_type <-
+    bs_combobox(
+      parent = f3_pos,
+      # label  = "Purpose of code:",
+      # label_position = "above",
+      width  = 18,
+      value  = initial$location_type,
+
+      values =  c("Full size", "Center", "Left side", "Right side", "Manual"),
+      tip = str_c(sep = "\n", "Plot's position on a slide. "),
+      on_select = activate_location
+    )
+
+
+
   bs_size_entry <- purrr::partial(
     bs_entry, parent = f3_pos, width = 4, justify = "center",
     label_color = "black", tip = str_c(
@@ -688,15 +749,17 @@ window_export_fig_to_pptx_2 <- function() {
     validate = "focus",
     validatecommand = validate_numeric)
 
-  f3_width  <- bs_size_entry(label = "Width",              value = initial$pos_width,
-    invalidcommand  = make_red_text_reset_val(to = 7))
   f3_left   <- bs_size_entry(label = "Left side position", value = initial$pos_left,
     invalidcommand  = make_red_text_reset_val(to = 0))
 
-  f3_height <- bs_size_entry(label = "Height",             value = initial$pos_height,
-    invalidcommand  = make_red_text_reset_val(to = 5))
   f3_top    <- bs_size_entry(label = "Top side position",  value = initial$pos_top,
     invalidcommand  = make_red_text_reset_val(to = 0))
+
+  f3_width  <- bs_size_entry(label = "Width",              value = initial$pos_width,
+    invalidcommand  = make_red_text_reset_val(to = 8))
+
+  f3_height <- bs_size_entry(label = "Height",             value = initial$pos_height,
+    invalidcommand  = make_red_text_reset_val(to = 5))
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   f3_source_of_plot <- bs_radiobuttons(
@@ -727,15 +790,15 @@ window_export_fig_to_pptx_2 <- function() {
   f3_code_options <-
     bs_combobox(
       parent = f3_but,
-      label  = "Purpose of code:",
+      label  = "Desired result:",
       label_position = "above",
       width  = 20,
       value  = initial$code_options,
       values = c(
         "Base plot / Code as-is",
         "'ggplot2' plot",
-        "Other plot: print()",
-        "Other plot: plot()"
+        "Other plot via plot()",
+        "Other plot via print()"
       ),
       tip = str_c(
         sep = "\n",
@@ -796,10 +859,11 @@ window_export_fig_to_pptx_2 <- function() {
   tkgrid(f3_pos, f3_but, f3_gg, sticky = "nw", padx = c(7, 0))
 
   tkgrid(f3_pos_lab, sticky = "w")
-  tkgrid(f3_width$frame,  padx = c(0, 10), sticky = "e", pady = c(0, 2))
-  tkgrid(f3_height$frame, padx = c(0, 10), sticky = "e", pady = c(0, 2))
+  tkgrid(f3_location_type$frame,   padx = c(0, 10), sticky = "e", pady = c(0, 2))
   tkgrid(f3_left$frame,   padx = c(0, 10), sticky = "e", pady = c(0, 2))
   tkgrid(f3_top$frame,    padx = c(0, 10), sticky = "e", pady = c(0, 2))
+  tkgrid(f3_width$frame,  padx = c(0, 10), sticky = "e", pady = c(0, 2))
+  tkgrid(f3_height$frame, padx = c(0, 10), sticky = "e", pady = c(0, 2))
 
   tkgrid(f3_source_of_plot$frame, padx = 15)
   tkgrid(f3_code_options$frame,   padx = 15)
@@ -878,6 +942,7 @@ window_export_fig_to_pptx_2 <- function() {
   # Apply initial configuration functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   activate_options()
+  activate_location()
   set_check_pptx_msg()
 
   # Paste code, if possible
