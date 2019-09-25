@@ -1,9 +1,41 @@
 
 #' Tcl/Tk text entry widget.
 #'
+#' @param parent Parent Tcl/Tk window.
+#' @param width (numeric) Width of the widget.
+#' @param value (character) Initial value.
+#' @param label (character) Label of the widget.
+#' @param label_position (character) One of "left", "above", "right", "none"
+#' @param label_color (character)
+#' @param padx (numeric)
+#' @param pady (numeric)
+#' @param sticky  (character)
+#' @param sticky_label (character)
+#' @param sticky_text (character)
+#' @param main_frame Tcl/Tk frame for all parts of the widget.
+#' @param text_frame Tcl/Tk frame for the entry widget.
+#' @param label_frame  Tcl/Tk frame for the labels.
+#' @param tip (character) Text visible on hover.
+#' @param label_tip  (character) Text visible on hover over the label.
+#' @param scroll_x (logical) Should scrollbar for x direction be added.
+#' @param on_click  (function)
+#' @param on_double_click  (function)
+#' @param on_triple_click  (function)
+#' @param on_release  (function)
+#' @param on_click_3  (function)
+#' @param on_double_click_3  (function)
+#' @param on_triple_click_3  (function)
+#' @param on_release_3  (function)
+#' @param on_key_release (function)
+#' @param use_context_menu (logical) Flag if the default context menu should be added
+#' @param bind_clear (logical)  Bind "clear" on double right-click
+#' @param variable Tcl/Tk variable.
+#' @param ... Other parameters sent to `tk2entry`
+#'
+#' @md
+#'
 #' @export
 #' @keywords internal
-#' @noRd
 bs_entry <- function(
 
     parent = top,
