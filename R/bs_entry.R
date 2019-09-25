@@ -3,6 +3,7 @@
 #'
 #' @export
 #' @keywords internal
+#' @noRd
 bs_entry <- function(
 
     parent = top,
