@@ -17,12 +17,6 @@ msg_rs <- c('
 
 
 code <- c('
-\n
-# Expected versions of packages:
-#   RcmdrPlugin.biostat    0.0.43 or newer.
-#   RcmdrPlugin.KMggplot2  0.2-5  (NOT 0.2-6).
-#   Rcmdr                  2.5-3  (NOT 2.6-0).
-
 # Part A
 old_opts <-
   options(
@@ -46,6 +40,12 @@ remotes::install_version("Rcmdr", version = "2.5-3")
 
 # Part D
 options(old_opts)
+
+
+# Expected versions of packages after the instalation:
+#   RcmdrPlugin.biostat    0.0.43 or newer.
+#   RcmdrPlugin.KMggplot2  0.2-5  (NOT 0.2-6).
+#   Rcmdr                  2.5-3  (NOT 2.6-0).
 ')
 
 if (identical(.Platform$GUI, "RStudio") && rstudioapi::isAvailable("1.2.1335")) {
