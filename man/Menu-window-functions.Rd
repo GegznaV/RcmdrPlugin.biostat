@@ -17,6 +17,7 @@
 %   R/window_rows_rm_duplicated.R, R/window_rows_rm_with_na.R,
 %   R/window_rows_rowid_to_col.R, R/window_rows_rownames_to_col.R,
 %   R/window_rows_slice.R, R/window_summary_count.R, R/window_summary_desc.R,
+%   R/window_summary_descr.R, R/window_summary_dfSummary.R,
 %   R/window_summary_missings.R, R/window_summary_variables.R,
 %   R/window_test_normality.R, R/window_variable_gather.R,
 %   R/window_variable_mutate.R, R/window_variable_recode.R,
@@ -162,6 +163,8 @@
 \alias{window_rows_slice}
 \alias{window_summary_count}
 \alias{window_summary_desc}
+\alias{window_summary_descr}
+\alias{window_summary_dfSummary}
 \alias{window_summary_missings}
 \alias{window_summary_variables}
 \alias{window_test_normality}
@@ -455,6 +458,10 @@ window_rows_slice()
 window_summary_count()
 
 window_summary_desc()
+
+window_summary_descr()
+
+window_summary_dfSummary()
 
 window_summary_missings()
 
