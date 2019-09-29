@@ -9,7 +9,7 @@ window_summary_dfSummary <- function() {
   command <-
     str_glue(
       "## The summary of dataset '{.ds}'\n",
-      "dfSummary({.ds}, round.digits = 2)"
+      "dfSummary({.ds})"
     ) %>%
     style_cmd()
 
