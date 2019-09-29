@@ -1,3 +1,10 @@
+# Create a window:
+# radiobuttons: "all", "fivenum", "common", "custom"
+
+# If "custom":
+# "mean", "sd", "min", "q1", "med", "q3", "max", "mad", "iqr", "cv",
+# "skewness", "se.skewness", "kurtosis", "n.valid",  "pct.valid"
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export
