@@ -570,16 +570,31 @@ bs_mode_menu__summary  <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     tkadd(menu_p, "command",
-          label    = "Desc: summarize all variables",
+          label    = "Summarize all variables (dfSummary)",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = window_summary_dfSummary)
+
+    tkadd(menu_p, "command",
+          label    = "Summarize all variables (Desc)",
           # compound = "left",
           # image    = "::image::bs_locale",
           command  = window_summary_desc_all)
 
     tkadd(menu_p, "command",
-          label    = "Desc: summarize variables (single or pair)...",
+          label    = "Summarize selected variables (Desc)...",
           # compound = "left",
           # image    = "::image::bs_locale",
           command  = window_summary_desc)
+
+    tkadd(menu_p, "separator")
+
+    tkadd(menu_p, "command",
+          label    = "Summarize numeric variables",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          state    = set_menu_state(numericP()),
+          command  = window_summary_descr)
 
     tkadd(menu_p, "separator")
 
