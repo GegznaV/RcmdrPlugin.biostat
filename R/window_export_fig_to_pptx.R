@@ -19,7 +19,7 @@
 #' @export
 #' @keywords internal
 window_export_fig_to_pptx <- function() {
-
+  # Chooses a function basing on version of rvg.
   if (packageVersion("rvg") < "0.2.1") {
     window_export_fig_to_pptx__old()
 
@@ -27,8 +27,6 @@ window_export_fig_to_pptx <- function() {
     window_export_fig_to_pptx_2()
   }
 }
-
-
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # For "rvg" version "0.2.1" or newer
@@ -614,8 +612,8 @@ window_export_fig_to_pptx_2 <- function() {
     code_options   = "Base plot / Code as-is",
     code           = "",
     open_file      = FALSE,
-    location_type  = "Full size",
-    pos_left       = 1, # If manual, by default the position is centered.
+    location_type  = "Center",
+    pos_left       = 1, # L = 1, T = 1, W = 8, H = 5.5 is centered position.
     pos_top        = 1,
     pos_width      = 8,
     pos_height     = 5.5
