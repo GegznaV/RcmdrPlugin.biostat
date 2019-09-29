@@ -106,7 +106,8 @@ window_dataset_select <- function() {
 
         doItAndPrint(str_glue(
             "## The summary of dataset '{.ds_1}'\n",
-            "dfSummary({.ds_1}, round.digits = 2)"
+            "dfSummary({.ds_1})" # FIXME: , round.digits = 2
+
         ))
     }
 
@@ -350,18 +351,14 @@ window_dataset_select <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     menu_settings <- function() {
 
-        if (get_selection_length(var_ds_box) == 0) {
-            return()
-        }
-
         menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
-        tkadd(menu_p, "command",
-              label    = "Settings",
-              compound = "left",
-              image    = "::image::bs_settings",
-              command  = do_nothing # FIXME: should open a menu for rounding settings
-          )
+        # tkadd(menu_p, "command",
+        #       label    = "Settings",
+        #       compound = "left",
+        #       image    = "::image::bs_settings",
+        #       command  = do_nothing # FIXME: should open a menu for rounding settings
+        #   )
 
         tkadd(menu_p, "command",
               label    = "Open Dataset Manager",
