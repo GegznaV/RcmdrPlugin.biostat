@@ -1,3 +1,11 @@
+# FIXME: Prevent from merging if no column is selected and no common columns are
+#        detected, e.g.:
+# gss_cat_women_full_join_1 <- dplyr::full_join(forcats::gss_cat, women)
+#
+# [7] ERROR: `by` required, because the data sources have no common variables
+# Call `rlang
+
+
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
