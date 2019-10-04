@@ -1,11 +1,27 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: R
-sudo: false
-cache: packages
+sudo: true
+cache:
+  packages: true
+
 warnings_are_errors: false
 r_packages:
     - remotes
     - devtools
     - tcltk2
 
+before_install:
+  - sudo add-apt-repository -y ppa:cran/imagemagick
+  - sudo apt-get update
+  - sudo apt-get install -y libmagick++-dev
+
+# matrix:
+#   allow_failures:
+#   - r: oldrel
+#   include:
+#   - r: devel
+#   - r: oldrel
+#   - r: release
+#     env:
+#       - FULL=true

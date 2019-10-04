@@ -267,8 +267,14 @@ item	bs19_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"
 
 item	bs19_summary_menu	separator	""	""	""	""
 
-item	bs19_summary_menu	command	"Desc: summarize all variables"	window_summary_desc_all	"activeDataSetP()"	""
-item	bs19_summary_menu	command	"Desc: summarize variables (single or pair)..."	window_summary_desc	"activeDataSetP()"	""
+item	bs19_summary_menu	command	"Summarize all variables (dfSummary)"	window_summary_dfSummary	"activeDataSetP()"	"packageAvailable('summarytools')"
+item	bs19_summary_menu	command	"Summarize all variables (Desc)"	window_summary_desc_all	"activeDataSetP()"	"packageAvailable('DescTools')"
+item	bs19_summary_menu	command	"Summarize selected variables (Desc)..."	window_summary_desc	"activeDataSetP()"	"packageAvailable('DescTools')"
+
+
+item	bs19_summary_menu	separator	""	""	""	""
+
+item	bs19_summary_menu	command	"Summarize numeric variables"	window_summary_descr	"numericP()"	"packageAvailable('DescTools')"
 
 
 item	bs19_summary_menu	separator	""	""	""	""
@@ -427,6 +433,10 @@ item	bs19_models_menu	command	"Augment: add modeled data to active dataset"	comm
 menu	bs19_session_menu	biostat19_menu	""	""	""	""
 item	biostat19_menu	cascade	"Session"	bs19_session_menu	""	""
 
+# ---- Always on top ---------------------------------------------------------
+# item	bs19_session_menu	command	"Always on top (on/off)"	toggle_always_on_top	""	""
+# item	bs19_session_menu	separator	""	""	""	""
+
 # ---- Manage locale ---------------------------------------------------------
 item	bs19_session_menu	command	"Locale..."	window_locale_set	""	""
 
@@ -459,6 +469,7 @@ item	bs19_session_menu	command	"Output to R Commander (3 windows mode)"	command_
 
 item	bs19_session_menu	separator	""	""	""	""
 item	bs19_session_menu	command	"Restart R Commander"	command_rcmdr_restart	""	""
+item	bs19_session_menu	command	"Restart R session in RStudio"	command_restart_rs_session	"is_rstudio()"	"packageAvailable('rstudioapi')"
 item	bs19_session_menu	command	"Close R Commander"	CloseCommander	""	""
 item	bs19_session_menu	command	"Close R Commander & R"	command_rcmdr_close_r	""	""
 
@@ -474,8 +485,12 @@ item	bs19_about_menu	command "About BioStat'19..."	window_about_biostat_version	
 item	bs19_about_menu	command "Go to Homepage"	window_online_homepage	""	""
 item	bs19_about_menu	command "Feedback & bug reports"	window_online_bug_report	""	""
 item	bs19_about_menu	separator	""	""	""	""
+item	bs19_about_menu	command "Check recommended packages for BioStat"	command_chk_packages_biostat	""	""
+
+item	bs19_about_menu	separator	""	""	""	""
 
 item	bs19_about_menu	command "Check for updates for [BS-2019] course"	command_chk_packages_bs19	""	""
+item	bs19_about_menu	command "Check for updates for [R-2019] course"	command_chk_packages_r19	""	""
 
 # . ===========================================================================
 # ---- >>> Online menu -------------------------------------------------------

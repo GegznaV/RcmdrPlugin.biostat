@@ -54,6 +54,9 @@ window_variable_gather <- function() {
 
         } else if (n == 1) {
             color <- "darkred"
+
+        } else {
+          color <- "darkgreen"
         }
 
         txt <- str_glue("Number of variables to gather: {n}")

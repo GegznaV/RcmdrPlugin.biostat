@@ -245,12 +245,21 @@ window_summary_desc <- function() {
             plot_code <- ""
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        opts <- ""
         if (isTRUE(by_group)) {
             variables <- str_glue("{y_var} ~ {gr_var}")
 
         } else {
             variables <- str_glue("{y_var}")
-
+            if (any(variables %in% variables_fct() &
+                    !variables %in% variables_fct_like_2_lvls())) {
+                opts <- ', ord = "level"'
+                # TODO: add possibility to use other options of "ord":
+                # "level" by factor levels
+                # "name"  alphabetical order
+                # "asc"   by frequencies ascending
+                # "desc"  by frequencies descending
+            }
         }
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -265,9 +274,9 @@ window_summary_desc <- function() {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         command <- str_glue(
             .trim = FALSE,
-            "## Summary of variables\n",
             "{opts_code}",
-            "{rez} <- \n   with({.ds}, DescTools::Desc({variables})) \n",
+            "## Summary of variables\n",
+            "{rez} <- \n   with({.ds}, DescTools::Desc({variables}{opts})) \n",
             "{print_code}",
             "{plot_code}",
             "{rm_code}")
@@ -605,10 +614,10 @@ window_summary_desc <- function() {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Returns only those options that have to be changed.
 # .force = TRUE  -- print options string even if options are not changed
-get_desctools_opts_str <- function(
-    num_digits = 3, per_digits = 1, scipen = 9,
+get_desctools_opts_str <- function(num_digits = 3, per_digits = 1, scipen = 9,
     big_mark = "", abs_big_mark = big_mark, num_big_mark = big_mark,
-    .force = FALSE) {
+    .force = FALSE)
+{
 
     x <- DescTools::Fmt()
     str <- ""

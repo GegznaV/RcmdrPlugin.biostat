@@ -446,7 +446,7 @@ bs_mode_menu__print <- function() {
     menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    view_style <- if (.Platform$GUI == "RStudio") {
+    view_style <- if (is_rstudio()) {
         tkadd(menu_p, "command",
               label    = "View dataset (in RStudio)",
               compound = "left",
@@ -570,16 +570,31 @@ bs_mode_menu__summary  <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     tkadd(menu_p, "command",
-          label    = "Desc: summarize all variables",
+          label    = "Summarize all variables (dfSummary)",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = window_summary_dfSummary)
+
+    tkadd(menu_p, "command",
+          label    = "Summarize all variables (Desc)",
           # compound = "left",
           # image    = "::image::bs_locale",
           command  = window_summary_desc_all)
 
     tkadd(menu_p, "command",
-          label    = "Desc: summarize variables (single or pair)...",
+          label    = "Summarize selected variables (Desc)...",
           # compound = "left",
           # image    = "::image::bs_locale",
           command  = window_summary_desc)
+
+    tkadd(menu_p, "separator")
+
+    tkadd(menu_p, "command",
+          label    = "Summarize numeric variables",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          state    = set_menu_state(numericP()),
+          command  = window_summary_descr)
 
     tkadd(menu_p, "separator")
 
@@ -1072,7 +1087,7 @@ bs_mode_menu__plots <- function() {
               },
           command    = set_plots_to_separate_window)
 
-    if (.Platform$GUI == "RStudio") {
+    if (is_rstudio()) {
         tkadd(menu_a, "command",
               label    = "RStudio 'Plots' tab",
               compound = "left",
@@ -1134,12 +1149,23 @@ bs_mode_menu__settings <- function() {
 
     menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkadd(menu_p, "command",
+          label    = "Always on top",
+          compound = "left",
+          image    =
+              if (isTRUE(rcmdr_get_always_on_top())) {
+                  "::image::bs_tick"
+              } else {
+                  "::image::bs_delete"
+              },
+          command    = toggle_always_on_top)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_p, "command",
           label    = "Locale...",
           compound = "left",
           image    = "::image::bs_locale",
           command  = window_locale_set)
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     menu_s  <- tk2menu(menu_p, tearoff = FALSE)
 
@@ -1180,6 +1206,14 @@ bs_mode_menu__settings <- function() {
           # compound = "left",
           # image    = "::image::bs_open_wd",
           command  = command_rcmdr_restart)
+
+    if (is_rstudio()) {
+        tkadd(menu_s, "command",
+              label    = "Restart R session in RStudio",
+              # compound = "left",
+              # image    = "::image::viewIcon",
+              command  = command_restart_rs_session)
+    }
 
     tkadd(menu_s, "command",
           label    = "Close R Commander",
@@ -1253,10 +1287,24 @@ bs_mode_menu__settings <- function() {
     tkadd(menu_ab, "separator")
 
     tkadd(menu_ab, "command",
+          label    = "Check recommended packages for BioStat",
+          compound = "left",
+          image    = "::image::bs_chk_pkgs",
+          command  = command_chk_packages_biostat)
+
+    tkadd(menu_ab, "separator")
+
+    tkadd(menu_ab, "command",
           label    = "Check for updates for [BS-2019] course",
           compound = "left",
           image    = "::image::bs_chk_pkgs",
           command  = command_chk_packages_bs19)
+
+    tkadd(menu_ab, "command",
+          label    = "Check for updates for [R-2019] course",
+          compound = "left",
+          image    = "::image::bs_chk_pkgs",
+          command  = command_chk_packages_r19)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkpopup(menu_p,
             tkwinfo("pointerx", top),

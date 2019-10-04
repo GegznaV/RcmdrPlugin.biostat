@@ -9,12 +9,12 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.r-project.org/package=RcmdrPlugin.biostat)
 [![GitHub
-version](https://img.shields.io/badge/GitHub-v0.0.40-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
+version](https://img.shields.io/badge/GitHub-v0.0.43-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/hm4h2rjb8ayr2df1/branch/master?svg=true)](https://ci.appveyor.com/project/GegznaV/rcmdrplugin-biostat/branch/master)
 [![Travis-CI Build
 Status](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat)
-[![Updated-on](https://img.shields.io/badge/Updated%20on-2019--06--09-yellowgreen.svg)](/commits/master)
+[![Updated-on](https://img.shields.io/badge/Updated%20on-2019--09--25-yellowgreen.svg)](/commits/master)
 <!-- badges: end -->
 
 -----
@@ -40,8 +40,8 @@ Documentation and more information available at
 To install the development version of the package from “GitHub”:
 
 ``` r
-if (!"devtools" %in% installed.packages())  install.packages("devtools")
-devtools::install_github("GegznaV/RcmdrPlugin.biostat")
+if (!require("remotes"))  install.packages("remotes")
+remotes::install_github("GegznaV/RcmdrPlugin.biostat")
 ```
 
 ## Load the plug-in correctly
@@ -118,7 +118,7 @@ To close this mode, simply restart the *R Commander*:
 If you need previous versions of **RcmdrPlugin.biostat**, you can
 install them from `GitHub`:
 
-  - BioStat’19 (2019):
+  - BioStat’19 (Spring 2019):
 
 <!-- end list -->
 

@@ -6,6 +6,11 @@
 #       + to correct the name (apply clean_str())
 # - Add context menus to other entry fields:
 #       + e.g., to reset to default value.
+#
+# TODO: simulate normal data of current group's sample size several (e.g. 8, 15,
+#       or 24) times and plot on 3x3, 4x4, 5x5 grid with data of investigated
+#       group to compare its normality. The normality tests could also be
+#       performed.
 
 
 #' @rdname Menu-window-functions
@@ -350,7 +355,7 @@ window_test_normality <- function() {
 
             if (by_group) {
                 facet_code     <- str_glue('facet_wrap(~{gr_var_plot}, scales = "free") + ')
-                gr_legend_code <- 'fill = "Groups", \n color = "Groups"'
+                gr_legend_code <- str_glue('fill = "{gr_var_plot}", \n color = "{gr_var_plot}"')
 
                 if (plot_in_colors) {
                     if (length(gr_var) > 1) {

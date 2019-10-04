@@ -702,8 +702,11 @@ window_import_from_excel <- function() {
     # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_bs("Import from Excel"),
-                     suppress.window.resize.buttons = FALSE)
+    initialize_dialog(title = gettext_bs("Import from Excel"))
+    # , suppress.window.resize.buttons = FALSE)
+    # FIXME: option FALSE does not work with "always-on-top",
+    # NOTE:  option TRUE may cause issues for small resulution motnitors.
+
     tk_title(top, "Import Data from Excel File")
 
     # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

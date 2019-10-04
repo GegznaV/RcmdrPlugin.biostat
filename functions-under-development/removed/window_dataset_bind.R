@@ -8,6 +8,7 @@
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
+#' @noRd
 window_dataset_bind <- function() {
     dataSets <- listDataSets()
     .activeDataSet <- ActiveDataSet()

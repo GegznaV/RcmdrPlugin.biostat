@@ -157,8 +157,10 @@ window_import_from_rds <- function() {
     }
 
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    initializeDialog(title = gettext_bs("Import from Rds"),
-                     suppress.window.resize.buttons = FALSE)
+    initialize_dialog(title = gettext_bs("Import from Rds"))
+    # , suppress.window.resize.buttons = FALSE)
+    # FIXME: option FALSE does not work with "always-on-top"
+
     tk_title(top, "Import Data from Rds File")
 
     # Widgets ================== =============================================

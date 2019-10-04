@@ -74,6 +74,12 @@ window_data_obj_manage <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    close_pop_up_window <- function() {
+      tkgrab.release(pop_up_window)
+      tkdestroy(pop_up_window)
+    }
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     on_close <- function() {
         if (GrabFocus()) tkgrab.release(top)
         tkdestroy(top)
@@ -161,7 +167,7 @@ window_data_obj_manage <- function() {
 
                 # Re-choose active dataset
                 if (active_ds_is_renamed) {
-                    active_dataset(new_obj_names[which_is_active_ds]) # [???]
+                    active_dataset(new_obj_names[which_is_active_ds]) # TODO [???]
                 }
 
             } else {
@@ -468,7 +474,6 @@ window_data_obj_manage <- function() {
         buttons_activation()
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        close_pop_up_window()
         tkfocus(top)
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Announce about the success to run the function `onOk()`

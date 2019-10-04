@@ -1,8 +1,11 @@
 #' ===========================================================================
-#' TODO:
-#' 1) Add dialogue with warning message if to proceed;
-#' 2) Fix issue related to Relative/Absolute path.
-#'
+# TODO:
+# 1) [+] Add dialogue with warning message if to proceed;
+# 2) [ ] Fix issue related to Relative/Absolute path.
+# 3) [ ] In the warning message, truncate very long list of variable names,
+#       which will be ovewritten,
+# 4)  [ ] In the warning message, add number of objects, that will be replaced.
+#
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
@@ -10,6 +13,7 @@ window_import_rdata <- function() {
     initial_dir <- getwd()
 
     file <- tclvalue(tkgetOpenFile(
+        parent = CommanderWindow(),
         title = "Choose R-data File to Import",
         initialdir  = initial_dir,
         multiple = FALSE,

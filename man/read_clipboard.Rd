@@ -2,16 +2,46 @@
 % Please edit documentation in R/helper-functions.R
 \name{read_clipboard}
 \alias{read_clipboard}
-\title{Read text from clipboard}
+\alias{read_clipboard_clipr}
+\alias{read_clipboard_tcltk}
+\title{Read text from clipboard.}
 \usage{
-read_clipboard()
+read_clipboard(which = "tcltk")
+
+read_clipboard_clipr()
+
+read_clipboard_tcltk()
+}
+\arguments{
+\item{which}{(string) either \code{"tcltk"} or \code{"clipr"}.}
 }
 \value{
-A string.
+\itemize{
+\item \code{read_clipboard()} and \code{read_clipboard_tcltk()} return a string from
+clipboard. If the clipboard contains non-sting object, empty sting (\code{""})
+is returned.
+}
 }
 \description{
-Read text from clipboard
+Read text from clipboard.
+}
+\details{
+\itemize{
+\item \code{read_clipboard_clipr()} uses \strong{\code{clipr}} implementation.
+Encoding issues may occur on Windows.
+\item \code{read_clipboard_tcltk()} uses Tcl/Tk implementation of clipboard.
+Tcl/Tk clipboard gets empty, if is window gets closed.
+}
+
+The functions in all cases must return a single string.
+Possible different conditions on clipboard:
+\itemize{
+\item one line of text;
+\item several lines of text;
+\item non-text object.
+}
 }
 \examples{
 read_clipboard()
+
 }

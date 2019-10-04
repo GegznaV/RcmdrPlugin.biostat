@@ -2,6 +2,7 @@ get_filename_to_save <- function(
     file_name = "",
     filetypes = "{ {All Files} * }",
     defaultextension = "",
+    parent = CommanderWindow(),
     ...
 ) {
 
@@ -15,6 +16,7 @@ get_filename_to_save <- function(
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     file_name <-
         tkgetSaveFile(
+            parent      = parent,
             initialfile = initialfile,
             initialdir  = initialdir,
             filetypes   = filetypes,

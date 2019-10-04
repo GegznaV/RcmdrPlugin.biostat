@@ -30,8 +30,10 @@ ttkentry <- function(parent, ...) {
     onPaste <- function() {
         onDelete()
 
-        text <- tclvalue(.Tcl("selection get -selection CLIPBOARD"))
-        if (length(text) == 0) return()
+        # text <- tclvalue(.Tcl("selection get -selection CLIPBOARD"))
+        # if (length(text) == 0) return()
+        text <- read_clipboard()
+        if (nchar(text) == 0) return()
         .Tcl(paste(wid, "insert", "insert", text))
     }
 
