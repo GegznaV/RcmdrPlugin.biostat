@@ -35,7 +35,8 @@ get_use_relative_path <- function() {
 set_biostat_mode <- function() {
 
     # Hide buttons bar
-    buttons_bar <- tcl_get_parent(getRcmdr("dataSetLabel"))
+    buttons_bar     <- tcl_get_parent(getRcmdr("dataSetLabel"))
+    buttons_bar_low <- tk2frame(buttons_bar)
 
     tkgrid.remove(buttons_bar)
     on.exit(tkgrid(buttons_bar))
@@ -60,7 +61,7 @@ set_biostat_mode <- function() {
     # Change layout of icons and buttons --------------------------------------
 
     # Existing buttons
-    sibl <- tcl_get_siblings(getRcmdr("dataSetLabel"))
+    sibl <- tcl_get_siblings_id(getRcmdr("dataSetLabel"))
 
     get_tcltk_property <- function(.x, prop) {
         f <- function(.x, prop) tcltk::tclvalue(tcltk::tkcget(.x, prop))
@@ -71,7 +72,7 @@ set_biostat_mode <- function() {
     img <- purrr::map_chr(sibl, ~get_tcltk_property(., "-image"))
     txt <- purrr::map_chr(sibl, ~get_tcltk_property(., "-text"))
 
-    logo         <- sibl[img == "::image::RlogoIcon"]
+    logo         <- sibl[img %in% c("::image::RlogoIcon", "::image::bs_r_logo_g")]
     button_edit0 <- sibl[img == "::image::editIcon"]
     button_view0 <- sibl[img == "::image::viewIcon"]
     button_data  <- sibl[img %in% c("::image::dataIcon", "::image::bs_dataset")]
@@ -88,7 +89,7 @@ set_biostat_mode <- function() {
         # tkconfigure(button_view0, command = bs_mode_menu__print)
         # # Add tooltip
         # .Tcl(str_glue('tooltip::tooltip {button_view0} "View and print data"'))
-        tkgrid.forget(button_view0)
+        # tkgrid.forget(button_view0)
     }
 
     if (length(button_edit0) > 0) {
@@ -104,72 +105,75 @@ set_biostat_mode <- function() {
 
     # New buttons ------------------------------------------------------------
     button_import <- tk2button(
-        buttons_bar,
+        buttons_bar_low,
         tip     = "Import dataset",
         image   = "::image::bs_import",
         command = bs_mode_menu__import)
 
     button_export <- tk2button(
-        buttons_bar,
+        buttons_bar_low,
         tip     = "Export active dataset",
         image   = "::image::bs_export",
         command = bs_mode_menu__export)
 
     button_datasets <- tk2button(
-        buttons_bar,
+        buttons_bar_low,
         tip     = "Datasets and objects",
         image   = "::image::bs_objects",
         command = bs_mode_menu__datasets)
 
     button_view <- tk2button(
-        buttons_bar,
+        buttons_bar_low,
         tip     = "View, summarize and print \nactive dataset",
         image   = "::image::viewIcon",
         command = bs_mode_menu__print)
 
     button_rows <- tk2button(
-        buttons_bar,
+        buttons_bar_low,
         tip     = "Manage rows (observations)\nof active dataset",
         image   = "::image::bs_rows",
         command = bs_mode_menu__rows)
 
     button_variables <- tk2button(
-        buttons_bar,
+        buttons_bar_low,
         tip     = "Manage variables (columns)\nof active dataset",
         image   = "::image::bs_columns",
         command = bs_mode_menu__variables)
 
     button_summary <- tk2button(
-        buttons_bar,
+        buttons_bar_low,
         tip     = "Summarize variables \nof active dataset",
         image   = "::image::bs_summary",
         command = bs_mode_menu__summary)
 
     button_analysis <- tk2button(
-        buttons_bar,
+        buttons_bar_low,
         tip     = "Analysis",
         image   = "::image::bs_analyze",
         command = bs_mode_menu__analyze)
 
     button_plots <- tk2button(
-        buttons_bar,
+        buttons_bar_low,
         tip     = "Plots",
         image   = "::image::bs_plot",
         command = bs_mode_menu__plots)
 
     button_other <- tk2button(
-        buttons_bar,
+        buttons_bar_low,
         tip     = "Session and settings",
         image   = "::image::bs_settings",
         command = bs_mode_menu__settings)
 
     button_refresh <- tk2button(
-        buttons_bar,
+        buttons_bar_low,
         tip     = "Refresh data and R Commander",
         image   = "::image::bs_refresh",
         command = command_dataset_refresh)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    putRcmdr("button_view0",    button_view0)
+    putRcmdr("button_edit0",    button_edit0)
+
     putRcmdr("button_import",    button_import)
     putRcmdr("button_datasets",  button_datasets)
     putRcmdr("button_export",    button_export)
@@ -181,12 +185,28 @@ set_biostat_mode <- function() {
     putRcmdr("button_plots",     button_plots)
     putRcmdr("button_other",     button_other)
     putRcmdr("button_refresh",   button_refresh)
+    putRcmdr("button_refresh",   button_refresh)
+
+    putRcmdr("buttons_bar_low",  buttons_bar_low)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # New layout -------------------------------------------------------------
     # tkgrid.forget(
     tkgrid(
         logo,
+        lab_data, button_data,
+        lab_model, button_model
+    )
+
+    tkgrid(
+      "x", buttons_bar_low,
+      columnspan = 4,
+      padx = c(10, 5),
+      pady = c(1, 5),
+      sticky = "w"
+    )
+
+    tkgrid(
         button_import,
         button_export,
         button_datasets,
@@ -197,14 +217,46 @@ set_biostat_mode <- function() {
         button_analysis,
         button_plots,
         button_other,
-        button_refresh,
-        lab_data, button_data,
-        lab_model, button_model)
+        button_refresh
+  )
 
-    tkgrid.configure(logo, sticky = "w", padx = c(6, 5))
-    tkgrid.configure(button_data,  padx = c(2, 5))
-    tkgrid.configure(lab_model,    padx = c(2, 2))
-    tkgrid.configure(button_model, padx = c(0, 10))
+    # tkgrid(
+    #     logo,
+    #     button_import,
+    #     button_export,
+    #     button_datasets,
+    #     button_view,
+    #     button_rows,
+    #     button_variables,
+    #     button_summary,
+    #     button_analysis,
+    #     button_plots,
+    #     button_other,
+    #     button_refresh,
+    #     lab_data, button_data,
+    #     lab_model, button_model
+    # )
+
+    toggle_buttons_bar_low <- function() {
+      val <- as.character(tkgrid.info(getRcmdr("buttons_bar_low")))
+      if (length(val) == 0) {
+        tkgrid(buttons_bar_low)
+        tkconfigure(logo, image = "::image::bs_r_logo_g")
+
+      } else {
+        tkgrid.remove(buttons_bar_low)
+        tkconfigure(logo, image = "::image::RlogoIcon")
+      }
+    }
+
+    tkbind(logo, "<ButtonPress-1>", toggle_buttons_bar_low)
+
+
+    tkgrid.configure(logo, sticky = "w", padx = c(10, 0), rowspan = 2)
+    tkgrid.configure(lab_data,     padx = c(0, 2),  pady = c(5, 0))
+    tkgrid.configure(button_data,  padx = c(2, 5),  pady = c(5, 0))
+    tkgrid.configure(lab_model,    padx = c(2, 2),  pady = c(5, 0))
+    tkgrid.configure(button_model, padx = c(0, 10), pady = c(5, 0))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Change the title and the main icon
@@ -1150,16 +1202,16 @@ bs_mode_menu__settings <- function() {
     menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkadd(menu_p, "command",
-          label    = "Always on top",
-          compound = "left",
-          image    =
-              if (isTRUE(rcmdr_get_always_on_top())) {
-                  "::image::bs_tick"
-              } else {
-                  "::image::bs_delete"
-              },
-          command    = toggle_always_on_top)
+    # tkadd(menu_p, "command",
+    #       label    = "Always on top",
+    #       compound = "left",
+    #       image    =
+    #           if (isTRUE(rcmdr_get_always_on_top())) {
+    #               "::image::bs_tick"
+    #           } else {
+    #               "::image::bs_delete"
+    #           },
+    #       command    = toggle_always_on_top)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_p, "command",
           label    = "Locale...",
@@ -1372,6 +1424,10 @@ bs_mode_menu__datasets <- function() {
           compound = "left",
           image    = "::image::bs_objects",
           command  = window_data_obj_manage)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkadd(menu_p, "separator")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     tkadd(menu_p, "command",
           label    = "Edit active dataset...",
