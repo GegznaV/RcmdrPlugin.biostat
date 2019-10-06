@@ -34,194 +34,213 @@ get_use_relative_path <- function() {
 #' @keywords internal
 set_biostat_mode <- function() {
 
-    # Hide buttons bar
-    buttons_bar     <- tcl_get_parent(getRcmdr("dataSetLabel"))
-    buttons_bar_low <- tk2frame(buttons_bar)
+  if (isTRUE(is_biostat_mode())) {
+    return()
+  }
+
+    # Hide buttons bar -------------------------------------------------------
+    buttons_bar <- tcl_get_parent(getRcmdr("dataSetLabel"))
 
     tkgrid.remove(buttons_bar)
     on.exit(tkgrid(buttons_bar))
+    # ========================================================================
+    # Get and modify default buttons -----------------------------------------
+    # Twho main buttons
+    button_data <- getRcmdr("dataSetLabel")
+    button_data_opts <- list()
+    button_data_opts$orig_image   <- tcl_get_property(button_data, "-image")
+    button_data_opts$orig_command <- tcl_get_property(button_data, "-command")
 
-    # Change buttons
-    tkconfigure(getRcmdr("dataSetLabel"),
-        # foreground = "darkred",
-        image = "::image::bs_dataset",
-        compound = "left",
-        command = window_dataset_select)
+    button_model   <- getRcmdr("modelLabel")
+    button_model_opts <- list()
+    button_model_opts$orig_image   <- tcl_get_property(button_model, "-image")
+    button_model_opts$orig_command <- tcl_get_property(button_model, "-command")
 
-    tkconfigure(getRcmdr("modelLabel"),
-        # foreground = "darkred",
-        image = "::image::bs_model",
-        compound = "left",
-        command = window_model_select)
-
-    # Add tooltips
-    tk2tip(getRcmdr("dataSetLabel"), "Active dataset (select or change)")
-    tk2tip(getRcmdr("modelLabel"),   "Active model (select or change)")
-
-    # Change layout of icons and buttons --------------------------------------
-
-    # Existing buttons
+    # Get existing buttons' IDs
     sibl <- tcl_get_siblings_id(getRcmdr("dataSetLabel"))
 
-    get_tcltk_property <- function(.x, prop) {
-        f <- function(.x, prop) tcltk::tclvalue(tcltk::tkcget(.x, prop))
-        rez <- purrr::safely(f)(.x, prop)$result
-        if (is.null(rez)) return("") else return(rez)
-    }
+    img <- purrr::map_chr(sibl, ~tcl_get_property(., "-image"))
+    txt <- purrr::map_chr(sibl, ~tcl_get_property(., "-text"))
 
-    img <- purrr::map_chr(sibl, ~get_tcltk_property(., "-image"))
-    txt <- purrr::map_chr(sibl, ~get_tcltk_property(., "-text"))
+    logo            <- sibl[img %in% c("::image::RlogoIcon", "::image::bs_r_logo_g")]
+    button_edit0    <- sibl[img == "::image::editIcon"]
+    button_view0    <- sibl[img == "::image::viewIcon"]
+    button_id_data  <- sibl[img %in% c("::image::dataIcon",  "::image::bs_dataset")]
+    button_id_model <- sibl[img %in% c("::image::modelIcon", "::image::bs_model")]
+    lab_data        <- sibl[txt == gettextRcmdr("   Data set:")]
+    lab_model       <- sibl[txt == gettextRcmdr("Model:")]
 
-    logo         <- sibl[img %in% c("::image::RlogoIcon", "::image::bs_r_logo_g")]
-    button_edit0 <- sibl[img == "::image::editIcon"]
-    button_view0 <- sibl[img == "::image::viewIcon"]
-    button_data  <- sibl[img %in% c("::image::dataIcon", "::image::bs_dataset")]
-    button_model <- sibl[img %in% c("::image::modelIcon", "::image::bs_model")]
-    lab_data     <- sibl[txt == gettextRcmdr("   Data set:")]
-    lab_model    <- sibl[txt == gettextRcmdr("Model:")]
-
-    # Remove old buttons
-    tkgrid.forget(logo, lab_data, button_data, lab_model, button_model)
+    # Add tooltips
+    tk2tip(button_data,  "Select active data set")
+    tk2tip(button_model, "Select active model")
 
     if (length(button_view0) > 0) {
-        tkgrid.forget(button_view0)
-        tkconfigure(button_view0, compound = "none")
-        # tkconfigure(button_view0, command = bs_mode_menu__print)
-        # # Add tooltip
-        # .Tcl(str_glue('tooltip::tooltip {button_view0} "View and print data"'))
-        # tkgrid.forget(button_view0)
+      # tkgrid.remove(button_view0)
+      tk2tip(tcl_get_obj_by_id(button_view0), "View active data set")
     }
 
     if (length(button_edit0) > 0) {
-        tkconfigure(button_edit0, compound = "none")
-        tkgrid.forget(button_edit0)
+        # tkgrid.remove(button_edit0)
+        tk2tip(tcl_get_obj_by_id(button_edit0), "Edit active data set")
     }
-
-    # Change logo
-    if (length(logo) > 0) {
-        tkconfigure(logo, image = "::image::bs_r_logo_g")
-    }
-
 
     # New buttons ------------------------------------------------------------
+    buttons_variant <- tk2frame(buttons_bar)
+    buttons_bar_low <- tk2frame(buttons_bar)
+
+    # button_set_1 <- tk2button(buttons_variant, width = 0.5)
+    # button_set_2 <- tk2button(buttons_variant, width = 0.5)
+    # button_set_3 <- tk2button(buttons_variant, width = 0.5)
+    #
+    # tkgrid(button_set_1, button_set_2, button_set_3)
+
+    button_set_manage   <- tk2frame(buttons_bar_low)
+    button_set_analysis <- tk2frame(buttons_bar_low)
+    button_set_plots    <- tk2frame(buttons_bar_low)
+    button_set_settings <- tk2frame(buttons_bar_low)
+
     button_import <- tk2button(
-        buttons_bar_low,
+        button_set_manage,
         tip     = "Import dataset",
         image   = "::image::bs_import",
         command = bs_mode_menu__import)
 
     button_export <- tk2button(
-        buttons_bar_low,
+        button_set_manage,
         tip     = "Export active dataset",
         image   = "::image::bs_export",
         command = bs_mode_menu__export)
 
     button_datasets <- tk2button(
-        buttons_bar_low,
+        button_set_manage,
         tip     = "Datasets and objects",
         image   = "::image::bs_objects",
         command = bs_mode_menu__datasets)
 
     button_view <- tk2button(
-        buttons_bar_low,
-        tip     = "View, summarize and print \nactive dataset",
+        button_set_analysis,
+        tip     = "View, summarize and print \nactive data set",
         image   = "::image::viewIcon",
         command = bs_mode_menu__print)
 
     button_rows <- tk2button(
-        buttons_bar_low,
-        tip     = "Manage rows (observations)\nof active dataset",
+        button_set_manage,
+        tip     = "Manage rows (observations)\nof active data set",
         image   = "::image::bs_rows",
         command = bs_mode_menu__rows)
 
     button_variables <- tk2button(
-        buttons_bar_low,
-        tip     = "Manage variables (columns)\nof active dataset",
+        button_set_manage,
+        tip     = "Manage variables (columns)\nof active data set",
         image   = "::image::bs_columns",
         command = bs_mode_menu__variables)
 
     button_summary <- tk2button(
-        buttons_bar_low,
-        tip     = "Summarize variables \nof active dataset",
+        button_set_analysis,
+        tip     = "Summarize variables \nof active data set",
         image   = "::image::bs_summary",
         command = bs_mode_menu__summary)
 
     button_analysis <- tk2button(
-        buttons_bar_low,
+        button_set_analysis,
         tip     = "Analysis",
         image   = "::image::bs_analyze",
         command = bs_mode_menu__analyze)
 
     button_plots <- tk2button(
-        buttons_bar_low,
-        tip     = "Plots",
+        button_set_plots,
+        tip     = "Plots management",
         image   = "::image::bs_plot",
         command = bs_mode_menu__plots)
 
     button_other <- tk2button(
-        buttons_bar_low,
+        button_set_settings,
         tip     = "Session and settings",
         image   = "::image::bs_settings",
         command = bs_mode_menu__settings)
 
     button_refresh <- tk2button(
-        buttons_bar_low,
+        button_set_settings,
         tip     = "Refresh data and R Commander",
         image   = "::image::bs_refresh",
         command = command_dataset_refresh)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    putRcmdr("button_view0",    button_view0)
-    putRcmdr("button_edit0",    button_edit0)
+    # Save objects
+    putRcmdr("logo",                logo) # FIXME: error if object does not exist
 
-    putRcmdr("button_import",    button_import)
-    putRcmdr("button_datasets",  button_datasets)
-    putRcmdr("button_export",    button_export)
-    putRcmdr("button_view",      button_view)
-    putRcmdr("button_summary",   button_summary)
-    putRcmdr("button_rows",      button_rows)
-    putRcmdr("button_variables", button_variables)
-    putRcmdr("button_analysis",  button_analysis)
-    putRcmdr("button_plots",     button_plots)
-    putRcmdr("button_other",     button_other)
-    putRcmdr("button_refresh",   button_refresh)
-    putRcmdr("button_refresh",   button_refresh)
+    putRcmdr("button_data",         button_data)
+    putRcmdr("button_model",        button_model)
+    putRcmdr("button_view0",        button_view0) # FIXME: error if object does not exist
+    putRcmdr("button_edit0",        button_edit0) # FIXME: error if object does not exist
 
-    putRcmdr("buttons_bar_low",  buttons_bar_low)
+    putRcmdr("buttons_variant",     buttons_variant)
+    putRcmdr("buttons_bar_low",     buttons_bar_low)
+    putRcmdr("button_set_manage",   button_set_manage)
+    putRcmdr("button_set_plots",    button_set_plots)
+    putRcmdr("button_set_analysis", button_set_analysis)
+    putRcmdr("button_set_settings", button_set_settings)
+
+    putRcmdr("button_import",       button_import)
+    putRcmdr("button_datasets",     button_datasets)
+    putRcmdr("button_export",       button_export)
+    putRcmdr("button_view",         button_view)
+    putRcmdr("button_summary",      button_summary)
+    putRcmdr("button_rows",         button_rows)
+    putRcmdr("button_variables",    button_variables)
+    putRcmdr("button_analysis",     button_analysis)
+    putRcmdr("button_plots",        button_plots)
+    putRcmdr("button_other",        button_other)
+    putRcmdr("button_refresh",      button_refresh)
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     # New layout -------------------------------------------------------------
-    # tkgrid.forget(
-    tkgrid(
-        logo,
-        lab_data, button_data,
-        lab_model, button_model
-    )
+    tkgrid("x", buttons_bar_low)
 
-    tkgrid(
-        "x", buttons_bar_low,
-        columnspan = 4,
+    tkgrid.configure(
+      buttons_bar_low,
+      columnspan = 6,
         padx = c(10, 5),
-        pady = c(1, 5),
+        pady = c(1,  5),
         sticky = "w"
     )
 
+    # Button sets
+    tkgrid(
+      button_set_manage,
+      button_set_analysis,
+      button_set_plots,
+      button_set_settings
+    )
+
+    # Set: manage
     tkgrid(
         button_import,
         button_export,
         button_datasets,
-        button_view,
         button_rows,
-        button_variables,
+        button_variables
+    )
+
+    # Set: analyze
+    tkgrid(
+        button_view,
         button_summary,
-        button_analysis,
-        button_plots,
+        button_analysis
+    )
+
+    # Set: plots
+    tkgrid(
+        button_plots
+    )
+
+    # Set: settings
+    tkgrid(
         button_other,
         button_refresh
     )
 
     # tkgrid(
-    #     logo,
     #     button_import,
     #     button_export,
     #     button_datasets,
@@ -232,43 +251,108 @@ set_biostat_mode <- function() {
     #     button_analysis,
     #     button_plots,
     #     button_other,
-    #     button_refresh,
-    #     lab_data, button_data,
-    #     lab_model, button_model
+    #     button_refresh
     # )
 
+    if (length(logo) > 0) {
+      tkgrid.configure(logo, sticky = "w", padx = c(10, 0), rowspan = 2)
+    }
+    tkgrid.configure(lab_data,        padx = c(0, 2),  pady = c(5, 0))
+    tkgrid.configure(button_id_data,  padx = c(2, 5),  pady = c(5, 0))
+    if (length(button_edit0) > 0) {
+      tkgrid.configure(button_edit0,  pady = c(5, 0))
+    }
 
-    tkgrid.configure(logo, sticky = "w", padx = c(10, 0), rowspan = 2)
-    tkgrid.configure(lab_data,     padx = c(0, 2),  pady = c(5, 0))
-    tkgrid.configure(button_data,  padx = c(2, 5),  pady = c(5, 0))
-    tkgrid.configure(lab_model,    padx = c(2, 2),  pady = c(5, 0))
-    tkgrid.configure(button_model, padx = c(0, 10), pady = c(5, 0))
+    if (length(button_view0) > 0) {
+      tkgrid.configure(button_view0,  pady = c(5, 0))
+    }
+    tkgrid.configure(lab_model,       padx = c(2, 2),  pady = c(5, 0))
+    tkgrid.configure(button_id_model, padx = c(0, 10), pady = c(5, 0))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Change the title and the main icon
+    # Functions --------------------------------------------------------------
+    toggle_buttons_bar_low <- function() {
+
+      # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      is_visible_buttons_bar_low <- function() {
+        vals <- as.character(tkgrid.info(getRcmdr("buttons_bar_low")))
+        length(vals) > 0
+      }
+      # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      is_bs_logo <- function() {
+        # FIXME: possible issue, if logo is not proset at all
+        isTRUE(tcl_get_property(logo, "-image") == "::image::bs_r_logo_g")
+      }
+      # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      set_buttons_rcmdr_fun <- function() {
+        # Change buttons
+        if (length(logo) > 0) tkconfigure(logo, image = "::image::RlogoIcon")
+
+        tkconfigure(
+          button_data,
+          image = button_data_opts$orig_image,
+          compound = "left",
+          command = button_data_opts$orig_command
+        )
+
+        tkconfigure(
+          button_model,
+          image = button_model_opts$orig_image,
+          compound = "left",
+          command = button_model_opts$orig_command
+        )
+        if (length(button_edit0) > 0) tkgrid(button_edit0)
+        if (length(button_view0) > 0) tkgrid(button_view0)
+      }
+      # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      set_buttons_bs_fun <- function(variables) {
+        if (length(logo) > 0) tkconfigure(logo, image = "::image::bs_r_logo_g")
+        # Change buttons
+        tkconfigure(
+          button_data,
+          image = "::image::bs_dataset",
+          compound = "left",
+          command = window_dataset_select
+        )
+
+        tkconfigure(
+          button_model,
+          image = "::image::bs_model",
+          compound = "left",
+          command = window_model_select
+        )
+        if (length(button_edit0) > 0) tkgrid.remove(button_edit0)
+        if (length(button_view0) > 0) tkgrid.remove(button_view0)
+      }
+      # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      if (is_visible_buttons_bar_low()) {
+        # Hide BS buttons
+        tkgrid.remove(buttons_bar_low)
+        tkgrid.remove(buttons_variant)
+        set_buttons_rcmdr_fun()
+
+      } else {
+        # Show BS buttons
+        tkgrid(buttons_bar_low)
+        tkgrid(buttons_variant)
+        set_buttons_bs_fun()
+      }
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Bind interactivity -----------------------------------------------------
+    tkbind(logo, "<ButtonPress-1>", toggle_buttons_bar_low)
+    tkconfigure(logo, cursor = "hand2")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Change the title and the main icon -------------------------------------
     .rcmdr <- CommanderWindow()
     tkwm.title(.rcmdr, paste0(Rcmdr::gettextRcmdr("R Commander"), " (BioStat mode)"))
     tcl("wm", "iconphoto", .rcmdr, "-default", "::image::bs_r_logo_g")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Activate functions (if in BioStat mode) --------------------------------
+    tkgrid.remove(buttons_bar_low)
+    toggle_buttons_bar_low()
     command_dataset_refresh()
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    toggle_buttons_bar_low <- function() {
-        val <- as.character(tkgrid.info(getRcmdr("buttons_bar_low")))
-        if (length(val) == 0) {
-            # Show buttons
-            tkgrid(buttons_bar_low)
-            tkconfigure(logo, image = "::image::bs_r_logo_g")
 
-        } else {
-            # Hide buttons
-            tkgrid.remove(buttons_bar_low)
-            tkconfigure(logo, image = "::image::RlogoIcon")
-        }
-    }
-
-    tkbind(logo, "<ButtonPress-1>", toggle_buttons_bar_low)
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkconfigure(logo, cursor = "hand2")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # This command unhides buttons bar
     tkgrid.configure(buttons_bar, pady = c(4, 3))
@@ -276,6 +360,23 @@ set_biostat_mode <- function() {
 
 }
 
+#
+#     # Change buttons
+#     tkconfigure(
+#       button_data,
+#         # foreground = "darkred",
+#         image = "::image::bs_dataset",
+#         compound = "left",
+#         command = window_dataset_select
+#       )
+#
+#     tkconfigure(
+#       button_model,
+#         # foreground = "darkred",
+#         image = "::image::bs_model",
+#         compound = "left",
+#         command = window_model_select
+#       )
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 set_menu_state <- function(cond) {
     if (cond) {
