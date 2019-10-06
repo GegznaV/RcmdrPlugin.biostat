@@ -195,8 +195,16 @@ set_biostat_mode <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # New layout -------------------------------------------------------------
-    tkgrid("x", buttons_bar_low)
+    # tkgrid("x", buttons_bar_low)
+    tkgrid(buttons_variant, buttons_bar_low)
 
+    lb1 <- bs_label(buttons_variant, image = "::image::dot-violet", compound = "left")
+    lb2 <- bs_label(buttons_variant, image = "::image::dot-red",    compound = "left")
+    lb3 <- bs_label(buttons_variant, image = "::image::dot-green",  compound = "left")
+    lb4 <- bs_label(buttons_variant, image = "::image::dot-black",  compound = "left")
+
+    tkgrid(lb1, lb2, lb3, lb4, sticky = "sew")
+    tkgrid.configure(buttons_variant, sticky = "se", padx = c(10, 0))
     tkgrid.configure(
       buttons_bar_low,
       columnspan = 6,
@@ -255,7 +263,7 @@ set_biostat_mode <- function() {
     # )
 
     if (length(logo) > 0) {
-      tkgrid.configure(logo, sticky = "w", padx = c(10, 0), rowspan = 2)
+      tkgrid.configure(logo, sticky = "w", padx = c(10, 0), pady = c(0, 6), rowspan = 2)
     }
     tkgrid.configure(lab_data,        padx = c(0, 2),  pady = c(5, 0))
     tkgrid.configure(button_id_data,  padx = c(2, 5),  pady = c(5, 0))
@@ -342,6 +350,23 @@ set_biostat_mode <- function() {
     # Bind interactivity -----------------------------------------------------
     tkbind(logo, "<ButtonPress-1>", toggle_buttons_bar_low)
     tkconfigure(logo, cursor = "hand2")
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkconfigure(lb1, cursor = "hand2")
+    tkconfigure(lb2, cursor = "hand2")
+    tkconfigure(lb3, cursor = "hand2")
+    tkconfigure(lb4, cursor = "hand2")
+
+    tkbind(lb1, "<Enter>", function() tkconfigure(lb1, image = "::image::dot-yellow"))
+    tkbind(lb1, "<Leave>", function() tkconfigure(lb1, image = "::image::dot-violet"))
+
+    tkbind(lb2, "<Enter>", function() tkconfigure(lb2, image = "::image::dot-yellow"))
+    tkbind(lb2, "<Leave>", function() tkconfigure(lb2, image = "::image::dot-red"))
+
+    tkbind(lb3, "<Enter>", function() tkconfigure(lb3, image = "::image::dot-yellow"))
+    tkbind(lb3, "<Leave>", function() tkconfigure(lb3, image = "::image::dot-green"))
+
+    tkbind(lb4, "<Enter>", function() tkconfigure(lb4, image = "::image::dot-yellow"))
+    tkbind(lb4, "<Leave>", function() tkconfigure(lb4, image = "::image::dot-black"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Change the title and the main icon -------------------------------------
     .rcmdr <- CommanderWindow()
