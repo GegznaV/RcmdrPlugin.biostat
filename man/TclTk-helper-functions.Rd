@@ -9,7 +9,7 @@
 \alias{tcl_get_parent}
 \alias{tcl_get_children_id}
 \alias{tcl_get_siblings_id}
-\alias{tcl_get_rcmdr_obj}
+\alias{tcl_get_obj_by_id}
 \title{Helper functions for Tcl/Tk.}
 \usage{
 bs_label_b(..., fg = Rcmdr::getRcmdr("title.color"))
@@ -28,7 +28,7 @@ tcl_get_children_id(obj)
 
 tcl_get_siblings_id(obj)
 
-tcl_get_rcmdr_obj(id, main_win = CommanderWindow())
+tcl_get_obj_by_id(id, main_win = CommanderWindow())
 }
 \description{
 Helper functions for Tcl/Tk.
