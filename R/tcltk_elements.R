@@ -101,7 +101,7 @@ tcl_get_siblings_id <- function(obj) {
 #' @rdname TclTk-helper-functions
 #' @export
 #' @keywords internal
-tcl_get_rcmdr_obj <- function(id, main_win = CommanderWindow()) {
+tcl_get_obj_by_id <- function(id, main_win = CommanderWindow()) {
   # id -- Tcl/Tk object ID as string, e.g. ".1", ".1.24", ".1.35.4"
   # main Tcl/Tk window (Tcl/Tk object)
   to_widget <-
@@ -116,3 +116,18 @@ tcl_get_rcmdr_obj <- function(id, main_win = CommanderWindow()) {
 
 }
 
+#' Get Vaalue of Tcl/Tk Widget Property
+#' @export
+#' @param .widget Tcl/Tk widget.
+#' @param property (character) name of a property (e.g., "-text", "-image").
+#' @keywords internal
+tcl_get_property <- function(.widget, property) {
+  f <- function(.widget, property) {
+    tcltk::tclvalue(tcltk::tkcget(.widget, property))
+  }
+  rez <- purrr::safely(f)(.widget, property)$result
+  if (is.null(rez)) return("") else return(rez)
+}
+
+# tooltip::tooltip -----------------------------------------------------------
+# .Tcl(str_glue('tooltip::tooltip {button_view0} "View and print data"'))
