@@ -195,6 +195,15 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_go_prev",   "icons/go-previous-4.png")
     bs_tkimage_create("::image::bs_go_next",   "icons/go-next-4.png")
     bs_tkimage_create("::image::bs_go_last",   "icons/go-last-2.png")
+
+    bs_tkimage_create("::image::dot-black",   "icons/dot-black.png")
+    bs_tkimage_create("::image::dot-red",     "icons/dot-red.png")
+    bs_tkimage_create("::image::dot-blue",    "icons/dot-blue.png")
+    bs_tkimage_create("::image::dot-green",   "icons/dot-green.png")
+    bs_tkimage_create("::image::dot-yellow",  "icons/dot-yellow.png")
+    bs_tkimage_create("::image::dot-grey",    "icons/dot-grey.png")
+    bs_tkimage_create("::image::dot-violet",  "icons/dot-violet.png")
+
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

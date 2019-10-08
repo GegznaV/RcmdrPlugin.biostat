@@ -186,7 +186,7 @@ window_dataset_select <- function() {
     cmd_ds_view <- function() {
         .ds_1 <- get_selection(var_ds_box) %>% safe_names()
         doItAndPrint(str_glue(
-            "## Preview dataset '{.ds_1}'\n",
+            "## Open '{.ds_1}' in Data Viewer \n",
             "View({.ds_1})"
         ))
     }
@@ -398,7 +398,7 @@ window_dataset_select <- function() {
 
     i1 <- tk2button(
         info_buttons_frame,
-        text = "Dataset",
+        text = "Dataset info",
         tip  = "Information about \nselected dataset",
         width = 0,
         command = menu_dataset)
@@ -440,7 +440,7 @@ window_dataset_select <- function() {
 
     i6 <- tk2button(
         info_buttons_frame,
-        text = "Preview",
+        text = "View",
         tip  = tip_i6,
         width = 0,
         command = cmd_ds_view)

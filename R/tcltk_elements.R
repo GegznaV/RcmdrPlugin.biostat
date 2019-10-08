@@ -71,8 +71,9 @@ tcl_get_parent <- function(obj) {
 #' @rdname TclTk-helper-functions
 #' @export
 #' @keywords internal
-tcl_get_children <- function(obj) {
-    tkwinfo("children", obj) %>% tclvalue() %>% tcl_str_split()
+tcl_get_children_id <- function(obj) {
+    tkwinfo("children", obj) %>% as.character()
+    # tkwinfo("children", obj) %>% tclvalue() %>% tcl_str_split()
 }
 
 tcl_str_split <- function(str) {
@@ -84,11 +85,49 @@ tcl_str_split <- function(str) {
 #' @rdname TclTk-helper-functions
 #' @export
 #' @keywords internal
-tcl_get_siblings <- function(obj) {
+tcl_get_siblings_id <- function(obj) {
   tkwinfo("parent", obj) %>%
     tkwinfo("children", .) %>%
-    tclvalue() %>%
-    str_split(" ") %>%
-    .[[1]]
+    as.character()
+
+  # tkwinfo("parent", obj) %>%
+  #   tkwinfo("children", .) %>%
+  #   tclvalue() %>%
+  #   str_split(" ") %>%
+  #   .[[1]]
+
 }
 
+#' @rdname TclTk-helper-functions
+#' @export
+#' @keywords internal
+tcl_get_obj_by_id <- function(id, main_win = CommanderWindow()) {
+  # id -- Tcl/Tk object ID as string, e.g. ".1", ".1.24", ".1.35.4"
+  # main Tcl/Tk window (Tcl/Tk object)
+  to_widget <-
+    stringr::str_split(id, "\\.") %>%
+    .[[1]] %>%
+    purrr::accumulate(str_c, sep = ".") %>%
+    .[-1] %>%
+    safe_names() %>%
+    stringr::str_c(collapse = "$env$")
+
+  str_glue_eval("main_win$env$parent$env${to_widget}")
+
+}
+
+#' Get Vaalue of Tcl/Tk Widget Property
+#' @export
+#' @param .widget Tcl/Tk widget.
+#' @param property (character) name of a property (e.g., "-text", "-image").
+#' @keywords internal
+tcl_get_property <- function(.widget, property) {
+  f <- function(.widget, property) {
+    tcltk::tclvalue(tcltk::tkcget(.widget, property))
+  }
+  rez <- purrr::safely(f)(.widget, property)$result
+  if (is.null(rez)) return("") else return(rez)
+}
+
+# tooltip::tooltip -----------------------------------------------------------
+# .Tcl(str_glue('tooltip::tooltip {button_view0} "View and print data"'))

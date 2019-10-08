@@ -1,0 +1,9 @@
+executeCommand("activateFiles")
+executeCommand("newFolder")
+executeCommand("refreshFiles")
+
+executeCommand("goToWorkingDir")
+
+executeCommand("showFolder")
+
+

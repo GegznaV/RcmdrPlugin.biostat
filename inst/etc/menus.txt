@@ -434,10 +434,10 @@ menu	bs19_session_menu	biostat19_menu	""	""	""	""
 item	biostat19_menu	cascade	"Session"	bs19_session_menu	""	""
 
 # ---- Always on top ---------------------------------------------------------
-item	bs19_session_menu	command	"Always on top (on/off)"	toggle_always_on_top	""	""
+# item	bs19_session_menu	command	"Always on top (on/off)"	toggle_always_on_top	""	""
+# item	bs19_session_menu	separator	""	""	""	""
 
 # ---- Manage locale ---------------------------------------------------------
-item	bs19_session_menu	separator	""	""	""	""
 item	bs19_session_menu	command	"Locale..."	window_locale_set	""	""
 
 # ---- Manage Working directory ----------------------------------------------

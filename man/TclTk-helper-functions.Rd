@@ -7,8 +7,9 @@
 \alias{labeled_frame}
 \alias{tk_title}
 \alias{tcl_get_parent}
-\alias{tcl_get_children}
-\alias{tcl_get_siblings}
+\alias{tcl_get_children_id}
+\alias{tcl_get_siblings_id}
+\alias{tcl_get_obj_by_id}
 \title{Helper functions for Tcl/Tk.}
 \usage{
 bs_label_b(..., fg = Rcmdr::getRcmdr("title.color"))
@@ -23,9 +24,11 @@ tk_title(parent = top, text = "", pady = c(5, 9),
 
 tcl_get_parent(obj)
 
-tcl_get_children(obj)
+tcl_get_children_id(obj)
 
-tcl_get_siblings(obj)
+tcl_get_siblings_id(obj)
+
+tcl_get_obj_by_id(id, main_win = CommanderWindow())
 }
 \description{
 Helper functions for Tcl/Tk.
