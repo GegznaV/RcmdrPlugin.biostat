@@ -1,3 +1,17 @@
+# TODO: add option to remove rows with all NA in selected variables
+#
+# library(tidyverse)
+# df = tibble::tribble(
+#   ~x, ~y, ~z, ~q,
+#   1,   1 , 1,  1,
+#   2,   2,  2, NA,
+#   3,   3, NA, NA,
+#   4,  NA, NA, NA
+# )
+# df %>% filter_all(any_vars(!is.na(.)))            # remove empty rows
+# df %>% filter_at(vars(q, z), any_vars(!is.na(.))) # remove rows with all NA in selected vars
+
+
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal

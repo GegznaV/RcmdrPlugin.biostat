@@ -294,7 +294,10 @@ set_biostat_mode <- function() {
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       set_buttons_rcmdr_fun <- function() {
         # Change buttons
-        if (length(logo) > 0) tkconfigure(logo, image = "::image::RlogoIcon")
+        if (length(logo) > 0) {
+          tkconfigure(logo, image = "::image::RlogoIcon")
+          tk2tip(tcl_get_obj_by_id(logo), "Switch to BioStat \nbuttons")
+        }
 
         tkconfigure(
           button_data,
@@ -314,7 +317,10 @@ set_biostat_mode <- function() {
       }
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       set_buttons_bs_fun <- function(variables) {
-        if (length(logo) > 0) tkconfigure(logo, image = "::image::bs_r_logo_g")
+        if (length(logo) > 0) {
+          tkconfigure(logo, image = "::image::bs_r_logo_g")
+          tk2tip(tcl_get_obj_by_id(logo), "Switch to standard \nRcmdr buttons")
+        }
         # Change buttons
         tkconfigure(
           button_data,
