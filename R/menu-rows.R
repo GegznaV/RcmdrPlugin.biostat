@@ -35,7 +35,7 @@ command_rows_rm_empty_rows <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     empty_rows_tmp <- str_glue_eval("rowSums(is.na({ds})) == ncol({ds})",
-                                envir_eval = .GlobalEnv)
+      envir_eval = .GlobalEnv)
 
     if (any(empty_rows_tmp)) {
         empty_rows_ind <-
