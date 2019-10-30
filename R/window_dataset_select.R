@@ -103,7 +103,10 @@ window_dataset_select <- function() {
     cmd_var_summary_dfSummary <- function() {
         .ds_1 <- get_selection(var_ds_box) %>% safe_names()
         Library("summarytools")
-
+        if (.Platform$OS.type == "windows") {
+          # FIXME: remove when summarytools fixes this bug
+          summarytools::st_options("use.x11" = FALSE)
+        }
         doItAndPrint(str_glue(
             "## The summary of dataset '{.ds_1}'\n",
             "dfSummary({.ds_1})" # FIXME: , round.digits = 2
