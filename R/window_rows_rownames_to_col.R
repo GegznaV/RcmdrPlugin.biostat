@@ -71,15 +71,10 @@ window_rows_rownames_to_col <- function() {
     help_menu <- function() {
 
       menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
-
-      menu_qq   <- tk2menu(menu_main, tearoff = FALSE)
-      menu_test <- tk2menu(menu_main, tearoff = FALSE)
-
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       tkadd(menu_main, "command",
         label    = "Function `rownames_to_column`",
         command  = open_help("rownames_to_column", package = "tibble"))
-
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       tkpopup(menu_main,
         tkwinfo("pointerx", top),
