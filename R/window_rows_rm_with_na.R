@@ -168,7 +168,7 @@ window_rows_rm_with_na <- function() {
   # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   initializeDialog(title = gettext_bs("Remove Rows with Missing Values"))
 
-  tk_title(top, "Drop Rows Containing Missing Values") # Title ~~~~~~~~~~~~~~
+  tk_title(top, "Remove Rows Containing Missing Values") # Title ~~~~~~~~~~~~~~
 
   # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   defaults <- list(
@@ -209,8 +209,7 @@ window_rows_rm_with_na <- function() {
   f1_b1 <- bs_radiobuttons(
     parent          = left_frame,
     title           = "Take into account:",
-
-    # sticky_buttons  = "e",
+    layout          = "horizontal",
     buttons         = c("search_all"    , "search_selected"),
     labels          = c("All variables" , "Selected variables"),
     value           = initial$scope,
@@ -220,8 +219,6 @@ window_rows_rm_with_na <- function() {
   f1_b2 <- bs_radiobuttons(
     parent          = left_frame,
     title           = "Remove rows with:",
-
-    # sticky_buttons  = "e",
     buttons         = c("all_na", "any_na"),
     labels          = c("All missing values", "At least one missing value"),
     value           = initial$rm_if ,
@@ -245,7 +242,7 @@ window_rows_rm_with_na <- function() {
     label_position = "above"
   )
 
-  tkgrid(name_box$frame, sticky = "ws", pady = c(5, 0))
+  tkgrid(name_box$frame, sticky = "ws", pady = c(16, 0))
 
 
   # Information
@@ -298,8 +295,7 @@ window_rows_rm_with_na <- function() {
   # Finalize ---------------------------------------------------------------
   ok_cancel_help(
     on_help = help_menu,
-    reset = "window_rows_rm_with_na()",
-    apply = "window_rows_rm_with_na()"
+    reset = "window_rows_rm_with_na()"
   )
 
   tkgrid(buttonsFrame, sticky = "ew")
