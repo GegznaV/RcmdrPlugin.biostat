@@ -119,8 +119,8 @@ window_dataset_select <- function() {
       # DescTools
         .ds_1     <- get_selection(var_ds_box) %>% safe_names()
 
-        opts_code <- get_desctools_opts_str()
         Library("DescTools")
+        opts_code <- get_desctools_opts_str()
         command <- str_glue(
             .trim = FALSE,
             "## The summary ofall variables\n",
@@ -141,6 +141,7 @@ window_dataset_select <- function() {
         if (any(ds_numeric)) {
           Library("tidyverse")
           Library("summarytools")
+
           command <- str_glue(
             .trim = FALSE,
             "## The summary of numeric variables\n",
@@ -329,11 +330,12 @@ window_dataset_select <- function() {
               # image    = "::image::bs_locale",
               command  = cmd_var_summary_desc)
 
-        tkadd(menu_p, "command",
-              label    = "of all variables (skim)",
-              # compound = "left",
-              # image    = "::image::bs_locale",
-              command  = cmd_var_summary_skim)
+        # tkadd(menu_p, "command",
+        #       label    = "of all variables (skim)",
+        #       # compound = "left",
+        #       # image    = "::image::bs_locale",
+        #       command  = cmd_var_summary_skim
+        # )
 
         tkadd(menu_p, "command",
               label    = "of numeric variables",
