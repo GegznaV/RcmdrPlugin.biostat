@@ -228,26 +228,6 @@ window_rows_rm_with_na <- function() {
       default_command = cmd_activation
     )
 
-    # upper_frame <- tkframe(left_frame)
-    #
-    # radioButtons_horizontal(
-    #     upper_frame,
-    #     title           = "Variables to take into account:",
-    #     title.color     = fg_col,
-    #
-    #     # right.buttons = FALSE,
-    #     name            = "",
-    #     sticky_buttons  = "e",
-    #     buttons         = c("search_all"    , "search_selected"),
-    #     values          = c("search_all"    , "search_selected"),
-    #     labels          = c("All variables" , "Selected variables"),
-    #     initialValue    = initial$scope,
-    #     command         = cmd_activation
-    # )
-    #
-    # tkgrid(upper_frame, sticky = "nw")
-    # tkgrid(Frame, sticky = "nw")
-
     tkgrid(f1_b1$frame, sticky = "nw")
     tkgrid(f1_b2$frame, sticky = "nw", pady = c(5, 0))
 
