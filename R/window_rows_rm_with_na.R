@@ -8,7 +8,7 @@
 #   3,   3, NA, NA,
 #   4,  NA, NA, NA
 # )
-# df %>% filter_all(any_vars(!is.na(.)))            # remove empty rows
+# df %>% filter_all(any_vars(!is.na(.))) # remove empty rows
 # df %>% filter_at(vars(q, z), any_vars(!is.na(.))) # remove rows with all NA in selected vars
 
 
@@ -20,18 +20,25 @@ window_rows_rm_with_na <- function() {
     # Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     cmd_activation <- function() {
-        val <- tclvalue_chr(scope_Variable)
-        switch(val,
-               "search_all" = {
-                   tk_disable(var_y_box)
-                   tkconfigure(label_bottom, text = label_bottom_text_all)
-               },
+        val_scope <- get_values(f1_b1)
+        val_which <- get_values(f1_b2)
+        combo_val <- str_c(val_scope, val_which, sep = ".")
 
-               # Search in the selected variables
-               {
-                   tk_normalize(var_y_box)
-                   tkconfigure(label_bottom, text = label_bottom_text_selected)
-               }
+        bottom_label <- switch(
+          combo_val,
+          "search_all.any_na"      = label_all_vars_any_na,
+          "search_all.all_na"      = label_all_vars_all_na,
+          "search_selected.any_na" = label_selected_vars_any_na,
+          "search_selected.all_na" = label_selected_vars_all_na,
+          "\n\n"
+        )
+
+        tkconfigure(label_bottom, text = bottom_label)
+
+        switch(
+          val_scope,
+          "search_all"      = tk_disable(var_y_box),
+          "search_selected" = tk_normalize(var_y_box)
         )
     }
     # Function onOK ----------------------------------------------------------
@@ -41,9 +48,12 @@ window_rows_rm_with_na <- function() {
         on.exit(cursor_set_idle(top))
 
         # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        scope          <- tclvalue_chr(scope_Variable)
-        new_name       <- get_values(name_box)
-        vars_y         <- get_selection(var_y_box)
+        scope    <- get_values(f1_b1)
+        rm_if    <- get_values(f1_b2)
+        new_name <- get_values(name_box)
+        vars_y   <- get_selection(var_y_box)
+
+        combo_val <- str_c(scope, rm_if, sep = ".")
 
         # Reset widget properties before checking ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # tkconfigure(name_entry, foreground = "black")
@@ -61,27 +71,48 @@ window_rows_rm_with_na <- function() {
         # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         putDialog("window_rows_rm_with_na", list(
             scope          = scope,
+            rm_if          = rm_if,
             var_y          = vars_y
         ))
 
         # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         vars_y_txt <- str_c(safe_names(vars_y), collapse = ", ")
+        prepare_lab <-
+          . %>%
+          str_wrap(width = 40) %>%
+          str_replace("\n", "\n## ")
 
-        if (scope == "search_selected") {
-            command_1 <- str_glue(
+        command <-
+          switch(
+            combo_val,
+
+            "search_all.any_na" = {
+              str_glue(
+                "## {prepare_lab(label_all_vars_any_na)}\n",
+                "{new_name} <- {.ds} %>% tidyr::drop_na()"
+              )},
+
+            "search_all.all_na" = {
+              str_glue(
+                "## {prepare_lab(label_all_vars_all_na)}\n",
+                "{new_name} <- {.ds} %>% \n",
+                "filter_all(any_vars(!is.na(.))) "
+              )},
+
+            "search_selected.any_na" = {
+              str_glue(
+                "## {prepare_lab(label_selected_vars_any_na)}\n",
                 "{new_name} <- {.ds} %>% \n ",
-                "tidyr::drop_na({vars_y_txt})")
+                "tidyr::drop_na({vars_y_txt})"
+              )},
 
-        } else {
-            command_1 <- str_glue(
-                "{new_name} <- {.ds} %>% tidyr::drop_na()")
-        }
-
-        command <- str_glue(
-            '## Remove rows containing missing values \n',
-            "{command_1}")
-
-
+            "search_selected.all_na" = {
+              str_glue(
+                "## {prepare_lab(label_selected_vars_all_na)}\n",
+                "{new_name} <- {.ds} %>% \n ",
+                "filter_at(vars({vars_y_txt}), any_vars(!is.na(.)))"
+              )}
+          )
 
         # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Library("tidyverse")
@@ -116,12 +147,23 @@ window_rows_rm_with_na <- function() {
     .ds    <- active_dataset()
     fg_col <- Rcmdr::getRcmdr("title.color")
 
-    label_bottom_text_all <-
-        "The rows that contain at least one missing (NA) value will be removed.\n"
+    # label_bottom_text_all <-
+    label_all_vars_any_na <-
+        "Remove the rows that contain at least one missing (NA) value.\n"
 
-    label_bottom_text_selected <- str_c(
-        "The rows that contain at least one missing (NA) value in the selected\n",
-        "variables will be removed.")
+    label_all_vars_all_na <-
+        "Remove empty rows.\n"
+
+    # label_bottom_text_selected <- str_c(
+    label_selected_vars_any_na <- str_c(
+        "Remove the rows that contain at least one missing (NA) value \n",
+        "in the selected variables."
+      )
+
+    label_selected_vars_all_na <- str_c(
+        "Remove the rows that contain all missing (NA) values \n",
+        "in the selected variables."
+      )
 
     # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     initializeDialog(title = gettext_bs("Remove Rows with Missing Values"))
@@ -132,6 +174,7 @@ window_rows_rm_with_na <- function() {
     defaults <- list(
         position       = "first",
         scope          = "search_all",
+        rm_if          = "any_na",
         var_y          = NULL
     )
     initial <- getDialog("window_rows_rm_with_na", defaults)
@@ -154,7 +197,7 @@ window_rows_rm_with_na <- function() {
             title       = title_var_n,
             selectmode  = "extended",
             on_keyboard = "scroll",
-            height      = 7,
+            height      = 8,
             width       = c(26, Inf),
             tip         = tip_multiple_ctrl_letters
         )
@@ -163,25 +206,50 @@ window_rows_rm_with_na <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    upper_frame <- tkframe(left_frame)
+    f1_b1 <- bs_radiobuttons(
+      parent          = left_frame,
+      title           = "Take into account:",
 
-    radioButtons_horizontal(
-        upper_frame,
-        title           = "Variables to take into account:",
-        title.color     = fg_col,
-
-        # right.buttons = FALSE,
-        name            = "scope_",
-        sticky_buttons  = "e",
-        buttons         = c("search_all"    , "search_selected"),
-        values          = c("search_all"    , "search_selected"),
-        labels          = c("All variables" , "Selected variables"),
-        initialValue    = initial$scope,
-        command         = cmd_activation
+      # sticky_buttons  = "e",
+      buttons         = c("search_all"    , "search_selected"),
+      labels          = c("All variables" , "Selected variables"),
+      value           = initial$scope,
+      default_command = cmd_activation
     )
 
-    tkgrid(upper_frame, sticky = "nw")
-    tkgrid(scope_Frame, sticky = "nw")
+    f1_b2 <- bs_radiobuttons(
+      parent          = left_frame,
+      title           = "Remove rows with:",
+
+      # sticky_buttons  = "e",
+      buttons         = c("all_na", "any_na"),
+      labels          = c("All missing values", "At least one missing value"),
+      value           = initial$rm_if ,
+      default_command = cmd_activation
+    )
+
+    # upper_frame <- tkframe(left_frame)
+    #
+    # radioButtons_horizontal(
+    #     upper_frame,
+    #     title           = "Variables to take into account:",
+    #     title.color     = fg_col,
+    #
+    #     # right.buttons = FALSE,
+    #     name            = "",
+    #     sticky_buttons  = "e",
+    #     buttons         = c("search_all"    , "search_selected"),
+    #     values          = c("search_all"    , "search_selected"),
+    #     labels          = c("All variables" , "Selected variables"),
+    #     initialValue    = initial$scope,
+    #     command         = cmd_activation
+    # )
+    #
+    # tkgrid(upper_frame, sticky = "nw")
+    # tkgrid(Frame, sticky = "nw")
+
+    tkgrid(f1_b1$frame, sticky = "nw")
+    tkgrid(f1_b2$frame, sticky = "nw", pady = c(5, 0))
 
     # Name
     init_name <-
@@ -197,17 +265,62 @@ window_rows_rm_with_na <- function() {
         label_position = "above"
     )
 
-    tkgrid(name_box$frame, sticky = "ws", pady = c(60, 0))
+    tkgrid(name_box$frame, sticky = "ws", pady = c(5, 0))
 
 
     # Information
 
-    label_bottom <- bs_label(top, text = "\n\n")
+    label_bottom <- bs_label(top, text = "\n\n", fg = "darkred")
     tkgrid(label_bottom, pady = c(10, 0), sticky = "ws")
 
+
+
+    # Help menus -------------------------------------------------------------
+    help_menu <- function() {
+
+      menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
+
+      menu_qq   <- tk2menu(menu_main, tearoff = FALSE)
+      menu_test <- tk2menu(menu_main, tearoff = FALSE)
+
+      # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      tkadd(menu_main, "command",
+        label    = "Function `drop_na()`",
+        command  = open_help("drop_na", package = "tidyr"))
+
+      tkadd(menu_main, "command",
+        label    = "Function `is.na()`",
+        command  = open_help("is.na", package = "base"))
+
+      tkadd(menu_main, "separator")
+
+      tkadd(menu_main, "command",
+        label    = "Function `filter_all()`",
+        command  = open_help("filter_all", package = "dplyr"))
+
+      tkadd(menu_main, "command",
+        label    = "Function `filter_at()`",
+        command  = open_help("filter_at", package = "dplyr"))
+
+      tkadd(menu_main, "command",
+        label    = "Function `any_vars()`",
+        command  = open_help("any_vars", package = "dplyr"))
+
+      tkadd(menu_main, "command",
+        label    = "Function `vars()`",
+        command  = open_help("vars", package = "dplyr"))
+
+      # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      tkpopup(menu_main,
+        tkwinfo("pointerx", top),
+        tkwinfo("pointery", top))
+    }
     # Finalize ---------------------------------------------------------------
-    ok_cancel_help(helpSubject = "drop_na", helpPackage = "tidyr",
-                   reset = "window_rows_rm_with_na()")
+    ok_cancel_help(
+      on_help = help_menu,
+      reset = "window_rows_rm_with_na()",
+      apply = "window_rows_rm_with_na()"
+    )
 
     tkgrid(buttonsFrame, sticky = "ew")
     dialogSuffix()
