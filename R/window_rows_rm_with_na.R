@@ -256,10 +256,6 @@ window_rows_rm_with_na <- function() {
   help_menu <- function() {
 
     menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
-
-    menu_qq   <- tk2menu(menu_main, tearoff = FALSE)
-    menu_test <- tk2menu(menu_main, tearoff = FALSE)
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_main, "command",
       label    = "Function `drop_na`",
@@ -286,7 +282,6 @@ window_rows_rm_with_na <- function() {
     tkadd(menu_main, "command",
       label    = "Function `vars`",
       command  = open_help("vars", package = "dplyr"))
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkpopup(menu_main,
       tkwinfo("pointerx", top),
