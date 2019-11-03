@@ -265,29 +265,29 @@ window_rows_rm_with_na <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_main, "command",
-      label    = "Function `drop_na()`",
+      label    = "Function `drop_na`",
       command  = open_help("drop_na", package = "tidyr"))
 
     tkadd(menu_main, "command",
-      label    = "Function `is.na()`",
+      label    = "Function `is.na`",
       command  = open_help("is.na", package = "base"))
 
     tkadd(menu_main, "separator")
 
     tkadd(menu_main, "command",
-      label    = "Function `filter_all()`",
+      label    = "Function `filter_all`",
       command  = open_help("filter_all", package = "dplyr"))
 
     tkadd(menu_main, "command",
-      label    = "Function `filter_at()`",
+      label    = "Function `filter_at`",
       command  = open_help("filter_at", package = "dplyr"))
 
     tkadd(menu_main, "command",
-      label    = "Function `any_vars()`",
+      label    = "Function `any_vars`",
       command  = open_help("any_vars", package = "dplyr"))
 
     tkadd(menu_main, "command",
-      label    = "Function `vars()`",
+      label    = "Function `vars`",
       command  = open_help("vars", package = "dplyr"))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
