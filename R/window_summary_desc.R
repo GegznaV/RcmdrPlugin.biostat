@@ -10,6 +10,7 @@ window_summary_desc <- function() {
     # Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_default <- function(val, default) {
+
         if (is.null(val) || is.na(val)) {
             default
         } else {
