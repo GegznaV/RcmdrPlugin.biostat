@@ -193,7 +193,7 @@ window_xxx <- function() {
     parent = upper_frame,
     width = 28,
     value = unique_colnames("row_number"),
-    label = "Column name for row numbers:"
+    label = "Column name:"
   )
 
 
@@ -247,7 +247,7 @@ window_xxx <- function() {
   # tkgrid(
   #     bs_label(
   #         name_frame,
-  #         text = gettext_bs("Column name for row numbers:"),
+  #         text = gettext_bs("Column name:"),
   #         foreground = getRcmdr("title.color")),
   #     sticky = "w"
   # )
