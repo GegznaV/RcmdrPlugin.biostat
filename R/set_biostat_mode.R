@@ -769,8 +769,11 @@ bs_mode_menu__summary  <- function() {
         # image    = "::image::bs_locale",
         command  = window_summary_desc_all)
 
+    tkadd(menu_p, "separator")
+
     tkadd(menu_p, "command",
-        label    = "Summarize selected variables (Desc)...",
+        # label    = "Summarize selected variables (Desc)...",
+        label    = "Summarize single or pair of variables (Desc)...",
         # compound = "left",
         # image    = "::image::bs_locale",
         command  = window_summary_desc)
@@ -782,7 +785,16 @@ bs_mode_menu__summary  <- function() {
         # compound = "left",
         # image    = "::image::bs_locale",
         state    = set_menu_state(numericP()),
-        command  = window_summary_descr)
+        command  = window_summary_descr
+    )
+
+    # tkadd(menu_p, "command",
+    #     label    = "Frequency table for numeric variable...",
+    #     # compound = "left",
+    #     # image    = "::image::bs_locale",
+    #     state    = set_menu_state(numericP()),
+    #     command  = window_summary_Freq
+    # )
 
     tkadd(menu_p, "separator")
 
