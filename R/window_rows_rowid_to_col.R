@@ -102,10 +102,6 @@ window_rows_rowid_to_col <- function() {
     help_menu <- function() {
 
       menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
-
-      menu_qq   <- tk2menu(menu_main, tearoff = FALSE)
-      menu_test <- tk2menu(menu_main, tearoff = FALSE)
-
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       tkadd(menu_main, "command",
         label    = "Function `mutate`",
@@ -128,7 +124,6 @@ window_rows_rowid_to_col <- function() {
       tkadd(menu_main, "command",
         label    = "Function `everything`",
         command  = open_help("everything", package = "dplyr"))
-
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       tkpopup(menu_main,
         tkwinfo("pointerx", top),
