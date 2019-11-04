@@ -634,30 +634,6 @@ bs_mode_menu__print <- function() {
     menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    view_style <- if (is_rstudio()) {
-        tkadd(menu_p, "command",
-            label    = "View dataset (in RStudio)",
-            compound = "left",
-            image    = "::image::viewIcon",
-            command  = command_dataset_view)
-
-        tkadd(menu_p, "command",
-            label    = "View dataset (in R Commander)",
-            compound = "left",
-            image    = "::image::viewIcon",
-            command  = window_dataset_view_rcmdr)
-
-    } else {
-        tkadd(menu_p, "command",
-            label    = "View dataset",
-            compound = "left",
-            image    = "::image::viewIcon",
-            command  = window_dataset_view_rcmdr)
-    }
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkadd(menu_p, "separator")
-
     tkadd(menu_p, "command",
         label    = "Class of active dataset...",
         state    = activate_if_active_ds(),
@@ -687,6 +663,30 @@ bs_mode_menu__print <- function() {
         # compound = "left",
         # image    = "::image::bs_locale",
         command  = command_glimpse)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkadd(menu_p, "separator")
+
+        view_style <- if (is_rstudio()) {
+        tkadd(menu_p, "command",
+            label    = "View dataset (in RStudio)",
+            compound = "left",
+            image    = "::image::viewIcon",
+            command  = command_dataset_view)
+
+        tkadd(menu_p, "command",
+            label    = "View dataset (in R Commander)",
+            compound = "left",
+            image    = "::image::viewIcon",
+            command  = window_dataset_view_rcmdr)
+
+    } else {
+        tkadd(menu_p, "command",
+            label    = "View dataset",
+            compound = "left",
+            image    = "::image::viewIcon",
+            command  = window_dataset_view_rcmdr)
+    }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_p, "separator")
