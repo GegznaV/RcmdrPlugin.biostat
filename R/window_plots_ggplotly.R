@@ -53,7 +53,7 @@ window_plots_ggplotly <- function() {
     # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     source <- get_values(f1_source_of_plot)
     gg_obj <- get_selection(f1_gg_obj_name_box)
-
+    dev    <- dev.list()
     # Reset widget properties before checking ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -88,18 +88,27 @@ window_plots_ggplotly <- function() {
       }
 
     # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Library("plotly")
-
-    # doItAndPrint(command)
-    result <- justDoIt(command)
-
-    # result <- try_command(command)
+    result <- try_command(command)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (class(result)[1] != "try-error") {
-      logger(style_cmd(command))
-      # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      closeDialog()
+      doItAndPrint(style_cmd(command))
+
+      # Close graphical device if it was opened
+      if (is.null(dev) && !is.null(dev.list())) {
+        dev.off()
+      }
+      if (getRcmdr("RStudio") && !is.null(options("viewer"))) {
+
+        tk_messageBox(
+          parent = top,
+          message = 'The plot is in RStudio "Viewer" Tab.',
+          caption = "Check Rstudio Viewer Tab",
+          type = "ok",
+          icon = "info"
+        )
+      }
+      try(rstudioapi::executeCommand("activateViewer"), silent = TRUE)
 
     } else {
       logger_error(command, error_msg = result)
@@ -203,6 +212,7 @@ window_plots_ggplotly <- function() {
   # Buttons ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--
   ok_cancel_help(
     on_help = help_menu,
+    close_on_ok = TRUE,
     apply = "window_plots_ggplotly()"
   )
 
