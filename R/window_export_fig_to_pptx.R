@@ -152,23 +152,23 @@ window_export_fig_to_pptx_2 <- function() {
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   activate_options <- function() {
+    source <- get_values(f3_source_of_plot)
+
     switch(
-      get_values(f3_source_of_plot),
-
-      code       = {
+      source,
+      "code"       = {
         tk_read_only(f3_code_options)
-        tkgrid.remove(f3_gg) # List of available ggplot2 objects
-        tkgrid(f4)           # Code input box
+        tkgrid.remove(f3_gg) # List of available ggplot2 objects.
+        tkgrid(f4)           # Code input box.
       },
-
-      obj_gg     = {
+      "obj_gg"     = {
         tk_disable(f3_code_options)
         tkgrid(f3_gg)
         # tk_disable(f3_gg_obj_name_box)
         tkgrid.remove(f4)
       },
 
-      last_gg    = {
+      "last_gg"    = {
         tk_disable(f3_code_options)
         tkgrid.remove(f3_gg)
         tkgrid.remove(f4)
@@ -176,38 +176,37 @@ window_export_fig_to_pptx_2 <- function() {
     )
 
     # Important for the first time
-
     if (gg_lastplot_exists()) {
       tk_normalize(f3_source_of_plot, "last_gg")
 
     } else {
       tk_disable(f3_source_of_plot, "last_gg")
 
-      if (get_values(f3_source_of_plot) == "last_gg") {
-        # Deselect disabled value
+      # Deselect disabled value
+      if (source == "last_gg") {
         set_values(f3_source_of_plot, "code")
       }
     }
 
     if (gg_objects_exist()) {
-
-      tkgrid.remove(f3_gg)
-      tk_disable(f3_source_of_plot, "obj_gg")
-
-      if (get_values(f3_source_of_plot) == "obj_gg") {
-        # Deselect disabled value
-        set_values(f3_source_of_plot, "code")
-      }
-
-    } else {
       tkgrid(f3_source_of_plot$frame)
       tk_normalize(f3_source_of_plot, "obj_gg")
       set_values(
         f3_gg_obj_name_box,
         list_objects_of_class("gg", envir = .GlobalEnv)
       )
+      set_selection(f3_gg_obj_name_box, 1)
 
+    } else {
+      tkgrid.remove(f3_gg)
+      tk_disable(f3_source_of_plot, "obj_gg")
+
+      # Deselect disabled value
+      if (source == "obj_gg") {
+        set_values(f3_source_of_plot, "code")
+      }
     }
+
     set_check_pptx_msg()
   }
 
@@ -817,7 +816,9 @@ window_export_fig_to_pptx_2 <- function() {
       parent = f3_gg,
       values = list_objects_of_class("gg", envir = .GlobalEnv),
       title  = "List of ggplot2 objects:",
-      width  = 25, height = 7)
+      width  = 25,
+      height = 7
+    )
 
   # F4, Frame 4, Preview ---------------------------------------------------
   # F4 <- tk2labelframe(top, relief = "flat", text = "Code input")
