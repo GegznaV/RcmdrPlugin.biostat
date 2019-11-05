@@ -53,6 +53,13 @@ the R Commander tool to load the plug-ins or automatically by using a
 configuration script. Please find the instructions in the following
 sections.
 
+### For Mac users only
+
+Before continuing, open [*XQuartz*](http://www.xquartz.org/). Otherwise
+“R Commander” will not open on your Mac. More information on
+[installing R Commander for Mac
+users"](https://murraystate.instructure.com/courses/1252125/pages/installing-r-commander-on-your-mac).
+
 ### Load manually
 
 1.  Never load the plug-in directly by loading package
@@ -79,6 +86,12 @@ Wait until *R Commander* window opens.
 If you need more than one plug-in to be loaded, hold <kbd>Ctrl</kbd> key
 while selecting the plug-ins. To load the plug-ins, *R Commander* must
 restart.
+
+> NOTE: be aware that some plug-ins are incompatible one to the other
+> and some combinations of plug-ins may break R Commander (e.g.,
+> “RcmdrPlugin.EZR” and “RcmdrPlugin.EZR.as.menu”). In this kind of
+> situations, you should restart R session and try the other combination
+> of plugins.
 
 3.  If **RcmdrPlugin.biostat** is loaded, you can access its
     functionality through `BioStat'19` menu in the menu bar:
@@ -124,7 +137,7 @@ install them from `GitHub`:
 <!-- end list -->
 
 ``` r
-devtools::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat19")
+remotes::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat19")
 ```
 
   - BioStat’18 (2018):
@@ -132,7 +145,7 @@ devtools::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat19")
 <!-- end list -->
 
 ``` r
-devtools::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat18")
+remotes::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat18")
 ```
 
 -----
@@ -153,7 +166,7 @@ To install these packages, use the following code:
 
 ``` r
 # RcmdrPlugin.EZR.as.menu
-devtools::install_github("GegznaV/RcmdrPlugin.EZR", ref = "ezr_as_menu")
+remotes::install_github("GegznaV/RcmdrPlugin.EZR", ref = "ezr_as_menu")
 
 # RcmdrPlugin.KMggplot2
 install.packages("RcmdrPlugin.KMggplot2")
