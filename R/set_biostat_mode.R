@@ -862,7 +862,7 @@ bs_mode_menu__rows <- function() {
         command  = window_rows_col_to_rownames)
 
     tkadd(menu_n, "command",
-        label    = "Create column with row numbers",
+        label    = "Create column with row numbers...",
         # compound = "left",
         # image    = "::image::bs_locale",
         command  = window_rows_rowid_to_col)
