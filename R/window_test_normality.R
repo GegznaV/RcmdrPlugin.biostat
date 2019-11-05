@@ -479,8 +479,8 @@ window_test_normality <- function() {
 
 
             single_test_code <-
-                str_glue("pull({y_var}) %>% {perform_test_code} %>% broom::tidy()")
-            # str_glue(".${y_var} %>% {perform_test_code} %>% broom::tidy()")
+              str_glue(".${y_var} %>% {perform_test_code} %>% broom::tidy()")
+            # str_glue("(.) %>% pull({y_var}) %>% {perform_test_code} %>% broom::tidy()")
             # str_glue(".${y_var} %>% {test_function}({chi_sq_params}) %>% broom::tidy()")
             # str_glue("broom::tidy({test_function}(.${y_var}{chi_sq_params}))")
 
