@@ -468,12 +468,20 @@ window_test_normality <- function() {
 
 
       if (test_simplify) {
+        empty_htest_obj <- ""
+        new_line <- ""
         perform_test_code <- str_glue("{test_function}({chi_sq_params})")
 
       } else {
+        # FIXME: name "htest_na" should not overwrite existing variables. Check
+        #        its uniqueness.
+
+        empty_htest_obj <-
+          'htest_na <- structure(list(statistic = NA), class = "htest") \n'
+        new_line <- "\n"
         perform_test_code <-
           str_glue(.trim = FALSE,
-            "\n possibly({test_function}, otherwise = NA)({chi_sq_params})")
+            "\n possibly({test_function}, otherwise = htest_na)({chi_sq_params})")
         # perform_test_code <- str_glue("safely({test_function})({chi_sq_params}) %>% .$result")
       }
 
@@ -490,7 +498,7 @@ window_test_normality <- function() {
         if (by_group) {
           str_glue(
             "group_by({gr_var_str}) %>% \n",
-            "group_modify( ~ {single_test_code})")
+            "group_modify({new_line} ~ {single_test_code})")
         } else {
           single_test_code
         }
@@ -518,7 +526,7 @@ window_test_normality <- function() {
       # Test results ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       # Command
       command_do_test <- str_glue(
-        "## Notmality test \n",
+        "## Notmality test \n {empty_htest_obj}",
         "{results_name} <- \n {.ds} %>%\n",
         "    {main_test_code} \n\n",
 
