@@ -83,13 +83,13 @@ window_import_from_text <- function() {
   get_sep <- function() {
     val <- get_selection(f2_box_sep)
     switch(val,
-      "Auto"            = "auto",
-      "White space ( )" = " ",
-      "Tab ( \\t )"     = "\t",
-      "Comma ( , )"     = ",",
-      "Semicolon ( ; )" = ";",
-      "Pipe ( | )"      = "|",
-      "Custom\u2026"    = get_values(f2_ent_sep),
+      "Auto"               = "auto",
+      "White space ( )"    = " ",
+      "Tab ( \\t )"        = "\t",
+      "Comma ( , )"        = ",",
+      "Semicolon ( ; )"    = ";",
+      "Vertical bar ( | )" = "|",
+      "Custom\u2026"       = get_values(f2_ent_sep),
       stop("Value '", val, "' is unknown (f2_box_sep)."))
   }
   get_code_sep <- function() {
@@ -1144,7 +1144,7 @@ window_import_from_text <- function() {
 
   dec1  <- c("Period ( . )", "Comma ( , )") # "Default"
   sep1  <- c("Auto", "Tab ( \\t )", "Comma ( , )", "Semicolon ( ; )",
-    "White space ( )", "Pipe ( | )", "Custom\u2026")
+    "White space ( )", "Vertical bar ( | )", "Custom\u2026")
   nas1  <- c("Default", "Empty", "None",  "NA",  "na", "N/A", "n/a", "#N/A",
     "?", "(?)", "!", "Custom\u2026")
   quo1  <- c("Double ( \" )", "Single ( \' )", "None", "Custom\u2026" )
