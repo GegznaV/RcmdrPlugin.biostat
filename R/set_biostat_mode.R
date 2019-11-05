@@ -581,6 +581,14 @@ bs_mode_menu__export <- function() {
             .ds <- active_dataset_0()
             export_to_clipboard(.ds, sep = "\t")
         })
+    tkadd(menu_c, "command",
+        label    = "as Tab delimited values (European tsv)",
+        compound = "left",
+        image    = "::image::bs_copy",
+        command  = function() {
+            .ds <- active_dataset_0()
+            export_to_clipboard(.ds, sep = "\t", dec = ",")
+        })
 
     tkadd(menu_c, "command",
         label    = "as Comma separated values (csv)",
@@ -589,6 +597,15 @@ bs_mode_menu__export <- function() {
         command  = function() {
             .ds <- active_dataset_0()
             export_to_clipboard(.ds, sep = ",")
+        })
+
+    tkadd(menu_c, "command",
+        label    = "as Comma separated values (European csv)",
+        compound = "left",
+        image    = "::image::bs_copy",
+        command  = function() {
+            .ds <- active_dataset_0()
+            export_to_clipboard(.ds, sep = ";", dec = ",")
         })
 
     # tkadd(menu_e, "separator")
