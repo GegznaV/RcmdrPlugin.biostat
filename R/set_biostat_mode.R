@@ -1136,12 +1136,13 @@ bs_mode_menu__analyze <- function() {
     #       # image    = "::image::bs_open_file",
     #       menu     = menu_a)
     #
-    tkadd(menu_p, "command",
-        label      = "Association between categorical variables...",
-        # compound = "left",
-        # image    = "::image::bs_open_file",
-        # state      = set_menu_state(factorsP(2)),
-        command    = window_summary_count)
+    # tkadd(menu_p, "command",
+    #     label      = "Association between categorical variables...",
+    #     # compound = "left",
+    #     # image    = "::image::bs_open_file",
+    #     # state      = set_menu_state(factorsP(2)),
+    #     command    = window_summary_count
+    # )
 
     # tkadd(menu_a, "command",
     #       label      = "Correlation... [Rcmdr]",
