@@ -1310,18 +1310,13 @@ bs_mode_menu__plots <- function() {
 
   menu_p <- tk2menu(tk2menu(top), tearoff = FALSE)
 
-  tkadd(menu_p, "command",
-    label    = "Open new window for plots",
-    compound = "left",
-    image    = "::image::bs_new_window",
-    command  = open_new_plots_window)
-
-
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_a <- tk2menu(menu_p, tearoff = FALSE)
 
   tkadd(menu_p, "cascade",
     label    = "Default place to draw plots",
-    menu     = menu_a)
+    menu     = menu_a
+  )
 
   tkadd(menu_a, "command",
     label    = "Separate window for plots",
@@ -1332,7 +1327,8 @@ bs_mode_menu__plots <- function() {
       } else {
         ""
       },
-    command    = set_plots_to_separate_window)
+    command    = set_plots_to_separate_window
+  )
 
   if (is_rstudio()) {
     tkadd(menu_a, "command",
@@ -1345,9 +1341,23 @@ bs_mode_menu__plots <- function() {
           ""
         },
       command  = set_plots_to_rstudio_window)
-
   }
 
+  tkadd(menu_p, "command",
+    label    = "Open new window for plots",
+    compound = "left",
+    image    = "::image::bs_new_window",
+    command  = open_new_plots_window
+  )
+
+  tkadd(menu_p, "command",
+    label    = "Close all plots",
+    compound = "left",
+    image    = "::image::bs_plot_close",
+    command  = close_all_plots
+  )
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   if (packageAvailable('plotly')) {
 
     tkadd(menu_p, "separator")
@@ -1360,6 +1370,7 @@ bs_mode_menu__plots <- function() {
       command  = window_plots_ggplotly)
   }
 
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # tkadd(menu_p, "separator")
   #
   # tkadd(menu_p, "command",
@@ -1378,8 +1389,7 @@ bs_mode_menu__plots <- function() {
       command  = window_export_fig_to_pptx)
   }
 
-  # tkadd(menu_p, "separator")
-
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkpopup(menu_p,
     tkwinfo("pointerx", top),
     tkwinfo("pointery", top))
