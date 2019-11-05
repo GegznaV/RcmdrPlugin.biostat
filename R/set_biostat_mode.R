@@ -1395,14 +1395,14 @@ bs_mode_menu__plots <- function() {
     tkwinfo("pointery", top))
 }
 
-# Settings, etc. menus ---------------------------------------------------------
+# Settings, etc. menus -------------------------------------------------------
 bs_mode_menu__settings <- function() {
 
   top <- CommanderWindow()
 
   menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # tkadd(menu_p, "command",
   #       label    = "Always on top",
   #       compound = "left",

@@ -39,10 +39,9 @@ remotes::install_github("rforge/rcmdr/pkg/Rcmdr-devel", upgrade = TRUE)
 # Part D
 options(old_opts)
 
-
 # Expected versions of packages after the instalation:
 #   Rcmdr                  2.6-1  or newer (NOT 2.6-0).
-#   RcmdrPlugin.biostat    0.0.47 or newer.
+#   RcmdrPlugin.biostat    0.0.48 or newer.
 #   RcmdrPlugin.KMggplot2  0.2-6  or newer.
 ')
 
@@ -55,5 +54,4 @@ if (identical(.Platform$GUI, "RStudio") && rstudioapi::isAvailable("1.2.1335")) 
 } else {
   cat(sep = "\n", msg_rcmdr)
 }
-
 
