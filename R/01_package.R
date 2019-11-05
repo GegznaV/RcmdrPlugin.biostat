@@ -161,7 +161,6 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_sort_desc",  "icons/view-sort-descending.png")
     bs_tkimage_create("::image::bs_rectangle",  "icons/draw-rectangle.png")
 
-
     bs_tkimage_create("::image::bs_package",    "icons/package-green.png")
     bs_tkimage_create("::image::bs_text",       "icons/bs_txt.png")
     bs_tkimage_create("::image::bs_pptx",       "icons/page-white_powerpoint.png")
@@ -186,6 +185,7 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_chart",      "icons/insert-chart-bar.png")
     bs_tkimage_create("::image::bs_plot",       "icons/office-chart-pie.png")
     bs_tkimage_create("::image::bs_plotly",     "icons/plotly.png")
+    bs_tkimage_create("::image::bs_plot_close", "icons/delete.png")
 
     bs_tkimage_create("::image::bs_bug",        "icons/bug.png")
     bs_tkimage_create("::image::bs_home",       "icons/go-home-6.png")
