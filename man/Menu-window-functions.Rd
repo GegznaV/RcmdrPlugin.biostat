@@ -43,6 +43,7 @@
 \alias{command_model_tidy}
 \alias{command_model_augment}
 \alias{open_new_plots_window}
+\alias{close_all_plots}
 \alias{window_show_colors}
 \alias{window_plots_image_digitizer}
 \alias{command_rownames}
@@ -214,6 +215,8 @@ command_model_tidy()
 command_model_augment()
 
 open_new_plots_window()
+
+close_all_plots()
 
 window_show_colors()
 
