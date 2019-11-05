@@ -41,6 +41,7 @@ To install the development version of the package from “GitHub”:
 
 ``` r
 if (!require("remotes"))  install.packages("remotes")
+remotes::install_github("rforge/rcmdr/pkg/Rcmdr-devel", upgrade = TRUE)
 remotes::install_github("GegznaV/RcmdrPlugin.biostat")
 ```
 
