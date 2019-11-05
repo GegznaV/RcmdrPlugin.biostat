@@ -98,13 +98,4 @@ window_plots_image_digitizer <- function() {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-window_plots_ggplotly <- function() {
-    command <- str_c(
-        "## Convert the last ggplot to an interactive plot.\n",
-        'plotly::ggplotly()')
 
-    doItAndPrint(command)
-}
