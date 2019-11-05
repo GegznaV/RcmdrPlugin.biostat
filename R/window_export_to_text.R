@@ -109,12 +109,12 @@ window_export_to_text <- function() {
         val <- get_selection(f1_box_sep)
         switch(val,
                # "Auto"            = "auto",
-               "Space ( )"       = " ",
-               "Tab"             = "\\t",
-               "Comma ( , )"     = ",",
-               "Semicolon ( ; )" = ";",
-               "Pipe ( | )"      = "|",
-               "Custom\u2026"    = get_values(f1_ent_sep),
+               "Space ( )"          = " ",
+               "Tab"                = "\\t",
+               "Comma ( , )"        = ",",
+               "Semicolon ( ; )"    = ";",
+               "Vertical bar ( | )" = "|",
+               "Custom\u2026"       = get_values(f1_ent_sep),
                stop("Value '", val, "' is unknown (f1_box_sep)."))
     }
 
@@ -235,7 +235,7 @@ window_export_to_text <- function() {
             ".csv" = c("Comma ( , )", "Semicolon ( ; )"),
             ".tsv" = c("Tab"),
             c("Tab", "Space ( )", "Comma ( , )", "Semicolon ( ; )",
-              "Pipe ( | )", "Custom\u2026")
+              "Vertical bar ( | )"  , "Custom\u2026")
         )
 
         if (get_dec() == ",") {
@@ -418,7 +418,7 @@ window_export_to_text <- function() {
     dec1     <- c("Period ( . )", "Comma ( , )") # "Default"
 
     sep1_all <- c("Tab", "Space ( )", "Comma ( , )", "Semicolon ( ; )",
-                  "Pipe ( | )", "Custom\u2026")
+                  "Vertical bar ( | )"  , "Custom\u2026")
 
 
     # F1, Frame 1, choose file name ------------------------------------------

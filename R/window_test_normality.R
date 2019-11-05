@@ -479,9 +479,12 @@ window_test_normality <- function() {
 
 
             single_test_code <-
-                str_glue(".${y_var} %>% {perform_test_code} %>% broom::tidy()")
+                str_glue("pull({y_var}) %>% {perform_test_code} %>% broom::tidy()")
+            # str_glue(".${y_var} %>% {perform_test_code} %>% broom::tidy()")
             # str_glue(".${y_var} %>% {test_function}({chi_sq_params}) %>% broom::tidy()")
             # str_glue("broom::tidy({test_function}(.${y_var}{chi_sq_params}))")
+
+            accu <- str_c("0.",  str_dup(0, times = as.integer(digits_p) - 1), "1")
 
             main_test_code <-
                 if (by_group) {
@@ -494,7 +497,11 @@ window_test_normality <- function() {
 
             print_results_code <-
                 if (as_markdown) {
-                    str_glue(' %>% \n  knitr::kable(digits = {digits_p}, format = "pandoc")')
+                  str_glue(
+                    ' %>% \n',
+                    '  mutate(p.value = scales::pvalue(p.value, accuracy = {accu})) %>% \n',
+                    '  knitr::kable(digits = {digits_p}, format = "pandoc")'
+                  )
 
                 } else {
                     ""

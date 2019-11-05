@@ -70,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RcmdrPlugin.biostat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.45</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.47</span>
       </span>
     </div>
 
@@ -112,9 +112,11 @@
     <p>Expotr text/dataframe to clipboard.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>export_to_clipboard</span>(<span class='kw'>ds_name</span> <span class='kw'>=</span> <span class='fu'>active_dataset_0</span>(), <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>","</span>)
+    <pre class="usage"><span class='fu'>export_to_clipboard</span>(<span class='kw'>ds_name</span> <span class='kw'>=</span> <span class='fu'>active_dataset_0</span>(), <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>","</span>, <span class='no'>...</span>)
 
-<span class='fu'>export_to_clipboard_active_ds_tab</span>()</pre>
+<span class='fu'>export_to_clipboard_active_ds_tab</span>()
+
+<span class='fu'>export_to_clipboard_active_ds_tab_euro</span>()</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -126,6 +128,10 @@
     <tr>
       <th>sep</th>
       <td><p>(string) Data field separator, if data frame is exported.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Arguments passed to <code><a href='https://rdrr.io/pkg/clipr/man/write_clip.html'>clipr::write_clip</a></code>.</p></td>
     </tr>
     </table>
 

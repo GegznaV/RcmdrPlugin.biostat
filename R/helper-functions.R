@@ -455,13 +455,15 @@ read_clipboard_tcltk <- function() {
 #'
 #' @param ds_name (string) Dataset's name.
 #' @param sep (string) Data field separator, if data frame is exported.
+#' @param ... Arguments passed to `clipr::write_clip`.
 #'
 #' @export
-export_to_clipboard <- function(ds_name = active_dataset_0(), sep = ",") {
-    try(
-        clipr::write_clip(get(ds_name, envir = .GlobalEnv), sep = sep),
-        silent = TRUE
-    )
+#' @md
+export_to_clipboard <- function(ds_name = active_dataset_0(), sep = ",", ...) {
+  try(
+    clipr::write_clip(get(ds_name, envir = .GlobalEnv), sep = sep, ...),
+    silent = TRUE
+  )
 }
 
 
@@ -471,6 +473,15 @@ export_to_clipboard_active_ds_tab <- function() {
     try(
         clipr::write_clip(
             get(active_dataset_0(), envir = .GlobalEnv), sep = "\t"),
+        silent = TRUE)
+}
+
+#' @rdname export_to_clipboard
+#' @export
+export_to_clipboard_active_ds_tab_euro <- function() {
+    try(
+        clipr::write_clip(
+            get(active_dataset_0(), envir = .GlobalEnv), sep = "\t", dec = ","),
         silent = TRUE)
 }
 
