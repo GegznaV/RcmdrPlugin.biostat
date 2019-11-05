@@ -16,8 +16,19 @@ open_new_plots_window <- function() {
 #' @export
 #' @keywords internal
 close_all_plots <- function() {
-  justDoIt("sapply(dev.list(), dev.off)")
-  doItAndPrint("## Close all plots \n# sapply(dev.list(), dev.off)")
+  ans <- tk_messageBox(
+    parent  = CommanderWindow(),
+    type    = "yesno",
+    default = "no",
+    icon    = "warning",
+    message = "Do you want to close all plots?",
+    caption = "Close All Plots"
+  )
+  switch(ans,
+    "yes" = {
+      justDoIt("sapply(dev.list(), dev.off)")
+      doItAndPrint("## Close all plots \n# sapply(dev.list(), dev.off)")
+    })
 }
 
 # New plot is drawn in a separare R window for plots
