@@ -194,10 +194,14 @@ window_dataset_select <- function() {
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_open_ds_manager <- function() {
-          closeDialog()
-          window_data_obj_manage()
+      closeDialog()
+      window_data_obj_manage()
     }
-
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    cmd_open_import_menu <- function() {
+      closeDialog()
+      bs_mode_menu__import()
+    }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     onOK <- function() {
         cursor_set_busy(top)
@@ -367,7 +371,15 @@ window_dataset_select <- function() {
               label    = "Open Dataset Manager",
               compound = "left",
               image    = "::image::bs_objects",
-              command  = cmd_open_ds_manager)
+              command  = cmd_open_ds_manager
+        )
+
+        # tkadd(menu_p, "command",
+        #   label    = "Import dataset",
+        #   compound = "left",
+        #   image   = "::image::bs_import",
+        #   command = cmd_open_import_menu
+        # )
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkpopup(menu_p, tkwinfo("pointerx", top), tkwinfo("pointery", top))

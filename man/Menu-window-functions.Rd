@@ -11,8 +11,8 @@
 %   R/window_export_to_text.R, R/window_fct_drop_lvls.R,
 %   R/window_fct_lvls_reorder_manual.R, R/window_import_from_excel.R,
 %   R/window_import_from_pkg.R, R/window_import_from_rds.R,
-%   R/window_import_from_text.R, R/window_import_rdata.R,
-%   R/window_locale_set.R, R/window_model_select.R, R/window_rows_arrange.R,
+%   R/window_import_from_text.R, R/window_import_rdata.R, R/window_locale_set.R,
+%   R/window_model_select.R, R/window_plots_ggplotly.R, R/window_rows_arrange.R,
 %   R/window_rows_col_to_rownames.R, R/window_rows_filter.R,
 %   R/window_rows_rm_duplicated.R, R/window_rows_rm_with_na.R,
 %   R/window_rows_rowid_to_col.R, R/window_rows_rownames_to_col.R,
@@ -43,9 +43,9 @@
 \alias{command_model_tidy}
 \alias{command_model_augment}
 \alias{open_new_plots_window}
+\alias{close_all_plots}
 \alias{window_show_colors}
 \alias{window_plots_image_digitizer}
-\alias{window_plots_ggplotly}
 \alias{command_rownames}
 \alias{command_rows_has_rownames}
 \alias{command_rows_rm_empty_rows}
@@ -151,6 +151,7 @@
 \alias{window_locale_set}
 \alias{window_locale_set_0}
 \alias{window_model_select}
+\alias{window_plots_ggplotly}
 \alias{window_rows_arrange}
 \alias{window_rows_col_to_rownames0}
 \alias{window_rows_col_to_rownames}
@@ -215,11 +216,11 @@ command_model_augment()
 
 open_new_plots_window()
 
+close_all_plots()
+
 window_show_colors()
 
 window_plots_image_digitizer()
-
-window_plots_ggplotly()
 
 command_rownames()
 
@@ -432,6 +433,8 @@ window_locale_set()
 window_locale_set_0(parent = CommanderWindow())
 
 window_model_select()
+
+window_plots_ggplotly()
 
 window_rows_arrange()
 

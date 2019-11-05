@@ -207,6 +207,10 @@ item    import_menu      command         "Import from SAS b7dat file... [Rcmdr]"
 item    import_menu      command         "Import from STATA data file... [Rcmdr]"     importSTATA     ""          "packageAvailable('foreign')"
 item    import_menu      command         "Import from Minitab data file... [Rcmdr]"     importMinitab     ""          "packageAvailable('foreign')"
 
+item	import_menu	separator	""	""	""	""
+item	import_menu	command	"Import data from plot (online)..."	window_online_image_digitizer	""	""
+
+
 
 #--- + Export Data -----------------------------------------------------------
 
@@ -234,8 +238,8 @@ item	bs19_plots_menu	command	"Open a new window for plots"	open_new_plots_window
 
 
 # item	bs19_plots_menu	separator	""	""	""	""
-item	bs19_plots_menu	command	"Convert last ggplot into interactive plot"	window_plots_ggplotly	""	"packageAvailable('plotly')"
-item	bs19_plots_menu	command	"Import data from plot (online)..."	window_online_image_digitizer	""	""
+item	bs19_plots_menu	command	"Convert ggplot into interactive plot..."	window_plots_ggplotly	"gg_objects_exist() || gg_lastplot_exists()"	"packageAvailable('plotly')"
+item	bs19_plots_menu	command	"Close all plots"	close_all_plots	""	""
 # item	bs19_plots_menu	command	"Digitize image (offline)..."	window_plots_image_digitizer	""	"packageAvailable('digitizeR')"
 # item	bs19_plots_menu	command	"Digitize image..."	window_dataset_digitizer_web	""	"packageAvailable('digitizeR')"
 

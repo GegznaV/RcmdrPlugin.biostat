@@ -1530,6 +1530,23 @@ variables_with_unique_values_P <- function(n = 1) {
 }
 
 
+# + Plots --------------------------------------------------------------------
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+gg_objects_exist <- function(n = 1) {
+  gg_objects <- list_objects_of_class("gg", envir = .GlobalEnv)
+  length(gg_objects) >= n
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+gg_lastplot_exists <- function() {
+  !is.null(ggplot2::last_plot())
+}
+
 # + Input validation ---------------------------------------------------------
 
 

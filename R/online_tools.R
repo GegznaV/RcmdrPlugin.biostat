@@ -433,7 +433,7 @@ window_online_bug_report <- function() {
 #' @export
 #' @keywords internal
 command_chk_packages_biostat <- function() {
-  source_online("https://gegznav.github.io/RcmdrPlugin.biostat/inst/check-pkgs.R")
+  source_online("https://gegznav.github.io/RcmdrPlugin.biostat/check-pkgs.R")
 }
 
 #' @rdname Menu-window-functions
