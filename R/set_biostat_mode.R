@@ -103,19 +103,22 @@ set_biostat_mode <- function() {
         button_set_manage,
         tip     = "Import dataset",
         image   = "::image::bs_import",
-        command = bs_mode_menu__import)
+        command = bs_mode_menu__import
+    )
 
     button_export <- tk2button(
         button_set_manage,
         tip     = "Export active dataset",
         image   = "::image::bs_export",
-        command = bs_mode_menu__export)
+        command = bs_mode_menu__export
+    )
 
     button_datasets <- tk2button(
         button_set_manage,
         tip     = "Datasets and objects",
         image   = "::image::bs_objects",
-        command = bs_mode_menu__datasets)
+        command = bs_mode_menu__datasets
+    )
 
     button_view <- tk2button(
         button_set_analysis,
@@ -429,7 +432,7 @@ bs_mode_menu__import <- function() {
     #
     # "Import from text file (.txt, .csv, .dat, etc.)"   , "window_import_from_text"
     # "Import from Excel file..."                        , "window_import_from_excel"
-    # "Import from Rds file (.Rds, .rds)..."	         , "window_import_from_rds"
+    # "Import from Rds file (.Rds, .rds)..."	           , "window_import_from_rds"
     # "Import from R-data file (.RData, .Rda, .rda)..."  , "window_import_rdata"
     # "Import from SPSS data file..."                    , "importSPSS"
     # "Import from SAS xport file..."                    , "importSAS"
@@ -440,55 +443,20 @@ bs_mode_menu__import <- function() {
     top <- CommanderWindow()
 
     menu_i <- tk2menu(tk2menu(top), tearoff = FALSE)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     menu_f <- tk2menu(menu_i, tearoff = FALSE)
 
-    tkadd(menu_i, "cascade",
-        label    = "Import from file    ",
-        compound = "left",
-        image    = "::image::bs_open_file",
-        menu     = menu_f)
-
-    tkadd(menu_i, "command",
-        label    = "Import from clipboard...",
-        compound = "left",
-        image    = "::image::bs_paste",
-        command  = window_import_from_clipboard)
-
-    tkadd(menu_i, "command",
-        label    = "Import from R package...",
-        compound = "left",
-        image    = "::image::bs_package",
-        command  = window_import_from_pkg)
-
-    tkadd(menu_i, "command",
-        label    = "Import from plot (online)...",
-        compound = "left",
-        image    = "::image::bs_chart",
-        command  = window_online_image_digitizer)
-
-    tkadd(menu_i, "separator")
-
-    tkadd(menu_i, "command",
-        label    = "Create a new dataset...",
-        compound = "left",
-        image    = "::image::bs_new_doc",
-        command  = window_dataset_new_rcmdr)
-
-    tkadd(menu_f, "command",
+     tkadd(menu_f, "command",
         label    = "from Text file (.txt, .csv, .dat, etc.)...",
         compound = "left",
         image    = "::image::bs_text",
         command  = window_import_from_text)
-
-    # tkadd(menu_f, "separator")
 
     tkadd(menu_f, "command",
         label   = "from Excel file (.xls, .xlsx)...",
         compound = "left",
         image    = "::image::bs_excel",
         command = window_import_from_excel)
-
-    # tkadd(menu_f, "separator")
 
     tkadd(menu_f, "command",
         label   = "from Rds file (.rds)...",
@@ -503,12 +471,75 @@ bs_mode_menu__import <- function() {
         command  = window_import_rdata)
 
     # tkadd(menu_f, "separator")
-    # tkadd(menu_f, "command", label = "from SPSS data file...",    command = function() {importSPSS()})
-    # tkadd(menu_f, "command", label = "from SAS xport file...",    command = function() {importSAS()})
-    # tkadd(menu_f, "command", label = "from SAS b7dat file...",    command = function() {importSASb7dat()})
-    # tkadd(menu_f, "command", label = "from STATA data file...",   command = function() {importSTATA()})
-    # tkadd(menu_f, "command", label = "from Minitab data file...", command = function() {importMinitab()})
+    # tkadd(menu_f, "command",
+    #   label = "from SPSS data file...",
+    #   command = function() {importSPSS()}
+    # )
+    # tkadd(menu_f, "command",
+    #   label = "from SAS xport file...",
+    #   command = function() {importSAS()}
+    # )
+    # tkadd(menu_f, "command",
+    #   label = "from SAS b7dat file...",
+    #   command = function() {importSASb7dat()}
+    # )
+    # tkadd(menu_f, "command",
+    #   label = "from STATA data file...",
+    #   command = function() {importSTATA()}
+    # )
+    # tkadd(menu_f, "command",
+    #   label = "from Minitab data file...",
+    #   command = function() {importMinitab()}
+    # )
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    tkadd(menu_i, "cascade",
+        label    = "Import from file    ",
+        compound = "left",
+        image    = "::image::bs_open_file",
+        menu     = menu_f
+    )
+
+    tkadd(menu_i, "command",
+        label    = "Import from clipboard...",
+        compound = "left",
+        image    = "::image::bs_paste",
+        command  = window_import_from_clipboard
+    )
+
+    tkadd(menu_i, "command",
+        label    = "Import from R package...",
+        compound = "left",
+        image    = "::image::bs_package",
+        command  = window_import_from_pkg
+    )
+
+    tkadd(menu_i, "command",
+        label    = "Import from plot (online)...",
+        compound = "left",
+        image    = "::image::bs_chart",
+        command  = window_online_image_digitizer
+    )
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkadd(menu_i, "separator")
+
+    tkadd(menu_i, "command",
+        label    = "Create a new dataset...",
+        compound = "left",
+        image    = "::image::bs_new_doc",
+        command  = window_dataset_new_rcmdr
+    )
+
+    tkadd(menu_i, "command",
+        label    = "Edit active dataset...",
+        compound = "left",
+        image    = "::image::editIcon",
+        state    = activate_if_active_ds(),
+        command  = window_dataset_edit_rcmdr
+    )
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkpopup(menu_i,
         tkwinfo("pointerx", top),
         tkwinfo("pointery", top))
@@ -1290,8 +1321,6 @@ bs_mode_menu__plots <- function() {
 
     tkadd(menu_p, "cascade",
         label    = "Default place to draw plots",
-        # compound = "left",
-        # image    = "::image::bs_open_file",
         menu     = menu_a)
 
     tkadd(menu_a, "command",
@@ -1319,7 +1348,6 @@ bs_mode_menu__plots <- function() {
 
     }
 
-
     if (packageAvailable('plotly')) {
 
         tkadd(menu_p, "separator")
@@ -1327,21 +1355,18 @@ bs_mode_menu__plots <- function() {
         tkadd(menu_p, "command",
             label    = "Convert ggplot into interactive plot...",
             state    = set_menu_state(gg_objects_exist() || gg_lastplot_exists()),
-            # compound = "left",
-            # image    = "::image::bs_chart",
+            compound = "left",
+            image    = "::image::bs_plotly",
             command  = window_plots_ggplotly)
     }
 
-
-    tkadd(menu_p, "separator")
-
-
-    tkadd(menu_p, "command",
-        label    = "Import data from plot (online)...",
-        compound = "left",
-        image    = "::image::bs_chart",
-        command  = window_online_image_digitizer)
-
+    # tkadd(menu_p, "separator")
+    #
+    # tkadd(menu_p, "command",
+    #     label    = "Import data from plot (online)...",
+    #     compound = "left",
+    #     image    = "::image::bs_chart",
+    #     command  = window_online_image_digitizer)
 
     if (packageAvailable('officer') && packageAvailable('rvg')) {
         tkadd(menu_p, "separator")
@@ -1535,31 +1560,20 @@ bs_mode_menu__datasets <- function() {
     top <- CommanderWindow()
 
     menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    # menu_j  <- tk2menu(menu_p, tearoff = FALSE)
-    #
-    # tkadd(menu_p, "cascade",
-    #       label    = "Several datasets",
-    #       # compound = "left",
-    #       # image    = "::image::bs_workspace",
-    #       menu     = menu_j)
-    menu_j <- menu_p
-
-    tkadd(menu_j, "command",
+    tkadd(menu_p, "command",
         label    = "Join two datasets by matching row ID...",
         compound = "left",
         image    = "::image::bs_join",
         command  = window_dataset_join)
 
-    tkadd(menu_j, "command",
+    tkadd(menu_p, "command",
         label    = "Bind rows of several datasets...",
         compound = "left",
         image    = "::image::bs_bind_rows",
         command  = window_dataset_bind_rows)
 
-    tkadd(menu_j, "command",
+    tkadd(menu_p, "command",
         label    = "Bind columns of several datasets...",
         compound = "left",
         image    = "::image::bs_bind_cols",
@@ -1567,40 +1581,18 @@ bs_mode_menu__datasets <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_p, "separator")
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    # menu_ws <- tk2menu(menu_p, tearoff = FALSE)
-    #
-    # tkadd(menu_p, "cascade",
-    #       label    = "Datasets & objects",
-    #       compound = "left",
-    #       image    = "::image::bs_workspace",
-    #       menu     = menu_ws)
-
-    menu_ws <- menu_p
-
-    tkadd(menu_ws, "command",
+    tkadd(menu_p, "command",
         label    = "List loaded objects (and datasets)",
         compound = "left",
         image    = "::image::bs_workspace",
         command  = command_list_objects)
 
-    tkadd(menu_ws, "command",
+    tkadd(menu_p, "command",
         label    = "Manage objects (and datasets)...",
         compound = "left",
         image    = "::image::bs_objects",
         command  = window_data_obj_manage)
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkadd(menu_p, "separator")
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    tkadd(menu_p, "command",
-        label    = "Edit active dataset...",
-        compound = "left",
-        image    = "::image::editIcon",
-        state    = activate_if_active_ds(),
-        command  = window_dataset_edit_rcmdr)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1608,4 +1600,5 @@ bs_mode_menu__datasets <- function() {
         tkwinfo("pointerx", top),
         tkwinfo("pointery", top))
 }
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
