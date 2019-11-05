@@ -177,21 +177,19 @@ window_export_fig_to_pptx_2 <- function() {
 
     # Important for the first time
 
-    if (is.null(ggplot2::last_plot())) {
+    if (gg_lastplot_exists()) {
+      tk_normalize(f3_source_of_plot, "last_gg")
+
+    } else {
       tk_disable(f3_source_of_plot, "last_gg")
 
       if (get_values(f3_source_of_plot) == "last_gg") {
         # Deselect disabled value
         set_values(f3_source_of_plot, "code")
       }
-
-    } else {
-      tk_normalize(f3_source_of_plot, "last_gg")
     }
 
-    gg_objects <- list_objects_of_class("gg", envir = .GlobalEnv)
-
-    if (length(gg_objects) == 0) {
+    if (gg_objects_exist()) {
 
       tkgrid.remove(f3_gg)
       tk_disable(f3_source_of_plot, "obj_gg")
@@ -204,7 +202,10 @@ window_export_fig_to_pptx_2 <- function() {
     } else {
       tkgrid(f3_source_of_plot$frame)
       tk_normalize(f3_source_of_plot, "obj_gg")
-      set_values(f3_gg_obj_name_box, gg_objects)
+      set_values(
+        f3_gg_obj_name_box,
+        list_objects_of_class("gg", envir = .GlobalEnv)
+      )
 
     }
     set_check_pptx_msg()
