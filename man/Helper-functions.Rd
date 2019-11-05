@@ -76,6 +76,8 @@
 \alias{list_objects_ggplot}
 \alias{objects_in_env_P}
 \alias{variables_with_unique_values_P}
+\alias{gg_objects_exist}
+\alias{gg_lastplot_exists}
 \alias{command_rcmdr_restart}
 \alias{command_restart_rs_session}
 \alias{command_rcmdr_close}
@@ -281,6 +283,10 @@ list_objects_ggplot(envir = .GlobalEnv)
 objects_in_env_P(n = 1, envir = .GlobalEnv, ...)
 
 variables_with_unique_values_P(n = 1)
+
+gg_objects_exist(n = 1)
+
+gg_lastplot_exists()
 
 command_rcmdr_restart()
 
