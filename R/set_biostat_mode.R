@@ -137,7 +137,7 @@ set_biostat_mode <- function() {
 
     button_summary <- tk2button(
         button_set_analysis,
-        tip     = "Summarize variables \nof active data set",
+        tip     = "Summarize variable values \nof active data set",
         image   = "::image::bs_summary",
         command = bs_mode_menu__summary)
 
@@ -1395,8 +1395,8 @@ bs_mode_menu__settings <- function() {
 
     tkadd(menu_s, "command",
         label    = "Load R packages...",
-        # compound = "left",
-        # image    = "::image::bs_open_wd",
+        compound = "left",
+        image    = "::image::bs_package",
         command  = window_load_packages)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1421,28 +1421,28 @@ bs_mode_menu__settings <- function() {
 
     tkadd(menu_s, "command",
         label    = "Restart R Commander",
-        # compound = "left",
-        # image    = "::image::bs_open_wd",
+        compound = "left",
+        image    = "::image::bs_restart",
         command  = command_rcmdr_restart)
 
     if (is_rstudio()) {
         tkadd(menu_s, "command",
             label    = "Restart R session in RStudio",
-            # compound = "left",
-            # image    = "::image::viewIcon",
+            compound = "left",
+            image    = "::image::bs_restart_r",
             command  = command_restart_rs_session)
     }
 
     tkadd(menu_s, "command",
         label    = "Close R Commander",
-        # compound = "left",
-        # image    = "::image::bs_open_wd",
+        compound = "left",
+        image    = "::image::bs_close_rcmdr",
         command  = Rcmdr::closeCommander)
 
     tkadd(menu_s, "command",
         label    = "Close R Commander & R",
-        # compound = "left",
-        # image    = "::image::bs_open_wd",
+        compound = "left",
+        image    = "::image::bs_close_r",
         command  = command_rcmdr_close_r)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
