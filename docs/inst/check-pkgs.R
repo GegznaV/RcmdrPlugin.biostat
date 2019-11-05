@@ -15,7 +15,6 @@ msg_rs <- c('
 # 4) Press "Enter" to run the code (to install the packages)')
 
 
-
 code <- c('
 # Part A
 old_opts <-
