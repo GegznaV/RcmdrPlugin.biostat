@@ -307,7 +307,8 @@ window_variable_convert_type <- function() {
             selectmode  = "multiple",
             title       = gettext_bs("Variables (pick one or more)"),
             on_keyboard = "scroll",
-            tip         = tip_multiple_ctrl_letters)
+            tip         = tip_multiple_ctrl_letters
+        )
 
     type_frame <- tk2frame(variables_frame)
 
@@ -356,7 +357,7 @@ window_variable_convert_type <- function() {
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     widget_2 <- tk_widget_modify_names(
-        main_frame,
+        parent = main_frame,
         width = 37,
         init_val_radiobuttons = initial$names_action,
         init_val_checkbox     = initial$make_unique,

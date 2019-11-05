@@ -92,11 +92,12 @@ window_dataset_select <- function() {
           "#     <fct> nominal (factor, categorical)\n",
           "#     <ord> ordinal \n",
           "#     <int> numeric (integers) \n",
-          "#     <dbl> numeric (double, real numbers) \n",
+          '#     <dbl> numeric (real numbers, "doubles") \n',
           "#     <lgl> logical \n",
-          "#     <chr> text (character, strings) \n",
-          "#     <date> dates\n",
-          "#     <dttm> dates and times \n"
+          "#     <chr> character (text, strings) \n",
+          "#     <date> dates \n",
+          "#     <dttm> dates and times \n",
+          "#     <list> list column (more complex data structures)"
         ))
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -119,8 +120,8 @@ window_dataset_select <- function() {
       # DescTools
         .ds_1     <- get_selection(var_ds_box) %>% safe_names()
 
-        opts_code <- get_desctools_opts_str()
         Library("DescTools")
+        opts_code <- get_desctools_opts_str()
         command <- str_glue(
             .trim = FALSE,
             "## The summary ofall variables\n",
@@ -141,6 +142,7 @@ window_dataset_select <- function() {
         if (any(ds_numeric)) {
           Library("tidyverse")
           Library("summarytools")
+
           command <- str_glue(
             .trim = FALSE,
             "## The summary of numeric variables\n",
@@ -157,27 +159,24 @@ window_dataset_select <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    cmd_var_summary_skim <- function() {
-        .ds_1 <- get_selection(var_ds_box) %>% safe_names()
-        summary_skim(.ds_1)
-    }
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cmd_var_summary_fct <- function() {
         .ds_1 <- get_selection(var_ds_box) %>% safe_names()
 
         # If any factors exist
         ds_factors <-
-            purrr::map_lgl(str_glue_eval("{.ds_1}", envir_eval = .GlobalEnv),
-                           ~inherits(., "factor"))
+          purrr::map_lgl(
+            str_glue_eval("{.ds_1}", envir_eval = .GlobalEnv),
+            ~inherits(., "factor")
+          )
 
         if (any(ds_factors)) {
             Library("tidyverse")
             doItAndPrint(style_cmd(str_glue(
-                "## The summary ofcategorical variables\n",
+                "## The summary of categorical variables\n",
                 "{.ds_1} %>% \n ",
                 "dplyr::select_if(is.factor) %>% \n",
-                "purrr::map(~data.frame(n = summary(.)))"
+                "summarytools::freq(round.digits = 1)"
+                # "purrr::map(~data.frame(n = summary(.)))"
             )))
 
         } else {
@@ -263,7 +262,7 @@ window_dataset_select <- function() {
               command  = cmd_ds_dims)
 
         tkadd(menu_p, "command",
-              label    = "Structure",
+              label    = "Structure (glimpse)",
               command  = cmd_ds_glimpse)
 
         tkadd(menu_p, "command",
@@ -293,7 +292,7 @@ window_dataset_select <- function() {
               command  = cmd_var_names_print)
 
         tkadd(menu_p, "command",
-              label    = "Variable type summary and size", #  & dataset size
+              label    = "Variable type summary",
               # compound = "left",
               # image    = "::image::bs_locale",
               command  = cmd_var_type_summary)
@@ -329,23 +328,24 @@ window_dataset_select <- function() {
               # image    = "::image::bs_locale",
               command  = cmd_var_summary_desc)
 
-        tkadd(menu_p, "command",
-              label    = "of all variables (skim)",
-              # compound = "left",
-              # image    = "::image::bs_locale",
-              command  = cmd_var_summary_skim)
+        # tkadd(menu_p, "command",
+        #       label    = "of all variables (skim)",
+        #       # compound = "left",
+        #       # image    = "::image::bs_locale",
+        #       command  = cmd_var_summary_skim
+        # )
 
         tkadd(menu_p, "command",
               label    = "of numeric variables",
               # compound = "left",
               # image    = "::image::bs_locale",
               command  = cmd_var_summary_descr)
-        #
-        # tkadd(menu_p, "command",
-        #       label    = "The summary offactor variables",
-        #       # compound = "left",
-        #       # image    = "::image::bs_locale",
-        #       command  = cmd_var_summary_fct)
+
+        tkadd(menu_p, "command",
+              label    = "of factor variables",
+              # compound = "left",
+              # image    = "::image::bs_locale",
+              command  = cmd_var_summary_fct)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkpopup(menu_p, tkwinfo("pointerx", top), tkwinfo("pointery", top))

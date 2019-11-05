@@ -10,7 +10,7 @@ use_packages <- function(package, pos = length(search()), rmd = TRUE) {
     #     stringr::str_remove(pattern)
 
 
-    s <- paste(glue("library({package})"), collapse = "  \n")
+    s <- paste(str_glue("library({package})"), collapse = "  \n")
 
 
     # loaded <- search()
@@ -28,7 +28,7 @@ use_packages <- function(package, pos = length(search()), rmd = TRUE) {
     #     for (pkg in dependencies[[package]]) {
     #         Library(pkg, pos = pos, rmd = rmd)
     #     }
-    #     command <- glue("library({package}, pos={pos})")
+    #     command <- str_glue("library({package}, pos={pos})")
     #     logger(command, rmd = rmd)
     #     result <- try(eval(parse(text = command), envir = .GlobalEnv),
     #                   silent = TRUE)

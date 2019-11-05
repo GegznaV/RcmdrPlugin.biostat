@@ -154,7 +154,7 @@ window_rows_rm_duplicated <- function() {
 
     radioButtons_horizontal(
         upper_frame,
-        title           = "Variables to take into account:",
+        title           = "Take into account:",
         title.color     = fg_col,
 
         # right.buttons = FALSE,

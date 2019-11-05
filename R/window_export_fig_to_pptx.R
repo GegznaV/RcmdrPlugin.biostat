@@ -1,11 +1,11 @@
 # TODO:
-# - Add tips to fields.
-# - Add buttons (Paste, Clear, etc.) for code field.
-# - Add better code checking or linting messages are needed.
-# - Add syntax highlighting.
-# - Add radiobuttons for units of measurement: [+]inch, [+] cm.
-# - Add button to choose the type of location (fullsize, manual, etc.)
-# - putDialogue(): make to remember options of location, filename, etc.
+# -   Add tips to fields.
+# -   Add buttons (Paste, Clear, etc.) for code field.
+# -   Add better code checking or linting messages are needed.
+# -   Add syntax highlighting.
+# -   Add radiobuttons for units of measurement: [+]inch, [+] cm.
+# [+] Add button to choose the type of location (fullsize, Custom..., etc.)
+# -   putDialogue(): make to remember options of location, filename, etc.
 #
 # - Due to changes in RVG v.0.2.1:
 #   + ---> use function ph_with.dml()
@@ -145,7 +145,7 @@ window_export_fig_to_pptx_2 <- function() {
   activate_location <- function() {
     switch(
       get_selection(f3_location_type),
-      "Manual" = tkgrid(f3_left$frame, f3_top$frame, f3_width$frame, f3_height$frame),
+      "Custom..." = tkgrid(f3_left$frame, f3_top$frame, f3_width$frame, f3_height$frame),
       # If other options
       tkgrid.remove(f3_left$frame, f3_top$frame, f3_width$frame, f3_height$frame)
     )
@@ -511,7 +511,7 @@ window_export_fig_to_pptx_2 <- function() {
           '        height = 5.5, # {in_units}',
           '    )'
         ),
-        "Manual"    = str_glue(.sep = "\n",
+        "Custom..."    = str_glue(.sep = "\n",
           ' officer::ph_location(',
           '        left   = {pos_left}, # {in_units}',
           '        top    = {pos_top}, # {in_units}',
@@ -732,7 +732,7 @@ window_export_fig_to_pptx_2 <- function() {
       width  = 18,
       value  = initial$location_type,
 
-      values =  c("Full size", "Center", "Left side", "Right side", "Manual"),
+      values =  c("Full size", "Center", "Left side", "Right side", "Custom..."),
       tip = str_c(sep = "\n", "Plot's position on a slide. "),
       on_select = activate_location
     )

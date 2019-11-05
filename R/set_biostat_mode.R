@@ -137,7 +137,7 @@ set_biostat_mode <- function() {
 
     button_summary <- tk2button(
         button_set_analysis,
-        tip     = "Summarize variables \nof active data set",
+        tip     = "Summarize variable values \nof active data set",
         image   = "::image::bs_summary",
         command = bs_mode_menu__summary)
 
@@ -581,6 +581,14 @@ bs_mode_menu__export <- function() {
             .ds <- active_dataset_0()
             export_to_clipboard(.ds, sep = "\t")
         })
+    tkadd(menu_c, "command",
+        label    = "as Tab delimited values (European tsv)",
+        compound = "left",
+        image    = "::image::bs_copy",
+        command  = function() {
+            .ds <- active_dataset_0()
+            export_to_clipboard(.ds, sep = "\t", dec = ",")
+        })
 
     tkadd(menu_c, "command",
         label    = "as Comma separated values (csv)",
@@ -589,6 +597,15 @@ bs_mode_menu__export <- function() {
         command  = function() {
             .ds <- active_dataset_0()
             export_to_clipboard(.ds, sep = ",")
+        })
+
+    tkadd(menu_c, "command",
+        label    = "as Comma separated values (European csv)",
+        compound = "left",
+        image    = "::image::bs_copy",
+        command  = function() {
+            .ds <- active_dataset_0()
+            export_to_clipboard(.ds, sep = ";", dec = ",")
         })
 
     # tkadd(menu_e, "separator")
@@ -634,30 +651,6 @@ bs_mode_menu__print <- function() {
     menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    view_style <- if (is_rstudio()) {
-        tkadd(menu_p, "command",
-            label    = "View dataset (in RStudio)",
-            compound = "left",
-            image    = "::image::viewIcon",
-            command  = command_dataset_view)
-
-        tkadd(menu_p, "command",
-            label    = "View dataset (in R Commander)",
-            compound = "left",
-            image    = "::image::viewIcon",
-            command  = window_dataset_view_rcmdr)
-
-    } else {
-        tkadd(menu_p, "command",
-            label    = "View dataset",
-            compound = "left",
-            image    = "::image::viewIcon",
-            command  = window_dataset_view_rcmdr)
-    }
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkadd(menu_p, "separator")
-
     tkadd(menu_p, "command",
         label    = "Class of active dataset...",
         state    = activate_if_active_ds(),
@@ -687,6 +680,30 @@ bs_mode_menu__print <- function() {
         # compound = "left",
         # image    = "::image::bs_locale",
         command  = command_glimpse)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    tkadd(menu_p, "separator")
+
+        view_style <- if (is_rstudio()) {
+        tkadd(menu_p, "command",
+            label    = "View dataset (in RStudio)",
+            compound = "left",
+            image    = "::image::viewIcon",
+            command  = command_dataset_view)
+
+        tkadd(menu_p, "command",
+            label    = "View dataset (in R Commander)",
+            compound = "left",
+            image    = "::image::viewIcon",
+            command  = window_dataset_view_rcmdr)
+
+    } else {
+        tkadd(menu_p, "command",
+            label    = "View dataset",
+            compound = "left",
+            image    = "::image::viewIcon",
+            command  = window_dataset_view_rcmdr)
+    }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_p, "separator")
@@ -769,8 +786,11 @@ bs_mode_menu__summary  <- function() {
         # image    = "::image::bs_locale",
         command  = window_summary_desc_all)
 
+    tkadd(menu_p, "separator")
+
     tkadd(menu_p, "command",
-        label    = "Summarize selected variables (Desc)...",
+        # label    = "Summarize selected variables (Desc)...",
+        label    = "Summarize single or pair of variables (Desc)...",
         # compound = "left",
         # image    = "::image::bs_locale",
         command  = window_summary_desc)
@@ -782,7 +802,16 @@ bs_mode_menu__summary  <- function() {
         # compound = "left",
         # image    = "::image::bs_locale",
         state    = set_menu_state(numericP()),
-        command  = window_summary_descr)
+        command  = window_summary_descr
+    )
+
+    # tkadd(menu_p, "command",
+    #     label    = "Frequency table for numeric variable...",
+    #     # compound = "left",
+    #     # image    = "::image::bs_locale",
+    #     state    = set_menu_state(numericP()),
+    #     command  = window_summary_Freq
+    # )
 
     tkadd(menu_p, "separator")
 
@@ -850,7 +879,7 @@ bs_mode_menu__rows <- function() {
         command  = window_rows_col_to_rownames)
 
     tkadd(menu_n, "command",
-        label    = "Create column with row numbers",
+        label    = "Create column with row numbers...",
         # compound = "left",
         # image    = "::image::bs_locale",
         command  = window_rows_rowid_to_col)
@@ -1107,12 +1136,13 @@ bs_mode_menu__analyze <- function() {
     #       # image    = "::image::bs_open_file",
     #       menu     = menu_a)
     #
-    tkadd(menu_p, "command",
-        label      = "Association between categorical variables...",
-        # compound = "left",
-        # image    = "::image::bs_open_file",
-        # state      = set_menu_state(factorsP(2)),
-        command    = window_summary_count)
+    # tkadd(menu_p, "command",
+    #     label      = "Association between categorical variables...",
+    #     # compound = "left",
+    #     # image    = "::image::bs_open_file",
+    #     # state      = set_menu_state(factorsP(2)),
+    #     command    = window_summary_count
+    # )
 
     # tkadd(menu_a, "command",
     #       label      = "Correlation... [Rcmdr]",
@@ -1365,8 +1395,8 @@ bs_mode_menu__settings <- function() {
 
     tkadd(menu_s, "command",
         label    = "Load R packages...",
-        # compound = "left",
-        # image    = "::image::bs_open_wd",
+        compound = "left",
+        image    = "::image::bs_package",
         command  = window_load_packages)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1391,28 +1421,28 @@ bs_mode_menu__settings <- function() {
 
     tkadd(menu_s, "command",
         label    = "Restart R Commander",
-        # compound = "left",
-        # image    = "::image::bs_open_wd",
+        compound = "left",
+        image    = "::image::bs_restart",
         command  = command_rcmdr_restart)
 
     if (is_rstudio()) {
         tkadd(menu_s, "command",
             label    = "Restart R session in RStudio",
-            # compound = "left",
-            # image    = "::image::viewIcon",
+            compound = "left",
+            image    = "::image::bs_restart_r",
             command  = command_restart_rs_session)
     }
 
     tkadd(menu_s, "command",
         label    = "Close R Commander",
-        # compound = "left",
-        # image    = "::image::bs_open_wd",
+        compound = "left",
+        image    = "::image::bs_close_rcmdr",
         command  = Rcmdr::closeCommander)
 
     tkadd(menu_s, "command",
         label    = "Close R Commander & R",
-        # compound = "left",
-        # image    = "::image::bs_open_wd",
+        compound = "left",
+        image    = "::image::bs_close_r",
         command  = command_rcmdr_close_r)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

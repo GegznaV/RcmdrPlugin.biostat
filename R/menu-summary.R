@@ -122,31 +122,20 @@ summary_var_types_plot <- function() {
 }
 
 summary_var_types_0 <- function(.ds) {
-    Library("tidyverse")
-    Library("skimr")
-    # Library("inspectdf")
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # # Each plot in a separate window
-    # if (is_plot_in_separate_window()) {open_new_plots_window()}
-    # doItAndPrint(str_glue(
-    #     "## Variable sizes in memory \n",
-    #     "{.ds} %>% inspect_mem() %>% show_plot()"
-    # ))
-    #
-    # if (is_plot_in_separate_window()) {open_new_plots_window()}
-    # doItAndPrint(str_glue(
-    #     "## Plot of variable type frequency \n",
-    #     "{.ds} %>% inspect_types() %>% show_plot()"
-    # ))
+  Library("tidyverse")
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    doItAndPrint(str_glue(
-        "## Variable type summary and size \n",
-        "## of dataset '{.ds}'\n",
-        "summary(skimr::skim({.ds}))"
-    ))
-
+  doItAndPrint(
+    str_glue(
+      "## Variable type summary \n",
+      "## of dataset '{.ds}'\n",
+      "{.ds} %>% \n",
+      '  purrr::map_chr(~ class(.) %>% paste(collapse = ", ")) %>% \n',
+      '  tibble::enframe("variable", "class") %>% \n',
+      '  dplyr::count(class, name = "n variables") %>% \n',
+      '  knitr::kable(format = "pandoc")'
+    )
+  )
 }
 
 summary_var_types_plot_0 <- function(.ds) {
@@ -168,36 +157,8 @@ summary_var_types_plot_0 <- function(.ds) {
     ))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-summary_skim_0 <- function() {
-    summary_skim(.ds = active_dataset_0())
-}
-
-summary_skim <- function(.ds) {
-    Library("tidyverse")
-    Library("skimr")
-
-    if ((utils::packageVersion("skimr") < "2.0")) {
-
-        doItAndPrint(
-            str_c(
-                "skimr::skim_with(\n",
-                "    numeric = list(hist = NULL),\n",
-                "    integer = list(hist = NULL) \n",
-                ")\n\n"
-            ))
-
-        doItAndPrint(str_glue(
-            "## Summary of the variables in dataset '{.ds}'\n",
-            "skimr::skim({.ds})"
-        ))
-
-    } else {
-        doItAndPrint(str_glue(
-            "## Summary of the variables in dataset '{.ds}'\n",
-
-            "do_skim <- skimr::skim_with(numeric = sfl(hist = NULL))\n",
-            "do_skim({.ds})\n\n"
-        ))
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    cmd_var_summary_skim <- function() {
+        .ds_1 <- get_selection(var_ds_box) %>% safe_names()
+        summary_skim(.ds_1)
     }
-}
-

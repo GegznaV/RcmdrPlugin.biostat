@@ -3,16 +3,21 @@
 \name{export_to_clipboard}
 \alias{export_to_clipboard}
 \alias{export_to_clipboard_active_ds_tab}
+\alias{export_to_clipboard_active_ds_tab_euro}
 \title{Expotr text/dataframe to clipboard.}
 \usage{
-export_to_clipboard(ds_name = active_dataset_0(), sep = ",")
+export_to_clipboard(ds_name = active_dataset_0(), sep = ",", ...)
 
 export_to_clipboard_active_ds_tab()
+
+export_to_clipboard_active_ds_tab_euro()
 }
 \arguments{
 \item{ds_name}{(string) Dataset's name.}
 
 \item{sep}{(string) Data field separator, if data frame is exported.}
+
+\item{...}{Arguments passed to \code{clipr::write_clip}.}
 }
 \description{
 Expotr text/dataframe to clipboard.

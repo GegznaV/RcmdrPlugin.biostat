@@ -67,18 +67,26 @@ window_rows_rownames_to_col <- function() {
     name_frame <- tkframe(top)
     name_entry <- ttkentry(name_frame, width = "47", textvariable = name_variable)
 
+    # Help menus -------------------------------------------------------------
+    help_menu <- function() {
+
+      menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
+      # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      tkadd(menu_main, "command",
+        label    = "Function `rownames_to_column`",
+        command  = open_help("rownames_to_column", package = "tibble"))
+      # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      tkpopup(menu_main,
+        tkwinfo("pointerx", top),
+        tkwinfo("pointery", top))
+    }
     # Finalize ---------------------------------------------------------------
-    ok_cancel_help(helpSubject = "rownames_to_column", helpPackage = "tibble")
+    ok_cancel_help(on_help = help_menu)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(name_frame, sticky = "w")
 
-    tkgrid(
-        bs_label(
-            name_frame,
-            text = gettext_bs("Column name for row names:"),
-            foreground = getRcmdr("title.color")),
-        sticky = "w"
-    )
+    lab_1 <- bs_label_b(name_frame, text = gettext_bs("Column name:"))
+    tkgrid(lab_1, sticky = "w")
 
     tkgrid(name_entry, sticky = "w")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -12,6 +12,8 @@ window_rows_rowid_to_col <- function() {
     initial  <- getDialog("window_rows_rowid_to_col", defaults)
 
     initializeDialog(title = gettext_bs("Create Row Numbers"))
+    tk_title(top, gettext_bs("Create Column with Row Numbers"))
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     .ds    <- active_dataset()
     fg_col <- Rcmdr::getRcmdr("title.color")
@@ -95,28 +97,46 @@ window_rows_rowid_to_col <- function() {
 
         tkfocus(CommanderWindow())
     }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # OKCancelHelp(helpSubject = "rowid_to_column", helpPackage = "tibble")
-    OKCancelHelp(helpSubject = "mutate", helpPackage = "dplyr")
 
-    # Title ------------------------------------------------------------------
-    tkgrid(bs_label(
-        top,
-        text = gettext_bs("Create column with row numbers"),
-        font = tkfont.create(weight = "bold", size = 9),
-        fg = fg_col),
-        pady = c(5, 9))
+    # Help menus -------------------------------------------------------------
+    help_menu <- function() {
+
+      menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
+      # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      tkadd(menu_main, "command",
+        label    = "Function `mutate`",
+        command  = open_help("mutate", package = "dplyr"))
+
+      tkadd(menu_main, "command",
+        label    = "Function `rowid_to_column`",
+        command  = open_help("rowid_to_column", package = "tibble"))
+
+      tkadd(menu_main, "separator")
+
+      tkadd(menu_main, "command",
+        label    = "Function `ungroup`",
+        command  = open_help("ungroup", package = "dplyr"))
+
+      tkadd(menu_main, "command",
+        label    = "Function `select`",
+        command  = open_help("select", package = "dplyr"))
+
+      tkadd(menu_main, "command",
+        label    = "Function `everything`",
+        command  = open_help("everything", package = "dplyr"))
+      # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      tkpopup(menu_main,
+        tkwinfo("pointerx", top),
+        tkwinfo("pointery", top))
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ok_cancel_help(on_help = help_menu)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(upper_frame, pady = c(0, 5))
     tkgrid(name_frame, rb_frame, sticky = "w")
 
-    tkgrid(
-        bs_label(
-            name_frame,
-            text = gettext_bs("Column name for row numbers:"),
-            foreground = getRcmdr("title.color")),
-        sticky = "w"
-    )
+    lab_1 <- bs_label_b(name_frame, text = gettext_bs("Column name:"))
+    tkgrid(lab_1, sticky = "w")
     tkgrid(name_entry, sticky = "w")
     tkgrid(positionFrame, padx = c(15, 0))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

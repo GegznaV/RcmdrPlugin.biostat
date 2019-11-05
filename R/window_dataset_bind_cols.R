@@ -128,11 +128,13 @@ window_dataset_bind_cols <- function() {
             nrow_2 <- str_glue_eval("nrow({name_ds_2})", envir = .GlobalEnv)
 
             if (nrow_1 != nrow_2) {
-                errorCondition(
-                    recall = window_dataset_bind_cols,
-                    message = gettext_bs("To bind columns, number of rows in each dataset must match.\nThe first and the second datasets differ in number of rows.")
-                )
-                return()
+              errorCondition(
+                recall = window_dataset_bind_cols,
+                message = gettext_bs(str_c(
+                  "To bind columns, number of rows in each dataset must match.\n",
+                  "The first and the second datasets differ in number of rows."))
+              )
+              return()
             }
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -143,7 +145,10 @@ window_dataset_bind_cols <- function() {
             if (nrow_1 != nrow_3) {
                 errorCondition(
                     recall = window_dataset_bind_cols,
-                    message = gettext_bs("To bind columns, number of rows in each dataset must match.\nThe first and the third datasets differ in number of rows.")
+                    message = gettext_bs(str_c(
+                      "To bind columns, number of rows in each dataset must match.\n",
+                      "The first and the third datasets differ in number of rows."
+                    ))
                 )
                 return()
             }
