@@ -12,6 +12,14 @@ open_new_plots_window <- function() {
     }
 }
 
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+close_all_plots <- function() {
+  justDoIt("sapply(dev.list(), dev.off)")
+  doItAndPrint("## Close all plots \n# sapply(dev.list(), dev.off)")
+}
+
 # New plot is drawn in a separare R window for plots
 set_plots_to_separate_window <- function() {
     if (.Platform$OS.type == "windows") {
