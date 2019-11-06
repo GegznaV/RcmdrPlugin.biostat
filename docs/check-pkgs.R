@@ -39,7 +39,7 @@ remotes::install_github("rforge/rcmdr/pkg/Rcmdr-devel", upgrade = TRUE)
 # Part D
 options(old_opts)
 
-# Expected versions of packages after the instalation:
+# Expected versions of packages after the installation:
 #   Rcmdr                  2.6-1  or newer (NOT 2.6-0).
 #   RcmdrPlugin.biostat    0.0.48 or newer.
 #   RcmdrPlugin.KMggplot2  0.2-6  or newer.
