@@ -1,46 +1,46 @@
-#' @rdname tk_activate
-#' @keywords internal
-#' @export
-tk_get_state <- function(obj, ...) {
-    UseMethod("tk_get_state")
-}
-
-#' @rdname tk_activate
+#' @rdname widget-activation
 #' @keywords internal
 #' @export
 tk_activate <- function(obj, ...) {
     UseMethod("tk_activate")
 }
 
-#' @rdname tk_activate
+#' @rdname widget-activation
 #' @keywords internal
 #' @export
 tk_disable <- function(obj, ...) {
     UseMethod("tk_disable")
  }
 
-#' @rdname tk_activate
+#' @rdname widget-activation
 #' @keywords internal
 #' @export
 tk_normalize <- function(obj, ...) {
     UseMethod("tk_normalize")
 }
-#' @rdname tk_activate
+#' @rdname widget-activation
 #' @keywords internal
 #' @export
 tk_read_only <- function(obj, ...) {
     UseMethod("tk_read_only")
 }
 
-# #' @rdname Helper-functions
-# #' @export
-# #' @keywords internal
-#  <- function(obj, ...) {
-#     UseMethod("")
-# }
+#' @rdname widget-activation
+#' @keywords internal
+#' @export
+tk_get_state <- function(obj, ...) {
+    UseMethod("tk_get_state")
+}
 
 
+#' @rdname widget-activation
+#' @keywords internal
+#' @export
+tk_get_state <- function(obj, ...) {
+    UseMethod("tk_get_state")
+}
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #' @rdname Helper-functions
 #' @export
