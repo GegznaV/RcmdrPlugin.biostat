@@ -9,15 +9,29 @@
 NULL
 
 # ___ List variables  ___ ====================================================
-#' @rdname Helper-functions
+#' Get contents of active dataset.
+#' @param fail (logical) When no active dataset is selected:
+#'        if `TRUE`, the function fails,
+#'        if `FALSE`, then `NULL` is returned.
+#'
+#' @return
+#' The contents of active dataset or `NULL`.
+#'
 #' @export
-#' @keywords internal
-# Get contents of active dataset
-get_active_ds <- function() {
+#' @md
+#'
+get_active_ds <- function(fail = TRUE) {
     active_ds <- active_dataset_0()
+
     if (is.null(active_ds)) {
+      if (isTRUE(fail)) {
         stop("Active dataset is not present. ")
+
+      } else {
+        return(NULL)
+      }
     }
+
     globalenv()[[active_ds]]
 }
 
