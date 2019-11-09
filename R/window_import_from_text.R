@@ -1080,7 +1080,7 @@ window_import_from_text <- function() {
 
   f2a <- tk2frame(f2)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  f2_txt_from <- bs_label(f2a, text = "From")
+  f2_txt_from <- tk_label(f2a, text = "From")
 
   f2_but_from <- bs_radiobuttons(
     parent  = f2a,
@@ -1294,7 +1294,7 @@ window_import_from_text <- function() {
   f3_but_w <- tk2frame(f3_but)
   f3_but_e <- tk2frame(f3_but)
 
-  f3_lab_nrows <- bs_label(f3_but_w, text = "Options:", tip = str_c(
+  f3_lab_nrows <- tk_label(f3_but_w, text = "Options:", tip = str_c(
     "Preview options: number ow rows to\n",
     "display in each window and preview\n",
     "type."

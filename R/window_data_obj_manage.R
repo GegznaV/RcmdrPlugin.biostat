@@ -240,7 +240,7 @@ window_data_obj_manage <- function() {
             command  = on_ok)
 
         lab_1_1 <- tk_label_blue(pop_up_window, text = "Name: ")
-        lab_1_2 <- bs_label(  pop_up_window, text = get_selection(f1_listbox_y))
+        lab_1_2 <- tk_label(  pop_up_window, text = get_selection(f1_listbox_y))
         lab_2_1 <- tk_label_blue(pop_up_window, text = "New name: ")
 
         initlal_name <-
@@ -376,7 +376,7 @@ window_data_obj_manage <- function() {
             command  = on_ok)
 
         lab_1_1 <- tk_label_blue(pop_up_window, text = "Original name: ")
-        lab_1_2 <- bs_label(  pop_up_window, text = get_selection(f1_listbox_y))
+        lab_1_2 <- tk_label(  pop_up_window, text = get_selection(f1_listbox_y))
         lab_2_1 <- tk_label_blue(pop_up_window, text = "Name of a copy: ")
 
         initlal_name <-

@@ -821,7 +821,7 @@ window_import_from_excel <- function() {
                         borderwidth = 5, padding = 5, text = "Import options")
     f2a <- tk2frame(f2)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    f2_txt_head <- bs_label(f2a, text = "Header", tip = tip_header)
+    f2_txt_head <- tk_label(f2a, text = "Header", tip = tip_header)
     f2_but_head <- bs_radiobuttons(
         parent  = f2a,
         buttons = c("TRUE"  = "Yes",
@@ -969,7 +969,7 @@ window_import_from_excel <- function() {
     f3_but_w   <- tk2frame(f3_but_set)
     f3_but_e   <- tk2frame(f3_but_set)
 
-    f3_lab_nrows <- bs_label(f3_but_w, text = "Options:", tip = str_c(
+    f3_lab_nrows <- tk_label(f3_but_w, text = "Options:", tip = str_c(
         "Preview options: number ow rows to\n",
         "display in each window and preview\n",
         "type."

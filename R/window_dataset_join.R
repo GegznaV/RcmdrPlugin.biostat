@@ -356,15 +356,15 @@ window_dataset_join <- function() {
     )
 
     tkgrid(getFrame(v_x1),
-           bs_label(var_names_Frame, text = " = "),
+           tk_label(var_names_Frame, text = " = "),
            getFrame(v_y1), sticky = "n", pady = c(0, 5))
 
     tkgrid(getFrame(v_x2),
-           bs_label(var_names_Frame, text = " = "),
+           tk_label(var_names_Frame, text = " = "),
            getFrame(v_y2), sticky = "n", pady = c(0, 5))
 
     tkgrid(getFrame(v_x3),
-           bs_label(var_names_Frame, text = " = "),
+           tk_label(var_names_Frame, text = " = "),
            getFrame(v_y3), sticky = "n", pady = c(0, 5))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(var_names_Frame, sticky = "w", pady = c(0, 5),  columnspan = 3)

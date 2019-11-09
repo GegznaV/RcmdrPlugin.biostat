@@ -168,7 +168,7 @@ window_variable_rename <- function() {
     tkgrid(var_y_box$frame, sticky = "w", padx = c(10, 0))
 
 
-    info_1 <- bs_label(top, text = "Select no more than 30 variables to rename at once.")
+    info_1 <- tk_label(top, text = "Select no more than 30 variables to rename at once.")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ok_cancel_help(helpSubject = "rename", helpPackage = "dplyr")
     tkgrid(variables_frame, columnspan = 2)

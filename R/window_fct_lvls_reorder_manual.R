@@ -174,7 +174,7 @@ window_fct_lvls_reorder_manual <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(bs_label(
+    tkgrid(tk_label(
         top,
         text = gettext_bs("Reorder factor levels"),
         font = tkfont.create(weight = "bold", size = 9),

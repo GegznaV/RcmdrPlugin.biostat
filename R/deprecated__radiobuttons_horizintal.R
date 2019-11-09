@@ -39,7 +39,7 @@ radioButtons_horizontal <- defmacro(
             # }
 
             if (!is.null(title)) {
-                title_label <- bs_label(eval_text(..frame), text = title, fg = title.color)
+                title_label <- tk_label(eval_text(..frame), text = title, fg = title.color)
                 tkgrid(title_label, sticky = sticky_title)
             }
 

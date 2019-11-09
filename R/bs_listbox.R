@@ -250,7 +250,7 @@ bs_listbox <-
         }
         if (!is.null(subtitle)) {
             tkgrid(
-                bs_label(frame, text = subtitle, font = "RcmdrTitleFont"),
+                tk_label(frame, text = subtitle, font = "RcmdrTitleFont"),
                 columnspan = 2, sticky = subtitle_sticky)
         }
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

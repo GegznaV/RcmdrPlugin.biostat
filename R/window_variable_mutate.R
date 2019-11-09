@@ -427,7 +427,7 @@ window_variable_mutate <- function() {
     tkgrid(f1, sticky = "nw")
     tkgrid(f2, sticky = "nw")
 
-    f2_eq <- bs_label(f2, text = " = ")
+    f2_eq <- tk_label(f2, text = " = ")
 
     tkgrid(f2_name_entry$frame, f2_eq, f2_entry_expr$frame,
            pady = c(15, 0),

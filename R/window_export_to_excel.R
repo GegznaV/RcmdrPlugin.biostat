@@ -196,7 +196,7 @@ window_export_to_excel <- function() {
     f1 <- tk2frame(top)
 
     f1_lab_data_1 <- tk_label_blue(f1, text = "Dataset: ")
-    f1_lab_data_2 <- bs_label(f1, text = .ds)
+    f1_lab_data_2 <- tk_label(f1, text = .ds)
 
     f1_lab_file <- tk_label_blue(f1, text = "File: ")
 

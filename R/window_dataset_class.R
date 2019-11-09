@@ -41,7 +41,7 @@ window_dataset_class <- function() {
                      collapse = ", ")
 
     tkgrid(tk_label_blue(top, text = "Current class(es):"))
-    tkgrid(bs_label(top, text = classes))
+    tkgrid(tk_label(top, text = classes))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     upper_frame <- tkframe(top)

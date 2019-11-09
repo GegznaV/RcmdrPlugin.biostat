@@ -201,10 +201,10 @@ set_biostat_mode <- function() {
   # tkgrid("x", buttons_bar_low)
   tkgrid(buttons_variant, buttons_bar_low)
 
-  lb1 <- bs_label(buttons_variant, image = "::image::dot-violet", compound = "left")
-  lb2 <- bs_label(buttons_variant, image = "::image::dot-red",    compound = "left")
-  lb3 <- bs_label(buttons_variant, image = "::image::dot-green",  compound = "left")
-  lb4 <- bs_label(buttons_variant, image = "::image::dot-black",  compound = "left")
+  lb1 <- tk_label(buttons_variant, image = "::image::dot-violet", compound = "left")
+  lb2 <- tk_label(buttons_variant, image = "::image::dot-red",    compound = "left")
+  lb3 <- tk_label(buttons_variant, image = "::image::dot-green",  compound = "left")
+  lb4 <- tk_label(buttons_variant, image = "::image::dot-black",  compound = "left")
 
   tkgrid(lb1, lb2, lb3, lb4, sticky = "sew")
   tkgrid.configure(buttons_variant, sticky = "se", padx = c(10, 0))

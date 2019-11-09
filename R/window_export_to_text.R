@@ -514,7 +514,7 @@ window_export_to_text <- function() {
     # Row 3 ------------------------------------------------------------------
 
     f1_lab_data_1 <- tk_label_blue(f1, text = "Dataset: ")
-    f1_lab_data_2 <- bs_label(f1, text = .ds)
+    f1_lab_data_2 <- tk_label(f1, text = .ds)
 
     f1_lab_na <- tk_label_blue(f1, text = "NA value:")
     f1_ent_na <- bs_entry(f1, width = 16, tip = "Missing value", value = "")

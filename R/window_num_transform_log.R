@@ -17,7 +17,7 @@ window_num_transform_log <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(bs_label(
+    tkgrid(tk_label(
         top,
         text = gettext_bs("Logarithmic transformation"),
         font = tkfont.create(weight = "bold", size = 9),

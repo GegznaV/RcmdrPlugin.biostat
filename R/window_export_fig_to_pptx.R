@@ -623,7 +623,7 @@ window_export_fig_to_pptx_2 <- function() {
 
   # Widgets ----------------------------------------------------------------
 
-  file_msg <- bs_label(parent = top, text = "", fg = "darkred")
+  file_msg <- tk_label(parent = top, text = "", fg = "darkred")
 
 
   # F1, Frame 1, choose file and name --------------------------------------

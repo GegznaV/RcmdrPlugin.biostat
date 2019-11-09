@@ -39,7 +39,7 @@ tk_label <- function(parent, text, ..., fg = NULL) {
 tk_label_blue <- function(parent, text, ...,
   fg = Rcmdr::getRcmdr("title.color")) {
 
-  bs_label(parent = parent, text = text, ..., fg = fg)
+  tk_label(parent = parent, text = text, ..., fg = fg)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -73,7 +73,7 @@ tk_title <- function(parent = top, text = "", pady = c(5, 9),
                      fg = Rcmdr::getRcmdr("title.color"),
                      ...) {
   tkgrid(
-    bs_label(
+    tk_label(
       parent,
       text = gettext_bs(text),
       font = font,
