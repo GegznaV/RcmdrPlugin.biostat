@@ -180,6 +180,10 @@ tclvalue_int_split <- function(x) {
 #' @rdname Helper-functions
 #' @keywords internal
 #' @export
+#'
+#' @param trim (logical) If `TRUE`, function [base::trimws()] will be applied.
+#' @param ... `tclvalue_chr()` passes these parameters to [base::trimws()].
+#' @md
 tclvalue_chr <- function(x, trim = TRUE, ...) {
     rez <- as.character(tclvalue(x))
     if (isTRUE(trim)) {rez <- trimws(rez, ...)}
