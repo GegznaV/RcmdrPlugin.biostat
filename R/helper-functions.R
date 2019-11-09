@@ -5,6 +5,7 @@
 #' @title Helper functions for RcmdrPlugin.biostat.
 #' @description Helper functions for package \pkg{RcmdrPlugin.biostat}.
 #' @keywords internal
+#' @noRd
 NULL
 
 # ___ List variables  ___ ====================================================
