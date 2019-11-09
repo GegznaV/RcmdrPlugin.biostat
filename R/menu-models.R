@@ -108,7 +108,7 @@ command_model_glance <- function() {
     doItAndPrint(str_glue(
         "## One-row summary of the model (as data frame)\n",
         "{obj} <- broom::glance({.mod})\n",
-        "{obj}"))
+        "as.data.frame({obj})"))
 }
 
 #' @rdname Menu-window-functions
