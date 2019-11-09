@@ -129,8 +129,8 @@ active_dataset_0 <- function(name) {
     temp <- getRcmdr(".activeDataSet")
     if (is.null(temp)) {
       return(NULL)
-    } else
-      if (!exists(temp) || !is.data.frame(get(temp, envir = .GlobalEnv))) {
+
+    } else if (!exists(temp) || !is.data.frame(get(temp, envir = .GlobalEnv))) {
         Message(sprintf(
           gettextRcmdr("the dataset %s is no longer available"),
           temp
@@ -172,18 +172,22 @@ active_dataset_0 <- function(name) {
         ))
         posn <- paste("+", paste(posn, collapse = "+"), sep = "")
         tkdestroy(open.showData.windows[[name]])
-        suppress <- if (getRcmdr("suppress.X11.warnings")) ", suppress.X11.warnings=FALSE" else ""
-        view.height <- max(as.numeric(getRcmdr("output.height")) + as.numeric(getRcmdr("log.height")), 10)
-        command <- paste("showData(", name, ", placement='", posn, "', font=getRcmdr('logFont'), maxwidth=",
-                         getRcmdr("log.width"), ", maxheight=", view.height, suppress, ")",
-                         sep = ""
+        suppress <-
+          if (getRcmdr("suppress.X11.warnings")) ", suppress.X11.warnings=FALSE" else ""
+        view.height <-
+          max(as.numeric(getRcmdr("output.height")) +
+              as.numeric(getRcmdr("log.height")), 10)
+        command <- paste0(
+          "showData(", name, ", placement='", posn,
+          "', font=getRcmdr('logFont'), maxwidth=",
+          getRcmdr("log.width"), ", maxheight=", view.height, suppress, ")"
         )
         window <- justDoIt(command)
         open.showData.windows[[active_dataset_0()]] <- window
         putRcmdr("open.showData.windows", open.showData.windows)
       }
-    }
-    else {
+
+    } else {
       Variables(NULL)
       Numeric(NULL)
       Factors(NULL)
@@ -194,7 +198,7 @@ active_dataset_0 <- function(name) {
       putRcmdr("ncol", NULL)
       RcmdrTclSet("modelName", gettextRcmdr("<No active model>"))
       tkconfigure(getRcmdr("dataSetLabel"), foreground = "red")
-      tkconfigure(getRcmdr("modelLabel"), foreground = "red")
+      tkconfigure(getRcmdr("modelLabel"),   foreground = "red")
       # activateMenus()
       activate_menus()
       if (getRcmdr("suppress.menus") && RExcelSupported()) return(NULL)
@@ -210,9 +214,10 @@ list_numeric <- function(dataSet = active_dataset_0()) {
   }
   else {
     variables <- listVariables(dataSet)
-    variables[sapply(variables, function(.x)
-      is.numeric(eval(parse(text = safe_names(.x)),
-                      envir = get(dataSet, envir = .GlobalEnv))))]
+    variables[sapply(variables, function(.x) {
+      .v <- eval_text(safe_names(.x), envir = get(dataSet, envir = .GlobalEnv))
+      is.numeric(.v)
+      })]
   }
 }
 
@@ -224,8 +229,7 @@ list_factors <- function(dataSet = active_dataset_0()) {
   else {
     variables <- listVariables(dataSet)
     variables[sapply(variables, function(.x) {
-      .v <- eval(parse(text = safe_names(.x)),
-                 envir = get(dataSet, envir = .GlobalEnv))
+      .v <- eval_text(safe_names(.x), envir = get(dataSet, envir = .GlobalEnv))
       is.factor(.v) || is.logical(.v) || is.character(.v)
     })]
   }
@@ -240,9 +244,10 @@ list_two_level_factors <- function(dataSet = active_dataset_0()) {
     factors <- list_factors(dataSet)
     if (length(factors) == 0) return(NULL)
     factors[sapply(factors, function(.x) {
-      .v <- eval(parse(text = safe_names(.x)),
-                 envir = get(dataSet, envir = .GlobalEnv))
-      2 == length(levels(.v)) || length(unique(.v)) == 2
+      .v <- eval_text(safe_names(.x), envir = get(dataSet, envir = .GlobalEnv))
+      # NOTE: length(levels(factor(.v))) == 2  #  is faster than:
+      # length(levels(.v)) == 2 || length(na.omit(unique(.v))) == 2
+      length(levels(factor(.v))) == 2
     })]
   }
 }
