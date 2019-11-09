@@ -12,16 +12,17 @@ cursor_set_busy <- function(frame = NULL) {
     }
 
     .commander <- CommanderWindow()
-    .menu      <- tkcget(.commander, menu = NULL)
+    .menu      <- tkcget(.commander, "-menu")
     .log       <- LogWindow()
+    .Rmd       <- RmdWindow()
+    .Rnw       <- RnwWindow()
     .output    <- OutputWindow()
     .messages  <- MessagesWindow()
 
-    tkconfigure(.commander, cursor = "watch")
-    tkconfigure(.menu,      cursor = "watch")
-    tkconfigure(.log,       cursor = "watch")
-    tkconfigure(.output,    cursor = "watch")
-    tkconfigure(.messages,  cursor = "watch")
+    purrr::walk(
+      list(.commander, .menu, .log, .Rmd, .Rnw, .output, .messages),
+      tkconfigure, cursor = "watch"
+    )
 }
 
 
@@ -40,16 +41,18 @@ cursor_set_idle <- function(frame = NULL) {
     }
 
     .commander <- CommanderWindow()
-    .menu      <- tkcget(.commander, menu = NULL)
+    .menu      <- tkcget(.commander, "-menu")
     .log       <- LogWindow()
+    .Rmd       <- RmdWindow()
+    .Rnw       <- RnwWindow()
     .output    <- OutputWindow()
     .messages  <- MessagesWindow()
 
-    tkconfigure(.commander, cursor = "")
-    tkconfigure(.menu,      cursor = "")
-    tkconfigure(.log,       cursor = "xterm")
-    tkconfigure(.output,    cursor = "xterm")
-    tkconfigure(.messages,  cursor = "xterm")
+    purrr::walk(list(.commander, .menu), tkconfigure, cursor = "")
+    purrr::walk(
+      list(.log, .Rmd, .Rnw, .output, .messages),
+      tkconfigure, cursor = "xterm"
+    )
 }
 
 # Get state -------------------------------------------------------------------
