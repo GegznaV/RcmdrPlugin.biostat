@@ -53,7 +53,7 @@ cursor_set_idle <- function(frame = NULL) {
 }
 
 # Get state -------------------------------------------------------------------
-#' @rdname Helper-functions
+#' @rdname widget-state
 #' @keywords internal
 #' @export
 tk_get_state.default <- function(obj, ...) {
@@ -62,41 +62,35 @@ tk_get_state.default <- function(obj, ...) {
 
 
 # Set state -------------------------------------------------------------------
-#' @name widget-activation
-#' @title Control activation state of TCL/TK widget.
-#' Activate/Disable Tcl/Tk Objects
-#'
-#' @description Modify state of tk objects.
-#'
-#' @param obj TK object.
-#' @param ... other options to be passed to \code{tkconfigure}.
+#' @rdname widget-state
 #' @keywords internal
-#'
 #' @export
-#'
-#' @examples
-#' # tk_activate(obj)
-#' # tk_disable(obj)
-#'
-tk_activate.default <- function(obj, ...) {
-    tkconfigure(obj, state = "active", ...)
+tk_set_state.default <- function(obj, state, ...) {
+    tkconfigure(obj, state = state, ...)
 }
 
-#' @rdname widget-activation
+#' @rdname widget-state
 #' @keywords internal
 #' @export
 tk_normalize.default <- function(obj, ...) {
     tkconfigure(obj, state = "normal", ...)
 }
 
-#' @rdname widget-activation
+#' @rdname widget-state
+#' @keywords internal
+#' @export
+tk_activate.default <- function(obj, ...) {
+    tkconfigure(obj, state = "active", ...)
+}
+
+#' @rdname widget-state
 #' @keywords internal
 #' @export
 tk_read_only.default <- function(obj, ...) {
     tkconfigure(obj, state = "readonly", ...)
 }
 
-#' @rdname widget-activation
+#' @rdname widget-state
 #' @keywords internal
 #' @export
 tk_disable.default <- function(obj, ...) {
@@ -125,7 +119,6 @@ tk_xview.default <- function(obj, ind, ...) {
 #' @rdname Helper-functions
 #' @keywords internal
 #' @export
-
 tclvalue_lgl <- function(x) {
     # as.logical(as.integer(tclvalue(x)))
     as.logical(tclvalue_int(x))
@@ -149,7 +142,6 @@ tclvalue_lgl <- function(x) {
 #' @rdname Helper-functions
 #' @keywords internal
 #' @export
-
 tclvalue_int <- function(x) {
     as.integer(tclvalue(x))
 }
@@ -157,7 +149,6 @@ tclvalue_int <- function(x) {
 #' @rdname Helper-functions
 #' @keywords internal
 #' @export
-
 tclvalue_int_split <- function(x) {
     x <- sapply(unlist(strsplit(tclvalue(x), " ")), as.integer)
     names(x) <- NULL
@@ -186,7 +177,6 @@ tclvalue_int_split <- function(x) {
 #' @rdname Helper-functions
 #' @keywords internal
 #' @export
-
 tclvalue_chr <- function(x, trim = TRUE, ...) {
     rez <- as.character(tclvalue(x))
     if (isTRUE(trim)) {rez <- trimws(rez, ...)}
