@@ -2,8 +2,6 @@
 % Please edit documentation in R/tcltk_elements.R
 \name{TclTk-helper-functions}
 \alias{TclTk-helper-functions}
-\alias{bs_label_b}
-\alias{bs_label}
 \alias{labeled_frame}
 \alias{tk_title}
 \alias{tcl_get_parent}
@@ -12,10 +10,6 @@
 \alias{tcl_get_obj_by_id}
 \title{Helper functions for Tcl/Tk.}
 \usage{
-bs_label_b(..., fg = Rcmdr::getRcmdr("title.color"))
-
-bs_label(..., fg = NULL)
-
 labeled_frame(parent, label = NULL, ...)
 
 tk_title(parent = top, text = "", pady = c(5, 9),

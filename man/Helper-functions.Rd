@@ -44,7 +44,6 @@
 \alias{u2s}
 \alias{spaces}
 \alias{logger_error}
-\alias{tk_label_blue}
 \alias{swap}
 \alias{swap_rows}
 \alias{correct_row_index}
@@ -205,8 +204,6 @@ u2s(str)
 spaces(n, symbol = " ")
 
 logger_error(command = NULL, error_msg = NULL)
-
-tk_label_blue(...)
 
 swap(x, i, j)
 

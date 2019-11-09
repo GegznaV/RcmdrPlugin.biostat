@@ -5,23 +5,48 @@ NULL
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname TclTk-helper-functions
+# Labels for R Commander
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @name TclTk-labels
+#' @title Tcl/Tk labels
+#' @description Functions, tat create Tcl/Tk labels.
+#'
+#' @param parent (`"tkwin"` object) Parant Tcl/Tk frame.
+#'
+#' @param text (character) Label text.
+#' @param ... Other arguments to pass to `tcltk2::tk2label()`.
+#' @param fg (character) Foreground color.
+#'
+#' @seealso
+#' `tcltk2::tk2label()`, `Rcmdr::labelRcmdr()`, `tcltk::ttklabel()`.
+#'
 #' @export
-#' @keywords internal
-# Label for R Commander
-# see also: labelRcmdr
-bs_label_b <- function(..., fg = Rcmdr::getRcmdr("title.color")) {
-  bs_label(..., fg = fg)
+#' @md
+bs_label <- function(..., fg = NULL) {
+  if (is.null(fg)) tk2label(...) else tk2label(..., foreground = fg)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname TclTk-helper-functions
+#' @rdname TclTk-labels
 #' @export
-#' @keywords internal
-# Label for R Commander
-# see also: labelRcmdr
-bs_label <- function(..., fg = NULL) {
-  if (is.null(fg)) tk2label(...) else tk2label(..., foreground = fg)
+bs_label_title <- function(parent, text, ...,
+  fg = Rcmdr::getRcmdr("title.color")) {
+
+  bs_label(parent = parent, text = text, ..., fg = fg)
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname TclTk-labels
+#' @export
+bs_label_b <- function(...) {
+  bs_label_title(...)
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname TclTk-labels
+#' @export
+tk_label_blue <- function(...) {
+    bs_label(..., foreground = getRcmdr("title.color"))
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

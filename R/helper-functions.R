@@ -374,13 +374,6 @@ logger_error <- function(command = NULL, error_msg = NULL) {
 }
 
 
-#' @rdname Helper-functions
-#' @export
-#' @keywords internal
-tk_label_blue <- function(...) {
-    bs_label(..., foreground = getRcmdr("title.color"))
-}
-
 # ___ Clipboard  ___ ==========================================================
 #' Read text from clipboard.
 #'
