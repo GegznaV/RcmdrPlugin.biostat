@@ -35,14 +35,29 @@ get_active_ds <- function(fail = TRUE) {
   globalenv()[[active_ds]]
 }
 
-#' @rdname Helper-functions
+#' List objects of certain class.
+#'
+#' Create a vector of object names of certain class.
+#'
+#' @param class (character|`NULL`) A vector of object classes to return.
+#' @param envir An environment to look for the objects in.
+#'        Other kind of objects will be coerced to an environment.
+#'        The default value is parent frame.
+#' @param all.names (logical)
+#'        If `TRUE`, all object names are returned.
+#'        If `FALSE`, names which begin with a `.` are omitted.
+#'
+#' @return A character vector of object names of certain class.
 #' @export
 #' @keywords internal
 list_objects_of_class <-
-  function(class = NULL, all.names = TRUE,  envir = parent.frame()) {
+  function(class = NULL, envir = parent.frame(), all.names = TRUE) {
 
-    force(envir)
     checkmate::assert_character(class, null.ok = TRUE)
+    # force(envir)
+    if (!is.environment(envir)) {
+      envir <- as.environment(envir)
+    }
 
     all_variable_names <- objects(envir, all.names = all.names)
 
