@@ -36,7 +36,11 @@
 
 
 <meta property="og:title" content="Tcl/Tk labels — TclTk-labels" />
-<meta property="og:description" content="Functions, tat create Tcl/Tk labels." />
+<meta property="og:description" content="Functions, that create Tcl/Tk labels.
+tk_label() Uses the default color for labels (usually, black).
+tk_label_blue() Uses the default color for titles (usually, blue).
+
+" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -70,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RcmdrPlugin.biostat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.48</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.50</span>
       </span>
     </div>
 
@@ -109,18 +113,28 @@
     </div>
 
     <div class="ref-description">
-    <p>Functions, tat create Tcl/Tk labels.</p>
+    <p>Functions, that create Tcl/Tk labels.</p><ul>
+<li><p><code>tk_label()</code> Uses the default color for labels (usually, black).</p></li>
+<li><p><code>tk_label_blue()</code> Uses the default color for titles (usually, blue).</p></li>
+</ul>
+
     </div>
 
-    <pre class="usage"><span class='fu'>bs_label</span>(<span class='no'>...</span>, <span class='kw'>fg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>tk_label</span>(<span class='no'>parent</span>, <span class='no'>text</span>, <span class='no'>...</span>, <span class='kw'>fg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>bs_label_title</span>(<span class='no'>parent</span>, <span class='no'>text</span>, <span class='no'>...</span>, <span class='kw'>fg</span> <span class='kw'>=</span> <span class='kw pkg'>Rcmdr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>getRcmdr</a></span>(<span class='st'>"title.color"</span>))
-
-<span class='fu'>bs_label_b</span>(<span class='no'>...</span>)</pre>
+<span class='fu'>tk_label_blue</span>(<span class='no'>parent</span>, <span class='no'>text</span>, <span class='no'>...</span>, <span class='kw'>fg</span> <span class='kw'>=</span> <span class='kw pkg'>Rcmdr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>getRcmdr</a></span>(<span class='st'>"title.color"</span>))</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>parent</th>
+      <td><p>(<code>"tkwin"</code> object) Parent Tcl/Tk window or frame.</p></td>
+    </tr>
+    <tr>
+      <th>text</th>
+      <td><p>(character) Label text.</p></td>
+    </tr>
     <tr>
       <th>...</th>
       <td><p>Other arguments to pass to <code><a href='https://rdrr.io/pkg/tcltk2/man/tk2widgets.html'>tcltk2::tk2label()</a></code>.</p></td>
@@ -128,14 +142,6 @@
     <tr>
       <th>fg</th>
       <td><p>(character) Foreground color.</p></td>
-    </tr>
-    <tr>
-      <th>parent</th>
-      <td><p>(<code>"tkwin"</code> object) Parant Tcl/Tk frame.</p></td>
-    </tr>
-    <tr>
-      <th>text</th>
-      <td><p>(character) Label text.</p></td>
     </tr>
     </table>
 

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Control activation state of TCL/TK widget.
-Activate/Disable Tcl/Tk Objects — tk_get_state • RcmdrPlugin.biostat</title>
+Activate/Disable Tcl/Tk Objects — tk_activate • RcmdrPlugin.biostat</title>
 
 
 <!-- jquery -->
@@ -37,7 +37,7 @@ Activate/Disable Tcl/Tk Objects — tk_get_state • RcmdrPlugin.biostat</title>
 
 
 <meta property="og:title" content="Control activation state of TCL/TK widget.
-Activate/Disable Tcl/Tk Objects — tk_get_state" />
+Activate/Disable Tcl/Tk Objects — tk_activate" />
 <meta property="og:description" content="Modify state of tk objects." />
 <meta name="twitter:card" content="summary" />
 
@@ -72,7 +72,7 @@ Activate/Disable Tcl/Tk Objects — tk_get_state" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RcmdrPlugin.biostat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.48</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.50</span>
       </span>
     </div>
 
@@ -108,22 +108,24 @@ Activate/Disable Tcl/Tk Objects — tk_get_state" />
     <h1>Control activation state of TCL/TK widget.
 Activate/Disable Tcl/Tk Objects</h1>
     
-    <div class="hidden name"><code>tk_activate.Rd</code></div>
+    <div class="hidden name"><code>widget-activation.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Modify state of tk objects.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tk_get_state</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
-
-<span class='fu'>tk_activate</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>tk_activate</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
 
 <span class='fu'>tk_disable</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
 
 <span class='fu'>tk_normalize</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
 
 <span class='fu'>tk_read_only</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+
+<span class='fu'>tk_get_state</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+
+<span class='fu'>tk_get_state</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for default</span>
 <span class='fu'>tk_activate</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
