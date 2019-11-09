@@ -30,7 +30,7 @@
 #' @param use_context_menu (logical) Flag if the default context menu should be added
 #' @param bind_clear (logical)  Bind "clear" on double right-click
 #' @param variable Tcl/Tk variable.
-#' @param ... Other parameters sent to `tk2entry`
+#' @param ... Other parameters sent to [tcltk2::tk2entry()]
 #'
 #' @md
 #'
