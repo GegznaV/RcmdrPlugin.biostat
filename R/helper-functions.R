@@ -55,7 +55,10 @@ list_objects_of_class <-
 
     checkmate::assert_character(class, null.ok = TRUE)
     # force(envir)
-    if (!is.environment(envir)) {
+    if (is.null(envir)) {
+      return(character(0))
+
+    } else if (!is.environment(envir)) {
       envir <- as.environment(envir)
     }
 
