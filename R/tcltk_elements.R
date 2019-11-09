@@ -156,3 +156,19 @@ tcl_get_property <- function(.widget, property) {
 
 # tooltip::tooltip -----------------------------------------------------------
 # .Tcl(str_glue('tooltip::tooltip {button_view0} "View and print data"'))
+
+
+tcl_obj_exists <- function(tkobj) {
+  tclvalue_lgl(tcltk::tkwinfo("exists", tkobj))
+}
+
+
+# Get tk object, if it exists, or return a default object
+# (e.g., CommanderWindow())
+tcl_get_if_exists <- function(tkobj, otherwise = CommanderWindow()) {
+  if (tcl_obj_exists(tkobj)) {
+    tkobj
+  } else {
+    otherwise
+  }
+}
