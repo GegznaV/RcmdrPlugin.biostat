@@ -51,7 +51,7 @@ set_biostat_mode <- function() {
   button_data_opts$orig_image   <- tcl_get_property(button_data, "-image")
   button_data_opts$orig_command <- tcl_get_property(button_data, "-command")
 
-  button_model   <- getRcmdr("modelLabel")
+  button_model <- getRcmdr("modelLabel")
   button_model_opts <- list()
   button_model_opts$orig_image   <- tcl_get_property(button_model, "-image")
   button_model_opts$orig_command <- tcl_get_property(button_model, "-command")
