@@ -721,7 +721,7 @@ window_import_from_excel <- function() {
     # F1, Frame 1, choose file and name --------------------------------------
     f1 <- tk2frame(top)
 
-    f1_lab_file <- bs_label_b(f1, text = "File, URL: ")
+    f1_lab_file <- tk_label_blue(f1, text = "File, URL: ")
     f1_ent_file <- bs_entry(
         f1, width = 90, sticky = "we", tip = "Path to file or URL.",
         on_key_release = highlight_update_button)
@@ -775,7 +775,7 @@ window_import_from_excel <- function() {
         tip = "Choose file to import."
     )
 
-    f1_lab_ds_name <- bs_label_b(f1, text = "Name: ")
+    f1_lab_ds_name <- tk_label_blue(f1, text = "Name: ")
 
     f1_ent_ds_name <- bs_entry(
         f1, width = 30, sticky = "ew",

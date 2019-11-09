@@ -471,7 +471,7 @@ window_dataset_select <- function() {
         image   = "::image::bs_settings",
         command = menu_settings)
 
-    # tkgrid(bs_label_b(top, text = "Information about selected dataset"),
+    # tkgrid(tk_label_blue(top, text = "Information about selected dataset"),
     # pady = c(5, 0))
     tkgrid(i1, i3, i5, i6, i7, sticky = "we")
     tkgrid(info_buttons_frame, sticky = "we")

@@ -114,8 +114,8 @@ window_variable_rename <- function() {
         subOKCancelHelp()
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkgrid(
-            bs_label_b(subdialog, text = gettext_bs("Old Name   ")),
-            bs_label_b(subdialog, text = gettext_bs("New name   ")),
+            tk_label_blue(subdialog, text = gettext_bs("Old Name   ")),
+            tk_label_blue(subdialog, text = gettext_bs("New name   ")),
             sticky = "w",
             pady = c(10, 15)
         )

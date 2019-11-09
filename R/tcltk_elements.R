@@ -12,8 +12,8 @@ NULL
 #' @title Tcl/Tk labels
 #' @description Functions, that create Tcl/Tk labels.
 #'
-#' - `tk_label()` Uses default color for labels (usually, black).
-#' - `tk_label_title()` Uses default color for titles (usually, blue).
+#' - `tk_label()` Uses the default color for labels (usually, black).
+#' - `tk_label_blue()` Uses the default color for titles (usually, blue).
 #'
 #' @param parent (`"tkwin"` object) Parent Tcl/Tk window or frame.
 #' @param text (character) Label text.
@@ -36,7 +36,7 @@ tk_label <- function(parent, text, ..., fg = NULL) {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname TclTk-labels
 #' @export
-tk_label_title <- function(parent, text, ...,
+tk_label_blue <- function(parent, text, ...,
   fg = Rcmdr::getRcmdr("title.color")) {
 
   bs_label(parent = parent, text = text, ..., fg = fg)
@@ -45,10 +45,6 @@ tk_label_title <- function(parent, text, ...,
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname TclTk-labels
 #' @export
-bs_label_b <- function(...) {
-  tk_label_title(...)
-}
-
 bs_label <- function(...) {
   tk_label(...)
 }

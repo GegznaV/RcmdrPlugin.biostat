@@ -135,7 +135,7 @@ window_rows_rowid_to_col <- function() {
     tkgrid(upper_frame, pady = c(0, 5))
     tkgrid(name_frame, rb_frame, sticky = "w")
 
-    lab_1 <- bs_label_b(name_frame, text = gettext_bs("Column name:"))
+    lab_1 <- tk_label_blue(name_frame, text = gettext_bs("Column name:"))
     tkgrid(lab_1, sticky = "w")
     tkgrid(name_entry, sticky = "w")
     tkgrid(positionFrame, padx = c(15, 0))

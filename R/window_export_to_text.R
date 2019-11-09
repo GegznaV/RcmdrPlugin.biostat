@@ -427,7 +427,7 @@ window_export_to_text <- function() {
 
     f1 <- tk2frame(top)
 
-    f1_lab_file <- bs_label_b(f1, text = "File: ")
+    f1_lab_file <- tk_label_blue(f1, text = "File: ")
 
     f1_ent_file <- bs_entry(
         f1, width = 60, sticky = "we",
@@ -475,7 +475,7 @@ window_export_to_text <- function() {
 
     # Row 2 ------------------------------------------------------------------
 
-    f1_lab_dec <- bs_label_b(f1, text = "Decimal:")
+    f1_lab_dec <- tk_label_blue(f1, text = "Decimal:")
 
     f1_row3_middle <- tk2frame(f1)
 
@@ -497,7 +497,7 @@ window_export_to_text <- function() {
         on_double_click = sep_ent_normalize_if_appropriate,
         on_key_release = set_dec_selection)
 
-    f1_lab_ext <- bs_label_b(f1, text = "Extension:")
+    f1_lab_ext <- tk_label_blue(f1, text = "Extension:")
 
     f1_box_ext  <- bs_combobox(
         # label = "Extension:",
@@ -513,10 +513,10 @@ window_export_to_text <- function() {
 
     # Row 3 ------------------------------------------------------------------
 
-    f1_lab_data_1 <- bs_label_b(f1, text = "Dataset: ")
+    f1_lab_data_1 <- tk_label_blue(f1, text = "Dataset: ")
     f1_lab_data_2 <- bs_label(f1, text = .ds)
 
-    f1_lab_na <- bs_label_b(f1, text = "NA value:")
+    f1_lab_na <- tk_label_blue(f1, text = "NA value:")
     f1_ent_na <- bs_entry(f1, width = 16, tip = "Missing value", value = "")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

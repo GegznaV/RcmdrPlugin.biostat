@@ -5,7 +5,7 @@ bs_text <- function(parent, ..., label = "", undo = TRUE, context_menu = FALSE) 
 
     frame <- tk2frame(parent)
 
-    obj_label <- bs_label_b(frame, text = label)
+    obj_label <- tk_label_blue(frame, text = label)
 
     obj_txt <- tk2text(frame, undo = undo, ...)
 

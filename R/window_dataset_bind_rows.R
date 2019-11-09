@@ -285,14 +285,14 @@ window_dataset_bind_rows <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(radiobuttons_frame, sticky = "w", pady = c(10, 0), columnspan = 3)
     tkgrid(
-      bs_label_b(radiobuttons_frame, text = gettext_bs("Type of datasets' ID:   ")),
+      tk_label_blue(radiobuttons_frame, text = gettext_bs("Type of datasets' ID:   ")),
       which_idFrame
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(enter_names_frame, pady = c(5, 5), columnspan = 3, sticky = "sw")
     # tkgrid(id_var_name, pady = c(15, 5), columnspan = 3, sticky = "ew")
     tkgrid(
-      bs_label_b(enter_names_frame, text = gettext_bs(paste0("Name for ID column:    "))),
+      tk_label_blue(enter_names_frame, text = gettext_bs(paste0("Name for ID column:    "))),
       entry_id_name,
       sticky = "w"
     )
@@ -302,7 +302,7 @@ window_dataset_bind_rows <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # tkgrid(new_df_name_frame, pady = c(0, 0), columnspan = 3, sticky = "sw")
     tkgrid(
-      bs_label_b(
+      tk_label_blue(
         enter_names_frame,
         text = gettext_bs("Name for resulting dataset:  ")),
       entry_dsname, pady = c(5, 0), sticky = "w")

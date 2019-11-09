@@ -168,7 +168,7 @@ window_import_from_rds <- function() {
     # F1, Frame 1, choose file and name --------------------------------------
     f1 <- tk2frame(top)
 
-    f1_lab_file <- bs_label_b(f1, text = "File: ")
+    f1_lab_file <- tk_label_blue(f1, text = "File: ")
     f1_ent_file <- bs_entry(
         f1, width = 90, sticky = "we", tip = "Path to file")
 
@@ -207,7 +207,7 @@ window_import_from_rds <- function() {
         tip = str_c("Choose automatic dataset's name")
     )
 
-    f1_lab_ds_name <- bs_label_b(f1, text = "Name: ")
+    f1_lab_ds_name <- tk_label_blue(f1, text = "Name: ")
     f1_ent_ds_name <- bs_entry(
         f1, width = 90, sticky = "ew", tip = "Create a name for the dataset.")
 

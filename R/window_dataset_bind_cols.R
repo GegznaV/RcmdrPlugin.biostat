@@ -176,7 +176,7 @@ window_dataset_bind_cols <- function() {
     tkgrid(ds_1_box$frame, ds_2_box$frame, ds_3_box$frame, sticky = "new")
 
     tkgrid(
-      bs_label_b(names_Frame, text = gettext_bs("Name for resulting dataset:  ")),
+      tk_label_blue(names_Frame, text = gettext_bs("Name for resulting dataset:  ")),
       sticky = "w",
       columnspan = 3
     )

@@ -28,18 +28,18 @@ window_about_biostat_version <- function() {
     tkgrid(info_frame)
 
     tkgrid(
-        bs_label_b(info_frame, text = gettext_bs("Package: ")),
+        tk_label_blue(info_frame, text = gettext_bs("Package: ")),
         bs_label(  info_frame, text = "RcmdrPlugin.biostat"),
         sticky = "e", pady = c(2, 0), padx = 16)
 
     tkgrid(
-        bs_label_b(info_frame, text = gettext_bs("Version: ")),
+        tk_label_blue(info_frame, text = gettext_bs("Version: ")),
         bs_label(info_frame,
                  text = as.character(packageVersion("RcmdrPlugin.biostat"))),
         sticky = "e", pady = c(2, 0), padx = 16)
 
     tkgrid(
-        bs_label_b(info_frame, text = gettext_bs("Date: ")),
+        tk_label_blue(info_frame, text = gettext_bs("Date: ")),
         bs_label(info_frame,   text = desc::desc_get("Date", descr_file)),
         sticky = "e", pady = c(0, 10), padx = 16
     )
@@ -69,7 +69,7 @@ window_about_biostat_version <- function() {
     #     tkconfigure(hp_frame_2, cursor = "hand2")
     # }
     #
-    # hp_frame_1 <- bs_label_b(info_frame, text = gettext_bs("Homepage: "))
+    # hp_frame_1 <- tk_label_blue(info_frame, text = gettext_bs("Homepage: "))
     # hp_frame_2 <- bs_label(info_frame,   text = homepage_link, font = font_normal)
     #
     # tkbind(hp_frame_2, "<ButtonPress-1>",   on_click)   # Link activation
@@ -90,7 +90,7 @@ window_about_biostat_version <- function() {
     # # issues_link <- "https://github.com/GegznaV/RcmdrPlugin.biostat/issues"
     # issues_link <- desc::desc_get("BugReports", descr_file)
     #
-    # issues_frame_1 <- bs_label_b(info_frame, text = gettext_bs("Bug reports: "))
+    # issues_frame_1 <- tk_label_blue(info_frame, text = gettext_bs("Bug reports: "))
     # issues_frame_2 <- bs_label(info_frame,   text = issues_link, font = font_normal)
     #
     # on_click_i <- function() {

@@ -326,7 +326,7 @@ window_model_select <- function() {
         })
 
 
-    # tkgrid(bs_label_b(top, text = "Information about selected dataset"),
+    # tkgrid(tk_label_blue(top, text = "Information about selected dataset"),
     # pady = c(5, 0))
 
     tkgrid(row_1)

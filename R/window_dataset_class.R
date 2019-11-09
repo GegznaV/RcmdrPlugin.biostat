@@ -40,7 +40,7 @@ window_dataset_class <- function() {
     classes <- str_c(str_glue_eval("class({.ds})", envir_eval = .GlobalEnv),
                      collapse = ", ")
 
-    tkgrid(bs_label_b(top, text = "Current class(es):"))
+    tkgrid(tk_label_blue(top, text = "Current class(es):"))
     tkgrid(bs_label(top, text = classes))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

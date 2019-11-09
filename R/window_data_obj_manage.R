@@ -239,9 +239,9 @@ window_data_obj_manage <- function() {
             default  = "active",
             command  = on_ok)
 
-        lab_1_1 <- bs_label_b(pop_up_window, text = "Name: ")
+        lab_1_1 <- tk_label_blue(pop_up_window, text = "Name: ")
         lab_1_2 <- bs_label(  pop_up_window, text = get_selection(f1_listbox_y))
-        lab_2_1 <- bs_label_b(pop_up_window, text = "New name: ")
+        lab_2_1 <- tk_label_blue(pop_up_window, text = "New name: ")
 
         initlal_name <-
             get_selection(f1_listbox_y) %>%
@@ -375,9 +375,9 @@ window_data_obj_manage <- function() {
             default  = "active",
             command  = on_ok)
 
-        lab_1_1 <- bs_label_b(pop_up_window, text = "Original name: ")
+        lab_1_1 <- tk_label_blue(pop_up_window, text = "Original name: ")
         lab_1_2 <- bs_label(  pop_up_window, text = get_selection(f1_listbox_y))
-        lab_2_1 <- bs_label_b(pop_up_window, text = "Name of a copy: ")
+        lab_2_1 <- tk_label_blue(pop_up_window, text = "Name of a copy: ")
 
         initlal_name <-
             get_selection(f1_listbox_y) %>%
