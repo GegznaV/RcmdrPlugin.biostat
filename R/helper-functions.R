@@ -1,8 +1,6 @@
 # TODO:
 # -- get_system_info() code for other OS'es is needed
 
-
-
 #' @name Helper-functions
 #' @title Helper functions for RcmdrPlugin.biostat.
 #' @description Helper functions for package \pkg{RcmdrPlugin.biostat}.

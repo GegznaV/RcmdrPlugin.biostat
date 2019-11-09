@@ -2,31 +2,32 @@
 % Please edit documentation in R/tcltk_elements.R
 \name{TclTk-labels}
 \alias{TclTk-labels}
-\alias{bs_label}
-\alias{bs_label_title}
+\alias{tk_label}
+\alias{tk_label_title}
 \alias{bs_label_b}
-\alias{tk_label_blue}
 \title{Tcl/Tk labels}
 \usage{
-bs_label(..., fg = NULL)
+tk_label(parent, text, ..., fg = NULL)
 
-bs_label_title(parent, text, ..., fg = Rcmdr::getRcmdr("title.color"))
+tk_label_title(parent, text, ..., fg = Rcmdr::getRcmdr("title.color"))
 
 bs_label_b(...)
-
-tk_label_blue(...)
 }
 \arguments{
+\item{parent}{(\code{"tkwin"} object) Parent Tcl/Tk window or frame.}
+
+\item{text}{(character) Label text.}
+
 \item{...}{Other arguments to pass to \code{tcltk2::tk2label()}.}
 
 \item{fg}{(character) Foreground color.}
-
-\item{parent}{(\code{"tkwin"} object) Parant Tcl/Tk frame.}
-
-\item{text}{(character) Label text.}
 }
 \description{
-Functions, tat create Tcl/Tk labels.
+Functions, that create Tcl/Tk labels.
+\itemize{
+\item \code{tk_label()} Uses default color for labels (usually, black).
+\item \code{tk_label_title()} Uses default color for titles (usually, blue).
+}
 }
 \seealso{
 \code{tcltk2::tk2label()}, \code{Rcmdr::labelRcmdr()}, \code{tcltk::ttklabel()}.
