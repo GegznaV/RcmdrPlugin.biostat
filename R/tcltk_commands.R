@@ -186,11 +186,4 @@ tclvalue_chr <- function(x, trim = TRUE, ...) {
     unname(rez)
 }
 
-#' @rdname Helper-functions
-#' @keywords internal
-#' @export
-tclvalue_chr_split <- function(x) {
-    sapply(unlist(strsplit(tclvalue(x), " ")), as.character)
-    unname(x)
-}
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
