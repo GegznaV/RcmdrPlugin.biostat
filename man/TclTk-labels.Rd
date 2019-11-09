@@ -3,15 +3,12 @@
 \name{TclTk-labels}
 \alias{TclTk-labels}
 \alias{tk_label}
-\alias{tk_label_title}
-\alias{bs_label_b}
+\alias{tk_label_blue}
 \title{Tcl/Tk labels}
 \usage{
 tk_label(parent, text, ..., fg = NULL)
 
-tk_label_title(parent, text, ..., fg = Rcmdr::getRcmdr("title.color"))
-
-bs_label_b(...)
+tk_label_blue(parent, text, ..., fg = Rcmdr::getRcmdr("title.color"))
 }
 \arguments{
 \item{parent}{(\code{"tkwin"} object) Parent Tcl/Tk window or frame.}
@@ -25,8 +22,8 @@ bs_label_b(...)
 \description{
 Functions, that create Tcl/Tk labels.
 \itemize{
-\item \code{tk_label()} Uses default color for labels (usually, black).
-\item \code{tk_label_title()} Uses default color for titles (usually, blue).
+\item \code{tk_label()} Uses the default color for labels (usually, black).
+\item \code{tk_label_blue()} Uses the default color for titles (usually, blue).
 }
 }
 \seealso{

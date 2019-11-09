@@ -42,12 +42,6 @@ tk_label_blue <- function(parent, text, ...,
   tk_label(parent = parent, text = text, ..., fg = fg)
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname TclTk-labels
-#' @export
-bs_label <- function(...) {
-  tk_label(...)
-}
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname TclTk-helper-functions
