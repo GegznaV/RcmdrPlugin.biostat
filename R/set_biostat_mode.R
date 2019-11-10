@@ -461,13 +461,13 @@ bs_mode_menu__import <- function() {
   tkadd(menu_f, "command",
     label   = "from Rds file (.rds)...",
     compound = "left",
-    image    = "::image::bs_r",
+    image    = "::image::bs_r_cyan",
     command = window_import_from_rds)
 
   tkadd(menu_f, "command",
     label    = "from R-data file (.RData, .rda)...",
     compound = "left",
-    image    = "::image::bs_r",
+    image    = "::image::bs_r_brown",
     command  = window_import_rdata)
 
   # tkadd(menu_f, "separator")
@@ -587,13 +587,13 @@ bs_mode_menu__export <- function() {
   tkadd(menu_f, "command",
     label    = "Export to Rds file (.rds)...",
     compound = "left",
-    image    = "::image::bs_r",
+    image    = "::image::bs_r_cyan",
     command  = window_export_to_rds)
 
   tkadd(menu_f, "command",
     label    = "Export to R-data file (.RData)...",
     compound = "left",
-    image    = "::image::bs_r",
+    image    = "::image::bs_r_brown",
     command  = window_export_to_rdata)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -644,7 +644,7 @@ bs_mode_menu__export <- function() {
   tkadd(menu_e, "command",
     label    = "Print as R structure",
     compound = "left",
-    image    = "::image::bs_r",
+    image    = "::image::bs_r_lgreen",
     command  = to_r_structure)
 
   # tkadd(menu_e, "separator")
@@ -792,7 +792,7 @@ bs_mode_menu__summary  <- function() {
   # tkadd(menu_p, "command",
   #       label    = "Summarize variables...",
   #       # compound = "left",
-  #       # image    = "::image::bs_locale",
+  #       # image    = "::image::bs_r",
   #       command  = window_summary_variables)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -823,7 +823,7 @@ bs_mode_menu__summary  <- function() {
   # tkadd(menu_p, "command",
   #     label    = "Frequency table for numeric variable...",
   #     # compound = "left",
-  #     # image    = "::image::bs_locale",
+  #     # image    = "::image::bs_r",
   #     state    = set_menu_state(numericP()),
   #     command  = window_summary_Freq
   # )
@@ -1333,9 +1333,9 @@ bs_mode_menu__settings <- function() {
   menu_ap  <- tk2menu(menu_p, tearoff = FALSE)
 
   tkadd(menu_p, "cascade",
-    label    = "Appearance",
+    label    = "Options",
     compound = "left",
-    image    = "::image::bs_r",
+    image    = "::image::bs_r_yellow",
     menu     = menu_ap)
 
   to_console <- is_console_output()
@@ -1357,7 +1357,7 @@ bs_mode_menu__settings <- function() {
   sort_names <- getRcmdr("sort.names")
 
   tkadd(menu_ap, "command",
-    label    = "Keep original column name order in widgets",
+    label    = "Keep original order (column nams in widgets)",
     compound = "left",
     image    = if (!sort_names) {"::image::bs_tick"} else {""},
     command  =
@@ -1371,7 +1371,7 @@ bs_mode_menu__settings <- function() {
         }})
 
   tkadd(menu_ap, "command",
-    label    = "Sort column names alphabetically in widgets",
+    label    = "Sort alphabetically (column names in widgets)",
     compound = "left",
     image    = if (sort_names) {"::image::bs_tick"} else {""},
     command  =
