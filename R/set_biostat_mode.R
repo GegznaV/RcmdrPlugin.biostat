@@ -98,6 +98,7 @@ set_biostat_mode <- function() {
   button_set_analysis <- tk2frame(buttons_bar_low)
   button_set_plots    <- tk2frame(buttons_bar_low)
   button_set_settings <- tk2frame(buttons_bar_low)
+  button_set_refresh  <- tk2frame(buttons_bar_low)
 
   button_import <- tk2button(
     button_set_manage,
@@ -163,7 +164,7 @@ set_biostat_mode <- function() {
     command = bs_mode_menu__settings)
 
   button_refresh <- tk2button(
-    button_set_settings,
+    button_set_refresh,
     tip     = "Refresh data and R Commander",
     image   = "::image::bs_refresh",
     command = command_dataset_refresh)
@@ -183,6 +184,7 @@ set_biostat_mode <- function() {
   putRcmdr("button_set_plots",    button_set_plots)
   putRcmdr("button_set_analysis", button_set_analysis)
   putRcmdr("button_set_settings", button_set_settings)
+  putRcmdr("button_set_refresh",  button_set_refresh)
 
   putRcmdr("button_import",       button_import)
   putRcmdr("button_datasets",     button_datasets)
@@ -201,10 +203,10 @@ set_biostat_mode <- function() {
   # tkgrid("x", buttons_bar_low)
   tkgrid(buttons_variant, buttons_bar_low)
 
-  lb1 <- tk_label(buttons_variant, image = "::image::dot-violet", compound = "left")
-  lb2 <- tk_label(buttons_variant, image = "::image::dot-red",    compound = "left")
-  lb3 <- tk_label(buttons_variant, image = "::image::dot-green",  compound = "left")
-  lb4 <- tk_label(buttons_variant, image = "::image::dot-black",  compound = "left")
+  lb1 <- tk_label(buttons_variant, image = "::image::dot-green", compound = "left")
+  lb2 <- tk_label(buttons_variant, image = "::image::dot-red",   compound = "left")
+  lb3 <- tk_label(buttons_variant, image = "::image::dot-lblue", compound = "left")
+  lb4 <- tk_label(buttons_variant, image = "::image::dot-black", compound = "left")
 
   tkgrid(lb1, lb2, lb3, lb4, sticky = "sew")
   tkgrid.configure(buttons_variant, sticky = "se", padx = c(10, 0))
@@ -221,7 +223,8 @@ set_biostat_mode <- function() {
     button_set_manage,
     button_set_analysis,
     button_set_plots,
-    button_set_settings
+    button_set_settings,
+    button_set_refresh
   )
 
   # Set: manage
@@ -247,7 +250,11 @@ set_biostat_mode <- function() {
 
   # Set: settings
   tkgrid(
-    button_other,
+    button_other
+  )
+
+  # Set: refresh
+  tkgrid(
     button_refresh
   )
 
@@ -266,7 +273,7 @@ set_biostat_mode <- function() {
   # )
 
   if (length(logo) > 0) {
-    tkgrid.configure(logo, sticky = "w", padx = c(10, 0), pady = c(0, 6), rowspan = 2)
+    tkgrid.configure(logo, sticky = "w", padx = c(10, 5), pady = c(0, 6), rowspan = 2)
   }
   tkgrid.configure(lab_data,        padx = c(0, 2),  pady = c(5, 0))
   tkgrid.configure(button_id_data,  padx = c(2, 5),  pady = c(5, 0))
@@ -282,6 +289,10 @@ set_biostat_mode <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Functions --------------------------------------------------------------
+  tip_switch_to_biostat <- function() {
+    tk2tip(tcl_get_obj_by_id(logo), "Switch to the main \nBioStat buttons")
+  }
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   toggle_buttons_bar_low <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -290,8 +301,8 @@ set_biostat_mode <- function() {
       length(vals) > 0
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    is_bs_logo <- function() {
-      # FIXME: possible issue, if logo is not proset at all
+    is_main_bs_logo <- function() {
+      # FIXME: possible issue, if logo is not set at all
       isTRUE(tcl_get_property(logo, "-image") == "::image::bs_r_logo_g")
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -299,7 +310,7 @@ set_biostat_mode <- function() {
       # Change buttons
       if (length(logo) > 0) {
         tkconfigure(logo, image = "::image::RlogoIcon")
-        tk2tip(tcl_get_obj_by_id(logo), "Switch to BioStat \nbuttons")
+        tip_switch_to_biostat()
       }
 
       tkconfigure(
@@ -340,9 +351,18 @@ set_biostat_mode <- function() {
       )
       if (length(button_edit0) > 0) tkgrid.remove(button_edit0)
       if (length(button_view0) > 0) tkgrid.remove(button_view0)
+
+      tkgrid(
+        button_set_manage,
+        button_set_analysis,
+        button_set_plots,
+        button_set_settings,
+        button_set_refresh
+      )
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (is_visible_buttons_bar_low()) {
+    # if (is_visible_buttons_bar_low()) {
+    if (is_main_bs_logo()) {
       # Hide BS buttons
       tkgrid.remove(buttons_bar_low)
       tkgrid.remove(buttons_variant)
@@ -365,17 +385,46 @@ set_biostat_mode <- function() {
   tkconfigure(lb3, cursor = "hand2")
   tkconfigure(lb4, cursor = "hand2")
 
-  tkbind(lb1, "<Enter>", function() tkconfigure(lb1, image = "::image::dot-yellow"))
-  tkbind(lb1, "<Leave>", function() tkconfigure(lb1, image = "::image::dot-violet"))
+  tip(lb1) <- "Open button set: \nData Management"
+  tip(lb2) <- "Open button set: \nAnalysis"
+  tip(lb3) <- "Open button set: \nPlots"
+  tip(lb4) <- "Open button set: \nTools and Settings"
 
-  tkbind(lb2, "<Enter>", function() tkconfigure(lb2, image = "::image::dot-yellow"))
+  tkbind(lb1, "<Enter>", function() tkconfigure(lb1, image = "::image::dot-gw-4"))
+  tkbind(lb1, "<Leave>", function() tkconfigure(lb1, image = "::image::dot-green"))
+  tkbind(lb1, "<Button-1>", function() {
+    tkconfigure(logo, image = "::image::bs_r_logo_lg")
+    tip_switch_to_biostat()
+    tkgrid(button_set_manage)
+    tkgrid.remove(button_set_analysis, button_set_plots, button_set_settings)
+  })
+
+  tkbind(lb2, "<Enter>", function() tkconfigure(lb2, image = "::image::dot-gw-4"))
   tkbind(lb2, "<Leave>", function() tkconfigure(lb2, image = "::image::dot-red"))
+  tkbind(lb2, "<Button-1>", function() {
+    tkconfigure(logo, image = "::image::bs_r_logo_r")
+    tip_switch_to_biostat()
+    tkgrid(button_set_analysis)
+    tkgrid.remove(button_set_manage, button_set_plots, button_set_settings)
+  })
 
-  tkbind(lb3, "<Enter>", function() tkconfigure(lb3, image = "::image::dot-yellow"))
-  tkbind(lb3, "<Leave>", function() tkconfigure(lb3, image = "::image::dot-green"))
+  tkbind(lb3, "<Enter>", function() tkconfigure(lb3, image = "::image::dot-gw-4"))
+  tkbind(lb3, "<Leave>", function() tkconfigure(lb3, image = "::image::dot-lblue"))
+  tkbind(lb3, "<Button-1>", function() {
+    tkconfigure(logo, image = "::image::bs_r_logo_c")
+    tip_switch_to_biostat()
+    tkgrid(button_set_plots)
+    tkgrid.remove(button_set_manage, button_set_analysis, button_set_settings)
+  })
 
-  tkbind(lb4, "<Enter>", function() tkconfigure(lb4, image = "::image::dot-yellow"))
+  tkbind(lb4, "<Enter>", function() tkconfigure(lb4, image = "::image::dot-gw-4"))
   tkbind(lb4, "<Leave>", function() tkconfigure(lb4, image = "::image::dot-black"))
+  tkbind(lb4, "<Button-1>", function() {
+    tkconfigure(logo, image = "::image::bs_r_logo_bw")
+    tip_switch_to_biostat()
+    tkgrid(button_set_settings)
+    tkgrid.remove(button_set_manage, button_set_analysis, button_set_plots)
+  })
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Change the title and the main icon -------------------------------------
   .rcmdr <- CommanderWindow()
@@ -461,7 +510,7 @@ bs_mode_menu__import <- function() {
   tkadd(menu_f, "command",
     label   = "from Rds file (.rds)...",
     compound = "left",
-    image    = "::image::bs_r_cyan",
+    image    = "::image::bs_r_lblue",
     command = window_import_from_rds)
 
   tkadd(menu_f, "command",
@@ -517,7 +566,7 @@ bs_mode_menu__import <- function() {
   tkadd(menu_i, "command",
     label    = "Import from plot (online)...",
     compound = "left",
-    image    = "::image::bs_chart",
+    image    = "::image::bs_wpd",
     command  = window_online_image_digitizer
   )
 
@@ -587,7 +636,7 @@ bs_mode_menu__export <- function() {
   tkadd(menu_f, "command",
     label    = "Export to Rds file (.rds)...",
     compound = "left",
-    image    = "::image::bs_r_cyan",
+    image    = "::image::bs_r_lblue",
     command  = window_export_to_rds)
 
   tkadd(menu_f, "command",
@@ -1136,6 +1185,8 @@ bs_mode_menu__analyze <- function() {
   tkadd(menu_p, "command",
     label      = "Normality test (univariate)...",
     state      = set_menu_state(numericP()),
+    compound   = "left",
+    image      = "::image::bs_normality",
     command    = window_test_normality)
 
   #
@@ -1366,7 +1417,7 @@ bs_mode_menu__settings <- function() {
   sort_names <- getRcmdr("sort.names")
 
   tkadd(menu_opts, "command",
-    label    = "Keep original order (column nams in widgets)",
+    label    = "Keep original order (column names in widgets)",
     compound = "left",
     image    = if (!sort_names) {"::image::bs_tick"} else {""},
     command  =
