@@ -83,6 +83,14 @@ biostat_env$use_relative_path <- TRUE
         console.output <- Rcmdr_opts$console.output
     }
 
+    # Use (un)sorted vector of variable names
+    if (is.null(Rcmdr_opts$sort.names)) {
+        sort.names <- FALSE
+
+    } else {
+        sort.names <- Rcmdr_opts$sort.names
+    }
+
     updated_opts <-
         utils::modifyList(
             Rcmdr_opts,
