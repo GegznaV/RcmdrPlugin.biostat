@@ -1357,7 +1357,7 @@ bs_mode_menu__settings <- function() {
   sort_names <- getRcmdr("sort.names")
 
   tkadd(menu_ap, "command",
-    label    = "Sort names alphabetically",
+    label    = "Sort column names alphabetically in widgets",
     compound = "left",
     image    = if (sort_names) {"::image::bs_tick"} else {""},
     command  =
@@ -1371,7 +1371,7 @@ bs_mode_menu__settings <- function() {
         }})
 
   tkadd(menu_ap, "command",
-    label    = "Keep original order",
+    label    = "Keep original column name order in widgets",
     compound = "left",
     image    = if (!sort_names) {"::image::bs_tick"} else {""},
     command  =
