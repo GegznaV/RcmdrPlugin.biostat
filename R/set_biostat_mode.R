@@ -925,21 +925,21 @@ bs_mode_menu__variables <- function() {
   menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  menu_s  <- tk2menu(menu_p, tearoff = FALSE)
+  menu_var_names  <- tk2menu(menu_p, tearoff = FALSE)
 
   tkadd(menu_p, "cascade",
     label    = "Variable names",
-    menu     = menu_s)
+    menu     = menu_var_names)
 
-  tkadd(menu_s, "command",
+  tkadd(menu_var_names, "command",
     label    = "Print variable (column) names",
     command  = command_colnames)
 
-  tkadd(menu_s, "command",
+  tkadd(menu_var_names, "command",
     label    = "Clean variable names (into snake case)",
     command  = command_clean_names)
 
-  tkadd(menu_s, "command",
+  tkadd(menu_var_names, "command",
     label    = "Rename variables...",
     command  = window_variable_rename)
 
@@ -1324,39 +1324,48 @@ bs_mode_menu__settings <- function() {
   #           },
   #       command    = toggle_always_on_top)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  tkadd(menu_p, "command",
+  menu_lng  <- tk2menu(menu_p, tearoff = FALSE)
+
+  tkadd(menu_p, "cascade",
+    label    = "Language",
+    compound = "left",
+    image    = "::image::bs_locale",
+    menu     = menu_lng)
+
+  tkadd(menu_lng, "command",
     label    = "Locale...",
     compound = "left",
     image    = "::image::bs_locale",
     command  = window_locale_set)
+
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  menu_ap  <- tk2menu(menu_p, tearoff = FALSE)
+  menu_opts  <- tk2menu(menu_p, tearoff = FALSE)
 
   tkadd(menu_p, "cascade",
     label    = "Options",
     compound = "left",
     image    = "::image::bs_r_yellow",
-    menu     = menu_ap)
+    menu     = menu_opts)
 
   to_console <- is_console_output()
 
-  tkadd(menu_ap, "command",
+  tkadd(menu_opts, "command",
     label    = "Output to R console (1 window mode)",
     compound = "left",
     image    = if (to_console) {"::image::bs_tick"} else {""},
     command  = if (to_console) {do_nothing} else {command_rcmdr_use_1_window})
 
-  tkadd(menu_ap, "command",
+  tkadd(menu_opts, "command",
     label    = "Output to R Commander (3 windows mode)",
     compound = "left",
     image    = if (!to_console) {"::image::bs_tick"} else {""},
     command  = if (!to_console) {do_nothing} else {command_rcmdr_use_3_windows})
 
-  tkadd(menu_ap, "separator")
+  tkadd(menu_opts, "separator")
 
   sort_names <- getRcmdr("sort.names")
 
-  tkadd(menu_ap, "command",
+  tkadd(menu_opts, "command",
     label    = "Keep original order (column nams in widgets)",
     compound = "left",
     image    = if (!sort_names) {"::image::bs_tick"} else {""},
@@ -1370,7 +1379,7 @@ bs_mode_menu__settings <- function() {
           command_dataset_refresh()
         }})
 
-  tkadd(menu_ap, "command",
+  tkadd(menu_opts, "command",
     label    = "Sort alphabetically (column names in widgets)",
     compound = "left",
     image    = if (sort_names) {"::image::bs_tick"} else {""},
@@ -1384,63 +1393,62 @@ bs_mode_menu__settings <- function() {
           command_dataset_refresh()
         }})
 
-  # sort.names
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  menu_s  <- tk2menu(menu_p, tearoff = FALSE)
+  menu_session  <- tk2menu(menu_p, tearoff = FALSE)
 
   tkadd(menu_p, "cascade",
     label    = "Session",
     compound = "left",
     image    = "::image::bs_r",
-    menu     = menu_s)
+    menu     = menu_session)
 
-  tkadd(menu_s, "command",
+  tkadd(menu_session, "command",
     label    = "Load R packages...",
     compound = "left",
     image    = "::image::bs_package",
     command  = window_load_packages)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  tkadd(menu_s, "separator")
+  tkadd(menu_session, "separator")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  tkadd(menu_s, "command",
+  tkadd(menu_session, "command",
     label    = "Print session information: base R style",
     # compound = "left",
     # image    = "::image::bs_open_wd",
     command  = command_session_info_utils)
 
-  tkadd(menu_s, "command",
+  tkadd(menu_session, "command",
     label    = "Print session information: devtools style",
     # compound = "left",
     # image    = "::image::bs_open_wd",
     command  = command_session_info_devtools)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  tkadd(menu_s, "separator")
+  tkadd(menu_session, "separator")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  tkadd(menu_s, "command",
+  tkadd(menu_session, "command",
     label    = "Restart R Commander",
     compound = "left",
     image    = "::image::bs_restart",
     command  = command_rcmdr_restart)
 
   if (is_rstudio()) {
-    tkadd(menu_s, "command",
+    tkadd(menu_session, "command",
       label    = "Restart R session in RStudio",
       compound = "left",
       image    = "::image::bs_restart_r",
       command  = command_restart_rs_session)
   }
 
-  tkadd(menu_s, "command",
+  tkadd(menu_session, "command",
     label    = "Close R Commander",
     compound = "left",
     image    = "::image::bs_close_rcmdr",
     command  = Rcmdr::closeCommander)
 
-  tkadd(menu_s, "command",
+  tkadd(menu_session, "command",
     label    = "Close R Commander & R",
     compound = "left",
     image    = "::image::bs_close_r",
