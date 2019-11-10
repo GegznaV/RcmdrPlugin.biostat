@@ -125,9 +125,22 @@ biostat_env$use_relative_path <- TRUE
             file = system.file("etc", file, package = package))
     }
 
+    bs_tkimage_create("::image::dot-black",     "icons/dot-black.png")
+    bs_tkimage_create("::image::dot-red",       "icons/dot-red.png")
+    bs_tkimage_create("::image::dot-blue",      "icons/dot-blue.png")
+    bs_tkimage_create("::image::dot-lblue",     "icons/dot-lblue.png")
+    bs_tkimage_create("::image::dot-green",     "icons/dot-green.png")
+    bs_tkimage_create("::image::dot-lgreen",    "icons/dot-lgreen.png")
+    bs_tkimage_create("::image::dot-yellow",    "icons/dot-yellow.png")
+    bs_tkimage_create("::image::dot-grey",      "icons/dot-grey.png")
+    bs_tkimage_create("::image::dot-violet",    "icons/dot-violet.png")
+
+    bs_tkimage_create("::image::dot-gw-4",      "icons/dot-gw-4x4.png")
+
     bs_tkimage_create("::image::bs_r_logo_b"  , "icons/R-logo-b.png")
     bs_tkimage_create("::image::bs_r_logo_br" , "icons/R-logo-br.png")
     bs_tkimage_create("::image::bs_r_logo_bw" , "icons/R-logo-bw.png")
+    bs_tkimage_create("::image::bs_r_logo_lb" , "icons/R-logo-lb.png")
     bs_tkimage_create("::image::bs_r_logo_c"  , "icons/R-logo-c.png")
     bs_tkimage_create("::image::bs_r_logo_g"  , "icons/R-logo-g.png")
     bs_tkimage_create("::image::bs_r_logo_lg" , "icons/R-logo-lg.png")
@@ -136,9 +149,10 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_r_logo_y"  , "icons/R-logo-y.png")
 
     bs_tkimage_create("::image::bs_r"         , "icons/r-logo-16x16.png")
-    bs_tkimage_create("::image::bs_r_blue"    , "icons/r-logo-16x16.png")
+    bs_tkimage_create("::image::bs_r_blue"    , "icons/r-logo-b-16x16.png")
     bs_tkimage_create("::image::bs_r_brown"   , "icons/r-logo-br-16x16.png")
     bs_tkimage_create("::image::bs_r_bw"      , "icons/r-logo-bw-16x16.png")
+    bs_tkimage_create("::image::bs_r_lblue"   , "icons/r-logo-lb-16x16.png")
     bs_tkimage_create("::image::bs_r_cyan"    , "icons/r-logo-c-16x16.png")
     bs_tkimage_create("::image::bs_r_green"   , "icons/r-logo-g-16x16.png")
     bs_tkimage_create("::image::bs_r_lgreen"  , "icons/r-logo-lg-16x16.png")
@@ -165,7 +179,6 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_sort_asc"  , "icons/view-sort-ascending.png")
     bs_tkimage_create("::image::bs_sort_desc" , "icons/view-sort-descending.png")
     bs_tkimage_create("::image::bs_down"      , "icons/down-blue.png")
-
 
     bs_tkimage_create("::image::bs_chk_pkgs" ,  "icons/view-refresh-6.png")
 
@@ -216,6 +229,7 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_plot",       "icons/office-chart-pie.png")
     bs_tkimage_create("::image::bs_plotly",     "icons/plotly.png")
     bs_tkimage_create("::image::bs_plot_close", "icons/delete.png")
+    bs_tkimage_create("::image::bs_normality",  "icons/bs_normality.png")
 
     bs_tkimage_create("::image::bs_bug",        "icons/bug.png")
     bs_tkimage_create("::image::bs_home",       "icons/go-home-6.png")
@@ -231,13 +245,7 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_go_next",    "icons/go-next-4.png")
     bs_tkimage_create("::image::bs_go_last",    "icons/go-last-2.png")
 
-    bs_tkimage_create("::image::dot-black",     "icons/dot-black.png")
-    bs_tkimage_create("::image::dot-red",       "icons/dot-red.png")
-    bs_tkimage_create("::image::dot-blue",      "icons/dot-blue.png")
-    bs_tkimage_create("::image::dot-green",     "icons/dot-green.png")
-    bs_tkimage_create("::image::dot-yellow",    "icons/dot-yellow.png")
-    bs_tkimage_create("::image::dot-grey",      "icons/dot-grey.png")
-    bs_tkimage_create("::image::dot-violet",    "icons/dot-violet.png")
+    bs_tkimage_create("::image::bs_wpd",         "icons/wpd-16x16.png")
 
 }
 
