@@ -1,5 +1,6 @@
-icon          locale.png			https://www.iconfinder.com/icons/3502/locale_icon
-Pack of icons            			https://www.freewarefiles.com/Open-Icon-Library_program_55267.html
-Letter R				 			GPL http://www.iconarchive.com/show/speech-balloon-green-icons-by-iconexpo/speech-balloon-green-r-icon.html
-Markdown	  md.png	 			MIT https://www.iconfinder.com/icons/298823/markdown_icon
-Test tube 	  test-tube-5-16.png	https://www.iconsdb.com/green-icons/test-tube-5-icon.html
+icon          locale.png			                https://www.iconfinder.com/icons/3502/locale_icon
+Pack of icons            			                https://www.freewarefiles.com/Open-Icon-Library_program_55267.html
+Letter R				 			                GPL http://www.iconarchive.com/show/speech-balloon-green-icons-by-iconexpo/speech-balloon-green-r-icon.html
+Markdown	  md.png	 			                MIT https://www.iconfinder.com/icons/298823/markdown_icon
+Test tube 	  test-tube-5-16.png	                https://www.iconsdb.com/green-icons/test-tube-5-icon.html
+Web Plot Digitizer icon (wpd-16x16.png) is based on https://steemit.com/utopian-io/@ruel.cedeno/proposed-logo-for-webplot-digitizer
