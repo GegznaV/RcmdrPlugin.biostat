@@ -1365,7 +1365,8 @@ bs_mode_menu__settings <- function() {
         do_nothing
       } else {
         function() {
-          putRcmdr("sort.names", FALSE)
+          putRcmdr("sort.names", TRUE)
+          # options(Rcmdr = list(sort.names = TRUE))
           command_dataset_refresh()
         }})
 
@@ -1379,6 +1380,7 @@ bs_mode_menu__settings <- function() {
       } else {
         function() {
           putRcmdr("sort.names", FALSE)
+          # options(Rcmdr = list(sort.names = FALSE))
           command_dataset_refresh()
         }})
 
