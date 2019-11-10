@@ -6,9 +6,10 @@
 \alias{tk_label_blue}
 \title{Tcl/Tk labels}
 \usage{
-tk_label(parent, text, ..., fg = NULL)
+tk_label(parent, text = "", ..., fg = NULL)
 
-tk_label_blue(parent, text, ..., fg = Rcmdr::getRcmdr("title.color"))
+tk_label_blue(parent, text = "", ...,
+  fg = Rcmdr::getRcmdr("title.color"))
 }
 \arguments{
 \item{parent}{(\code{"tkwin"} object) Parent Tcl/Tk window or frame.}

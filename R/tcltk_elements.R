@@ -25,7 +25,7 @@ NULL
 #'
 #' @export
 #' @md
-tk_label <- function(parent, text, ..., fg = NULL) {
+tk_label <- function(parent, text = "", ..., fg = NULL) {
   if (is.null(fg)) {
     tk2label(parent = parent, text = text, ...)
   } else {
@@ -36,7 +36,7 @@ tk_label <- function(parent, text, ..., fg = NULL) {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname TclTk-labels
 #' @export
-tk_label_blue <- function(parent, text, ...,
+tk_label_blue <- function(parent, text = "", ...,
   fg = Rcmdr::getRcmdr("title.color")) {
 
   tk_label(parent = parent, text = text, ..., fg = fg)
