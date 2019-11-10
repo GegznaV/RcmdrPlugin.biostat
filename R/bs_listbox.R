@@ -135,9 +135,9 @@ bs_listbox <-
     on_keyboard <- match.arg(on_keyboard)
 
 
-    if (selectmode == "multiple")
+    if (selectmode == "multiple") {
       selectmode <- getRcmdr("multiple.select.mode")
-
+    }
     # if (length(values) == 1 && is.null(selection))
     #   selection <- 0
 
@@ -175,7 +175,7 @@ bs_listbox <-
 
       toggle_single_selection <- function() {
         active   <- tclvalue_int(tkindex(listbox, "active"))
-        selected <- tclvalue_int_split(tkcurselection(listbox))
+        selected <- tclvalue_int(tkcurselection(listbox))
 
         if (length(selected) == 0) {
           tkselection.set(listbox, "active")
@@ -254,9 +254,10 @@ bs_listbox <-
         columnspan = 2, sticky = subtitle_sticky)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # if (bind_row_swap) {
-    #     bind_row_swap_listbox(listbox)
-    # }
+    if (bind_row_swap) {
+      # FIXME: check with multiselect mode
+      bind_row_swap_listbox(listbox)
+    }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(listbox, sticky = sticky)
@@ -398,12 +399,15 @@ get_size.tkwin <- function(obj, ...) {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname bs_listbox
 #' @export
-get_values_listbox <- function(listbox) {
+get_values_listbox <- function(listbox, trim = FALSE) {
   n <- tclvalue_int(tksize(listbox))
   vars <-
     (seq_len(n) - 1) %>% # zero based index
-    purrr::map_chr(~tclvalue_chr(tkget(listbox, ., .))) %>%
-    stringr::str_replace("^\\{(.* .*)\\}$", "\\1") # removes { } if several words are used
+    purrr::map_chr(~tclvalue_chr(tkget(listbox, ., .), trim = trim))
+  # vars <-
+  #   (seq_len(n) - 1) %>% # zero based index
+  #   purrr::map_chr(~tclvalue_chr(tkget(listbox, ., .))) %>%
+  #   stringr::str_replace("^\\{(.* .*)\\}$", "\\1") # removes { } if several words are used
   vars
 }
 
@@ -427,7 +431,9 @@ set_values_listbox <- function(listbox, values, clear = TRUE) {
   if (isTRUE(clear)) {
     tkdelete(listbox, 0, "end")
   }
-  for (val in values)  tkinsert(listbox, "end", as.character(val))
+  for (val in values) {
+    tkinsert(listbox, "end", as.character(val))
+  }
 }
 
 #' @rdname bs_listbox
@@ -652,9 +658,11 @@ move_selected_row_in_listbox <- function(listbox, move_to = "") {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 bind_row_swap_listbox <- function(listbox, ...) {
   tkbind(listbox, "<Control-Up>",   function() {move_selected_row_in_listbox(listbox, "top")})
-  tkbind(listbox, "<Alt-Up>",       function() {move_selected_row_in_listbox(listbox, "-1")})
-  tkbind(listbox, "<Alt-Down>",     function() {move_selected_row_in_listbox(listbox, "+1")})
+  tkbind(listbox, "<Up>",           function() {move_selected_row_in_listbox(listbox, "-1")})
+  tkbind(listbox, "<Down>",         function() {move_selected_row_in_listbox(listbox, "+1")})
   tkbind(listbox, "<Control-Down>", function() {move_selected_row_in_listbox(listbox, "end")})
+  # tkbind(listbox, "<Alt-Up>",       function() {move_selected_row_in_listbox(listbox, "-1")})
+  # tkbind(listbox, "<Alt-Down>",     function() {move_selected_row_in_listbox(listbox, "+1")})
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
