@@ -94,7 +94,11 @@ biostat_env$use_relative_path <- TRUE
     updated_opts <-
         utils::modifyList(
             Rcmdr_opts,
-            list(plugins = plugins, console.output = console.output)
+            list(
+              plugins = plugins,
+              console.output = console.output,
+              sort.names = sort.names
+            )
         )
 
     if (!identical(Rcmdr_opts, updated_opts)) {
