@@ -62,7 +62,7 @@ set_biostat_mode <- function() {
   img <- purrr::map_chr(sibl, ~tcl_get_property(., "-image"))
   txt <- purrr::map_chr(sibl, ~tcl_get_property(., "-text"))
 
-  logo            <- sibl[img %in% c("::image::RlogoIcon", "::image::bs_r_logo_g")]
+  logo            <- sibl[str_detect(img, "(^::image::RlogoIcon$|^::image::bs_r_logo_)")]
   button_edit0    <- sibl[img == "::image::editIcon"]
   button_view0    <- sibl[img == "::image::viewIcon"]
   button_id_data  <- sibl[img %in% c("::image::dataIcon",  "::image::bs_dataset")]
