@@ -1357,20 +1357,6 @@ bs_mode_menu__settings <- function() {
   sort_names <- getRcmdr("sort.names")
 
   tkadd(menu_ap, "command",
-    label    = "Sort column names alphabetically in widgets",
-    compound = "left",
-    image    = if (sort_names) {"::image::bs_tick"} else {""},
-    command  =
-      if (sort_names) {
-        do_nothing
-      } else {
-        function() {
-          putRcmdr("sort.names", TRUE)
-          # options(Rcmdr = list(sort.names = TRUE))
-          command_dataset_refresh()
-        }})
-
-  tkadd(menu_ap, "command",
     label    = "Keep original column name order in widgets",
     compound = "left",
     image    = if (!sort_names) {"::image::bs_tick"} else {""},
@@ -1381,6 +1367,20 @@ bs_mode_menu__settings <- function() {
         function() {
           putRcmdr("sort.names", FALSE)
           # options(Rcmdr = list(sort.names = FALSE))
+          command_dataset_refresh()
+        }})
+
+  tkadd(menu_ap, "command",
+    label    = "Sort column names alphabetically in widgets",
+    compound = "left",
+    image    = if (sort_names) {"::image::bs_tick"} else {""},
+    command  =
+      if (sort_names) {
+        do_nothing
+      } else {
+        function() {
+          putRcmdr("sort.names", TRUE)
+          # options(Rcmdr = list(sort.names = TRUE))
           command_dataset_refresh()
         }})
 
