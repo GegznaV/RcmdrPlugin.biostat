@@ -1335,7 +1335,7 @@ bs_mode_menu__settings <- function() {
   tkadd(menu_p, "cascade",
     label    = "Appearance",
     compound = "left",
-    image    = "::image::bs_r",
+    image    = "::image::bs_r_logo_g",
     menu     = menu_ap)
 
   to_console <- is_console_output()
