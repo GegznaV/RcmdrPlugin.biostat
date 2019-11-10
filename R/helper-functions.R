@@ -40,10 +40,11 @@ get_active_ds <- function(fail = TRUE) {
 #' Create a vector of object names of certain class.
 #'
 #' @param class (character|`NULL`) A vector of object classes to return.
+#'        Value `NULL` disables class filter (all classes will be returned).
 #' @param envir An environment to look for the objects in.
 #'        Other kind of objects will be coerced to an environment.
 #'        The default value is parent frame.
-#' @param all.names (logical)
+#' @param hidden_names (logical)
 #'        If `TRUE`, all object names are returned.
 #'        If `FALSE`, names which begin with a `.` are omitted.
 #'
@@ -51,30 +52,56 @@ get_active_ds <- function(fail = TRUE) {
 #' @export
 #' @keywords internal
 list_objects_of_class <-
-  function(class = NULL, envir = parent.frame(), all.names = TRUE) {
+  function(class = NULL, envir = parent.frame(), hidden_names = TRUE) {
 
     checkmate::assert_character(class, null.ok = TRUE)
-    # force(envir)
-    if (is.null(envir)) {
-      return(character(0))
+    checkmate::assert_flag(hidden_names, null.ok = TRUE)
 
-    } else if (!is.environment(envir)) {
-      envir <- as.environment(envir)
+    all_variable_names <- names(envir)
+
+    if (is.null(all_variable_names) || length(all_variable_names) == 0) {
+      return(character(0))
     }
 
-    all_variable_names <- objects(envir, all.names = all.names)
+    if (!isTRUE(hidden_names)) {
+      # Remove hidden names
+      all_variable_names <- str_subset(all_variable_names, "^[^.]")
+    }
 
-    if (length(all_variable_names) == 0 || is.null(class)) {
+    if (is.null(class)) {
+      # Return obj. names of all classes
       return(all_variable_names)
 
     } else {
-      # Object names of class to return
-      mget(all_variable_names, envir = envir) %>%
-        purrr::keep(~inherits(.x, class)) %>%
-        names()
+      # Return obj. names of indicated classes only
+
+      if (is.data.frame(envir)) {
+        # For data frames
+        variable_names <-
+          envir %>%
+          dplyr::select({all_variable_names}) %>%
+          dplyr::select_if(~inherits(., class)) %>%
+          names()
+
+        return(variable_names)
+
+      } else {
+        # For envirenments, lists, etc.
+        envir <- as.environment(envir)
+        variable_names <-
+          all_variable_names %>%
+          mget(envir = envir) %>%
+          purrr::keep(~inherits(.x, class)) %>%
+          names()
+
+        return(variable_names)
+      }
     }
   }
 
+make_sorted <- function(vars) {
+  if (getRcmdr("sort.names")) {sort(vars)} else {vars}
+}
 
 
 #' All variable names in active dataset
@@ -83,28 +110,31 @@ list_objects_of_class <-
 #' @export
 variables_all <- function() {
   Variables()
-  # list_objects_of_class(envir = as.environment(get_active_ds()))
+  # list_objects_of_class(envir = get_active_ds(fail = FALSE))
 }
 #' Character variable names in active dataset
 #'
 #' @keywords internal
 #' @export
 variables_chr <- function() {
-  list_objects_of_class("character", envir = as.environment(get_active_ds()))
+  vars <- list_objects_of_class("character", envir = get_active_ds(fail = FALSE))
+  make_sorted(vars)
 }
 #' Logical variable names in active dataset
 #'
 #' @keywords internal
 #' @export
 variables_lgl <- function() {
-  list_objects_of_class("logical", envir = as.environment(get_active_ds()))
+  vars <- list_objects_of_class("logical", envir = get_active_ds(fail = FALSE))
+  make_sorted(vars)
 }
 #' True factor variable names in active dataset
 #'
 #' @keywords internal
 #' @export
 variables_fct <- function() {
-  list_objects_of_class("factor", envir = as.environment(get_active_ds()))
+  vars <- list_objects_of_class("factor", envir = get_active_ds(fail = FALSE))
+  make_sorted(vars)
 }
 #' Factor-like variable names in active dataset
 #'
@@ -112,13 +142,18 @@ variables_fct <- function() {
 #' @export
 variables_fct_like <- function() {
   Factors()
+  # list_objects_of_class(
+  #   c("factor", "character", "logical"),
+  #   envir = get_active_ds(fail = FALSE)
+  # )
 }
 #' Non-factor-like variable names in active dataset
 #'
 #' @keywords internal
 #' @export
 variables_non_fct_like <- function() {
-  setdiff(Variables(), Factors())
+  setdiff(variables_all(), Factors())
+  # setdiff(variables_all(), variables_fct_like())
 }
 
 #' Non-factor variable names in active dataset
@@ -126,7 +161,7 @@ variables_non_fct_like <- function() {
 #' @keywords internal
 #' @export
 variables_non_fct <- function() {
-  setdiff(Variables(), Factors())
+  setdiff(variables_all(), variables_fct())
 }
 
 
@@ -143,6 +178,10 @@ variables_fct_like_2_lvls <- function() {
 #' @export
 variables_num <- function() {
   Numeric()
+  # list_objects_of_class(
+  #   c("integer", "numeric"),
+  #   envir =  get_active_ds(fail = FALSE)
+  # )
 }
 
 #' Numeric variable names in active dataset
@@ -150,7 +189,8 @@ variables_num <- function() {
 #' @keywords internal
 #' @export
 variables_int <- function() {
-  list_objects_of_class("integer", envir = as.environment(get_active_ds()))
+  vars <- list_objects_of_class("integer", envir = get_active_ds(fail = FALSE))
+  make_sorted(vars)
 }
 
 #' Numeric variable names in active dataset
@@ -158,7 +198,7 @@ variables_int <- function() {
 #' @keywords internal
 #' @export
 variables_dbl <- function() {
-  setdiff(Numeric(), variables_int())
+  base::setdiff(Numeric(), variables_int())
 }
 
 #' @rdname Helper-functions
@@ -166,12 +206,12 @@ variables_dbl <- function() {
 #' @keywords internal
 variables_with_unique_values <- function() {
 
-  ds <- get(active_dataset(), envir = .GlobalEnv)
+  ds <- get_active_ds()
   not_duplicated_cols <- purrr::map_lgl(ds, ~!any(duplicated(.)))
-  (not_duplicated_cols[not_duplicated_cols == TRUE]) %>%
-    names() %>%
-    sort()
+  vars <- names(not_duplicated_cols[not_duplicated_cols == TRUE])
+  make_sorted(vars)
 }
+
 
 
 #' Numeric variable names in active dataset
@@ -179,8 +219,10 @@ variables_with_unique_values <- function() {
 #' @keywords internal
 #' @export
 variables_oth <- function() {
-  setdiff(Variables(),
-    c(Numeric(), variables_chr(), variables_lgl(), variables_fct()))
+  setdiff(
+    variables_all(),
+    c(variables_num(), variables_chr(), variables_lgl(), variables_fct())
+  )
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
