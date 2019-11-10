@@ -125,8 +125,26 @@ biostat_env$use_relative_path <- TRUE
             file = system.file("etc", file, package = package))
     }
 
+    bs_tkimage_create("::image::bs_r_logo_b"  , "icons/R-logo-b.png")
+    bs_tkimage_create("::image::bs_r_logo_br" , "icons/R-logo-br.png")
+    bs_tkimage_create("::image::bs_r_logo_bw" , "icons/R-logo-bw.png")
+    bs_tkimage_create("::image::bs_r_logo_c"  , "icons/R-logo-c.png")
     bs_tkimage_create("::image::bs_r_logo_g"  , "icons/R-logo-g.png")
+    bs_tkimage_create("::image::bs_r_logo_lg" , "icons/R-logo-lg.png")
+    bs_tkimage_create("::image::bs_r_logo_r"  , "icons/R-logo-r.png")
+    bs_tkimage_create("::image::bs_r_logo_v"  , "icons/R-logo-v.png")
+    bs_tkimage_create("::image::bs_r_logo_y"  , "icons/R-logo-y.png")
+
     bs_tkimage_create("::image::bs_r"         , "icons/r-logo-16x16.png")
+    bs_tkimage_create("::image::bs_r_blue"    , "icons/r-logo-16x16.png")
+    bs_tkimage_create("::image::bs_r_brown"   , "icons/r-logo-br-16x16.png")
+    bs_tkimage_create("::image::bs_r_bw"      , "icons/r-logo-bw-16x16.png")
+    bs_tkimage_create("::image::bs_r_cyan"    , "icons/r-logo-c-16x16.png")
+    bs_tkimage_create("::image::bs_r_green"   , "icons/r-logo-g-16x16.png")
+    bs_tkimage_create("::image::bs_r_lgreen"  , "icons/r-logo-lg-16x16.png")
+    bs_tkimage_create("::image::bs_r_red"     , "icons/r-logo-r-16x16.png")
+    bs_tkimage_create("::image::bs_r_violet"  , "icons/r-logo-v-16x16.png")
+    bs_tkimage_create("::image::bs_r_yellow"  , "icons/r-logo-y-16x16.png")
 
     bs_tkimage_create("::image::bs_dataset"   , "icons/list.png")
     bs_tkimage_create("::image::bs_model"     , "icons/model.png")
