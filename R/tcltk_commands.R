@@ -150,7 +150,7 @@ tclvalue_int <- function(x) {
 tclvalue_chr <- function(x, trim = TRUE, ...) {
   # FIXME: Check if this function works as expected
     if (inherits(x, "tclVar")) {x <- tclObj(x)}
-    rez <- as.character(x)
+    rez <- as.character(tclvalue(x))
     if (isTRUE(trim)) {rez <- trimws(rez, ...)}
     unname(rez)
 }
