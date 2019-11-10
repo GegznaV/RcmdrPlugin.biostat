@@ -128,54 +128,14 @@ tclvalue_lgl <- function(x) {
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# Sena versija:
-
-# #' @rdname Helper-functions
-# #' @keywords internal
-# #' @export
-#
-# tclvalue_int <- function(x) {
-#     x <- sapply(unlist(strsplit(tclvalue(x), " ")), as.integer)
-#     names(x) <- NULL
-#     x
-# }
-
-# Naujos versijos:
-
 #' @rdname Helper-functions
 #' @keywords internal
 #' @export
 tclvalue_int <- function(x) {
-    as.integer(tclvalue(x))
+    as.integer(as.character(x))
 }
 
-#' @rdname Helper-functions
-#' @keywords internal
-#' @export
-tclvalue_int_split <- function(x) {
-    x <- sapply(unlist(strsplit(tclvalue(x), " ")), as.integer)
-    names(x) <- NULL
-    x
-}
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-# Sena versija:
-
-# #' @param x Tcl/Tk object
-# #'
-# #' @rdname Helper-functions
-# #' @keywords internal
-# #' @export
-# #'
-# tclvalue_chr <- function(x) {
-#     sapply(unlist(strsplit(tclvalue(x), " ")), as.character)
-#     names(x) <- NULL
-#     x
-# }
-
-
-# Naujos versijos:
-
 
 #' @rdname Helper-functions
 #' @keywords internal
@@ -185,7 +145,8 @@ tclvalue_int_split <- function(x) {
 #' @param ... `tclvalue_chr()` passes these parameters to [base::trimws()].
 #' @md
 tclvalue_chr <- function(x, trim = TRUE, ...) {
-    rez <- as.character(tclvalue(x))
+  # FIXME: Check if this function works as expected
+    rez <- as.character(x)
     if (isTRUE(trim)) {rez <- trimws(rez, ...)}
     unname(rez)
 }
