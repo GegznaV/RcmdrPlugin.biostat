@@ -56,7 +56,7 @@ bs_listbox(parent, values = variables_all(), value = NULL,
 
 \method{get_size}{tkwin}(obj, ...)
 
-get_values_listbox(listbox)
+get_values_listbox(listbox, trim = FALSE)
 
 \method{get_values}{listbox}(obj, ...)
 
