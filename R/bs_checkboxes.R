@@ -219,9 +219,9 @@ get_values.bs_checkboxes <- function(obj, ..., simplify = TRUE, rm_names = simpl
 
     map_fun <-
         if (isTRUE(simplify)) {
-            map_lgl
+            purrr::map_lgl
         } else {
-            map
+            purrr::map
         }
 
     res <-
