@@ -685,20 +685,14 @@ bs_mode_menu__print <- function() {
   tkadd(menu_p, "command",
     label    = "Class of active dataset...",
     state    = activate_if_active_ds(),
-    # compound = "left",
-    # image    = "::image::viewIcon",
     command  = window_dataset_class)
 
   tkadd(menu_p, "command",
     label    = "Number of rows and columns",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = command_dataset_dim)
 
   tkadd(menu_p, "command",
-    label    = "Variable type summay", #  & dataset size
-    # compound = "left",
-    # image    = "::image::bs_locale",
+    label    = "Variable type summay",
     command  = summary_var_types)
 
   tkadd(menu_p, "command",
@@ -708,8 +702,6 @@ bs_mode_menu__print <- function() {
 
   tkadd(menu_p, "command",
     label    = "Glimpse: structure of dataset",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = command_glimpse)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -807,14 +799,10 @@ bs_mode_menu__summary  <- function() {
 
   tkadd(menu_p, "command",
     label    = "Summarize all variables (dfSummary)",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = window_summary_dfSummary)
 
   tkadd(menu_p, "command",
     label    = "Summarize all variables (Desc)",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = window_summary_desc_all)
 
   tkadd(menu_p, "separator")
@@ -822,16 +810,12 @@ bs_mode_menu__summary  <- function() {
   tkadd(menu_p, "command",
     # label    = "Summarize selected variables (Desc)...",
     label    = "Summarize single or pair of variables (Desc)...",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = window_summary_desc)
 
   tkadd(menu_p, "separator")
 
   tkadd(menu_p, "command",
     label    = "Summarize numeric variables",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     state    = set_menu_state(numericP()),
     command  = window_summary_descr
   )
@@ -848,8 +832,6 @@ bs_mode_menu__summary  <- function() {
 
   tkadd(menu_p, "command",
     label    = "Frequency & multi-way tables...",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = window_summary_count)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -869,8 +851,6 @@ bs_mode_menu__rows <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_p, "command",
     label    = "Arrange: sort rows...",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = window_rows_arrange)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -878,41 +858,29 @@ bs_mode_menu__rows <- function() {
 
   tkadd(menu_p, "cascade",
     label    = "Row names and row numbers",
-    # compound = "left",
-    # image    = "::image::bs_open_file",
     menu     = menu_n)
 
   tkadd(menu_n, "command",
     label    = "Check if table has row names",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = command_rows_has_rownames)
 
   tkadd(menu_n, "command",
     label    = "Print row names (or row indices)",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = command_rownames)
 
   tkadd(menu_n, "separator")
 
   tkadd(menu_n, "command",
     label    = "Move row names to column...",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = window_rows_rownames_to_col)
 
   tkadd(menu_n, "command",
     label    = "Move column (with unique values) to row names...",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     state = set_menu_state(variables_with_unique_values_P()),
     command  = window_rows_col_to_rownames)
 
   tkadd(menu_n, "command",
     label    = "Create column with row numbers...",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = window_rows_rowid_to_col)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -920,40 +888,28 @@ bs_mode_menu__rows <- function() {
 
   tkadd(menu_p, "cascade",
     label    = "Select or remove rows",
-    # compound = "left",
-    # image    = "::image::bs_open_file",
     menu     = menu_rm)
 
   tkadd(menu_rm, "command",
     label    = "Filter: select rows that match conditions...",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = window_rows_filter0)
 
   tkadd(menu_rm, "command",
     label    = "Slice: select/remove rows by row index...",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = window_rows_slice)
 
   tkadd(menu_rm, "separator")
 
   tkadd(menu_rm, "command",
     label    = "Remove duplicated rows...",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = window_rows_rm_duplicated)
 
   tkadd(menu_rm, "command",
     label    = "Remove empty rows",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = command_rows_rm_empty_rows)
 
   tkadd(menu_rm, "command",
     label    = "Remove rows with missing values...",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = window_rows_rm_with_na)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -973,33 +929,23 @@ bs_mode_menu__variables <- function() {
 
   tkadd(menu_p, "cascade",
     label    = "Variable names",
-    # compound = "left",
-    # image    = "::image::bs_open_file",
     menu     = menu_s)
 
   tkadd(menu_s, "command",
     label    = "Print variable (column) names",
-    # compound = "left",
-    # image    = "::image::bs_open_wd",
     command  = command_colnames)
 
   tkadd(menu_s, "command",
     label    = "Clean variable names (into snake case)",
-    # compound = "left",
-    # image    = "::image::bs_open_wd",
     command  = command_clean_names)
 
   tkadd(menu_s, "command",
     label    = "Rename variables...",
-    # compound = "left",
-    # image    = "::image::bs_open_wd",
     command  = window_variable_rename)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_p, "command",
     label    = "Select/Remove variables...",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = window_variable_select0)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1007,26 +953,18 @@ bs_mode_menu__variables <- function() {
 
   tkadd(menu_p, "cascade",
     label    = "Compute, recode, convert",
-    # compound = "left",
-    # image    = "::image::bs_workspace",
     menu     = menu_j)
 
   tkadd(menu_j, "command",
     label    = "Mutate: compute a variable...",
-    # compound = "left",
-    # image    = "::image::bs_folder",
     command  = window_variable_mutate0)
 
   tkadd(menu_j, "command",
     label    = "Recode variable values...",
-    # compound = "left",
-    # image    = "::image::bs_copy",
     command  = window_variable_recode0)
 
   tkadd(menu_j, "command",
     label    = "Convert variable types manually...",
-    # compound = "left",
-    # image    = "::image::bs_rename",
     command  = window_variable_convert_type)
 
 
@@ -1035,32 +973,22 @@ bs_mode_menu__variables <- function() {
 
   tkadd(menu_p, "cascade",
     label    = "Tidy, reshape",
-    # compound = "left",
-    # image    = "::image::bs_folder",
     menu     = menu_wd)
 
   tkadd(menu_wd, "command",
     label    = "Gather columns into long format dataset...",
-    # compound = "left",
-    # image    = "::image::bs_path_to_wd",
     command  = window_variable_gather)
 
   # tkadd(menu_wd, "command",
   #       label    = "Spread columns into wide format dataset...",
-  #       # compound = "left",
-  #       # image    = "::image::bs_open_wd",
   #       command  = function_not_implemented)
   #
   # tkadd(menu_wd, "command",
   #       label    = "Separate one value into multiple columns...",
-  #       # compound = "left",
-  #       # image    = "::image::bs_set_wd",
   #       command  = function_not_implemented)
   #
   # tkadd(menu_wd, "command",
   #       label    = "Unite values into one column...",
-  #       # compound = "left",
-  #       # image    = "::image::bs_set_wd",
   #       command  = function_not_implemented)
   #
 
@@ -1072,14 +1000,10 @@ bs_mode_menu__variables <- function() {
 
   tkadd(menu_p, "cascade",
     label    = "Character (text) variables",
-    # compound = "left",
-    # image    = "::image::bs_workspace",
     menu     = menu_chr)
 
   tkadd(menu_chr, "command",
     label    = "Convert all text variables into factors",
-    # compound = "left",
-    # image    = "::image::bs_folder",
     state = set_menu_state(characterP()),
     command  = command_all_chr_to_fctr)
 
@@ -1088,21 +1012,15 @@ bs_mode_menu__variables <- function() {
 
   tkadd(menu_p, "cascade",
     label    = "Factors (categorical variables)",
-    # compound = "left",
-    # image    = "::image::bs_workspace",
     menu     = menu_fct)
 
   tkadd(menu_fct, "command",
     label    = "Drop unused levels...",
-    # compound = "left",
-    # image    = "::image::bs_folder",
-    state = set_menu_state(factors_strict_P()),
+    state    = set_menu_state(factors_strict_P()),
     command  = window_factor_lvls_drop)
 
   tkadd(menu_fct, "command",
     label    = "Reorder levels by hand...",
-    # compound = "left",
-    # image    = "::image::bs_folder",
     state = set_menu_state(factors_strict_P()),
     command  = window_fct_lvls_reorder_manual)
 
@@ -1111,21 +1029,15 @@ bs_mode_menu__variables <- function() {
 
   tkadd(menu_p, "cascade",
     label    = "Numeric variables",
-    # compound = "left",
-    # image    = "::image::bs_workspace",
     menu     = menu_num)
 
   tkadd(menu_num, "command",
     label    = "Logarithmic transformation...",
-    # compound = "left",
-    # image    = "::image::bs_folder",
     state = set_menu_state(numericP()),
     command  = window_num_transform_log)
 
   tkadd(menu_num, "command",
     label    = "Z transformation / Standardization...",
-    # compound = "left",
-    # image    = "::image::bs_folder",
     state = set_menu_state(numericP()),
     command  = window_num_transform_z)
 
@@ -1223,8 +1135,6 @@ bs_mode_menu__analyze <- function() {
 
   tkadd(menu_p, "command",
     label      = "Normality test (univariate)...",
-    # compound = "left",
-    # image    = "::image::bs_open_file",
     state      = set_menu_state(numericP()),
     command    = window_test_normality)
 
@@ -1419,6 +1329,60 @@ bs_mode_menu__settings <- function() {
     compound = "left",
     image    = "::image::bs_locale",
     command  = window_locale_set)
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  menu_ap  <- tk2menu(menu_p, tearoff = FALSE)
+
+  tkadd(menu_p, "cascade",
+    label    = "Appearance",
+    compound = "left",
+    image    = "::image::bs_r",
+    menu     = menu_ap)
+
+  to_console <- is_console_output()
+
+  tkadd(menu_ap, "command",
+    label    = "Output to R console (1 window mode)",
+    compound = "left",
+    image    = if (to_console) {"::image::bs_tick"} else {""},
+    command  = if (to_console) {do_nothing} else {command_rcmdr_use_1_window})
+
+  tkadd(menu_ap, "command",
+    label    = "Output to R Commander (3 windows mode)",
+    compound = "left",
+    image    = if (!to_console) {"::image::bs_tick"} else {""},
+    command  = if (!to_console) {do_nothing} else {command_rcmdr_use_3_windows})
+
+  tkadd(menu_ap, "separator")
+
+  sort_names <- getRcmdr("sort.names")
+
+  tkadd(menu_ap, "command",
+    label    = "Sort names alphabetically",
+    compound = "left",
+    image    = if (sort_names) {"::image::bs_tick"} else {""},
+    command  =
+      if (sort_names) {
+        do_nothing
+      } else {
+        function() {
+          putRcmdr("sort.names", FALSE)
+          command_dataset_refresh()
+        }})
+
+  tkadd(menu_ap, "command",
+    label    = "Keep original order",
+    compound = "left",
+    image    = if (!sort_names) {"::image::bs_tick"} else {""},
+    command  =
+      if (!sort_names) {
+        do_nothing
+      } else {
+        function() {
+          putRcmdr("sort.names", FALSE)
+          command_dataset_refresh()
+        }})
+
+  # sort.names
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_s  <- tk2menu(menu_p, tearoff = FALSE)
 
