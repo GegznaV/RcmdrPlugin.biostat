@@ -5,16 +5,17 @@
 \title{List objects of certain class.}
 \usage{
 list_objects_of_class(class = NULL, envir = parent.frame(),
-  all.names = TRUE)
+  hidden_names = TRUE)
 }
 \arguments{
-\item{class}{(character|`NULL`) A vector of object classes to return.}
+\item{class}{(character|`NULL`) A vector of object classes to return.
+Value `NULL` disables class filter (all classes will be returned).}
 
 \item{envir}{An environment to look for the objects in.
 Other kind of objects will be coerced to an environment.
 The default value is parent frame.}
 
-\item{all.names}{(logical)
+\item{hidden_names}{(logical)
 If `TRUE`, all object names are returned.
 If `FALSE`, names which begin with a `.` are omitted.}
 }
