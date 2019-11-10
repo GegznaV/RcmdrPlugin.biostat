@@ -125,10 +125,10 @@ get_ds_info_2 <- function(str) {
 
     if (is.data.frame(ds)) {
         n_variables = ncol(ds)
-        n_numeric   = sum(map_int(ds, is.numeric))
-        n_factor    = sum(map_int(ds, is.factor))
-        n_logical   = sum(map_int(ds, is.logical))
-        n_character = sum(map_int(ds, is.character))
+        n_numeric   = sum(purrr::map_int(ds, is.numeric))
+        n_factor    = sum(purrr::map_int(ds, is.factor))
+        n_logical   = sum(purrr::map_int(ds, is.logical))
+        n_character = sum(purrr::map_int(ds, is.character))
         n_other     = n_variables - n_character - n_logical - n_factor - n_numeric
 
 
@@ -137,7 +137,7 @@ get_ds_info_2 <- function(str) {
             n_other   = n_variables = NA
     }
 
-    tibble(
+    tibble::tibble(
         size = ds_size,
         is_data_frame = is.data.frame(ds),
         # n_vars = n_variables,
@@ -170,12 +170,12 @@ get_info_about_datasets <- function(package = NULL) {
 
     res <-
         package %>%
-        purrr::map_dfr(~as_tibble(data(package = .)$results)) %>%
+        purrr::map_dfr(~tibble::as_tibble(data(package = .)$results)) %>%
         dplyr::select(-LibPath) %>%
         dplyr::mutate(
-            Item = stringr::str_trim(str_replace(Item, " .*$", "")), # removes unnecessary information
-            pkg_ds = str_c(Package, "::", Item),
-            code_to_load = str_glue('data({Item}, package = "{Package}")'),
+            Item = stringr::str_trim(stringr::str_replace(Item, " .*$", "")), # removes unnecessary information
+            pkg_ds = stringr::str_c(Package, "::", Item),
+            code_to_load = stringr::str_glue('data({Item}, package = "{Package}")'),
             info = purrr::map(pkg_ds, ~purrr::safely(get_ds_info_2)(.)$result)
         ) %>%
         tidyr::unnest(info) %>%
