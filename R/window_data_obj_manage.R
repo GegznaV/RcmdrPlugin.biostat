@@ -12,7 +12,6 @@
 #' @keywords internal
 
 window_data_obj_manage <- function() {
-                                  "matrix", "list", "table"))
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Functions --------------------------------------------------------------
   get_list_of_objs <- function() {
@@ -34,9 +33,8 @@ window_data_obj_manage <- function() {
       "Function"               = get_obj_names2(include_class = "function"),
       "Other"                  = get_obj_names(
         all.names = hidden,
-        exclude_class = c("data.frame", "ggplot", "gg", "function",
-          "lm", "glm", "htest",
-          "matrix", "list", "table"))
+        exclude_class = c("data.frame", "ggplot", "gg", "function", "lm", "glm",
+          "htest", "matrix", "list", "table"))
     )
   }
 
