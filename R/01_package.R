@@ -234,6 +234,9 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_cols_recode",  "icons/16/bs_cols_recode.png")
     bs_tkimage_create("::image::bs_cols_convert", "icons/16/bs_cols_convert.png")
     bs_tkimage_create("::image::bs_data_reshape", "icons/16/bs_data_reshape.png")
+    bs_tkimage_create("::image::bs_data_chr",     "icons/16/bs_data_chr.png")
+    bs_tkimage_create("::image::bs_data_fct",     "icons/16/bs_data_fct.png")
+    bs_tkimage_create("::image::bs_data_num",     "icons/16/bs_data_num.png")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     bs_tkimage_create("::image::bs_preview",    "icons/16/document-preview.png")
     bs_tkimage_create("::image::bs_md",         "icons/16/md.png")
