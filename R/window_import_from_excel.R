@@ -369,7 +369,7 @@ window_import_from_excel <- function() {
         #     # { } prevents from a bug
         #     # which appears when an excel workbook
         #     # contains only one sheet and the name
-        #     # of that sheet contains a speace, e.g., "a b".
+        #     # of that sheet contains a space, e.g., "a b".
         #     worksheets <- str_c("{", worksheets, "}")
         # }
 
