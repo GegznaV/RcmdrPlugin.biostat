@@ -1,6 +1,10 @@
 # TODO:
 # -- get_system_info() code for other OS'es is needed
 
+# FIXME: check if these functions are not (partial) duplicates:
+#        get_obj_names(), list_objects_of_class()
+
+
 #' @name Helper-functions
 #' @title Helper functions for RcmdrPlugin.biostat.
 #' @description Helper functions for package \pkg{RcmdrPlugin.biostat}.
