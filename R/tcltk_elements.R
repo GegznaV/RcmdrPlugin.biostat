@@ -65,15 +65,15 @@ labeled_frame <- function(parent, label = NULL, ...) {
 tk_title <- function(parent = top, text = "", pady = c(5, 9),
                      font = tkfont.create(weight = "bold", size = 9),
                      fg = Rcmdr::getRcmdr("title.color"),
+                     add_to_grid = TRUE,
                      ...) {
-  tkgrid(
-    tk_label(
-      parent,
-      text = gettext_bs(text),
-      font = font,
-      fg = fg),
-    pady = pady,
-    ...)
+
+  lab <- tk_label(parent, text = gettext_bs(text), font = font, fg = fg)
+  if (add_to_grid) {
+    tkgrid(lab, pady = pady, ...)
+  }
+
+  lab
 }
 
 # Commands -------------------------------------------------------------------
