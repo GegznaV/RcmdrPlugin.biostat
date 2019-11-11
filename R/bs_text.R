@@ -79,8 +79,8 @@ set_values.tk2text <- function(obj, values, ..., add = FALSE) {
     }
 }
 
-get_values.tk2text <- function(obj, ...) {
-    tclvalue_chr(tkget(obj, "1.0", "end"))
+get_values.tk2text <- function(obj, ..., trim = FALSE) {
+    tclvalue_chr(tkget(obj, "1.0", "end"), trim = trim)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
