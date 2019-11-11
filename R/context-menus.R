@@ -194,7 +194,11 @@ right_click_menu_text <- function(tcl_widget, undo = TRUE, menu_rm = FALSE) {
       compound = "left",
       command = onClear)
 
-    tkadd(contextMenu, "command", label = gettext_bs("Select all"), command = onSelectAll)
+    tkadd(contextMenu, "command",
+      label = gettext_bs("Select all"),
+      image = "::image::bs_select_all",
+      compound = "left",
+      command = onSelectAll)
 
     # tkadd(contextMenu, "separator")
     # tkadd(contextMenu, "command", label = gettext_bs("Find..."),    command = onFind)
