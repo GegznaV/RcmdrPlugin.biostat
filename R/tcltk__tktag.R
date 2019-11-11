@@ -1,8 +1,8 @@
 # ~ Tcl/Tk text tags ---------------------------------------------------------
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#' @name add-tk-tag
-#' @title Add tags to Tk text widget.
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @name tktag_add
+#' @title Add tags to Tk text widgets.
 #' @description
 #' Add TK text tags to Tk text widgets:
 #' `tktag_add()` adds tags to the places of text that match a pattern.
@@ -20,12 +20,9 @@
 #' @seealso
 #' [tcltk::tktag.add()]
 #'
-#' @md
-NULL
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname add-tk-tag
 #' @export
+#' @md
+
 tktag_add <- function(obj, tag, pattern, row_ind = NULL, all = TRUE) {
 
   str <- stringr::str_split(get_values(obj), "\n")[[1]]
@@ -69,7 +66,7 @@ tktag_add <- function(obj, tag, pattern, row_ind = NULL, all = TRUE) {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname add-tk-tag
+#' @rdname tktag_add
 #' @export
 tktag_add_first <- function(obj, pattern, tag, row_ind = NULL) {
 
@@ -78,7 +75,7 @@ tktag_add_first <- function(obj, pattern, tag, row_ind = NULL) {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @name add-tk-tag
+#' @name tktag_add
 #' @export
 tktag_add_row  <- function(obj, pattern, tag) {
 
