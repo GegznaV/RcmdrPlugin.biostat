@@ -1101,12 +1101,30 @@ window_import_from_excel <- function() {
     menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
 
     tkadd(menu_main, "command",
-      label    = "Function `fread()`",
-      command  = open_help("fread", package = "data.table"))
+      label    = "Specify cells for reading",
+      command  = open_help("cell-specification", package = "readxl"))
 
     tkadd(menu_main, "command",
-      label    = "Function `structure()`",
-      command  = open_help("structure", package = "base"))
+      label    = "Function `read_excel()`",
+      command  = open_help("read_excel", package = "readxl"))
+
+    tkadd(menu_main, "command",
+      label    = "Function `excel_sheets()`",
+      command  = open_help("excel_sheets", package = "readxl"))
+
+    tkadd(menu_main, "separator")
+
+    tkadd(menu_main, "command",
+      label    = "Function `mutate_if()`",
+      command  = open_help("mutate_if", package = "dplyr"))
+
+    tkadd(menu_main, "command",
+      label    = "Function `as_factor()`",
+      command  = open_help("as_factor", package = "forcats"))
+
+    tkadd(menu_main, "command",
+      label    = "Function `is.character()`",
+      command  = open_help("is.character", package = "base"))
 
     tkpopup(menu_main,
       tkwinfo("pointerx", top),
@@ -1118,7 +1136,7 @@ window_import_from_excel <- function() {
   # Help topic
   ok_cancel_help(
     close_on_ok = TRUE,
-    helpSubject = "read_excel", helpPackage = "readxl",
+    on_help = help_menu,
     reset = "window_import_from_excel()",
     apply = "window_import_from_excel()",
     after_apply_success_fun = update_name_entry_number,
