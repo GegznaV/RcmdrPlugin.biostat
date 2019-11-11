@@ -1838,27 +1838,30 @@ is_rstudio <- function() {
 
 #' @name always_on_top
 #'
-#' @title Always on Top
+#' @title Always on Top.
 #'
+#' @description
 #' Set (enable/disable) or get "always on top" mode.
 #' The "always on top" mode puts Tcl/Tk window in front of windows of the other programs.
 #' Functions that set (enable/disable) the mode:
 #' \itemize{
-#'   \item \code{set_always_on_top()}- for any Tcl/Tk window;
-#'   \item \code{rcmdr_set_always_on_top()}- for any R Commander window.
+#'   \item `set_always_on_top()` -- for any Tcl/Tk window;
+#'   \item `rcmdr_set_always_on_top()` -- for any R Commander window.
 #'  }
 #' Functions that get current mode:
 #' \itemize{
-#'   \item \code{get_always_on_top()}- for any Tcl/Tk window;
-#'   \item \code{rcmdr_get_always_on_top()}- for any R Commander window.
+#'   \item `get_always_on_top()` -- for any Tcl/Tk window;
+#'   \item `rcmdr_get_always_on_top()` -- for any R Commander window.
 #'  }
 #' @param obj Tcl/Tk window object.
-#' @param flag (logical) Flag to enable (if \code{TRUE}) or disable
-#'        (if \code{FALSE}) "always on top" mode.
+#' @param flag (logical) Flag to enable (if `TRUE`) or disable(if `FALSE`)
+#'        "always on top" mode.
 #'
-#' @return The "get" functions return logical value that indicates if "always
-#' on top" mode is enabled.
+#' @return
+#' The "get" functions return logical value that indicates if "always on top"
+#' mode is enabled.
 #'
+#' @md
 #' @export
 set_always_on_top <- function(obj, flag = TRUE) {
   tcl("wm", "attributes", obj, "-topmost", flag)
@@ -1882,10 +1885,9 @@ rcmdr_get_always_on_top <- function(flag = TRUE) {
   get_always_on_top(CommanderWindow())
 }
 
-#' @rdname Helper-functions
+#' @rdname always_on_top
 #' @export
-#' @keywords internal
-# Toggle "always on top" state or Rcmdr
+#' @description `toggle_always_on_top()` toggles "always on top" state for Rcmdr.
 toggle_always_on_top <- function() {
   if (isTRUE(rcmdr_get_always_on_top())) {
     rcmdr_set_always_on_top(FALSE)
@@ -1895,6 +1897,7 @@ toggle_always_on_top <- function() {
   }
 }
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal

@@ -6,20 +6,8 @@
 \alias{rcmdr_set_always_on_top}
 \alias{get_always_on_top}
 \alias{rcmdr_get_always_on_top}
-\title{Always on Top
-
-Set (enable/disable) or get "always on top" mode.
-The "always on top" mode puts Tcl/Tk window in front of windows of the other programs.
-Functions that set (enable/disable) the mode:
-\itemize{
-  \item \code{set_always_on_top()}- for any Tcl/Tk window;
-  \item \code{rcmdr_set_always_on_top()}- for any R Commander window.
- }
-Functions that get current mode:
-\itemize{
-  \item \code{get_always_on_top()}- for any Tcl/Tk window;
-  \item \code{rcmdr_get_always_on_top()}- for any R Commander window.
- }}
+\alias{toggle_always_on_top}
+\title{Always on Top.}
 \usage{
 set_always_on_top(obj, flag = TRUE)
 
@@ -28,30 +16,32 @@ rcmdr_set_always_on_top(flag = TRUE)
 get_always_on_top(obj)
 
 rcmdr_get_always_on_top(flag = TRUE)
+
+toggle_always_on_top()
 }
 \arguments{
 \item{obj}{Tcl/Tk window object.}
 
-\item{flag}{(logical) Flag to enable (if \code{TRUE}) or disable
-(if \code{FALSE}) "always on top" mode.}
+\item{flag}{(logical) Flag to enable (if \code{TRUE}) or disable(if \code{FALSE})
+"always on top" mode.}
 }
 \value{
-The "get" functions return logical value that indicates if "always
-on top" mode is enabled.
+The "get" functions return logical value that indicates if "always on top"
+mode is enabled.
 }
 \description{
-Always on Top
-
 Set (enable/disable) or get "always on top" mode.
 The "always on top" mode puts Tcl/Tk window in front of windows of the other programs.
 Functions that set (enable/disable) the mode:
 \itemize{
-  \item \code{set_always_on_top()}- for any Tcl/Tk window;
-  \item \code{rcmdr_set_always_on_top()}- for any R Commander window.
- }
+\item \code{set_always_on_top()} -- for any Tcl/Tk window;
+\item \code{rcmdr_set_always_on_top()} -- for any R Commander window.
+}
 Functions that get current mode:
 \itemize{
-  \item \code{get_always_on_top()}- for any Tcl/Tk window;
-  \item \code{rcmdr_get_always_on_top()}- for any R Commander window.
- }
+\item \code{get_always_on_top()} -- for any Tcl/Tk window;
+\item \code{rcmdr_get_always_on_top()} -- for any R Commander window.
+}
+
+`toggle_always_on_top()` toggles "always on top" state for Rcmdr.
 }
