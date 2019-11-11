@@ -1,3 +1,6 @@
+# FIXME: Rename the main function and, possibly, some arguments as "tcl_widget"
+#        Create neming convention for Tk widgets ("tcl_widget")
+
 # right-click context menus
 right_click_menu_text <- function(tcl_widget, undo = TRUE, menu_rm = FALSE) {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
