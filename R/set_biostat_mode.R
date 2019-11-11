@@ -385,10 +385,10 @@ set_biostat_mode <- function() {
   tkconfigure(lb3, cursor = "hand2")
   tkconfigure(lb4, cursor = "hand2")
 
-  tip(lb1) <- "Open button set: \nData Management"
-  tip(lb2) <- "Open button set: \nAnalysis"
-  tip(lb3) <- "Open button set: \nPlots"
-  tip(lb4) <- "Open button set: \nTools and Settings"
+  tip(lb1) <- "Show buttons for\ndata management"
+  tip(lb2) <- "Show buttons for\nanalysis"
+  tip(lb3) <- "Show buttons for\nplots management"
+  tip(lb4) <- "Show buttons for\ntools and settings"
 
   tkbind(lb1, "<Enter>", function() tkconfigure(lb1, image = "::image::dot-gw-4"))
   tkbind(lb1, "<Leave>", function() tkconfigure(lb1, image = "::image::dot-green"))
@@ -606,54 +606,53 @@ bs_mode_menu__export <- function() {
   top <- CommanderWindow()
 
   menu_e <- tk2menu(tk2menu(top), tearoff = FALSE)
-  menu_c <- tk2menu(menu_e, tearoff = FALSE)
-  menu_f <- tk2menu(menu_e, tearoff = FALSE)
 
+  menu_to_file <- tk2menu(menu_e, tearoff = FALSE)
 
   tkadd(menu_e, "cascade",
     label    = "Export to file",
     compound = "left",
     image    = "::image::bs_open_file",
-    menu     = menu_f)
+    menu     = menu_to_file)
 
-
-  tkadd(menu_f, "command",
+  tkadd(menu_to_file, "command",
     label    = "Export to text file (.txt, .csv)...",
     compound = "left",
     image    = "::image::bs_text",
     command  = window_export_to_text)
 
-  # tkadd(menu_f, "separator")
+  # tkadd(menu_to_file, "separator")
 
-  tkadd(menu_f, "command",
+  tkadd(menu_to_file, "command",
     label    = "Export to Excel file (.xlsx)...",
     compound = "left",
     image    = "::image::bs_excel",
     command = window_export_to_excel)
 
-  # tkadd(menu_f, "separator")
+  # tkadd(menu_to_file, "separator")
 
-  tkadd(menu_f, "command",
+  tkadd(menu_to_file, "command",
     label    = "Export to Rds file (.rds)...",
     compound = "left",
     image    = "::image::bs_r_lblue",
     command  = window_export_to_rds)
 
-  tkadd(menu_f, "command",
+  tkadd(menu_to_file, "command",
     label    = "Export to R-data file (.RData)...",
     compound = "left",
     image    = "::image::bs_r_brown",
     command  = window_export_to_rdata)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  menu_clipb <- tk2menu(menu_e, tearoff = FALSE)
 
   tkadd(menu_e, "cascade",
     label    = "Export to clipboard",
     compound = "left",
     image    = "::image::bs_copy",
-    menu     = menu_c)
+    menu     = menu_clipb)
 
-  tkadd(menu_c, "command",
+  tkadd(menu_clipb, "command",
     label    = "as Tab delimited values (tsv)",
     compound = "left",
     image    = "::image::bs_copy",
@@ -661,7 +660,7 @@ bs_mode_menu__export <- function() {
       .ds <- active_dataset_0()
       export_to_clipboard(.ds, sep = "\t")
     })
-  tkadd(menu_c, "command",
+  tkadd(menu_clipb, "command",
     label    = "as Tab delimited values (European tsv)",
     compound = "left",
     image    = "::image::bs_copy",
@@ -670,7 +669,7 @@ bs_mode_menu__export <- function() {
       export_to_clipboard(.ds, sep = "\t", dec = ",")
     })
 
-  tkadd(menu_c, "command",
+  tkadd(menu_clipb, "command",
     label    = "as Comma separated values (csv)",
     compound = "left",
     image    = "::image::bs_copy",
@@ -679,7 +678,7 @@ bs_mode_menu__export <- function() {
       export_to_clipboard(.ds, sep = ",")
     })
 
-  tkadd(menu_c, "command",
+  tkadd(menu_clipb, "command",
     label    = "as Comma separated values (European csv)",
     compound = "left",
     image    = "::image::bs_copy",
@@ -688,13 +687,61 @@ bs_mode_menu__export <- function() {
       export_to_clipboard(.ds, sep = ";", dec = ",")
     })
 
-  # tkadd(menu_e, "separator")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  tkadd(menu_e, "command",
+  menu_to_console <- tk2menu(menu_e, tearoff = FALSE)
+
+  tkadd(menu_e, "cascade",
+    label    = "Print to R console",
+    compound = "left",
+    image    = "::image::bs_r_lgreen",
+    menu     = menu_to_console)
+
+  tkadd(menu_to_console, "command",
     label    = "Print as R structure",
     compound = "left",
     image    = "::image::bs_r_lgreen",
     command  = to_r_structure)
+
+  menu_md <- tk2menu(menu_e, tearoff = FALSE)
+
+  tkadd(menu_to_console, "cascade",
+    label    = "Print as Markdown table ",
+    compound = "left",
+    image    = "::image::bs_md",
+    menu     = menu_md)
+
+  tkadd(menu_md, "command",
+    label = "Engine: kable",
+    command = window_dataset_print_as_kable)
+
+  tkadd(menu_md, "command",
+    label = "Engine: pander",
+    command = window_dataset_print_as_md)
+
+  # tkadd(menu_e, "separator")
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  menu_ds <- tk2menu(menu_e, tearoff = FALSE)
+
+  tkadd(menu_to_console, "cascade",
+    label    = "Print as dataset",
+    compound = "left",
+    image    = "::image::bs_print_as_df",
+    menu     = menu_ds)
+
+  tkadd(menu_ds, "command",
+    label   = "as 'data.frame'",
+    command = command_dataset_print_as_df)
+
+  tkadd(menu_ds, "command",
+    label   = "as 'data.table'",
+    command = command_dataset_print_as_dt)
+
+  tkadd(menu_ds, "command",
+    label   = "as 'tibble'",
+    command = command_dataset_print_as_tibble)
+
+
+
 
   # tkadd(menu_e, "separator")
   #
@@ -747,6 +794,8 @@ bs_mode_menu__print <- function() {
   tkadd(menu_p, "command",
     label    = "Screen missing data...",
     state    = activate_if_active_ds(),
+    compound = "left",
+    image    = "::image::bs_na_red",
     command  = window_summary_missings)
 
   tkadd(menu_p, "command",
@@ -754,6 +803,10 @@ bs_mode_menu__print <- function() {
     compound = "left",
     image    = "::image::bs_glimpse",
     command  = command_glimpse)
+
+  tkadd(menu_p, "command",
+    label   = "Print top and bottom rows",
+    command = summary_head_tail)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_p, "separator")
@@ -780,54 +833,7 @@ bs_mode_menu__print <- function() {
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  tkadd(menu_p, "separator")
-
-  menu_md <- tk2menu(menu_p, tearoff = FALSE)
-
-  tkadd(menu_p, "cascade",
-    label    = "Print as Markdown table ",
-    compound = "left",
-    image    = "::image::bs_md",
-    menu     = menu_md)
-
-  tkadd(menu_md, "command",
-    label = "Engine: kable",
-    command = window_dataset_print_as_kable)
-
-  tkadd(menu_md, "command",
-    label = "Engine: pander",
-    command = window_dataset_print_as_md)
-
   # tkadd(menu_p, "separator")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  menu_ds <- tk2menu(menu_p, tearoff = FALSE)
-
-  tkadd(menu_p, "cascade",
-    label    = "Print as dataset",
-    # compound = "left",
-    # image    = "::image::bs_open_file",
-    menu     = menu_ds)
-
-  tkadd(menu_ds, "command",
-    label   = "as 'data.frame'",
-    command = command_dataset_print_as_df)
-
-  tkadd(menu_ds, "command",
-    label   = "as 'data.table'",
-    command = command_dataset_print_as_dt)
-
-  tkadd(menu_ds, "command",
-    label   = "as 'tibble'",
-    command = command_dataset_print_as_tibble)
-
-  # tkadd(menu_ds, "separator")
-
-  tkadd(menu_p, "command",
-    label   = "Print top and bottom rows",
-    command = summary_head_tail)
-
-  # tkadd(menu_p, "separator")
-
 
   tkpopup(menu_p,
     tkwinfo("pointerx", top),
@@ -861,12 +867,16 @@ bs_mode_menu__summary  <- function() {
   tkadd(menu_p, "command",
     # label    = "Summarize selected variables (Desc)...",
     label    = "Summarize single or pair of variables (Desc)...",
+    compound = "left",
+    image    = "::image::bs_desc",
     command  = window_summary_desc)
 
   tkadd(menu_p, "separator")
 
   tkadd(menu_p, "command",
     label    = "Summarize numeric variables",
+    compound = "left",
+    image    = "::image::bs_data_num",
     state    = set_menu_state(numericP()),
     command  = window_summary_descr
   )
@@ -883,6 +893,8 @@ bs_mode_menu__summary  <- function() {
 
   tkadd(menu_p, "command",
     label    = "Frequency & multi-way tables...",
+    compound = "left",
+    image    = "::image::bs_data_fct",
     command  = window_summary_count)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -967,10 +979,14 @@ bs_mode_menu__rows <- function() {
 
   tkadd(menu_rm, "command",
     label    = "Remove empty rows",
+    compound = "left",
+    image    = "::image::bs_na_blue",
     command  = command_rows_rm_empty_rows)
 
   tkadd(menu_rm, "command",
     label    = "Remove rows with missing values...",
+    compound = "left",
+    image    = "::image::bs_na_red",
     command  = window_rows_rm_with_na)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
