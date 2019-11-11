@@ -1549,7 +1549,7 @@ window_import_from_text <- function() {
   tkgrid.configure(f3_but_locale,       padx = c(0, 10))
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Help menus -------------------------------------------------------------
+  # Help menus -------------------------------------------------------------
   help_menu <- function() {
 
     menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
