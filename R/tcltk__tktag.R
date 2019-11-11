@@ -1,7 +1,7 @@
 # ~ Tcl/Tk text tags ---------------------------------------------------------
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#' @name add-tag
+#' @name add-tk-tag
 #' @title Add tags to Tk text widget.
 #' @description
 #' Add TK text tags to Tk text widgets:
@@ -25,28 +25,7 @@
 NULL
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @name add-tag
-#' @export
-tktag_add_row  <- function(obj, pattern, tag) {
-
-  str <- stringr::str_split(get_values(obj), "\n")[[1]]
-
-  # Find row
-  info_row <- str_which(str, pattern)
-  if (length(info_row) == 0)
-    return()
-
-  # Indices
-  pos_start <- stringr::str_glue("{info_row}.0")
-  pos_end   <- stringr::str_glue("{info_row}.0 + 1 line")
-
-  # Set tags
-  for (i in 1:length(info_row))
-    tcltk::tktag.add(obj, tag, pos_start[i], pos_end[i])
-}
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname add-tag
+#' @rdname add-tk-tag
 #' @export
 tktag_add <- function(obj, tag, pattern, row_ind = NULL, all = TRUE) {
 
@@ -91,14 +70,33 @@ tktag_add <- function(obj, tag, pattern, row_ind = NULL, all = TRUE) {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname add-tag
+#' @rdname add-tk-tag
 #' @export
 tktag_add_first <- function(obj, pattern, tag, row_ind = NULL) {
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tcltk::tktag_add(obj = obj, pattern = pattern, tag = tag, row_ind = row_ind,
     all = FALSE)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @name add-tk-tag
+#' @export
+tktag_add_row  <- function(obj, pattern, tag) {
 
+  str <- stringr::str_split(get_values(obj), "\n")[[1]]
+
+  # Find row
+  info_row <- str_which(str, pattern)
+  if (length(info_row) == 0)
+    return()
+
+  # Indices
+  pos_start <- stringr::str_glue("{info_row}.0")
+  pos_end   <- stringr::str_glue("{info_row}.0 + 1 line")
+
+  # Set tags
+  for (i in 1:length(info_row))
+    tcltk::tktag.add(obj, tag, pos_start[i], pos_end[i])
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
