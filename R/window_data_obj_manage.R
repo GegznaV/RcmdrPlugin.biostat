@@ -1,7 +1,7 @@
 # TODO:
 # 1) Add `put_dialogue` to store options.
 # 2) Add more buttons to manage dataset:
-#       - chnge class
+#       - change class
 #       - export
 #       - export selected to RData file
 #  3) Add context menu for copy, rename, delete, etc. functions for f1_listbox_y
@@ -23,13 +23,14 @@ window_data_obj_manage <- function() {
         switch(
             obj_class,
             "All"                    = get_obj_names2(),
-            "List"                   = get_obj_names2("list"),
-            "Data frame"             = get_obj_names2("data.frame"),
-            "Matrix"                 = get_obj_names2("matrix"),
-            "Table"                  = get_obj_names2("table"),
-            "Model (lm, glm, htest)" = get_obj_names2(c("lm", "glm", "htest")),
-            "Plot (ggplot, gg)"      = get_obj_names2(c("ggplot", "gg")),
-            "Function"               = get_obj_names2("function"),
+            "List"                   = get_obj_names2(include_class = "list"),
+            "Data frame"             = get_obj_names2(include_class = "data.frame"),
+            "Non data frame"         = get_obj_names2(exclude_class = "data.frame"),
+            "Matrix"                 = get_obj_names2(include_class = "matrix"),
+            "Table"                  = get_obj_names2(include_class = "table"),
+            "Model (lm, glm, htest)" = get_obj_names2(include_class = c("lm", "glm", "htest")),
+            "Plot (ggplot, gg)"      = get_obj_names2(include_class = c("ggplot", "gg")),
+            "Function"               = get_obj_names2(include_class = "function"),
             "Other"                  = get_obj_names(
                 all.names = hidden,
                 exclude_class = c("data.frame", "ggplot", "gg", "function",
@@ -425,14 +426,19 @@ window_data_obj_manage <- function() {
         obj_names_str <- str_c(safe_names(obj_names), collapse = ", ")
 
         if (length(obj_names) == 1) {
-            msg <- str_glue("Do you agree to DELETE object",
-                            '\n"{obj_names_str}" permanently?')
+            msg <- str_glue("Do you agree to permanently DELETE \n",
+                            'object "{obj_names_str}" ?')
 
         } else {
+            obj_names_str_short <-
+              stringr::str_trunc(obj_names_str, 1000) %>%
+              # Remove the last non-full name
+              stringr::str_replace(", [^,]*?\\.\\.\\.$", ", ...")
+
             msg <- str_glue(
                 "Do you agree to permanently DELETE {length(obj_names)} ",
-                "the following objects: \n\n",
-                "{obj_names_str}"
+                "objects including: \n\n",
+                "{obj_names_str_short}"
             )
         }
 
@@ -501,9 +507,10 @@ window_data_obj_manage <- function() {
             width  = 30 - 2, # Get width f1_listbox_y
             height = 10,
             value  = "Data frame",
-            values = c( "All", "Data frame", "List", "Matrix", "Table",
-                        "Plot (ggplot, gg)",
-                        "Model (lm, glm, htest)", "Function", "Other"),
+            values = c(
+              "All", "Data frame", "Non data frame", "List", "Matrix", "Table",
+              "Plot (ggplot, gg)",
+              "Model (lm, glm, htest)", "Function", "Other"),
             tip = "",
             on_select = update_list_of_objects)
 
@@ -512,7 +519,8 @@ window_data_obj_manage <- function() {
             parent = f1a,
             boxes  = c(hidden = "Show hidden objects"),
             values = 0,
-            commands = c(hidden = update_list_of_objects))
+            commands = c(hidden = update_list_of_objects)
+        )
 
     f1_listbox_y <-
         bs_listbox(
@@ -526,7 +534,8 @@ window_data_obj_manage <- function() {
             tip          = tip_multiple_ctrl_letters,
             use_filter   = TRUE,
             on_select    = buttons_activation,
-            filter_label = "Object name filter")
+            filter_label = "Object name filter"
+        )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f1b <- tk2frame(top)
