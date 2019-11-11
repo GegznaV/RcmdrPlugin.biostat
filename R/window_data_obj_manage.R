@@ -422,7 +422,7 @@ window_data_obj_manage <- function() {
             return()
         }
 
-        obj_names_str <- str_c(obj_names, collapse = ", ")
+        obj_names_str <- str_c(safe_names(obj_names), collapse = ", ")
 
         if (length(obj_names) == 1) {
             msg <- str_glue("Do you agree to DELETE object",
