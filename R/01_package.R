@@ -213,6 +213,8 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_pptx",       "icons/16/page-white_powerpoint.png")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     bs_tkimage_create("::image::bs_export",     "icons/16/bs_export.png")
+    bs_tkimage_create("::image::bs_md",         "icons/16/md.png")
+    bs_tkimage_create("::image::bs_print_as_df","icons/16/bs-print-as-df.png")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     bs_tkimage_create("::image::bs_objects",    "icons/16/emblem-documents.png")
     bs_tkimage_create("::image::bs_join"     ,  "icons/16/application-side-list.png")
@@ -239,10 +241,10 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_data_num",     "icons/16/bs_data_num.png")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     bs_tkimage_create("::image::bs_preview",    "icons/16/document-preview.png")
-    bs_tkimage_create("::image::bs_md",         "icons/16/md.png")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     bs_tkimage_create("::image::bs_summary",    "icons/16/bs_enumlist.png")
     bs_tkimage_create("::image::bs_glimpse",    "icons/16/glimpse_16.png")
+    bs_tkimage_create("::image::bs_desc",       "icons/16/bs_desc.png")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     bs_tkimage_create("::image::bs_analyze",    "icons/16/bs_analyze.png")
     bs_tkimage_create("::image::bs_normality",  "icons/16/bs_normality.png")
