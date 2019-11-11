@@ -1,9 +1,16 @@
 # TODO:
 #
-#  1. Add context menus with (clear, paste, clear and paste, cut, copy)
-#  2. Enable more than one NA string.
-#  3. Add warnig, if file name changed, and contents did not.
-#  4. "tkxview.moveto" etc. may not be working. "after" is needed
+#  1. [ ] Add context menus with (clear, paste, clear and paste, cut, copy)
+#  2. [ ] Enable more than one NA string.
+#  3. [ ] Add warning, if file name changed, and contents did not.
+#  4. [ ] "tkxview.moveto" etc. may not be working, "after" is needed.
+#  5. [+] Add tab auto alignment
+#  6. [ ] Add control to tab width:
+#         - tkconfigure(f3_input$text, tabs = "1.25c") # "c" means "cm"
+#         - tkconfigure(f3_input$text, tabs = "") # default
+#         - tabs = "6" equals to 1 character length
+#  7. [ ] Use more options that could be memorized by in putDialog()
+#  8. [ ] Enable "Apply" button.
 
 
 #' @rdname Menu-window-functions
@@ -11,9 +18,9 @@
 #' @keywords internal
 window_import_from_clipboard <- function() {
   win <- window_import_from_text()
-  win$set_mode_clipboard()
+  # win$set_mode_clipboard()
   win$paste_from_clipboard()
-  win$update_preview()
+  # win$update_preview()
 }
 
 #' @rdname Menu-window-functions
@@ -376,10 +383,53 @@ window_import_from_text <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Paste data from clipboard
-  paste_from_clipboard = function(add = TRUE) {
+  paste_from_clipboard <- function(add = TRUE) {
     write_input_window(read_clipboard(), add = add)
+    refresh_after_paste()
   }
 
+  # Automatically update tab positions in each column of Input window ~~~~~~~~
+  # @param input (character) Input text
+  # @param auto_align_tabs (logical) If `TRUE`, auto-alignment is enabled.
+  # @param default_stops (character) `""` -- Tcl/Tk default. See also
+  #        \href{https://www.tcl.tk/man/tcl8.4/TkCmd/text.htm#M9} section
+  #        "Command-Line Name: -tabs"
+  # @param add_spaces (integer) Number of spaces to add between columns.
+  #        The minimum is 1.
+  # @param char_width (integer) Character width (in points). Default is 6.
+  # @md
+  align_tabs <- function(input = get_input_by_mode(),
+    auto_align_tabs = isTRUE(get_values(f3_tabs_align)), default_stops = "",
+    add_spaces = 2L, char_width = 6L) {
+
+    if (isTRUE(auto_align_tabs)) {
+
+      if (str_detect(input, "\t")) {
+        # Set tab positions
+        add_spaces <- min(1L, add_spaces)
+        # tab_n_char <-
+        #   (purrr::imap_int(ds_contents, ~max(str_length(c(.x, .y)))) + add_spaces)
+        suppressWarnings({
+          tab_n_char <-
+            input %>%
+            str_trim() %>%
+            stringr::str_split("\n") %>%
+            purrr::pluck(1) %>%
+            stringr::str_split(., "\t") %>%
+            purrr::map(~str_length(.) + add_spaces) %>%
+            purrr::reduce(pmax)
+        })
+
+        tap_positions     <- cumsum(tab_n_char * char_width)
+        tap_positions_str <- str_c(tap_positions, collapse = " ")
+        tkconfigure(f3_input$text, tabs = tap_positions_str)
+      }
+
+    } else {
+      # Reset tab positions to default value
+      tkconfigure(f3_input$text, tabs = default_stops)
+    }
+  }
 
   # ~ Read data ------------------------------------------------------------
 
@@ -503,7 +553,7 @@ window_import_from_text <- function() {
       "file" = {
         err_msg_default <- str_c(
           "Possible reasons:\n",
-          " - file name is incorrent or missing;\n",
+          " - file name is incorrect or missing;\n",
           " - file is not a text file (incorrect format);\n",
           " - file is empty;\n",
           " - import options are incorrect.")
@@ -520,12 +570,16 @@ window_import_from_text <- function() {
     )
 
     # Default function
-    refresh_dataset_window_0(widget           = f3_dataset,
+    refresh_dataset_window_0(
+      widget           = f3_dataset,
       ds_contents      = ds_contents,
       preview_type     = get_selection(f3_box_type),
       nrow_preview_ds  = get_nrows_preview_ds(),
       expect_more_rows = possibly_more_rows(),
       err_msg_default  = err_msg_default)
+
+    # Automatically update tab positions in Input window
+    align_tabs(input)
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -605,8 +659,8 @@ window_import_from_text <- function() {
     tk_normalize(f3_input)
     tcltk2::tip(f3_input$text) <- str_c(
       "Editable text. \n",
-      'Grey shading represents tabs.\n',
-      'Press Ctrl+S to highlight tabs.')
+      'Grey shading represents tabs.'
+    )
 
     f3_input$context_menu_fun()
 
@@ -721,9 +775,22 @@ window_import_from_text <- function() {
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Add tags to highlight tab symbols in input window
+  highlight_input_tabs <- function() {
+    tktag_add(obj = f3_input$text, pattern = "\t", tag = "tab")
+  }
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   refresh_ds_show_tabs <-  function() {
     refresh_dataset_window()
     highlight_input_tabs()
+  }
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  refresh_after_paste <- function() {
+    set_mode_clipboard()
+    highlight_input_tabs()
+    refresh_dataset_window()
   }
 
   # ~ Input validation -----------------------------------------------------
@@ -792,13 +859,6 @@ window_import_from_text <- function() {
     isTRUE(biostat_env$possibly_more_rows)
   }
 
-
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Add tags to highlight tab symbols in input window
-  highlight_input_tabs <- function() {
-    tktag_add(f3_input$text, "\t", tag = "tab")
-  }
-
   # ~ onOK -------------------------------- --------------------------------
   onOK <- function() {
     # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -814,7 +874,8 @@ window_import_from_text <- function() {
 
     # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     putDialog("window_import_from_text", list(
-      preview_ds_type = get_selection(f3_box_type)
+      preview_ds_type = get_selection(f3_box_type),
+      tabs_auto_align = get_values(f3_tabs_align)
     ))
 
 
@@ -902,14 +963,14 @@ window_import_from_text <- function() {
             icon = "error",
             message = str_c(
               "There is no data to import. \n",
-              "Did you paste it from clipboard?"
+              "Did you paste it from the clipboard?"
             ),
             caption = "No Data To Import")
 
           return()
         }
 
-        # Beggin import data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Begin import data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         suppressWarnings({
           ds_contents <- try(
@@ -982,16 +1043,18 @@ window_import_from_text <- function() {
   # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  initialize_dialog(title = gettext_bs("Import Data from Text"))
+  title_text <- gettext_bs("Import Data from Text")
+  initialize_dialog(title = title_text)
     # , suppress.window.resize.buttons = FALSE)
     # FIXME: option FALSE does not work with "always-on-top",
-    # NOTE:  option TRUE may cause issues for small resulution motnitors.
+    # NOTE:  option TRUE may cause issues for small resolution monitors.
 
-  tk_title(top, "Import Data from Text")
+  tk_title(top, title_text)
 
   # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   defaults <- list(
-    preview_ds_type = "Data table"
+    preview_ds_type = "Data table",
+    tabs_auto_align = TRUE
   )
   initial <- getDialog("window_import_from_text", defaults)
 
@@ -1014,8 +1077,7 @@ window_import_from_text <- function() {
     # text = "Paste",
     image = "::image::bs_paste",
     command = function() {
-      set_values(f1_ent_file,
-        str_c(read_path_to_file(), read_clipboard()))
+      set_values(f1_ent_file, str_c(read_path_to_file(), read_clipboard()))
       tkicursor(f1_ent_file$obj_text, "end")
       tkxview.moveto(f1_ent_file$obj_text, "1")
 
@@ -1084,7 +1146,8 @@ window_import_from_text <- function() {
 
   f2_but_from <- bs_radiobuttons(
     parent  = f2a,
-    buttons = c("file"      = "File, URL",
+    buttons = c(
+      "file"      = "File, URL",
       "clipboard" = "Clipboard"),
     layout  = "horizontal",
 
@@ -1284,10 +1347,16 @@ window_import_from_text <- function() {
   # f3_lab_input <- tk_label_blue(f3, text = "Input")
 
   f3_input <- bs_text(
-    f3, width = 70, height = 13, wrap = "none",
-    autoseparators = TRUE, undo = TRUE,
-    state = "disabled", font = font_consolas_regular,
-    label = "Input")
+    parent =  f3,
+    label  = "Input",
+    width  = 70,
+    height = 13,
+    wrap   = "none",
+    undo   = TRUE,
+    state  = "disabled",
+    autoseparators = TRUE,
+    font = font_consolas_regular
+  )
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   f3_but <- tk2frame(f3)
@@ -1295,7 +1364,7 @@ window_import_from_text <- function() {
   f3_but_e <- tk2frame(f3_but)
 
   f3_lab_nrows <- tk_label(f3_but_w, text = "Options:", tip = str_c(
-    "Preview options: number ow rows to\n",
+    "Preview options: number of rows to\n",
     "display in each window and preview\n",
     "type."
   ))
@@ -1305,7 +1374,8 @@ window_import_from_text <- function() {
     width = 4,
     values = c("10", "100", "1000", "5000", "9999", "All"),
     tip = str_c(
-      "Max. number of rows to read from file for preview.\n",
+      "Max. number of rows to read from the file for preview.\n",
+      "This option enhances performance for big files with many rows.\n",
       "Changing this option does not automatically update the preview."),
     selection = 2,
     on_select = highlight_update_button)
@@ -1314,9 +1384,10 @@ window_import_from_text <- function() {
     f3_but_w,
     width = 3,
     values = c("6", "8", "10", "14", "50", "100", "All"),
-    tip = str_c("Max. number of dataset's rows to\n",
-      "preview in 'Dataset' window. "),
-    selection = 3,
+    tip = str_c(
+      "Max. number of dataset's rows \n",
+      "to preview in 'Dataset' window. "),
+    selection = 2,
     on_select = refresh_dataset_window)
 
   f3_box_type <- bs_combobox(
@@ -1331,16 +1402,24 @@ window_import_from_text <- function() {
     value = initial$preview_ds_type,
     on_select = refresh_dataset_window)
 
+  f3_tabs_align <- bs_checkboxes(
+    parent = f3_but_w,
+    boxes = "Auto-align",
+    default_value = initial$tabs_auto_align,
+    default_tip = str_c(
+      "Auto-align column positions\n",
+      "in 'Input' window when tabs\n",
+      "(tabulations) are present."),
+    default_command = function() {align_tabs()}
+  )
+
   f3_but_paste <- tk2button(
     f3_but_e,
     # width = 7,
     # text = "Paste",
     image = "::image::bs_paste",
     command = function() {
-      set_mode_clipboard()
       paste_from_clipboard(add = FALSE)
-      highlight_input_tabs()
-      refresh_dataset_window()
     },
     tip = "Clear input and paste data from clipboard.")
 
@@ -1366,9 +1445,7 @@ window_import_from_text <- function() {
       }
       refresh_dataset_window()
     },
-
-    tip = str_c("Refresh 'Dataset' window and ",
-      "highligth tabs in 'Input' window.")
+    tip = "Refresh 'Dataset' window."
   )
 
   f3_but_locale <- tk2button(
@@ -1381,7 +1458,8 @@ window_import_from_text <- function() {
     tip = str_c(
       "Change locale. \n",
       "Useful if pasting text results in encoding issues. \n",
-      'It is useful to select correct "Enconding" too.'))
+      'It is useful to select correct "Encoding" too.')
+  )
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   f3_dataset <- bs_text(
@@ -1405,8 +1483,8 @@ window_import_from_text <- function() {
   tkgrid.configure(f1_lab_file, f1_lab_ds_name,             sticky = "e")
   tkgrid.configure(f1_ent_file$frame, f1_ent_ds_name$frame, sticky = "we", padx = 2)
   tkgrid.configure(
-    f1_ent_file$frame_text,  f1_ent_ds_name$frame_text,
-    f1_ent_file$obj_text,    f1_ent_ds_name$obj_text,
+    f1_ent_file$frame_text, f1_ent_ds_name$frame_text,
+    f1_ent_file$obj_text,   f1_ent_ds_name$obj_text,
     sticky = "we")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(f_middle, sticky = "news")
@@ -1456,29 +1534,52 @@ window_import_from_text <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(f3_but_w, f3_but_e, sticky = "ew", pady = c(2, 4))
 
-  tkgrid(f3_lab_nrows, f3_box_nrow_1$frame,
-    f3_box_nrow_2$frame, f3_box_type$frame,
-    sticky = "w")
+  tkgrid(
+    f3_lab_nrows, f3_box_nrow_1$frame, f3_box_nrow_2$frame, f3_box_type$frame,
+    f3_tabs_align$frame,
+    sticky = "w"
+  )
 
   tkgrid(f3_but_paste, f3_but_clear, f3_but_refresh, f3_but_locale,
     sticky = "e")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid.configure(f3_lab_nrows,        padx = c(10, 2))
   tkgrid.configure(f3_box_nrow_2$frame, padx = c(2, 2))
+  tkgrid.configure(f3_tabs_align$frame, padx = c(2, 2))
   tkgrid.configure(f3_but_locale,       padx = c(0, 10))
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Finalize ---------------------------------------------------------------
+    # Help menus -------------------------------------------------------------
+  help_menu <- function() {
+
+    menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
+
+    tkadd(menu_main, "command",
+      label    = "Function `fread()`",
+      command  = open_help("fread", package = "data.table"))
+
+    tkadd(menu_main, "command",
+      label    = "Function `structure()`",
+      command  = open_help("structure", package = "base"))
+
+    tkpopup(menu_main,
+      tkwinfo("pointerx", top),
+      tkwinfo("pointery", top))
+  }
+
+  # Finalize -----------------------------------------------------------------
 
   # Help topic
-  ok_cancel_help(helpSubject = "fread", helpPackage = "data.table",
+  ok_cancel_help(
+    close_on_ok = TRUE,
+    on_help = help_menu,
     reset = "window_import_from_text()",
     ok_label = "Import")
 
   dialogSuffix(grid.buttons = TRUE, resizable = TRUE, bindReturn = FALSE)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Configuration ----------------------------------------------------------
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Configuration ------------------------------------------------------------
   set_values(f1_ent_ds_name, unique_obj_names("dataset", all_numbered = TRUE))
   highlight_update_button()
 
@@ -1526,20 +1627,25 @@ window_import_from_text <- function() {
 
   # Interactive bindings ---------------------------------------------------
 
-  tkbind(f3_input$text, "<Control-s>",       refresh_ds_show_tabs)
-  tkbind(f3_input$text, "<Control-S>",       refresh_ds_show_tabs)
+  # FIXME: add support for "meta" button on Mac OS for pasting
+
+  tkbind(f3_input$text, "<Control-KeyRelease-v>", refresh_after_paste)
+  tkbind(f3_input$text, "<Control-KeyRelease-V>", refresh_after_paste)
+
+  tkbind(f3_input$text, "<KeyRelease-Tab>",  refresh_ds_show_tabs)
+
   tkbind(f3_input$text, "<Triple-Button-3>", refresh_dataset_window)
+  tkbind(f3_input$text, "<<Undo>>",          refresh_dataset_window)
+  tkbind(f3_input$text, "<<Redo>>",          refresh_dataset_window)
+  tkbind(f3_input$text, "<KeyRelease>",      refresh_dataset_window)
 
   # tkbind(f3_input$text, "<<Copy>>",     refresh_dataset_window)
   # tkbind(f3_input$text, "<Control-Shift-Z>",  "<<Redo>>")
-  tkbind(f3_input$text, "<<Paste>>",    refresh_ds_show_tabs)
-  tkbind(f3_input$text, "<<Undo>>",     refresh_dataset_window)
-  tkbind(f3_input$text, "<<Redo>>",     refresh_dataset_window)
-  tkbind(f3_input$text, "<KeyRelease>", refresh_dataset_window)
+  #
+  # tkbind(f3_input$text, "<<Paste>>",   refresh_after_paste)
 
-  tkbind(f3_input$text, "<Control-v>",  set_mode_clipboard)
-  tkbind(f3_input$text, "<Control-V>",  set_mode_clipboard)
-
+  tkbind(f3_input$text, "<Control-s>",        refresh_ds_show_tabs)
+  tkbind(f3_input$text, "<Control-S>",        refresh_ds_show_tabs)
 
   # Output -----------------------------------------------------------------
   # Functions to modify state of the widget
