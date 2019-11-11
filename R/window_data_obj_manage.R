@@ -95,6 +95,7 @@ window_data_obj_manage <- function() {
     if (length(obj_names) < 1) {
       return
     }
+    # FIXME: add warning if too many datasets are selected.
 
     str_glue("View({obj_names})") %>%
       str_c(collapse = "\n") %>%
@@ -130,9 +131,9 @@ window_data_obj_manage <- function() {
 
       if (obj_names == new_obj_names) {
         show_error_messages(str_c(
-          "The old and the new names are the same. ",
-          "To rename the object, you must choose a different name."),
-          title = "Choose Anoter Name",
+          "The old and the new names are identical. ",
+          "To rename the object, you must choose different names."),
+          title = "Choose Another Name",
           parent = pop_up_window)
         return()
       }
@@ -461,7 +462,7 @@ window_data_obj_manage <- function() {
 
     } else {
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      # Deselect active dataset if it should be deleted.
+      # Deselect active dataset if it should not be deleted.
       if (isTRUE(any(.ds %in% obj_names))) {active_dataset_0(NULL)}
 
       # Construct the command ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
