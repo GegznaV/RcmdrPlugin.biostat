@@ -1,3 +1,7 @@
+# TODO:
+# 1. Add line numbers;
+# 2. In context menu, add "Select all".
+
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
