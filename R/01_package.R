@@ -241,9 +241,11 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_data_num",     "icons/16/bs_data_num.png")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     bs_tkimage_create("::image::bs_preview",    "icons/16/document-preview.png")
+    bs_tkimage_create("::image::bs_glimpse",    "icons/16/glimpse_16.png")
+    bs_tkimage_create("::image::bs_na_red",     "icons/16/bs_na_red.png")
+    bs_tkimage_create("::image::bs_na_blue",    "icons/16/bs_na_blue.png")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     bs_tkimage_create("::image::bs_summary",    "icons/16/bs_enumlist.png")
-    bs_tkimage_create("::image::bs_glimpse",    "icons/16/glimpse_16.png")
     bs_tkimage_create("::image::bs_desc",       "icons/16/bs_desc.png")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     bs_tkimage_create("::image::bs_analyze",    "icons/16/bs_analyze.png")
