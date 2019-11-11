@@ -970,7 +970,7 @@ window_import_from_excel <- function() {
     f3_but_e   <- tk2frame(f3_but_set)
 
     f3_lab_nrows <- tk_label(f3_but_w, text = "Options:", tip = str_c(
-        "Preview options: number ow rows to\n",
+        "Preview options: number of rows to\n",
         "display in each window and preview\n",
         "type."
     ))
@@ -980,7 +980,7 @@ window_import_from_excel <- function() {
         width = 4,
         values = c("10", "100", "1000", "5000", "9999", "All"),
         tip = str_c(
-            "Max. number of rows to read from file for preview.\n",
+            "Max. number of rows to read from the file for preview.\n",
             "Changing this option does not automatically update the preview."),
         selection = 2,
         on_select = highlight_update_button)
