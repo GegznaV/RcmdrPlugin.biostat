@@ -495,7 +495,7 @@ window_data_obj_manage <- function() {
   .ds <- active_dataset_0()
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  win_title <- gettext_bs("Manage Objects And Datasets")
+  win_title <- gettext_bs("Objects (Datasets) Manager")
   initializeDialog(title = win_title)
   tk_title(top, text = win_title, columnspan = 2)
 
