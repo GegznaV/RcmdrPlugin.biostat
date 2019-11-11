@@ -386,8 +386,8 @@ set_biostat_mode <- function() {
   tkconfigure(lb4, cursor = "hand2")
 
   tip(lb1) <- "Show buttons for\ndata management"
-  tip(lb2) <- "Show buttons for\nanalysis"
-  tip(lb3) <- "Show buttons for\nplots management"
+  tip(lb2) <- "Show buttons for\ndata analysis"
+  tip(lb3) <- "Show buttons for\nplots"
   tip(lb4) <- "Show buttons for\ntools and settings"
 
   tkbind(lb1, "<Enter>", function() tkconfigure(lb1, image = "::image::dot-gw-4"))
