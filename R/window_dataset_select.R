@@ -271,8 +271,10 @@ window_dataset_select <- function() {
               command  = cmd_ds_dims)
 
         tkadd(menu_p, "command",
-              label    = "Structure (glimpse)",
-              command  = cmd_ds_glimpse)
+          label    = "Structure (glimpse)",
+          compound = "left",
+          image    = "::image::bs_glimpse",
+          command  = cmd_ds_glimpse)
 
         tkadd(menu_p, "command",
               label    = "Legend for structure",
