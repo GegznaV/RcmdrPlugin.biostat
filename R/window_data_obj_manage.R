@@ -150,6 +150,8 @@ window_data_obj_manage <- function() {
         active_dataset_0(NULL)
       }
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      obj_names     <- safe_names(obj_names)
+      new_obj_names <- safe_names(new_obj_names)
       obj_names_str <- str_c(obj_names, collapse = ", ")
 
       # Construct the command ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -291,6 +293,8 @@ window_data_obj_manage <- function() {
       # Deselect active dataset if it should be copied
       # if (isTRUE(any(.ds %in% obj_names))) {active_dataset_0(NULL)}
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      obj_names     <- safe_names(obj_names)
+      new_obj_names <- safe_names(new_obj_names)
       obj_names_str <- str_c(obj_names, collapse = ", ")
 
       # Construct the command ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
