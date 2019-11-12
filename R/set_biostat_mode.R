@@ -38,7 +38,7 @@ set_biostat_mode <- function() {
     return()
   }
 
-  # Hide buttons bar -------------------------------------------------------
+  # Hide buttons bar ---------------------------------------------------------
   buttons_bar <- tcl_get_parent(getRcmdr("dataSetLabel"))
 
   tkgrid.remove(buttons_bar)
