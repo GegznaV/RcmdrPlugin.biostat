@@ -1,6 +1,10 @@
 # TODO:
-#  1) create onOk()
+#  1) create onOk() functio.
 #  2) Prepare the most important helper functions.
+#  3) Set different "selected_package", "selected_dataset" colors,
+#     when appropriate.
+#  4) Bind button and mouse clicks to actions.
+#  5) Open help on dataset.
 
 
 # TODO: May be useful:
@@ -22,7 +26,8 @@ window__from_pkg <- function() {
   defaults <-
     list(
       selected_package  = "{none}",
-      selected_dataset  = "{none}"
+      selected_dataset  = "{none}",
+      which_packages    = "Loaded packages"
     )
 
   initial <- getDialog("window__from_pkg", defaults)
@@ -54,60 +59,117 @@ window__from_pkg <- function() {
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   refresh_all_installed_packages <- function() {
-      get_all_installed_packages(force = TRUE)
+    get_all_installed_packages(force = TRUE)
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  activate_packages <- function() {
+  get_packages_list <- function() {
+    # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    cursor_set_busy(top)
+    on.exit(cursor_set_idle(top))
 
-      switch(
-        get_selection(f1_pkg_opts),
+    # Get packages ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    switch(
+      get_selection(f1_pkg_opts),
 
-        "Loaded packages" = {
-          tk_disable(f1_but_2_1)
-          tk_disable(f1_box_pkgs)
-          tk_normalize(f1_box_ds)
+      "Loaded packages" = {
+        tk_disable(f1_but_2_1)
+        tk_disable(f1_box_pkgs)
+        tk_normalize(f1_box_ds)
 
-          pkgs <- get_loaded_packages()
+        pkgs <- get_loaded_packages()
 
-          ds <- get_info_about_datasets(pkgs)
-          set_values(f1_box_ds, ds$Dataset)
+        # FIXME: cache this operation:
+        ds <- get_info_about_datasets(pkgs)
+        set_values(f1_box_ds, ds$Dataset)
 
-          tkconfigure(f1_but_2_0, image = "::image::bs_package_go")
-          # tip(f1_but_2_0) <- "Refresh the list of all installed packages"
-          # set_values(f1_box_pkgs, pkgs_all)
+        tkconfigure(f1_but_2_0, image = "::image::bs_package_go")
+        # tip(f1_but_2_0) <- "Refresh the list of all installed packages"
+        # set_values(f1_box_pkgs, pkgs_all)
 
-        },
+      },
 
-        "From list: loaded" = {
-          tk_normalize(f1_but_2_1)
-          tk_normalize(f1_box_pkgs)
-          tk_normalize(f1_box_ds)
+      "From list: loaded only" = {
+        tk_normalize(f1_but_2_1)
+        tk_normalize(f1_box_pkgs)
+        tk_normalize(f1_box_ds)
 
-          pkgs <-
-            list_packages(which = "loaded") %>%
-            setdiff(c("base", "stats"))
+        pkgs <-
+          list_packages(which = "loaded") %>%
+          setdiff(c("base", "stats"))
 
-          set_values(f1_box_pkgs, pkgs)
-          set_values(f1_box_ds,   "")
+        set_values(f1_box_pkgs, pkgs)
+        set_values(f1_box_ds,   "")
 
-          tkconfigure(f1_but_2_0, image = "::image::bs_package")
-        },
+        tkconfigure(f1_but_2_0, image = "::image::bs_package")
+      },
 
-        "From list: installed" = {
-          tk_normalize(f1_but_2_1)
-          tk_normalize(f1_box_pkgs)
-          tk_normalize(f1_box_ds)
+      "From list: all installed" = {
+        tk_normalize(f1_but_2_1)
+        tk_normalize(f1_box_pkgs)
+        tk_normalize(f1_box_ds)
 
-          pkgs <- get_all_installed_packages(force = FALSE)
+        pkgs <- get_all_installed_packages(force = FALSE)
 
-          set_values(f1_box_pkgs, pkgs)
-          set_values(f1_box_ds,   "")
+        set_values(f1_box_pkgs, pkgs)
+        set_values(f1_box_ds,   "")
 
-          tkconfigure(f1_but_2_0, image = "::image::bs_package_r")
-        }
-      )
+        tkconfigure(f1_but_2_0, image = "::image::bs_package_r")
+      }
+    )
+  }
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  filter_ds_class <- function() {
+    # TODO: create this function
+
+  }
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  choose_package <- function() {
+    pkg <- get_selection(f1_box_pkgs)
+
+    tclvalue(f3_var_selected_ds)  <- initial$selected_dataset
+    tclvalue(f3_var_info)         <- ""
+
+    if (length(pkg) == 0) {
+      set_values(f1_box_ds, " (no datasets)")
+      tk_disable(f1_box_ds)
+      return()
     }
+
+    tk_normalize(f1_box_ds)
+    set_values(f1_box_ds, list_datasets_in_package(pkg))
+
+    tclvalue(f3_var_selected_pkg) <- pkg
+
+  }
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  choose_dataset <- function() {
+    # move_selected_row_in_tktext(recodes, move_to = "+1")
+    ds  <- get_selection(f1_box_ds)
+
+    if (length(ds) == 0) {
+      return()
+    }
+
+    pkg <- get_selection(f1_box_pkgs)
+
+    # tk_normalize(f1_box_ds)
+    tclvalue(f3_var_selected_ds) <- ds
+    # tclvalue(f3_var_info) <- get_ds_info(str_glue("{pkg}::{ds}"))
+  }
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  reset_selection <- function() {
+
+    set_values(f1_box_ds, NULL)
+
+    tclvalue(f3_var_selected_pkg) <- initial$selected_package
+    tclvalue(f3_var_selected_ds)  <- initial$selected_dataset
+    tclvalue(f3_var_info)         <- ""
+  }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   onOK <- function() {
@@ -238,26 +300,12 @@ window__from_pkg <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   f1 <- tkframe(top)
 
-  f1_pkg_opts <- bs_combobox(
-    parent = f1,
-    values = c("Loaded packages", "From list: loaded", "From list: installed"),
-    value = "Loaded packages",
-
-    on_select = activate_packages
-  )
-
-  tkgrid(f1_pkg_opts$frame)
-
   f1_box_pkgs <-
     bs_listbox(
       parent = f1,
       height = 7,
       values = list_packages(which = "loaded"),
-      # on_double_click = insert_template_1,
-      # on_triple_click = insert_template_1a,
-      # on_double_click_3 = insert_template_2,
-      # on_triple_click_3 = insert_template_2a,
-      # selectmode = "multiple",
+      on_double_click = choose_package,
       title = gettext_bs("Package \n(double-click to select)"),
       use_filter = TRUE,
       filter_label = "Filter packages"
@@ -270,11 +318,7 @@ window__from_pkg <- function() {
       height = 7,
       width = 30,
       values = "",
-      # on_double_click = insert_template_1,
-      # on_triple_click = insert_template_1a,
-      # on_double_click_3 = insert_template_2,
-      # on_triple_click_3 = insert_template_2a,
-      # selectmode = "multiple",
+      on_select = choose_dataset,
       title = gettext_bs("Dataset \n(click to select)"),
       value = 1,
       use_filter = TRUE,
@@ -294,38 +338,14 @@ window__from_pkg <- function() {
   f1_but_2_1 <- tk2button(
     parent  = f1_but_set_2,
     image   = "::image::bs_go_next",
-    command =  function() {
-      pkg <- get_selection(f1_box_pkgs)
-
-      tclvalue(f3_var_selected_ds)  <- initial$selected_dataset
-      tclvalue(f3_var_info)         <- ""
-
-      if (length(pkg) == 0) {
-        set_values(f1_box_ds, " (no datasets)")
-        tk_disable(f1_box_ds)
-        return()
-      }
-
-      tk_normalize(f1_box_ds)
-      set_values(f1_box_ds, list_datasets_in_package(pkg))
-
-      tclvalue(f3_var_selected_pkg) <- pkg
-
-    },
+    command =  choose_package,
     tip = "Select a package."
   )
 
   f1_but_2_2 <- tk2button(
     f1_but_set_2,
     image = "::image::bs_refresh",
-    command = function() {
-
-      set_values(f1_box_ds, NULL)
-
-      tclvalue(f3_var_selected_pkg) <- initial$selected_package
-      tclvalue(f3_var_selected_ds)  <- initial$selected_dataset
-      tclvalue(f3_var_info)         <- ""
-    },
+    command = reset_selection,
     tip = "Reset selection."
   )
 
@@ -357,20 +377,7 @@ window__from_pkg <- function() {
   f1_but_1_3 <- tk2button(
     f1_but_set_1,
     image = "::image::bs_go_down",
-    command = function() {
-      # move_selected_row_in_tktext(recodes, move_to = "+1")
-      ds  <- get_selection(f1_box_ds)
-
-      if (length(ds) == 0) {
-        return()
-      }
-
-      pkg <- get_selection(f1_box_pkgs)
-
-      # tk_normalize(f1_box_ds)
-      tclvalue(f3_var_selected_ds) <- ds
-      # tclvalue(f3_var_info) <- get_ds_info(str_glue("{pkg}::{ds}"))
-    },
+    command = choose_dataset,
     tip = "Select a dataset"
     # tip = "Move selected line \ndown by 1 position."
   )
@@ -389,8 +396,34 @@ window__from_pkg <- function() {
   tkgrid(f1_but_1_3)
   # tkgrid(f1_but_1_4)
 
+
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  f2 <- tkframe(top)
+
+  f1_pkg_opts <- bs_combobox(
+    parent = f1,
+    label  = "Which packages",
+    label_position = "above",
+    values = c(
+      "Loaded packages",
+      "From list: loaded only",
+      "From list: all installed"),
+    value = initial$which_packages,
+
+    on_select = get_packages_list
+  )
+
+  f1_ds_opts <- bs_combobox(
+    parent = f1,
+    label  = "Dataset's class",
+    label_position = "above",
+    values = c("All", "Data frame", "Matrix", "Table", "List", "Other"),
+    value = "Data frame",
+
+    on_select = filter_ds_class
+  )
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # f2 <- tkframe(top)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   f3 <- tkframe(top)
@@ -458,8 +491,10 @@ window__from_pkg <- function() {
     sticky = "nw"
   )
 
+  tkgrid(f1_pkg_opts$frame, "x", f1_ds_opts$frame, sticky = "we", pady = c(5, 0))
+
   tkgrid.configure(f1_but_set_1, sticky = "")
-  tkgrid.configure(f1_but_set_2, sticky = "", padx = c(3, 4))
+  tkgrid.configure(f1_but_set_2, sticky = "", padx = c(3, 9))
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(f2, sticky = "w")
@@ -477,6 +512,6 @@ window__from_pkg <- function() {
   dialogSuffix(bindReturn = FALSE)
 
 
-  activate_packages()
+  get_packages_list()
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
