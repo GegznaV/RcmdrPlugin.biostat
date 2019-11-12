@@ -206,6 +206,8 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_text",       "icons/16/bs_txt.png")
     bs_tkimage_create("::image::bs_excel",      "icons/16/page-white_excel.png")
     bs_tkimage_create("::image::bs_package",    "icons/16/package-green.png")
+    bs_tkimage_create("::image::bs_package_r",  "icons/16/package-red.png")
+    bs_tkimage_create("::image::bs_package_go", "icons/16/package-go.png")
     bs_tkimage_create("::image::bs_wpd",        "icons/16/wpd-16x16.png")
     bs_tkimage_create("::image::bs_new_doc",    "icons/16/document-new-3.png")
 
