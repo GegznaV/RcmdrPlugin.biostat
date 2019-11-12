@@ -82,6 +82,7 @@ menu	bs19_var_names_menu	bs19_varible_menu	""	""	""	""
 item	bs19_varible_menu	cascade	"Variable names"	bs19_var_names_menu	""	""
 
 item	bs19_var_names_menu	command	"Print variable (column) names"	command_colnames	"activeDataSetP()"	""
+item	bs19_var_names_menu	command	"Check syntactical validity of column names"	command_check_names_validity	"activeDataSetP()"	""
 item	bs19_var_names_menu	command	"Clean variable names (into snake case)"	command_clean_names	"activeDataSetP()"	"packageAvailable('dplyr') && packageAvailable('janitor')"
 item	bs19_var_names_menu	command	"Rename variables..."	window_variable_rename	"activeDataSetP()"	"packageAvailable('dplyr')"
 
