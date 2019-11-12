@@ -143,6 +143,14 @@ tk_see <- function(obj, ind, ...) {
 }
 
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+tk_get_n_lines <- function(obj) {
+  UseMethod("tk_get_n_lines")
+}
+
+
 # Methods --------------------------------------------------------------------
 #' @rdname Helper-functions
 #' @export
