@@ -1,3 +1,7 @@
+# TODO:
+# 1. [ ] Add line numbers;
+# 2. [+] In context menu, add "Select all".
+
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
@@ -5,25 +9,25 @@ bs_text <- function(parent, ..., label = "", undo = TRUE, context_menu = FALSE) 
 
     frame <- tk2frame(parent)
 
-    obj_label <- bs_label_b(frame, text = label)
+    obj_label <- tk_label_blue(frame, text = label)
 
     obj_txt <- tk2text(frame, undo = undo, ...)
 
     obj_xsc <- tk2scrollbar(
         frame,
         orientation = "horizontal",
-        command = function(...) tkxview(obj_txt, ...)
+        command = function(...) {tkxview(obj_txt, ...)}
     )
 
     obj_ysc <- tk2scrollbar(
         frame,
         orientation = "vertical",
-        command = function(...) tkyview(obj_txt, ...)
+        command = function(...) {tkyview(obj_txt, ...)}
     )
 
     tkconfigure(obj_txt,
-                xscrollcommand = function(...) tkset(obj_xsc, ...),
-                yscrollcommand = function(...) tkset(obj_ysc, ...))
+                xscrollcommand = function(...) {tkset(obj_xsc, ...)},
+                yscrollcommand = function(...) {tkset(obj_ysc, ...)})
 
     tkgrid(obj_label)
     tkgrid(obj_txt, obj_ysc)
@@ -79,8 +83,8 @@ set_values.tk2text <- function(obj, values, ..., add = FALSE) {
     }
 }
 
-get_values.tk2text <- function(obj, ...) {
-    tclvalue_chr(tkget(obj, "1.0", "end"))
+get_values.tk2text <- function(obj, ..., trim = FALSE) {
+    tclvalue_chr(tkget(obj, "1.0", "end"), trim = trim)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -98,4 +102,13 @@ tk_normalize.bs_text <- function(obj, ...) {
 
 tk_disable.bs_text <- function(obj, ...) {
     tk_disable(obj$text, ...)
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+tk_get_n_lines.bs_text <- function(obj) {
+  tclvalue_int(tcl(obj$text, "count", "-lines", "1.0", "end"))
+}
+
+tk_get_n_lines.default <- function(obj) {
+  tclvalue_int(tcl(obj, "count", "-lines", "1.0", "end"))
 }

@@ -195,10 +195,10 @@ window_export_to_excel <- function() {
     # F1, Frame 1, choose file and name --------------------------------------
     f1 <- tk2frame(top)
 
-    f1_lab_data_1 <- bs_label_b(f1, text = "Dataset: ")
-    f1_lab_data_2 <- bs_label(f1, text = .ds)
+    f1_lab_data_1 <- tk_label_blue(f1, text = "Dataset: ")
+    f1_lab_data_2 <- tk_label(f1, text = .ds)
 
-    f1_lab_file <- bs_label_b(f1, text = "File: ")
+    f1_lab_file <- tk_label_blue(f1, text = "File: ")
 
     f1_ent_file <- bs_entry(
         f1, width = 60, sticky = "we",
@@ -254,7 +254,7 @@ window_export_to_excel <- function() {
         tip = str_c("Reset sheet name")
     )
 
-    f1_lab_sheet <- bs_label_b(f1, text = "Sheet: ")
+    f1_lab_sheet <- tk_label_blue(f1, text = "Sheet: ")
     f1_ent_sheet <- bs_entry(
         f1, width = 60, sticky = "ew", tip = "Excel sheet name to save data to")
 

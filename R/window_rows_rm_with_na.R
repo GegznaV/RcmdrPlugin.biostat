@@ -247,7 +247,7 @@ window_rows_rm_with_na <- function() {
 
   # Information
 
-  label_bottom <- bs_label(top, text = "\n\n", fg = "darkred")
+  label_bottom <- tk_label(top, text = "\n\n", fg = "darkred")
   tkgrid(label_bottom, pady = c(10, 0), sticky = "ws")
 
 

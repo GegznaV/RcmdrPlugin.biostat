@@ -1,49 +1,111 @@
 # TODO:
 # -- get_system_info() code for other OS'es is needed
 
+# FIXME: check if these functions are not (partial) duplicates:
+#        get_obj_names(), list_objects_of_class()
 
 
 #' @name Helper-functions
 #' @title Helper functions for RcmdrPlugin.biostat.
 #' @description Helper functions for package \pkg{RcmdrPlugin.biostat}.
 #' @keywords internal
+#' @noRd
 NULL
 
 # ___ List variables  ___ ====================================================
-#' @rdname Helper-functions
+#' Get contents of active dataset.
+#' @param fail (logical) When no active dataset is selected:
+#'        if `TRUE`, the function fails,
+#'        if `FALSE`, then `NULL` is returned.
+#'
+#' @return
+#' The contents of active dataset or `NULL`.
+#'
 #' @export
-#' @keywords internal
-# Get contents of active dataset
-get_active_ds <- function() {
-    active_ds <- active_dataset_0()
-    if (is.null(active_ds)) {
-        stop("Active dataset is not present. ")
+#' @md
+#'
+get_active_ds <- function(fail = TRUE) {
+  active_ds <- active_dataset_0()
+
+  if (is.null(active_ds)) {
+    if (isTRUE(fail)) {
+      stop("Active dataset is not present. ")
+
+    } else {
+      return(NULL)
     }
-    globalenv()[[active_ds]]
+  }
+
+  globalenv()[[active_ds]]
 }
 
-#' @rdname Helper-functions
+#' List objects of certain class.
+#'
+#' Create a vector of object names of certain class.
+#'
+#' @param class (character|`NULL`) A vector of object classes to return.
+#'        Value `NULL` disables class filter (all classes will be returned).
+#' @param envir An environment to look for the objects in.
+#'        Other kind of objects will be coerced to an environment.
+#'        The default value is parent frame.
+#' @param hidden_names (logical)
+#'        If `TRUE`, all object names are returned.
+#'        If `FALSE`, names which begin with a `.` are omitted.
+#'
+#' @return A character vector of object names of certain class.
 #' @export
 #' @keywords internal
 list_objects_of_class <-
-    function(class = NULL, all.names = TRUE,  envir = parent.frame()) {
+  function(class = NULL, envir = parent.frame(), hidden_names = TRUE) {
 
-        force(envir)
-        checkmate::assert_character(class, null.ok = TRUE)
+    checkmate::assert_character(class, null.ok = TRUE)
+    checkmate::assert_flag(hidden_names, null.ok = TRUE)
 
-        all_variable_names <- objects(envir, all.names = all.names)
+    all_variable_names <- names(envir)
 
-        if (length(all_variable_names) == 0 || is.null(class)) {
-            return(all_variable_names)
-
-        } else {
-            # Object names of class to return
-            mget(all_variable_names, envir = envir) %>%
-                purrr::keep(~inherits(.x, class)) %>%
-                names()
-        }
+    if (is.null(all_variable_names) || length(all_variable_names) == 0) {
+      return(character(0))
     }
 
+    if (!isTRUE(hidden_names)) {
+      # Remove hidden names
+      all_variable_names <- str_subset(all_variable_names, "^[^.]")
+    }
+
+    if (is.null(class)) {
+      # Return obj. names of all classes
+      return(all_variable_names)
+
+    } else {
+      # Return obj. names of indicated classes only
+
+      if (is.data.frame(envir)) {
+        # For data frames
+        variable_names <-
+          envir %>%
+          dplyr::select({all_variable_names}) %>%
+          dplyr::select_if(~inherits(., class)) %>%
+          names()
+
+        return(variable_names)
+
+      } else {
+        # For envirenments, lists, etc.
+        envir <- as.environment(envir)
+        variable_names <-
+          all_variable_names %>%
+          mget(envir = envir) %>%
+          purrr::keep(~inherits(.x, class)) %>%
+          names()
+
+        return(variable_names)
+      }
+    }
+  }
+
+make_sorted <- function(vars) {
+  if (getRcmdr("sort.names")) {sort(vars)} else {vars}
+}
 
 
 #' All variable names in active dataset
@@ -51,43 +113,51 @@ list_objects_of_class <-
 #' @keywords internal
 #' @export
 variables_all <- function() {
-    Variables()
-    # list_objects_of_class(envir = as.environment(get_active_ds()))
+  Variables()
+  # list_objects_of_class(envir = get_active_ds(fail = FALSE))
 }
 #' Character variable names in active dataset
 #'
 #' @keywords internal
 #' @export
 variables_chr <- function() {
-    list_objects_of_class("character", envir = as.environment(get_active_ds()))
+  vars <- list_objects_of_class("character", envir = get_active_ds(fail = FALSE))
+  make_sorted(vars)
 }
 #' Logical variable names in active dataset
 #'
 #' @keywords internal
 #' @export
 variables_lgl <- function() {
-    list_objects_of_class("logical", envir = as.environment(get_active_ds()))
+  vars <- list_objects_of_class("logical", envir = get_active_ds(fail = FALSE))
+  make_sorted(vars)
 }
 #' True factor variable names in active dataset
 #'
 #' @keywords internal
 #' @export
 variables_fct <- function() {
-    list_objects_of_class("factor", envir = as.environment(get_active_ds()))
+  vars <- list_objects_of_class("factor", envir = get_active_ds(fail = FALSE))
+  make_sorted(vars)
 }
 #' Factor-like variable names in active dataset
 #'
 #' @keywords internal
 #' @export
 variables_fct_like <- function() {
-    Factors()
+  Factors()
+  # list_objects_of_class(
+  #   c("factor", "character", "logical"),
+  #   envir = get_active_ds(fail = FALSE)
+  # )
 }
 #' Non-factor-like variable names in active dataset
 #'
 #' @keywords internal
 #' @export
 variables_non_fct_like <- function() {
-    setdiff(Variables(), Factors())
+  setdiff(variables_all(), Factors())
+  # setdiff(variables_all(), variables_fct_like())
 }
 
 #' Non-factor variable names in active dataset
@@ -95,7 +165,7 @@ variables_non_fct_like <- function() {
 #' @keywords internal
 #' @export
 variables_non_fct <- function() {
-    setdiff(Variables(), Factors())
+  setdiff(variables_all(), variables_fct())
 }
 
 
@@ -104,14 +174,18 @@ variables_non_fct <- function() {
 #' @keywords internal
 #' @export
 variables_fct_like_2_lvls <- function() {
-    TwoLevelFactors()
+  TwoLevelFactors()
 }
 #' Numeric variable names in active dataset
 #'
 #' @keywords internal
 #' @export
 variables_num <- function() {
-    Numeric()
+  Numeric()
+  # list_objects_of_class(
+  #   c("integer", "numeric"),
+  #   envir =  get_active_ds(fail = FALSE)
+  # )
 }
 
 #' Numeric variable names in active dataset
@@ -119,7 +193,8 @@ variables_num <- function() {
 #' @keywords internal
 #' @export
 variables_int <- function() {
-    list_objects_of_class("integer", envir = as.environment(get_active_ds()))
+  vars <- list_objects_of_class("integer", envir = get_active_ds(fail = FALSE))
+  make_sorted(vars)
 }
 
 #' Numeric variable names in active dataset
@@ -127,7 +202,7 @@ variables_int <- function() {
 #' @keywords internal
 #' @export
 variables_dbl <- function() {
-    setdiff(Numeric(), variables_int())
+  base::setdiff(Numeric(), variables_int())
 }
 
 #' @rdname Helper-functions
@@ -135,12 +210,12 @@ variables_dbl <- function() {
 #' @keywords internal
 variables_with_unique_values <- function() {
 
-    ds <- get(active_dataset(), envir = .GlobalEnv)
-    not_duplicated_cols <- purrr::map_lgl(ds, ~!any(duplicated(.)))
-    (not_duplicated_cols[not_duplicated_cols == TRUE]) %>%
-        names() %>%
-        sort()
+  ds <- get_active_ds()
+  not_duplicated_cols <- purrr::map_lgl(ds, ~!any(duplicated(.)))
+  vars <- names(not_duplicated_cols[not_duplicated_cols == TRUE])
+  make_sorted(vars)
 }
+
 
 
 #' Numeric variable names in active dataset
@@ -148,8 +223,10 @@ variables_with_unique_values <- function() {
 #' @keywords internal
 #' @export
 variables_oth <- function() {
-    setdiff(Variables(),
-        c(Numeric(), variables_chr(), variables_lgl(), variables_fct()))
+  setdiff(
+    variables_all(),
+    c(variables_num(), variables_chr(), variables_lgl(), variables_fct())
+  )
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -157,11 +234,11 @@ variables_oth <- function() {
 #' @export
 #' @keywords internal
 list_summaries_Models <- function(envir = .GlobalEnv, ...) {
-    objects <- ls(envir = envir, ...)
-    if (length(objects) == 0)
-        NULL
-    else objects[sapply(objects, function(.x)
-        "summaries_model" == (class(get(.x, envir = envir))[1]))]
+  objects <- ls(envir = envir, ...)
+  if (length(objects) == 0)
+    NULL
+  else objects[sapply(objects, function(.x)
+    "summaries_model" == (class(get(.x, envir = envir))[1]))]
 }
 
 
@@ -179,17 +256,17 @@ list_summaries_Models <- function(envir = .GlobalEnv, ...) {
 # envir_eval  - environment to evaluate in.
 # envir_glue  - environment to glue in.
 str_glue_eval <- function(..., envir = parent.frame(),
-    # .collapse = "\n",
-    .sep = "", .open = "{", .close = "}",
-    envir_eval = envir,
-    envir_glue = envir) {
+  # .collapse = "\n",
+  .sep = "", .open = "{", .close = "}",
+  envir_eval = envir,
+  envir_glue = envir) {
 
-    commands_as_text <- stringr::str_glue(...,
-        .envir = envir_glue,
-        .open  = .open,
-        .close = .close)
-    # commands_as_text <- stringr::str_c(commands_as_text, collapse = .collapse)
-    eval(parse(text = commands_as_text), envir = envir_eval)
+  commands_as_text <- stringr::str_glue(...,
+    .envir = envir_glue,
+    .open  = .open,
+    .close = .close)
+  # commands_as_text <- stringr::str_c(commands_as_text, collapse = .collapse)
+  eval(parse(text = commands_as_text), envir = envir_eval)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -200,7 +277,7 @@ str_glue_eval <- function(..., envir = parent.frame(),
 # x - commands written as text;
 # envir - environment to evaluate in.
 eval_text <- function(x, envir = parent.frame(), ...) {
-    eval(parse(text = x), envir = envir, ...)
+  eval(parse(text = x), envir = envir, ...)
 }
 
 
@@ -209,11 +286,11 @@ eval_text <- function(x, envir = parent.frame(), ...) {
 #' @export
 #' @keywords internal
 style_cmd <- function(command, indent_by = 2, ...) {
-    cmd <- styler::style_text(command, indent_by = indent_by, ...)
-    structure(
-        paste0(as.character(cmd), collapse = "\n"),
-        class = c("glue", "character")
-    )
+  cmd <- styler::style_text(command, indent_by = indent_by, ...)
+  structure(
+    paste0(as.character(cmd), collapse = "\n"),
+    class = c("glue", "character")
+  )
 }
 
 
@@ -222,25 +299,25 @@ style_cmd <- function(command, indent_by = 2, ...) {
 #' @export
 #' @keywords internal
 try_command <- function(x) {
-    safe_parse <-
-        purrr::safely(parse, otherwise = structure("", class = "try-error"))
-    rez <- safe_parse(text = x)
+  safe_parse <-
+    purrr::safely(parse, otherwise = structure("", class = "try-error"))
+  rez <- safe_parse(text = x)
 
-    if (!is.null(rez$error)) {
-        structure(rez$error, class = "try-error")
+  if (!is.null(rez$error)) {
+    structure(rez$error, class = "try-error")
 
-    } else {
-        rez$result
-    }
+  } else {
+    rez$result
+  }
 
-    # On error returns class "try-error" as `justDoIt()` does
+  # On error returns class "try-error" as `justDoIt()` does
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 is_try_error <- function(obj) {
-    inherits(obj, "try-error")
+  inherits(obj, "try-error")
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -249,58 +326,58 @@ is_try_error <- function(obj) {
 #' @keywords internal
 function_not_implemented <- function() {
 
-    top <- CommanderWindow()
+  top <- CommanderWindow()
 
-    tk_messageBox(
-        parent = top,
-        "The function is not implemented yet!",
-        icon = "warning",
-        title = "No Function Yet",
-        type = "ok")
+  tk_messageBox(
+    parent = top,
+    "The function is not implemented yet!",
+    icon = "warning",
+    title = "No Function Yet",
+    type = "ok")
 
-    return()
+  return()
 
-    x = NULL
-    doItAndPrint("## ~~~ Not implemented yet! ~~~\n")
+  x = NULL
+  doItAndPrint("## ~~~ Not implemented yet! ~~~\n")
 
-    if (is.null(x)) {
-        x <- "This function"
-    }
+  if (is.null(x)) {
+    x <- "This function"
+  }
 
-    text <- str_glue("# ~~~ {x} will be implemented  \n ",
-        "# ~~~ in the future versions of package `RcmdrPlugin.biostat`! ")
+  text <- str_glue("# ~~~ {x} will be implemented  \n ",
+    "# ~~~ in the future versions of package `RcmdrPlugin.biostat`! ")
 
-    msg <- str_glue("{x} will be implemented in the future versions of package",
-        " `RcmdrPlugin.biostat`! ")
+  msg <- str_glue("{x} will be implemented in the future versions of package",
+    " `RcmdrPlugin.biostat`! ")
 
-    doItAndPrint(text)
-    Message(msg, type = "warning")
+  doItAndPrint(text)
+  Message(msg, type = "warning")
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Function that creates a function to be used in 'Help' context menus.) {
 open_help <- function(topic = NULL, package = NULL, vignette = NULL, ...) {
-    function() {
+  function() {
 
-        if (!is.null(topic)) {
-            print(utils::help((topic), package = (package), ...))
+    if (!is.null(topic)) {
+      print(utils::help((topic), package = (package), ...))
 
-        } else if (!is.null(vignette)) {
-            print(utils::vignette(topic = (vignette), package = (package)))
+    } else if (!is.null(vignette)) {
+      print(utils::vignette(topic = (vignette), package = (package)))
 
-        } else {
-            print(utils::help(package = (package), ...))
-        }
-
+    } else {
+      print(utils::help(package = (package), ...))
     }
+
+  }
 }
 
 
 # Function that creates a function to be used in 'Help' context menus.
 open_online_fun <- function(url) {
-    function() {
-        open_online_tool(url)
-    }
+  function() {
+    open_online_tool(url)
+  }
 }
 
 # ___ Translate ___ ==========================================================
@@ -310,7 +387,7 @@ open_online_fun <- function(url) {
 #' @export
 #' @keywords internal
 gettext_ezr <- function(...) {
-    gettext(domain = "R-RcmdrPlugin.EZR", ...)
+  gettext(domain = "R-RcmdrPlugin.EZR", ...)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -318,7 +395,7 @@ gettext_ezr <- function(...) {
 #' @export
 #' @keywords internal
 gettext_bs <- function(...) {
-    gettext(..., domain = "R-RcmdrPlugin.biostat")
+  gettext(..., domain = "R-RcmdrPlugin.biostat")
 }
 
 
@@ -327,21 +404,21 @@ gettext_bs <- function(...) {
 #' @export
 #' @keywords internal
 s2u <- function(str) {
-    gsub(" ", "_", str)
+  gsub(" ", "_", str)
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 u2s <- function(str) {
-    gsub("_", " ", str)
+  gsub("_", " ", str)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 spaces <- function(n, symbol = " ") {
-    paste0(rep(symbol, length = n), collapse = "")
+  paste0(rep(symbol, length = n), collapse = "")
 }
 
 #' @rdname Helper-functions
@@ -351,35 +428,28 @@ spaces <- function(n, symbol = " ") {
 logger_error <- function(command = NULL, error_msg = NULL) {
 
 
-    if (!is.null(command)) {
-        logger(str_c("#### START (code with error) ", spaces(50, "-")), rmd = FALSE)
-        rez <- logger(str_c(
-            "   #   ", str_split(command,"\n")[[1]], collapse = "\n"),  rmd = FALSE)
+  if (!is.null(command)) {
+    logger(str_c("#### START (code with error) ", spaces(50, "-")), rmd = FALSE)
+    rez <- logger(str_c(
+      "   #   ", str_split(command,"\n")[[1]], collapse = "\n"),  rmd = FALSE)
 
-        txt <- "-----"
+    txt <- "-----"
 
-    } else {
-        txt <- "START"
-    }
+  } else {
+    txt <- "START"
+  }
 
-    if (!is.null(error_msg)) {
-        logger(str_c("#### ", txt ," (error message) ", spaces(52, "-")), rmd = FALSE)
-        rez <- logger(str_c(
-            "   #   ", str_split(error_msg,"\n")[[1]], collapse = "\n"),  rmd = FALSE)
-    }
+  if (!is.null(error_msg)) {
+    logger(str_c("#### ", txt ," (error message) ", spaces(52, "-")), rmd = FALSE)
+    rez <- logger(str_c(
+      "   #   ", str_split(error_msg,"\n")[[1]], collapse = "\n"),  rmd = FALSE)
+  }
 
-    logger(str_c("#### END ", spaces(70, "-")), rmd = FALSE)
+  logger(str_c("#### END ", spaces(70, "-")), rmd = FALSE)
 
-    invisible(NULL)
+  invisible(NULL)
 }
 
-
-#' @rdname Helper-functions
-#' @export
-#' @keywords internal
-tk_label_blue <- function(...) {
-    bs_label(..., foreground = getRcmdr("title.color"))
-}
 
 # ___ Clipboard  ___ ==========================================================
 #' Read text from clipboard.
@@ -419,11 +489,11 @@ tk_label_blue <- function(...) {
 
 read_clipboard <- function(which = "tcltk") {
 
-    switch(
-        which,
-        tcltk = read_clipboard_tcltk(),
-        clipr = read_clipboard_clipr()
-    )
+  switch(
+    which,
+    tcltk = read_clipboard_tcltk(),
+    clipr = read_clipboard_clipr()
+  )
 
 }
 
@@ -431,11 +501,11 @@ read_clipboard <- function(which = "tcltk") {
 #' @export
 read_clipboard_clipr <- function() {
 
-    tryCatch(
-        paste0(clipr::read_clip(), collapse = "\n"),
-        warning = function(w) "",
-        error =   function(e) ""
-    )
+  tryCatch(
+    paste0(clipr::read_clip(), collapse = "\n"),
+    warning = function(w) "",
+    error =   function(e) ""
+  )
 
 }
 
@@ -443,12 +513,12 @@ read_clipboard_clipr <- function() {
 #' @export
 read_clipboard_tcltk <- function() {
 
-    str <- try(
-        silent = TRUE,
-        tcltk::tclvalue(tcltk::.Tcl("selection get -selection CLIPBOARD"))
-    )
+  str <- try(
+    silent = TRUE,
+    tcltk::tclvalue(tcltk::.Tcl("selection get -selection CLIPBOARD"))
+  )
 
-    if (!inherits(str, "try-error")) str else ""
+  if (!inherits(str, "try-error")) str else ""
 }
 
 #' Expotr text/dataframe to clipboard.
@@ -470,19 +540,19 @@ export_to_clipboard <- function(ds_name = active_dataset_0(), sep = ",", ...) {
 #' @rdname export_to_clipboard
 #' @export
 export_to_clipboard_active_ds_tab <- function() {
-    try(
-        clipr::write_clip(
-            get(active_dataset_0(), envir = .GlobalEnv), sep = "\t"),
-        silent = TRUE)
+  try(
+    clipr::write_clip(
+      get(active_dataset_0(), envir = .GlobalEnv), sep = "\t"),
+    silent = TRUE)
 }
 
 #' @rdname export_to_clipboard
 #' @export
 export_to_clipboard_active_ds_tab_euro <- function() {
-    try(
-        clipr::write_clip(
-            get(active_dataset_0(), envir = .GlobalEnv), sep = "\t", dec = ","),
-        silent = TRUE)
+  try(
+    clipr::write_clip(
+      get(active_dataset_0(), envir = .GlobalEnv), sep = "\t", dec = ","),
+    silent = TRUE)
 }
 
 # ___ Vectors  ___ ===========================================================
@@ -493,25 +563,25 @@ export_to_clipboard_active_ds_tab_euro <- function() {
 
 # Swap 2 elements in a vector
 swap <- function(x, i, j) {
-    x[c(i, j)] <- x[c(j, i)]
-    x
+  x[c(i, j)] <- x[c(j, i)]
+  x
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 swap_rows <- function(x, i, j) {
-    tmp <- str_split(x, "\n")[[1]]
-    tmp <- swap(tmp, i, j)
-    str_c(tmp, collapse = "\n")
+  tmp <- str_split(x, "\n")[[1]]
+  tmp <- swap(tmp, i, j)
+  str_c(tmp, collapse = "\n")
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 correct_row_index <- function(i, n_max) {
-    # Make a valid row index: between 1 and maximum (n)
-    if (i < 1) 1 else if (i > n_max) n_max else i
+  # Make a valid row index: between 1 and maximum (n)
+  if (i < 1) 1 else if (i > n_max) n_max else i
 }
 
 # ___ Names ___ ==============================================================
@@ -522,8 +592,8 @@ correct_row_index <- function(i, n_max) {
 #' @param str sring
 #' @param ... other arguments
 clean_str <- function(str, transliterations = "Latin-ASCII", ...) {
-    snakecase::to_any_case(
-        make.names(str), transliterations = transliterations, ...)
+  snakecase::to_any_case(
+    make.names(str), transliterations = transliterations, ...)
 }
 
 #' @rdname Helper-functions
@@ -533,32 +603,32 @@ clean_str <- function(str, transliterations = "Latin-ASCII", ...) {
 #
 # @param name - name of dataset before suffix and prefix are added.
 get_obj_names <-  function(
-    include_class  = NULL,
-    exclude_class  = NULL,
-    include2_class = NULL,
-    all.names = TRUE,
-    envir = globalenv()) {
+  include_class  = NULL,
+  exclude_class  = NULL,
+  include2_class = NULL,
+  all.names = TRUE,
+  envir = globalenv()) {
 
 
-    all_variable_names <- objects(envir, all.names = all.names)
+  all_variable_names <- objects(envir, all.names = all.names)
 
-    if (length(all_variable_names) > 0) {
-        objs <- mget(all_variable_names, envir = envir)
+  if (length(all_variable_names) > 0) {
+    objs <- mget(all_variable_names, envir = envir)
 
-        if (!is.null(include_class)) {
-            objs <- purrr::keep(objs, ~inherits(.x, include_class))
-        }
-
-        if (!is.null(exclude_class)) {
-            objs <- purrr::discard(objs, ~inherits(.x, exclude_class))
-        }
-
-        if (!is.null(include2_class)) {
-            objs <- purrr::keep(objs, ~inherits(.x, include2_class))
-        }
-
-        names(objs)
+    if (!is.null(include_class)) {
+      objs <- purrr::keep(objs, ~inherits(.x, include_class))
     }
+
+    if (!is.null(exclude_class)) {
+      objs <- purrr::discard(objs, ~inherits(.x, exclude_class))
+    }
+
+    if (!is.null(include2_class)) {
+      objs <- purrr::keep(objs, ~inherits(.x, include2_class))
+    }
+
+    names(objs)
+  }
 }
 
 
@@ -570,124 +640,124 @@ get_obj_names <-  function(
 #
 # @param name - name of dataset before suffix and prefix are added.
 unique_obj_names <- function(names,
-    prefix = "",
-    suffix  = "",
-    list_of_choices = objects(all.names = TRUE,
-        envir = .GlobalEnv),
-    all_numbered = FALSE) {
-    if (length(names) == 0)
-        return(NULL)
+  prefix = "",
+  suffix  = "",
+  list_of_choices = objects(all.names = TRUE,
+    envir = .GlobalEnv),
+  all_numbered = FALSE) {
+  if (length(names) == 0)
+    return(NULL)
 
-    initial_names <- str_glue("{prefix}{names}{suffix}")
+  initial_names <- str_glue("{prefix}{names}{suffix}")
 
-    n_names <- length(names)
+  n_names <- length(names)
 
-    list_to_check <-
-        if (all_numbered) {
-            c(list_of_choices, initial_names, initial_names)
+  list_to_check <-
+    if (all_numbered) {
+      c(list_of_choices, initial_names, initial_names)
 
-        } else {
-            c(list_of_choices, initial_names)
-        }
+    } else {
+      c(list_of_choices, initial_names)
+    }
 
-    list_to_check %>%
-        make.unique(sep = "_") %>%
-        rev() %>%
-        .[1:n_names] %>%    # select the last elements
-        rev()
+  list_to_check %>%
+    make.unique(sep = "_") %>%
+    rev() %>%
+    .[1:n_names] %>%    # select the last elements
+    rev()
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 unique_df_name <- function(names = active_dataset_0(),
-    prefix = "",
-    suffix = "",
-    list_of_choices = objects(all.names = TRUE,
-        envir = .GlobalEnv),
-    all_numbered = FALSE) {
+  prefix = "",
+  suffix = "",
+  list_of_choices = objects(all.names = TRUE,
+    envir = .GlobalEnv),
+  all_numbered = FALSE) {
 
-    unique_obj_names(names, prefix, suffix, list_of_choices, all_numbered)
+  unique_obj_names(names, prefix, suffix, list_of_choices, all_numbered)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 unique_file_name <- function(name = "file", # all names are converted to lower case.
-    dir = getwd(),
-    list_of_choices = dir(dir, all.files = TRUE),
-    all_numbered = FALSE) {
+  dir = getwd(),
+  list_of_choices = dir(dir, all.files = TRUE),
+  all_numbered = FALSE) {
 
-    if (length(name) == 0) {
-        name <- "file"
+  if (length(name) == 0) {
+    name <- "file"
 
-    } else if (length(name) > 1) {
-        stop("There should be only one file name.")
+  } else if (length(name) > 1) {
+    stop("There should be only one file name.")
+  }
+
+  ext <- fs::path_ext(name)
+  initial_names <- fs::path_ext_remove(name)
+
+  n_names <- length(name)
+
+  list_to_check <-
+    if (all_numbered) {
+      c(list_of_choices, initial_names, initial_names)
+    } else {
+      c(list_of_choices, initial_names)
     }
 
-    ext <- fs::path_ext(name)
-    initial_names <- fs::path_ext_remove(name)
-
-    n_names <- length(name)
-
-    list_to_check <-
-        if (all_numbered) {
-            c(list_of_choices, initial_names, initial_names)
-        } else {
-            c(list_of_choices, initial_names)
-        }
-
-    list_to_check %>%
-        str_to_lower() %>%
-        make.unique(sep = "_") %>%
-        tail(n = n_names) %>%
-        set_multi_ext(ext)
+  list_to_check %>%
+    str_to_lower() %>%
+    make.unique(sep = "_") %>%
+    tail(n = n_names) %>%
+    set_multi_ext(ext)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # TODO: [???] "Not implemented"
 unique_file_name_2 <- function(name = "file", # all names are converted to lower case.
-    dir = NULL,
-    list_of_choices = NULL,
-    all_numbered = FALSE) {
+  dir = NULL,
+  list_of_choices = NULL,
+  all_numbered = FALSE) {
 
-    stop("Not implemented") # TODO: [???]
+  stop("Not implemented") # TODO: [???]
 
-    if (length(name) == 0) {
-        name <- "file"
-    } else if (length(name) > 1) {
-        stop("There should be only one file name.")
+  if (length(name) == 0) {
+    name <- "file"
+  } else if (length(name) > 1) {
+    stop("There should be only one file name.")
+  }
+
+  ext <- fs::path_ext(name)
+  initial_names <- fs::path_ext_remove(name)
+  n_names <- length(name)
+
+  if (is.null(dir) || dir == "" || !fs::dir_exists(dir)) {
+    dir <- getwd()
+  }
+
+
+  if (is.null(list_of_choices)) {
+    list_of_choices <-
+      dir(path = dir,
+        pattern = str_replace_all(initial_names, "\\.", ".*?"),
+        ignore.case = TRUE,
+        all.files = TRUE)
+  }
+
+  list_to_check <-
+    if (all_numbered) {
+      c(list_of_choices, initial_names, initial_names)
+    } else {
+      c(list_of_choices, initial_names)
     }
 
-    ext <- fs::path_ext(name)
-    initial_names <- fs::path_ext_remove(name)
-    n_names <- length(name)
-
-    if (is.null(dir) || dir == "" || !fs::dir_exists(dir)) {
-        dir <- getwd()
-    }
-
-
-    if (is.null(list_of_choices)) {
-        list_of_choices <-
-            dir(path = dir,
-                pattern = str_replace_all(initial_names, "\\.", ".*?"),
-                ignore.case = TRUE,
-                all.files = TRUE)
-    }
-
-    list_to_check <-
-        if (all_numbered) {
-            c(list_of_choices, initial_names, initial_names)
-        } else {
-            c(list_of_choices, initial_names)
-        }
-
-    list_to_check %>%
-        str_to_lower() %>%
-        make.unique(sep = "_") %>%
-        tail(n = n_names) %>%
-        set_multi_ext(ext)
+  list_to_check %>%
+    str_to_lower() %>%
+    make.unique(sep = "_") %>%
+    tail(n = n_names) %>%
+    set_multi_ext(ext)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -695,23 +765,23 @@ unique_file_name_2 <- function(name = "file", # all names are converted to lower
 #' @export
 #' @keywords internal
 unique_colnames <- function(names = "",
-    prefix = "",
-    suffix = "",
-    list_of_choices = listVariables(),
-    all_numbered = FALSE) {
+  prefix = "",
+  suffix = "",
+  list_of_choices = listVariables(),
+  all_numbered = FALSE) {
 
-    unique_obj_names(names, prefix, suffix, list_of_choices, all_numbered)
+  unique_obj_names(names, prefix, suffix, list_of_choices, all_numbered)
 }
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 unique_colnames_2 <- function(names = "",
-    prefix = "",
-    suffix = "",
-    list_of_choices = listVariables(),
-    all_numbered = TRUE) {
+  prefix = "",
+  suffix = "",
+  list_of_choices = listVariables(),
+  all_numbered = TRUE) {
 
-    unique_obj_names(names, prefix, suffix, list_of_choices, all_numbered)
+  unique_obj_names(names, prefix, suffix, list_of_choices, all_numbered)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -721,9 +791,9 @@ unique_colnames_2 <- function(names = "",
 # Adds `` arround string with name, if that name does not follow the rules for
 # R names.
 safe_names <- function(str) {
-    need_q <- (make.names(str) != str)
-    q <- ifelse(need_q, "`", "")
-    str_c(q, str, q)
+  need_q <- (make.names(str) != str)
+  q <- ifelse(need_q, "`", "")
+  str_c(q, str, q)
 }
 
 
@@ -738,7 +808,7 @@ safe_names <- function(str) {
 #' @keywords internal
 #' @export
 make_relative_path <- function(str) {
-    sub(paste0(getwd(), "/?"), "", str)
+  sub(paste0(getwd(), "/?"), "", str)
 }
 
 
@@ -750,25 +820,25 @@ make_relative_path <- function(str) {
 #                      # "c:/p1p1p1p1p1/p2p2p2p2p2p2/p3p3p3p3p3p3p3/file2.xlsx"
 # path_truncate(path)  # --->  "c:/p1p1p1p1p1/ ... /file2.xlsx"
 path_truncate <- function(path, max_length = 30) {
-    path <- normalizePath(path, winslash = "/")
+  path <- normalizePath(path, winslash = "/")
 
-    if (str_length(path) <= max_length) {
-        show_trunc <- path
-    } else {
-        path_parts <- str_split(path, "/")[[1]]
-        last_ind <- length(path_parts)
-        legths <- path_parts %>% map_int(str_length)
-        lengths2 <-
-            cumsum(c(legths[last_ind], legths[-last_ind])) + 5 # 5 is length of " ... "
-        add_parts <- max(which(lengths2 <= max_length)) - 1    # -1 is minus the last one
-        add_parts <- max(1, add_parts)
-        show_trunc <-
-            file.path(str_c(path_parts[1:add_parts], collapse = "/"),
-                " ... ",
-                path_parts[last_ind])
-    }
+  if (str_length(path) <= max_length) {
+    show_trunc <- path
+  } else {
+    path_parts <- str_split(path, "/")[[1]]
+    last_ind <- length(path_parts)
+    legths <- path_parts %>% map_int(str_length)
+    lengths2 <-
+      cumsum(c(legths[last_ind], legths[-last_ind])) + 5 # 5 is length of " ... "
+    add_parts <- max(which(lengths2 <= max_length)) - 1    # -1 is minus the last one
+    add_parts <- max(1, add_parts)
+    show_trunc <-
+      file.path(str_c(path_parts[1:add_parts], collapse = "/"),
+        " ... ",
+        path_parts[last_ind])
+  }
 
-    show_trunc
+  show_trunc
 }
 
 
@@ -779,32 +849,32 @@ path_truncate <- function(path, max_length = 30) {
 #' @keywords internal
 #' @export
 extract_filename <- function(str) {
-    str %>% fs::path_file() %>% fs::path_ext_remove()
-    # sub("(.*\\/)([^.]+)(\\.[[:alnum:]]+$)", "\\2", str)
+  str %>% fs::path_file() %>% fs::path_ext_remove()
+  # sub("(.*\\/)([^.]+)(\\.[[:alnum:]]+$)", "\\2", str)
 }
 
 fs_path_ext_remove <- function(path) {
-    fs::path(fs::path_dir(path), fs::path_ext_remove(fs::path_file(path)))
+  fs::path(fs::path_dir(path), fs::path_ext_remove(fs::path_file(path)))
 }
 
 fs_path_ext_set <- function(path, ext) {
-    fs::path(fs::path_dir(path), fs::path_ext_set(fs::path_file(path), ext = ext))
+  fs::path(fs::path_dir(path), fs::path_ext_set(fs::path_file(path), ext = ext))
 }
 
 # More robust version of fs::path_ext_set()
 set_multi_ext  <- function(path, ext) {
-    # Prepares `ext` or results in error.
-    if (length(ext) == 1) {
-        ext <- rep(ext, length(path))
-    } else if (length(ext) != length(path)) {
-        stop("The number of extensions (`ext`) should be equal to 1 or match the number of paths (`path`).")
-    }
+  # Prepares `ext` or results in error.
+  if (length(ext) == 1) {
+    ext <- rep(ext, length(path))
+  } else if (length(ext) != length(path)) {
+    stop("The number of extensions (`ext`) should be equal to 1 or match the number of paths (`path`).")
+  }
 
-    ext <- sub("^\\.(.*)$", "\\1", ext) # Removes leading dot from the extension, if present
+  ext <- sub("^\\.(.*)$", "\\1", ext) # Removes leading dot from the extension, if present
 
-    cond <- !is.na(path) & ext != "" # To exclude NA strings and empty extensions
-    path[cond] <-  paste0(fs::path_ext_remove(path[cond]), ".", ext[cond])
-    fs::path_tidy(path)
+  cond <- !is.na(path) & ext != "" # To exclude NA strings and empty extensions
+  path[cond] <-  paste0(fs::path_ext_remove(path[cond]), ".", ext[cond])
+  fs::path_tidy(path)
 }
 
 
@@ -815,10 +885,10 @@ set_multi_ext  <- function(path, ext) {
 #'
 #' @export
 is_file_writable <- function(file = "") {
-    # If fais to rename (to the same name), it means that file is
-    # busy, locked or open
-    rez <- try(fs::file_move(file, file), silent = TRUE)
-    !is_try_error(rez)
+  # If fais to rename (to the same name), it means that file is
+  # busy, locked or open
+  rez <- try(fs::file_move(file, file), silent = TRUE)
+  !is_try_error(rez)
 }
 
 # ___ Messages and message boxes ____ ========================================
@@ -833,49 +903,49 @@ is_file_writable <- function(file = "") {
 #                  caption = title, type = "ok")
 # }
 show_error_messages <- function(message, popup_msg = message, title = "Error",
-    parent = CommanderWindow()) {
-    Message(message = message, type = "error")
-    # RcmdrTkmessageBox(popup_msg, icon = "error", title = title, type = "ok")
-    tk_messageBox(parent = parent, message = popup_msg, caption = title,
-        type = "ok", icon = "error")
+  parent = CommanderWindow()) {
+  Message(message = message, type = "error")
+  # RcmdrTkmessageBox(popup_msg, icon = "error", title = title, type = "ok")
+  tk_messageBox(parent = parent, message = popup_msg, caption = title,
+    type = "ok", icon = "error")
 }
 
 
 msg_box_clear_input <- function(parent = CommanderWindow()) {
-    tk_messageBox(
-        parent = parent,
-        type = "yesno",
-        default = "no",
-        icon = "warning",
-        message = str_c(
-            'The contents of the Input window will be deleted. \n',
-            'Do you agree?'
-        ),
-        caption = "Clear Input")
+  tk_messageBox(
+    parent = parent,
+    type = "yesno",
+    default = "no",
+    icon = "warning",
+    message = str_c(
+      'The contents of the Input window will be deleted. \n',
+      'Do you agree?'
+    ),
+    caption = "Clear Input")
 }
 
 msg_box_import_file_not_found <- function(parent = CommanderWindow()) {
-    tk_messageBox(
-        parent = parent,
-        type = "ok",
-        icon = "error",
-        message = str_c(
-            'The file was not found. Check if the name and \n',
-            'the path in the box "File, URL" are correct and\n',
-            'not empty.'),
-        caption = "File Not Found")
+  tk_messageBox(
+    parent = parent,
+    type = "ok",
+    icon = "error",
+    message = str_c(
+      'The file was not found. Check if the name and \n',
+      'the path in the box "File, URL" are correct and\n',
+      'not empty.'),
+    caption = "File Not Found")
 }
 
 msg_box_check_internet_connection <- function(parent = CommanderWindow()) {
-    tk_messageBox(
-        parent = parent,
-        message = str_c(
-            "It seems that your file is on the Internet, but you are offline.\n",
-            "Please, check Internet connection."
-        ),
-        icon  = "warning",
-        caption = "No Internet Connection",
-        type  = "ok")
+  tk_messageBox(
+    parent = parent,
+    message = str_c(
+      "It seems that your file is on the Internet, but you are offline.\n",
+      "Please, check Internet connection."
+    ),
+    icon  = "warning",
+    caption = "No Internet Connection",
+    type  = "ok")
 }
 
 # ____ Other functions ____ ==================================================
@@ -893,22 +963,22 @@ do_nothing <- function(...) {}
 #   https://superuser.com/questions/1354256/how-can-i-programmatically-access-the-region-of-a-windows-computer
 get_system_info <- function() {
 
-    if (is.null(biostat_env$systeminfo)) {
-        if (.Platform$OS.type == "windows") {
-            # For Windows: get information about Windows.
-            # Administrator password may be required.
-            biostat_env$systeminfo <-
-                shell("systeminfo", intern = TRUE) %>%
-                structure(class = c("glue", "character"))
+  if (is.null(biostat_env$systeminfo)) {
+    if (.Platform$OS.type == "windows") {
+      # For Windows: get information about Windows.
+      # Administrator password may be required.
+      biostat_env$systeminfo <-
+        shell("systeminfo", intern = TRUE) %>%
+        structure(class = c("glue", "character"))
 
-        } else {
-            # TODO:
-            #  get_system_info() code for other OS'es is needed
+    } else {
+      # TODO:
+      #  get_system_info() code for other OS'es is needed
 
-        }
     }
+  }
 
-    biostat_env$systeminfo
+  biostat_env$systeminfo
 }
 
 # ___ Check ___ ==============================================================
@@ -918,7 +988,7 @@ get_system_info <- function() {
 #' @keywords internal
 #' @export
 is_url <- function(str) {
-    str_detect(str, "^(http://|https://|ftp://|ftps://)")
+  str_detect(str, "^(http://|https://|ftp://|ftps://)")
 }
 
 # + Valid name ---------------------------------------------------------------
@@ -951,43 +1021,43 @@ is_url <- function(str) {
 #' }}
 is_valid_name <- function(name, parent = CommanderWindow()) {
 
-    if (is_empty_name(name)) {
-        return(FALSE) # is not valid name
+  if (is_empty_name(name)) {
+    return(FALSE) # is not valid name
 
-    } else if (name != make.names(name)) {
-        # message  <- str_glue('"{name}" {gettext_bs("is not a valid name.")}')
-        message  <- str_glue('Name "{name}" is not valid.')
-        message2 <- str_glue(
-            "{message} \n\n",
-            "Valid names must start with a letter and contain only \n ",
-            "letters, numbers, underscores (_) and periods (.). ")
+  } else if (name != make.names(name)) {
+    # message  <- str_glue('"{name}" {gettext_bs("is not a valid name.")}')
+    message  <- str_glue('Name "{name}" is not valid.')
+    message2 <- str_glue(
+      "{message} \n\n",
+      "Valid names must start with a letter and contain only \n ",
+      "letters, numbers, underscores (_) and periods (.). ")
 
-        show_error_messages(
-            message, message2,
-            title = "Invalid Name",
-            parent = parent)
+    show_error_messages(
+      message, message2,
+      title = "Invalid Name",
+      parent = parent)
 
-        # is not valid name
-        return(FALSE)
+    # is not valid name
+    return(FALSE)
 
-    } else {
-        # is_valid_name
-        return(TRUE)
-    }
+  } else {
+    # is_valid_name
+    return(TRUE)
+  }
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 is_not_valid_name <- function(name, parent = CommanderWindow()) {
-    !is_valid_name(name, parent = parent)
+  !is_valid_name(name, parent = parent)
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 is_empty_name <- function(name, which_name = "name", parent = CommanderWindow()) {
-    !is_not_empty_name(name, which_name = which_name, parent = parent)
+  !is_not_empty_name(name, which_name = which_name, parent = parent)
 }
 
 #' @rdname Helper-functions
@@ -1029,55 +1099,55 @@ is_empty_name <- function(name, which_name = "name", parent = CommanderWindow())
 # }
 
 is_not_empty_name <- function(name, which_name = "name",
-    parent = CommanderWindow(),
-    article = "a") {
+  parent = CommanderWindow(),
+  article = "a") {
 
-    if (length(name) < 1) {
-        message  <-
-            str_glue("The object does not contain any strings.\n",
-                " Please, enter {article} {which_name}.")
+  if (length(name) < 1) {
+    message  <-
+      str_glue("The object does not contain any strings.\n",
+        " Please, enter {article} {which_name}.")
 
-        show_error_messages(
-            message, message,
-            title = str_glue("Missing {str_to_title(which_name)}"),
-            parent = parent)
+    show_error_messages(
+      message, message,
+      title = str_glue("Missing {str_to_title(which_name)}"),
+      parent = parent)
 
-        return(FALSE)
+    return(FALSE)
 
-    } else if (length(name) > 1) {
-        message  <- "The object cotains more than one string."
+  } else if (length(name) > 1) {
+    message  <- "The object cotains more than one string."
 
-        show_error_messages(
-            message, message,
-            title = str_glue("Too Many {str_to_title(which_name)}s"),
-            parent = parent)
+    show_error_messages(
+      message, message,
+      title = str_glue("Too Many {str_to_title(which_name)}s"),
+      parent = parent)
 
-        return(FALSE)
+    return(FALSE)
 
-    } else if (!(is.character(name))) {
-        message  <- str_glue('The class of the object with \n',
-            'the {which_name} must be "character".')
-        show_error_messages(
-            message, message,
-            title = "Invalid Class",
-            parent = parent)
+  } else if (!(is.character(name))) {
+    message  <- str_glue('The class of the object with \n',
+      'the {which_name} must be "character".')
+    show_error_messages(
+      message, message,
+      title = "Invalid Class",
+      parent = parent)
 
-        return(FALSE)
+    return(FALSE)
 
-    } else if (name == "") {
-        message  <- str_glue('The {which_name} field must not be empty.\n',
-            'Please, enter {article} {which_name}.')
-        show_error_messages(
-            message, message,
-            title = str_glue("Empty {str_to_title(which_name)}"),
-            parent = parent)
+  } else if (name == "") {
+    message  <- str_glue('The {which_name} field must not be empty.\n',
+      'Please, enter {article} {which_name}.')
+    show_error_messages(
+      message, message,
+      title = str_glue("Empty {str_to_title(which_name)}"),
+      parent = parent)
 
-        return(FALSE)
+    return(FALSE)
 
-    } else {
-        # is_valid_name
-        return(TRUE)
-    }
+  } else {
+    # is_valid_name
+    return(TRUE)
+  }
 
 }
 
@@ -1087,93 +1157,93 @@ is_not_empty_name <- function(name, which_name = "name",
 #' @export
 #' @keywords internal
 variable_is_not_selected <- function(obj, obj_type = "variable",
-    parent = CommanderWindow(),
-    article = "a") {
+  parent = CommanderWindow(),
+  article = "a") {
 
-    if (length(obj) < 1 || (length(obj) == 1 && any(obj == ""))) {
-        message  <- str_glue(
-            "No {obj_type} is selected.\n",
-            "Please, select {article} {obj_type}.")
+  if (length(obj) < 1 || (length(obj) == 1 && any(obj == ""))) {
+    message  <- str_glue(
+      "No {obj_type} is selected.\n",
+      "Please, select {article} {obj_type}.")
 
-        show_error_messages(
-            message, message,
-            title = str_glue("Select {article} {obj_type}"),
-            parent = parent)
+    show_error_messages(
+      message, message,
+      title = str_glue("Select {article} {obj_type}"),
+      parent = parent)
 
-        return(TRUE)
+    return(TRUE)
 
-    } else {
-        return(FALSE)
-    }
+  } else {
+    return(FALSE)
+  }
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 object_is_not_selected <- function(obj, obj_type = "object",
-    parent = CommanderWindow(),
-    article = "an") {
+  parent = CommanderWindow(),
+  article = "an") {
 
-    if (length(obj) < 1 || (length(obj) == 1 && any(obj == ""))) {
-        message  <- str_glue(
-            "No {obj_type} is selected.\n",
-            "Please, select {article} {obj_type}.")
+  if (length(obj) < 1 || (length(obj) == 1 && any(obj == ""))) {
+    message  <- str_glue(
+      "No {obj_type} is selected.\n",
+      "Please, select {article} {obj_type}.")
 
-        show_error_messages(
-            message, message,
-            title = str_glue("Select {article} {obj_type}"),
-            parent = parent)
-        return(TRUE)
+    show_error_messages(
+      message, message,
+      title = str_glue("Select {article} {obj_type}"),
+      parent = parent)
+    return(TRUE)
 
-    } else {
-        return(FALSE)
-    }
+  } else {
+    return(FALSE)
+  }
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 are_not_valid_names <- function(name, parent = CommanderWindow()) {
-    # Checks if variable names are valis.
-    #
-    # Returns TRUE if any of the names are invalid
+  # Checks if variable names are valis.
+  #
+  # Returns TRUE if any of the names are invalid
 
-    if (length(name) < 1 || !is.character(name)) {
-        message <- "Invalid (empty) name. \nPlease check and correct the name."
+  if (length(name) < 1 || !is.character(name)) {
+    message <- "Invalid (empty) name. \nPlease check and correct the name."
 
-        show_error_messages(
-            message, message,
-            title = "Invalid (Empty) Name",
-            parent = parent)
-        return(TRUE) # is in valid name
-    }
+    show_error_messages(
+      message, message,
+      title = "Invalid (Empty) Name",
+      parent = parent)
+    return(TRUE) # is in valid name
+  }
 
-    invalid_names <- name[make.names(name) != name]
+  invalid_names <- name[make.names(name) != name]
 
-    if (length(invalid_names) == 0) {
-        return(FALSE) # is valid name
+  if (length(invalid_names) == 0) {
+    return(FALSE) # is valid name
 
-    } else if (length(invalid_names) == 1) {
-        msg_box_confirm_to_replace(
-            invalid_names, "Variable", parent = parent) == "no"
+  } else if (length(invalid_names) == 1) {
+    msg_box_confirm_to_replace(
+      invalid_names, "Variable", parent = parent) == "no"
 
-    } else if (length(invalid_names) > 1) {
-        # message  <- str_glue('"{name}" {gettext_bs("is not a valid name.")}')
-        message  <- str_glue('Invalid names: \n{str_c(name, collapse = ", ")}')
-        message2 <- str_glue(
-            "The following names are invalid:\n\n",
-            "{str_c(name, collapse = '\n')} \n\n",
-            "Valid names must start with a letter and contain only \n",
-            "letters, numbers, underscores (_) and periods (.). ")
+  } else if (length(invalid_names) > 1) {
+    # message  <- str_glue('"{name}" {gettext_bs("is not a valid name.")}')
+    message  <- str_glue('Invalid names: \n{str_c(name, collapse = ", ")}')
+    message2 <- str_glue(
+      "The following names are invalid:\n\n",
+      "{str_c(name, collapse = '\n')} \n\n",
+      "Valid names must start with a letter and contain only \n",
+      "letters, numbers, underscores (_) and periods (.). ")
 
-        show_error_messages(
-            message, message2,
-            title = "Invalid Names",
-            parent = parent)
+    show_error_messages(
+      message, message2,
+      title = "Invalid Names",
+      parent = parent)
 
-        # is not valid name
-        return(TRUE)
-    }
+    # is not valid name
+    return(TRUE)
+  }
 }
 
 
@@ -1194,87 +1264,87 @@ are_not_valid_names <- function(name, parent = CommanderWindow()) {
 #' msg_box_confirm_to_replace()
 #' }}
 msg_box_confirm_to_replace <- function(name, type = "Variable",
-    parent = CommanderWindow()) {
-    Type <- stringr::str_to_title(type)
+  parent = CommanderWindow()) {
+  Type <- stringr::str_to_title(type)
 
-    tk_messageBox(
-        parent = parent,
-        caption = str_glue("Overwrite {Type}"),
-        message = sprintf(
-            str_c('%s "%s" already exists.\n\n',
-                'Do you agree to DELETE existing %s and \n',
-                'REPLACE it with the new one?'),
-            Type, name, tolower(type)),
-        icon = "warning",
-        type = "yesno",
-        default = "no")
+  tk_messageBox(
+    parent = parent,
+    caption = str_glue("Overwrite {Type}"),
+    message = sprintf(
+      str_c('%s "%s" already exists.\n\n',
+        'Do you agree to DELETE existing %s and \n',
+        'REPLACE it with the new one?'),
+      Type, name, tolower(type)),
+    icon = "warning",
+    type = "yesno",
+    default = "no")
 }
 
 #' @rdname msg_box_confirm_to_replace
 #' @export
 msg_box_confirm_to_replace_all <- function(name, type = "Variables",
-    parent = CommanderWindow()) {
-    Type <- stringr::str_to_title(type)
-    vars <- str_c(name, collapse = "\n")
+  parent = CommanderWindow()) {
+  Type <- stringr::str_to_title(type)
+  vars <- str_c(name, collapse = "\n")
 
-    tk_messageBox(
-        parent = parent,
-        caption = str_glue("Overwrite All {Type}"),
-        message = str_glue(
-            'The following {tolower(type)} already exist:\n\n',
-            '{vars}\n\n',
-            'Do you agree to DELETE ALL the {tolower(type)} and\n',
-            'REPLACE them with the new ones?'),
-        icon = "warning",
-        type = "yesno",
-        default = "no")
+  tk_messageBox(
+    parent = parent,
+    caption = str_glue("Overwrite All {Type}"),
+    message = str_glue(
+      'The following {tolower(type)} already exist:\n\n',
+      '{vars}\n\n',
+      'Do you agree to DELETE ALL the {tolower(type)} and\n',
+      'REPLACE them with the new ones?'),
+    icon = "warning",
+    type = "yesno",
+    default = "no")
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 forbid_to_replace_variable <- function(name, parent = CommanderWindow()) {
-    # Checks if variable exists in active dataset.
-    #
-    # Returns FALSE if:
-    #     - variable does not exist.
-    #     - variable exists but user agrees to overvrite it.
-    #
-    # Otherwise TRUE
+  # Checks if variable exists in active dataset.
+  #
+  # Returns FALSE if:
+  #     - variable does not exist.
+  #     - variable exists but user agrees to overvrite it.
+  #
+  # Otherwise TRUE
 
-    if (name %in% listVariables()) {
-        msg_box_confirm_to_replace(name, "Variable", parent = parent) == "no"
+  if (name %in% listVariables()) {
+    msg_box_confirm_to_replace(name, "Variable", parent = parent) == "no"
 
-    } else {
-        FALSE
-    }
+  } else {
+    FALSE
+  }
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 forbid_to_replace_variables <- function(name, parent = CommanderWindow()) {
-    # Checks if variable exists in active dataset.
-    #
-    # Returns FALSE if:
-    #     - variable does not exist.
-    #     - variable exists but user agrees to overvrite it.
-    #
-    # Otherwise TRUE
+  # Checks if variable exists in active dataset.
+  #
+  # Returns FALSE if:
+  #     - variable does not exist.
+  #     - variable exists but user agrees to overvrite it.
+  #
+  # Otherwise TRUE
 
-    vars_to_replace <- Variables()[Variables() %in% name]
+  vars_to_replace <- Variables()[Variables() %in% name]
 
-    if (length(vars_to_replace) == 1) {
-        msg_box_confirm_to_replace(
-            vars_to_replace, "Variable", parent = parent) == "no"
+  if (length(vars_to_replace) == 1) {
+    msg_box_confirm_to_replace(
+      vars_to_replace, "Variable", parent = parent) == "no"
 
-    } else if (length(vars_to_replace) > 1) {
-        msg_box_confirm_to_replace_all(
-            vars_to_replace, "Variables", parent = parent) == "no"
+  } else if (length(vars_to_replace) > 1) {
+    msg_box_confirm_to_replace_all(
+      vars_to_replace, "Variables", parent = parent) == "no"
 
-    } else {
-        FALSE
-    }
+  } else {
+    FALSE
+  }
 }
 
 
@@ -1282,74 +1352,74 @@ forbid_to_replace_variables <- function(name, parent = CommanderWindow()) {
 #' @export
 #' @keywords internal
 forbid_to_replace_object <- function(name, envir = .GlobalEnv,
-    parent = CommanderWindow()) {
-    # Checks if object exists in (Global) environment
-    #
-    # Returns FALSE if:
-    #     - object does not exist.
-    #     - object exists but user agrees to overvrite (replace) it.
-    #
-    # Othervise TRUE
+  parent = CommanderWindow()) {
+  # Checks if object exists in (Global) environment
+  #
+  # Returns FALSE if:
+  #     - object does not exist.
+  #     - object exists but user agrees to overvrite (replace) it.
+  #
+  # Othervise TRUE
 
-    if (name %in% listDataSets(envir = envir)) {
-        msg_box_confirm_to_replace(name, "Dataset", parent = parent) == "no"
+  if (name %in% listDataSets(envir = envir)) {
+    msg_box_confirm_to_replace(name, "Dataset", parent = parent) == "no"
 
-    } else if (name %in% objects(envir = envir, all.names = TRUE)) {
-        msg_box_confirm_to_replace(name, "Object", parent = parent) == "no"
+  } else if (name %in% objects(envir = envir, all.names = TRUE)) {
+    msg_box_confirm_to_replace(name, "Object", parent = parent) == "no"
 
-    } else {
-        FALSE
-    }
+  } else {
+    FALSE
+  }
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 forbid_to_replace_file <- function(name, parent = CommanderWindow()) {
-    # Checks if file exists
-    #
-    # Returns FALSE if:
-    #     - file does not exist.
-    #     - file exists but user agrees to overvrite (replace) it.
-    #
-    # Othervise returns TRUE
+  # Checks if file exists
+  #
+  # Returns FALSE if:
+  #     - file does not exist.
+  #     - file exists but user agrees to overvrite (replace) it.
+  #
+  # Othervise returns TRUE
 
-    name_short <- fs::path_file(name)
+  name_short <- fs::path_file(name)
 
-    if (fs::file_exists(name)) {
-        msg_box_confirm_to_replace(name_short, "File", parent = parent) == "no"
+  if (fs::file_exists(name)) {
+    msg_box_confirm_to_replace(name_short, "File", parent = parent) == "no"
 
-    } else {
-        FALSE
-    }
+  } else {
+    FALSE
+  }
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 show_code_evaluation_error_message <- function(parent = CommanderWindow(),
-    add_msg = "",
-    add_note = "") {
-    show_error_messages(
-        str_c("Something went wrong. Please, try to fix the issue."),
+  add_msg = "",
+  add_note = "") {
+  show_error_messages(
+    str_c("Something went wrong. Please, try to fix the issue."),
 
-        str_c(
-            "Something went wrong.  \n\n",
-            "To solve the issue, you may try to: \n",
-            "  1. choose the other more appropriate options. \n",
-            "  2. use standard variable (object) names, if they are not.  \n",
-            "  3. fix an error in R code, if you wrote the code.  \n",
-            "  4. choose a more appropriate model for your data. \n",
-            "\n",
-            c(add_msg),
-            c(add_note)
+    str_c(
+      "Something went wrong.  \n\n",
+      "To solve the issue, you may try to: \n",
+      "  1. choose the other more appropriate options. \n",
+      "  2. use standard variable (object) names, if they are not.  \n",
+      "  3. fix an error in R code, if you wrote the code.  \n",
+      "  4. choose a more appropriate model for your data. \n",
+      "\n",
+      c(add_msg),
+      c(add_note)
 
-            # "If no error was found, you may consider reporting\n",
-            # "the bug in the package `RcmdrPlugin.biostat`\n",
-            # '(see link in "About").\n'
-        ),
-        parent = parent,
-        title = "Code Evaluation Error")
+      # "If no error was found, you may consider reporting\n",
+      # "the bug in the package `RcmdrPlugin.biostat`\n",
+      # '(see link in "About").\n'
+    ),
+    parent = parent,
+    title = "Code Evaluation Error")
 }
 
 
@@ -1358,21 +1428,21 @@ show_code_evaluation_error_message <- function(parent = CommanderWindow(),
 #' @keywords internal
 dataset_not_persent <- function(parent = CommanderWindow()) {
 
-    dataSets <- listDataSets()
+  dataSets <- listDataSets()
 
-    if (length(dataSets) == 0) {
-        tk_messageBox(
-            parent = parent,
-            "There are no datasets in R memory.\nPlease, create or import a dataset.",
-            icon = "warning",
-            title = "No Datasets in R",
-            type = "ok")
+  if (length(dataSets) == 0) {
+    tk_messageBox(
+      parent = parent,
+      "There are no datasets in R memory.\nPlease, create or import a dataset.",
+      icon = "warning",
+      title = "No Datasets in R",
+      type = "ok")
 
-        return(TRUE)
+    return(TRUE)
 
-    } else {
-        return(FALSE)
-    }
+  } else {
+    return(FALSE)
+  }
 }
 
 #' @rdname Helper-functions
@@ -1380,21 +1450,21 @@ dataset_not_persent <- function(parent = CommanderWindow()) {
 #' @keywords internal
 active_dataset_not_persent <- function(parent = CommanderWindow()) {
 
-    .ds <- active_dataset_0()
+  .ds <- active_dataset_0()
 
-    if (is.null(.ds)) {
-        tk_messageBox(
-            parent = parent,
-            "There is no active dataset. \nPlease, select one.",
-            icon = "warning",
-            title = "Active Dataset Not Selected",
-            type = "ok")
+  if (is.null(.ds)) {
+    tk_messageBox(
+      parent = parent,
+      "There is no active dataset. \nPlease, select one.",
+      icon = "warning",
+      title = "Active Dataset Not Selected",
+      type = "ok")
 
-        return(TRUE)
+    return(TRUE)
 
-    } else {
-        return(FALSE)
-    }
+  } else {
+    return(FALSE)
+  }
 }
 
 # + Class --------------------------------------------------------------------
@@ -1404,16 +1474,16 @@ active_dataset_not_persent <- function(parent = CommanderWindow()) {
 #' @export
 #' @keywords internal
 nonFactorsP <- function(n = 1) {
-    #  n - number of non-factors.
-    activeDataSetP() && length(setdiff(listVariables(), listFactors())) >= n
+  #  n - number of non-factors.
+  activeDataSetP() && length(setdiff(listVariables(), listFactors())) >= n
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 class_ggplot_P <- function(n = 1) {
-    #  n - number of ggplot objects.
-    length(list_objects_of_class("ggplot", envir = .GlobalEnv)) >= n
+  #  n - number of ggplot objects.
+  length(list_objects_of_class("ggplot", envir = .GlobalEnv)) >= n
 }
 
 #' @rdname Helper-functions
@@ -1421,7 +1491,7 @@ class_ggplot_P <- function(n = 1) {
 #' @keywords internal
 # List ggolot2 objects in global  environment.
 list_objects_ggplot <- function(envir = .GlobalEnv) {
-    list_objects_of_class("ggplot", envir = envir)
+  list_objects_of_class("ggplot", envir = envir)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1429,8 +1499,8 @@ list_objects_ggplot <- function(envir = .GlobalEnv) {
 #' @export
 #' @keywords internal
 objects_in_env_P <- function(n = 1, envir = .GlobalEnv, ...) {
-    #  n - number of objects.
-    isTRUE(length(objects(envir = envir, ...)) >= n)
+  #  n - number of objects.
+  isTRUE(length(objects(envir = envir, ...)) >= n)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1443,8 +1513,8 @@ objects_in_env_P <- function(n = 1, envir = .GlobalEnv, ...) {
 #' @keywords internal
 #' @export
 characterP <- function(n = 1) {
-    activeDataSetP() &&
-        (sum(str_glue_eval("mapply(is.character, {active_dataset()})")) >= n)
+  activeDataSetP() &&
+    (sum(str_glue_eval("mapply(is.character, {active_dataset()})")) >= n)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1458,8 +1528,8 @@ characterP <- function(n = 1) {
 #' @keywords internal
 #' @export
 factors_strict_P <- function(n = 1) {
-    activeDataSetP() &&
-        (sum(str_glue_eval("mapply(is.factor, {active_dataset()})")) >= n)
+  activeDataSetP() &&
+    (sum(str_glue_eval("mapply(is.factor, {active_dataset()})")) >= n)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Does active dataset contain logicals?
@@ -1471,8 +1541,8 @@ factors_strict_P <- function(n = 1) {
 #' @keywords internal
 #' @export
 logicalP <- function(n = 1) {
-    activeDataSetP() &&
-        (sum(str_glue_eval("mapply(is.logical, {active_dataset()})")) >= n)
+  activeDataSetP() &&
+    (sum(str_glue_eval("mapply(is.logical, {active_dataset()})")) >= n)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1485,7 +1555,7 @@ logicalP <- function(n = 1) {
 #' @keywords internal
 #' @export
 variablesP <- function(n = 1) {
-    activeDataSetP() && length(listVariables()) >= n
+  activeDataSetP() && length(listVariables()) >= n
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1495,8 +1565,8 @@ variablesP <- function(n = 1) {
 #' @keywords internal
 #' @export
 first_class_is_dataframeP <- function() {
-    activeDataSetP() &&
-        (str_glue_eval("class({active_dataset()})[1]") == "data.frame")
+  activeDataSetP() &&
+    (str_glue_eval("class({active_dataset()})[1]") == "data.frame")
 }
 #' [!] Is the first class the same as in brackets?
 #'
@@ -1504,8 +1574,8 @@ first_class_is_dataframeP <- function() {
 #' @keywords internal
 #' @export
 first_class_isP <- function(df_class) {
-    activeDataSetP() &&
-        (str_glue_eval("class({active_dataset()})[1]") == df_class)
+  activeDataSetP() &&
+    (str_glue_eval("class({active_dataset()})[1]") == df_class)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Chech the class of the active model in Rcmdr
@@ -1515,9 +1585,9 @@ first_class_isP <- function(df_class) {
 #' @keywords internal
 #' @export
 modelClassP <- function(class_) {
-    activeModelP() && (inherits(
-        x = get(ActiveModel(), envir = .GlobalEnv),
-        what = class_))
+  activeModelP() && (inherits(
+    x = get(ActiveModel(), envir = .GlobalEnv),
+    what = class_))
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1526,7 +1596,7 @@ modelClassP <- function(class_) {
 #' @keywords internal
 variables_with_unique_values_P <- function(n = 1) {
 
-    activeDataSetP() && length(variables_with_unique_values() >= n)
+  activeDataSetP() && length(variables_with_unique_values() >= n)
 }
 
 
@@ -1551,133 +1621,133 @@ gg_lastplot_exists <- function() {
 
 
 is_numeric_str <- function(str) {
-    str_detect(str, "^(-|\\+)?((\\.?\\d+)|(\\d+\\.\\d+)|(\\d+\\.?))$")
+  str_detect(str, "^(-|\\+)?((\\.?\\d+)|(\\d+\\.\\d+)|(\\d+\\.?))$")
 }
 
 validate_num_0_0.5 <- function(P, W) {
-    # P - value
-    res <-
-        if (is_numeric_str(P)) {
-            dplyr::between(as.numeric(P), 0, 0.5)
-        } else {
-            FALSE
-        }
-
-    if (res == TRUE) {
-        tkconfigure(W, foreground = "black")
-        return(tcl("expr", "TRUE"))
+  # P - value
+  res <-
+    if (is_numeric_str(P)) {
+      dplyr::between(as.numeric(P), 0, 0.5)
     } else {
-        return(tcl("expr", "FALSE"))
+      FALSE
     }
+
+  if (res == TRUE) {
+    tkconfigure(W, foreground = "black")
+    return(tcl("expr", "TRUE"))
+  } else {
+    return(tcl("expr", "FALSE"))
+  }
 }
 
 validate_num_0_1 <- function(P, W) {
-    # P - value
-    res <-
-        if (is_numeric_str(P)) {
-            dplyr::between(as.numeric(P), 0, 1)
-        } else {
-            FALSE
-        }
-
-    if (res == TRUE) {
-        tkconfigure(W, foreground = "black")
-        return(tcl("expr", "TRUE"))
+  # P - value
+  res <-
+    if (is_numeric_str(P)) {
+      dplyr::between(as.numeric(P), 0, 1)
     } else {
-        return(tcl("expr", "FALSE"))
+      FALSE
     }
+
+  if (res == TRUE) {
+    tkconfigure(W, foreground = "black")
+    return(tcl("expr", "TRUE"))
+  } else {
+    return(tcl("expr", "FALSE"))
+  }
 }
 
 
 validate_numeric <- function(P, W) {
-    # P - value
-    res <- is_numeric_str(P)
+  # P - value
+  res <- is_numeric_str(P)
 
-    if (res == TRUE) {
-        tkconfigure(W, foreground = "black")
-        return(tcl("expr", "TRUE"))
-    } else {
-        return(tcl("expr", "FALSE"))
-    }
+  if (res == TRUE) {
+    tkconfigure(W, foreground = "black")
+    return(tcl("expr", "TRUE"))
+  } else {
+    return(tcl("expr", "FALSE"))
+  }
 }
 
 
 is_pos_integer_str <- function(str) {
-    str_detect(str, "^\\d+$")
+  str_detect(str, "^\\d+$")
 }
 
 validate_pos_int <- function(P, W) {
-    # P - value
-    res <- is_pos_integer_str(P)
+  # P - value
+  res <- is_pos_integer_str(P)
 
-    if (res == TRUE) {
-        tkconfigure(W, foreground = "black")
-        return(tcl("expr", "TRUE"))
-    } else {
-        return(tcl("expr", "FALSE"))
-    }
+  if (res == TRUE) {
+    tkconfigure(W, foreground = "black")
+    return(tcl("expr", "TRUE"))
+  } else {
+    return(tcl("expr", "FALSE"))
+  }
 }
 
 is_integer_0_inf <- function(str) {
-    str_detect(str, "^(\\d+|[Ii]nf)$")
+  str_detect(str, "^(\\d+|[Ii]nf)$")
 }
 
 validate_int_0_inf <- function(P, W) {
-    # P - value
-    res <- is_integer_0_inf(P)
+  # P - value
+  res <- is_integer_0_inf(P)
 
-    if (res == TRUE) {
-        tkconfigure(W, foreground = "black")
-        return(tcl("expr", "TRUE"))
-    } else {
-        return(tcl("expr", "FALSE"))
-    }
+  if (res == TRUE) {
+    tkconfigure(W, foreground = "black")
+    return(tcl("expr", "TRUE"))
+  } else {
+    return(tcl("expr", "FALSE"))
+  }
 }
 
 validate_int_0_inf_empty <- function(P, W) {
-    # P - value
-    res <- is_integer_0_inf(P) || (str_trim(P) == "")
+  # P - value
+  res <- is_integer_0_inf(P) || (str_trim(P) == "")
 
-    if (res == TRUE) {
-        tkconfigure(W, foreground = "black")
-        return(tcl("expr", "TRUE"))
-    } else {
-        return(tcl("expr", "FALSE"))
-    }
+  if (res == TRUE) {
+    tkconfigure(W, foreground = "black")
+    return(tcl("expr", "TRUE"))
+  } else {
+    return(tcl("expr", "FALSE"))
+  }
 }
 
 
 make_red_text <- function(P, W, S, v) {
-    tkconfigure(W, foreground = "red2")
-    tcl("expr", "TRUE")
+  tkconfigure(W, foreground = "red2")
+  tcl("expr", "TRUE")
 }
 
 
 make_red_text_reset_val <- function(to = "Inf") {
-    function(P, W, S, v, s) {
-        tcl("after", "idle", function() {tkconfigure(W, validate = v)})
-        tkconfigure(W, foreground = "red2")
-        tkdelete(W, "0", "end")
-        tkinsert(W, "0", to)
+  function(P, W, S, v, s) {
+    tcl("after", "idle", function() {tkconfigure(W, validate = v)})
+    tkconfigure(W, foreground = "red2")
+    tkdelete(W, "0", "end")
+    tkinsert(W, "0", to)
 
-        tcl("expr", "TRUE")
-    }
+    tcl("expr", "TRUE")
+  }
 }
 
 is_valid_var_name_string <- function(str) {
-    str_detect(str, "^[\\.]?[a-zA-Z][\\.0-9a-zA-Z_]*$")
+  str_detect(str, "^[\\.]?[a-zA-Z][\\.0-9a-zA-Z_]*$")
 }
 
 validate_var_name_string <- function(P, W) {
-    # P - value
-    res <- is_valid_var_name_string(P)
+  # P - value
+  res <- is_valid_var_name_string(P)
 
-    if (res == TRUE) {
-        tkconfigure(W, foreground = "black")
-        return(tcl("expr", "TRUE"))
-    } else {
-        return(tcl("expr", "FALSE"))
-    }
+  if (res == TRUE) {
+    tkconfigure(W, foreground = "black")
+    return(tcl("expr", "TRUE"))
+  } else {
+    return(tcl("expr", "FALSE"))
+  }
 }
 
 # ___ Rcmdr ___ ==============================================================
@@ -1686,80 +1756,80 @@ validate_var_name_string <- function(P, W) {
 #' @export
 #' @keywords internal
 command_rcmdr_restart <- function() {
-    Rcmdr::closeCommander(ask = FALSE, ask.save = TRUE)
-    Rcmdr::Commander()
+  Rcmdr::closeCommander(ask = FALSE, ask.save = TRUE)
+  Rcmdr::Commander()
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 command_restart_rs_session <- function() {
-    Rcmdr::closeCommander(ask = FALSE, ask.save = TRUE)
-    rstudioapi::restartSession(command = "library(Rcmdr)")
+  Rcmdr::closeCommander(ask = FALSE, ask.save = TRUE)
+  rstudioapi::restartSession(command = "library(Rcmdr)")
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 command_rcmdr_close <- function() {
-    Rcmdr::closeCommander(
-        ask = getRcmdr("ask.to.exit"),
-        ask.save = getRcmdr("ask.on.exit"))
+  Rcmdr::closeCommander(
+    ask = getRcmdr("ask.to.exit"),
+    ask.save = getRcmdr("ask.on.exit"))
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 command_rcmdr_close_r <- function() {
-    response <- command_rcmdr_close()
-    if (response == "cancel") {
-        return()
-    } else {
-        cat("\n")
-        quit(save = "no")
-    }
+  response <- command_rcmdr_close()
+  if (response == "cancel") {
+    return()
+  } else {
+    cat("\n")
+    quit(save = "no")
+  }
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 is_console_output <- function() {
-    isTRUE(options()$Rcmdr$console.output)
+  isTRUE(options()$Rcmdr$console.output)
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 command_rcmdr_use_1_window <- function() {
-    command_rcmdr_set_output_mode(console.output = TRUE)
+  command_rcmdr_set_output_mode(console.output = TRUE)
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 command_rcmdr_use_3_windows <- function() {
-    command_rcmdr_set_output_mode(console.output = FALSE)
+  command_rcmdr_set_output_mode(console.output = FALSE)
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 command_rcmdr_set_output_mode <- function(console.output = NULL) {
-    # Current options
-    Rcmdr_opts <- options()$Rcmdr
+  # Current options
+  Rcmdr_opts <- options()$Rcmdr
 
-    if (is.null(Rcmdr_opts)) {
-        Rcmdr_opts <- list(console.output = console.output)
-    }
+  if (is.null(Rcmdr_opts)) {
+    Rcmdr_opts <- list(console.output = console.output)
+  }
 
-    updated_opts <-
-        modifyList(Rcmdr_opts, list(console.output = console.output))
+  updated_opts <-
+    modifyList(Rcmdr_opts, list(console.output = console.output))
 
-    if (!identical(Rcmdr_opts, updated_opts)) {
-        # Set new options and restart R Commander
-        options(Rcmdr = updated_opts)
-        command_rcmdr_restart()
-    }
+  if (!identical(Rcmdr_opts, updated_opts)) {
+    # Set new options and restart R Commander
+    options(Rcmdr = updated_opts)
+    command_rcmdr_restart()
+  }
 }
 
 #' Is R Session in RStudio?
@@ -1767,81 +1837,84 @@ command_rcmdr_set_output_mode <- function(console.output = NULL) {
 #' @return Logical value indicating if GUI/IDE is RStudio.
 #' @keywords internal
 is_rstudio <- function() {
-    .Platform$GUI == "RStudio"
+  .Platform$GUI == "RStudio"
 }
 
 #' @name always_on_top
 #'
-#' @title Always on Top
+#' @title Always on Top.
 #'
+#' @description
 #' Set (enable/disable) or get "always on top" mode.
 #' The "always on top" mode puts Tcl/Tk window in front of windows of the other programs.
 #' Functions that set (enable/disable) the mode:
 #' \itemize{
-#'   \item \code{set_always_on_top()}- for any Tcl/Tk window;
-#'   \item \code{rcmdr_set_always_on_top()}- for any R Commander window.
+#'   \item `set_always_on_top()` -- for any Tcl/Tk window;
+#'   \item `rcmdr_set_always_on_top()` -- for any R Commander window.
 #'  }
 #' Functions that get current mode:
 #' \itemize{
-#'   \item \code{get_always_on_top()}- for any Tcl/Tk window;
-#'   \item \code{rcmdr_get_always_on_top()}- for any R Commander window.
+#'   \item `get_always_on_top()` -- for any Tcl/Tk window;
+#'   \item `rcmdr_get_always_on_top()` -- for any R Commander window.
 #'  }
 #' @param obj Tcl/Tk window object.
-#' @param flag (logical) Flag to enable (if \code{TRUE}) or disable
-#'        (if \code{FALSE}) "always on top" mode.
+#' @param flag (logical) Flag to enable (if `TRUE`) or disable(if `FALSE`)
+#'        "always on top" mode.
 #'
-#' @return The "get" functions return logical value that indicates if "always
-#' on top" mode is enabled.
+#' @return
+#' The "get" functions return logical value that indicates if "always on top"
+#' mode is enabled.
 #'
+#' @md
 #' @export
 set_always_on_top <- function(obj, flag = TRUE) {
-    tcl("wm", "attributes", obj, "-topmost", flag)
+  tcl("wm", "attributes", obj, "-topmost", flag)
 }
 
 #' @rdname always_on_top
 #' @export
 rcmdr_set_always_on_top <- function(flag = TRUE) {
-    set_always_on_top(CommanderWindow(), flag)
+  set_always_on_top(CommanderWindow(), flag)
 }
 
 #' @rdname always_on_top
 #' @export
 get_always_on_top <- function(obj) {
-    tclvalue_lgl(tcl("wm", "attributes", obj, "-topmost"))
+  tclvalue_lgl(tcl("wm", "attributes", obj, "-topmost"))
 }
 
 #' @rdname always_on_top
 #' @export
 rcmdr_get_always_on_top <- function(flag = TRUE) {
-    get_always_on_top(CommanderWindow())
+  get_always_on_top(CommanderWindow())
 }
 
-#' @rdname Helper-functions
+#' @rdname always_on_top
 #' @export
-#' @keywords internal
-# Toggle "always on top" state or Rcmdr
+#' @description `toggle_always_on_top()` toggles "always on top" state for Rcmdr.
 toggle_always_on_top <- function() {
-    if (isTRUE(rcmdr_get_always_on_top())) {
-        rcmdr_set_always_on_top(FALSE)
+  if (isTRUE(rcmdr_get_always_on_top())) {
+    rcmdr_set_always_on_top(FALSE)
 
-    } else {
-        rcmdr_set_always_on_top(TRUE)
-    }
+  } else {
+    rcmdr_set_always_on_top(TRUE)
+  }
 }
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 print.tk2frame <- function(x, ...) {
 
-    cat("A tk2widget of class '", class(x)[1], "'", "\n", sep = "")
-    cursize <- size(x)
-    if (cursize > 0)
-        cat("Size: ", cursize, "\n", sep = "")
-    val <- value(x)
-    if (!is.null(val)) {
-        cat("Value:\n")
-        print(value(x))
-    }
-    return(invisible(x))
+  cat("A tk2widget of class '", class(x)[1], "'", "\n", sep = "")
+  cursize <- size(x)
+  if (cursize > 0)
+    cat("Size: ", cursize, "\n", sep = "")
+  val <- value(x)
+  if (!is.null(val)) {
+    cat("Value:\n")
+    print(value(x))
+  }
+  return(invisible(x))
 }

@@ -41,12 +41,18 @@ window_model_select <- function() {
     # Functions --------------------------------------------------------------
     cmd_model_selection_callback  <- function() {
 
-        envir = parent.frame()
+        # If object already destroyed
+        if (!tcl_obj_exists(var_model_box$listbox)) {
+          return()
+        }
+
+        envir <- parent.frame()
         button_obj <- c(
             "i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10"
         )
 
-        if (get_size(var_model_box) == 0 || get_selection_length(var_model_box) == 0) {
+        if (get_size(var_model_box) == 0 ||
+            get_selection_length(var_model_box) == 0) {
             # Disable buttons
             str_glue_eval("tk_disable({button_obj})",   eval_envir = envir)
 
@@ -82,7 +88,7 @@ window_model_select <- function() {
         if (tried) {
             return()
         }
-        # This line must be bolow 'tried <- ...':
+        # This line must be below 'tried <- ...':
         biostat_env$model_tried <- new_model
 
         if (is.null(cur_model) || cur_model != new_model) {
@@ -112,7 +118,8 @@ window_model_select <- function() {
                         "Please, select another model."
                     ),
                     title = "Model Without Dataset",
-                    parent = top
+                    # parent = CommanderWindow()
+                    parent = tcl_get_if_exists(top)
                 )
 
                 return()
@@ -120,28 +127,20 @@ window_model_select <- function() {
 
             imported_datasets <- listDataSets()
 
-            # if (!isTRUE(is.element(models_dataset, imported_datasets))) {
-            #     active_dataset_0(NULL)
-            #     errorCondition(
-            #         message = sprintf(
-            #             gettext_bs(
-            #                 "The dataset associated with this model, %s, is not in memory."
-            #             ),
-            #             models_dataset
-            #         ))
-            #     return()
-            # }
-
             if (!isTRUE(models_dataset %in% imported_datasets) ) {
                 active_dataset_0(NULL)
                 show_error_messages(
                     str_c(
                         "  Model: ", new_model, "\n",
                         "Dataset: ", models_dataset, "\n\n",
-                        "The dataset associated with this model is not in R memory."
+                        "The dataset associated with this model is not in R memory.",
+                        "Thus the model cannot be analyzed in R Commander. ",
+                        "Please, select another model."
                     ),
                     title = "Dataset of Model not Found",
-                    parent = top)
+                    # parent = CommanderWindow()
+                    parent = tcl_get_if_exists(top)
+                  )
 
                 return()
             }
@@ -327,7 +326,7 @@ window_model_select <- function() {
         })
 
 
-    # tkgrid(bs_label_b(top, text = "Information about selected dataset"),
+    # tkgrid(tk_label_blue(top, text = "Information about selected dataset"),
     # pady = c(5, 0))
 
     tkgrid(row_1)

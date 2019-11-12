@@ -102,7 +102,7 @@ window_rows_slice <- function(){
 
     # Title ------------------------------------------------------------------
     fg_col <- Rcmdr::getRcmdr("title.color")
-    tkgrid(bs_label(
+    tkgrid(tk_label(
         top,
         text = gettext_bs("Slice: select/remove rows by index"),
         font = tkfont.create(weight = "bold", size = 9),
@@ -112,13 +112,13 @@ window_rows_slice <- function(){
     row_number_frame <- tkframe(top)
     tkgrid(row_number_frame)
     tkgrid(
-        bs_label(row_number_frame, text = "Number of rows in the dataset: "),
-        bs_label(row_number_frame, text = getRcmdr("nrow"), fg = "darkred"),
+        tk_label(row_number_frame, text = "Number of rows in the dataset: "),
+        tk_label(row_number_frame, text = getRcmdr("nrow"), fg = "darkred"),
         sticky = "sw"
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkgrid(
-        bs_label(
+        tk_label(
             indexFrame,
             text = gettext_bs("Row indices:"),
             foreground = getRcmdr("title.color"),
@@ -157,7 +157,7 @@ window_rows_slice <- function(){
     )
 
     tkgrid(
-        bs_label(
+        tk_label(
             top,
             text = paste0(
                 "Example 1 (select): 1, 3, 19:52, n()\n",

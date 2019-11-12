@@ -12,16 +12,17 @@ cursor_set_busy <- function(frame = NULL) {
     }
 
     .commander <- CommanderWindow()
-    .menu      <- tkcget(.commander, menu = NULL)
+    .menu      <- tkcget(.commander, "-menu")
     .log       <- LogWindow()
+    .Rmd       <- RmdWindow()
+    .Rnw       <- RnwWindow()
     .output    <- OutputWindow()
     .messages  <- MessagesWindow()
 
-    tkconfigure(.commander, cursor = "watch")
-    tkconfigure(.menu,      cursor = "watch")
-    tkconfigure(.log,       cursor = "watch")
-    tkconfigure(.output,    cursor = "watch")
-    tkconfigure(.messages,  cursor = "watch")
+    purrr::walk(
+      list(.commander, .menu, .log, .Rmd, .Rnw, .output, .messages),
+      tkconfigure, cursor = "watch"
+    )
 }
 
 
@@ -40,20 +41,22 @@ cursor_set_idle <- function(frame = NULL) {
     }
 
     .commander <- CommanderWindow()
-    .menu      <- tkcget(.commander, menu = NULL)
+    .menu      <- tkcget(.commander, "-menu")
     .log       <- LogWindow()
+    .Rmd       <- RmdWindow()
+    .Rnw       <- RnwWindow()
     .output    <- OutputWindow()
     .messages  <- MessagesWindow()
 
-    tkconfigure(.commander, cursor = "")
-    tkconfigure(.menu,      cursor = "")
-    tkconfigure(.log,       cursor = "xterm")
-    tkconfigure(.output,    cursor = "xterm")
-    tkconfigure(.messages,  cursor = "xterm")
+    purrr::walk(list(.commander, .menu), tkconfigure, cursor = "")
+    purrr::walk(
+      list(.log, .Rmd, .Rnw, .output, .messages),
+      tkconfigure, cursor = "xterm"
+    )
 }
 
 # Get state -------------------------------------------------------------------
-#' @rdname Helper-functions
+#' @rdname widget-state
 #' @keywords internal
 #' @export
 tk_get_state.default <- function(obj, ...) {
@@ -62,41 +65,35 @@ tk_get_state.default <- function(obj, ...) {
 
 
 # Set state -------------------------------------------------------------------
-#' @name tk_activate
-#' @title Control activation state of TCL/TK widget.
-#' Activate/Disable Tcl/Tk Objects
-#'
-#' @description Modify state of tk objects.
-#'
-#' @param obj TK object.
-#' @param ... other options to be passed to \code{tkconfigure}.
+#' @rdname widget-state
 #' @keywords internal
-#'
 #' @export
-#'
-#' @examples
-#' # tk_activate(obj)
-#' # tk_disable(obj)
-#'
-tk_activate.default <- function(obj, ...) {
-    tkconfigure(obj, state = "active", ...)
+tk_set_state.default <- function(obj, state, ...) {
+    tkconfigure(obj, state = state, ...)
 }
 
-#' @rdname tk_activate
+#' @rdname widget-state
 #' @keywords internal
 #' @export
 tk_normalize.default <- function(obj, ...) {
     tkconfigure(obj, state = "normal", ...)
 }
 
-#' @rdname tk_activate
+#' @rdname widget-state
+#' @keywords internal
+#' @export
+tk_activate.default <- function(obj, ...) {
+    tkconfigure(obj, state = "active", ...)
+}
+
+#' @rdname widget-state
 #' @keywords internal
 #' @export
 tk_read_only.default <- function(obj, ...) {
     tkconfigure(obj, state = "readonly", ...)
 }
 
-#' @rdname tk_activate
+#' @rdname widget-state
 #' @keywords internal
 #' @export
 tk_disable.default <- function(obj, ...) {
@@ -125,79 +122,37 @@ tk_xview.default <- function(obj, ind, ...) {
 #' @rdname Helper-functions
 #' @keywords internal
 #' @export
-
 tclvalue_lgl <- function(x) {
+  if (inherits(x, "tclVar")) {x <- tclObj(x)}
     # as.logical(as.integer(tclvalue(x)))
     as.logical(tclvalue_int(x))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# Sena versija:
-
-# #' @rdname Helper-functions
-# #' @keywords internal
-# #' @export
-#
-# tclvalue_int <- function(x) {
-#     x <- sapply(unlist(strsplit(tclvalue(x), " ")), as.integer)
-#     names(x) <- NULL
-#     x
-# }
-
-# Naujos versijos:
-
 #' @rdname Helper-functions
 #' @keywords internal
 #' @export
-
 tclvalue_int <- function(x) {
-    as.integer(tclvalue(x))
+  if (inherits(x, "tclVar")) {x <- tclObj(x)}
+  # as.integer(tclvalue(x))
+  as.integer(as.character(x))
 }
 
-#' @rdname Helper-functions
-#' @keywords internal
-#' @export
-
-tclvalue_int_split <- function(x) {
-    x <- sapply(unlist(strsplit(tclvalue(x), " ")), as.integer)
-    names(x) <- NULL
-    x
-}
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# Sena versija:
-
-# #' @param x Tcl/Tk object
-# #'
-# #' @rdname Helper-functions
-# #' @keywords internal
-# #' @export
-# #'
-# tclvalue_chr <- function(x) {
-#     sapply(unlist(strsplit(tclvalue(x), " ")), as.character)
-#     names(x) <- NULL
-#     x
-# }
-
-
-# Naujos versijos:
-
-
 #' @rdname Helper-functions
 #' @keywords internal
 #' @export
-
+#'
+#' @param trim (logical) If `TRUE`, function [base::trimws()] will be applied.
+#' @param ... `tclvalue_chr()` passes these parameters to [base::trimws()].
+#' @md
 tclvalue_chr <- function(x, trim = TRUE, ...) {
+  # FIXME: Check if this function works as expected
+    if (inherits(x, "tclVar")) {x <- tclObj(x)}
     rez <- as.character(tclvalue(x))
     if (isTRUE(trim)) {rez <- trimws(rez, ...)}
     unname(rez)
 }
 
-#' @rdname Helper-functions
-#' @keywords internal
-#' @export
-tclvalue_chr_split <- function(x) {
-    sapply(unlist(strsplit(tclvalue(x), " ")), as.character)
-    unname(x)
-}
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

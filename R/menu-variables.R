@@ -40,6 +40,34 @@ command_clean_names <- function() {
 
     command_dataset_refresh()
 }
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+command_check_names_validity <- function() {
+
+    .ds <- active_dataset_0()
+    ds  <- get_active_ds()
+    col_names <- unique_obj_names("cols")
+
+    if (all(colnames(ds) == make.names(colnames(ds)))) {
+      doItAndPrint(str_glue(
+        "## All names in '{.ds}' are syntactically valid. \n",
+        "{col_names} <- colnames({.ds}) \n",
+        "identical({col_names}, make.names({col_names}))"
+      ))
+
+    } else {
+      command <- str_glue(
+        "## Syntactically invalid column names in '{.ds}': \n",
+        "{col_names} <- colnames({.ds}) \n",
+        "{col_names}[{col_names} != make.names({col_names})]\n",
+        "remove({col_names})"
+      )
+      doItAndPrint(command)
+    }
+}
+
 
 # Variable type specific functions -------------------------------------------
 #

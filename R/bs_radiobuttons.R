@@ -161,7 +161,7 @@ bs_radiobuttons <- function(
             } else {
                 tk2labelframe(
                     parent,
-                    labelwidget = bs_label_b(parent, text = title))
+                    labelwidget = tk_label_blue(parent, text = title))
             }
 
         } else {
@@ -169,7 +169,7 @@ bs_radiobuttons <- function(
         }
 
     if (!is.null(title) && !border) {
-        tkgrid(bs_label_b(frame, text = title), sticky = sticky_title)
+        tkgrid(tk_label_blue(frame, text = title), sticky = sticky_title)
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

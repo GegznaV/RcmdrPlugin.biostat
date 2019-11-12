@@ -1,29 +1,55 @@
 #' @name TclTk-helper-functions
 #' @title Helper functions for Tcl/Tk.
 #' @keywords internal
+#' @noRd
 NULL
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname TclTk-helper-functions
+# Labels for R Commander
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @name TclTk-labels
+#' @title Tcl/Tk labels
+#' @description Functions, that create Tcl/Tk labels.
+#'
+#' - `tk_label()` Uses the default color for labels (usually, black).
+#' - `tk_label_blue()` Uses the default color for titles (usually, blue).
+#'
+#' @param parent (`"tkwin"` object) Parent Tcl/Tk window or frame.
+#' @param text (character) Label text.
+#' @param ... Other arguments to pass to `tcltk2::tk2label()`.
+#' @param fg (character) Foreground color.
+#'
+#' @seealso
+#' `tcltk2::tk2label()`, `Rcmdr::labelRcmdr()`, `tcltk::ttklabel()`.
+#'
 #' @export
-#' @keywords internal
-# Label for R Commander
-# see also: labelRcmdr
-bs_label_b <- function(..., fg = Rcmdr::getRcmdr("title.color")) {
-  bs_label(..., fg = fg)
+#' @md
+tk_label <- function(parent, text = "", ..., fg = NULL) {
+  if (is.null(fg)) {
+    tk2label(parent = parent, text = text, ...)
+  } else {
+    tk2label(parent = parent, text = text, ..., foreground = fg)
+  }
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname TclTk-helper-functions
+#' @rdname TclTk-labels
 #' @export
-#' @keywords internal
-# Label for R Commander
-# see also: labelRcmdr
-bs_label <- function(..., fg = NULL) {
-  if (is.null(fg)) tk2label(...) else tk2label(..., foreground = fg)
+tk_label_blue <- function(parent, text = "", ...,
+  fg = Rcmdr::getRcmdr("title.color")) {
+
+  tk_label(parent = parent, text = text, ..., fg = fg)
 }
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname TclTk-labels
+#' @export
+tk_label_red <- function(parent, ..., size = 8, weight = "bold",
+  fg = "darkred") {
+  tk_label(parent, text = text, font = tkfont.create(weight = "bold", size = 8),
+    ..., fg = fg)
+}
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname TclTk-helper-functions
 #' @export
@@ -46,15 +72,15 @@ labeled_frame <- function(parent, label = NULL, ...) {
 tk_title <- function(parent = top, text = "", pady = c(5, 9),
                      font = tkfont.create(weight = "bold", size = 9),
                      fg = Rcmdr::getRcmdr("title.color"),
+                     add_to_grid = TRUE,
                      ...) {
-  tkgrid(
-    bs_label(
-      parent,
-      text = gettext_bs(text),
-      font = font,
-      fg = fg),
-    pady = pady,
-    ...)
+
+  lab <- tk_label(parent, text = gettext_bs(text), font = font, fg = fg)
+  if (add_to_grid) {
+    tkgrid(lab, pady = pady, ...)
+  }
+
+  lab
 }
 
 # Commands -------------------------------------------------------------------
@@ -131,3 +157,19 @@ tcl_get_property <- function(.widget, property) {
 
 # tooltip::tooltip -----------------------------------------------------------
 # .Tcl(str_glue('tooltip::tooltip {button_view0} "View and print data"'))
+
+
+tcl_obj_exists <- function(tkobj) {
+  tclvalue_lgl(tcltk::tkwinfo("exists", tkobj))
+}
+
+
+# Get tk object, if it exists, or return a default object
+# (e.g., CommanderWindow())
+tcl_get_if_exists <- function(tkobj, otherwise = CommanderWindow()) {
+  if (tcl_obj_exists(tkobj)) {
+    tkobj
+  } else {
+    otherwise
+  }
+}

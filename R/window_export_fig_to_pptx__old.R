@@ -548,13 +548,13 @@ window_export_fig_to_pptx__old <- function() {
 
     # Widgets ----------------------------------------------------------------
 
-    file_msg <- bs_label(parent = top, text = "", fg = "darkred")
+    file_msg <- tk_label(parent = top, text = "", fg = "darkred")
 
 
     # F1, Frame 1, choose file and name --------------------------------------
     f1 <- tk2frame(top)
 
-    f1_lab_file <- bs_label_b(f1, text = "File: ")
+    f1_lab_file <- tk_label_blue(f1, text = "File: ")
     f1_ent_file <- bs_entry(
         f1, width = 60, sticky = "we",
         tip = "PowerPoint file name (new or existing)",
@@ -647,7 +647,7 @@ window_export_fig_to_pptx__old <- function() {
     f3_gg  <- tk2frame(f3)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    f3_pos_lab <- bs_label_b(parent = f3_pos, text = "Size and position of plot:")
+    f3_pos_lab <- tk_label_blue(f3_pos, text = "Size and position of plot:")
 
     bs_size_entry <- purrr::partial(
         bs_entry, parent = f3_pos, width = 4, justify = "center",

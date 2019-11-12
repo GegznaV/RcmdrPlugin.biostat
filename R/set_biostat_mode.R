@@ -38,7 +38,7 @@ set_biostat_mode <- function() {
     return()
   }
 
-  # Hide buttons bar -------------------------------------------------------
+  # Hide buttons bar ---------------------------------------------------------
   buttons_bar <- tcl_get_parent(getRcmdr("dataSetLabel"))
 
   tkgrid.remove(buttons_bar)
@@ -51,7 +51,7 @@ set_biostat_mode <- function() {
   button_data_opts$orig_image   <- tcl_get_property(button_data, "-image")
   button_data_opts$orig_command <- tcl_get_property(button_data, "-command")
 
-  button_model   <- getRcmdr("modelLabel")
+  button_model <- getRcmdr("modelLabel")
   button_model_opts <- list()
   button_model_opts$orig_image   <- tcl_get_property(button_model, "-image")
   button_model_opts$orig_command <- tcl_get_property(button_model, "-command")
@@ -62,7 +62,7 @@ set_biostat_mode <- function() {
   img <- purrr::map_chr(sibl, ~tcl_get_property(., "-image"))
   txt <- purrr::map_chr(sibl, ~tcl_get_property(., "-text"))
 
-  logo            <- sibl[img %in% c("::image::RlogoIcon", "::image::bs_r_logo_g")]
+  logo            <- sibl[str_detect(img, "(^::image::RlogoIcon$|^::image::bs_r_logo_)")]
   button_edit0    <- sibl[img == "::image::editIcon"]
   button_view0    <- sibl[img == "::image::viewIcon"]
   button_id_data  <- sibl[img %in% c("::image::dataIcon",  "::image::bs_dataset")]
@@ -98,6 +98,7 @@ set_biostat_mode <- function() {
   button_set_analysis <- tk2frame(buttons_bar_low)
   button_set_plots    <- tk2frame(buttons_bar_low)
   button_set_settings <- tk2frame(buttons_bar_low)
+  button_set_refresh  <- tk2frame(buttons_bar_low)
 
   button_import <- tk2button(
     button_set_manage,
@@ -163,7 +164,7 @@ set_biostat_mode <- function() {
     command = bs_mode_menu__settings)
 
   button_refresh <- tk2button(
-    button_set_settings,
+    button_set_refresh,
     tip     = "Refresh data and R Commander",
     image   = "::image::bs_refresh",
     command = command_dataset_refresh)
@@ -183,6 +184,7 @@ set_biostat_mode <- function() {
   putRcmdr("button_set_plots",    button_set_plots)
   putRcmdr("button_set_analysis", button_set_analysis)
   putRcmdr("button_set_settings", button_set_settings)
+  putRcmdr("button_set_refresh",  button_set_refresh)
 
   putRcmdr("button_import",       button_import)
   putRcmdr("button_datasets",     button_datasets)
@@ -201,10 +203,10 @@ set_biostat_mode <- function() {
   # tkgrid("x", buttons_bar_low)
   tkgrid(buttons_variant, buttons_bar_low)
 
-  lb1 <- bs_label(buttons_variant, image = "::image::dot-violet", compound = "left")
-  lb2 <- bs_label(buttons_variant, image = "::image::dot-red",    compound = "left")
-  lb3 <- bs_label(buttons_variant, image = "::image::dot-green",  compound = "left")
-  lb4 <- bs_label(buttons_variant, image = "::image::dot-black",  compound = "left")
+  lb1 <- tk_label(buttons_variant, image = "::image::dot-green", compound = "left")
+  lb2 <- tk_label(buttons_variant, image = "::image::dot-red",   compound = "left")
+  lb3 <- tk_label(buttons_variant, image = "::image::dot-lblue", compound = "left")
+  lb4 <- tk_label(buttons_variant, image = "::image::dot-black", compound = "left")
 
   tkgrid(lb1, lb2, lb3, lb4, sticky = "sew")
   tkgrid.configure(buttons_variant, sticky = "se", padx = c(10, 0))
@@ -221,7 +223,8 @@ set_biostat_mode <- function() {
     button_set_manage,
     button_set_analysis,
     button_set_plots,
-    button_set_settings
+    button_set_settings,
+    button_set_refresh
   )
 
   # Set: manage
@@ -247,7 +250,11 @@ set_biostat_mode <- function() {
 
   # Set: settings
   tkgrid(
-    button_other,
+    button_other
+  )
+
+  # Set: refresh
+  tkgrid(
     button_refresh
   )
 
@@ -266,7 +273,7 @@ set_biostat_mode <- function() {
   # )
 
   if (length(logo) > 0) {
-    tkgrid.configure(logo, sticky = "w", padx = c(10, 0), pady = c(0, 6), rowspan = 2)
+    tkgrid.configure(logo, sticky = "w", padx = c(10, 5), pady = c(0, 10), rowspan = 2)
   }
   tkgrid.configure(lab_data,        padx = c(0, 2),  pady = c(5, 0))
   tkgrid.configure(button_id_data,  padx = c(2, 5),  pady = c(5, 0))
@@ -282,6 +289,10 @@ set_biostat_mode <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Functions --------------------------------------------------------------
+  tip_switch_to_biostat <- function() {
+    tk2tip(tcl_get_obj_by_id(logo), "Switch to the main \nBioStat buttons")
+  }
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   toggle_buttons_bar_low <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -290,8 +301,8 @@ set_biostat_mode <- function() {
       length(vals) > 0
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    is_bs_logo <- function() {
-      # FIXME: possible issue, if logo is not proset at all
+    is_main_bs_logo <- function() {
+      # FIXME: possible issue, if logo is not set at all
       isTRUE(tcl_get_property(logo, "-image") == "::image::bs_r_logo_g")
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -299,7 +310,7 @@ set_biostat_mode <- function() {
       # Change buttons
       if (length(logo) > 0) {
         tkconfigure(logo, image = "::image::RlogoIcon")
-        tk2tip(tcl_get_obj_by_id(logo), "Switch to BioStat \nbuttons")
+        tip_switch_to_biostat()
       }
 
       tkconfigure(
@@ -340,9 +351,18 @@ set_biostat_mode <- function() {
       )
       if (length(button_edit0) > 0) tkgrid.remove(button_edit0)
       if (length(button_view0) > 0) tkgrid.remove(button_view0)
+
+      tkgrid(
+        button_set_manage,
+        button_set_analysis,
+        button_set_plots,
+        button_set_settings,
+        button_set_refresh
+      )
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (is_visible_buttons_bar_low()) {
+    # if (is_visible_buttons_bar_low()) {
+    if (is_main_bs_logo()) {
       # Hide BS buttons
       tkgrid.remove(buttons_bar_low)
       tkgrid.remove(buttons_variant)
@@ -365,17 +385,46 @@ set_biostat_mode <- function() {
   tkconfigure(lb3, cursor = "hand2")
   tkconfigure(lb4, cursor = "hand2")
 
-  tkbind(lb1, "<Enter>", function() tkconfigure(lb1, image = "::image::dot-yellow"))
-  tkbind(lb1, "<Leave>", function() tkconfigure(lb1, image = "::image::dot-violet"))
+  tip(lb1) <- "Show buttons for\ndata management"
+  tip(lb2) <- "Show buttons for\ndata analysis"
+  tip(lb3) <- "Show buttons for\nplots"
+  tip(lb4) <- "Show buttons for\ntools and settings"
 
-  tkbind(lb2, "<Enter>", function() tkconfigure(lb2, image = "::image::dot-yellow"))
+  tkbind(lb1, "<Enter>", function() tkconfigure(lb1, image = "::image::dot-gw-4"))
+  tkbind(lb1, "<Leave>", function() tkconfigure(lb1, image = "::image::dot-green"))
+  tkbind(lb1, "<Button-1>", function() {
+    tkconfigure(logo, image = "::image::bs_r_logo_management")
+    tip_switch_to_biostat()
+    tkgrid(button_set_manage)
+    tkgrid.remove(button_set_analysis, button_set_plots, button_set_settings)
+  })
+
+  tkbind(lb2, "<Enter>", function() tkconfigure(lb2, image = "::image::dot-gw-4"))
   tkbind(lb2, "<Leave>", function() tkconfigure(lb2, image = "::image::dot-red"))
+  tkbind(lb2, "<Button-1>", function() {
+    tkconfigure(logo, image = "::image::bs_r_logo_analysis")
+    tip_switch_to_biostat()
+    tkgrid(button_set_analysis)
+    tkgrid.remove(button_set_manage, button_set_plots, button_set_settings)
+  })
 
-  tkbind(lb3, "<Enter>", function() tkconfigure(lb3, image = "::image::dot-yellow"))
-  tkbind(lb3, "<Leave>", function() tkconfigure(lb3, image = "::image::dot-green"))
+  tkbind(lb3, "<Enter>", function() tkconfigure(lb3, image = "::image::dot-gw-4"))
+  tkbind(lb3, "<Leave>", function() tkconfigure(lb3, image = "::image::dot-lblue"))
+  tkbind(lb3, "<Button-1>", function() {
+    tkconfigure(logo, image = "::image::bs_r_logo_plots")
+    tip_switch_to_biostat()
+    tkgrid(button_set_plots)
+    tkgrid.remove(button_set_manage, button_set_analysis, button_set_settings)
+  })
 
-  tkbind(lb4, "<Enter>", function() tkconfigure(lb4, image = "::image::dot-yellow"))
+  tkbind(lb4, "<Enter>", function() tkconfigure(lb4, image = "::image::dot-gw-4"))
   tkbind(lb4, "<Leave>", function() tkconfigure(lb4, image = "::image::dot-black"))
+  tkbind(lb4, "<Button-1>", function() {
+    tkconfigure(logo, image = "::image::bs_r_logo_settings")
+    tip_switch_to_biostat()
+    tkgrid(button_set_settings)
+    tkgrid.remove(button_set_manage, button_set_analysis, button_set_plots)
+  })
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Change the title and the main icon -------------------------------------
   .rcmdr <- CommanderWindow()
@@ -461,13 +510,13 @@ bs_mode_menu__import <- function() {
   tkadd(menu_f, "command",
     label   = "from Rds file (.rds)...",
     compound = "left",
-    image    = "::image::bs_r",
+    image    = "::image::bs_r_lblue",
     command = window_import_from_rds)
 
   tkadd(menu_f, "command",
     label    = "from R-data file (.RData, .rda)...",
     compound = "left",
-    image    = "::image::bs_r",
+    image    = "::image::bs_r_brown",
     command  = window_import_rdata)
 
   # tkadd(menu_f, "separator")
@@ -517,7 +566,7 @@ bs_mode_menu__import <- function() {
   tkadd(menu_i, "command",
     label    = "Import from plot (online)...",
     compound = "left",
-    image    = "::image::bs_chart",
+    image    = "::image::bs_wpd",
     command  = window_online_image_digitizer
   )
 
@@ -557,54 +606,53 @@ bs_mode_menu__export <- function() {
   top <- CommanderWindow()
 
   menu_e <- tk2menu(tk2menu(top), tearoff = FALSE)
-  menu_c <- tk2menu(menu_e, tearoff = FALSE)
-  menu_f <- tk2menu(menu_e, tearoff = FALSE)
 
+  menu_to_file <- tk2menu(menu_e, tearoff = FALSE)
 
   tkadd(menu_e, "cascade",
     label    = "Export to file",
     compound = "left",
     image    = "::image::bs_open_file",
-    menu     = menu_f)
+    menu     = menu_to_file)
 
-
-  tkadd(menu_f, "command",
+  tkadd(menu_to_file, "command",
     label    = "Export to text file (.txt, .csv)...",
     compound = "left",
     image    = "::image::bs_text",
     command  = window_export_to_text)
 
-  # tkadd(menu_f, "separator")
+  # tkadd(menu_to_file, "separator")
 
-  tkadd(menu_f, "command",
+  tkadd(menu_to_file, "command",
     label    = "Export to Excel file (.xlsx)...",
     compound = "left",
     image    = "::image::bs_excel",
     command = window_export_to_excel)
 
-  # tkadd(menu_f, "separator")
+  # tkadd(menu_to_file, "separator")
 
-  tkadd(menu_f, "command",
+  tkadd(menu_to_file, "command",
     label    = "Export to Rds file (.rds)...",
     compound = "left",
-    image    = "::image::bs_r",
+    image    = "::image::bs_r_lblue",
     command  = window_export_to_rds)
 
-  tkadd(menu_f, "command",
+  tkadd(menu_to_file, "command",
     label    = "Export to R-data file (.RData)...",
     compound = "left",
-    image    = "::image::bs_r",
+    image    = "::image::bs_r_brown",
     command  = window_export_to_rdata)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  menu_clipb <- tk2menu(menu_e, tearoff = FALSE)
 
   tkadd(menu_e, "cascade",
     label    = "Export to clipboard",
     compound = "left",
     image    = "::image::bs_copy",
-    menu     = menu_c)
+    menu     = menu_clipb)
 
-  tkadd(menu_c, "command",
+  tkadd(menu_clipb, "command",
     label    = "as Tab delimited values (tsv)",
     compound = "left",
     image    = "::image::bs_copy",
@@ -612,7 +660,7 @@ bs_mode_menu__export <- function() {
       .ds <- active_dataset_0()
       export_to_clipboard(.ds, sep = "\t")
     })
-  tkadd(menu_c, "command",
+  tkadd(menu_clipb, "command",
     label    = "as Tab delimited values (European tsv)",
     compound = "left",
     image    = "::image::bs_copy",
@@ -621,7 +669,7 @@ bs_mode_menu__export <- function() {
       export_to_clipboard(.ds, sep = "\t", dec = ",")
     })
 
-  tkadd(menu_c, "command",
+  tkadd(menu_clipb, "command",
     label    = "as Comma separated values (csv)",
     compound = "left",
     image    = "::image::bs_copy",
@@ -630,7 +678,7 @@ bs_mode_menu__export <- function() {
       export_to_clipboard(.ds, sep = ",")
     })
 
-  tkadd(menu_c, "command",
+  tkadd(menu_clipb, "command",
     label    = "as Comma separated values (European csv)",
     compound = "left",
     image    = "::image::bs_copy",
@@ -639,13 +687,61 @@ bs_mode_menu__export <- function() {
       export_to_clipboard(.ds, sep = ";", dec = ",")
     })
 
-  # tkadd(menu_e, "separator")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  tkadd(menu_e, "command",
+  menu_to_console <- tk2menu(menu_e, tearoff = FALSE)
+
+  tkadd(menu_e, "cascade",
+    label    = "Print to R console",
+    compound = "left",
+    image    = "::image::bs_r_lgreen",
+    menu     = menu_to_console)
+
+  tkadd(menu_to_console, "command",
     label    = "Print as R structure",
     compound = "left",
-    image    = "::image::bs_r",
+    image    = "::image::bs_r_lgreen",
     command  = to_r_structure)
+
+  # menu_md <- tk2menu(menu_e, tearoff = FALSE)
+  #
+  # tkadd(menu_to_console, "cascade",
+  #   label    = "Print as Markdown table ",
+  #   compound = "left",
+  #   image    = "::image::bs_md",
+  #   menu     = menu_md)
+  #
+  # tkadd(menu_md, "command",
+  #   label = "Engine: kable",
+  #   command = window_dataset_print_as_kable)
+  #
+  # tkadd(menu_md, "command",
+  #   label = "Engine: pander",
+  #   command = window_dataset_print_as_md)
+  #
+  # # tkadd(menu_e, "separator")
+  # # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # menu_ds <- tk2menu(menu_e, tearoff = FALSE)
+  #
+  # tkadd(menu_to_console, "cascade",
+  #   label    = "Print as dataset",
+  #   compound = "left",
+  #   image    = "::image::bs_print_as_df",
+  #   menu     = menu_ds)
+  #
+  # tkadd(menu_ds, "command",
+  #   label   = "as 'data.frame'",
+  #   command = command_dataset_print_as_df)
+  #
+  # tkadd(menu_ds, "command",
+  #   label   = "as 'data.table'",
+  #   command = command_dataset_print_as_dt)
+  #
+  # tkadd(menu_ds, "command",
+  #   label   = "as 'tibble'",
+  #   command = command_dataset_print_as_tibble)
+
+
+
 
   # tkadd(menu_e, "separator")
   #
@@ -685,32 +781,32 @@ bs_mode_menu__print <- function() {
   tkadd(menu_p, "command",
     label    = "Class of active dataset...",
     state    = activate_if_active_ds(),
-    # compound = "left",
-    # image    = "::image::viewIcon",
     command  = window_dataset_class)
 
   tkadd(menu_p, "command",
     label    = "Number of rows and columns",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = command_dataset_dim)
 
   tkadd(menu_p, "command",
-    label    = "Variable type summay", #  & dataset size
-    # compound = "left",
-    # image    = "::image::bs_locale",
+    label    = "Variable type summay",
     command  = summary_var_types)
 
   tkadd(menu_p, "command",
     label    = "Screen missing data...",
     state    = activate_if_active_ds(),
+    compound = "left",
+    image    = "::image::bs_na_red",
     command  = window_summary_missings)
 
   tkadd(menu_p, "command",
     label    = "Glimpse: structure of dataset",
-    # compound = "left",
-    # image    = "::image::bs_locale",
+    compound = "left",
+    image    = "::image::bs_glimpse",
     command  = command_glimpse)
+
+  tkadd(menu_p, "command",
+    label   = "Print top and bottom rows",
+    command = summary_head_tail)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_p, "separator")
@@ -736,12 +832,27 @@ bs_mode_menu__print <- function() {
       command  = window_dataset_view_rcmdr)
   }
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_p, "separator")
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # menu_to_console <- tk2menu(menu_p, tearoff = FALSE)
+  #
+  # tkadd(menu_p, "cascade",
+  #   label    = "Print to R console",
+  #   compound = "left",
+  #   image    = "::image::bs_r_lgreen",
+  #   menu     = menu_to_console)
+  #
+  menu_to_console <- menu_p
+
+  # tkadd(menu_to_console, "command",
+  #   label    = "Print as R structure",
+  #   compound = "left",
+  #   image    = "::image::bs_r_lgreen",
+  #   command  = to_r_structure)
 
   menu_md <- tk2menu(menu_p, tearoff = FALSE)
 
-  tkadd(menu_p, "cascade",
+  tkadd(menu_to_console, "cascade",
     label    = "Print as Markdown table ",
     compound = "left",
     image    = "::image::bs_md",
@@ -759,10 +870,10 @@ bs_mode_menu__print <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_ds <- tk2menu(menu_p, tearoff = FALSE)
 
-  tkadd(menu_p, "cascade",
+  tkadd(menu_to_console, "cascade",
     label    = "Print as dataset",
-    # compound = "left",
-    # image    = "::image::bs_open_file",
+    compound = "left",
+    image    = "::image::bs_print_as_df",
     menu     = menu_ds)
 
   tkadd(menu_ds, "command",
@@ -776,15 +887,8 @@ bs_mode_menu__print <- function() {
   tkadd(menu_ds, "command",
     label   = "as 'tibble'",
     command = command_dataset_print_as_tibble)
-
-  # tkadd(menu_ds, "separator")
-
-  tkadd(menu_p, "command",
-    label   = "Print top and bottom rows",
-    command = summary_head_tail)
-
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # tkadd(menu_p, "separator")
-
 
   tkpopup(menu_p,
     tkwinfo("pointerx", top),
@@ -800,21 +904,17 @@ bs_mode_menu__summary  <- function() {
   # tkadd(menu_p, "command",
   #       label    = "Summarize variables...",
   #       # compound = "left",
-  #       # image    = "::image::bs_locale",
+  #       # image    = "::image::bs_r",
   #       command  = window_summary_variables)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   tkadd(menu_p, "command",
     label    = "Summarize all variables (dfSummary)",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = window_summary_dfSummary)
 
   tkadd(menu_p, "command",
     label    = "Summarize all variables (Desc)",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = window_summary_desc_all)
 
   tkadd(menu_p, "separator")
@@ -822,16 +922,16 @@ bs_mode_menu__summary  <- function() {
   tkadd(menu_p, "command",
     # label    = "Summarize selected variables (Desc)...",
     label    = "Summarize single or pair of variables (Desc)...",
-    # compound = "left",
-    # image    = "::image::bs_locale",
+    compound = "left",
+    image    = "::image::bs_desc",
     command  = window_summary_desc)
 
   tkadd(menu_p, "separator")
 
   tkadd(menu_p, "command",
     label    = "Summarize numeric variables",
-    # compound = "left",
-    # image    = "::image::bs_locale",
+    compound = "left",
+    image    = "::image::bs_data_num",
     state    = set_menu_state(numericP()),
     command  = window_summary_descr
   )
@@ -839,7 +939,7 @@ bs_mode_menu__summary  <- function() {
   # tkadd(menu_p, "command",
   #     label    = "Frequency table for numeric variable...",
   #     # compound = "left",
-  #     # image    = "::image::bs_locale",
+  #     # image    = "::image::bs_r",
   #     state    = set_menu_state(numericP()),
   #     command  = window_summary_Freq
   # )
@@ -848,8 +948,8 @@ bs_mode_menu__summary  <- function() {
 
   tkadd(menu_p, "command",
     label    = "Frequency & multi-way tables...",
-    # compound = "left",
-    # image    = "::image::bs_locale",
+    compound = "left",
+    image    = "::image::bs_data_fct",
     command  = window_summary_count)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -869,8 +969,8 @@ bs_mode_menu__rows <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_p, "command",
     label    = "Arrange: sort rows...",
-    # compound = "left",
-    # image    = "::image::bs_locale",
+    compound = "left",
+    image    = "::image::bs_rows_sort",
     command  = window_rows_arrange)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -878,41 +978,31 @@ bs_mode_menu__rows <- function() {
 
   tkadd(menu_p, "cascade",
     label    = "Row names and row numbers",
-    # compound = "left",
-    # image    = "::image::bs_open_file",
+    compound = "left",
+    image    = "::image::bs_rows_names",
     menu     = menu_n)
 
   tkadd(menu_n, "command",
     label    = "Check if table has row names",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = command_rows_has_rownames)
 
   tkadd(menu_n, "command",
     label    = "Print row names (or row indices)",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = command_rownames)
 
   tkadd(menu_n, "separator")
 
   tkadd(menu_n, "command",
     label    = "Move row names to column...",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = window_rows_rownames_to_col)
 
   tkadd(menu_n, "command",
     label    = "Move column (with unique values) to row names...",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     state = set_menu_state(variables_with_unique_values_P()),
     command  = window_rows_col_to_rownames)
 
   tkadd(menu_n, "command",
     label    = "Create column with row numbers...",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = window_rows_rowid_to_col)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -920,40 +1010,38 @@ bs_mode_menu__rows <- function() {
 
   tkadd(menu_p, "cascade",
     label    = "Select or remove rows",
-    # compound = "left",
-    # image    = "::image::bs_open_file",
+    compound = "left",
+    image    = "::image::bs_rows_select",
     menu     = menu_rm)
 
   tkadd(menu_rm, "command",
     label    = "Filter: select rows that match conditions...",
-    # compound = "left",
-    # image    = "::image::bs_locale",
+    compound = "left",
+    image    = "::image::bs_rows_filter",
     command  = window_rows_filter0)
 
   tkadd(menu_rm, "command",
     label    = "Slice: select/remove rows by row index...",
-    # compound = "left",
-    # image    = "::image::bs_locale",
+    compound = "left",
+    image    = "::image::bs_rows_slice",
     command  = window_rows_slice)
 
   tkadd(menu_rm, "separator")
 
   tkadd(menu_rm, "command",
     label    = "Remove duplicated rows...",
-    # compound = "left",
-    # image    = "::image::bs_locale",
     command  = window_rows_rm_duplicated)
 
   tkadd(menu_rm, "command",
     label    = "Remove empty rows",
-    # compound = "left",
-    # image    = "::image::bs_locale",
+    compound = "left",
+    image    = "::image::bs_na_blue",
     command  = command_rows_rm_empty_rows)
 
   tkadd(menu_rm, "command",
     label    = "Remove rows with missing values...",
-    # compound = "left",
-    # image    = "::image::bs_locale",
+    compound = "left",
+    image    = "::image::bs_na_red",
     command  = window_rows_rm_with_na)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -969,37 +1057,35 @@ bs_mode_menu__variables <- function() {
   menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  menu_s  <- tk2menu(menu_p, tearoff = FALSE)
+  menu_var_names  <- tk2menu(menu_p, tearoff = FALSE)
 
   tkadd(menu_p, "cascade",
     label    = "Variable names",
-    # compound = "left",
-    # image    = "::image::bs_open_file",
-    menu     = menu_s)
+    compound = "left",
+    image    = "::image::bs_cols_names",
+    menu     = menu_var_names)
 
-  tkadd(menu_s, "command",
+  tkadd(menu_var_names, "command",
     label    = "Print variable (column) names",
-    # compound = "left",
-    # image    = "::image::bs_open_wd",
     command  = command_colnames)
 
-  tkadd(menu_s, "command",
+  tkadd(menu_var_names, "command",
+    label    = "Check syntactical validity of column names",
+    command  = command_check_names_validity)
+
+  tkadd(menu_var_names, "command",
     label    = "Clean variable names (into snake case)",
-    # compound = "left",
-    # image    = "::image::bs_open_wd",
     command  = command_clean_names)
 
-  tkadd(menu_s, "command",
+  tkadd(menu_var_names, "command",
     label    = "Rename variables...",
-    # compound = "left",
-    # image    = "::image::bs_open_wd",
     command  = window_variable_rename)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_p, "command",
     label    = "Select/Remove variables...",
-    # compound = "left",
-    # image    = "::image::bs_locale",
+    compound = "left",
+    image    = "::image::bs_cols_select",
     command  = window_variable_select0)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1007,26 +1093,26 @@ bs_mode_menu__variables <- function() {
 
   tkadd(menu_p, "cascade",
     label    = "Compute, recode, convert",
-    # compound = "left",
-    # image    = "::image::bs_workspace",
+    compound = "left",
+    image    = "::image::bs_cols_compute",
     menu     = menu_j)
 
   tkadd(menu_j, "command",
     label    = "Mutate: compute a variable...",
-    # compound = "left",
-    # image    = "::image::bs_folder",
+    compound = "left",
+    image    = "::image::bs_cols_mutate",
     command  = window_variable_mutate0)
 
   tkadd(menu_j, "command",
     label    = "Recode variable values...",
-    # compound = "left",
-    # image    = "::image::bs_copy",
+    compound = "left",
+    image    = "::image::bs_cols_recode",
     command  = window_variable_recode0)
 
   tkadd(menu_j, "command",
     label    = "Convert variable types manually...",
-    # compound = "left",
-    # image    = "::image::bs_rename",
+    compound = "left",
+    image    = "::image::bs_cols_convert",
     command  = window_variable_convert_type)
 
 
@@ -1035,32 +1121,24 @@ bs_mode_menu__variables <- function() {
 
   tkadd(menu_p, "cascade",
     label    = "Tidy, reshape",
-    # compound = "left",
-    # image    = "::image::bs_folder",
+    compound = "left",
+    image    = "::image::bs_data_reshape",
     menu     = menu_wd)
 
   tkadd(menu_wd, "command",
     label    = "Gather columns into long format dataset...",
-    # compound = "left",
-    # image    = "::image::bs_path_to_wd",
     command  = window_variable_gather)
 
   # tkadd(menu_wd, "command",
   #       label    = "Spread columns into wide format dataset...",
-  #       # compound = "left",
-  #       # image    = "::image::bs_open_wd",
   #       command  = function_not_implemented)
   #
   # tkadd(menu_wd, "command",
   #       label    = "Separate one value into multiple columns...",
-  #       # compound = "left",
-  #       # image    = "::image::bs_set_wd",
   #       command  = function_not_implemented)
   #
   # tkadd(menu_wd, "command",
   #       label    = "Unite values into one column...",
-  #       # compound = "left",
-  #       # image    = "::image::bs_set_wd",
   #       command  = function_not_implemented)
   #
 
@@ -1072,14 +1150,12 @@ bs_mode_menu__variables <- function() {
 
   tkadd(menu_p, "cascade",
     label    = "Character (text) variables",
-    # compound = "left",
-    # image    = "::image::bs_workspace",
+    compound = "left",
+    image    = "::image::bs_data_chr",
     menu     = menu_chr)
 
   tkadd(menu_chr, "command",
     label    = "Convert all text variables into factors",
-    # compound = "left",
-    # image    = "::image::bs_folder",
     state = set_menu_state(characterP()),
     command  = command_all_chr_to_fctr)
 
@@ -1088,21 +1164,17 @@ bs_mode_menu__variables <- function() {
 
   tkadd(menu_p, "cascade",
     label    = "Factors (categorical variables)",
-    # compound = "left",
-    # image    = "::image::bs_workspace",
+    compound = "left",
+    image    = "::image::bs_data_fct",
     menu     = menu_fct)
 
   tkadd(menu_fct, "command",
     label    = "Drop unused levels...",
-    # compound = "left",
-    # image    = "::image::bs_folder",
-    state = set_menu_state(factors_strict_P()),
+    state    = set_menu_state(factors_strict_P()),
     command  = window_factor_lvls_drop)
 
   tkadd(menu_fct, "command",
     label    = "Reorder levels by hand...",
-    # compound = "left",
-    # image    = "::image::bs_folder",
     state = set_menu_state(factors_strict_P()),
     command  = window_fct_lvls_reorder_manual)
 
@@ -1111,21 +1183,17 @@ bs_mode_menu__variables <- function() {
 
   tkadd(menu_p, "cascade",
     label    = "Numeric variables",
-    # compound = "left",
-    # image    = "::image::bs_workspace",
+    compound = "left",
+    image    = "::image::bs_data_num",
     menu     = menu_num)
 
   tkadd(menu_num, "command",
     label    = "Logarithmic transformation...",
-    # compound = "left",
-    # image    = "::image::bs_folder",
     state = set_menu_state(numericP()),
     command  = window_num_transform_log)
 
   tkadd(menu_num, "command",
     label    = "Z transformation / Standardization...",
-    # compound = "left",
-    # image    = "::image::bs_folder",
     state = set_menu_state(numericP()),
     command  = window_num_transform_z)
 
@@ -1223,9 +1291,9 @@ bs_mode_menu__analyze <- function() {
 
   tkadd(menu_p, "command",
     label      = "Normality test (univariate)...",
-    # compound = "left",
-    # image    = "::image::bs_open_file",
     state      = set_menu_state(numericP()),
+    compound   = "left",
+    image      = "::image::bs_normality",
     command    = window_test_normality)
 
   #
@@ -1414,67 +1482,131 @@ bs_mode_menu__settings <- function() {
   #           },
   #       command    = toggle_always_on_top)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  tkadd(menu_p, "command",
+  menu_lng  <- tk2menu(menu_p, tearoff = FALSE)
+
+  tkadd(menu_p, "cascade",
+    label    = "Language",
+    compound = "left",
+    image    = "::image::bs_locale",
+    menu     = menu_lng)
+
+  tkadd(menu_lng, "command",
     label    = "Locale...",
     compound = "left",
     image    = "::image::bs_locale",
     command  = window_locale_set)
+
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  menu_s  <- tk2menu(menu_p, tearoff = FALSE)
+  menu_opts  <- tk2menu(menu_p, tearoff = FALSE)
+
+  tkadd(menu_p, "cascade",
+    label    = "Options",
+    compound = "left",
+    image    = "::image::bs_r_yellow",
+    menu     = menu_opts)
+
+  to_console <- is_console_output()
+
+  tkadd(menu_opts, "command",
+    label    = "Output to R console (1 window mode)",
+    compound = "left",
+    image    = if (to_console) {"::image::bs_tick"} else {""},
+    command  = if (to_console) {do_nothing} else {command_rcmdr_use_1_window})
+
+  tkadd(menu_opts, "command",
+    label    = "Output to R Commander (3 windows mode)",
+    compound = "left",
+    image    = if (!to_console) {"::image::bs_tick"} else {""},
+    command  = if (!to_console) {do_nothing} else {command_rcmdr_use_3_windows})
+
+  tkadd(menu_opts, "separator")
+
+  sort_names <- getRcmdr("sort.names")
+
+  tkadd(menu_opts, "command",
+    label    = "Keep original order (column names in widgets)",
+    compound = "left",
+    image    = if (!sort_names) {"::image::bs_tick"} else {""},
+    command  =
+      if (!sort_names) {
+        do_nothing
+      } else {
+        function() {
+          putRcmdr("sort.names", FALSE)
+          # options(Rcmdr = list(sort.names = FALSE))
+          command_dataset_refresh()
+        }})
+
+  tkadd(menu_opts, "command",
+    label    = "Sort alphabetically (column names in widgets)",
+    compound = "left",
+    image    = if (sort_names) {"::image::bs_tick"} else {""},
+    command  =
+      if (sort_names) {
+        do_nothing
+      } else {
+        function() {
+          putRcmdr("sort.names", TRUE)
+          # options(Rcmdr = list(sort.names = TRUE))
+          command_dataset_refresh()
+        }})
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  menu_session  <- tk2menu(menu_p, tearoff = FALSE)
 
   tkadd(menu_p, "cascade",
     label    = "Session",
     compound = "left",
     image    = "::image::bs_r",
-    menu     = menu_s)
+    menu     = menu_session)
 
-  tkadd(menu_s, "command",
+  tkadd(menu_session, "command",
     label    = "Load R packages...",
     compound = "left",
     image    = "::image::bs_package",
     command  = window_load_packages)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  tkadd(menu_s, "separator")
+  tkadd(menu_session, "separator")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  tkadd(menu_s, "command",
+  tkadd(menu_session, "command",
     label    = "Print session information: base R style",
-    # compound = "left",
-    # image    = "::image::bs_open_wd",
+    compound = "left",
+    image    = "::image::bs_ses_info_br",
     command  = command_session_info_utils)
 
-  tkadd(menu_s, "command",
+  tkadd(menu_session, "command",
     label    = "Print session information: devtools style",
-    # compound = "left",
-    # image    = "::image::bs_open_wd",
+    compound = "left",
+    image    = "::image::bs_ses_info_g",
     command  = command_session_info_devtools)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  tkadd(menu_s, "separator")
+  tkadd(menu_session, "separator")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  tkadd(menu_s, "command",
+  tkadd(menu_session, "command",
     label    = "Restart R Commander",
     compound = "left",
     image    = "::image::bs_restart",
     command  = command_rcmdr_restart)
 
   if (is_rstudio()) {
-    tkadd(menu_s, "command",
+    tkadd(menu_session, "command",
       label    = "Restart R session in RStudio",
       compound = "left",
       image    = "::image::bs_restart_r",
       command  = command_restart_rs_session)
   }
 
-  tkadd(menu_s, "command",
+  tkadd(menu_session, "command",
     label    = "Close R Commander",
     compound = "left",
     image    = "::image::bs_close_rcmdr",
     command  = Rcmdr::closeCommander)
 
-  tkadd(menu_s, "command",
+  tkadd(menu_session, "command",
     label    = "Close R Commander & R",
     compound = "left",
     image    = "::image::bs_close_r",

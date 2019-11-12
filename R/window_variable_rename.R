@@ -114,8 +114,8 @@ window_variable_rename <- function() {
         subOKCancelHelp()
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkgrid(
-            bs_label_b(subdialog, text = gettext_bs("Old Name   ")),
-            bs_label_b(subdialog, text = gettext_bs("New name   ")),
+            tk_label_blue(subdialog, text = gettext_bs("Old Name   ")),
+            tk_label_blue(subdialog, text = gettext_bs("New name   ")),
             sticky = "w",
             pady = c(10, 15)
         )
@@ -168,7 +168,7 @@ window_variable_rename <- function() {
     tkgrid(var_y_box$frame, sticky = "w", padx = c(10, 0))
 
 
-    info_1 <- bs_label(top, text = "Select no more than 30 variables to rename at once.")
+    info_1 <- tk_label(top, text = "Select no more than 30 variables to rename at once.")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ok_cancel_help(helpSubject = "rename", helpPackage = "dplyr")
     tkgrid(variables_frame, columnspan = 2)

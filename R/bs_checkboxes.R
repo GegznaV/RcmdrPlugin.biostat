@@ -164,7 +164,7 @@ bs_checkboxes <- function(
             } else {
                 tk2labelframe(
                     parent,
-                    labelwidget = bs_label_b(parent, text = title))
+                    labelwidget = tk_label_blue(parent, text = title))
             }
 
         } else {
@@ -172,7 +172,7 @@ bs_checkboxes <- function(
         }
 
     if (!is.null(title) && !border) {
-        tkgrid(bs_label_b(frame, text = title), sticky = sticky_title)
+        tkgrid(tk_label_blue(frame, text = title), sticky = sticky_title)
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -219,9 +219,9 @@ get_values.bs_checkboxes <- function(obj, ..., simplify = TRUE, rm_names = simpl
 
     map_fun <-
         if (isTRUE(simplify)) {
-            map_lgl
+            purrr::map_lgl
         } else {
-            map
+            purrr::map
         }
 
     res <-

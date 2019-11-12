@@ -1,9 +1,13 @@
 # TODO:
-# - Show system locale for Mac and Linux
-# - for (local) button: add context menu either to show or to print locale
-# - Replace functions:
+# 1. [ ] Show system locale for Mac and Linux
+# 2. [ ] for (local) button: add context menu either to show or to print locale
+# 3. [ ] Replace functions:
 #       - radioButtons_horizontal() -> bs_radiobuttons()
 #       - bs_check_boxes()          -> bs_checkboxes()
+# 4. [ ] Select icon of a flag that depends on current R locale:
+#       - for lt, en, ru, de (an first)
+#       - all other languages (the next step)
+#       - Use the default flag, if appropriate specific flag is not found
 
 # Locale ---------------------------------------------------------------------
 
@@ -431,8 +435,26 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
     tkgrid(show_locale_frame, sticky = "")
     tkgrid(b1, b2, sticky = "sw", pady = c(5, 0))
 
+    # Help menus -------------------------------------------------------------
+    help_menu <- function() {
+
+      menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
+
+      tkadd(menu_main, "command",
+        label    = "About setting locales in R",
+        command  = open_help("locales", package = "base"))
+
+      tkadd(menu_main, "command",
+        label    = "Localization information",
+        command  = open_help("l10n_info", package = "base"))
+
+      tkpopup(menu_main,
+        tkwinfo("pointerx", top),
+        tkwinfo("pointery", top))
+    }
+
     # Finalize ---------------------------------------------------------------
-    ok_cancel_help(helpSubject = "locales")
+    ok_cancel_help(on_help = help_menu)
     tkgrid(buttonsFrame, sticky = "ew")
     dialogSuffix()
 

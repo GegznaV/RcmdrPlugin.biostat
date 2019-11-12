@@ -1,3 +1,6 @@
+# TODO: Check if code `putRcmdr("bs_dataset_and_col_names", ds_names_current)`
+#       is in all places it should be in.
+
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
@@ -20,6 +23,7 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
         type    = "ok")
 
       return(FALSE)
+
     } else {
       return(.ds)
     }
@@ -35,8 +39,7 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
     }
 
     command <- str_glue("{dsname} <- as.data.frame({dsname})")
-    justDoIt(command)
-    logger(command)
+    doItAndPrint(command)
 
     Message(
       message = str_glue(gettext_bs("Dataset `{dsname}` has been coerced to a data frame.")),
@@ -45,22 +48,43 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
   }
 
   varnames <- names(get(dsname, envir = .GlobalEnv))
-  newnames <- make.names(varnames)  # TODO avoid make.names <------------- ???
+  newnames <- make.names(varnames)  # FIXME avoid make.names <------------- ???
   badnames <- varnames != newnames
 
-  if (any(badnames)) {
+  # To prevent repeated messages for the same data
+  ds_names_current  <- c(dsname, varnames)
+  ds_names_previous <- getRcmdr("bs_dataset_and_col_names", fail = FALSE)
+  putRcmdr("bs_dataset_and_col_names", ds_names_current)
 
-    old_bad_names  <- paste0(varnames[badnames], collapse = ", ")
-    new_good_names <- paste0(newnames[badnames], collapse = ", ")
+  suggest_fixing_names <-
+    any(badnames) && !identical(ds_names_previous, ds_names_current)
 
-    warn_msg <- str_glue(
-      "Dataset `{dsname}`",
-      gettext_bs(" contains non-standard variable names:\n\n"),
-      stringr::str_trunc(old_bad_names, 245),
-      gettext_bs("\n\nR Commander may not work properly, if these names are not corrected. "),
-      gettext_bs("Do you AGREE to change the names into correct ones:\n\n"),
-      stringr::str_trunc(new_good_names, 245),
-    )
+  if (suggest_fixing_names) {
+
+    str_l <- 30  # Default length of a bad name (will be padded to this length)
+    n_max <- 8   # Number or names to display
+
+    old_bad_names  <- safe_names(varnames[badnames])
+    new_good_names <-            newnames[badnames]
+
+    n <- length(old_bad_names)
+    if (n > n_max) {l <- n_max} else {l <- n}
+
+    old_bad_names  <- old_bad_names[1:l]
+    new_good_names <- new_good_names[1:l]
+
+    space <- ifelse(str_length(old_bad_names) < (str_l - 2), "\t", "   ")
+
+    str_fixed <- str_c(str_pad(old_bad_names, str_l, "right"), space, "->   ",
+      new_good_names, collapse = "\n")
+
+    warn_msg <- gettext_bs(str_glue(
+      "Dataset `{dsname}` contains {n} non-standard variable name(s). ",
+      "Due tho this fact, some functions in R Commander may fail. ",
+      "It is recommended to use syntactically correct name(s), e.g.:\n\n",
+	    "{str_fixed} \n\n",
+      "Do you agree to fix the name(s) now?",
+    ))
 
     ans <- tk_messageBox(
       parent  = CommanderWindow(),
@@ -71,8 +95,11 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
       default = "yes")
 
     if (ans == "yes") {
-      command <- str_glue("## Make syntactically correct variable names\n",
-                          "names({dsname}) <- make.names(names({dsname}))")
+      command <- str_glue(
+        "## Make syntactically correct variable names\n",
+        # "{dsname} <- janitor::clean_names({dsname})"
+        "names({dsname}) <- make.names(names({dsname}))"
+        )
       doItAndPrint(command)
     }
   }
@@ -101,7 +128,7 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
     gettext_bs("The dataset `%s` has %d rows and %d columns."), dsname, nrow, ncol),
     type = "note")
 
-  if (any(badnames)) {
+  if (suggest_fixing_names) {
     if (ans == "yes") {
       Message(message = "Some variable names were corrected.", type = "warning")
 
@@ -129,13 +156,14 @@ active_dataset_0 <- function(name) {
     temp <- getRcmdr(".activeDataSet")
     if (is.null(temp)) {
       return(NULL)
-    } else
-      if (!exists(temp) || !is.data.frame(get(temp, envir = .GlobalEnv))) {
+
+    } else if (!exists(temp) || !is.data.frame(get(temp, envir = .GlobalEnv))) {
         Message(sprintf(
           gettextRcmdr("the dataset %s is no longer available"),
           temp
         ), type = "error")
 
+        putRcmdr("bs_dataset_and_col_names", NULL)
         putRcmdr(".activeDataSet", NULL)
         Variables(NULL)
         Numeric(NULL)
@@ -172,18 +200,23 @@ active_dataset_0 <- function(name) {
         ))
         posn <- paste("+", paste(posn, collapse = "+"), sep = "")
         tkdestroy(open.showData.windows[[name]])
-        suppress <- if (getRcmdr("suppress.X11.warnings")) ", suppress.X11.warnings=FALSE" else ""
-        view.height <- max(as.numeric(getRcmdr("output.height")) + as.numeric(getRcmdr("log.height")), 10)
-        command <- paste("showData(", name, ", placement='", posn, "', font=getRcmdr('logFont'), maxwidth=",
-                         getRcmdr("log.width"), ", maxheight=", view.height, suppress, ")",
-                         sep = ""
+        suppress <-
+          if (getRcmdr("suppress.X11.warnings")) ", suppress.X11.warnings=FALSE" else ""
+        view.height <-
+          max(as.numeric(getRcmdr("output.height")) +
+              as.numeric(getRcmdr("log.height")), 10)
+        command <- paste0(
+          "showData(", name, ", placement='", posn,
+          "', font=getRcmdr('logFont'), maxwidth=",
+          getRcmdr("log.width"), ", maxheight=", view.height, suppress, ")"
         )
         window <- justDoIt(command)
         open.showData.windows[[active_dataset_0()]] <- window
         putRcmdr("open.showData.windows", open.showData.windows)
       }
-    }
-    else {
+
+    } else {
+      putRcmdr("bs_dataset_and_col_names", NULL)
       Variables(NULL)
       Numeric(NULL)
       Factors(NULL)
@@ -194,7 +227,7 @@ active_dataset_0 <- function(name) {
       putRcmdr("ncol", NULL)
       RcmdrTclSet("modelName", gettextRcmdr("<No active model>"))
       tkconfigure(getRcmdr("dataSetLabel"), foreground = "red")
-      tkconfigure(getRcmdr("modelLabel"), foreground = "red")
+      tkconfigure(getRcmdr("modelLabel"),   foreground = "red")
       # activateMenus()
       activate_menus()
       if (getRcmdr("suppress.menus") && RExcelSupported()) return(NULL)
@@ -210,9 +243,10 @@ list_numeric <- function(dataSet = active_dataset_0()) {
   }
   else {
     variables <- listVariables(dataSet)
-    variables[sapply(variables, function(.x)
-      is.numeric(eval(parse(text = safe_names(.x)),
-                      envir = get(dataSet, envir = .GlobalEnv))))]
+    variables[sapply(variables, function(.x) {
+      .v <- eval_text(safe_names(.x), envir = get(dataSet, envir = .GlobalEnv))
+      is.numeric(.v)
+      })]
   }
 }
 
@@ -224,8 +258,7 @@ list_factors <- function(dataSet = active_dataset_0()) {
   else {
     variables <- listVariables(dataSet)
     variables[sapply(variables, function(.x) {
-      .v <- eval(parse(text = safe_names(.x)),
-                 envir = get(dataSet, envir = .GlobalEnv))
+      .v <- eval_text(safe_names(.x), envir = get(dataSet, envir = .GlobalEnv))
       is.factor(.v) || is.logical(.v) || is.character(.v)
     })]
   }
@@ -240,9 +273,10 @@ list_two_level_factors <- function(dataSet = active_dataset_0()) {
     factors <- list_factors(dataSet)
     if (length(factors) == 0) return(NULL)
     factors[sapply(factors, function(.x) {
-      .v <- eval(parse(text = safe_names(.x)),
-                 envir = get(dataSet, envir = .GlobalEnv))
-      2 == length(levels(.v)) || length(unique(.v)) == 2
+      .v <- eval_text(safe_names(.x), envir = get(dataSet, envir = .GlobalEnv))
+      # NOTE: length(levels(factor(.v))) == 2  #  is faster than:
+      # length(levels(.v)) == 2 || length(na.omit(unique(.v))) == 2
+      length(levels(factor(.v))) == 2
     })]
   }
 }

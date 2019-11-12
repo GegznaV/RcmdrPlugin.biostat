@@ -354,7 +354,7 @@ window_variable_gather <- function() {
         )
     )
 
-    f1_text <- bs_label(f1_opts_frame, text = "", fg = "green")
+    f1_text <- tk_label(f1_opts_frame, text = "", fg = "green")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     f2 <- tkframe(top)

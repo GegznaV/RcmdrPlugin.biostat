@@ -332,7 +332,7 @@ window_variable_convert_type <- function() {
 
     tkgrid(var_y_box$frame, sticky = "w")
     tkgrid(type_frame, sticky = "w", pady = c(5, 0))
-    tkgrid(bs_label_b(type_frame, text = "Types: "),
+    tkgrid(tk_label_blue(type_frame, text = "Types: "),
            var_type_box$frame,
            sticky = "w")
 
