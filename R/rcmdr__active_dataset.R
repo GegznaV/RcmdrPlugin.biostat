@@ -20,6 +20,7 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
         type    = "ok")
 
       return(FALSE)
+
     } else {
       return(.ds)
     }
@@ -35,8 +36,9 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
     }
 
     command <- str_glue("{dsname} <- as.data.frame({dsname})")
-    justDoIt(command)
-    logger(command)
+    doItAndPrint(command)
+    # justDoIt(command)
+    # logger(command)
 
     Message(
       message = str_glue(gettext_bs("Dataset `{dsname}` has been coerced to a data frame.")),
@@ -45,9 +47,11 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
   }
 
   varnames <- names(get(dsname, envir = .GlobalEnv))
-  newnames <- make.names(varnames)  # TODO avoid make.names <------------- ???
+  newnames <- make.names(varnames)  # FIXME avoid make.names <------------- ???
   badnames <- varnames != newnames
 
+  # FIXME: Prevent this function from being displayed more than once per dataset
+  #        selection.
   if (any(badnames)) {
 
     old_bad_names  <- paste0(varnames[badnames], collapse = ", ")
@@ -71,8 +75,11 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
       default = "yes")
 
     if (ans == "yes") {
-      command <- str_glue("## Make syntactically correct variable names\n",
-                          "names({dsname}) <- make.names(names({dsname}))")
+      command <- str_glue(
+        "## Make syntactically correct variable names\n",
+        # "{dsname} <- janitor::clean_names({dsname})"
+        "names({dsname}) <- make.names(names({dsname}))"
+        )
       doItAndPrint(command)
     }
   }
