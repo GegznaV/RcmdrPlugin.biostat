@@ -1070,6 +1070,10 @@ bs_mode_menu__variables <- function() {
     command  = command_colnames)
 
   tkadd(menu_var_names, "command",
+    label    = "Check syntactical validity of column names",
+    command  = command_check_names_validity)
+
+  tkadd(menu_var_names, "command",
     label    = "Clean variable names (into snake case)",
     command  = command_clean_names)
 
