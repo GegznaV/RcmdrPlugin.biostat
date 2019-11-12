@@ -1,3 +1,6 @@
+# TODO: Check if code `putRcmdr("bs_dataset_and_col_names", ds_names_current)`
+#       is in all places it should be in.
+
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
