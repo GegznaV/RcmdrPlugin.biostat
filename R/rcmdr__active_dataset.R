@@ -54,8 +54,8 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
   #        selection.
   if (any(badnames)) {
 
-    old_bad_names  <- paste0(varnames[badnames], collapse = ", ")
-    new_good_names <- paste0(newnames[badnames], collapse = ", ")
+    old_bad_names  <- paste0(safe_names(varnames[badnames]), collapse = ", ")
+    new_good_names <- paste0(           newnames[badnames],  collapse = ", ")
 
     warn_msg <- str_glue(
       "Dataset `{dsname}`",
