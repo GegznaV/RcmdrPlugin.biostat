@@ -37,8 +37,6 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
 
     command <- str_glue("{dsname} <- as.data.frame({dsname})")
     doItAndPrint(command)
-    # justDoIt(command)
-    # logger(command)
 
     Message(
       message = str_glue(gettext_bs("Dataset `{dsname}` has been coerced to a data frame.")),
@@ -55,23 +53,35 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
   ds_names_previous <- getRcmdr("bs_dataset_and_col_names", fail = FALSE)
   putRcmdr("bs_dataset_and_col_names", ds_names_current)
 
-  # FIXME: Prevent this function from being displayed more than once per dataset
-  #        selection.
   suggest_fixing_names <-
     any(badnames) && !identical(ds_names_previous, ds_names_current)
+
   if (suggest_fixing_names) {
 
-    old_bad_names  <- paste0(safe_names(varnames[badnames]), collapse = ", ")
-    new_good_names <- paste0(           newnames[badnames],  collapse = ", ")
+    str_l <- 30  # Default length of a bad name (will be padded to this length)
+    n_max <- 8   # Number or names to display
 
-    warn_msg <- str_glue(
-      "Dataset `{dsname}`",
-      gettext_bs(" contains non-standard variable names:\n\n"),
-      stringr::str_trunc(old_bad_names, 245),
-      gettext_bs("\n\nR Commander may not work properly, if these names are not corrected. "),
-      gettext_bs("Do you AGREE to change the names into correct ones:\n\n"),
-      stringr::str_trunc(new_good_names, 245),
-    )
+    old_bad_names  <- safe_names(varnames[badnames])
+    new_good_names <-            newnames[badnames]
+
+    n <- length(old_bad_names)
+    if (n > n_max) {l <- n_max} else {l <- n}
+
+    old_bad_names  <- old_bad_names[1:l]
+    new_good_names <- new_good_names[1:l]
+
+    space <- ifelse(str_length(old_bad_names) < (str_l - 2), "\t", "   ")
+
+    str_fixed <- str_c(str_pad(old_bad_names, str_l, "right"), space, "->   ",
+      new_good_names, collapse = "\n")
+
+    warn_msg <- gettext_bs(str_glue(
+      "Dataset `{dsname}` contains {n} non-standard variable name(s). ",
+      "Due tho this fact, some functions in R Commander may fail. ",
+      "It is recommended to use syntactically correct name(s), e.g.:\n\n",
+	    "{str_fixed} \n\n",
+      "Do you agree to fix the name(s) now?",
+    ))
 
     ans <- tk_messageBox(
       parent  = CommanderWindow(),
@@ -150,6 +160,7 @@ active_dataset_0 <- function(name) {
           temp
         ), type = "error")
 
+        putRcmdr("bs_dataset_and_col_names", NULL)
         putRcmdr(".activeDataSet", NULL)
         Variables(NULL)
         Numeric(NULL)
@@ -202,6 +213,7 @@ active_dataset_0 <- function(name) {
       }
 
     } else {
+      putRcmdr("bs_dataset_and_col_names", NULL)
       Variables(NULL)
       Numeric(NULL)
       Factors(NULL)
