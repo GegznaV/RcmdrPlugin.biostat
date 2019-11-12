@@ -702,43 +702,43 @@ bs_mode_menu__export <- function() {
     image    = "::image::bs_r_lgreen",
     command  = to_r_structure)
 
-  menu_md <- tk2menu(menu_e, tearoff = FALSE)
-
-  tkadd(menu_to_console, "cascade",
-    label    = "Print as Markdown table ",
-    compound = "left",
-    image    = "::image::bs_md",
-    menu     = menu_md)
-
-  tkadd(menu_md, "command",
-    label = "Engine: kable",
-    command = window_dataset_print_as_kable)
-
-  tkadd(menu_md, "command",
-    label = "Engine: pander",
-    command = window_dataset_print_as_md)
-
-  # tkadd(menu_e, "separator")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  menu_ds <- tk2menu(menu_e, tearoff = FALSE)
-
-  tkadd(menu_to_console, "cascade",
-    label    = "Print as dataset",
-    compound = "left",
-    image    = "::image::bs_print_as_df",
-    menu     = menu_ds)
-
-  tkadd(menu_ds, "command",
-    label   = "as 'data.frame'",
-    command = command_dataset_print_as_df)
-
-  tkadd(menu_ds, "command",
-    label   = "as 'data.table'",
-    command = command_dataset_print_as_dt)
-
-  tkadd(menu_ds, "command",
-    label   = "as 'tibble'",
-    command = command_dataset_print_as_tibble)
+  # menu_md <- tk2menu(menu_e, tearoff = FALSE)
+  #
+  # tkadd(menu_to_console, "cascade",
+  #   label    = "Print as Markdown table ",
+  #   compound = "left",
+  #   image    = "::image::bs_md",
+  #   menu     = menu_md)
+  #
+  # tkadd(menu_md, "command",
+  #   label = "Engine: kable",
+  #   command = window_dataset_print_as_kable)
+  #
+  # tkadd(menu_md, "command",
+  #   label = "Engine: pander",
+  #   command = window_dataset_print_as_md)
+  #
+  # # tkadd(menu_e, "separator")
+  # # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # menu_ds <- tk2menu(menu_e, tearoff = FALSE)
+  #
+  # tkadd(menu_to_console, "cascade",
+  #   label    = "Print as dataset",
+  #   compound = "left",
+  #   image    = "::image::bs_print_as_df",
+  #   menu     = menu_ds)
+  #
+  # tkadd(menu_ds, "command",
+  #   label   = "as 'data.frame'",
+  #   command = command_dataset_print_as_df)
+  #
+  # tkadd(menu_ds, "command",
+  #   label   = "as 'data.table'",
+  #   command = command_dataset_print_as_dt)
+  #
+  # tkadd(menu_ds, "command",
+  #   label   = "as 'tibble'",
+  #   command = command_dataset_print_as_tibble)
 
 
 
@@ -832,6 +832,61 @@ bs_mode_menu__print <- function() {
       command  = window_dataset_view_rcmdr)
   }
 
+  tkadd(menu_p, "separator")
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # menu_to_console <- tk2menu(menu_p, tearoff = FALSE)
+  #
+  # tkadd(menu_p, "cascade",
+  #   label    = "Print to R console",
+  #   compound = "left",
+  #   image    = "::image::bs_r_lgreen",
+  #   menu     = menu_to_console)
+  #
+  menu_to_console <- menu_p
+
+  # tkadd(menu_to_console, "command",
+  #   label    = "Print as R structure",
+  #   compound = "left",
+  #   image    = "::image::bs_r_lgreen",
+  #   command  = to_r_structure)
+
+  menu_md <- tk2menu(menu_p, tearoff = FALSE)
+
+  tkadd(menu_to_console, "cascade",
+    label    = "Print as Markdown table ",
+    compound = "left",
+    image    = "::image::bs_md",
+    menu     = menu_md)
+
+  tkadd(menu_md, "command",
+    label = "Engine: kable",
+    command = window_dataset_print_as_kable)
+
+  tkadd(menu_md, "command",
+    label = "Engine: pander",
+    command = window_dataset_print_as_md)
+
+  # tkadd(menu_p, "separator")
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  menu_ds <- tk2menu(menu_p, tearoff = FALSE)
+
+  tkadd(menu_to_console, "cascade",
+    label    = "Print as dataset",
+    compound = "left",
+    image    = "::image::bs_print_as_df",
+    menu     = menu_ds)
+
+  tkadd(menu_ds, "command",
+    label   = "as 'data.frame'",
+    command = command_dataset_print_as_df)
+
+  tkadd(menu_ds, "command",
+    label   = "as 'data.table'",
+    command = command_dataset_print_as_dt)
+
+  tkadd(menu_ds, "command",
+    label   = "as 'tibble'",
+    command = command_dataset_print_as_tibble)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # tkadd(menu_p, "separator")
 
