@@ -51,13 +51,13 @@ get_n_datasets <- function(package) {
 #
 # @examples
 # get_obj_dims(iris)
-get_obj_dims <- function(obj) {
+get_obj_dims <- function(obj, x_symbol = " \u00D7 ") {
   dim_obj <- dim(obj)
 
   if (is.null(dim_obj)) {
     as.character(length(obj))
   } else {
-    stringr::str_c(dim_obj, collapse = " \u00D7 ") # "\u00D7" - times symbol
+    stringr::str_c(dim_obj, collapse = x_symbol) # "\u00D7" - times symbol
   }
 }
 
@@ -214,4 +214,7 @@ get_info_about_datasets <- function(package = NULL) {
 
 }
 
+list_datasets_in_package <- function(package) {
+   data(package = package)$results[ ,"Item"]
+}
 
