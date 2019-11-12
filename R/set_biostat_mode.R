@@ -1572,14 +1572,14 @@ bs_mode_menu__settings <- function() {
 
   tkadd(menu_session, "command",
     label    = "Print session information: base R style",
-    # compound = "left",
-    # image    = "::image::bs_open_wd",
+    compound = "left",
+    image    = "::image::bs_ses_info_br",
     command  = command_session_info_utils)
 
   tkadd(menu_session, "command",
     label    = "Print session information: devtools style",
-    # compound = "left",
-    # image    = "::image::bs_open_wd",
+    compound = "left",
+    image    = "::image::bs_ses_info_g",
     command  = command_session_info_devtools)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
