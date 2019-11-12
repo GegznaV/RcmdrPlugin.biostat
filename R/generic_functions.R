@@ -160,3 +160,23 @@ print.bs_tk_widget <- function(x, ...) {
     cat("Class: ", str_c(class(x), collapse = ", "))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+set_values.default <- function(obj, values, ...) {
+  tcltk::tclvalue(obj) <- values
+}
+set_values.tclVar <- function(obj, values, ...) {
+  tcltk::tclvalue(obj) <- values
+}
+set_values.tclObj <- function(obj, values, ...) {
+  tcltk::tclvalue(obj) <- values
+}
+
+get_values.default <- function(obj, ...) {
+  tcltk::tclvalue(obj, ...)
+}
+get_values.tclVar <- function(obj, ...) {
+  tcltk::tclvalue(obj, ...)
+}
+get_values.tclObj <- function(obj, ...) {
+  tcltk::tclvalue(obj, ...)
+}
