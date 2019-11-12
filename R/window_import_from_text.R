@@ -12,6 +12,8 @@
 #  7. [ ] Use more options that could be memorized by in putDialog()
 #  8. [ ] Enable "Apply" button.
 
+# FIXME: Context menu commands (Cut, Paste, etc.) do not update the
+#        preview. Fix context menu function.
 
 #' @rdname Menu-window-functions
 #' @export
@@ -1634,18 +1636,19 @@ window_import_from_text <- function() {
 
   tkbind(f3_input$text, "<KeyRelease-Tab>",  refresh_ds_show_tabs)
 
-  tkbind(f3_input$text, "<Triple-Button-3>", refresh_dataset_window)
-  tkbind(f3_input$text, "<<Undo>>",          refresh_dataset_window)
-  tkbind(f3_input$text, "<<Redo>>",          refresh_dataset_window)
   tkbind(f3_input$text, "<KeyRelease>",      refresh_dataset_window)
-
-  # tkbind(f3_input$text, "<<Copy>>",     refresh_dataset_window)
-  # tkbind(f3_input$text, "<Control-Shift-Z>",  "<<Redo>>")
-  #
-  # tkbind(f3_input$text, "<<Paste>>",   refresh_after_paste)
+  tkbind(f3_input$text, "<Triple-Button-3>", refresh_dataset_window)
 
   tkbind(f3_input$text, "<Control-s>",        refresh_ds_show_tabs)
   tkbind(f3_input$text, "<Control-S>",        refresh_ds_show_tabs)
+
+  # FIXME: These bindings seems not to be working:
+  tkbind(f3_input$text, "<<Undo>>",          refresh_dataset_window)
+  tkbind(f3_input$text, "<<Redo>>",          refresh_dataset_window)
+  tkbind(f3_input$text, "<<Modified>>",      refresh_dataset_window)
+  tkbind(f3_input$text, "<<Cut>>",           refresh_dataset_window)
+  tkbind(f3_input$text, "<<Paste>>",         refresh_after_paste)
+
 
   # Output -----------------------------------------------------------------
   # Functions to modify state of the widget
