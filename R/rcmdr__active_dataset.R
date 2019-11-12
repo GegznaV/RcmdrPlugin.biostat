@@ -50,9 +50,16 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
   newnames <- make.names(varnames)  # FIXME avoid make.names <------------- ???
   badnames <- varnames != newnames
 
+  # To prevent repeated messages for the same data
+  ds_names_current  <- c(dsname, varnames)
+  ds_names_previous <- getRcmdr("bs_dataset_and_col_names", fail = FALSE)
+  putRcmdr("bs_dataset_and_col_names", ds_names_current)
+
   # FIXME: Prevent this function from being displayed more than once per dataset
   #        selection.
-  if (any(badnames)) {
+  suggest_fixing_names <-
+    any(badnames) && !identical(ds_names_previous, ds_names_current)
+  if (suggest_fixing_names) {
 
     old_bad_names  <- paste0(safe_names(varnames[badnames]), collapse = ", ")
     new_good_names <- paste0(           newnames[badnames],  collapse = ", ")
@@ -108,7 +115,7 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
     gettext_bs("The dataset `%s` has %d rows and %d columns."), dsname, nrow, ncol),
     type = "note")
 
-  if (any(badnames)) {
+  if (suggest_fixing_names) {
     if (ans == "yes") {
       Message(message = "Some variable names were corrected.", type = "warning")
 
