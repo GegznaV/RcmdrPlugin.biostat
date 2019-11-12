@@ -6,20 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Always on Top
-
-Set (enable/disable) or get "always on top" mode.
-The "always on top" mode puts Tcl/Tk window in front of windows of the other programs.
-Functions that set (enable/disable) the mode:
-<ul>
-<li><p><code>set_always_on_top()</code>- for any Tcl/Tk window;</p></li>
-<li><p><code>rcmdr_set_always_on_top()</code>- for any R Commander window.</p></li>
-</ul>
-Functions that get current mode:
-<ul>
-<li><p><code>get_always_on_top()</code>- for any Tcl/Tk window;</p></li>
-<li><p><code>rcmdr_get_always_on_top()</code>- for any R Commander window.</p></li>
-</ul> — always_on_top • RcmdrPlugin.biostat</title>
+<title>Always on Top. — always_on_top • RcmdrPlugin.biostat</title>
 
 
 <!-- jquery -->
@@ -48,31 +35,18 @@ Functions that get current mode:
 
 
 
-<meta property="og:title" content="Always on Top
-
-Set (enable/disable) or get "always on top" mode.
-The "always on top" mode puts Tcl/Tk window in front of windows of the other programs.
-Functions that set (enable/disable) the mode:
-<ul>
-<li><p><code>set_always_on_top()</code>- for any Tcl/Tk window;</p></li>
-<li><p><code>rcmdr_set_always_on_top()</code>- for any R Commander window.</p></li>
-</ul>
-Functions that get current mode:
-<ul>
-<li><p><code>get_always_on_top()</code>- for any Tcl/Tk window;</p></li>
-<li><p><code>rcmdr_get_always_on_top()</code>- for any R Commander window.</p></li>
-</ul> — always_on_top" />
-<meta property="og:description" content="Always on Top
-Set (enable/disable) or get &quot;always on top&quot; mode.
+<meta property="og:title" content="Always on Top. — always_on_top" />
+<meta property="og:description" content="Set (enable/disable) or get &quot;always on top&quot; mode.
 The &quot;always on top&quot; mode puts Tcl/Tk window in front of windows of the other programs.
 Functions that set (enable/disable) the mode:
-set_always_on_top()- for any Tcl/Tk window;
-rcmdr_set_always_on_top()- for any R Commander window.
+set_always_on_top() -- for any Tcl/Tk window;
+rcmdr_set_always_on_top() -- for any R Commander window.
 Functions that get current mode:
-get_always_on_top()- for any Tcl/Tk window;
-rcmdr_get_always_on_top()- for any R Commander window.
+get_always_on_top() -- for any Tcl/Tk window;
+rcmdr_get_always_on_top() -- for any R Commander window.
 
-" />
+
+`toggle_always_on_top()` toggles &quot;always on top&quot; state for Rcmdr." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -139,36 +113,23 @@ rcmdr_get_always_on_top()- for any R Commander window.
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Always on Top
-
-Set (enable/disable) or get "always on top" mode.
-The "always on top" mode puts Tcl/Tk window in front of windows of the other programs.
-Functions that set (enable/disable) the mode:
-<ul>
-<li><p><code>set_always_on_top()</code>- for any Tcl/Tk window;</p></li>
-<li><p><code>rcmdr_set_always_on_top()</code>- for any R Commander window.</p></li>
-</ul>
-Functions that get current mode:
-<ul>
-<li><p><code>get_always_on_top()</code>- for any Tcl/Tk window;</p></li>
-<li><p><code>rcmdr_get_always_on_top()</code>- for any R Commander window.</p></li>
-</ul></h1>
+    <h1>Always on Top.</h1>
     
     <div class="hidden name"><code>always_on_top.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Always on Top</p>
-<p>Set (enable/disable) or get "always on top" mode.
+    <p>Set (enable/disable) or get "always on top" mode.
 The "always on top" mode puts Tcl/Tk window in front of windows of the other programs.
 Functions that set (enable/disable) the mode:</p><ul>
-<li><p><code>set_always_on_top()</code>- for any Tcl/Tk window;</p></li>
-<li><p><code>rcmdr_set_always_on_top()</code>- for any R Commander window.</p></li>
+<li><p><code>set_always_on_top()</code> -- for any Tcl/Tk window;</p></li>
+<li><p><code>rcmdr_set_always_on_top()</code> -- for any R Commander window.</p></li>
 </ul><p>Functions that get current mode:</p><ul>
-<li><p><code>get_always_on_top()</code>- for any Tcl/Tk window;</p></li>
-<li><p><code>rcmdr_get_always_on_top()</code>- for any R Commander window.</p></li>
+<li><p><code>get_always_on_top()</code> -- for any Tcl/Tk window;</p></li>
+<li><p><code>rcmdr_get_always_on_top()</code> -- for any R Commander window.</p></li>
 </ul>
 
+<p>`toggle_always_on_top()` toggles "always on top" state for Rcmdr.</p>
     </div>
 
     <pre class="usage"><span class='fu'>set_always_on_top</span>(<span class='no'>obj</span>, <span class='kw'>flag</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
@@ -177,7 +138,9 @@ Functions that set (enable/disable) the mode:</p><ul>
 
 <span class='fu'>get_always_on_top</span>(<span class='no'>obj</span>)
 
-<span class='fu'>rcmdr_get_always_on_top</span>(<span class='kw'>flag</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+<span class='fu'>rcmdr_get_always_on_top</span>(<span class='kw'>flag</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='fu'>toggle_always_on_top</span>()</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -188,15 +151,15 @@ Functions that set (enable/disable) the mode:</p><ul>
     </tr>
     <tr>
       <th>flag</th>
-      <td><p>(logical) Flag to enable (if <code>TRUE</code>) or disable
-(if <code>FALSE</code>) "always on top" mode.</p></td>
+      <td><p>(logical) Flag to enable (if <code>TRUE</code>) or disable(if <code>FALSE</code>)
+"always on top" mode.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The "get" functions return logical value that indicates if "always
-on top" mode is enabled.</p>
+    <p>The "get" functions return logical value that indicates if "always on top"
+mode is enabled.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

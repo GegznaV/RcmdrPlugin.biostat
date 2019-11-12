@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read text from clipboard. — read_clipboard • RcmdrPlugin.biostat</title>
+<title>List objects of certain class. — list_objects_of_class • RcmdrPlugin.biostat</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Read text from clipboard. — read_clipboard" />
-<meta property="og:description" content="Read text from clipboard." />
+<meta property="og:title" content="List objects of certain class. — list_objects_of_class" />
+<meta property="og:description" content="Create a vector of object names of certain class." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -103,68 +103,50 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read text from clipboard.</h1>
+    <h1>List objects of certain class.</h1>
     
-    <div class="hidden name"><code>read_clipboard.Rd</code></div>
+    <div class="hidden name"><code>list_objects_of_class.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Read text from clipboard.</p>
+    <p>Create a vector of object names of certain class.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_clipboard</span>(<span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"tcltk"</span>)
-
-<span class='fu'>read_clipboard_clipr</span>()
-
-<span class='fu'>read_clipboard_tcltk</span>()</pre>
+    <pre class="usage"><span class='fu'>list_objects_of_class</span>(<span class='kw'>class</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(),
+  <span class='kw'>hidden_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>which</th>
-      <td><p>(string) either <code>"tcltk"</code> or <code>"clipr"</code>.</p></td>
+      <th>class</th>
+      <td><p>(character|`NULL`) A vector of object classes to return.
+Value `NULL` disables class filter (all classes will be returned).</p></td>
+    </tr>
+    <tr>
+      <th>envir</th>
+      <td><p>An environment to look for the objects in.
+Other kind of objects will be coerced to an environment.
+The default value is parent frame.</p></td>
+    </tr>
+    <tr>
+      <th>hidden_names</th>
+      <td><p>(logical)
+If `TRUE`, all object names are returned.
+If `FALSE`, names which begin with a `.` are omitted.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-<ul>
-<li><p><code>read_clipboard()</code> and <code>read_clipboard_tcltk()</code> return a string from
-clipboard. If the clipboard contains non-sting object, empty sting (<code>""</code>)
-is returned.</p></li>
-</ul>
+    <p>A character vector of object names of certain class.</p>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    
-<ul>
-<li><p><code>read_clipboard_clipr()</code> uses <strong><code>clipr</code></strong> implementation.
-Encoding issues may occur on Windows.</p></li>
-<li><p><code>read_clipboard_tcltk()</code> uses Tcl/Tk implementation of clipboard.
-Tcl/Tk clipboard gets empty, if is window gets closed.</p></li>
-</ul>
-
-<p>The functions in all cases must return a single string.
-Possible different conditions on clipboard:</p><ul>
-<li><p>one line of text;</p></li>
-<li><p>several lines of text;</p></li>
-<li><p>non-text object.</p></li>
-</ul>
-
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>read_clipboard</span>()</div><div class='output co'>#&gt; [1] "https://r4ds.had.co.nz/relational-data.html#keys"</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

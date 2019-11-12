@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read text from clipboard. — read_clipboard • RcmdrPlugin.biostat</title>
+<title>Add tags to Tk text widgets. — tktag_add • RcmdrPlugin.biostat</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,12 @@
 
 
 
-<meta property="og:title" content="Read text from clipboard. — read_clipboard" />
-<meta property="og:description" content="Read text from clipboard." />
+<meta property="og:title" content="Add tags to Tk text widgets. — tktag_add" />
+<meta property="og:description" content="Add TK text tags to Tk text widgets:
+tktag_add() adds tags to the places of text that match a pattern.
+tktag_add_first() in each row, adds tags to the first occurance that
+matches a pattern.
+tktag_add_row() adds text tags to the rows that match a pattern." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -103,68 +107,61 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read text from clipboard.</h1>
+    <h1>Add tags to Tk text widgets.</h1>
     
-    <div class="hidden name"><code>read_clipboard.Rd</code></div>
+    <div class="hidden name"><code>tktag_add.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Read text from clipboard.</p>
+    <p>Add TK text tags to Tk text widgets:
+<code>tktag_add()</code> adds tags to the places of text that match a pattern.
+<code>tktag_add_first()</code> <em>in each row</em>, adds tags to the <em>first</em> occurance that
+matches a pattern.
+<code>tktag_add_row()</code> adds text tags to the <strong>rows</strong> that match a pattern.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_clipboard</span>(<span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"tcltk"</span>)
+    <pre class="usage"><span class='fu'>tktag_add</span>(<span class='no'>obj</span>, <span class='no'>tag</span>, <span class='no'>pattern</span>, <span class='kw'>row_ind</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>all</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-<span class='fu'>read_clipboard_clipr</span>()
+<span class='fu'>tktag_add_first</span>(<span class='no'>obj</span>, <span class='no'>pattern</span>, <span class='no'>tag</span>, <span class='kw'>row_ind</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>read_clipboard_tcltk</span>()</pre>
+<span class='fu'>tktag_add_row</span>(<span class='no'>obj</span>, <span class='no'>pattern</span>, <span class='no'>tag</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>which</th>
-      <td><p>(string) either <code>"tcltk"</code> or <code>"clipr"</code>.</p></td>
+      <th>obj</th>
+      <td><p>Tk text widget (Tk object).</p></td>
+    </tr>
+    <tr>
+      <th>tag</th>
+      <td><p>(string) The namo of a tag to add.</p></td>
+    </tr>
+    <tr>
+      <th>pattern</th>
+      <td><p>(string) Text pattern to add text at.</p></td>
+    </tr>
+    <tr>
+      <th>row_ind</th>
+      <td><p>(integer) Row indices.</p></td>
+    </tr>
+    <tr>
+      <th>all</th>
+      <td><p>(logical) If <code>TRUE</code>, adds tag to all matches, if <code>FALSE</code>, adds tag
+to the first match only.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    
-<ul>
-<li><p><code>read_clipboard()</code> and <code>read_clipboard_tcltk()</code> return a string from
-clipboard. If the clipboard contains non-sting object, empty sting (<code>""</code>)
-is returned.</p></li>
-</ul>
+    <div class='dont-index'><p><code><a href='https://rdrr.io/r/tcltk/TkWidgetcmds.html'>tcltk::tktag.add()</a></code></p></div>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    
-<ul>
-<li><p><code>read_clipboard_clipr()</code> uses <strong><code>clipr</code></strong> implementation.
-Encoding issues may occur on Windows.</p></li>
-<li><p><code>read_clipboard_tcltk()</code> uses Tcl/Tk implementation of clipboard.
-Tcl/Tk clipboard gets empty, if is window gets closed.</p></li>
-</ul>
-
-<p>The functions in all cases must return a single string.
-Possible different conditions on clipboard:</p><ul>
-<li><p>one line of text;</p></li>
-<li><p>several lines of text;</p></li>
-<li><p>non-text object.</p></li>
-</ul>
-
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>read_clipboard</span>()</div><div class='output co'>#&gt; [1] "https://r4ds.had.co.nz/relational-data.html#keys"</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#see-also">See also</a></li>
     </ul>
 
   </div>
