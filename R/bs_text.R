@@ -1,6 +1,6 @@
 # TODO:
-# 1. Add line numbers;
-# 2. In context menu, add "Select all".
+# 1. [ ] Add line numbers;
+# 2. [+] In context menu, add "Select all".
 
 #' @rdname Helper-functions
 #' @export
@@ -16,18 +16,18 @@ bs_text <- function(parent, ..., label = "", undo = TRUE, context_menu = FALSE) 
     obj_xsc <- tk2scrollbar(
         frame,
         orientation = "horizontal",
-        command = function(...) tkxview(obj_txt, ...)
+        command = function(...) {tkxview(obj_txt, ...)}
     )
 
     obj_ysc <- tk2scrollbar(
         frame,
         orientation = "vertical",
-        command = function(...) tkyview(obj_txt, ...)
+        command = function(...) {tkyview(obj_txt, ...)}
     )
 
     tkconfigure(obj_txt,
-                xscrollcommand = function(...) tkset(obj_xsc, ...),
-                yscrollcommand = function(...) tkset(obj_ysc, ...))
+                xscrollcommand = function(...) {tkset(obj_xsc, ...)},
+                yscrollcommand = function(...) {tkset(obj_ysc, ...)})
 
     tkgrid(obj_label)
     tkgrid(obj_txt, obj_ysc)
@@ -102,4 +102,13 @@ tk_normalize.bs_text <- function(obj, ...) {
 
 tk_disable.bs_text <- function(obj, ...) {
     tk_disable(obj$text, ...)
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+tk_get_n_lines.bs_text <- function(obj) {
+  tclvalue_int(tcl(obj$text, "count", "-lines", "1.0", "end"))
+}
+
+tk_get_n_lines.default <- function(obj) {
+  tclvalue_int(tcl(obj, "count", "-lines", "1.0", "end"))
 }
