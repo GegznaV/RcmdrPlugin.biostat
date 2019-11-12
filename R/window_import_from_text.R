@@ -13,7 +13,7 @@
 #  8. [ ] Enable "Apply" button.
 
 # FIXME: Context menu commands (Cut, Paste, etc.) do not update the
-#        preview. Fix context menu function.
+#        preview. Fix/Update context menu function.
 
 #' @rdname Menu-window-functions
 #' @export
