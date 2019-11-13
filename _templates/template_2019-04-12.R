@@ -373,13 +373,13 @@ window_xxx <- function() {
   # Finalize ---------------------------------------------------------------
 
   # Buttons ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  ok_cancel_help(
-    close_on_ok = TRUE,
-    on_help = help_menu,
-    reset_location = TRUE,
-    reset = "window_test_normality",
-    apply = "window_test_normality"
-  )
+  # ok_cancel_help(
+  #   close_on_ok = TRUE,
+  #   on_help = help_menu,
+  #   reset_location = TRUE,
+  #   reset = "window_test_normality",
+  #   apply = "window_test_normality"
+  # )
 
 
   # Help topic
