@@ -3,6 +3,8 @@
 # Import dataset =============================================================
 # ============================================================================
 
+# installed.packages()
+
 # decreasing: FALSE, TRUE, NULL
 
 list_packages <- function(which = c("loaded", "installed"), decreasing = FALSE, ...) {
