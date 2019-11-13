@@ -251,6 +251,7 @@ window_variable_mutate <- function() {
               label    = "Function group_by()",
               command  = open_help("group_by", package = "dplyr"))
 
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         tkadd(menu_main, "separator")
 
         tkadd(menu_main, "command",
@@ -319,6 +320,10 @@ window_variable_mutate <- function() {
               command  = open_help("factor", package = "base"))
 
         tkadd(menu_convert_type, "command",
+              label    = "Convert to factor: as_factor()",
+              command  = open_help("as_factor", package = "forcats"))
+
+        tkadd(menu_convert_type, "command",
               label    = "Convert to integer: as.integer()",
               command  = open_help("integer", package = "base"))
 
@@ -326,11 +331,23 @@ window_variable_mutate <- function() {
               label    = "Convert to number: as.numeric()",
               command  = open_help("numeric", package = "base"))
 
+        tkadd(menu_convert_type, "command",
+              label    = "Extract numeric part: parse_number()",
+              command  = open_help("parse_number()", package = "readr"))
+
+        tkadd(menu_convert_type, "command",
+              label    = "Extract numeric part: parse_number() + locale()",
+              command  = open_help("locale ()", package = "readr"))
+
         tkadd(menu_convert_type, "separator")
 
         tkadd(menu_convert_type, "command",
               label    = "Convert data to appropriate type: type.convert()",
               command  = open_help("type.convert", package = "utils"))
+
+        tkadd(menu_convert_type, "command",
+              label    = "Convert data to appropriate type: type_convert()",
+              command  = open_help("type_convert", package = "readr"))
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         menu_discretize   <- tk2menu(menu_main, tearoff = FALSE)
@@ -340,16 +357,20 @@ window_variable_mutate <- function() {
               menu     = menu_discretize)
 
         tkadd(menu_discretize, "command",
-              label    = "Create intervals of values: cut()",
-              command  = open_help("cut", package = "base"))
+              label    = "Create intervals of values: cut_interval(), cut_number(), cut_width()",
+              command  = open_help("cut_interval", package = "ggplot"))
 
         tkadd(menu_discretize, "command",
-              label    = "Split into two groups by a condition: ifelse()",
-              command  = open_help("ifelse", package = "base"))
+              label    = "Create custom intervals of values: cut()",
+              command  = open_help("cut", package = "base"))
 
         tkadd(menu_discretize, "command",
               label    = "Split into two groups by a condition: if_else()",
               command  = open_help("if_else", package = "dplyr"))
+
+        tkadd(menu_discretize, "command",
+              label    = "Split into two groups by a condition: ifelse()",
+              command  = open_help("ifelse", package = "base"))
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         menu_statistical   <- tk2menu(menu_main, tearoff = FALSE)
