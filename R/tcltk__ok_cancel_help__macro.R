@@ -307,7 +307,7 @@ ok_cancel_help <- Rcmdr::defmacro(
 
             applyButton <- buttonRcmdr(
                 rightButtonsBox,
-                text       = gettext_bs("Apply"),
+                text       = gettext_bs(apply_label),
                 foreground = "yellow",
                 width      = width,
                 command    = onApply,
