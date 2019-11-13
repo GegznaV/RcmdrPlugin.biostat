@@ -50,7 +50,9 @@ bs_listbox(parent, values = variables_all(), value = NULL,
   on_double_click_3 = do_nothing, on_triple_click_3 = do_nothing,
   on_release_3 = do_nothing, on_keyboard = c("select", "scroll",
   "ignore"), on_keyboard_fun = do_nothing, bind_row_swap = FALSE,
-  title_sticky = "w", subtitle_sticky = title_sticky, ...)
+  title_sticky = "w", subtitle_sticky = title_sticky,
+  title_color = getRcmdr("title.color"), subtitle_color = "black",
+  filter_label_color = title_color, ...)
 
 \method{get_size}{listbox}(obj, ...)
 
@@ -62,7 +64,8 @@ get_values_listbox(listbox, trim = FALSE)
 
 \method{get_values}{tk2listbox}(obj, vals, ...)
 
-set_values_listbox(listbox, values, clear = TRUE)
+set_values_listbox(listbox, values, clear = TRUE,
+  ignore_on_disabled = FALSE)
 
 \method{set_values}{listbox}(obj, values, ..., clear = TRUE)
 
@@ -190,6 +193,9 @@ Indicates scrollbar position.}
 \item{title_sticky}{(combination of "n", "e", "w", "s" or "")}
 
 \item{subtitle_sticky}{(combination of "n", "e", "w", "s" or "")}
+
+\item{title_color, subtitle_color, filter_label_color}{The colors of widget
+elements.}
 
 \item{...}{Additional arguments.  \enumerate{
    \item For \code{bs_listbox()}: arguments passed to function
