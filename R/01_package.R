@@ -262,6 +262,8 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_settings",   "icons/16/system-2.png")
     bs_tkimage_create("::image::bs_locale"    , "icons/16/locale.png")
 
+    bs_tkimage_create("::image::bs_load_pkg"  , "icons/16/edit-redo-7.png")
+
     bs_tkimage_create("::image::bs_restart",    "icons/16/system-reboot-2.png")
     bs_tkimage_create("::image::bs_restart_r",  "icons/16/system-log-out-2.png")
     bs_tkimage_create("::image::bs_close_rcmdr","icons/16/system-log-out-4v.png")
