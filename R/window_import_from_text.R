@@ -20,9 +20,9 @@
 #' @keywords internal
 window_import_from_clipboard <- function() {
   win <- window_import_from_text()
-  # win$set_mode_clipboard()
+  win$set_mode_clipboard()
   win$paste_from_clipboard()
-  # win$update_preview()
+  win$update_preview()
 }
 
 #' @rdname Menu-window-functions
