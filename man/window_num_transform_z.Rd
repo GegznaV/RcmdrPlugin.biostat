@@ -10,7 +10,8 @@ window_num_transform_z()
 Rcmdr window for z transformation
 }
 \seealso{
-Other transformations: \code{\link{window_num_transform_log}}
+Other transformations: 
+\code{\link{window_num_transform_log}()}
 }
 \concept{transformations}
 \keyword{internal}

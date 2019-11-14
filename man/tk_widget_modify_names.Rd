@@ -4,12 +4,19 @@
 \alias{tk_widget_modify_names}
 \title{TCL/TK helper widget for multiple variable names}
 \usage{
-tk_widget_modify_names(parent = top,
+tk_widget_modify_names(
+  parent = top,
   init_val_radiobuttons = c("modify", "overwrite"),
-  init_val_checkbox = "1", init_val_prefix = "",
-  init_val_suffix = "", layout = "vvhv", width = 12,
-  cmd_radiobuttons = do_nothing, cmd_checkbox = do_nothing,
-  cmd_change_prefix = do_nothing, cmd_change_suffix = do_nothing)
+  init_val_checkbox = "1",
+  init_val_prefix = "",
+  init_val_suffix = "",
+  layout = "vvhv",
+  width = 12,
+  cmd_radiobuttons = do_nothing,
+  cmd_checkbox = do_nothing,
+  cmd_change_prefix = do_nothing,
+  cmd_change_suffix = do_nothing
+)
 }
 \description{
 TCL/TK helper widget for multiple variable names

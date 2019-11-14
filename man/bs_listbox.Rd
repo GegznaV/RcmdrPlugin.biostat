@@ -37,22 +37,42 @@
 \alias{tk_normalize.tk2listbox}
 \title{List box widget (TCL/TK)}
 \usage{
-bs_listbox(parent, values = variables_all(), value = NULL,
-  selection = NULL, selectmode = c("single", "extended", "browse",
-  "multiple"), title = NULL, subtitle = NULL, tip = "",
+bs_listbox(
+  parent,
+  values = variables_all(),
+  value = NULL,
+  selection = NULL,
+  selectmode = c("single", "extended", "browse", "multiple"),
+  title = NULL,
+  subtitle = NULL,
+  tip = "",
   height = getRcmdr("variable.list.height"),
-  width = getRcmdr("variable.list.width"), enabled = TRUE,
-  scroll = c("both", "x", "y", "none"), autoscroll = c("x", "y",
-  "both", "none"), use_filter = FALSE, filter_label = "Filter",
-  sticky = "nw", on_select = do_nothing, on_click = do_nothing,
-  on_double_click = do_nothing, on_triple_click = do_nothing,
-  on_release = do_nothing, on_click_3 = do_nothing,
-  on_double_click_3 = do_nothing, on_triple_click_3 = do_nothing,
-  on_release_3 = do_nothing, on_keyboard = c("select", "scroll",
-  "ignore"), on_keyboard_fun = do_nothing, bind_row_swap = FALSE,
-  title_sticky = "w", subtitle_sticky = title_sticky,
-  title_color = getRcmdr("title.color"), subtitle_color = "black",
-  filter_label_color = title_color, ...)
+  width = getRcmdr("variable.list.width"),
+  enabled = TRUE,
+  scroll = c("both", "x", "y", "none"),
+  autoscroll = c("x", "y", "both", "none"),
+  use_filter = FALSE,
+  filter_label = "Filter",
+  sticky = "nw",
+  on_select = do_nothing,
+  on_click = do_nothing,
+  on_double_click = do_nothing,
+  on_triple_click = do_nothing,
+  on_release = do_nothing,
+  on_click_3 = do_nothing,
+  on_double_click_3 = do_nothing,
+  on_triple_click_3 = do_nothing,
+  on_release_3 = do_nothing,
+  on_keyboard = c("select", "scroll", "ignore"),
+  on_keyboard_fun = do_nothing,
+  bind_row_swap = FALSE,
+  title_sticky = "w",
+  subtitle_sticky = title_sticky,
+  title_color = getRcmdr("title.color"),
+  subtitle_color = "black",
+  filter_label_color = title_color,
+  ...
+)
 
 \method{get_size}{listbox}(obj, ...)
 
@@ -64,8 +84,7 @@ get_values_listbox(listbox, trim = FALSE)
 
 \method{get_values}{tk2listbox}(obj, vals, ...)
 
-set_values_listbox(listbox, values, clear = TRUE,
-  ignore_on_disabled = FALSE)
+set_values_listbox(listbox, values, clear = TRUE, ignore_on_disabled = FALSE)
 
 \method{set_values}{listbox}(obj, values, ..., clear = TRUE)
 
