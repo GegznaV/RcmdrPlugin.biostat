@@ -1,11 +1,10 @@
-# TODO:
-#  1) [+] create onOk() function.
-#  2) Prepare the most important helper functions.
-#  3) [+] Set different "selected_package", "selected_dataset" colors,
-#     when appropriate.
-#  4) [+] Bind button and mouse clicks to actions.
-#  5) [+] Open help on dataset.
+# FIXME:
+#   1. cope with non data frames correctly
+#   2. Filter out packages without datasets
 
+# TODO:
+#  1) Prepare the most important helper functions.
+#  2) Remove red package's icon
 
 # TODO: May be useful:
 # pkgs_all_p <- is.null(getRcmdr("bs_installed_packages", fail = FALSE))
@@ -16,9 +15,7 @@
 #     "Refresh the list of all installed packages."
 #   )
 
-# FIXME:
-#   1. cope with non data frames correctly
-#   2. Filter out packages without datasets
+
 
 
 #  ===========================================================================
