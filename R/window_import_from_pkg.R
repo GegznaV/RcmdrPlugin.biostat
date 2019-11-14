@@ -1,10 +1,10 @@
 # TODO:
-#  1) create onOk() function.
+#  1) [+] create onOk() function.
 #  2) Prepare the most important helper functions.
-#  3) Set different "selected_package", "selected_dataset" colors,
+#  3) [+] Set different "selected_package", "selected_dataset" colors,
 #     when appropriate.
-#  4) Bind button and mouse clicks to actions.
-#  5) Open help on dataset.
+#  4) [+] Bind button and mouse clicks to actions.
+#  5) [+] Open help on dataset.
 
 
 # TODO: May be useful:
