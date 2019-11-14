@@ -5,6 +5,7 @@
 # TODO:
 #  1) Prepare the most important helper functions.
 #  2) Remove red package's icon
+#  3) f3_lab_info is not used
 
 # TODO: May be useful:
 # pkgs_all_p <- is.null(getRcmdr("bs_installed_packages", fail = FALSE))
@@ -376,6 +377,7 @@ window_import_from_pkg <- function() {
     bs_listbox(
       parent = f1,
       height = 7,
+      width = 25,
       values = list_packages(which = "loaded"),
       on_double_click = function() {
         if (tk_get_state(f1_box_pkgs) == "disabled") {return()}
@@ -391,7 +393,7 @@ window_import_from_pkg <- function() {
     bs_listbox(
       parent = f1,
       height = 7,
-      width = 30,
+      width = 28,
       values = "",
       on_select = choose_dataset,
       on_double_click = ds_context_menu_load,
@@ -478,6 +480,7 @@ window_import_from_pkg <- function() {
 
   f1_pkg_opts <- bs_combobox(
     parent = f1,
+    width  = 22,
     label  = "Which package",
     label_position = "above",
     values = c(
@@ -502,12 +505,12 @@ window_import_from_pkg <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   f3 <- tkframe(top)
 
-  f3_var_info <- tclVar("")
-  f3_lab_info <- tk_label(f3, textvariable = f3_var_info)
+  # f3_var_info <- tclVar("")
+  # f3_lab_info <- tk_label(f3, textvariable = f3_var_info)
 
-  tkgrid(f3_lab_pkg_1, f3_lab_pkg_2,  pady = c(10, 0), sticky = "w")
+  tkgrid(f3_lab_pkg_1, f3_lab_pkg_2,  pady = c(0, 0), sticky = "w")
   tkgrid(f3_lab_ds_1,  f3_lab_ds_2,   pady = c(0, 2),  sticky = "w")
-  tkgrid(f3_lab_info,                 pady = c(0, 9),  sticky = "w")
+  # tkgrid(f3_lab_info,                 pady = c(0, 9),  sticky = "w")
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Help menus ---------------------------------------------------------------
