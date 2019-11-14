@@ -58,6 +58,9 @@
 #'    \code{tk2listbox()} (see \link[tcltk2]{tk2widgets}).
 #'    \item For other functions: arguments passed to further methods.
 #' }
+#' @param title_color,subtitle_color,filter_label_color The colors of widget
+#'        elements.
+#'
 #'
 #' @param obj Widget.
 #' @param listbox List box widget.
@@ -122,9 +125,11 @@ bs_listbox <-
     on_keyboard_fun = do_nothing,
     bind_row_swap = FALSE,
 
-    title_sticky = "w",
-    subtitle_sticky = title_sticky
-
+    title_sticky       = "w",
+    subtitle_sticky    = title_sticky,
+    title_color        = getRcmdr("title.color"),
+    subtitle_color     = "black",
+    filter_label_color = title_color
     , ...
   )
   {
@@ -245,12 +250,13 @@ bs_listbox <-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (!is.null(title)) {
       tkgrid(
-        tk_label_blue(frame, text = title, font = "RcmdrTitleFont"),
+        tk_label(frame, text = title, font = "RcmdrTitleFont", fg = title_color),
         columnspan = 2, sticky = title_sticky)
     }
     if (!is.null(subtitle)) {
       tkgrid(
-        tk_label(frame, text = subtitle, font = "RcmdrTitleFont"),
+        tk_label(frame, text = subtitle, font = "RcmdrTitleFont",
+          fg = subtitle_color),
         columnspan = 2, sticky = subtitle_sticky)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -310,7 +316,9 @@ bs_listbox <-
         parent = frame,
         width = width,
         label = filter_label,
-        label_position = "above")
+        label_position = "above",
+        label_color = filter_label_color
+      )
 
       options <- bs_checkboxes(
         parent = frame,
@@ -426,7 +434,17 @@ get_values.tk2listbox <- function(obj, vals, ...) {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname bs_listbox
 #' @export
-set_values_listbox <- function(listbox, values, clear = TRUE) {
+set_values_listbox <- function(listbox, values, clear = TRUE,
+  ignore_on_disabled = FALSE) {
+
+  if (!isTRUE(ignore_on_disabled)) {
+    cur_state <- tk_get_state(listbox)
+    if (cur_state == "disabled") {
+      tk_normalize(listbox)
+      on.exit(tk_disable(listbox))
+    }
+  }
+
   if (isTRUE(clear)) {
     tkdelete(listbox, 0, "end")
   }

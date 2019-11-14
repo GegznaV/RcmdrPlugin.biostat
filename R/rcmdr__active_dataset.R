@@ -82,7 +82,7 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
       "Dataset `{dsname}` contains {n} non-standard variable name(s). ",
       "Due tho this fact, some functions in R Commander may fail. ",
       "It is recommended to use syntactically correct name(s), e.g.:\n\n",
-	    "{str_fixed} \n\n",
+      "{str_fixed} \n\n",
       "Do you agree to fix the name(s) now?",
     ))
 
@@ -99,7 +99,7 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
         "## Make syntactically correct variable names\n",
         # "{dsname} <- janitor::clean_names({dsname})"
         "names({dsname}) <- make.names(names({dsname}))"
-        )
+      )
       doItAndPrint(command)
     }
   }
@@ -135,7 +135,7 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
     } else {
       Message(
         message = paste0("Some variable names are not standard and this ",
-                         "may cause issues working in R Commander."),
+          "may cause issues working in R Commander."),
         type = "warning")
     }
   }
@@ -158,28 +158,28 @@ active_dataset_0 <- function(name) {
       return(NULL)
 
     } else if (!exists(temp) || !is.data.frame(get(temp, envir = .GlobalEnv))) {
-        Message(sprintf(
-          gettextRcmdr("the dataset %s is no longer available"),
-          temp
-        ), type = "error")
+      Message(sprintf(
+        gettextRcmdr("the dataset %s is no longer available"),
+        temp
+      ), type = "error")
 
-        putRcmdr("bs_dataset_and_col_names", NULL)
-        putRcmdr(".activeDataSet", NULL)
-        Variables(NULL)
-        Numeric(NULL)
-        Factors(NULL)
-        TwoLevelFactors(NULL)
-        RcmdrTclSet("dataSetName", gettextRcmdr("<No active dataset>"))
-        putRcmdr(".activeModel", NULL)
-        putRcmdr("nrow", NULL)
-        putRcmdr("ncol", NULL)
-        RcmdrTclSet("modelName", gettextRcmdr("<No active model>"))
-        tkconfigure(getRcmdr("dataSetLabel"), foreground = "red")
-        tkconfigure(getRcmdr("modelLabel"),   foreground = "red")
-        # activateMenus()
-        activate_menus()
-        if (getRcmdr("suppress.menus") && RExcelSupported()) return(NULL)
-      }
+      putRcmdr("bs_dataset_and_col_names", NULL)
+      putRcmdr(".activeDataSet", NULL)
+      Variables(NULL)
+      Numeric(NULL)
+      Factors(NULL)
+      TwoLevelFactors(NULL)
+      RcmdrTclSet("dataSetName", gettextRcmdr("<No active dataset>"))
+      putRcmdr(".activeModel", NULL)
+      putRcmdr("nrow", NULL)
+      putRcmdr("ncol", NULL)
+      RcmdrTclSet("modelName", gettextRcmdr("<No active model>"))
+      tkconfigure(getRcmdr("dataSetLabel"), foreground = "red")
+      tkconfigure(getRcmdr("modelLabel"),   foreground = "red")
+      # activateMenus()
+      activate_menus()
+      if (getRcmdr("suppress.menus") && RExcelSupported()) return(NULL)
+    }
     return(temp)
 
 
@@ -246,7 +246,7 @@ list_numeric <- function(dataSet = active_dataset_0()) {
     variables[sapply(variables, function(.x) {
       .v <- eval_text(safe_names(.x), envir = get(dataSet, envir = .GlobalEnv))
       is.numeric(.v)
-      })]
+    })]
   }
 }
 

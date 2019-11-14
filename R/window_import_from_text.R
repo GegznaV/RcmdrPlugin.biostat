@@ -20,9 +20,9 @@
 #' @keywords internal
 window_import_from_clipboard <- function() {
   win <- window_import_from_text()
-  # win$set_mode_clipboard()
+  win$set_mode_clipboard()
   win$paste_from_clipboard()
-  # win$update_preview()
+  win$update_preview()
 }
 
 #' @rdname Menu-window-functions
@@ -114,10 +114,12 @@ window_import_from_text <- function() {
   get_skip <- function() {
     # get_values(f2_box_skip)
     val <- get_selection(f2_box_skip)
-    switch(val,
+    res <- switch(val,
       "Auto"            = "__auto__",
       "Custom\u2026"    = as.numeric(get_values(f2_ent_skip)),
       stop("Value '", val, "' is unknown (f2_box_skip)."))
+
+    if (is.na(res)) {0} else {res}
   }
   get_code_skip <- function() {
     val <- get_selection(f2_box_skip)
@@ -133,7 +135,8 @@ window_import_from_text <- function() {
     if (get_selection(f2_box_max) == "All") {
       Inf
     } else {
-      as.numeric(get_values(f2_ent_max))
+      res <- as.numeric(get_values(f2_ent_max))
+      if (is.na(res)) {0} else {res}
     }
   }
   get_code_nrows <- function() {
@@ -386,6 +389,7 @@ window_import_from_text <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Paste data from clipboard
   paste_from_clipboard <- function(add = TRUE) {
+    set_mode_clipboard()
     write_input_window(read_clipboard(), add = add)
     refresh_after_paste()
   }
@@ -402,7 +406,7 @@ window_import_from_text <- function() {
   # @md
   align_tabs <- function(input = get_input_by_mode(),
     auto_align_tabs = isTRUE(get_values(f3_tabs_align)), default_stops = "",
-    add_spaces = 2L, char_width = 6L) {
+    add_spaces = 2L, char_width = 6L, skip = get_skip()) {
 
     if (isTRUE(auto_align_tabs)) {
 
@@ -422,13 +426,22 @@ window_import_from_text <- function() {
             input
           }
 
-        suppressWarnings({
-          tab_n_char <-
-            input_as_several_str %>%
-            stringr::str_split(., "\t") %>%
-            purrr::map(~str_length(.) + add_spaces) %>%
-            purrr::reduce(pmax)
-        })
+        len_list <-
+          (if (!is.na(skip) && is.numeric(skip) && skip > 0) {
+            input_as_several_str[-(0:skip)]
+          } else {
+            input_as_several_str
+          }) %>%
+          stringr::str_split(., "\t") %>%
+          purrr::map(~str_length(.) + add_spaces)
+
+        max_elements <- max(map_dbl(len_list, length))
+
+        tab_n_char <-
+          len_list %>%
+          # Make vectors of equal length by filling with NA's
+          map(~ .[1:max_elements]) %>%
+          purrr::reduce(pmax, na.rm = TRUE)
 
         tap_positions     <- cumsum(tab_n_char * char_width)
         tap_positions_str <- str_c(tap_positions, collapse = " ")
@@ -1055,9 +1068,9 @@ window_import_from_text <- function() {
   # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   title_text <- gettext_bs("Import Data from Text")
   initialize_dialog(title = title_text)
-    # , suppress.window.resize.buttons = FALSE)
-    # FIXME: option FALSE does not work with "always-on-top",
-    # NOTE:  option TRUE may cause issues for small resolution monitors.
+  # , suppress.window.resize.buttons = FALSE)
+  # FIXME: option FALSE does not work with "always-on-top",
+  # NOTE:  option TRUE may cause issues for small resolution monitors.
 
   tk_title(top, title_text)
 
