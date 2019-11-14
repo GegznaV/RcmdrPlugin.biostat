@@ -14,7 +14,7 @@ command_list_datasets_in_pkgs <- function() {
 #' @keywords internal
 # Based on function from "Rcmdr"
 
-window_import_from_pkg <- function() {
+window_import_from_pkg__old <- function() {
   env <- environment()
 
   datasets <- NULL
