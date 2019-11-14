@@ -553,7 +553,7 @@ window_import_from_pkg <- function() {
     # f1_ds_opts$frame,
     sticky = "we", pady = c(5, 0))
 
-  tkgrid.configure(f1_but_set_1, sticky = "")
+  # tkgrid.configure(f1_but_set_1, sticky = "")
   tkgrid.configure(f1_but_set_2, sticky = "", padx = c(3, 9))
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
