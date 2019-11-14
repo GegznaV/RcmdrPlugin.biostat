@@ -229,6 +229,7 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_rows_select","icons/16/bs_rows_select.png")
     bs_tkimage_create("::image::bs_rows_filter","icons/16/bs_rows_filter.png")
     bs_tkimage_create("::image::bs_rows_slice", "icons/16/bs_rows_slice.png")
+    bs_tkimage_create("::image::bs_rows_top_bot","icons/16/bs_rows_top_bottom.png")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     bs_tkimage_create("::image::bs_columns"  ,    "icons/16/bs_cols.png")
     bs_tkimage_create("::image::bs_cols_names",   "icons/16/bs_cols_names.png")
@@ -263,6 +264,7 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_locale"    , "icons/16/locale.png")
 
     bs_tkimage_create("::image::bs_load_pkg"  , "icons/16/edit-redo-7.png")
+    bs_tkimage_create("::image::bs_load_pkg_c", "icons/16/edit-redo-7-c.png")
 
     bs_tkimage_create("::image::bs_restart",    "icons/16/system-reboot-2.png")
     bs_tkimage_create("::image::bs_restart_r",  "icons/16/system-log-out-2.png")
@@ -275,6 +277,7 @@ biostat_env$use_relative_path <- TRUE
     bs_tkimage_create("::image::bs_set_wd",     "icons/16/bs_folder_change.png")
     bs_tkimage_create("::image::bs_folder",     "icons/16/bs_folder.png")
 
+    bs_tkimage_create("::image::bs_help",        "icons/16/help-2.png")
     bs_tkimage_create("::image::bs_about",       "icons/16/help-about-3.png")
     bs_tkimage_create("::image::bs_ses_info_br", "icons/16/help-about-3-br.png")
     bs_tkimage_create("::image::bs_ses_info_g",  "icons/16/help-about-3-g.png")

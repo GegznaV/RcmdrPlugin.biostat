@@ -806,6 +806,8 @@ bs_mode_menu__print <- function() {
 
   tkadd(menu_p, "command",
     label   = "Print top and bottom rows",
+    compound = "left",
+    image    = "::image::bs_rows_top_bot",
     command = summary_head_tail)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -967,13 +969,6 @@ bs_mode_menu__rows <- function() {
   menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  tkadd(menu_p, "command",
-    label    = "Arrange: sort rows...",
-    compound = "left",
-    image    = "::image::bs_rows_sort",
-    command  = window_rows_arrange)
-
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_n  <- tk2menu(menu_p, tearoff = FALSE)
 
   tkadd(menu_p, "cascade",
@@ -1043,6 +1038,14 @@ bs_mode_menu__rows <- function() {
     compound = "left",
     image    = "::image::bs_na_red",
     command  = window_rows_rm_with_na)
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  tkadd(menu_p, "command",
+    label    = "Arrange: sort rows...",
+    compound = "left",
+    image    = "::image::bs_rows_sort",
+    command  = window_rows_arrange)
+
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkpopup(menu_p,

@@ -50,6 +50,7 @@ tk_label_red <- function(parent, ..., size = 8, weight = "bold",
   tk_label(parent, text = text, font = tkfont.create(weight = "bold", size = 8),
     ..., fg = fg)
 }
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname TclTk-helper-functions
 #' @export
@@ -172,4 +173,9 @@ tcl_get_if_exists <- function(tkobj, otherwise = CommanderWindow()) {
   } else {
     otherwise
   }
+}
+
+
+tk_set_color <- function(obj, color, ...) {
+  tkconfigure(obj, foreground = color, ...)
 }
