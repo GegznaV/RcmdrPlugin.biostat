@@ -114,10 +114,12 @@ window_import_from_text <- function() {
   get_skip <- function() {
     # get_values(f2_box_skip)
     val <- get_selection(f2_box_skip)
-    switch(val,
+    res <- switch(val,
       "Auto"            = "__auto__",
       "Custom\u2026"    = as.numeric(get_values(f2_ent_skip)),
       stop("Value '", val, "' is unknown (f2_box_skip)."))
+
+    if (is.na(res)) {0} else {res}
   }
   get_code_skip <- function() {
     val <- get_selection(f2_box_skip)
@@ -133,7 +135,8 @@ window_import_from_text <- function() {
     if (get_selection(f2_box_max) == "All") {
       Inf
     } else {
-      as.numeric(get_values(f2_ent_max))
+      res <- as.numeric(get_values(f2_ent_max))
+      if (is.na(res)) {0} else {res}
     }
   }
   get_code_nrows <- function() {
@@ -424,7 +427,7 @@ window_import_from_text <- function() {
           }
 
         len_list <-
-          (if (is.numeric(skip) && skip > 0) {
+          (if (!is.na(skip) && is.numeric(skip) && skip > 0) {
             input_as_several_str[-(0:skip)]
           } else {
             input_as_several_str
