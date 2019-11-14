@@ -3,7 +3,6 @@
 \docType{package}
 \name{RcmdrPlugin.biostat}
 \alias{RcmdrPlugin.biostat}
-\alias{RcmdrPlugin.biostat-package}
 \title{R Commander Plug-in for Basic Data Management and Analysis Tasks}
 \description{
 \pkg{RcmdrPlugin.biostat} is an

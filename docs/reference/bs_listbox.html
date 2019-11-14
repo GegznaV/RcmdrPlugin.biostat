@@ -70,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RcmdrPlugin.biostat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.50</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51</span>
       </span>
     </div>
 
@@ -112,20 +112,42 @@
     <p>A list box with constant number of rows.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bs_listbox</span>(<span class='no'>parent</span>, <span class='kw'>values</span> <span class='kw'>=</span> <span class='fu'><a href='variables_all.html'>variables_all</a></span>(), <span class='kw'>value</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>selection</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>selectmode</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"single"</span>, <span class='st'>"extended"</span>, <span class='st'>"browse"</span>,
-  <span class='st'>"multiple"</span>), <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>subtitle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tip</span> <span class='kw'>=</span> <span class='st'>""</span>,
+    <pre class="usage"><span class='fu'>bs_listbox</span>(
+  <span class='no'>parent</span>,
+  <span class='kw'>values</span> <span class='kw'>=</span> <span class='fu'><a href='variables_all.html'>variables_all</a></span>(),
+  <span class='kw'>value</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>selection</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>selectmode</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"single"</span>, <span class='st'>"extended"</span>, <span class='st'>"browse"</span>, <span class='st'>"multiple"</span>),
+  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>subtitle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>tip</span> <span class='kw'>=</span> <span class='st'>""</span>,
   <span class='kw'>height</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"variable.list.height"</span>),
-  <span class='kw'>width</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"variable.list.width"</span>), <span class='kw'>enabled</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>scroll</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"both"</span>, <span class='st'>"x"</span>, <span class='st'>"y"</span>, <span class='st'>"none"</span>), <span class='kw'>autoscroll</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"x"</span>, <span class='st'>"y"</span>,
-  <span class='st'>"both"</span>, <span class='st'>"none"</span>), <span class='kw'>use_filter</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>filter_label</span> <span class='kw'>=</span> <span class='st'>"Filter"</span>,
-  <span class='kw'>sticky</span> <span class='kw'>=</span> <span class='st'>"nw"</span>, <span class='kw'>on_select</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>on_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_double_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>on_triple_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_release</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>on_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_double_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>on_triple_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_release_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>on_keyboard</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"select"</span>, <span class='st'>"scroll"</span>,
-  <span class='st'>"ignore"</span>), <span class='kw'>on_keyboard_fun</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>bind_row_swap</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>title_sticky</span> <span class='kw'>=</span> <span class='st'>"w"</span>, <span class='kw'>subtitle_sticky</span> <span class='kw'>=</span> <span class='no'>title_sticky</span>, <span class='no'>...</span>)
+  <span class='kw'>width</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"variable.list.width"</span>),
+  <span class='kw'>enabled</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>scroll</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"both"</span>, <span class='st'>"x"</span>, <span class='st'>"y"</span>, <span class='st'>"none"</span>),
+  <span class='kw'>autoscroll</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"x"</span>, <span class='st'>"y"</span>, <span class='st'>"both"</span>, <span class='st'>"none"</span>),
+  <span class='kw'>use_filter</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>filter_label</span> <span class='kw'>=</span> <span class='st'>"Filter"</span>,
+  <span class='kw'>sticky</span> <span class='kw'>=</span> <span class='st'>"nw"</span>,
+  <span class='kw'>on_select</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_double_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_triple_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_release</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_double_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_triple_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_release_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_keyboard</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"select"</span>, <span class='st'>"scroll"</span>, <span class='st'>"ignore"</span>),
+  <span class='kw'>on_keyboard_fun</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>bind_row_swap</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>title_sticky</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
+  <span class='kw'>subtitle_sticky</span> <span class='kw'>=</span> <span class='no'>title_sticky</span>,
+  <span class='kw'>title_color</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"title.color"</span>),
+  <span class='kw'>subtitle_color</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
+  <span class='kw'>filter_label_color</span> <span class='kw'>=</span> <span class='no'>title_color</span>,
+  <span class='no'>...</span>
+)
 
 <span class='co'># S3 method for listbox</span>
 <span class='fu'>get_size</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
@@ -141,7 +163,7 @@
 <span class='co'># S3 method for tk2listbox</span>
 <span class='fu'>get_values</span>(<span class='no'>obj</span>, <span class='no'>vals</span>, <span class='no'>...</span>)
 
-<span class='fu'>set_values_listbox</span>(<span class='no'>listbox</span>, <span class='no'>values</span>, <span class='kw'>clear</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>set_values_listbox</span>(<span class='no'>listbox</span>, <span class='no'>values</span>, <span class='kw'>clear</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ignore_on_disabled</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for listbox</span>
 <span class='fu'>set_values</span>(<span class='no'>obj</span>, <span class='no'>values</span>, <span class='no'>...</span>, <span class='kw'>clear</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
@@ -352,6 +374,11 @@ Indicates scrollbar position.</p></td>
     <tr>
       <th>subtitle_sticky</th>
       <td><p>(combination of "n", "e", "w", "s" or "")</p></td>
+    </tr>
+    <tr>
+      <th>title_color, subtitle_color, filter_label_color</th>
+      <td><p>The colors of widget
+elements.</p></td>
     </tr>
     <tr>
       <th>...</th>

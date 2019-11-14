@@ -4,8 +4,11 @@
 \alias{list_objects_of_class}
 \title{List objects of certain class.}
 \usage{
-list_objects_of_class(class = NULL, envir = parent.frame(),
-  hidden_names = TRUE)
+list_objects_of_class(
+  class = NULL,
+  envir = parent.frame(),
+  hidden_names = TRUE
+)
 }
 \arguments{
 \item{class}{(character|`NULL`) A vector of object classes to return.

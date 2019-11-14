@@ -10,19 +10,38 @@
 \alias{tk_activate.bs_entry}
 \title{Tcl/Tk text entry widget.}
 \usage{
-bs_entry(parent = top, width = "28", value = "", label = "",
+bs_entry(
+  parent = top,
+  width = "28",
+  value = "",
+  label = "",
   label_position = c("left", "above", "right", "none"),
-  label_color = getRcmdr("title.color"), padx = 0, pady = 0,
-  sticky = "w", sticky_label = sticky, sticky_text = sticky,
-  main_frame = tk2frame(parent), text_frame = tk2frame(main_frame),
-  label_frame = tk2frame(main_frame), tip = "", label_tip = "",
-  scroll_x = FALSE, on_click = do_nothing,
-  on_double_click = do_nothing, on_triple_click = do_nothing,
-  on_release = do_nothing, on_click_3 = do_nothing,
-  on_double_click_3 = do_nothing, on_triple_click_3 = do_nothing,
-  on_release_3 = do_nothing, on_key_release = do_nothing,
-  use_context_menu = TRUE, bind_clear = TRUE,
-  variable = tclVar(value), ...)
+  label_color = getRcmdr("title.color"),
+  padx = 0,
+  pady = 0,
+  sticky = "w",
+  sticky_label = sticky,
+  sticky_text = sticky,
+  main_frame = tk2frame(parent),
+  text_frame = tk2frame(main_frame),
+  label_frame = tk2frame(main_frame),
+  tip = "",
+  label_tip = "",
+  scroll_x = FALSE,
+  on_click = do_nothing,
+  on_double_click = do_nothing,
+  on_triple_click = do_nothing,
+  on_release = do_nothing,
+  on_click_3 = do_nothing,
+  on_double_click_3 = do_nothing,
+  on_triple_click_3 = do_nothing,
+  on_release_3 = do_nothing,
+  on_key_release = do_nothing,
+  use_context_menu = TRUE,
+  bind_clear = TRUE,
+  variable = tclVar(value),
+  ...
+)
 
 \method{get_values}{bs_entry}(obj, ..., trim = TRUE)
 
@@ -32,11 +51,9 @@ bs_entry(parent = top, width = "28", value = "", label = "",
 
 \method{tk_disable}{bs_entry}(obj, ..., foreground = "grey")
 
-\method{tk_normalize}{bs_entry}(obj, ...,
-  foreground = getRcmdr("title.color"))
+\method{tk_normalize}{bs_entry}(obj, ..., foreground = getRcmdr("title.color"))
 
-\method{tk_activate}{bs_entry}(obj, ...,
-  foreground = getRcmdr("title.color"))
+\method{tk_activate}{bs_entry}(obj, ..., foreground = getRcmdr("title.color"))
 }
 \arguments{
 \item{parent}{Parent Tcl/Tk window.}

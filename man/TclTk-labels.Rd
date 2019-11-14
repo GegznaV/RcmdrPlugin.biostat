@@ -9,8 +9,7 @@
 \usage{
 tk_label(parent, text = "", ..., fg = NULL)
 
-tk_label_blue(parent, text = "", ...,
-  fg = Rcmdr::getRcmdr("title.color"))
+tk_label_blue(parent, text = "", ..., fg = Rcmdr::getRcmdr("title.color"))
 
 tk_label_red(parent, ..., size = 8, weight = "bold", fg = "darkred")
 }

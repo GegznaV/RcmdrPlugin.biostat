@@ -4,12 +4,23 @@
 \alias{bs_radiobuttons}
 \title{Radiobuttons widget.}
 \usage{
-bs_radiobuttons(parent = top, buttons, value = buttons[1],
-  title = NULL, variable = NULL, labels = NULL, commands = list(),
-  default_command = do_nothing, tips = list(), default_tip = "",
-  border = FALSE, layout = c("vertical", "horizontal"),
-  sticky_buttons = "w", sticky_buttons_frame = "",
-  sticky_title = "w")
+bs_radiobuttons(
+  parent = top,
+  buttons,
+  value = buttons[1],
+  title = NULL,
+  variable = NULL,
+  labels = NULL,
+  commands = list(),
+  default_command = do_nothing,
+  tips = list(),
+  default_tip = "",
+  border = FALSE,
+  layout = c("vertical", "horizontal"),
+  sticky_buttons = "w",
+  sticky_buttons_frame = "",
+  sticky_title = "w"
+)
 }
 \arguments{
 \item{parent}{Parent frame.}

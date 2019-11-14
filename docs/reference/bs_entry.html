@@ -70,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RcmdrPlugin.biostat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.50</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51</span>
       </span>
     </div>
 
@@ -112,19 +112,38 @@
     <p>Tcl/Tk text entry widget.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bs_entry</span>(<span class='kw'>parent</span> <span class='kw'>=</span> <span class='no'>top</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>"28"</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>""</span>,
+    <pre class="usage"><span class='fu'>bs_entry</span>(
+  <span class='kw'>parent</span> <span class='kw'>=</span> <span class='no'>top</span>,
+  <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>"28"</span>,
+  <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>""</span>,
   <span class='kw'>label_position</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"left"</span>, <span class='st'>"above"</span>, <span class='st'>"right"</span>, <span class='st'>"none"</span>),
-  <span class='kw'>label_color</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"title.color"</span>), <span class='kw'>padx</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>pady</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>sticky</span> <span class='kw'>=</span> <span class='st'>"w"</span>, <span class='kw'>sticky_label</span> <span class='kw'>=</span> <span class='no'>sticky</span>, <span class='kw'>sticky_text</span> <span class='kw'>=</span> <span class='no'>sticky</span>,
-  <span class='kw'>main_frame</span> <span class='kw'>=</span> <span class='fu'>tk2frame</span>(<span class='no'>parent</span>), <span class='kw'>text_frame</span> <span class='kw'>=</span> <span class='fu'>tk2frame</span>(<span class='no'>main_frame</span>),
-  <span class='kw'>label_frame</span> <span class='kw'>=</span> <span class='fu'>tk2frame</span>(<span class='no'>main_frame</span>), <span class='kw'>tip</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>label_tip</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>scroll_x</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>on_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_double_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>on_triple_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_release</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>on_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_double_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>on_triple_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_release_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>on_key_release</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>use_context_menu</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>bind_clear</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>variable</span> <span class='kw'>=</span> <span class='fu'>tclVar</span>(<span class='no'>value</span>), <span class='no'>...</span>)
+  <span class='kw'>label_color</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"title.color"</span>),
+  <span class='kw'>padx</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>pady</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>sticky</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
+  <span class='kw'>sticky_label</span> <span class='kw'>=</span> <span class='no'>sticky</span>,
+  <span class='kw'>sticky_text</span> <span class='kw'>=</span> <span class='no'>sticky</span>,
+  <span class='kw'>main_frame</span> <span class='kw'>=</span> <span class='fu'>tk2frame</span>(<span class='no'>parent</span>),
+  <span class='kw'>text_frame</span> <span class='kw'>=</span> <span class='fu'>tk2frame</span>(<span class='no'>main_frame</span>),
+  <span class='kw'>label_frame</span> <span class='kw'>=</span> <span class='fu'>tk2frame</span>(<span class='no'>main_frame</span>),
+  <span class='kw'>tip</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>label_tip</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>scroll_x</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>on_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_double_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_triple_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_release</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_double_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_triple_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_release_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>on_key_release</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>use_context_menu</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>bind_clear</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>variable</span> <span class='kw'>=</span> <span class='fu'>tclVar</span>(<span class='no'>value</span>),
+  <span class='no'>...</span>
+)
 
 <span class='co'># S3 method for bs_entry</span>
 <span class='fu'>get_values</span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>trim</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
@@ -139,12 +158,10 @@
 <span class='fu'><a href='widget-state.html'>tk_disable</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>foreground</span> <span class='kw'>=</span> <span class='st'>"grey"</span>)
 
 <span class='co'># S3 method for bs_entry</span>
-<span class='fu'><a href='widget-state.html'>tk_normalize</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>,
-  <span class='kw'>foreground</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"title.color"</span>))
+<span class='fu'><a href='widget-state.html'>tk_normalize</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>foreground</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"title.color"</span>))
 
 <span class='co'># S3 method for bs_entry</span>
-<span class='fu'><a href='widget-state.html'>tk_activate</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>,
-  <span class='kw'>foreground</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"title.color"</span>))</pre>
+<span class='fu'><a href='widget-state.html'>tk_activate</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>foreground</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"title.color"</span>))</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

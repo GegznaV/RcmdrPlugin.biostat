@@ -70,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RcmdrPlugin.biostat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.50</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51</span>
       </span>
     </div>
 
@@ -112,12 +112,19 @@
     <p>TCL/TK helper widget for multiple variable names</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tk_widget_modify_names</span>(<span class='kw'>parent</span> <span class='kw'>=</span> <span class='no'>top</span>,
+    <pre class="usage"><span class='fu'>tk_widget_modify_names</span>(
+  <span class='kw'>parent</span> <span class='kw'>=</span> <span class='no'>top</span>,
   <span class='kw'>init_val_radiobuttons</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"modify"</span>, <span class='st'>"overwrite"</span>),
-  <span class='kw'>init_val_checkbox</span> <span class='kw'>=</span> <span class='st'>"1"</span>, <span class='kw'>init_val_prefix</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>init_val_suffix</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>layout</span> <span class='kw'>=</span> <span class='st'>"vvhv"</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>12</span>,
-  <span class='kw'>cmd_radiobuttons</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>cmd_checkbox</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>cmd_change_prefix</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>, <span class='kw'>cmd_change_suffix</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>)</pre>
+  <span class='kw'>init_val_checkbox</span> <span class='kw'>=</span> <span class='st'>"1"</span>,
+  <span class='kw'>init_val_prefix</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>init_val_suffix</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>layout</span> <span class='kw'>=</span> <span class='st'>"vvhv"</span>,
+  <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>12</span>,
+  <span class='kw'>cmd_radiobuttons</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>cmd_checkbox</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>cmd_change_prefix</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
+  <span class='kw'>cmd_change_suffix</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>
+)</pre>
 
 
 
