@@ -40,7 +40,7 @@ window_import_from_pkg <- function() {
     list(
       selected_package  = "{none}",
       selected_dataset  = "{none}",
-      which_packages    = "Selected (all installed)",
+      which_packages    = "Any loaded package",
       which_data_type   = "Data frame"
     )
 
