@@ -26,13 +26,12 @@ command_list_datasets_in_pkg <- function(pkg) {
 #' @export
 #' @keywords internal
 window_import_from_pkg <- function() {
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   defaults <-
     list(
       selected_package  = "{none}",
       selected_dataset  = "{none}",
-      which_packages    = "Any loaded package",
-      which_data_type   = "Data frame"
+      which_packages    = "Any loaded package"
     )
 
   initial <- getDialog("window_import_from_pkg", defaults)
@@ -466,7 +465,7 @@ window_import_from_pkg <- function() {
         if (tk_get_state(f2_box_pkgs) == "disabled") {return()}
         select_package()
       },
-      title = gettext_bs("Package \n(select one)"),
+      title = gettext_bs("Package (select one)"),
       use_filter = TRUE,
       filter_label = "Filter packages"
 
@@ -481,7 +480,7 @@ window_import_from_pkg <- function() {
       on_select = select_dataset,
       on_double_click = ds_context_menu_load,
       on_click_3      = ds_context_menu_help,
-      title = gettext_bs("Dataset \n(select one)"),
+      title = gettext_bs("Dataset (select one)"),
       value = 1,
       use_filter = TRUE,
       filter_label = "Filter datasets"
