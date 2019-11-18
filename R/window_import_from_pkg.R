@@ -16,8 +16,6 @@
 #   )
 
 
-
-
 #  ===========================================================================
 #' @rdname Menu-window-functions
 #' @export
@@ -45,12 +43,6 @@ window_import_from_pkg <- function() {
     )
 
   initial <- getDialog("window_import_from_pkg", defaults)
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # tk_see_current_variable <- function() {
-  #   tk_see(
-  #     f2_box_pkgs,
-  #     which(get_selection(f2_box_pkgs) == get_values(f2_box_pkgs)))
-  # }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   get_loaded_packages <- function() {
@@ -106,7 +98,7 @@ window_import_from_pkg <- function() {
         tkconfigure(f2_but_2_0, image = "::image::bs_package_go")
         # tip(f2_but_2_0) <- "Refresh the list of all installed packages"
         set_values(f1_var_selected_pkg, "{Any loaded package}")
-        tk_set_color(f1_lab_selected_pkg_2, "grey")
+        tk_set_color(f1_lab_selected_pkg, "grey")
       },
 
       "Selected (loaded only)" = {
@@ -122,8 +114,8 @@ window_import_from_pkg <- function() {
         disable_datasets_list()
 
         tkconfigure(f2_but_2_0, image = "::image::bs_package")
-        set_values(f1_var_selected_pkg, default$selected_package)
-        tk_set_color(f1_lab_selected_pkg_2, "darkred")
+        set_values(f1_var_selected_pkg, defaults$selected_package)
+        tk_set_color(f1_lab_selected_pkg, "darkred")
 
       },
 
@@ -138,8 +130,8 @@ window_import_from_pkg <- function() {
         disable_datasets_list()
 
         tkconfigure(f2_but_2_0, image = "::image::bs_package_r")
-        set_values(f1_var_selected_pkg, default$selected_package)
-        tk_set_color(f1_lab_selected_pkg_2, "darkred")
+        set_values(f1_var_selected_pkg, defaults$selected_package)
+        tk_set_color(f1_lab_selected_pkg, "darkred")
       }
     )
   }
@@ -183,25 +175,19 @@ window_import_from_pkg <- function() {
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  filter_ds_class <- function() {
-    # TODO: create this function
-
-  }
-
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  choose_package <- function() {
+  select_package <- function() {
 
     pkg <- get_selected_pkg()
 
-    tk_set_color(f1_lab_selected_ds_2, "darkred")
-    set_values(f1_var_selected_ds, default$selected_dataset)
+    tk_set_color(f1_lab_selected_ds, "darkred")
+    set_values(f1_var_selected_ds, defaults$selected_dataset)
 
     ds <- list_datasets_in_package(pkg)
 
     if (length(ds) == 0) {
 
-      tk_set_color(f1_lab_selected_pkg_2, "darkred")
-      set_values(f1_var_selected_pkg, default$selected_package)
+      tk_set_color(f1_lab_selected_pkg, "darkred")
+      set_values(f1_var_selected_pkg, defaults$selected_package)
 
       disable_datasets_list()
 
@@ -211,7 +197,7 @@ window_import_from_pkg <- function() {
       return()
 
     } else {
-      tk_set_color(f1_lab_selected_pkg_2, "darkgreen")
+      tk_set_color(f1_lab_selected_pkg, "darkgreen")
       set_values(f1_var_selected_pkg, pkg)
 
       tk_normalize(f2_box_ds)
@@ -223,7 +209,7 @@ window_import_from_pkg <- function() {
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  choose_dataset <- function() {
+  select_dataset <- function() {
     # move_selected_row_in_tktext(recodes, move_to = "+1")
     .ds <- get_selected_ds()
     if (is.null(.ds)) {
@@ -232,12 +218,12 @@ window_import_from_pkg <- function() {
 
     # tk_normalize(f2_box_ds)
     set_values(f1_var_selected_ds, .ds)
-    tk_set_color(f1_lab_selected_ds_2, "darkgreen")
+    tk_set_color(f1_lab_selected_ds, "darkgreen")
 
     ds <- get_pkg_ds_data()
 
     if (is.data.frame(ds)) {
-      tclvalue(f2_var_info) <- str_c("Data frame size: ", get_obj_dims(ds))
+      tclvalue(f2_var_info) <- get_ds_info(ds)
       tkconfigure(f2_lab_info, foreground = "darkgreen")
 
     } else {
@@ -261,11 +247,11 @@ window_import_from_pkg <- function() {
 
     set_values(f2_box_ds, NULL)
 
-    tk_set_color(f1_lab_selected_pkg_2, "darkred")
-    tk_set_color(f1_lab_selected_ds_2,  "darkred")
+    tk_set_color(f1_lab_selected_pkg, "darkred")
+    tk_set_color(f1_lab_selected_ds,  "darkred")
 
-    set_values(f1_var_selected_pkg, default$selected_package)
-    set_values(f1_var_selected_ds,  default$selected_dataset)
+    set_values(f1_var_selected_pkg, defaults$selected_package)
+    set_values(f1_var_selected_ds,  defaults$selected_dataset)
 
     set_values(f2_var_info,         "")
     tkconfigure(f2_lab_info, foreground = "darkgreen")
@@ -338,7 +324,7 @@ window_import_from_pkg <- function() {
       tkwinfo("pointery", top))
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
   onOK <- function() {
     # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cursor_set_busy(top)
@@ -412,13 +398,13 @@ window_import_from_pkg <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   f1 <- tkframe(top)
-  f1_var_selected_pkg <- tclVar(default$selected_package)
-  f1_lab_selected_pkg_1 <- tk_label(f1, text = "Selected package: ")
-  f1_lab_selected_pkg_2 <- tk_label_red(f1, textvariable = f1_var_selected_pkg)
+  f1_lab_selected_pkg_0 <- tk_label(f1, text = "Selected package: ")
+  f1_var_selected_pkg   <- tclVar(defaults$selected_package)
+  f1_lab_selected_pkg   <- tk_label_red(f1, textvariable = f1_var_selected_pkg)
 
-  f1_var_selected_ds  <- tclVar(default$selected_dataset)
-  f1_lab_selected_ds_1 <- tk_label(f1, text = "Selected dataset:   ")
-  f1_lab_selected_ds_2 <- tk_label_red(f1, textvariable = f1_var_selected_ds)
+  f1_lab_selected_ds_0 <- tk_label(f1, text = "Selected dataset:   ")
+  f1_var_selected_ds   <- tclVar(defaults$selected_dataset)
+  f1_lab_selected_ds   <- tk_label_red(f1, textvariable = f1_var_selected_ds)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   f2 <- tkframe(top)
@@ -431,11 +417,11 @@ window_import_from_pkg <- function() {
       values = list_packages(which = "loaded"),
       on_double_click = function() {
         if (tk_get_state(f2_box_pkgs) == "disabled") {return()}
-        choose_package()
+        select_package()
       },
       on_select = function() {
         if (tk_get_state(f2_box_pkgs) == "disabled") {return()}
-        choose_package()
+        select_package()
       },
       title = gettext_bs("Package \n(double-click to select)"),
       use_filter = TRUE,
@@ -449,7 +435,7 @@ window_import_from_pkg <- function() {
       height = 7,
       width = 28,
       values = "",
-      on_select = choose_dataset,
+      on_select = select_dataset,
       on_double_click = ds_context_menu_load,
       on_click_3      =  ds_context_menu_help,
       title = gettext_bs("Dataset \n(click to select)"),
@@ -471,7 +457,7 @@ window_import_from_pkg <- function() {
   f2_but_2_1 <- tk2button(
     parent  = f2_but_set_2,
     image   = "::image::bs_go_next",
-    command =  choose_package,
+    command =  select_package,
     tip = "Select a package."
   )
 
@@ -517,7 +503,7 @@ window_import_from_pkg <- function() {
   # f2_but_1_3 <- tk2button(
   #   f2_but_set_1,
   #   image = "::image::bs_go_down",
-  #   command = choose_dataset,
+  #   command = select_dataset,
   #   tip = "Select a dataset"
   #   # tip = "Move selected line \ndown by 1 position."
   # )
@@ -536,13 +522,12 @@ window_import_from_pkg <- function() {
   # tkgrid(f2_but_1_3)
   # tkgrid(f2_but_1_4)
 
-
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   f2_pkg_opts <- bs_combobox(
     parent = f2,
     width  = 22,
-    label  = "Which package",
+    label  = "Which package (category)",
     label_position = "above",
     values = c(
       "Any loaded package",
@@ -567,8 +552,8 @@ window_import_from_pkg <- function() {
   f2_var_info <- tclVar("")
   f2_lab_info <- tk_label(f2, textvariable = f2_var_info, fg = "darkgreen")
 
-  tkgrid(f1_lab_selected_pkg_1, f1_lab_selected_pkg_2,  pady = c(0, 0),  sticky = "w")
-  tkgrid(f1_lab_selected_ds_1,  f1_lab_selected_ds_2,   pady = c(0, 2),  sticky = "w")
+  tkgrid(f1_lab_selected_pkg_0, f1_lab_selected_pkg,  pady = c(0, 0),  sticky = "w")
+  tkgrid(f1_lab_selected_ds_0,  f1_lab_selected_ds,   pady = c(0, 2),  sticky = "w")
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Help menus ---------------------------------------------------------------
