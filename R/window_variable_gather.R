@@ -373,9 +373,12 @@ window_variable_gather <- function() {
     f1_value  <- bs_entry(
         parent   = top,
         width    = 48,
-        label    = gettext_bs("Values column name:"),
+        label    = gettext_bs("Values to column:"),
         value    = initial$value_colname,
-        tip      = "Name for the value column.  ",
+        tip      = str_c(
+          "Name for the column with the \n",
+          "values of the original dataset."
+        ),
         validate = "focus",
         validatecommand = validate_var_name_string,
         invalidcommand  = make_red_text
@@ -384,9 +387,13 @@ window_variable_gather <- function() {
     f1_key    <- bs_entry(
         parent   = top,
         width    = 48,
-        label    = gettext_bs("Key column name:"),
+        label    = gettext_bs("Column names to column:"),
         value    = initial$key_colname,
-        tip      = "Name for the key column.  ",
+        tip      = str_c(
+          "Name for the key column (in   \n",
+          "which the column names of the \n",
+          "original dataset are stored). "
+        ),
         validate = "focus",
         validatecommand = validate_var_name_string,
         invalidcommand  = make_red_text
@@ -415,8 +422,36 @@ window_variable_gather <- function() {
     tkgrid(f1_value$frame,  sticky = "e", pady = 2)
 
     # ========================================================================
+    # Help menus ---------------------------------------------------------------
+    help_menu <- function() {
+
+      .ds <- get_selected_2()
+      menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
+      # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      tkadd(menu_main, "command",
+        label    = "Tutorial on pivoting/reshaping data",
+        command  = open_help(vignette = "pivot", package = "tidyr")
+      )
+
+      tkadd(menu_main, "command",
+        label    = "Function `gather()`",
+        command  = open_help("gather", package = "tidyr")
+      )
+
+      tkadd(menu_main, "command",
+        label    = "Function `pivot_longer()`",
+        command  = open_help("pivot_longer", package = "tidyr")
+      )
+
+      # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      tkpopup(menu_main,
+        tkwinfo("pointerx", top),
+        tkwinfo("pointery", top))
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     ok_cancel_help(
-        helpSubject = "gather", helpPackage = "tidyr",
+        on_help = help_menu,
         close_on_ok = TRUE,
         apply = "window_variable_gather()",
         reset = "window_variable_gather()",
