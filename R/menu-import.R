@@ -7,6 +7,18 @@
 
 # decreasing: FALSE, TRUE, NULL
 
+
+#' @param which `"loaded"`, `"installed"`)
+#' @param decreasing `FALSE`, `TRUE`, `NULL`
+#' @param ... Arguments passed to [stringr::str_sort()]
+#'
+#' @md
+#' @noRd
+#'
+#' @examples
+#' list_packages()
+#' list_packages("installed")
+#'
 list_packages <- function(which = c("loaded", "installed"), decreasing = FALSE, ...) {
   which <- match.arg(which, several.ok = FALSE)
 
@@ -26,16 +38,18 @@ list_packages <- function(which = c("loaded", "installed"), decreasing = FALSE, 
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Get number of datasets in a package
-#
-# @param package String with valid name of inst6alled package
-#
-# @return Number with number of datasets in a package
-# @export
-#
-# @examples
-# get_n_datasets("datasets")
-# get_n_datasets("purrr")
+#' Get number of datasets in a package
+#'
+#' @param package String with valid name of inst6alled package
+#'
+#' @return Number with number of datasets in a package
+#'
+#' @md
+#' @noRd
+#'
+#' @examples
+#' get_n_datasets("datasets")
+#' get_n_datasets("purrr")
 
 get_n_datasets <- function(package) {
   ds_in_pkg <- data(package = package)$results
@@ -43,16 +57,18 @@ get_n_datasets <- function(package) {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Get either dimensions or length of a dataset
-#
-# @param obj An R object (dataset).
-#
-# @return A string wiht dimensions of matrix-like or array-like oblect and
-#         length of other objects.
-# @export
-#
-# @examples
-# get_obj_dims(iris)
+#' Get either dimensions or length of a dataset
+#'
+#' @param obj An R object (dataset).
+#'
+#' @return A string wiht dimensions of matrix-like or array-like oblect and
+#'         length of other objects.
+#' @md
+#' @noRd
+#'
+#' @examples
+#' get_obj_dims(iris)
+#'
 get_obj_dims <- function(obj, x_symbol = " \u00D7 ") {
   dim_obj <- dim(obj)
 
@@ -64,18 +80,22 @@ get_obj_dims <- function(obj, x_symbol = " \u00D7 ") {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Get information about dataset
-#
-# @param str sting with datasets name, e.g, "datasets::iris"
-#
-# @return Dataframe with size, class and some other information about a dataset.
-# @export
-#
-# @examples
-# get_ds_info("datasets::iris")
+#' Get information about dataset
+#'
+#' @param str sting with datasets name, e.g, "datasets::iris"
+#'
+#' @return Dataframe with size, class and some other information about a dataset.
+#'
+#' @md
+#' @noRd
+#'
+#' @examples
+#' get_ds_info("datasets::iris")
+
 get_ds_info <- function(str) {
 
-  ds <- eval(parse(text = str))
+  # ds <- eval(parse(text = str))
+  ds <- get_ds_data(str)
 
   data.frame(
     size      = get_obj_dims(ds),
@@ -89,25 +109,30 @@ get_ds_info <- function(str) {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Get information about dataset and its variables
-#
-# @param str sting with datasets name, e.g, "datasets::iris"
-#
-# @return Dataframe with size and variable type frequency
-# @export
-#
-# @examples
-# get_ds_info_2("datasets::iris")
+#' Get data of a dataset in R package
+#'
+#' @param str sting with datasets name, e.g,
+#'     `"iris"` (if package with data is loaded) or `"datasets::iris"`.
+#'
+#' @return The contents of the dataset.
+#'
+#' @md
+#' @noRd
+#'
+#' @examples
+#' get_ds_data("datasets::BOD")
+#'
+#' get_ds_data("BOD")
+#'
+#' str <- "datasets::BOD"
+#' get_ds_data(str)
 
-# str <- "datasets::iris"
-
-get_ds_info_2 <- function(str) {
-
+get_ds_data <- function(str) {
   ds <- try(eval(parse(text = str)), silent = TRUE)
 
   # If dataset is not experted
   if (inherits(ds, "try-error")) {
-    tmp_envir <- new.env();
+    tmp_envir <- new.env()
 
     if (isTRUE(stringr::str_detect(str, ":{2,3}"))) {
 
@@ -121,9 +146,33 @@ get_ds_info_2 <- function(str) {
     ds <- tmp_envir[[ds_name]]
   }
 
+  # Return:
+  ds
+}
+
+
+
+#' Get information about dataset and its variables
+#'
+#' @param str sting with datasets name, e.g, "datasets::iris"
+#'
+#' @return Dataframe with size and variable type frequency
+#'
+#' @md
+#' @noRd
+#'
+#' @examples
+#' str <- "datasets::iris"
+#' get_ds_info_2("datasets::iris")
+#' get_ds_info_2("BOD")
+#'
+
+
+get_ds_info_2 <- function(str) {
+
+  ds <- get_ds_data(str)
 
   ds_size = get_obj_dims(ds)
-
 
   if (is.data.frame(ds)) {
     n_variables = ncol(ds)
@@ -143,18 +192,24 @@ get_ds_info_2 <- function(str) {
     size = ds_size,
     is_data_frame = is.data.frame(ds),
     # n_vars = n_variables,
-    n_num  = n_numeric ,
-    n_fct  = n_factor  ,
-    n_lgl  = n_logical ,
-    n_chr  = n_character,
+    n_num   = n_numeric ,
+    n_fct   = n_factor  ,
+    n_lgl   = n_logical ,
+    n_chr   = n_character,
     n_other = n_other,
     class   = str_c(class(ds), collapse = ", ")
   )
 }
 
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# @examples
-# get_info_about_datasets("ggplot2")
+#' @param package
+#'
+#' @md
+#' @noRd
+#'
+#' @examples
+#' get_info_about_datasets("ggplot2")
 
 get_info_about_datasets <- function(package = NULL) {
 
@@ -167,8 +222,7 @@ get_info_about_datasets <- function(package = NULL) {
   # package <- pkgs
   #
   # # package <- "purrr"
-  # package <- "ggplot2"
-
+  # package   <- "ggplot2"
 
   res <-
     package %>%
@@ -220,3 +274,19 @@ list_datasets_in_package <- function(package) {
    data(package = package)$results[ ,"Item"]
 }
 
+get_ds_info_as_sring <- function(str) {
+  str %>%
+    get_ds_info_2() %>%
+    knitr::kable(format = "pandoc") %>%
+    str_c(collapse = "\n")
+}
+
+
+# pkgs <- c( "sandwich", "datasets")
+# get_ds_list(pkgs)
+get_ds_list <- function(pkgs) {
+  pkgs %>%
+    purrr::map_dfr(~tibble::as_tibble(data(package = .)$results)) %>%
+    dplyr::mutate(Item = stringr::str_trim(stringr::str_replace(Item, " .*$", ""))) %>%
+    dplyr::pull(Item)
+}
