@@ -257,7 +257,7 @@ window_variable_gather <- function() {
   defaults <- list(
     y_var          = NULL,
     # dsname       = unique_df_name(suffix = "_long"),
-    key_colname    = unique_colnames("key"),
+    key_colname    = unique_colnames("original_column_name"),
     value_colname  = unique_colnames("value"),
     gather_all     = TRUE,
     na_rm          = FALSE,
@@ -375,7 +375,7 @@ window_variable_gather <- function() {
   f1_value  <- bs_entry(
     parent   = top,
     width    = 48,
-    label    = gettext_bs("Values to column:"),
+    label    = gettext_bs("Column for values:"),
     value    = initial$value_colname,
     tip      = str_c(
       "A name for the column in which the values\n",
@@ -389,7 +389,7 @@ window_variable_gather <- function() {
   f1_key    <- bs_entry(
     parent   = top,
     width    = 48,
-    label    = gettext_bs("Variable names to column:"),
+    label    = gettext_bs("Column for variable names:"),
     value    = initial$key_colname,
     tip      = str_c(
       "A name for the 'key' column (column \n",
@@ -427,7 +427,6 @@ window_variable_gather <- function() {
   # Help menus ---------------------------------------------------------------
   help_menu <- function() {
 
-    .ds <- get_selected_2()
     menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_main, "command",
@@ -461,7 +460,7 @@ window_variable_gather <- function() {
 
       set_values(f1_y_var_box, variables_all())
       set_values(f1_dsname,    unique_df_name(suffix = "_long"))
-      set_values(f1_key,       unique_colnames("key"))
+      set_values(f1_key,       unique_colnames("original_column_name"))
       set_values(f1_value,     unique_colnames("value"))
 
       activate_gather_all_box()
