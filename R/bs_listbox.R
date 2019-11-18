@@ -627,10 +627,40 @@ get_0_based_ind <- function(obj, ind) {
   ind
 }
 
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname bs_listbox
 #' @export
+# move_to - action:
+#     "top" - selected row becomes 1-st
+#     "-1"  - position decreases by 1
+#     "+1"  - position inreases by 1
+#     "end" - selected row becomes last
+move_selected_row_in_box <- function(tkobj, move_to = "+1") {
+
+  move_to <- match.arg(move_to, choices = c("top", "-1", "+1", "end"))
+  # Get selection
+  sel <- get_selection(tkobj)
+  if (length(sel) == 0) {
+    return()
+  }
+  # Get text
+  original_values <- get_values(tkobj)
+  # Get selection
+  sel_ind <- which(original_values %in% sel)
+  # Recalculate
+  swapped <- move_elements(x = original_values, ind = sel_ind, move_to = move_to)
+  # Reset values
+  set_values(tkobj, swapped)
+  # Reset selection
+  set_selection(tkobj, which(swapped %in% sel))
+  # Reset view
+  j <- get_j(move_to, i = sel_ind, n = length(original_values))
+  tk_see(tkobj, j)
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname bs_listbox
+#'
 ## listbox - listbox widget
 # move_to - action:
 #     "top" - selected row becomes 1-st
@@ -644,7 +674,8 @@ move_selected_row_in_listbox <- function(listbox, move_to = "") {
   }
 
   # Get y view
-  y_view <- str_split_fixed(tkyview(listbox), " ", n = 2)[1]
+  # y_view <- str_split_fixed(tkyview(listbox), " ", n = 2)[1]
+  y_view <- as.numeric(tkyview(listbox))[1]
 
   # TODO [???] adapt code according to `move_selected_row_in_tktext()`
   pre_i <- as.integer(tkcurselection(listbox)) + 1
