@@ -279,9 +279,11 @@ window_variable_gather <- function() {
       values     = variables_all(),
       value      = initial$y_var,
       selectmode = "multiple",
-      on_release = activate_gather_all_box,
+      on_select  = activate_gather_all_box,
       tip        = "Select variables to gather.",
-      title      = gettext_bs("Variables to gather \n(pick none, one or more)"))
+      title      = gettext_bs("Variables to gather \n(pick none, one or more)"),
+      bind_row_swap = TRUE
+    )
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -291,7 +293,7 @@ window_variable_gather <- function() {
     f1_but_set_1,
     image = "::image::bs_go_top",
     command = function() {
-      move_selected_row_in_listbox(f1_y_var_box, move_to = "top")
+      move_selected_row_in_box(f1_y_var_box, move_to = "top")
       show_selected_variables()
     }
   )
@@ -300,7 +302,7 @@ window_variable_gather <- function() {
     f1_but_set_1,
     image = "::image::bs_go_up",
     command = function() {
-      move_selected_row_in_listbox(f1_y_var_box, move_to = "-1")
+      move_selected_row_in_box(f1_y_var_box, move_to = "-1")
       show_selected_variables()
     }
   )
@@ -309,7 +311,7 @@ window_variable_gather <- function() {
     f1_but_set_1,
     image = "::image::bs_go_down",
     command = function() {
-      move_selected_row_in_listbox(f1_y_var_box, move_to = "+1")
+      move_selected_row_in_box(f1_y_var_box, move_to = "+1")
       show_selected_variables()
     }
   )
@@ -318,7 +320,7 @@ window_variable_gather <- function() {
     f1_but_set_1,
     image = "::image::bs_go_bottom",
     command = function() {
-      move_selected_row_in_listbox(f1_y_var_box, move_to = "end")
+      move_selected_row_in_box(f1_y_var_box, move_to = "end")
       show_selected_variables()
     }
   )
@@ -364,7 +366,7 @@ window_variable_gather <- function() {
     width    = 48,
     value    = unique_df_name(suffix = "_long"),
     label    = gettext_bs("Output dataset name: "),
-    tip      = "Name for the new long-format dataset.  ",
+    tip      = "A name for the new long-format dataset.  ",
     validate = "focus",
     validatecommand = validate_var_name_string,
     invalidcommand  = make_red_text
@@ -376,8 +378,8 @@ window_variable_gather <- function() {
     label    = gettext_bs("Values to column:"),
     value    = initial$value_colname,
     tip      = str_c(
-      "Name for the column with the \n",
-      "values of the original dataset."
+      "A name for the column in which the values\n",
+      "of the original dataset will be stored."
     ),
     validate = "focus",
     validatecommand = validate_var_name_string,
@@ -387,12 +389,12 @@ window_variable_gather <- function() {
   f1_key    <- bs_entry(
     parent   = top,
     width    = 48,
-    label    = gettext_bs("Column names to column:"),
+    label    = gettext_bs("Variable names to column:"),
     value    = initial$key_colname,
     tip      = str_c(
-      "Name for the key column (in   \n",
-      "which the column names of the \n",
-      "original dataset are stored). "
+      "A name for the 'key' column (column \n",
+      "in which variable (column) names of the \n",
+      "original dataset will be stored). "
     ),
     validate = "focus",
     validatecommand = validate_var_name_string,
