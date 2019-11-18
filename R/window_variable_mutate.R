@@ -1,8 +1,15 @@
 # TODO:
 # 1. In variable box text "[factor]" should be differentiated
-#    to "[character]", "[logical]", "[factor]"
+#    to "[character]", "[logical]", "[factor]":
+#    a) Add combobox to show only variables of certain class:
+#       all, numeric, character, factor, logical, other
 #
-# 2. Add buttons "+", "-", "*", etc. in style as used in "fit linear model" window
+# 2. Add buttons:
+#     a)  "+", "-", "*", etc. in style as used in "fit linear model" window
+#     b)  numbers 0-9 for (Mac users)
+#     c) add buttons to insert common functions.
+#
+# 3. Enable undo/redo for code writing box.
 
 
 
