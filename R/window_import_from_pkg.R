@@ -84,6 +84,8 @@ window_import_from_pkg <- function() {
     on.exit(cursor_set_idle(top))
 
     set_values(f3_var_info, "")
+    tkconfigure(f3_lab_info, foreground = "darkgreen")
+
 
     # Get packages ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     switch(
@@ -155,19 +157,21 @@ window_import_from_pkg <- function() {
 
     tk_set_color(f3_lab_ds_2, "darkred")
     tclvalue(f3_var_selected_ds) <- initial$selected_dataset
-    tclvalue(f3_var_info)        <- ""
     ds <- list_datasets_in_package(pkg)
 
     if (length(ds) == 0) {
       disable_datasets_list()
       tk_set_color(f3_lab_pkg_2, "darkred")
       tclvalue(f3_var_selected_pkg) <- initial$selected_package
+
       set_values(f3_var_info, "There are no datasets in the pacage.")
+      tkconfigure(f3_lab_info, foreground = "red")
 
       return()
     }
 
     set_values(f3_var_info, "")
+    tkconfigure(f3_lab_info, foreground = "darkgreen")
 
     tk_normalize(f1_box_ds)
     set_values(f1_box_ds, list_datasets_in_package(pkg))
@@ -194,12 +198,13 @@ window_import_from_pkg <- function() {
     if (length(pkg) == 0) {
       str <- .ds
     } else {
-      str <- str_glue("{pkg}::{ds}")
+      str <- str_glue("{pkg}::{.ds}")
     }
 
     ds <- get_ds_data(str)
     if (is.data.frame(ds)) {
-      tclvalue(f3_var_info) <- str_c("Size: ", get_obj_dims(ds))
+      tclvalue(f3_var_info) <- str_c("Data frame size: ", get_obj_dims(ds))
+      tkconfigure(f3_lab_info, foreground = "darkgreen")
 
 
     } else {
@@ -208,6 +213,7 @@ window_import_from_pkg <- function() {
         "a data frame and will NOT be \n",
         "visible in R Commander."
       )
+      tkconfigure(f3_lab_info, foreground = "red")
     }
   }
 
@@ -228,6 +234,7 @@ window_import_from_pkg <- function() {
     tclvalue(f3_var_selected_pkg) <- initial$selected_package
     tclvalue(f3_var_selected_ds)  <- initial$selected_dataset
     tclvalue(f3_var_info)         <- ""
+    tkconfigure(f3_lab_info, foreground = "darkgreen")
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -532,7 +539,7 @@ window_import_from_pkg <- function() {
   f3 <- tkframe(top)
 
   f3_var_info <- tclVar("")
-  f3_lab_info <- tk_label(f1, textvariable = f3_var_info, fg = "red")
+  f3_lab_info <- tk_label(f1, textvariable = f3_var_info, fg = "darkgreen")
   # tkconfigure(f3_lab_info, font = tkfont.create(family = "consolas", size = 7))
 
   tkgrid(f3_lab_pkg_1, f3_lab_pkg_2,  pady = c(0, 0),  sticky = "w")
