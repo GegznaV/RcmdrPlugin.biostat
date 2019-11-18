@@ -24,7 +24,10 @@
 #' @export
 #' @keywords internal
 command_list_datasets_in_pkgs <- function() {
-  doItAndPrint("## List datasets in attached R packages\ndata()")
+  doItAndPrint(str_c(
+    "## List datasets in attached R packages\n",
+    "data()"
+  ))
 }
 
 # ___ Main function ___ ======================================================
@@ -80,6 +83,8 @@ window_import_from_pkg <- function() {
     cursor_set_busy(top)
     on.exit(cursor_set_idle(top))
 
+    set_values(f3_var_info, "")
+
     # Get packages ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     switch(
       get_selection(f1_pkg_opts),
@@ -94,16 +99,11 @@ window_import_from_pkg <- function() {
 
         pkgs <- get_loaded_packages()
 
-        # FIXME: cache this operation:
-        ds <-
-          get_info_about_datasets(pkgs) %>%
-          dplyr::filter(is_data_frame)
-
-        set_values(f1_box_ds, ds$Dataset)
+        ds <- get_ds_list(pkgs)
+        set_values(f1_box_ds, ds)
 
         tkconfigure(f1_but_2_0, image = "::image::bs_package_go")
         # tip(f1_but_2_0) <- "Refresh the list of all installed packages"
-        # set_values(f1_box_pkgs, pkgs_all)
         set_values(f3_var_selected_pkg, "{Any loaded package}")
         tk_set_color(f3_lab_pkg_2, "grey")
       },
@@ -157,13 +157,17 @@ window_import_from_pkg <- function() {
     tclvalue(f3_var_selected_ds) <- initial$selected_dataset
     tclvalue(f3_var_info)        <- ""
     ds <- list_datasets_in_package(pkg)
+
     if (length(ds) == 0) {
       disable_datasets_list()
       tk_set_color(f3_lab_pkg_2, "darkred")
       tclvalue(f3_var_selected_pkg) <- initial$selected_package
+      set_values(f3_var_info, "There are no datasets in the pacage.")
 
       return()
     }
+
+    set_values(f3_var_info, "")
 
     tk_normalize(f1_box_ds)
     set_values(f1_box_ds, list_datasets_in_package(pkg))
@@ -175,18 +179,36 @@ window_import_from_pkg <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   choose_dataset <- function() {
     # move_selected_row_in_tktext(recodes, move_to = "+1")
-    ds  <- get_selection(f1_box_ds)
+    .ds  <- get_selection(f1_box_ds)
 
-    if (length(ds) == 0) {
+    if (length(.ds) == 0) {
       return()
     }
 
-    # pkg <- get_selection(f1_box_pkgs)
+    pkg <- get_selection(f1_box_pkgs)
 
     # tk_normalize(f1_box_ds)
-    tclvalue(f3_var_selected_ds) <- ds
+    tclvalue(f3_var_selected_ds) <- .ds
     tk_set_color(f3_lab_ds_2, "darkgreen")
-    # tclvalue(f3_var_info) <- get_ds_info(str_glue("{pkg}::{ds}"))
+
+    if (length(pkg) == 0) {
+      str <- .ds
+    } else {
+      str <- str_glue("{pkg}::{ds}")
+    }
+
+    ds <- get_ds_data(str)
+    if (is.data.frame(ds)) {
+      tclvalue(f3_var_info) <- str_c("Size: ", get_obj_dims(ds))
+
+
+    } else {
+      tclvalue(f3_var_info) <- str_c(
+        "The selected dataset is not \n",
+        "a data frame and will NOT be \n",
+        "visible in R Commander."
+      )
+    }
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -383,6 +405,10 @@ window_import_from_pkg <- function() {
         if (tk_get_state(f1_box_pkgs) == "disabled") {return()}
         choose_package()
       },
+      on_select = function() {
+        if (tk_get_state(f1_box_pkgs) == "disabled") {return()}
+        choose_package()
+      },
       title = gettext_bs("Package \n(double-click to select)"),
       use_filter = TRUE,
       filter_label = "Filter packages"
@@ -505,10 +531,11 @@ window_import_from_pkg <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   f3 <- tkframe(top)
 
-  # f3_var_info <- tclVar("")
-  # f3_lab_info <- tk_label(f3, textvariable = f3_var_info)
+  f3_var_info <- tclVar("")
+  f3_lab_info <- tk_label(f1, textvariable = f3_var_info, fg = "red")
+  # tkconfigure(f3_lab_info, font = tkfont.create(family = "consolas", size = 7))
 
-  tkgrid(f3_lab_pkg_1, f3_lab_pkg_2,  pady = c(0, 0), sticky = "w")
+  tkgrid(f3_lab_pkg_1, f3_lab_pkg_2,  pady = c(0, 0),  sticky = "w")
   tkgrid(f3_lab_ds_1,  f3_lab_ds_2,   pady = c(0, 2),  sticky = "w")
   # tkgrid(f3_lab_info,                 pady = c(0, 9),  sticky = "w")
 
@@ -551,6 +578,7 @@ window_import_from_pkg <- function() {
 
   tkgrid(f1_pkg_opts$frame, "x",
     # f1_ds_opts$frame,
+    f3_lab_info,
     sticky = "we", pady = c(5, 0))
 
   # tkgrid.configure(f1_but_set_1, sticky = "")
