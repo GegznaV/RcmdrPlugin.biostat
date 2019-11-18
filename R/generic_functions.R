@@ -124,6 +124,13 @@ add_selection <- function(obj, sel, ...) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
+get_xview <- function(obj, ...) {
+    UseMethod("get_xview")
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 set_xview <- function(obj, ...) {
     UseMethod("set_xview")
 }
@@ -131,8 +138,22 @@ set_xview <- function(obj, ...) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
+get_yview <- function(obj, ind,  ...) {
+    UseMethod("get_yview")
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 set_yview <- function(obj, ind,  ...) {
     UseMethod("set_yview")
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+tk_yview_moveto <- function(obj, ...) {
+    UseMethod("tk_yview_moveto")
 }
 
 #' @rdname Helper-functions
@@ -148,6 +169,14 @@ tk_see <- function(obj, ind, ...) {
 #' @keywords internal
 tk_get_n_lines <- function(obj) {
   UseMethod("tk_get_n_lines")
+}
+
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+tk_bind_row_swap <- function(obj) {
+  UseMethod("tk_bind_row_swap")
 }
 
 
