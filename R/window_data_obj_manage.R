@@ -592,16 +592,16 @@ window_data_obj_manage <- function() {
   tkgrid(include_hidden_box$frame, sticky = "w")
   tkgrid(f1_listbox_y$frame, pady = c(5, 5))
 
-  tkgrid(f1_view, sticky = "w")
-  tkgrid(f1_rename, sticky = "w")
-  tkgrid(f1_copy, sticky = "w")
-  tkgrid(f1_delete, sticky = "w")
+  tkgrid(f1_view,       sticky = "w")
+  tkgrid(f1_rename,     sticky = "w")
+  tkgrid(f1_copy,       sticky = "w")
+  tkgrid(f1_delete,     sticky = "w")
   tkgrid(f1_select_all, sticky = "w")
 
-  tkconfigure(f1_view, width = 10)
-  tkconfigure(f1_rename, width = 10)
-  tkconfigure(f1_copy, width = 10)
-  tkconfigure(f1_delete, width = 10)
+  tkconfigure(f1_view,       width = 10)
+  tkconfigure(f1_rename,     width = 10)
+  tkconfigure(f1_copy,       width = 10)
+  tkconfigure(f1_delete,     width = 10)
   tkconfigure(f1_select_all, width = 10)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
