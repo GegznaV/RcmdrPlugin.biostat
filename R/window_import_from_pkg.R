@@ -177,10 +177,10 @@ window_import_from_pkg <- function() {
     n_logical   = sum(purrr::map_int(ds, is.logical))
     n_character = sum(purrr::map_int(ds, is.character))
     n_other     = n_variables - n_character - n_logical - n_factor - n_numeric
-    str_c(
-      "Data frame (size: ", get_obj_dims(ds), ")\n",
-      str_glue("num: {n_numeric}, lgl: {n_logical}, chr: {n_character},",
-        "fct: {n_factor}, other: {n_other}")
+    str_glue(
+      "Class: data frame \nSize: {nrow(ds)} rows {n_variables} columns \n",
+      "(num: {n_numeric}, lgl: {n_logical}, chr: {n_character}, ",
+        "fct: {n_factor}, other: {n_other})"
     )
   }
 
@@ -478,24 +478,19 @@ window_import_from_pkg <- function() {
 
   f2_but_set_2 <- tkframe(f2)
 
-  f2_icon <- tk2label(
-    parent   = f2_but_set_2,
-    compound = "center"
-  )
-
   f2_but_2_1 <- tk2button(
     parent  = f2_but_set_2,
     image   = "::image::bs_refresh_r",
     command =  refresh_all_installed_packages,
-    tip = "Refresh the list of all installed packages."
+    tip = "Refresh the list of\nall installed packages."
   )
 
-  f2_but_2_2 <- tk2button(
-    f2_but_set_2,
-    image = "::image::bs_refresh",
-    command = reset_selection,
-    tip = "Reset selection."
-  )
+  # f2_but_2_2 <- tk2button(
+  #   f2_but_set_2,
+  #   image = "::image::bs_refresh",
+  #   command = reset_selection,
+  #   tip = "Reset selection."
+  # )
 
   f2_but_2_3 <- tk2button(
     f2_but_set_2,
@@ -504,10 +499,10 @@ window_import_from_pkg <- function() {
     tip = "Open documentation (help) \non selected dataset."
   )
 
-  tkgrid(f2_icon, pady = c(0, 12))
+  # tkgrid(f2_icon, pady = c(0, 25))
   tkgrid(f2_but_2_1)
-  tkgrid(f2_but_2_2)
-  tkgrid(f2_but_2_3, pady = c(0, 27))
+  # tkgrid(f2_but_2_2)
+  tkgrid(f2_but_2_3, pady = c(0, 0))
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   # f2_but_set_1 <- tkframe(f2)
@@ -553,10 +548,16 @@ window_import_from_pkg <- function() {
   # tkgrid(f2_but_1_4)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  f2low <- tk2frame(f2)
+
+  f2_icon <- tk2label(
+    parent   = f2low,
+    compound = "center"
+  )
 
   f2_pkg_opts <- bs_combobox(
-    parent = f2,
-    width  = 22,
+    parent = f2low,
+    width  = 20,
     label  = "Which package (category)",
     label_position = "above",
     values = c(
@@ -571,10 +572,6 @@ window_import_from_pkg <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   f2_var_info <- tclVar("")
   f2_lab_info <- tk_label(f2, textvariable = f2_var_info, fg = "darkgreen")
-
-  tkgrid(f1_lab_selected_pkg_0, f1_lab_selected_pkg,  pady = c(0, 0),  sticky = "w")
-  tkgrid(f1_lab_selected_ds_0,  f1_lab_selected_ds,   pady = c(0, 2),  sticky = "w")
-
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Help menus ---------------------------------------------------------------
   help_menu <- function() {
@@ -611,23 +608,29 @@ window_import_from_pkg <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(f1, sticky = "w")
 
+  tkgrid(f1_lab_selected_pkg_0, f1_lab_selected_pkg,  pady = c(0, 0),  sticky = "w")
+  tkgrid(f1_lab_selected_ds_0,  f1_lab_selected_ds,   pady = c(0, 2),  sticky = "w")
+
+
   tkgrid(f2, sticky = "nw")
 
   tkgrid(
     f2_box_pkgs$frame,
-    f2_but_set_2,
     f2_box_ds$frame,
+    f2_but_set_2,
     # f2_but_set_1,
     sticky = "nw"
   )
+  tkgrid(f2_pkg_opts$frame, f2_icon)  # tkgrid(f2_icon, pady = c(0, 25))
+  tkgrid.configure(f2_icon, sticky = "s", padx = c(2, 2), pady = c(0, 2))
 
-  tkgrid(f2_pkg_opts$frame, "x",
-    f2_lab_info,
-    sticky = "we", pady = c(5, 0))
+  tkgrid(f2low, f2_lab_info,  sticky = "we", pady = c(5, 0))
 
-  # tkgrid.configure(f2_but_set_1, sticky = "")
-  tkgrid.configure(f2_but_set_2,      sticky = "", padx = c(3, 9))
-  tkgrid.configure(f2_pkg_opts$frame, sticky = "w", pady = c(10, 10))
+  tkgrid.configure(f2_box_ds$frame, sticky = "",  padx = c(5, 0))
+  tkgrid.configure(f2_lab_info,     sticky = "w", padx = c(5, 0), columnspan = 2)
+  tkgrid.configure(f2low,           sticky = "w", pady = c(10, 10))
+
+  tkgrid.configure(f2_but_set_2,    sticky = "",  padx = c(2, 0))
 
   # ======================================================================~~~~
   tkgrid(buttonsFrame, sticky = "ew")
