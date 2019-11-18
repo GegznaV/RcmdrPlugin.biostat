@@ -1756,7 +1756,7 @@ validate_var_name_string <- function(P, W) {
 #' @export
 #' @keywords internal
 command_rcmdr_restart <- function() {
-  Rcmdr::closeCommander(ask = FALSE, ask.save = TRUE)
+  command_rcmdr_close()
   Rcmdr::Commander()
 }
 
@@ -1764,7 +1764,7 @@ command_rcmdr_restart <- function() {
 #' @export
 #' @keywords internal
 command_restart_rs_session <- function() {
-  Rcmdr::closeCommander(ask = FALSE, ask.save = TRUE)
+  command_rcmdr_close()
   rstudioapi::restartSession(command = "library(Rcmdr)")
 }
 
@@ -1773,8 +1773,9 @@ command_restart_rs_session <- function() {
 #' @keywords internal
 command_rcmdr_close <- function() {
   Rcmdr::closeCommander(
-    ask = getRcmdr("ask.to.exit"),
-    ask.save = getRcmdr("ask.on.exit"))
+    ask = Rcmdr::getRcmdr("ask.to.exit"),
+    ask.save = Rcmdr::getRcmdr("ask.on.exit")
+  )
 }
 
 #' @rdname Helper-functions
