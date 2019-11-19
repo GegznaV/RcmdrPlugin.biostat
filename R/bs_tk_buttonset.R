@@ -13,53 +13,53 @@
 # tk_disable(boxes_3)                   # disables all boxes.
 
 .check_change_state <- function(obj, ..., .which) {
-    if (is.null(.which)) {
-        if (length(list(...)) == 0) {
-            .which <- names(obj$obj)
+  if (is.null(.which)) {
+    if (length(list(...)) == 0) {
+      .which <- names(obj$obj)
 
-        } else  {
-            .which <- c(...)
-        }
-
-    } else if (is.numeric(.which)) {
-        return(.which)
-
+    } else  {
+      .which <- c(...)
     }
 
-    if (!all(.which %in% names(obj$obj))) {
+  } else if (is.numeric(.which)) {
+    return(.which)
 
-        stop("Possibly misspelled names: ",
-             setdiff(.which, names(obj$obj)) %>% str_c(collapse = ", "),
-             ".",
-             call. = FALSE
-        )
-    }
+  }
 
-    .which
+  if (!all(.which %in% names(obj$obj))) {
+
+    stop("Possibly misspelled names: ",
+      setdiff(.which, names(obj$obj)) %>% str_c(collapse = ", "),
+      ".",
+      call. = FALSE
+    )
+  }
+
+  .which
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 tk_activate.bs_tk_buttonset <- function(obj, ..., .which = NULL) {
-    .which <- .check_change_state(obj, ..., .which = .which)
-    walk(obj$obj[.which], tk_activate)
+  .which <- .check_change_state(obj, ..., .which = .which)
+  walk(obj$obj[.which], tk_activate)
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 tk_normalize.bs_tk_buttonset <- function(obj, ..., .which = NULL) {
-    .which <- .check_change_state(obj, ..., .which = .which)
-    walk(obj$obj[.which], tk_normalize)
+  .which <- .check_change_state(obj, ..., .which = .which)
+  walk(obj$obj[.which], tk_normalize)
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 tk_disable.bs_tk_buttonset <- function(obj, ..., .which = NULL) {
-    .which <- .check_change_state(obj, ..., .which = .which)
-    walk(obj$obj[.which], tk_disable)
+  .which <- .check_change_state(obj, ..., .which = .which)
+  walk(obj$obj[.which], tk_disable)
 }
 
 #' @rdname Helper-functions
@@ -67,10 +67,10 @@ tk_disable.bs_tk_buttonset <- function(obj, ..., .which = NULL) {
 #' @keywords internal
 tk_get_state.bs_tk_buttonset <- function(obj, ..., .out = "list") {
 
-    switch(
-        .out,
-        chr  = map_chr(obj$obj, tk_get_state),
-        list = map(obj$obj, tk_get_state),
-        stop("Unrecognized value of `.out`.")
-    )
+  switch(
+    .out,
+    chr  = map_chr(obj$obj, tk_get_state),
+    list = map(obj$obj, tk_get_state),
+    stop("Unrecognized value of `.out`.")
+  )
 }

@@ -271,7 +271,7 @@ get_info_about_datasets <- function(package = NULL) {
 }
 
 list_datasets_in_package <- function(package) {
-   data(package = package)$results[ ,"Item"]
+  data(package = package)$results[ ,"Item"]
 }
 
 get_ds_info_as_sring <- function(str) {

@@ -37,37 +37,37 @@ NULL
 #' @rdname widget-state
 #' @export
 tk_get_state <- function(obj, ...) {
-    UseMethod("tk_get_state")
+  UseMethod("tk_get_state")
 }
 
 #' @rdname widget-state
 #' @export
 tk_set_state <- function(obj, state, ...) {
-    UseMethod("tk_set_state")
+  UseMethod("tk_set_state")
 }
 
 #' @rdname widget-state
 #' @export
 tk_normalize <- function(obj, ...) {
-    UseMethod("tk_normalize")
+  UseMethod("tk_normalize")
 }
 
 #' @rdname widget-state
 #' @export
 tk_activate <- function(obj, ...) {
-    UseMethod("tk_activate")
+  UseMethod("tk_activate")
 }
 
 #' @rdname widget-state
 #' @export
 tk_read_only <- function(obj, ...) {
-    UseMethod("tk_read_only")
+  UseMethod("tk_read_only")
 }
 
 #' @rdname widget-state
 #' @export
 tk_disable <- function(obj, ...) {
-    UseMethod("tk_disable")
+  UseMethod("tk_disable")
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -76,91 +76,91 @@ tk_disable <- function(obj, ...) {
 #' @export
 #' @keywords internal
 get_size <- function(obj, ...) {
-    UseMethod("get_size")
+  UseMethod("get_size")
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 get_values <- function(obj, ...) {
-    UseMethod("get_values")
+  UseMethod("get_values")
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 set_values <- function(obj, values, ...) {
-    UseMethod("set_values")
+  UseMethod("set_values")
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 get_selection <- function(obj, ...) {
-    UseMethod("get_selection")
+  UseMethod("get_selection")
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 get_selection_length <- function(obj, ...) {
-    UseMethod("get_selection_length")
+  UseMethod("get_selection_length")
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 set_selection <- function(obj, sel, ...) {
-    UseMethod("set_selection")
+  UseMethod("set_selection")
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 add_selection <- function(obj, sel, ...) {
-    UseMethod("add_selection")
+  UseMethod("add_selection")
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 get_xview <- function(obj, ...) {
-    UseMethod("get_xview")
+  UseMethod("get_xview")
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 set_xview <- function(obj, ...) {
-    UseMethod("set_xview")
+  UseMethod("set_xview")
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 get_yview <- function(obj, ind,  ...) {
-    UseMethod("get_yview")
+  UseMethod("get_yview")
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 set_yview <- function(obj, ind,  ...) {
-    UseMethod("set_yview")
+  UseMethod("set_yview")
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 tk_yview_moveto <- function(obj, ...) {
-    UseMethod("tk_yview_moveto")
+  UseMethod("tk_yview_moveto")
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 tk_see <- function(obj, ind, ...) {
-    UseMethod("tk_see")
+  UseMethod("tk_see")
 }
 
 
@@ -185,8 +185,8 @@ tk_bind_row_swap <- function(obj) {
 #' @export
 #' @keywords internal
 print.bs_tk_widget <- function(x, ...) {
-    print(summary(x, ...))
-    cat("Class: ", str_c(class(x), collapse = ", "))
+  print(summary(x, ...))
+  cat("Class: ", str_c(class(x), collapse = ", "))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

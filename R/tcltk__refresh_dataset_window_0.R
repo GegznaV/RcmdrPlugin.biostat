@@ -42,179 +42,179 @@
 #' @export
 #' @keywords internal
 refresh_dataset_window_0 <- function(
-    widget, ds_contents, preview_type, nrow_preview_ds, expect_more_rows = FALSE,
-    err_msg_default = NULL) {
+  widget, ds_contents, preview_type, nrow_preview_ds, expect_more_rows = FALSE,
+  err_msg_default = NULL) {
 
-    # Check arguments
-    preview_type <- match.arg(preview_type,
-                              choices = c("Tibble", "Data table", "Structure"))
+  # Check arguments
+  preview_type <- match.arg(preview_type,
+    choices = c("Tibble", "Data table", "Structure"))
 
-    # `widget` should be object of class `bs_text`
+  # `widget` should be object of class `bs_text`
 
-    text_widget <- widget$text
+  text_widget <- widget$text
 
-    # Functions:
-    write_to_widgets_window <-  function(contents, ...) {
-        set_values(text_widget, values = contents, ...)
-    }
+  # Functions:
+  write_to_widgets_window <-  function(contents, ...) {
+    set_values(text_widget, values = contents, ...)
+  }
 
-    # Format fread error for display
-    parse_file_read_error <- function(err) {
-        err %>%
-            str_replace("Error in .*\n", "") %>%
-            str_replace("(does not exist)", "\n\\1") %>%
-            str_replace("\\. ", ".\n") %>%
-            str_trim()
-    }
+  # Format fread error for display
+  parse_file_read_error <- function(err) {
+    err %>%
+      str_replace("Error in .*\n", "") %>%
+      str_replace("(does not exist)", "\n\\1") %>%
+      str_replace("\\. ", ".\n") %>%
+      str_trim()
+  }
 
-    # Default text
-    txt_trunc   <- "... Other rows are not shown ..."
-    txt_not_all <- "... More rows may be present in the file ..."
+  # Default text
+  txt_trunc   <- "... Other rows are not shown ..."
+  txt_not_all <- "... More rows may be present in the file ..."
 
-    if (is.null(err_msg_default)) {
-        err_msg_default <- str_c(
-            "Possible reasons:\n",
-            " - file name is incorrent or missing;\n",
-            " - incorrect file format;\n",
-            " - file is empty;\n",
-            " - import options are incorrect.")
-    }
+  if (is.null(err_msg_default)) {
+    err_msg_default <- str_c(
+      "Possible reasons:\n",
+      " - file name is incorrent or missing;\n",
+      " - incorrect file format;\n",
+      " - file is empty;\n",
+      " - import options are incorrect.")
+  }
 
-    # Patterns
-    pattern_num <- "(?<=\\<)(num|int|dbl)(?=\\>)"
-    pattern_chr <- "(?<=\\<)cha?r(?=\\>)"
+  # Patterns
+  pattern_num <- "(?<=\\<)(num|int|dbl)(?=\\>)"
+  pattern_chr <- "(?<=\\<)cha?r(?=\\>)"
 
-    pattern_na <- "(\\<NA\\>|NA(?=,))"
+  pattern_na <- "(\\<NA\\>|NA(?=,))"
 
-    # Check errors
-    err_msg <- NULL
+  # Check errors
+  err_msg <- NULL
 
-    if (inherits(ds_contents, "try-error")) {
-        err_msg <- parse_file_read_error(ds_contents)
+  if (inherits(ds_contents, "try-error")) {
+    err_msg <- parse_file_read_error(ds_contents)
 
-    } else {
+  } else {
 
-        nrows_from_file <- nrow(ds_contents)
+    nrows_from_file <- nrow(ds_contents)
 
-        # Get contents to preview
-        switch(
-            preview_type,
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            "Tibble" = {
+    # Get contents to preview
+    switch(
+      preview_type,
+      # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      "Tibble" = {
 
-                op <- options(width = 10000)
-                ds_preview <-
-                    capture.output(
-                        print(tibble::as_tibble(ds_contents),
-                              width = Inf,
-                              n = nrow_preview_ds)
-                    ) %>%
-                    str_subset("^(?!# A tibble.*)") %>%
-                    str_replace( "^# \\.\\.\\. with.*", txt_trunc)
+        op <- options(width = 10000)
+        ds_preview <-
+          capture.output(
+            print(tibble::as_tibble(ds_contents),
+              width = Inf,
+              n = nrow_preview_ds)
+          ) %>%
+          str_subset("^(?!# A tibble.*)") %>%
+          str_replace( "^# \\.\\.\\. with.*", txt_trunc)
 
-                options(op)
+        options(op)
 
-                if (expect_more_rows) {
-                    ds_preview <- c(ds_preview, txt_not_all)
-                }
+        if (expect_more_rows) {
+          ds_preview <- c(ds_preview, txt_not_all)
+        }
 
-            },
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            "Data table" = {
+      },
+      # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      "Data table" = {
 
-                topn <-
-                    if (is.infinite(nrow_preview_ds)) {
-                        nrows_from_file
-                    } else {
-                        floor(nrow_preview_ds/2)
-                    }
+        topn <-
+          if (is.infinite(nrow_preview_ds)) {
+            nrows_from_file
+          } else {
+            floor(nrow_preview_ds/2)
+          }
 
-                op <- options(width = 10000)
-                ds_preview <-
-                    capture.output(
-                        print(data.table::as.data.table(ds_contents),
-                              col.names = "top",
-                              class = TRUE,
-                              topn  = topn,
-                              nrows = nrows_from_file)
-                    )
-                options(op)
+        op <- options(width = 10000)
+        ds_preview <-
+          capture.output(
+            print(data.table::as.data.table(ds_contents),
+              col.names = "top",
+              class = TRUE,
+              topn  = topn,
+              nrows = nrows_from_file)
+          )
+        options(op)
 
-                if (expect_more_rows) {
-                    ds_preview[length(ds_preview)] <- txt_not_all
-                }
+        if (expect_more_rows) {
+          ds_preview[length(ds_preview)] <- txt_not_all
+        }
 
-            },
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            "Structure" = {
-                ds_preview <- capture.output(glimpse(ds_contents, width = 74))
+      },
+      # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      "Structure" = {
+        ds_preview <- capture.output(glimpse(ds_contents, width = 74))
 
-                if (expect_more_rows)  {
-                    ds_preview <- str_replace(
-                        ds_preview,
-                        "(?<=^Observations: )(.*)", "\\1 or more")
-                }
-            }
-        )
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (length(ds_preview) <= 1) {err_msg <- err_msg_default}
-    }
+        if (expect_more_rows)  {
+          ds_preview <- str_replace(
+            ds_preview,
+            "(?<=^Observations: )(.*)", "\\1 or more")
+        }
+      }
+    )
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    if (length(ds_preview) <= 1) {err_msg <- err_msg_default}
+  }
 
-    if (!is.null(err_msg)) {
-        # If no preview available:
-        write_to_widgets_window(str_c("Error! \n\n", err_msg))
+  if (!is.null(err_msg)) {
+    # If no preview available:
+    write_to_widgets_window(str_c("Error! \n\n", err_msg))
 
-        # Red font:
-        tktag.add(text_widget, "bold",  "1.0", "2.0")
-        tktag.add(text_widget, "error", "1.0", "end")
+    # Red font:
+    tktag.add(text_widget, "bold",  "1.0", "2.0")
+    tktag.add(text_widget, "error", "1.0", "end")
 
-    } else {
-        # Write contents:
-        write_to_widgets_window(str_c(ds_preview, collapse = "\n"))
+  } else {
+    # Write contents:
+    write_to_widgets_window(str_c(ds_preview, collapse = "\n"))
 
-        # Format contents:
+    # Format contents:
 
-        # Info messages
-        tktag_add_row(text_widget, txt_trunc,   tag = "info")
-        tktag_add_row(text_widget, txt_not_all, tag = "info")
+    # Info messages
+    tktag_add_row(text_widget, txt_trunc,   tag = "info")
+    tktag_add_row(text_widget, txt_not_all, tag = "info")
 
-        tktag_add(text_widget, pattern_na, tag = "NA")
+    tktag_add(text_widget, pattern_na, tag = "NA")
 
-        switch(
-            preview_type,
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            "Tibble" = ,
-            "Data table" = {
-                # Variable names
-                tktag.add(text_widget, "var_names", "1.0", "2.0")
+    switch(
+      preview_type,
+      # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      "Tibble" = ,
+      "Data table" = {
+        # Variable names
+        tktag.add(text_widget, "var_names", "1.0", "2.0")
 
-                # Variable types
-                tktag.add(text_widget, "var_types", "2.0", "3.0")
-                tktag_add(text_widget, pattern_chr, 1:2, tag =  "chr")
-                tktag_add(text_widget, pattern_num, 1:2, tag =  "num")
+        # Variable types
+        tktag.add(text_widget, "var_types", "2.0", "3.0")
+        tktag_add(text_widget, pattern_chr, 1:2, tag =  "chr")
+        tktag_add(text_widget, pattern_num, 1:2, tag =  "num")
 
-                # Separator
-                tktag_add_row(text_widget, "^\\s*---\\s*$", "red")
-            },
+        # Separator
+        tktag_add_row(text_widget, "^\\s*---\\s*$", "red")
+      },
 
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            "Structure" = {
-                # Variable names
-                tktag_add_first(text_widget, "(?<=\\$).*?(?=\\<)", "var_names")
+      # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      "Structure" = {
+        # Variable names
+        tktag_add_first(text_widget, "(?<=\\$).*?(?=\\<)", "var_names")
 
-                # Variable types
-                tktag_add_first(text_widget, "^\\$",       "var_types")
-                tktag_add_first(text_widget, "\\.\\.\\.$", "var_types")
-                tktag_add_first(text_widget, "\\<.*?\\>",  "var_types")
-                tktag_add_first(text_widget, pattern_chr,  "chr")
-                tktag_add_first(text_widget, pattern_num,  "num")
+        # Variable types
+        tktag_add_first(text_widget, "^\\$",       "var_types")
+        tktag_add_first(text_widget, "\\.\\.\\.$", "var_types")
+        tktag_add_first(text_widget, "\\<.*?\\>",  "var_types")
+        tktag_add_first(text_widget, pattern_chr,  "chr")
+        tktag_add_first(text_widget, pattern_num,  "num")
 
-                # Observations
-                tktag_add_row(text_widget, "^Observations: \\d+ or more", "grey")
-            }
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        )
-    }
+        # Observations
+        tktag_add_row(text_widget, "^Observations: \\d+ or more", "grey")
+      }
+      # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    )
+  }
 }
 
 # Configure text tags --------------------------------------------------------
@@ -223,41 +223,41 @@ refresh_dataset_window_0 <- function(
 #' @keywords internal
 configure_tags <- function(text_widget) {
 
-    # Fonts ----------------------------------------------------------------------
-    font_consolas_italic  <- tkfont.create(family = "Consolas", size = 8, slant = "italic")
-    font_consolas_bold    <- tkfont.create(family = "Consolas", size = 8, weight = "bold")
-    font_consolas_regular <- tkfont.create(family = "Consolas", size = 8)
+  # Fonts ----------------------------------------------------------------------
+  font_consolas_italic  <- tkfont.create(family = "Consolas", size = 8, slant = "italic")
+  font_consolas_bold    <- tkfont.create(family = "Consolas", size = 8, weight = "bold")
+  font_consolas_regular <- tkfont.create(family = "Consolas", size = 8)
 
-    # By type and condition
-    tktag.configure(text_widget, "var_names",
-                    foreground = "blue",
-                    font = font_consolas_bold)
+  # By type and condition
+  tktag.configure(text_widget, "var_names",
+    foreground = "blue",
+    font = font_consolas_bold)
 
-    tktag.configure(text_widget, "var_types",
-                    foreground = "grey50",
-                    font = font_consolas_italic)
+  tktag.configure(text_widget, "var_types",
+    foreground = "grey50",
+    font = font_consolas_italic)
 
-    tktag.configure(text_widget, "info",
-                    foreground = "grey50",
-                    font = font_consolas_italic)
+  tktag.configure(text_widget, "info",
+    foreground = "grey50",
+    font = font_consolas_italic)
 
-    tktag.configure(text_widget, "error", foreground = "red3")
-    tktag.configure(text_widget, "bold",  font = font_consolas_bold)
+  tktag.configure(text_widget, "error", foreground = "red3")
+  tktag.configure(text_widget, "bold",  font = font_consolas_bold)
 
-    tktag.configure(text_widget, "tab",   background = "grey95")
+  tktag.configure(text_widget, "tab",   background = "grey95")
 
-    # By color
-    tktag.configure(text_widget, "grey",  foreground = "grey50")
-    tktag.configure(text_widget, "green", foreground = "green")
-    tktag.configure(text_widget, "red",   foreground = "red")
-    tktag.configure(text_widget, "red3",  foreground = "red3")
-    tktag.configure(text_widget, "red4",  foreground = "red4")
+  # By color
+  tktag.configure(text_widget, "grey",  foreground = "grey50")
+  tktag.configure(text_widget, "green", foreground = "green")
+  tktag.configure(text_widget, "red",   foreground = "red")
+  tktag.configure(text_widget, "red3",  foreground = "red3")
+  tktag.configure(text_widget, "red4",  foreground = "red4")
 
-    # By values
-    tktag.configure(text_widget, "chr",  foreground = "tomato4")
-    tktag.configure(text_widget, "fct",  foreground = "orange4")
-    tktag.configure(text_widget, "lgl",  foreground = "blue4")
-    tktag.configure(text_widget, "num",  foreground = "green4")
-    tktag.configure(text_widget, "NA",   foreground = "tomato1")
+  # By values
+  tktag.configure(text_widget, "chr",  foreground = "tomato4")
+  tktag.configure(text_widget, "fct",  foreground = "orange4")
+  tktag.configure(text_widget, "lgl",  foreground = "blue4")
+  tktag.configure(text_widget, "num",  foreground = "green4")
+  tktag.configure(text_widget, "NA",   foreground = "tomato1")
 }
 
