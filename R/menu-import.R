@@ -14,7 +14,7 @@
 #'
 #' @md
 #' @noRd
-#'
+#' @keywords internal
 #' @examples
 #' list_packages()
 #' list_packages("installed")
