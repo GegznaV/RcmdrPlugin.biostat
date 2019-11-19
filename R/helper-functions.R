@@ -1756,16 +1756,20 @@ validate_var_name_string <- function(P, W) {
 #' @export
 #' @keywords internal
 command_rcmdr_restart <- function() {
-  command_rcmdr_close()
-  Rcmdr::Commander()
+  ans <- command_rcmdr_close()
+  if (ans != "cancel") {
+    Rcmdr::Commander()
+  }
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 command_restart_rs_session <- function() {
-  command_rcmdr_close()
-  rstudioapi::restartSession(command = "library(Rcmdr)")
+  ans <- command_rcmdr_close()
+  if (ans != "cancel") {
+    rstudioapi::restartSession(command = "library(Rcmdr)")
+  }
 }
 
 #' @rdname Helper-functions
@@ -1776,6 +1780,17 @@ command_rcmdr_close <- function() {
     ask = Rcmdr::getRcmdr("ask.to.exit"),
     ask.save = Rcmdr::getRcmdr("ask.on.exit")
   )
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+command_rcmdr_close_and_update_cran <- function() {
+  ans <- command_rcmdr_close()
+  if (ans != "cancel") {
+    rstudioapi::restartSession(command =
+        'update.packages(checkBuilt = TRUE, ask = "graphics")')
+  }
 }
 
 #' @rdname Helper-functions
