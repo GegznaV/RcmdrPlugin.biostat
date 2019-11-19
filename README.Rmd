@@ -54,10 +54,17 @@ Documentation and more information available at http://gegznav.github.io/RcmdrPl
 To install the development version of the package from “GitHub”:
 
 ```{r Install package, eval=FALSE}
+# It is recommended to update all packages first
+update.packages(checkBuilt = TRUE, ask = FALSE)
+
+# Install required packages
 if (!require("remotes"))  install.packages("remotes")
 remotes::install_github("rforge/rcmdr/pkg/Rcmdr-devel", upgrade = TRUE)
-remotes::install_github("GegznaV/RcmdrPlugin.biostat")
+remotes::install_github("GegznaV/RcmdrPlugin.biostat",  upgrade = TRUE)
 ```
+
+In case you face installation issues, try removing `upgrade = TRUE`{.r}.
+
 
 ## Load the plug-in correctly {#load}
 
