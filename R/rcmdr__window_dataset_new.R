@@ -47,7 +47,7 @@ window_dataset_new_rcmdr <- function() {
         result <- justDoIt(command)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        if (class(result)[1] != "try-error") {
+        if (inherits(result, "try-error")) {
             if (!getRcmdr("dataset.modified")) return()
             .data <- try(get(dsnameValue, envir = .GlobalEnv), silent = TRUE)
             if (nrow(.data) == 0) {

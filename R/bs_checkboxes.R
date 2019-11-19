@@ -62,149 +62,149 @@
 #'}}
 
 bs_checkboxes <- function(
-    parent          = top,
-    boxes,
-    labels          = NULL,
-    title           = NULL,
-    values          = NULL,
-    default_value   = "0",
-    commands        = list(),          # named list of functions
-    default_command = function() {},
-    tips            = list(), # named list of strings
-    default_tip     = "",
-    border          = FALSE,
-    layout          = c("vertical", "horizontal"),
-    sticky_buttons  = "w",
-    sticky_title    = "w"
+  parent          = top,
+  boxes,
+  labels          = NULL,
+  title           = NULL,
+  values          = NULL,
+  default_value   = "0",
+  commands        = list(),          # named list of functions
+  default_command = function() {},
+  tips            = list(), # named list of strings
+  default_tip     = "",
+  border          = FALSE,
+  layout          = c("vertical", "horizontal"),
+  sticky_buttons  = "w",
+  sticky_title    = "w"
 )
 {
-    checkmate::assert_character(boxes)
-    checkmate::assert_character(labels, null.ok = TRUE)
-    checkmate::assert_string(title, null.ok = TRUE)
-    checkmate::assert_list(commands)
-    checkmate::assert_function(default_command)
-    checkmate::assert_list(tips)
-    checkmate::assert_string(default_tip)
-    checkmate::assert_flag(border)
+  checkmate::assert_character(boxes)
+  checkmate::assert_character(labels, null.ok = TRUE)
+  checkmate::assert_string(title, null.ok = TRUE)
+  checkmate::assert_list(commands)
+  checkmate::assert_function(default_command)
+  checkmate::assert_list(tips)
+  checkmate::assert_string(default_tip)
+  checkmate::assert_flag(border)
 
-    layout <- match.arg(layout)
+  layout <- match.arg(layout)
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (is.null(names(boxes))) {
-        if (is.null(labels)) {
-            labels <- boxes
-        }
-
-    } else {
-        # If 'boxes' is a named vector,
-        # values are treated as 'labels' and
-        # names as 'boxes'
-        if (!is.null(labels)) {
-            warning("Values of 'labels' are ignored as 'boxes' is a named vector.")
-        }
-
-        labels <- unname(boxes)
-        boxes  <- names(boxes)
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  if (is.null(names(boxes))) {
+    if (is.null(labels)) {
+      labels <- boxes
     }
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    boxes_list <- structure(boxes, names = boxes)
-
-    # Manage commands` ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (length(commands) > 0 && !all(names(commands) %in% boxes)) {
-        stop(
-            "Argument `commands` must be a named list of functions. ",
-            "The element names must be a subset of: ",
-            paste(boxes, collapse = ", "), ". Unrecognized names: ",
-            paste(setdiff(names(commands), boxes), collapse = ", "), "."
-        )
+  } else {
+    # If 'boxes' is a named vector,
+    # values are treated as 'labels' and
+    # names as 'boxes'
+    if (!is.null(labels)) {
+      warning("Values of 'labels' are ignored as 'boxes' is a named vector.")
     }
 
-    commands <- modifyList(
-        map(boxes_list, function(x) default_command),
-        commands)
+    labels <- unname(boxes)
+    boxes  <- names(boxes)
+  }
 
-    # Manage `tips` ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (is.null(names(tips)) && (length(tips) == length(boxes))) {
-        tips <- as.list(tips)
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  boxes_list <- structure(boxes, names = boxes)
 
-    } else if (length(tips) > 0 && !all(names(tips) %in% boxes)) {
-        stop(
-            "Argument `tips` must be a named list of strings.  ",
-            "The element names must be a subset of: ",
-            paste(boxes, collapse = ", "), ". Unrecognized names: ",
-            paste(setdiff(names(tips), boxes), collapse = ", "), "."
-        )
+  # Manage commands` ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  if (length(commands) > 0 && !all(names(commands) %in% boxes)) {
+    stop(
+      "Argument `commands` must be a named list of functions. ",
+      "The element names must be a subset of: ",
+      paste(boxes, collapse = ", "), ". Unrecognized names: ",
+      paste(setdiff(names(commands), boxes), collapse = ", "), "."
+    )
+  }
 
-    } else {
-        tips <- modifyList(map(boxes_list, function(x) default_tip), tips)
-    }
+  commands <- modifyList(
+    map(boxes_list, function(x) default_command),
+    commands)
 
+  # Manage `tips` ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  if (is.null(names(tips)) && (length(tips) == length(boxes))) {
+    tips <- as.list(tips)
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    values <-
-        if (is.null(values)) {
-            rep(default_value, length(boxes))
-
-        } else if (length(values) == length(boxes)) {
-            values
-
-        } else {
-            stop("The length of `values` must be ", length(boxes), ", not ",
-                 length(values), ".")
-        }
-
-    vars <- map(values, tclVar)
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    frame <-
-        if (border) {
-            if (is.null(title)) {
-                tk2labelframe(parent)
-
-            } else {
-                tk2labelframe(
-                    parent,
-                    labelwidget = tk_label_blue(parent, text = title))
-            }
-
-        } else {
-            tk2frame(parent)
-        }
-
-    if (!is.null(title) && !border) {
-        tkgrid(tk_label_blue(frame, text = title), sticky = sticky_title)
-    }
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    objs <- pmap(
-        list(vars, labels, commands, tips),
-        ~ tk2checkbutton(frame,
-                         variable = ..1,
-                         text     = ..2,
-                         command  = ..3,
-                         tip      = ..4))
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    switch(layout,
-           vertical = {
-               walk(objs, tkgrid, sticky = sticky_buttons)
-           },
-
-           horizontal = {
-               buttons_str <- paste0("objs[[", seq_along(objs), "]]",
-                                     collapse = ", ")
-               str_glue_eval('tkgrid({buttons_str}, sticky = sticky_buttons)')
-           },
-
-           stop("Unrecognized layout: ", layout)
+  } else if (length(tips) > 0 && !all(names(tips) %in% boxes)) {
+    stop(
+      "Argument `tips` must be a named list of strings.  ",
+      "The element names must be a subset of: ",
+      paste(boxes, collapse = ", "), ". Unrecognized names: ",
+      paste(setdiff(names(tips), boxes), collapse = ", "), "."
     )
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    structure(list(
-        frame = frame,
-        var   = structure(vars, names = boxes),
-        obj   = structure(objs, names = boxes)
-    ),
+  } else {
+    tips <- modifyList(map(boxes_list, function(x) default_tip), tips)
+  }
+
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  values <-
+    if (is.null(values)) {
+      rep(default_value, length(boxes))
+
+    } else if (length(values) == length(boxes)) {
+      values
+
+    } else {
+      stop("The length of `values` must be ", length(boxes), ", not ",
+        length(values), ".")
+    }
+
+  vars <- map(values, tclVar)
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  frame <-
+    if (border) {
+      if (is.null(title)) {
+        tk2labelframe(parent)
+
+      } else {
+        tk2labelframe(
+          parent,
+          labelwidget = tk_label_blue(parent, text = title))
+      }
+
+    } else {
+      tk2frame(parent)
+    }
+
+  if (!is.null(title) && !border) {
+    tkgrid(tk_label_blue(frame, text = title), sticky = sticky_title)
+  }
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  objs <- pmap(
+    list(vars, labels, commands, tips),
+    ~ tk2checkbutton(frame,
+      variable = ..1,
+      text     = ..2,
+      command  = ..3,
+      tip      = ..4))
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  switch(layout,
+    vertical = {
+      walk(objs, tkgrid, sticky = sticky_buttons)
+    },
+
+    horizontal = {
+      buttons_str <- paste0("objs[[", seq_along(objs), "]]",
+        collapse = ", ")
+      str_glue_eval('tkgrid({buttons_str}, sticky = sticky_buttons)')
+    },
+
+    stop("Unrecognized layout: ", layout)
+  )
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  structure(list(
+    frame = frame,
+    var   = structure(vars, names = boxes),
+    obj   = structure(objs, names = boxes)
+  ),
     class = c("bs_checkboxes", "bs_tk_buttonset", "bs_tk_widget", "list"))
 }
 
@@ -212,31 +212,31 @@ bs_checkboxes <- function(
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-#' @noRd
+# @noRd
 get_values.bs_checkboxes <- function(obj, ..., simplify = TRUE, rm_names = simplify) {
-    opts <- c(...)
-    len <- length(opts)
+  opts <- c(...)
+  len <- length(opts)
 
-    map_fun <-
-        if (isTRUE(simplify)) {
-            purrr::map_lgl
-        } else {
-            purrr::map
-        }
-
-    res <-
-        if (len == 0) {
-            map_fun(obj$var, tclvalue_lgl)
-
-        } else {
-            map_fun(obj$var[opts], tclvalue_lgl)
-        }
-
-    if (isTRUE(rm_names)) {
-        unname(res)
+  map_fun <-
+    if (isTRUE(simplify)) {
+      purrr::map_lgl
     } else {
-        res
+      purrr::map
     }
+
+  res <-
+    if (len == 0) {
+      map_fun(obj$var, tclvalue_lgl)
+
+    } else {
+      map_fun(obj$var[opts], tclvalue_lgl)
+    }
+
+  if (isTRUE(rm_names)) {
+    unname(res)
+  } else {
+    res
+  }
 
 }
 
@@ -244,35 +244,34 @@ get_values.bs_checkboxes <- function(obj, ..., simplify = TRUE, rm_names = simpl
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .set_values <- function(obj_list, values, FUN) {
 
-    if (all(names(values) %in% names(obj_list))) {
+  if (all(names(values) %in% names(obj_list))) {
 
-        to_modify <- obj_list[names(values)]
-        new_vals <- modifyList(map(to_modify, tclvalue_lgl), values)
-        pmap(list(to_modify, new_vals), FUN)
+    to_modify <- obj_list[names(values)]
+    new_vals <- modifyList(map(to_modify, tclvalue_lgl), values)
+    pmap(list(to_modify, new_vals), FUN)
 
-    } else {
-        stop("Possibly misspelled names: ",
-             setdiff(names(values), names(obj_list)) %>% str_c(collapse = ", "),
-             ".",
-             call. = FALSE
-        )
-    }
+  } else {
+    stop("Possibly misspelled names: ",
+      setdiff(names(values), names(obj_list)) %>% str_c(collapse = ", "),
+      ".",
+      call. = FALSE
+    )
+  }
 }
 
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-#' @noRd
 set_values.bs_checkboxes <- function(obj, values, ...) {
 
-    if (!missing(values)) {
-        values <- as.list(values)
+  if (!missing(values)) {
+    values <- as.list(values)
 
-    } else {
-        values <- list(...)
-    }
+  } else {
+    values <- list(...)
+  }
 
-    invisible(.set_values(obj$var, values, function(.x, .y) tclvalue(.x) <- .y))
+  invisible(.set_values(obj$var, values, function(.x, .y) tclvalue(.x) <- .y))
 }
 

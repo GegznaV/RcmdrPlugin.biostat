@@ -22,11 +22,17 @@
 \alias{set_selection.tk2listbox}
 \alias{add_selection.listbox}
 \alias{add_selection.tk2listbox}
-\alias{move_selected_row_in_listbox}
-\alias{bind_row_swap.listbox}
-\alias{bind_row_swap.tk2listbox}
+\alias{move_selected_row_in_box}
+\alias{move_selection_in_box}
+\alias{move_selected_row_in_listbox__previous_version}
+\alias{tk_bind_row_swap.listbox}
+\alias{tk_bind_row_swap.tk2listbox}
 \alias{set_yview.listbox}
 \alias{set_yview.tk2listbox}
+\alias{get_yview.listbox}
+\alias{get_yview.tk2listbox}
+\alias{tk_yview_moveto.listbox}
+\alias{tk_yview_moveto.tk2listbox}
 \alias{tk_see.listbox}
 \alias{tk_see.tk2listbox}
 \alias{tk_get_state.listbox}
@@ -96,9 +102,9 @@ get_selection_ind_listbox(listbox)
 
 get_selection_listbox(listbox)
 
-\method{get_selection}{listbox}(obj, ...)
+\method{get_selection}{listbox}(obj, ..., index = FALSE)
 
-\method{get_selection}{tk2listbox}(obj, ...)
+\method{get_selection}{tk2listbox}(obj, ..., index = FALSE)
 
 \method{get_selection_length}{listbox}(obj, ...)
 
@@ -114,15 +120,27 @@ set_selection_listbox(listbox, sel, clear = TRUE)
 
 \method{add_selection}{tk2listbox}(obj, sel, ...)
 
-move_selected_row_in_listbox(listbox, move_to = "")
+move_selected_row_in_box(tkobj, move_to = "+1")
 
-bind_row_swap.listbox(obj, ...)
+move_selection_in_box(tkobj, move_to = "+1")
 
-bind_row_swap.tk2listbox(obj, ...)
+move_selected_row_in_listbox__previous_version(listbox, move_to = "")
+
+\method{tk_bind_row_swap}{listbox}(obj, ...)
+
+\method{tk_bind_row_swap}{tk2listbox}(obj, ...)
 
 \method{set_yview}{listbox}(obj, ind, ...)
 
 \method{set_yview}{tk2listbox}(obj, ind, ...)
+
+\method{get_yview}{listbox}(obj, ...)
+
+\method{get_yview}{tk2listbox}(obj, ...)
+
+\method{tk_yview_moveto}{listbox}(obj, ...)
+
+\method{tk_yview_moveto}{tk2listbox}(obj, ...)
 
 \method{tk_see}{listbox}(obj, ind, ...)
 

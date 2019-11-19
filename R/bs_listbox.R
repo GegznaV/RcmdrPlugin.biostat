@@ -15,7 +15,7 @@
 #' @param values (character) Vector of possible values.
 #' @param value (character or NULL) Values that should be initially selected.
 #' @param selection (integer) Numeric indices of initially selected lines.
-#'                  Can be used instead of \code{value}.
+#'        Can be used instead of \code{value}.
 #' @param selectmode ("single", "extended", "browse", "multiple") Selection mode.
 #' @param title (string) Title.
 #' @param subtitle (string) Subtitle.
@@ -24,10 +24,10 @@
 #' @param width (one or two integers) Minimum and maximum width of list box.
 #' @param enabled (logical) If \code{TRUE}, widget is enabled by default.
 #' @param scroll ("both", "x", "y", "none") Do we add scrollbars?
-#'               Indicates scrollbar position.
+#'        Indicates scrollbar position.
 #' @param autoscroll ("x", "y", "both", "none")
-#'                  Do we automatically hide scrollbars if not needed?
-#'                  Indicates scrollbar position.
+#'        Do we automatically hide scrollbars if not needed?
+#'        Indicates scrollbar position.
 #' @param use_filter (logical) Should list box values filter box be displayed.
 #' @param filter_label (string) Label for filter entry box.
 #' @param sticky (combination of "n", "e", "w", "s" or "").
@@ -262,7 +262,7 @@ bs_listbox <-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (bind_row_swap) {
       # FIXME: check with multiselect mode
-      bind_row_swap_listbox(listbox)
+      tk_bind_row_swap(listbox)
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -504,14 +504,20 @@ get_selection_listbox <- function(listbox) {
 
 #' @rdname bs_listbox
 #' @export
-get_selection.listbox <- function(obj, ...) {
-  get_selection_listbox(obj$listbox)
+get_selection.listbox <- function(obj, ..., index = FALSE) {
+  get_selection(obj$listbox, ..., index = index)
 }
 
 #' @rdname bs_listbox
 #' @export
-get_selection.tk2listbox <- function(obj, ...) {
-  get_selection_listbox(obj)
+get_selection.tk2listbox <- function(obj, ..., index = FALSE) {
+
+  if (isTRUE(index)) {
+    get_selection_ind_listbox(obj)
+
+  } else {
+    get_selection_listbox(obj)
+  }
 }
 
 
@@ -627,24 +633,78 @@ get_0_based_ind <- function(obj, ind) {
   ind
 }
 
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname bs_listbox
 #' @export
+# move_to - action:
+#     "top" - selected row becomes 1-st
+#     "-1"  - position decreases by 1
+#     "+1"  - position inreases by 1
+#     "end" - selected row becomes last
+move_selected_row_in_box <- function(tkobj, move_to = "+1") {
+
+  move_to <- match.arg(move_to, choices = c("top", "-1", "+1", "end"))
+  # Get selection
+  sel <- get_selection(tkobj)
+  if (length(sel) == 0) {
+    return()
+  }
+  # Get y view position
+  yview <- get_yview(tkobj)[1]
+  # Get text
+  original_values <- get_values(tkobj)
+  # Get selection
+  sel_ind <- which(original_values %in% sel)
+  # Recalculate
+  swapped <- move_elements(x = original_values, ind = sel_ind, move_to = move_to)
+  # Reset values
+  set_values(tkobj, swapped)
+  # Reset selection
+  set_selection(tkobj, which(swapped %in% sel))
+  # Reset view
+  j <- get_j(move_to, i = sel_ind, n = length(original_values))
+  tk_yview_moveto(tkobj, yview)
+  tk_see(tkobj, j)
+}
+
+#' @rdname bs_listbox
+#' @export
+move_selection_in_box <- function(tkobj, move_to = "+1") {
+
+  move_to <- match.arg(move_to, choices = c("top", "-1", "+1", "end"))
+  # Get selection
+  sel <- get_selection(tkobj, index = TRUE)
+  if (length(sel) == 0) {
+    return()
+  }
+
+  yview <- get_yview(tkobj)[1]
+
+  # Reset selection and view
+  j <- get_j(move_to, i = sel, n = get_size(tkobj))
+  set_selection(tkobj, j)
+  tk_yview_moveto(tkobj, yview)
+  tk_see(tkobj, j)
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname bs_listbox
+#'
 ## listbox - listbox widget
 # move_to - action:
 #     "top" - selected row becomes 1-st
 #     "-1"  - position decreases by 1
 #     "+1"  - position inreases by 1
 #     "end" - selected row becomes last
-move_selected_row_in_listbox <- function(listbox, move_to = "") {
+move_selected_row_in_listbox__previous_version <- function(listbox, move_to = "") {
 
   if (inherits(listbox,  "listbox")) {
     listbox <- listbox$listbox
   }
 
   # Get y view
-  y_view <- str_split_fixed(tkyview(listbox), " ", n = 2)[1]
+  # y_view <- str_split_fixed(tkyview(listbox), " ", n = 2)[1]
+  y_view <- as.numeric(tkyview(listbox))[1]
 
   # TODO [???] adapt code according to `move_selected_row_in_tktext()`
   pre_i <- as.integer(tkcurselection(listbox)) + 1
@@ -673,26 +733,26 @@ move_selected_row_in_listbox <- function(listbox, move_to = "") {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-bind_row_swap_listbox <- function(listbox, ...) {
-  tkbind(listbox, "<Control-Up>",   function() {move_selected_row_in_listbox(listbox, "top")})
-  tkbind(listbox, "<Up>",           function() {move_selected_row_in_listbox(listbox, "-1")})
-  tkbind(listbox, "<Down>",         function() {move_selected_row_in_listbox(listbox, "+1")})
-  tkbind(listbox, "<Control-Down>", function() {move_selected_row_in_listbox(listbox, "end")})
-  # tkbind(listbox, "<Alt-Up>",       function() {move_selected_row_in_listbox(listbox, "-1")})
-  # tkbind(listbox, "<Alt-Down>",     function() {move_selected_row_in_listbox(listbox, "+1")})
+tk_bind_row_swap_listbox <- function(listbox, ...) {
+  tkbind(listbox, "<Control-Up>",   function() {move_selected_row_in_box(listbox, "top")})
+  tkbind(listbox, "<Up>",           function() {move_selection_in_box(listbox,    "-1")})
+  tkbind(listbox, "<Alt-Up>",       function() {move_selected_row_in_box(listbox, "-1")})
+  tkbind(listbox, "<Alt-Down>",     function() {move_selected_row_in_box(listbox, "+1")})
+  tkbind(listbox, "<Down>",         function() {move_selection_in_box(listbox,    "+1")})
+  tkbind(listbox, "<Control-Down>", function() {move_selected_row_in_box(listbox, "end")})
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname bs_listbox
 #' @export
-bind_row_swap.listbox <- function(obj, ...) {
-  bind_row_swap_listbox(obj$listbox, ...)
+tk_bind_row_swap.listbox <- function(obj, ...) {
+  tk_bind_row_swap_listbox(obj$listbox, ...)
 }
 
 #' @rdname bs_listbox
 #' @export
-bind_row_swap.tk2listbox <- function(obj, ...) {
-  bind_row_swap_listbox(obj, ...)
+tk_bind_row_swap.tk2listbox <- function(obj, ...) {
+  tk_bind_row_swap_listbox(obj, ...)
 }
 
 # Visibility ================== ==============================================
@@ -711,6 +771,29 @@ set_yview.tk2listbox <- function(obj, ind, ...) {
   tkyview(obj, ind, ...)
 }
 
+#' @rdname bs_listbox
+#' @export
+get_yview.listbox <- function(obj, ...) {
+  as.numeric(tkyview(obj$listbox, ...))
+}
+
+#' @rdname bs_listbox
+#' @export
+get_yview.tk2listbox <- function(obj, ...) {
+  as.numeric(tkyview(obj, ...))
+}
+
+#' @rdname bs_listbox
+#' @export
+tk_yview_moveto.listbox <- function(obj, ...) {
+  tkyview.moveto(obj$listbox, ...)
+}
+
+#' @rdname bs_listbox
+#' @export
+tk_yview_moveto.tk2listbox <- function(obj, ...) {
+  tkyview.moveto(obj, ...)
+}
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname bs_listbox

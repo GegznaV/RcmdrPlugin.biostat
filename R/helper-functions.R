@@ -9,7 +9,6 @@
 #' @title Helper functions for RcmdrPlugin.biostat.
 #' @description Helper functions for package \pkg{RcmdrPlugin.biostat}.
 #' @keywords internal
-#' @noRd
 NULL
 
 # ___ List variables  ___ ====================================================
@@ -1756,16 +1755,20 @@ validate_var_name_string <- function(P, W) {
 #' @export
 #' @keywords internal
 command_rcmdr_restart <- function() {
-  Rcmdr::closeCommander(ask = FALSE, ask.save = TRUE)
-  Rcmdr::Commander()
+  ans <- command_rcmdr_close()
+  if (ans != "cancel") {
+    Rcmdr::Commander()
+  }
 }
 
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 command_restart_rs_session <- function() {
-  Rcmdr::closeCommander(ask = FALSE, ask.save = TRUE)
-  rstudioapi::restartSession(command = "library(Rcmdr)")
+  ans <- command_rcmdr_close()
+  if (ans != "cancel") {
+    rstudioapi::restartSession(command = "library(Rcmdr)")
+  }
 }
 
 #' @rdname Helper-functions
@@ -1773,8 +1776,20 @@ command_restart_rs_session <- function() {
 #' @keywords internal
 command_rcmdr_close <- function() {
   Rcmdr::closeCommander(
-    ask = getRcmdr("ask.to.exit"),
-    ask.save = getRcmdr("ask.on.exit"))
+    ask = Rcmdr::getRcmdr("ask.to.exit"),
+    ask.save = Rcmdr::getRcmdr("ask.on.exit")
+  )
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+command_rcmdr_close_and_update_cran <- function() {
+  ans <- command_rcmdr_close()
+  if (ans != "cancel") {
+    rstudioapi::restartSession(command =
+        'update.packages(checkBuilt = TRUE, ask = "graphics")')
+  }
 }
 
 #' @rdname Helper-functions

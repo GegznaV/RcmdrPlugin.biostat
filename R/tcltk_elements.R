@@ -58,12 +58,12 @@ tk_label_red <- function(parent, ..., size = 8, weight = "bold",
 labeled_frame <- function(parent, label = NULL, ...) {
   # TODO: needs review
   ttklabelframe(parent = parent,
-                labelwidget = tklabel(
-                  parent,
-                  text = label,
-                  font = "RcmdrTitleFont",
-                  foreground = Rcmdr::getRcmdr("title.color"),
-                  ...)
+    labelwidget = tklabel(
+      parent,
+      text = label,
+      font = "RcmdrTitleFont",
+      foreground = Rcmdr::getRcmdr("title.color"),
+      ...)
   )
 }
 
@@ -71,10 +71,10 @@ labeled_frame <- function(parent, label = NULL, ...) {
 #' @export
 #' @keywords internal
 tk_title <- function(parent = top, text = "", pady = c(5, 9),
-                     font = tkfont.create(weight = "bold", size = 9),
-                     fg = Rcmdr::getRcmdr("title.color"),
-                     add_to_grid = TRUE,
-                     ...) {
+  font = tkfont.create(weight = "bold", size = 9),
+  fg = Rcmdr::getRcmdr("title.color"),
+  add_to_grid = TRUE,
+  ...) {
 
   lab <- tk_label(parent, text = gettext_bs(text), font = font, fg = fg)
   if (add_to_grid) {
@@ -99,8 +99,8 @@ tcl_get_parent <- function(obj) {
 #' @export
 #' @keywords internal
 tcl_get_children_id <- function(obj) {
-    tkwinfo("children", obj) %>% as.character()
-    # tkwinfo("children", obj) %>% tclvalue() %>% tcl_str_split()
+  tkwinfo("children", obj) %>% as.character()
+  # tkwinfo("children", obj) %>% tclvalue() %>% tcl_str_split()
 }
 
 tcl_str_split <- function(str) {

@@ -7,10 +7,10 @@
 #' @export
 #' @keywords internal
 command_getwd <- function() {
-    Rcmdr::doItAndPrint(paste(
-        '## You are working in folder:',
-        'getwd()',
-        sep = " \n"))
+  Rcmdr::doItAndPrint(paste(
+    '## You are working in folder:',
+    'getwd()',
+    sep = " \n"))
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -18,13 +18,13 @@ command_getwd <- function() {
 #' @export
 #' @keywords internal
 command_setwd <- function() {
-    new_wd <- tclvalue(tkchooseDirectory(
-      initialdir = getwd(),
-      parent = CommanderWindow()))
+  new_wd <- tclvalue(tkchooseDirectory(
+    initialdir = getwd(),
+    parent = CommanderWindow()))
 
-    if (new_wd != "") {
-        Rcmdr::doItAndPrint(str_glue('setwd("{new_wd}")'))
-    }
+  if (new_wd != "") {
+    Rcmdr::doItAndPrint(str_glue('setwd("{new_wd}")'))
+  }
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -32,7 +32,7 @@ command_setwd <- function() {
 #' @export
 #' @keywords internal
 command_openwd <- function() {
-    fs::file_show(getwd())
+  fs::file_show(getwd())
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -41,18 +41,18 @@ command_openwd <- function() {
 #' @keywords internal
 command_get_file_info <- function() {
 
-    f_path <- fs::path_tidy(tkgetOpenFile(
-      title = "Choose File",
-      parent = CommanderWindow(),
-      initialdir = getwd()
-    ))
+  f_path <- fs::path_tidy(tkgetOpenFile(
+    title = "Choose File",
+    parent = CommanderWindow(),
+    initialdir = getwd()
+  ))
 
-    command <- str_glue(
-        '## Information about file "{basename(f_path)}" \n',
-        't(fs::file_info("{f_path}"))'
-      )
+  command <- str_glue(
+    '## Information about file "{basename(f_path)}" \n',
+    't(fs::file_info("{f_path}"))'
+  )
 
-    Rcmdr::doItAndPrint(command)
+  Rcmdr::doItAndPrint(command)
 }
 
 
@@ -66,25 +66,25 @@ command_get_file_info <- function() {
 #' @keywords internal
 command_list_objects <- function() {
 
-    # Inputs (not implemented) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    show_hidden <- TRUE
+  # Inputs (not implemented) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  show_hidden <- TRUE
 
-    if (show_hidden) {
-        all_names <- "all.names = TRUE"
-        all_txt   <- " all "
-    } else {
-        all_names <- ""
-        all_txt   <- " "
+  if (show_hidden) {
+    all_names <- "all.names = TRUE"
+    all_txt   <- " all "
+  } else {
+    all_names <- ""
+    all_txt   <- " "
 
-    }
+  }
 
-    # Code ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    command <-  str_glue(
-        "## List{all_txt}objects in R workspace \n",
-        "objects({all_names})"
-    )
+  # Code ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  command <-  str_glue(
+    "## List{all_txt}objects in R workspace \n",
+    "objects({all_names})"
+  )
 
-    doItAndPrint(command)
+  doItAndPrint(command)
 
 }
 
@@ -94,14 +94,14 @@ command_list_objects <- function() {
 #' @export
 #' @keywords internal
 command_session_info_devtools <- function() {
-    Rcmdr::doItAndPrint(paste("# R session information \n",
-                              "devtools::session_info()"))
+  Rcmdr::doItAndPrint(paste("# R session information \n",
+    "devtools::session_info()"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 command_session_info_utils <- function() {
-    Rcmdr::doItAndPrint(paste("# R session information \n",
-                              "sessionInfo()"))
+  Rcmdr::doItAndPrint(paste("# R session information \n",
+    "sessionInfo()"))
 }

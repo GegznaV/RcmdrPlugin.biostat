@@ -1,31 +1,31 @@
 get_filename_to_save <- function(
-    file_name = "",
-    filetypes = "{ {All Files} * }",
-    defaultextension = "",
-    parent = CommanderWindow(),
-    ...
+  file_name = "",
+  filetypes = "{ {All Files} * }",
+  defaultextension = "",
+  parent = CommanderWindow(),
+  ...
 ) {
 
-    initialfile <- extract_filename(file_name)
-    initialdir  <- fs::path_dir(file_name)
+  initialfile <- extract_filename(file_name)
+  initialdir  <- fs::path_dir(file_name)
 
-    if (is.null(initialdir) || nchar(trimws(initialdir)) == 0 || initialdir == ".") {
-        initialdir  <- getwd()
-    }
+  if (is.null(initialdir) || nchar(trimws(initialdir)) == 0 || initialdir == ".") {
+    initialdir  <- getwd()
+  }
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    file_name <-
-        tkgetSaveFile(
-            parent      = parent,
-            initialfile = initialfile,
-            initialdir  = initialdir,
-            filetypes   = filetypes,
-            defaultextension = defaultextension,
-            ...
-        ) %>%
-        tclvalue_chr()
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  file_name <-
+    tkgetSaveFile(
+      parent      = parent,
+      initialfile = initialfile,
+      initialdir  = initialdir,
+      filetypes   = filetypes,
+      defaultextension = defaultextension,
+      ...
+    ) %>%
+    tclvalue_chr()
 
-    file_name
+  file_name
 }
 
 

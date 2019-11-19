@@ -546,7 +546,7 @@ window_data_obj_manage <- function() {
 
   f1_rename <- tk2button(
     f1b,
-    tip      = "Rename an object.",
+    tip      = "Rename selected object.",
     text     = "Rename",
     image    = "::image::bs_rename",
     compound = "left",
@@ -554,7 +554,7 @@ window_data_obj_manage <- function() {
 
   f1_copy <- tk2button(
     f1b,
-    tip      = "Create a copy on an object.",
+    tip      = "Create a copy of selected object.",
     text     = "Duplicate",
     image    = "::image::bs_copy",
     compound = "left",
@@ -562,7 +562,7 @@ window_data_obj_manage <- function() {
 
   f1_delete <- tk2button(
     f1b,
-    tip      = "Delete one or several objects.",
+    tip      = "Delete selected objects.",
     text     = "Delete",
     image    = "::image::bs_delete",
     compound = "left",
@@ -579,7 +579,7 @@ window_data_obj_manage <- function() {
   f1_view <- tk2button(
     f1b,
     text     = "View",
-    tip      = "View object (if possible)",
+    tip      = "View selected object (if possible)",
     image    = "::image::viewIcon",
     compound = "left",
     command  = on_view)
@@ -592,16 +592,16 @@ window_data_obj_manage <- function() {
   tkgrid(include_hidden_box$frame, sticky = "w")
   tkgrid(f1_listbox_y$frame, pady = c(5, 5))
 
-  tkgrid(f1_view, sticky = "w")
-  tkgrid(f1_rename, sticky = "w")
-  tkgrid(f1_copy, sticky = "w")
-  tkgrid(f1_delete, sticky = "w")
+  tkgrid(f1_view,       sticky = "w")
+  tkgrid(f1_rename,     sticky = "w")
+  tkgrid(f1_copy,       sticky = "w")
+  tkgrid(f1_delete,     sticky = "w")
   tkgrid(f1_select_all, sticky = "w")
 
-  tkconfigure(f1_view, width = 10)
-  tkconfigure(f1_rename, width = 10)
-  tkconfigure(f1_copy, width = 10)
-  tkconfigure(f1_delete, width = 10)
+  tkconfigure(f1_view,       width = 10)
+  tkconfigure(f1_rename,     width = 10)
+  tkconfigure(f1_copy,       width = 10)
+  tkconfigure(f1_delete,     width = 10)
   tkconfigure(f1_select_all, width = 10)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -609,8 +609,8 @@ window_data_obj_manage <- function() {
     f1b,
     tip      = "Close window",
     text     = "Close",
-    image    = "::image::cancelIcon",
-    compound = "left",
+    # image    = "::image::cancelIcon",
+    # compound = "left",
     width    = 9,
     command  = on_close)
 

@@ -7,22 +7,22 @@
 #'
 cursor_set_busy <- function(frame = NULL) {
 
-    if (!is.null(frame)) {
-        tkconfigure(frame, cursor = "watch")
-    }
+  if (!is.null(frame)) {
+    tkconfigure(frame, cursor = "watch")
+  }
 
-    .commander <- CommanderWindow()
-    .menu      <- tkcget(.commander, "-menu")
-    .log       <- LogWindow()
-    .Rmd       <- RmdWindow()
-    .Rnw       <- RnwWindow()
-    .output    <- OutputWindow()
-    .messages  <- MessagesWindow()
+  .commander <- CommanderWindow()
+  .menu      <- tkcget(.commander, "-menu")
+  .log       <- LogWindow()
+  .Rmd       <- RmdWindow()
+  .Rnw       <- RnwWindow()
+  .output    <- OutputWindow()
+  .messages  <- MessagesWindow()
 
-    purrr::walk(
-      list(.commander, .menu, .log, .Rmd, .Rnw, .output, .messages),
-      tkconfigure, cursor = "watch"
-    )
+  purrr::walk(
+    list(.commander, .menu, .log, .Rmd, .Rnw, .output, .messages),
+    tkconfigure, cursor = "watch"
+  )
 }
 
 
@@ -31,28 +31,28 @@ cursor_set_busy <- function(frame = NULL) {
 #' @export
 cursor_set_idle <- function(frame = NULL) {
 
-    if (!is.null(frame)) {
-        # tkconfigure(frame, cursor = "")
-        tryCatch(
-            tkconfigure(frame, cursor = ""),
-            error   = function(e) {},
-            finally = function(e) {}
-        )
-    }
-
-    .commander <- CommanderWindow()
-    .menu      <- tkcget(.commander, "-menu")
-    .log       <- LogWindow()
-    .Rmd       <- RmdWindow()
-    .Rnw       <- RnwWindow()
-    .output    <- OutputWindow()
-    .messages  <- MessagesWindow()
-
-    purrr::walk(list(.commander, .menu), tkconfigure, cursor = "")
-    purrr::walk(
-      list(.log, .Rmd, .Rnw, .output, .messages),
-      tkconfigure, cursor = "xterm"
+  if (!is.null(frame)) {
+    # tkconfigure(frame, cursor = "")
+    tryCatch(
+      tkconfigure(frame, cursor = ""),
+      error   = function(e) {},
+      finally = function(e) {}
     )
+  }
+
+  .commander <- CommanderWindow()
+  .menu      <- tkcget(.commander, "-menu")
+  .log       <- LogWindow()
+  .Rmd       <- RmdWindow()
+  .Rnw       <- RnwWindow()
+  .output    <- OutputWindow()
+  .messages  <- MessagesWindow()
+
+  purrr::walk(list(.commander, .menu), tkconfigure, cursor = "")
+  purrr::walk(
+    list(.log, .Rmd, .Rnw, .output, .messages),
+    tkconfigure, cursor = "xterm"
+  )
 }
 
 # Get state -------------------------------------------------------------------
@@ -60,7 +60,7 @@ cursor_set_idle <- function(frame = NULL) {
 #' @keywords internal
 #' @export
 tk_get_state.default <- function(obj, ...) {
-    tclvalue_chr(tkcget(obj, "-state"))
+  tclvalue_chr(tkcget(obj, "-state"))
 }
 
 
@@ -69,35 +69,35 @@ tk_get_state.default <- function(obj, ...) {
 #' @keywords internal
 #' @export
 tk_set_state.default <- function(obj, state, ...) {
-    tkconfigure(obj, state = state, ...)
+  tkconfigure(obj, state = state, ...)
 }
 
 #' @rdname widget-state
 #' @keywords internal
 #' @export
 tk_normalize.default <- function(obj, ...) {
-    tkconfigure(obj, state = "normal", ...)
+  tkconfigure(obj, state = "normal", ...)
 }
 
 #' @rdname widget-state
 #' @keywords internal
 #' @export
 tk_activate.default <- function(obj, ...) {
-    tkconfigure(obj, state = "active", ...)
+  tkconfigure(obj, state = "active", ...)
 }
 
 #' @rdname widget-state
 #' @keywords internal
 #' @export
 tk_read_only.default <- function(obj, ...) {
-    tkconfigure(obj, state = "readonly", ...)
+  tkconfigure(obj, state = "readonly", ...)
 }
 
 #' @rdname widget-state
 #' @keywords internal
 #' @export
 tk_disable.default <- function(obj, ...) {
-    tkconfigure(obj, state = "disabled", ...)
+  tkconfigure(obj, state = "disabled", ...)
 }
 
 
@@ -105,7 +105,7 @@ tk_disable.default <- function(obj, ...) {
 #' @keywords internal
 #' @export
 tk_yview.default <- function(obj, ind, ...) {
-    tkyview(obj, ind, ...)
+  tkyview(obj, ind, ...)
 
 }
 
@@ -113,7 +113,7 @@ tk_yview.default <- function(obj, ind, ...) {
 #' @keywords internal
 #' @export
 tk_xview.default <- function(obj, ind, ...) {
-    tkxview(obj, ind, ...)
+  tkxview(obj, ind, ...)
 
 }
 
@@ -124,8 +124,8 @@ tk_xview.default <- function(obj, ind, ...) {
 #' @export
 tclvalue_lgl <- function(x) {
   if (inherits(x, "tclVar")) {x <- tclObj(x)}
-    # as.logical(as.integer(tclvalue(x)))
-    as.logical(tclvalue_int(x))
+  # as.logical(as.integer(tclvalue(x)))
+  as.logical(tclvalue_int(x))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -149,10 +149,10 @@ tclvalue_int <- function(x) {
 #' @md
 tclvalue_chr <- function(x, trim = TRUE, ...) {
   # FIXME: Check if this function works as expected
-    if (inherits(x, "tclVar")) {x <- tclObj(x)}
-    rez <- as.character(tclvalue(x))
-    if (isTRUE(trim)) {rez <- trimws(rez, ...)}
-    unname(rez)
+  if (inherits(x, "tclVar")) {x <- tclObj(x)}
+  rez <- as.character(tclvalue(x))
+  if (isTRUE(trim)) {rez <- trimws(rez, ...)}
+  unname(rez)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

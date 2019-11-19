@@ -1,20 +1,28 @@
-# TODO: add option to remove rows with all NA in selected variables
-#
-# library(tidyverse)
-# df = tibble::tribble(
-#   ~x, ~y, ~z, ~q,
-#   1,   1 , 1,  1,
-#   2,   2,  2, NA,
-#   3,   3, NA, NA,
-#   4,  NA, NA, NA
-# )
-# df %>% filter_all(any_vars(!is.na(.))) # remove empty rows
-# df %>% filter_at(vars(q, z), any_vars(!is.na(.))) # remove rows with all NA in selected vars
-
+# TODO:
+# 1) [+] Add option to remove rows with all NA in selected variables
 
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
+#' @examples
+#'
+#' library(tidyverse)
+#'
+#' df = tibble::tribble(
+#'   ~x, ~y, ~z, ~q,
+#'   1,   1 , 1,  1,
+#'   2,   2,  2, NA,
+#'   3,   3, NA, NA,
+#'   4,  NA, NA, NA,
+#'   NA, NA, NA, NA
+#' )
+#'
+#' # remove empty rows
+#' df %>% filter_all(any_vars(!is.na(.)))
+#'
+#' # remove rows with all NA in selected vars
+#' df %>% filter_at(vars(q, z), any_vars(!is.na(.)))
+#'
 window_rows_rm_with_na <- function() {
 
   # Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -80,7 +88,7 @@ window_rows_rm_with_na <- function() {
     prepare_lab <-
       . %>%
       str_wrap(width = 40) %>%
-      str_replace("\n", "\n## ")
+      str_replace_all("\n", "\n## ")
 
     command <-
       switch(
