@@ -138,7 +138,7 @@ set_xview <- function(obj, ...) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-get_yview <- function(obj, ind,  ...) {
+get_yview <- function(obj, ...) {
   UseMethod("get_yview")
 }
 
