@@ -773,14 +773,14 @@ set_yview.tk2listbox <- function(obj, ind, ...) {
 
 #' @rdname bs_listbox
 #' @export
-get_yview.listbox <- function(obj) {
-  as.numeric(tkyview(obj$listbox))
+get_yview.listbox <- function(obj, ...) {
+  as.numeric(tkyview(obj$listbox, ...))
 }
 
 #' @rdname bs_listbox
 #' @export
-get_yview.tk2listbox <- function(obj) {
-  as.numeric(tkyview(obj))
+get_yview.tk2listbox <- function(obj, ...) {
+  as.numeric(tkyview(obj, ...))
 }
 
 #' @rdname bs_listbox
