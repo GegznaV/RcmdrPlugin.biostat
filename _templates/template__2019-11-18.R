@@ -1,3 +1,5 @@
+# FIXME: This is a primary version. Not a real template.
+
 
 # ___ Main function ___ ======================================================
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -37,7 +39,7 @@ window_tmp <- function() {
     if (is.null(values)) {
       set_info_1()
     } else {
-      set_info_1(values, color = "green")
+      set_info_1(values, color = "darkgreen")
     }
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -68,7 +70,8 @@ window_tmp <- function() {
       return()
     }
 
-    values <- levels(get_active_ds()[[variable]])
+    variable <- get_active_ds()[[variable]]
+    values <- levels(variable)
 
     if (length(values) > 0) {
       tk_normalize(f2_box_2)
@@ -315,7 +318,7 @@ window_tmp <- function() {
   f2_but_2_4 <- tk2button(
     f2_but_set_2,
     image = "::image::bs_go_next",
-    command = do_nothing,
+    command = update_box_2,
     tip = "Tip 4"
   )
 
