@@ -212,7 +212,7 @@ bs_checkboxes <- function(
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-#' @noRd
+# @noRd
 get_values.bs_checkboxes <- function(obj, ..., simplify = TRUE, rm_names = simplify) {
   opts <- c(...)
   len <- length(opts)
@@ -263,7 +263,6 @@ get_values.bs_checkboxes <- function(obj, ..., simplify = TRUE, rm_names = simpl
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-#' @noRd
 set_values.bs_checkboxes <- function(obj, values, ...) {
 
   if (!missing(values)) {
