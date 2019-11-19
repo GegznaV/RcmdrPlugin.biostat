@@ -68,6 +68,7 @@ Imports:
     ggplot2,
     graphics,
     grDevices,
+    gtools,
     inspectdf,
     janitor (>= 1.2.0),
     lm.beta,
