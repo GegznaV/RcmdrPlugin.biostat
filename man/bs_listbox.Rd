@@ -134,9 +134,9 @@ move_selected_row_in_listbox__previous_version(listbox, move_to = "")
 
 \method{set_yview}{tk2listbox}(obj, ind, ...)
 
-\method{get_yview}{listbox}(obj)
+\method{get_yview}{listbox}(obj, ...)
 
-\method{get_yview}{tk2listbox}(obj)
+\method{get_yview}{tk2listbox}(obj, ...)
 
 \method{tk_yview_moveto}{listbox}(obj, ...)
 
