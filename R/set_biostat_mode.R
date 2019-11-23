@@ -1178,8 +1178,8 @@ bs_mode_menu__variables <- function() {
 
   tkadd(menu_fct, "command",
     label    = "Reorder levels by hand...",
-    state = set_menu_state(factors_strict_P()),
-    command  = window_fct_lvls_reorder_manual)
+    state    = set_menu_state(factors_strict_P()),
+    command  = window_fct_relevel)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_num <- tk2menu(menu_p, tearoff = FALSE)
