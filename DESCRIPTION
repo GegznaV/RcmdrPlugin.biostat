@@ -104,4 +104,4 @@ Suggests:
     knitr,
     rmarkdown,
     rvg
-RoxygenNote: 7.0.0
+RoxygenNote: 7.0.1
