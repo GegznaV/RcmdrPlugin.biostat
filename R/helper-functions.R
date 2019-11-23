@@ -795,6 +795,14 @@ safe_names <- function(str) {
   str_c(q, str, q)
 }
 
+quote_names <- function(str, q = '"', as_single_string = FALSE) {
+  str <- str_c(q, str, q)
+  if (as_single_string) {
+    str <- str_c(str, collapse = ", ")
+  }
+  str
+}
+
 
 # ___ Path / File ___ ========================================================
 
