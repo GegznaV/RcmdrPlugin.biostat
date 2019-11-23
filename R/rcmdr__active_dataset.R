@@ -6,7 +6,8 @@
 #' @keywords internal
 # Imported from Rcmdr
 #
-# Modified version of function `activeDataSet` from package Rcmdr 2.5-1
+# Modified version of function `activeDataSet` from package Rcmdr 2.5-1.
+# Updated according to Rcmdr 2.7-0
 active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) {
   .ds <- active_dataset_0()
 
@@ -191,6 +192,7 @@ active_dataset_0 <- function(name) {
       Numeric(list_numeric(name))
       Factors(list_factors(name))
       TwoLevelFactors(list_two_level_factors(name))
+      DiscreteNumeric(list_discrete_numeric(name))
       open.showData.windows <- getRcmdr("open.showData.windows")
       if (!is.null(open.showData.windows) && name %in% names(open.showData.windows)) {
         ID <- open.showData.windows[[name]]$ID
@@ -221,6 +223,7 @@ active_dataset_0 <- function(name) {
       Numeric(NULL)
       Factors(NULL)
       TwoLevelFactors(NULL)
+      DiscreteNumeric(NULL)
       RcmdrTclSet("dataSetName", gettextRcmdr("<No active dataset>"))
       putRcmdr(".activeModel", NULL)
       putRcmdr("nrow", NULL)
@@ -237,6 +240,7 @@ active_dataset_0 <- function(name) {
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Based on Rcmdr v2.5-1
 list_numeric <- function(dataSet = active_dataset_0()) {
   if (missing(dataSet)) {
     Numeric()
@@ -251,6 +255,7 @@ list_numeric <- function(dataSet = active_dataset_0()) {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Based on Rcmdr v2.5-1
 list_factors <- function(dataSet = active_dataset_0()) {
   if (missing(dataSet)) {
     Factors()
@@ -265,6 +270,7 @@ list_factors <- function(dataSet = active_dataset_0()) {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Based on Rcmdr v2.5-1
 list_two_level_factors <- function(dataSet = active_dataset_0()) {
   if (missing(dataSet)) {
     TwoLevelFactors()
@@ -280,5 +286,32 @@ list_two_level_factors <- function(dataSet = active_dataset_0()) {
     })]
   }
 }
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Based on Rcmdr v2.7-0
+list_discrete_numeric <- function(dataSet = active_dataset_0()) {
+  if (missing(dataSet)) {
+    DiscreteNumeric()
+  }
+  else {
+    threshold <- getRcmdr("discreteness.threshold")
+    if (threshold <= 0) {
+      n <- getRcmdr("nrow")
+      if (is.null(n)) {
+        n <- nrow(get(dataSet, envir = .GlobalEnv))
+      }
+      threshold <- min(round(2 * sqrt(n)), round(10 * log10(n)), 100)
+    }
+    variables <- list_numeric()
+    variables[sapply(variables, function(.x) {
+      length(
+        unique(
+          eval_text(safe_names(.x), envir = get(dataSet, envir = .GlobalEnv))
+        )
+      ) <= threshold
+    })]
+  }
+}
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
