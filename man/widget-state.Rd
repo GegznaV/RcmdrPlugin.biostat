@@ -79,7 +79,16 @@ The functions to set widget's state to:
 \item \code{tk_activate()} to "active";
 \item \code{tk_read_only()} to "readonly";
 \item \code{tk_disable()} to "disable";
+\item \code{tk_enable()} to default non-disabled state;
 \item \code{tk_set_state()} to the indicated state.
+}
+
+The functions to manage widget's state to:
+\itemize{
+\item \code{tk_get_default_enabled_state()} get default default enabled state. If not
+set, "normal" is returned.
+\item \code{tk_set_default_enabled_state()} change the default enabled state to
+either "normal", "active" or "readonly".
 }
 }
 \examples{
