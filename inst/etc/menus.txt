@@ -140,7 +140,7 @@ item	bs19_varible_menu	cascade	"Factors (categorical variables)"	bs19_var_fct_me
 item	bs19_var_fct_menu	command	"Drop unused levels..."	window_factor_lvls_drop	"factors_strict_P()"	""
 # item	bs19_var_fct_menu	command	"[???] Remove levels"	function_not_implemented	"FALSE & factorsP()"	""
 # item	bs19_var_fct_menu	command	"[???] Reorder levels automatically..."	function_not_implemented	"FALSE & factors_strict_P()"	""
-item	bs19_var_fct_menu	command	"Reorder levels by hand..."	window_fct_lvls_reorder_manual	"factors_strict_P()"	""
+item	bs19_var_fct_menu	command	"Reorder levels by hand..."	window_fct_relevel	"factors_strict_P()"	""
 # item	bs19_var_fct_menu	separator	""	""	""	""
 # item	bs19_var_fct_menu	command	"[???] Convert missing values into explicit level..."	function_not_implemented	"FALSE & factors_strict_P()"	""
 
