@@ -9,12 +9,12 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.r-project.org/package=RcmdrPlugin.biostat)
 [![GitHub
-version](https://img.shields.io/badge/GitHub-v0.0.53-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
+version](https://img.shields.io/badge/GitHub-v0.0.54-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/hm4h2rjb8ayr2df1/branch/master?svg=true)](https://ci.appveyor.com/project/GegznaV/rcmdrplugin-biostat/branch/master)
 [![Travis-CI Build
 Status](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat)
-[![Updated-on](https://img.shields.io/badge/Updated%20on-2019--11--20-yellowgreen.svg)](/commits/master)
+[![Updated-on](https://img.shields.io/badge/Updated%20on-2019--11--24-yellowgreen.svg)](/commits/master)
 <!-- badges: end -->
 
 -----
@@ -45,8 +45,11 @@ update.packages(checkBuilt = TRUE, ask = FALSE)
 
 # Install required packages
 if (!require("remotes"))  install.packages("remotes")
+
+remotes::install_github("r-lib/rlang",                  upgrade = TRUE)
 remotes::install_github("rforge/rcmdr/pkg/RcmdrMisc",   upgrade = TRUE)
 remotes::install_github("rforge/rcmdr/pkg/Rcmdr-devel", upgrade = TRUE)
+
 remotes::install_github("GegznaV/RcmdrPlugin.biostat",  upgrade = TRUE)
 ```
 

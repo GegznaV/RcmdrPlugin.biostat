@@ -70,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RcmdrPlugin.biostat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.53</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.54</span>
       </span>
     </div>
 
@@ -252,11 +252,32 @@
 <span class='co'># S3 method for tk2listbox</span>
 <span class='fu'><a href='widget-state.html'>tk_disable</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>background</span> <span class='kw'>=</span> <span class='st'>"grey95"</span>)
 
+<span class='co'># S3 method for listbox_with_filter</span>
+<span class='fu'><a href='widget-state.html'>tk_disable</a></span>(
+  <span class='no'>obj</span>,
+  <span class='no'>...</span>,
+  <span class='kw'>background</span> <span class='kw'>=</span> <span class='st'>"grey95"</span>,
+  <span class='kw'>ignore_filter</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>clear_filter</span> <span class='kw'>=</span> !<span class='no'>ignore_filter</span>
+)
+
 <span class='co'># S3 method for listbox</span>
 <span class='fu'><a href='widget-state.html'>tk_normalize</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>background</span> <span class='kw'>=</span> <span class='st'>"white"</span>)
 
 <span class='co'># S3 method for tk2listbox</span>
-<span class='fu'><a href='widget-state.html'>tk_normalize</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>background</span> <span class='kw'>=</span> <span class='st'>"white"</span>)</pre>
+<span class='fu'><a href='widget-state.html'>tk_normalize</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>background</span> <span class='kw'>=</span> <span class='st'>"white"</span>)
+
+<span class='co'># S3 method for listbox_with_filter</span>
+<span class='fu'><a href='widget-state.html'>tk_normalize</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>background</span> <span class='kw'>=</span> <span class='st'>"grey95"</span>)
+
+<span class='co'># S3 method for listbox</span>
+<span class='fu'><a href='widget-state.html'>tk_enable</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>background</span> <span class='kw'>=</span> <span class='st'>"white"</span>)
+
+<span class='co'># S3 method for tk2listbox</span>
+<span class='fu'><a href='widget-state.html'>tk_enable</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>background</span> <span class='kw'>=</span> <span class='st'>"white"</span>)
+
+<span class='co'># S3 method for listbox_with_filter</span>
+<span class='fu'><a href='widget-state.html'>tk_enable</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>background</span> <span class='kw'>=</span> <span class='st'>"grey95"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -441,7 +462,17 @@ elements.</p></td>
     </tr>
     <tr>
       <th>background</th>
-      <td><p>(string) background color.</p></td>
+      <td><p>(character) Background color.</p></td>
+    </tr>
+    <tr>
+      <th>ignore_filter</th>
+      <td><p>(logical) Should disabling/enabling of filter be
+ignored?</p></td>
+    </tr>
+    <tr>
+      <th>clear_filter</th>
+      <td><p>(logical) Should the filter be cleared an values of
+listbox reset?</p></td>
     </tr>
     </table>
 

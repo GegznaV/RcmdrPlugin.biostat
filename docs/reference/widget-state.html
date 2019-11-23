@@ -70,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RcmdrPlugin.biostat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.53</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.54</span>
       </span>
     </div>
 
@@ -112,7 +112,11 @@
     <p>Get or modify the state of Tk widgets.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tk_get_state</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>tk_get_default_enabled_state</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+
+<span class='fu'>tk_set_default_enabled_state</span>(<span class='no'>obj</span>, <span class='no'>state</span>, <span class='no'>...</span>)
+
+<span class='fu'>tk_get_state</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
 
 <span class='fu'>tk_set_state</span>(<span class='no'>obj</span>, <span class='no'>state</span>, <span class='no'>...</span>)
 
@@ -122,10 +126,22 @@
 
 <span class='fu'>tk_read_only</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
 
+<span class='fu'>tk_enable</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+
 <span class='fu'>tk_disable</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for default</span>
+<span class='fu'>tk_get_default_enabled_state</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for default</span>
 <span class='fu'>tk_get_state</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>tk_set_default_enabled_state</span>(
+  <span class='no'>obj</span>,
+  <span class='kw'>state</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"active"</span>, <span class='st'>"normal"</span>, <span class='st'>"readonly"</span>),
+  <span class='no'>...</span>
+)
 
 <span class='co'># S3 method for default</span>
 <span class='fu'>tk_set_state</span>(<span class='no'>obj</span>, <span class='no'>state</span>, <span class='no'>...</span>)
@@ -172,7 +188,15 @@ Usually one of "normal", "active", "diabled", "readonly".</p></td>
 <li><p><code>tk_activate()</code> to "active";</p></li>
 <li><p><code>tk_read_only()</code> to "readonly";</p></li>
 <li><p><code>tk_disable()</code> to "disable";</p></li>
+<li><p><code>tk_enable()</code> to default non-disabled state;</p></li>
 <li><p><code>tk_set_state()</code> to the indicated state.</p></li>
+</ul>
+
+<p>The functions to manage widget's state to:</p><ul>
+<li><p><code>tk_get_default_enabled_state()</code> get default default enabled state. If not
+set, "normal" is returned.</p></li>
+<li><p><code>tk_set_default_enabled_state()</code> change the default enabled state to
+either "normal", "active" or "readonly".</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
