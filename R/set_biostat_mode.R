@@ -43,8 +43,8 @@ set_biostat_mode <- function() {
 
   tkgrid.remove(buttons_bar)
   on.exit(tkgrid(buttons_bar))
-  # ========================================================================
-  # Get and modify default buttons -----------------------------------------
+  # ==========================================================================
+  # Get and modify default buttons -------------------------------------------
   # Twho main buttons
   button_data <- getRcmdr("dataSetLabel")
   button_data_opts <- list()
@@ -84,7 +84,7 @@ set_biostat_mode <- function() {
     tk2tip(tcl_get_obj_by_id(button_edit0), "Edit active data set")
   }
 
-  # New buttons ------------------------------------------------------------
+  # New buttons --------------------------------------------------------------
   buttons_variant <- tk2frame(buttons_bar)
   buttons_bar_low <- tk2frame(buttons_bar)
 
@@ -169,7 +169,7 @@ set_biostat_mode <- function() {
     image   = "::image::bs_refresh",
     command = command_dataset_refresh)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Save objects
   putRcmdr("logo",                logo) # FIXME: error if object does not exist
 
@@ -198,8 +198,8 @@ set_biostat_mode <- function() {
   putRcmdr("button_other",        button_other)
   putRcmdr("button_refresh",      button_refresh)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # New layout -------------------------------------------------------------
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # New layout ---------------------------------------------------------------
   # tkgrid("x", buttons_bar_low)
   tkgrid(buttons_variant, buttons_bar_low)
 
@@ -287,25 +287,25 @@ set_biostat_mode <- function() {
   tkgrid.configure(lab_model,       padx = c(2, 2),  pady = c(5, 0))
   tkgrid.configure(button_id_model, padx = c(0, 10), pady = c(5, 0))
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Functions --------------------------------------------------------------
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Functions ----------------------------------------------------------------
   tip_switch_to_biostat <- function() {
     tk2tip(tcl_get_obj_by_id(logo), "Switch to the main \nBioStat buttons")
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   toggle_buttons_bar_low <- function() {
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     is_visible_buttons_bar_low <- function() {
       vals <- as.character(tkgrid.info(getRcmdr("buttons_bar_low")))
       length(vals) > 0
     }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     is_main_bs_logo <- function() {
       # FIXME: possible issue, if logo is not set at all
       isTRUE(tcl_get_property(logo, "-image") == "::image::bs_r_logo_g")
     }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     set_buttons_rcmdr_fun <- function() {
       # Change buttons
       if (length(logo) > 0) {
@@ -329,7 +329,7 @@ set_biostat_mode <- function() {
       if (length(button_edit0) > 0) tkgrid(button_edit0)
       if (length(button_view0) > 0) tkgrid(button_view0)
     }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     set_buttons_bs_fun <- function(variables) {
       if (length(logo) > 0) {
         tkconfigure(logo, image = "::image::bs_r_logo_g")
@@ -360,7 +360,7 @@ set_biostat_mode <- function() {
         button_set_refresh
       )
     }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # if (is_visible_buttons_bar_low()) {
     if (is_main_bs_logo()) {
       # Hide BS buttons
@@ -375,11 +375,11 @@ set_biostat_mode <- function() {
       set_buttons_bs_fun()
     }
   }
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Bind interactivity -----------------------------------------------------
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Bind interactivity -------------------------------------------------------
   tkbind(logo, "<ButtonPress-1>", toggle_buttons_bar_low)
   tkconfigure(logo, cursor = "hand2")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkconfigure(lb1, cursor = "hand2")
   tkconfigure(lb2, cursor = "hand2")
   tkconfigure(lb3, cursor = "hand2")
@@ -425,21 +425,21 @@ set_biostat_mode <- function() {
     tkgrid(button_set_settings)
     tkgrid.remove(button_set_manage, button_set_analysis, button_set_plots)
   })
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Change the title and the main icon -------------------------------------
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Change the title and the main icon ---------------------------------------
   .rcmdr <- CommanderWindow()
   tkwm.title(.rcmdr, paste0(Rcmdr::gettextRcmdr("R Commander"), " (BioStat mode)"))
   tcl("wm", "iconphoto", .rcmdr, "-default", "::image::bs_r_logo_g")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Activate functions (if in BioStat mode) --------------------------------
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Activate functions (if in BioStat mode) ----------------------------------
   tkgrid.remove(buttons_bar_low)
   toggle_buttons_bar_low()
   command_dataset_refresh()
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # This command unhides buttons bar
   tkgrid.configure(buttons_bar, pady = c(4, 3))
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 }
 
@@ -474,7 +474,7 @@ activate_if_active_ds <- function() {
   set_menu_state(!is.null(active_dataset_0()))
 }
 
-# Import menus -----------------------------------------------------------
+# Import menus ---------------------------------------------------------------
 bs_mode_menu__import <- function() {
   # "From clipboard..."     , 'window_import_from_clipboard()'
   # "From R package... "    , "window_import_from_pkg"
@@ -492,7 +492,7 @@ bs_mode_menu__import <- function() {
   top <- CommanderWindow()
 
   menu_i <- tk2menu(tk2menu(top), tearoff = FALSE)
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_f <- tk2menu(menu_i, tearoff = FALSE)
 
   tkadd(menu_f, "command",
@@ -540,7 +540,7 @@ bs_mode_menu__import <- function() {
   #   label = "from Minitab data file...",
   #   command = function() {importMinitab()}
   # )
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   tkadd(menu_i, "cascade",
     label    = "Import from file    ",
@@ -570,7 +570,7 @@ bs_mode_menu__import <- function() {
     command  = window_online_image_digitizer
   )
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_i, "separator")
 
   tkadd(menu_i, "command",
@@ -588,13 +588,13 @@ bs_mode_menu__import <- function() {
     command  = window_dataset_edit_rcmdr
   )
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkpopup(menu_i,
     tkwinfo("pointerx", top),
     tkwinfo("pointery", top))
 }
 
-# Export menus -----------------------------------------------------------
+# Export menus ---------------------------------------------------------------
 bs_mode_menu__export <- function() {
   .ds <- active_dataset_0()
   if (is.null(.ds)) {
@@ -643,7 +643,7 @@ bs_mode_menu__export <- function() {
     image    = "::image::bs_r_brown",
     command  = window_export_to_rdata)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_clipb <- tk2menu(menu_e, tearoff = FALSE)
 
   tkadd(menu_e, "cascade",
@@ -687,7 +687,7 @@ bs_mode_menu__export <- function() {
       export_to_clipboard(.ds, sep = ";", dec = ",")
     })
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_to_console <- tk2menu(menu_e, tearoff = FALSE)
 
   tkadd(menu_e, "cascade",
@@ -719,7 +719,7 @@ bs_mode_menu__export <- function() {
   #   command = window_dataset_print_as_md)
   #
   # # tkadd(menu_e, "separator")
-  # # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # menu_ds <- tk2menu(menu_e, tearoff = FALSE)
   #
   # tkadd(menu_to_console, "cascade",
@@ -762,7 +762,7 @@ bs_mode_menu__export <- function() {
     tkwinfo("pointery", top))
 }
 
-# Preview, summarize df, print ------------------------------------------------
+# Preview, summarize df, print -----------------------------------------------
 bs_mode_menu__print <- function() {
 
   .ds <- active_dataset_0()
@@ -777,7 +777,7 @@ bs_mode_menu__print <- function() {
 
   menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_p, "command",
     label    = "Class of active dataset...",
     state    = activate_if_active_ds(),
@@ -810,7 +810,7 @@ bs_mode_menu__print <- function() {
     image    = "::image::bs_rows_top_bot",
     command = summary_head_tail)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_p, "separator")
 
   view_style <- if (is_rstudio()) {
@@ -835,7 +835,7 @@ bs_mode_menu__print <- function() {
   }
 
   tkadd(menu_p, "separator")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # menu_to_console <- tk2menu(menu_p, tearoff = FALSE)
   #
   # tkadd(menu_p, "cascade",
@@ -869,7 +869,7 @@ bs_mode_menu__print <- function() {
     command = window_dataset_print_as_md)
 
   # tkadd(menu_p, "separator")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_ds <- tk2menu(menu_p, tearoff = FALSE)
 
   tkadd(menu_to_console, "cascade",
@@ -889,7 +889,7 @@ bs_mode_menu__print <- function() {
   tkadd(menu_ds, "command",
     label   = "as 'tibble'",
     command = command_dataset_print_as_tibble)
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # tkadd(menu_p, "separator")
 
   tkpopup(menu_p,
@@ -897,7 +897,7 @@ bs_mode_menu__print <- function() {
     tkwinfo("pointery", top))
 }
 
-# Summarize variables menus ---------------------------------------------------
+# Summarize variables menus --------------------------------------------------
 bs_mode_menu__summary  <- function() {
 
   top <- CommanderWindow()
@@ -909,7 +909,7 @@ bs_mode_menu__summary  <- function() {
   #       # image    = "::image::bs_r",
   #       command  = window_summary_variables)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   tkadd(menu_p, "command",
     label    = "Summarize all variables (dfSummary)",
@@ -954,21 +954,21 @@ bs_mode_menu__summary  <- function() {
     image    = "::image::bs_data_fct",
     command  = window_summary_count)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkpopup(menu_p,
     tkwinfo("pointerx", top),
     tkwinfo("pointery", top))
 }
 
 
-# Row menus -----------------------------------------------------------
+# Row menus ------------------------------------------------------------------
 bs_mode_menu__rows <- function() {
 
   top <- CommanderWindow()
 
   menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_n  <- tk2menu(menu_p, tearoff = FALSE)
 
   tkadd(menu_p, "cascade",
@@ -1000,7 +1000,7 @@ bs_mode_menu__rows <- function() {
     label    = "Create column with row numbers...",
     command  = window_rows_rowid_to_col)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_rm  <- tk2menu(menu_p, tearoff = FALSE)
 
   tkadd(menu_p, "cascade",
@@ -1039,7 +1039,7 @@ bs_mode_menu__rows <- function() {
     image    = "::image::bs_na_red",
     command  = window_rows_rm_with_na)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_p, "command",
     label    = "Arrange: sort rows...",
     compound = "left",
@@ -1047,19 +1047,19 @@ bs_mode_menu__rows <- function() {
     command  = window_rows_arrange)
 
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkpopup(menu_p,
     tkwinfo("pointerx", top),
     tkwinfo("pointery", top))
 }
-# Variable menus -----------------------------------------------------------
+# Variable menus -------------------------------------------------------------
 bs_mode_menu__variables <- function() {
 
   top <- CommanderWindow()
 
   menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_var_names  <- tk2menu(menu_p, tearoff = FALSE)
 
   tkadd(menu_p, "cascade",
@@ -1084,14 +1084,14 @@ bs_mode_menu__variables <- function() {
     label    = "Rename variables...",
     command  = window_variable_rename)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_p, "command",
     label    = "Select/Remove variables...",
     compound = "left",
     image    = "::image::bs_cols_select",
     command  = window_variable_select0)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_j  <- tk2menu(menu_p, tearoff = FALSE)
 
   tkadd(menu_p, "cascade",
@@ -1119,7 +1119,7 @@ bs_mode_menu__variables <- function() {
     command  = window_variable_convert_type)
 
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_wd <- tk2menu(menu_p, tearoff = FALSE)
 
   tkadd(menu_p, "cascade",
@@ -1145,7 +1145,7 @@ bs_mode_menu__variables <- function() {
   #       command  = function_not_implemented)
   #
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   tkadd(menu_p, "separator")
 
@@ -1162,7 +1162,7 @@ bs_mode_menu__variables <- function() {
     state = set_menu_state(characterP()),
     command  = command_all_chr_to_fctr)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_fct <- tk2menu(menu_p, tearoff = FALSE)
 
   tkadd(menu_p, "cascade",
@@ -1181,7 +1181,7 @@ bs_mode_menu__variables <- function() {
     state = set_menu_state(factors_strict_P()),
     command  = window_fct_lvls_reorder_manual)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_num <- tk2menu(menu_p, tearoff = FALSE)
 
   tkadd(menu_p, "cascade",
@@ -1200,7 +1200,7 @@ bs_mode_menu__variables <- function() {
     state = set_menu_state(numericP()),
     command  = window_num_transform_z)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkpopup(menu_p,
     tkwinfo("pointerx", top),
     tkwinfo("pointery", top))
@@ -1227,7 +1227,7 @@ bs_mode_menu__analyze <- function() {
   #       command    = window_test_normality)
 
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # # ~ Association / Correlation --------------------------------------------
   # menu_a <- tk2menu(menu_p, tearoff = FALSE)
 
@@ -1336,7 +1336,7 @@ bs_mode_menu__analyze <- function() {
   #           command    = function_not_implemented)
 
 
-  # # ~~ Variability tests --------------------------------------------------
+  # # ~~ Variability tests ---------------------------------------------------
   #
   # menu_t_v <- tk2menu(menu_t, tearoff = FALSE)
   #
@@ -1368,7 +1368,7 @@ bs_mode_menu__analyze <- function() {
   #       command    = Rcmdr:::LeveneTest)
 
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkpopup(menu_p,
     tkwinfo("pointerx", top),
     tkwinfo("pointery", top))
@@ -1484,7 +1484,7 @@ bs_mode_menu__settings <- function() {
   #               "::image::bs_delete"
   #           },
   #       command    = toggle_always_on_top)
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_lng  <- tk2menu(menu_p, tearoff = FALSE)
 
   tkadd(menu_p, "cascade",
@@ -1499,7 +1499,7 @@ bs_mode_menu__settings <- function() {
     image    = "::image::bs_locale",
     command  = window_locale_set)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_opts  <- tk2menu(menu_p, tearoff = FALSE)
 
   tkadd(menu_p, "cascade",
@@ -1554,7 +1554,7 @@ bs_mode_menu__settings <- function() {
           command_dataset_refresh()
         }})
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_session  <- tk2menu(menu_p, tearoff = FALSE)
 
   tkadd(menu_p, "cascade",
@@ -1569,9 +1569,9 @@ bs_mode_menu__settings <- function() {
     image    = "::image::bs_package",
     command  = window_load_packages)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_session, "separator")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   tkadd(menu_session, "command",
     label    = "Print session information: base R style",
@@ -1585,9 +1585,9 @@ bs_mode_menu__settings <- function() {
     image    = "::image::bs_ses_info_g",
     command  = command_session_info_devtools)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_session, "separator")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   tkadd(menu_session, "command",
     label    = "Restart R Commander",
@@ -1615,7 +1615,7 @@ bs_mode_menu__settings <- function() {
     image    = "::image::bs_close_r",
     command  = command_rcmdr_close_r)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_wd <- tk2menu(menu_p, tearoff = FALSE)
 
   tkadd(menu_p, "cascade",
@@ -1642,9 +1642,9 @@ bs_mode_menu__settings <- function() {
     image    = "::image::bs_set_wd",
     command  = command_setwd)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_p, "separator")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   menu_ab <- tk2menu(menu_p, tearoff = FALSE)
 
@@ -1693,19 +1693,19 @@ bs_mode_menu__settings <- function() {
     compound = "left",
     image    = "::image::bs_chk_pkgs",
     command  = command_chk_packages_r19)
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkpopup(menu_p,
     tkwinfo("pointerx", top),
     tkwinfo("pointery", top))
 }
 
-# Datasets and objects menus --------------------------------------------------
+# Datasets and objects menus -------------------------------------------------
 bs_mode_menu__datasets <- function() {
 
   top <- CommanderWindow()
 
   menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_p, "command",
     label    = "Join two datasets by matching row ID...",
     compound = "left",
@@ -1724,7 +1724,7 @@ bs_mode_menu__datasets <- function() {
     image    = "::image::bs_bind_cols",
     command  = window_dataset_bind_cols)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_p, "separator")
 
   tkadd(menu_p, "command",
@@ -1739,7 +1739,7 @@ bs_mode_menu__datasets <- function() {
     image    = "::image::bs_objects",
     command  = window_data_obj_manage)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   tkpopup(menu_p,
     tkwinfo("pointerx", top),
