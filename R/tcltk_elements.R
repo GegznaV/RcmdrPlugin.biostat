@@ -1,7 +1,6 @@
 #' @name TclTk-helper-functions
 #' @title Helper functions for Tcl/Tk.
 #' @keywords internal
-#' @noRd
 NULL
 
 

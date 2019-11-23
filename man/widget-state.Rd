@@ -39,11 +39,15 @@ tk_enable(obj, ...)
 
 tk_disable(obj, ...)
 
-\method{tk_get_default_enabled_state}{default}(obj)
+\method{tk_get_default_enabled_state}{default}(obj, ...)
 
 \method{tk_get_state}{default}(obj, ...)
 
-\method{tk_set_default_enabled_state}{default}(obj, state = c("active", "normal", "readonly"))
+\method{tk_set_default_enabled_state}{default}(
+  obj,
+  state = c("active", "normal", "readonly"),
+  ...
+)
 
 \method{tk_set_state}{default}(obj, state, ...)
 
