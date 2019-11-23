@@ -50,6 +50,7 @@ remotes::install_github("r-lib/rlang",                  upgrade = TRUE)
 remotes::install_github("rforge/rcmdr/pkg/RcmdrMisc",   upgrade = TRUE)
 remotes::install_github("rforge/rcmdr/pkg/Rcmdr-devel", upgrade = TRUE)
 
+# Install RcmdrPlugin.biostat
 remotes::install_github("GegznaV/RcmdrPlugin.biostat",  upgrade = TRUE)
 ```
 
