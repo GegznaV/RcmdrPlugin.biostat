@@ -20,15 +20,15 @@ window_fct_relevel <- function() {
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  set_info_1 <- function(value = defaults$defaults, color = "darkred") {
+  set_info_var <- function(value = defaults$defaults, color = "darkred") {
 
-    set_values(f1_var_selected_1, value)
-    tkconfigure(f1_lab_selected_1, foreground = color)
+    set_values(f1_var_selected_var, value)
+    tkconfigure(f1_lab_selected_var, foreground = color)
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  get_info_1 <- function() {
+  get_info_var <- function() {
 
-    values <- get_values(f1_var_selected_1)
+    values <- get_values(f1_var_selected_var)
     if (str_detect(values, fixed("{"))) {
       return(NULL)
 
@@ -37,26 +37,26 @@ window_fct_relevel <- function() {
     }
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  update_info_1 <- function() {
+  update_info_var <- function() {
 
-    values <- get_selected_1()
+    values <- get_selected_var()
     if (is.null(values)) {
-      set_info_1()
+      set_info_var(defaults$selected_variable)
     } else {
-      set_info_1(values, color = "darkgreen")
+      set_info_var(values, color = "darkgreen")
     }
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  update_box_1 <- function() {
+  update_box_var <- function() {
 
     values <- variables_fct()
     if (length(values) > 0) {
-      tk_normalize(f2_box_1)
-      set_values(f2_box_1, values)
+      tk_normalize(f2_box_var)
+      set_values(f2_box_var, values)
 
     } else {
-      set_values(f2_box_1, "(no factor variables)")
-      tk_disable(f2_box_1)
+      set_values(f2_box_var, "(no factor variables)")
+      tk_disable(f2_box_var)
 
       update_box_levels()
     }
@@ -64,9 +64,9 @@ window_fct_relevel <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   update_box_levels <- function() {
 
-    update_info_1()
+    update_info_var()
 
-    variable_name <- get_info_1()
+    variable_name <- get_info_var()
 
     if (is.null(variable_name)) {
       set_values(f2_box_levels, "(no values)")
@@ -146,9 +146,9 @@ window_fct_relevel <- function() {
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  get_selected_1 <- function() {
+  get_selected_var <- function() {
     # Return either string or NULL
-    value <- get_selection(f2_box_1)
+    value <- get_selection(f2_box_var)
     if (length(value) == 0) {
       value <- NULL
     }
@@ -187,11 +187,11 @@ window_fct_relevel <- function() {
     }
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  context_f2_box_1_left <- function() {
+  context_f2_box_var_left <- function() {
 
     menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
 
-    pkg <- get_selected_1()
+    pkg <- get_selected_var()
     .ds <- get_selected_levels()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (is.null(.ds)) {
@@ -254,8 +254,17 @@ window_fct_relevel <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   refresh_window <- function() {
-    update_box_1()
+    sel_var <- get_selection(f2_box_var)
+    update_box_var()
+    set_selection(f2_box_var, sel_var)
+    if (length(sel_var) > 0) {
+      tk_see(f2_box_var, sel_var[1])
+    }
+
+    update_info_var()
     update_box_levels()
+    f4$variable$update()
+    f4$dataset$update()
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -265,8 +274,7 @@ window_fct_relevel <- function() {
     on.exit(cursor_set_idle(top))
 
     # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # selected_1 <- get_selected_ds()
-    selected_var <- get_info_1()
+    selected_var <- get_info_var()
     new_levels   <- get_values(f2_box_levels)
 
     new_ds_ovewrite  <- get_values(f4$dataset$checkbox)
@@ -360,18 +368,18 @@ window_fct_relevel <- function() {
   # F1: Indicators what is selected ------------------------------------------
   f1 <- tkframe(top)
 
-  f1_lab_selected_1_0 <- tk_label(f1, text = "Selected variable: ")
-  f1_var_selected_1   <- tclVar(defaults$selected_variable)
-  f1_lab_selected_1   <- tk_label_red(f1, textvariable = f1_var_selected_1)
+  f1_lab_selected_var_0 <- tk_label(f1, text = "Selected variable: ")
+  f1_var_selected_var   <- tclVar(defaults$selected_variable)
+  f1_lab_selected_var   <- tk_label_red(f1, textvariable = f1_var_selected_var)
 
   tkgrid(f1, sticky = "w")
-  tkgrid(f1_lab_selected_1_0, f1_lab_selected_1, pady = c(0, 0), sticky = "w")
+  tkgrid(f1_lab_selected_var_0, f1_lab_selected_var, pady = c(0, 0), sticky = "w")
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # F2: Selection boxes ------------------------------------------------------
   f2 <- tkframe(top)
 
-  f2_box_1 <-
+  f2_box_var <-
     bs_listbox(
       parent = f2,
       height = 7,
@@ -389,8 +397,8 @@ window_fct_relevel <- function() {
       height = 7,
       width  = 28,
       values = "",
-      on_double_click = context_f2_box_1_left,
-      on_click_3      = context_f2_box_1_right,
+      on_double_click = context_f2_box_var_left,
+      on_click_3      = context_f2_box_var_right,
       title = gettext_bs("Levels (reorder)"),
       bind_row_swap = TRUE,
       selectmode = "multiple"
@@ -498,7 +506,7 @@ window_fct_relevel <- function() {
   tkgrid(f2, sticky = "nw")
 
   tkgrid(
-    f2_box_1$frame,
+    f2_box_var$frame,
     f2_but_set_2,
     f2_box_levels$frame,
     f2_but_set_1,
@@ -547,7 +555,7 @@ window_fct_relevel <- function() {
   tkgrid(f3_combo_1$frame, padx = c(0, 10))
 
   # F4 -----------------------------------------------------------------------
-  f4 <- bs_names_ds_var(parent = top, get_var_name_fun = get_selected_1)
+  f4 <- bs_names_ds_var(parent = top, get_var_name_fun = get_selected_var)
   tkgrid(f4$frame, sticky = "w", pady = c(10, 0))
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Help menus ---------------------------------------------------------------
@@ -576,7 +584,8 @@ window_fct_relevel <- function() {
     on_help = help_menu,
     close_on_ok = TRUE,
     apply = "window_fct_relevel()",
-    apply_label = "Apply"
+    apply_label = "Apply",
+    after_apply_success_fun = refresh_window
   )
   # ======================================================================~~~~
   tkgrid(buttonsFrame, sticky = "ew")
