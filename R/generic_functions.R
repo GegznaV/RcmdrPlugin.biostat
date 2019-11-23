@@ -12,7 +12,14 @@
 #' - `tk_activate()` to "active";
 #' - `tk_read_only()` to "readonly";
 #' - `tk_disable()` to "disable";
+#' - `tk_enable()` to default non-disabled state;
 #' - `tk_set_state()` to the indicated state.
+#'
+#' The functions to manage widget's state to:
+#' - `tk_get_default_enabled_state()` get default default enabled state. If not
+#'    set, "normal" is returned.
+#' - `tk_set_default_enabled_state()` change the default enabled state to
+#'    either "normal", "active" or "readonly".
 #'
 #' @param obj Tk widget or a string with the ID of an existing Tk widget
 #'        (e.g., `".1.2.5"`).
