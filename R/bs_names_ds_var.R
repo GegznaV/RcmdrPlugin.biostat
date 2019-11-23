@@ -67,18 +67,39 @@ bs_names_ds_var <- function(parent = top,
   tkgrid(l1, var1$frame, var2$frame, pady = c(5, 5))
   tkgrid(l2,  ds1$frame,  ds2$frame, pady = c(0, 5))
 
-  tkgrid(l1, l2, sticky = "w", padx = c(0, 5))
+  tkgrid(l1, l2, sticky = "w",  padx = c(0, 5))
   tkgrid(var1$frame, ds1$frame, padx = c(0, 5))
   tkgrid.configure(var2$frame, ds2$frame, padx = c(0, 2))
 
   update_ds()
   update_var()
 
+  dataset <-
+    structure(
+      list(label = l1, entry = ds1,  checkbox = ds2,  update = update_ds),
+      class = c("bs_name_entry", "bs_tk_widget", "list")
+    )
+
+  variable <-
+    structure(
+      list(label = l2, entry = var1, checkbox = var2, update = update_var),
+      class = c("bs_name_entry", "bs_tk_widget", "list")
+    )
+
   structure(list(
     frame = frame,
-    dataset  = list(label = l1, entry = ds1,  checkbox = ds2,  update = update_ds),
-    variable = list(label = l2, entry = var1, checkbox = var2, update = update_var)
+    dataset  = dataset,
+    variable = variable
   ),
     class = c("bs_names_ds_var", "bs_tk_widget", "list")
   )
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+get_values.bs_name_entry <- function(obj, ...) {
+  get_values(obj$entry, ...)
+}
+
+set_values.bs_name_entry <- function(obj, values, ...) {
+  set_values(obj$entry, values = values, ...)
 }

@@ -93,26 +93,16 @@ item	bs19_varible_menu	cascade	"Select/Remove variables"	bs19_var_select_menu	""
 item	bs19_var_select_menu	command	"Select/Remove variables..."	window_variable_select0	"activeDataSetP()"	"packageAvailable('dplyr')"
 
 
+# item	bs19_varible_menu	separator	""	""	""	""
+
+# --- + > Variables (general) ------------------------------------------------
+
 menu	bs19_var_transform_menu	bs19_varible_menu	""	""	""	""
 item	bs19_varible_menu	cascade	"Compute, recode, convert"	bs19_var_transform_menu	""	""
 
 item	bs19_var_transform_menu	command	"Mutate: compute a variable..."	window_variable_mutate0	"activeDataSetP()"	"packageAvailable('dplyr')"
 item	bs19_var_transform_menu	command	"Recode variable values..."	window_variable_recode0	"activeDataSetP()"	"packageAvailable('dplyr')"
 item	bs19_var_transform_menu	command	"Convert variable types manually..."	window_variable_convert_type	"activeDataSetP()"	"packageAvailable('tidyverse')"
-
-
-# Reshape ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-menu	bs19_var_reshape_menu	bs19_varible_menu	""	""	""	""
-item	bs19_varible_menu	cascade	"Tidy, reshape"	bs19_var_reshape_menu	""	""
-
-item	bs19_var_reshape_menu	command	"Gather columns into long format dataset..."	window_variable_gather	"activeDataSetP()"	"packageAvailable('tidyr')"
-# item	bs19_var_reshape_menu	command	"[???] Spread columns into wide format dataset..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')" # Spread a key-value pair across multiple columns
-# item	bs19_var_reshape_menu	command	"[???] Separate one value into multiple columns..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
-# item	bs19_var_reshape_menu	command	"[???] Unite values into one column..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
-
-
-# item	bs19_varible_menu	separator	""	""	""	""
 
 
 # --- + > Character variables ------------------------------------------------------
@@ -140,7 +130,7 @@ item	bs19_varible_menu	cascade	"Factors (categorical variables)"	bs19_var_fct_me
 item	bs19_var_fct_menu	command	"Drop unused levels..."	window_factor_lvls_drop	"factors_strict_P()"	""
 # item	bs19_var_fct_menu	command	"[???] Remove levels"	function_not_implemented	"FALSE & factorsP()"	""
 # item	bs19_var_fct_menu	command	"[???] Reorder levels automatically..."	function_not_implemented	"FALSE & factors_strict_P()"	""
-item	bs19_var_fct_menu	command	"Reorder levels by hand..."	window_fct_lvls_reorder_manual	"factors_strict_P()"	""
+item	bs19_var_fct_menu	command	"Reorder levels by hand..."	window_fct_relevel	"factors_strict_P()"	""
 # item	bs19_var_fct_menu	separator	""	""	""	""
 # item	bs19_var_fct_menu	command	"[???] Convert missing values into explicit level..."	function_not_implemented	"FALSE & factors_strict_P()"	""
 
@@ -158,6 +148,18 @@ item	bs19_varible_menu	cascade	"Numeric variables"	bs19_var_num_menu	"activeData
 # item	bs19_var_num_menu	command	"Box-Cox transformation... [Rcmdr]"	function_not_implemented	"FALSE & numericP()"	""
 item	bs19_var_num_menu	command	"Log transformation..."	window_num_transform_log	"numericP()"	""
 item	bs19_var_num_menu	command	"Z transformation / Standardization..."	window_num_transform_z	"numericP()"	""
+
+
+#  --- + >Reshape ------------------------------------------------------------
+
+menu	bs19_var_reshape_menu	bs19_varible_menu	""	""	""	""
+item	bs19_varible_menu	cascade	"Tidy, reshape"	bs19_var_reshape_menu	""	""
+
+item	bs19_var_reshape_menu	command	"Gather columns into long format dataset..."	window_variable_gather	"activeDataSetP()"	"packageAvailable('tidyr')"
+# item	bs19_var_reshape_menu	command	"[???] Spread columns into wide format dataset..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')" # Spread a key-value pair across multiple columns
+# item	bs19_var_reshape_menu	command	"[???] Separate one value into multiple columns..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
+# item	bs19_var_reshape_menu	command	"[???] Unite values into one column..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
+
 
 
 # --- + Join/Bind datasets ----------------------------------------------------

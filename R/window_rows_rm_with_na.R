@@ -25,7 +25,7 @@
 #'
 window_rows_rm_with_na <- function() {
 
-  # Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   cmd_activation <- function() {
     val_scope <- get_values(f1_b1)
@@ -49,13 +49,13 @@ window_rows_rm_with_na <- function() {
       "search_selected" = tk_normalize(var_y_box)
     )
   }
-  # Function onOK ----------------------------------------------------------
+  # Function onOK ------------------------------------------------------------
   onOK <- function() {
-    # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cursor_set_busy(top)
     on.exit(cursor_set_idle(top))
 
-    # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     scope    <- get_values(f1_b1)
     rm_if    <- get_values(f1_b2)
     new_name <- get_values(name_box)
@@ -63,10 +63,10 @@ window_rows_rm_with_na <- function() {
 
     combo_val <- str_c(scope, rm_if, sep = ".")
 
-    # Reset widget properties before checking ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Reset widget properties before checking ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # tkconfigure(name_entry, foreground = "black")
 
-    # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (scope == "search_selected") {
       if (variable_is_not_selected(vars_y, "variable")) {return()}
     }
@@ -74,16 +74,16 @@ window_rows_rm_with_na <- function() {
     if (is_empty_name(new_name))            {return()}
     if (is_not_valid_name(new_name))        {return()}
     if (forbid_to_replace_object(new_name)) {return()}
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     putDialog("window_rows_rm_with_na", list(
       scope          = scope,
       rm_if          = rm_if,
       var_y          = vars_y
     ))
 
-    # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     vars_y_txt <- str_c(safe_names(vars_y), collapse = ", ")
     prepare_lab <-
       . %>%
@@ -122,17 +122,17 @@ window_rows_rm_with_na <- function() {
           )}
       )
 
-    # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Library("tidyverse")
 
     result <- justDoIt(command)
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (class(result)[1] != "try-error") {
       logger(style_cmd(command))
       active_dataset(new_name)
 
-      # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       closeDialog()
 
 
@@ -141,17 +141,17 @@ window_rows_rm_with_na <- function() {
       show_code_evaluation_error_message()
       return()
     }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkfocus(CommanderWindow())
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Announce about the success to run the function `onOk()`
     TRUE
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   }
 
-  # Initial values ---------------------------------------------------------
+  # Initial values -----------------------------------------------------------
 
-  # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Set initial values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   .ds    <- active_dataset()
   fg_col <- Rcmdr::getRcmdr("title.color")
 
@@ -173,12 +173,12 @@ window_rows_rm_with_na <- function() {
     "in the selected variables."
   )
 
-  # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   initializeDialog(title = gettext_bs("Remove Rows with Missing Values"))
 
-  tk_title(top, "Remove Rows Containing Missing Values") # Title ~~~~~~~~~~~~~~
+  tk_title(top, "Remove Rows Containing Missing Values") # Title ~~~~~~~~~~~~~
 
-  # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   defaults <- list(
     position       = "first",
     scope          = "search_all",
@@ -187,7 +187,7 @@ window_rows_rm_with_na <- function() {
   )
   initial <- getDialog("window_rows_rm_with_na", defaults)
 
-  # Widgets ----------------------------------------------------------------
+  # Widgets ------------------------------------------------------------------
   main_frame <- tkframe(top)
 
   left_frame  <- tkframe(main_frame)
@@ -212,7 +212,7 @@ window_rows_rm_with_na <- function() {
 
   tkgrid(var_y_box$frame, padx = c(5, 0))
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   f1_b1 <- bs_radiobuttons(
     parent          = left_frame,
@@ -260,11 +260,11 @@ window_rows_rm_with_na <- function() {
 
 
 
-  # Help menus -------------------------------------------------------------
+  # Help menus ---------------------------------------------------------------
   help_menu <- function() {
 
     menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkadd(menu_main, "command",
       label    = "Function `drop_na`",
       command  = open_help("drop_na", package = "tidyr"))
@@ -290,12 +290,12 @@ window_rows_rm_with_na <- function() {
     tkadd(menu_main, "command",
       label    = "Function `vars`",
       command  = open_help("vars", package = "dplyr"))
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkpopup(menu_main,
       tkwinfo("pointerx", top),
       tkwinfo("pointery", top))
   }
-  # Finalize ---------------------------------------------------------------
+  # Finalize -----------------------------------------------------------------
   ok_cancel_help(
     on_help = help_menu,
     reset = "window_rows_rm_with_na()"
@@ -303,7 +303,7 @@ window_rows_rm_with_na <- function() {
 
   tkgrid(buttonsFrame, sticky = "ew")
   dialogSuffix()
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Apply initial configuration functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Apply initial configuration functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   cmd_activation()
 }

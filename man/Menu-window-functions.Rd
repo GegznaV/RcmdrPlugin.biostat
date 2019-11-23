@@ -8,8 +8,7 @@
 %   R/window_dataset_print_as_md.R, R/window_dataset_select.R,
 %   R/window_export_fig_to_pptx.R, R/window_export_to_excel.R,
 %   R/window_export_to_rdata.R, R/window_export_to_rds.R,
-%   R/window_export_to_text.R, R/window_fct_drop_lvls.R,
-%   R/window_fct_lvls_reorder_manual.R, R/window_fct_relevel.R,
+%   R/window_export_to_text.R, R/window_fct_drop_lvls.R, R/window_fct_relevel.R,
 %   R/window_import_from_excel.R, R/window_import_from_pkg.R,
 %   R/window_import_from_rds.R, R/window_import_from_text.R,
 %   R/window_import_rdata.R, R/window_locale_set.R, R/window_model_select.R,
@@ -141,7 +140,6 @@
 \alias{window_export_to_rds_0}
 \alias{window_export_to_text}
 \alias{window_factor_lvls_drop}
-\alias{window_fct_lvls_reorder_manual}
 \alias{window_fct_relevel}
 \alias{window_import_from_excel}
 \alias{command_list_datasets_in_pkgs}
@@ -423,8 +421,6 @@ window_export_to_rds_0(ds_name = active_dataset())
 window_export_to_text()
 
 window_factor_lvls_drop()
-
-window_fct_lvls_reorder_manual()
 
 window_fct_relevel()
 

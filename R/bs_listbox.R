@@ -826,8 +826,8 @@ tk_get_state.tk2listbox <- function(obj, ...) {
   tk_get_state.default(obj, ...)
 }
 
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 #' @rdname bs_listbox
 #' @export
 tk_disable.listbox <- function(obj, ..., background = "grey95") {
@@ -840,6 +840,28 @@ tk_disable.tk2listbox <- function(obj, ..., background = "grey95") {
   tk_disable.default(obj, background = background, ...)
 }
 
+#' @rdname bs_listbox
+#' @export
+#'
+#' @param background (character) Background color.
+#' @param ignore_filter (logical) Should disabling/enabling of filter be
+#'        ignored?
+#' @param clear_filter (logical) Should the filter be cleared an values of
+#'        listbox reset?
+tk_disable.listbox_with_filter <- function(obj, ..., background = "grey95",
+  ignore_filter = FALSE, clear_filter = !ignore_filter) {
+
+  tk_disable(obj$listbox, background = background, ...)
+
+  if (isTRUE(clear_filter)) {
+    set_values(obj, "", clear = FALSE)
+  }
+
+  if (!isTRUE(ignore_filter)) {
+    tk_disable(obj$filter$entry)
+    purrr::walk(obj$filter$opts$obj, tk_disable)
+  }
+}
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname bs_listbox
@@ -852,5 +874,32 @@ tk_normalize.listbox <- function(obj, ..., background = "white") {
 #' @export
 tk_normalize.tk2listbox <- function(obj, ..., background = "white") {
   tk_normalize.default(obj, background = background, ...)
+}
+
+#' @rdname bs_listbox
+#' @export
+tk_normalize.listbox_with_filter <- function(obj, ..., background = "grey95") {
+  tk_normalize(obj$listbox, background = background, ...)
+  tk_normalize(obj$filter$entry)
+  purrr::walk(obj$filter$opts$obj, tk_normalize)
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname bs_listbox
+#' @export
+tk_enable.listbox <- function(obj, ..., background = "white") {
+  tk_normalize(obj, ..., background = background)
+}
+
+#' @rdname bs_listbox
+#' @export
+tk_enable.tk2listbox <- function(obj, ..., background = "white") {
+  tk_normalize(obj, ..., background = background)
+}
+
+#' @rdname bs_listbox
+#' @export
+tk_enable.listbox_with_filter <- function(obj, ..., background = "grey95") {
+  tk_normalize(obj, ..., background = background)
 }
 

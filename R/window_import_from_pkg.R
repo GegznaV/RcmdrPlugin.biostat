@@ -518,9 +518,10 @@ window_import_from_pkg <- function() {
     label  = "Which package (category)",
     label_position = "above",
     values = c(
-      "Any loaded package",
+      "Selected (all installed)",
       "Selected (loaded only)",
-      "Selected (all installed)"),
+      "Any loaded package"
+    ),
     value = initial$which_packages,
 
     on_select = update_packages_list
@@ -565,7 +566,7 @@ window_import_from_pkg <- function() {
       tkwinfo("pointerx", top),
       tkwinfo("pointery", top))
   }
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Finalize -----------------------------------------------------------------
   ok_cancel_help(
     on_help = help_menu,
     close_on_ok = TRUE,
@@ -581,6 +582,10 @@ window_import_from_pkg <- function() {
 
   tkgrid(f2, sticky = "nw")
 
+  tkgrid(f2_pkg_opts$frame, f2_icon)
+  tkgrid.configure(f2_icon,         sticky = "s", padx = c(2, 2), pady = c(0, 2))
+  tkgrid(f2low, f2_lab_info,        sticky = "we",                pady = c(5, 0))
+
   tkgrid(
     f2_box_pkgs$frame,
     f2_box_ds$frame,
@@ -588,10 +593,7 @@ window_import_from_pkg <- function() {
     sticky = "nw"
   )
 
-  tkgrid(f2_pkg_opts$frame, f2_icon)
-  tkgrid.configure(f2_icon,         sticky = "s", padx = c(2, 2), pady = c(0, 2))
-  tkgrid(f2low, f2_lab_info,        sticky = "we",                pady = c(5, 0))
-  tkgrid.configure(f2low,           sticky = "w",                 pady = c(10, 10))
+  tkgrid.configure(f2low,           sticky = "w",                 pady = c(0, 15))
   tkgrid.configure(f2_box_ds$frame, sticky = "",  padx = c(5, 0))
   tkgrid.configure(f2_lab_info,     sticky = "w", padx = c(5, 0), columnspan = 2)
   tkgrid.configure(f2_but_set_2,    sticky = "",  padx = c(2, 0))

@@ -59,12 +59,32 @@ cursor_set_idle <- function(frame = NULL) {
 #' @rdname widget-state
 #' @keywords internal
 #' @export
+tk_get_default_enabled_state.default <- function(obj, ...) {
+  des <- obj$default_enabled_state
+  if (isTRUE(des %in% c("active", "normal", "readonly"))) {
+    des <- "normal"
+  }
+  des
+}
+
+#' @rdname widget-state
+#' @keywords internal
+#' @export
 tk_get_state.default <- function(obj, ...) {
   tclvalue_chr(tkcget(obj, "-state"))
 }
 
-
 # Set state -------------------------------------------------------------------
+#' @rdname widget-state
+#' @keywords internal
+#' @export
+tk_set_default_enabled_state.default <- function(obj,
+  state = c("active", "normal", "readonly"), ...) {
+
+  state <- match.arg(state)
+  obj$default_enabled_state <- state
+}
+
 #' @rdname widget-state
 #' @keywords internal
 #' @export

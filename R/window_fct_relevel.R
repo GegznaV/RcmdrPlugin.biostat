@@ -2,13 +2,15 @@
 # ___ Main function ___ ======================================================
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions
+#' @export
 #' @keywords internal
 window_fct_relevel <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   defaults <-
     list(
       selected_variable = "{none}",
-      seed = as.integer(Sys.time())
+      seed = as.integer(Sys.time()),
+      automatic_order = "Original order"
     )
 
   initial <- getDialog("window_fct_relevel", defaults)
@@ -19,15 +21,15 @@ window_fct_relevel <- function() {
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  set_info_1 <- function(value = defaults$defaults, color = "darkred") {
+  set_info_var <- function(value = defaults$defaults, color = "darkred") {
 
-    set_values(f1_var_selected_1, value)
-    tkconfigure(f1_lab_selected_1, foreground = color)
+    set_values(f1_var_selected_var, value)
+    tkconfigure(f1_lab_selected_var, foreground = color)
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  get_info_1 <- function() {
+  get_info_var <- function() {
 
-    values <- get_values(f1_var_selected_1)
+    values <- get_values(f1_var_selected_var)
     if (str_detect(values, fixed("{"))) {
       return(NULL)
 
@@ -36,26 +38,26 @@ window_fct_relevel <- function() {
     }
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  update_info_1 <- function() {
+  update_info_var <- function() {
 
-    values <- get_selected_1()
+    values <- get_selected_var()
     if (is.null(values)) {
-      set_info_1()
+      set_info_var(defaults$selected_variable)
     } else {
-      set_info_1(values, color = "darkgreen")
+      set_info_var(values, color = "darkgreen")
     }
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  update_box_1 <- function() {
+  update_box_var <- function() {
 
     values <- variables_fct()
     if (length(values) > 0) {
-      tk_normalize(f2_box_1)
-      set_values(f2_box_1, values)
+      tk_normalize(f2_box_var)
+      set_values(f2_box_var, values)
 
     } else {
-      set_values(f2_box_1, "(no factor variables)")
-      tk_disable(f2_box_1)
+      set_values(f2_box_var, "(no factor variables)")
+      tk_disable(f2_box_var)
 
       update_box_levels()
     }
@@ -63,9 +65,9 @@ window_fct_relevel <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   update_box_levels <- function() {
 
-    update_info_1()
+    update_info_var()
 
-    variable_name <- get_info_1()
+    variable_name <- get_info_var()
 
     if (is.null(variable_name)) {
       set_values(f2_box_levels, "(no values)")
@@ -145,9 +147,9 @@ window_fct_relevel <- function() {
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  get_selected_1 <- function() {
+  get_selected_var <- function() {
     # Return either string or NULL
-    value <- get_selection(f2_box_1)
+    value <- get_selection(f2_box_var)
     if (length(value) == 0) {
       value <- NULL
     }
@@ -168,135 +170,106 @@ window_fct_relevel <- function() {
     get_selection(f3_combo_1)
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  is_manual_sorting <- function() {
-    isTRUE(get_sorting_type() %in% c(
-      "Manually", "Manual", "In original order", "Original order"))
-  }
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  activate_arrow_buttons <- function() {
+  activate_arrows_select <- function() {
 
-    objs <- list(f2_box_levels, f2_but_1_1, f2_but_1_2, f2_but_1_4, f2_but_1_5)
+    objs <- list(f2_but_2_4)
 
-    if (is_manual_sorting()) {
+    if (get_selection_length(f2_box_var) > 0) {
       purrr::walk(objs, tk_normalize)
 
     } else {
       purrr::walk(objs, tk_disable)
-
     }
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  context_f2_box_1_left <- function() {
+  activate_arrows_sort <- function() {
 
-    menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
+    objs <- list(f2_but_1_1, f2_but_1_2, f2_but_1_4, f2_but_1_5)
 
-    pkg <- get_selected_1()
-    .ds <- get_selected_levels()
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (is.null(.ds)) {
-      return()
+    if (get_selection_length(f2_box_levels) > 0) {
+      purrr::walk(objs, tk_normalize)
+
+    } else {
+      purrr::walk(objs, tk_disable)
     }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkadd(menu_main, "command",
-      label    = str_glue("Load dataset '{.ds}'"),
-      compound = "left",
-      image    = "::image::bs_load_pkg",
-      command  = onOK
-    )
-
-    tkadd(menu_main, "command",
-      label    = "Load dataset and close window",
-      compound = "left",
-      image    = "::image::bs_load_pkg_c",
-      command  = function() {
-        onOK()
-        close_dialog()
-      })
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkadd(menu_main, "command",
-      label    = str_glue("Documentation on '{.ds}'"),
-      compound = "left",
-      image    = "::image::bs_help",
-      command  = open_help(.ds, package = pkg)
-    )
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkpopup(menu_main,
-      tkwinfo("pointerx", top),
-      tkwinfo("pointery", top))
   }
-
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  context_f2_box_1_right <- function() {
-
-    menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
-
-    .ds <- get_selected_levels()
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (is.null(.ds)) {
-      return()
-    }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkadd(menu_main, "command",
-      label    = str_glue("Documentation on '{.ds}'"),
-      compound = "left",
-      image    = "::image::bs_help",
-      command  = open_help_selected_levels
-    )
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkpopup(menu_main,
-      tkwinfo("pointerx", top),
-      tkwinfo("pointery", top))
-  }
-
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   refresh_window <- function() {
-    update_box_1()
+    sel_var <- get_selection(f2_box_var)
+    update_box_var()
+    set_selection(f2_box_var, sel_var)
+    if (length(sel_var) > 0) {
+      tk_see(f2_box_var, sel_var[1])
+    }
+
+    activate_arrows_select()
+
+    update_info_var()
     update_box_levels()
+    activate_arrows_sort()
+
+    f4$variable$update()
+    f4$dataset$update()
+
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   onOK <- function() {
-    return()
     # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cursor_set_busy(top)
     on.exit(cursor_set_idle(top))
 
     # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    selected_1 <- tclvalue(f1_var_selected_1)
-    selected_levels  <- tclvalue(f1_var_selected_levels)
+    selected_var <- get_info_var()
+    new_levels   <- get_values(f2_box_levels)
 
-    if (str_detect(selected_levels, fixed("{"))) {
-      selected_levels <- NULL
-    }
+    new_ds_ovewrite  <- get_values(f4$dataset$checkbox)
+    new_ds           <- get_values(f4$dataset)
+    new_var_ovewrite <- get_values(f4$variable$checkbox)
+    new_var          <- get_values(f4$variable)
 
-    if (str_detect(selected_1, fixed("{"))) {
-      selected_1 <- NULL
-    }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (variable_is_not_selected(selected_levels, "dataset", parent = top)) {
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Selected variable name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    if (variable_is_not_selected(selected_var, "variable", parent = top)) {
       return()
     }
-    if (forbid_to_replace_object(selected_levels, parent = top)) {return()}
+
+    # New variable name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    if (is_empty_name(new_var, "new variable name", parent = top)) {return()}
+    if (is_not_valid_name(new_var, parent = top)) {return()}
+    if (!new_var_ovewrite) {
+      if (forbid_to_replace_variables(new_var, parent = top)) {return()}
+    }
+
+    # New dataset name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    if (is_empty_name(new_ds, "new dataset name", parent = top)) {return()}
+    if (is_not_valid_name(new_ds, parent = top)) {return()}
+    if (!new_ds_ovewrite) {
+      if (forbid_to_replace_object(new_ds, parent = top)) {return()}
+    }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     putDialog("window_fct_relevel", list(
-      which_packages  = get_selection(f2_pkg_opts)
+      automatic_order = get_sorting_type()
     ))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    .ds <- active_dataset()
+    new_levels_str <- quote_names(new_levels, as_single_string = TRUE)
 
-    command_load <-
-      if (is.null(selected_1)) {
-        str_glue('data("{selected_levels}")')
-      } else {
-        str_glue('data("{selected_levels}", package = "{selected_1}")')
-      }
+    # new_ds       <- safe_names(new_ds)
+    # new_var      <- safe_names(new_var)
+    # selected_var <- safe_names(selected_var)
+
+    Library("tidyverse")
+    Library("forcats")
 
     command <- str_glue(
-      "## Load data from R package \n",
-      "{command_load}"
+      "## Change order of levels \n",
+      "{new_ds} <- {.ds} %>% \n",
+      " mutate(  \n",
+      "   {new_var} = fct_relevel({selected_var}, {new_levels_str}) \n",
+      " )"
     )
 
     # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -306,6 +279,11 @@ window_fct_relevel <- function() {
     if (class(result)[1] != "try-error") {
       logger(style_cmd(command))
 
+      # FIXME: ...
+      if (!new_ds_ovewrite) {
+        active_dataset(new_ds)
+      }
+
     } else {
       logger_error(command, error_msg = result)
       show_code_evaluation_error_message()
@@ -313,6 +291,7 @@ window_fct_relevel <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    command_dataset_refresh()
     tkfocus(CommanderWindow())
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -335,23 +314,24 @@ window_fct_relevel <- function() {
   # F1: Indicators what is selected ------------------------------------------
   f1 <- tkframe(top)
 
-  f1_lab_selected_1_0 <- tk_label(f1, text = "Selected variable: ")
-  f1_var_selected_1   <- tclVar(defaults$selected_variable)
-  f1_lab_selected_1   <- tk_label_red(f1, textvariable = f1_var_selected_1)
+  f1_lab_selected_var_0 <- tk_label(f1, text = "Selected variable: ")
+  f1_var_selected_var   <- tclVar(defaults$selected_variable)
+  f1_lab_selected_var   <- tk_label_red(f1, textvariable = f1_var_selected_var)
 
   tkgrid(f1, sticky = "w")
-  tkgrid(f1_lab_selected_1_0, f1_lab_selected_1, pady = c(0, 0), sticky = "w")
+  tkgrid(f1_lab_selected_var_0, f1_lab_selected_var, pady = c(0, 0), sticky = "w")
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # F2: Selection boxes ------------------------------------------------------
   f2 <- tkframe(top)
 
-  f2_box_1 <-
+  f2_box_var <-
     bs_listbox(
       parent = f2,
       height = 7,
       width  = 25,
       values = variables_fct(),
+      on_select = activate_arrows_select,
       on_double_click = update_box_levels,
       title = gettext_bs("Variable (select one)")
       # use_filter = TRUE,
@@ -364,8 +344,7 @@ window_fct_relevel <- function() {
       height = 7,
       width  = 28,
       values = "",
-      on_double_click = context_f2_box_1_left,
-      on_click_3      = context_f2_box_1_right,
+      on_select = activate_arrows_sort,
       title = gettext_bs("Levels (reorder)"),
       bind_row_swap = TRUE,
       selectmode = "multiple"
@@ -473,7 +452,7 @@ window_fct_relevel <- function() {
   tkgrid(f2, sticky = "nw")
 
   tkgrid(
-    f2_box_1$frame,
+    f2_box_var$frame,
     f2_but_set_2,
     f2_box_levels$frame,
     f2_but_set_1,
@@ -489,15 +468,14 @@ window_fct_relevel <- function() {
   f3_combo_1 <-
     bs_combobox(
       parent = f3,
-      label = "List levels in this order",
+      label = "List levels in this order:",
       label_position = "above",
-      selection = 1,
-      width = 30,
+      value = initial$automatic_order,
+      width = 32,
 
       on_select = update_box_levels,
 
       values = c(
-        # "Manually",
         "Original order",
         "Alphabetic order",
         "By first appearance",
@@ -505,24 +483,14 @@ window_fct_relevel <- function() {
         "Numeric order",
         "Numeric order (Roman numbers)",
         "Random order",
-        "Reversed original order",
-        # "In original order",
-        # "By first appearance",
-        # "In alphabetic order",
-        # "In frequency",
-        # "In numeric order (Roman numbers)",
-        # "In numeric order",
-        # "In random order",
-        # "In reversed order",
-        # "By sorting along another variable",
-        NULL
+        "Reversed original order"
       ))
 
-  tkgrid(f3, sticky = "w")
-  tkgrid(f3_combo_1$frame)
+  tkgrid(f3, sticky = "e")
+  tkgrid(f3_combo_1$frame, padx = c(0, 10))
 
   # F4 -----------------------------------------------------------------------
-  f4 <- bs_names_ds_var(get_var_name_fun = get_selected_1)
+  f4 <- bs_names_ds_var(parent = top, get_var_name_fun = get_selected_var)
   tkgrid(f4$frame, sticky = "w", pady = c(10, 0))
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Help menus ---------------------------------------------------------------
@@ -551,7 +519,8 @@ window_fct_relevel <- function() {
     on_help = help_menu,
     close_on_ok = TRUE,
     apply = "window_fct_relevel()",
-    apply_label = "Apply"
+    apply_label = "Apply",
+    after_apply_success_fun = refresh_window
   )
   # ======================================================================~~~~
   tkgrid(buttonsFrame, sticky = "ew")
