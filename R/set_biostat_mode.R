@@ -1092,6 +1092,8 @@ bs_mode_menu__variables <- function() {
     command  = window_variable_select0)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  tkadd(menu_p, "separator")
+
   menu_j  <- tk2menu(menu_p, tearoff = FALSE)
 
   tkadd(menu_p, "cascade",
@@ -1118,36 +1120,7 @@ bs_mode_menu__variables <- function() {
     image    = "::image::bs_cols_convert",
     command  = window_variable_convert_type)
 
-
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  menu_wd <- tk2menu(menu_p, tearoff = FALSE)
-
-  tkadd(menu_p, "cascade",
-    label    = "Tidy, reshape",
-    compound = "left",
-    image    = "::image::bs_data_reshape",
-    menu     = menu_wd)
-
-  tkadd(menu_wd, "command",
-    label    = "Gather columns into long format dataset...",
-    command  = window_variable_gather)
-
-  # tkadd(menu_wd, "command",
-  #       label    = "Spread columns into wide format dataset...",
-  #       command  = function_not_implemented)
-  #
-  # tkadd(menu_wd, "command",
-  #       label    = "Separate one value into multiple columns...",
-  #       command  = function_not_implemented)
-  #
-  # tkadd(menu_wd, "command",
-  #       label    = "Unite values into one column...",
-  #       command  = function_not_implemented)
-  #
-
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  tkadd(menu_p, "separator")
 
   menu_chr <- tk2menu(menu_p, tearoff = FALSE)
 
@@ -1199,6 +1172,33 @@ bs_mode_menu__variables <- function() {
     label    = "Z transformation / Standardization...",
     state = set_menu_state(numericP()),
     command  = window_num_transform_z)
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  tkadd(menu_p, "separator")
+
+  menu_wd <- tk2menu(menu_p, tearoff = FALSE)
+
+  tkadd(menu_p, "cascade",
+    label    = "Tidy, reshape",
+    compound = "left",
+    image    = "::image::bs_data_reshape",
+    menu     = menu_wd)
+
+  tkadd(menu_wd, "command",
+    label    = "Gather columns into long format dataset...",
+    command  = window_variable_gather)
+
+  # tkadd(menu_wd, "command",
+  #       label    = "Spread columns into wide format dataset...",
+  #       command  = function_not_implemented)
+  #
+  # tkadd(menu_wd, "command",
+  #       label    = "Separate one value into multiple columns...",
+  #       command  = function_not_implemented)
+  #
+  # tkadd(menu_wd, "command",
+  #       label    = "Unite values into one column...",
+  #       command  = function_not_implemented)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkpopup(menu_p,
