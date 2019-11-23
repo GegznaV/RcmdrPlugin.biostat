@@ -169,89 +169,29 @@ window_fct_relevel <- function() {
     get_selection(f3_combo_1)
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  is_manual_sorting <- function() {
-    isTRUE(get_sorting_type() %in% c(
-      "Manually", "Manual", "In original order", "Original order"))
-  }
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  activate_arrow_buttons <- function() {
+  activate_arrows_select <- function() {
 
-    objs <- list(f2_box_levels, f2_but_1_1, f2_but_1_2, f2_but_1_4, f2_but_1_5)
+    objs <- list(f2_but_2_4)
 
-    if (is_manual_sorting()) {
+    if (get_selection_length(f2_box_var) > 0) {
       purrr::walk(objs, tk_normalize)
 
     } else {
       purrr::walk(objs, tk_disable)
-
     }
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  context_f2_box_var_left <- function() {
+  activate_arrows_sort <- function() {
 
-    menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
+    objs <- list(f2_but_1_1, f2_but_1_2, f2_but_1_4, f2_but_1_5)
 
-    pkg <- get_selected_var()
-    .ds <- get_selected_levels()
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (is.null(.ds)) {
-      return()
+    if (get_selection_length(f2_box_levels) > 0) {
+      purrr::walk(objs, tk_normalize)
+
+    } else {
+      purrr::walk(objs, tk_disable)
     }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkadd(menu_main, "command",
-      label    = str_glue("Load dataset '{.ds}'"),
-      compound = "left",
-      image    = "::image::bs_load_pkg",
-      command  = onOK
-    )
-
-    tkadd(menu_main, "command",
-      label    = "Load dataset and close window",
-      compound = "left",
-      image    = "::image::bs_load_pkg_c",
-      command  = function() {
-        onOK()
-        close_dialog()
-      })
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkadd(menu_main, "command",
-      label    = str_glue("Documentation on '{.ds}'"),
-      compound = "left",
-      image    = "::image::bs_help",
-      command  = open_help(.ds, package = pkg)
-    )
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkpopup(menu_main,
-      tkwinfo("pointerx", top),
-      tkwinfo("pointery", top))
   }
-
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  context_f2_box_1_right <- function() {
-
-    menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
-
-    .ds <- get_selected_levels()
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (is.null(.ds)) {
-      return()
-    }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkadd(menu_main, "command",
-      label    = str_glue("Documentation on '{.ds}'"),
-      compound = "left",
-      image    = "::image::bs_help",
-      command  = open_help_selected_levels
-    )
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    tkpopup(menu_main,
-      tkwinfo("pointerx", top),
-      tkwinfo("pointery", top))
-  }
-
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   refresh_window <- function() {
     sel_var <- get_selection(f2_box_var)
@@ -261,10 +201,15 @@ window_fct_relevel <- function() {
       tk_see(f2_box_var, sel_var[1])
     }
 
+    activate_arrows_select()
+
     update_info_var()
     update_box_levels()
+    activate_arrows_sort()
+
     f4$variable$update()
     f4$dataset$update()
+
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -385,6 +330,7 @@ window_fct_relevel <- function() {
       height = 7,
       width  = 25,
       values = variables_fct(),
+      on_select = activate_arrows_select,
       on_double_click = update_box_levels,
       title = gettext_bs("Variable (select one)")
       # use_filter = TRUE,
@@ -397,8 +343,7 @@ window_fct_relevel <- function() {
       height = 7,
       width  = 28,
       values = "",
-      on_double_click = context_f2_box_var_left,
-      on_click_3      = context_f2_box_var_right,
+      on_select = activate_arrows_sort,
       title = gettext_bs("Levels (reorder)"),
       bind_row_swap = TRUE,
       selectmode = "multiple"
@@ -530,7 +475,6 @@ window_fct_relevel <- function() {
       on_select = update_box_levels,
 
       values = c(
-        # "Manually",
         "Original order",
         "Alphabetic order",
         "By first appearance",
@@ -538,17 +482,7 @@ window_fct_relevel <- function() {
         "Numeric order",
         "Numeric order (Roman numbers)",
         "Random order",
-        "Reversed original order",
-        # "In original order",
-        # "By first appearance",
-        # "In alphabetic order",
-        # "In frequency",
-        # "In numeric order (Roman numbers)",
-        # "In numeric order",
-        # "In random order",
-        # "In reversed order",
-        # "By sorting along another variable",
-        NULL
+        "Reversed original order"
       ))
 
   tkgrid(f3, sticky = "e")
