@@ -39,8 +39,13 @@
 \alias{tk_get_state.tk2listbox}
 \alias{tk_disable.listbox}
 \alias{tk_disable.tk2listbox}
+\alias{tk_disable.listbox_with_filter}
 \alias{tk_normalize.listbox}
 \alias{tk_normalize.tk2listbox}
+\alias{tk_normalize.listbox_with_filter}
+\alias{tk_enable.listbox}
+\alias{tk_enable.tk2listbox}
+\alias{tk_enable.listbox_with_filter}
 \title{List box widget (TCL/TK)}
 \usage{
 bs_listbox(
@@ -154,9 +159,25 @@ move_selected_row_in_listbox__previous_version(listbox, move_to = "")
 
 \method{tk_disable}{tk2listbox}(obj, ..., background = "grey95")
 
+\method{tk_disable}{listbox_with_filter}(
+  obj,
+  ...,
+  background = "grey95",
+  ignore_filter = FALSE,
+  clear_filter = !ignore_filter
+)
+
 \method{tk_normalize}{listbox}(obj, ..., background = "white")
 
 \method{tk_normalize}{tk2listbox}(obj, ..., background = "white")
+
+\method{tk_normalize}{listbox_with_filter}(obj, ..., background = "grey95")
+
+\method{tk_enable}{listbox}(obj, ..., background = "white")
+
+\method{tk_enable}{tk2listbox}(obj, ..., background = "white")
+
+\method{tk_enable}{listbox_with_filter}(obj, ..., background = "grey95")
 }
 \arguments{
 \item{parent}{Parent TCL/TK frame.}
@@ -260,7 +281,13 @@ elements.}
 
 \item{ind}{Index. Usually either character values or numeric indices.}
 
-\item{background}{(string) background color.}
+\item{background}{(character) Background color.}
+
+\item{ignore_filter}{(logical) Should disabling/enabling of filter be
+ignored?}
+
+\item{clear_filter}{(logical) Should the filter be cleared an values of
+listbox reset?}
 }
 \description{
 A list box with constant number of rows.

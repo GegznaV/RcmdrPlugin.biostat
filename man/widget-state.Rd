@@ -2,13 +2,18 @@
 % Please edit documentation in R/generic_functions.R, R/tcltk_commands.R
 \name{widget-state}
 \alias{widget-state}
+\alias{tk_get_default_enabled_state}
+\alias{tk_set_default_enabled_state}
 \alias{tk_get_state}
 \alias{tk_set_state}
 \alias{tk_normalize}
 \alias{tk_activate}
 \alias{tk_read_only}
+\alias{tk_enable}
 \alias{tk_disable}
+\alias{tk_get_default_enabled_state.default}
 \alias{tk_get_state.default}
+\alias{tk_set_default_enabled_state.default}
 \alias{tk_set_state.default}
 \alias{tk_normalize.default}
 \alias{tk_activate.default}
@@ -16,6 +21,10 @@
 \alias{tk_disable.default}
 \title{Get and set state of Tk widgets.}
 \usage{
+tk_get_default_enabled_state(obj, ...)
+
+tk_set_default_enabled_state(obj, state, ...)
+
 tk_get_state(obj, ...)
 
 tk_set_state(obj, state, ...)
@@ -26,9 +35,15 @@ tk_activate(obj, ...)
 
 tk_read_only(obj, ...)
 
+tk_enable(obj, ...)
+
 tk_disable(obj, ...)
 
+\method{tk_get_default_enabled_state}{default}(obj)
+
 \method{tk_get_state}{default}(obj, ...)
+
+\method{tk_set_default_enabled_state}{default}(obj, state = c("active", "normal", "readonly"))
 
 \method{tk_set_state}{default}(obj, state, ...)
 

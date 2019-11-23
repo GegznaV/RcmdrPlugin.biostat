@@ -34,6 +34,21 @@
 #' # tk_set_state(obj, "normal")
 NULL
 
+
+
+
+#' @rdname widget-state
+#' @export
+tk_get_default_enabled_state <- function(obj, ...) {
+  UseMethod("tk_get_default_enabled_state")
+}
+
+#' @rdname widget-state
+#' @export
+tk_set_default_enabled_state <- function(obj, state, ...) {
+  UseMethod("tk_set_default_enabled_state")
+}
+
 #' @rdname widget-state
 #' @export
 tk_get_state <- function(obj, ...) {
@@ -62,6 +77,12 @@ tk_activate <- function(obj, ...) {
 #' @export
 tk_read_only <- function(obj, ...) {
   UseMethod("tk_read_only")
+}
+
+#' @rdname widget-state
+#' @export
+tk_enable <- function(obj, ...) {
+  UseMethod("tk_disable")
 }
 
 #' @rdname widget-state
