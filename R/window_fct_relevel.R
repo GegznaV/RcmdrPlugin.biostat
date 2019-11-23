@@ -8,7 +8,8 @@ window_fct_relevel <- function() {
   defaults <-
     list(
       selected_variable = "{none}",
-      seed = as.integer(Sys.time())
+      seed = as.integer(Sys.time()),
+      automatic_order = "Original order"
     )
 
   initial <- getDialog("window_fct_relevel", defaults)
@@ -259,44 +260,62 @@ window_fct_relevel <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   onOK <- function() {
-    return()
     # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cursor_set_busy(top)
     on.exit(cursor_set_idle(top))
 
     # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    selected_1 <- tclvalue(f1_var_selected_1)
-    selected_levels  <- tclvalue(f1_var_selected_levels)
+    # selected_1 <- get_selected_ds()
+    selected_var <- get_info_1()
+    new_levels   <- get_values(f2_box_levels)
 
-    if (str_detect(selected_levels, fixed("{"))) {
-      selected_levels <- NULL
-    }
+    new_ds_ovewrite  <- get_values(f4$dataset$checkbox)
+    new_ds           <- get_values(f4$dataset)
+    new_var_ovewrite <- get_values(f4$variable$checkbox)
+    new_var          <- get_values(f4$variable)
 
-    if (str_detect(selected_1, fixed("{"))) {
-      selected_1 <- NULL
-    }
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (variable_is_not_selected(selected_levels, "dataset", parent = top)) {
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Selected variable name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    if (variable_is_not_selected(selected_var, "variable", parent = top)) {
       return()
     }
-    if (forbid_to_replace_object(selected_levels, parent = top)) {return()}
+
+    # New variable name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    if (is_empty_name(new_var, "new variable name", parent = top)) {return()}
+    if (is_not_valid_name(new_var, parent = top)) {return()}
+    if (!new_var_ovewrite) {
+      if (forbid_to_replace_variables(new_var, parent = top)) {return()}
+    }
+
+    # New dataset name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    if (is_empty_name(new_ds, "new dataset name", parent = top)) {return()}
+    if (is_not_valid_name(new_ds, parent = top)) {return()}
+    if (!new_ds_ovewrite) {
+      if (forbid_to_replace_object(new_ds, parent = top)) {return()}
+    }
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     putDialog("window_fct_relevel", list(
-      which_packages  = get_selection(f2_pkg_opts)
+      automatic_order = get_sorting_type()
     ))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    .ds <- active_dataset()
+    new_levels_str <- quote_names(new_levels, as_single_string = TRUE)
 
-    command_load <-
-      if (is.null(selected_1)) {
-        str_glue('data("{selected_levels}")')
-      } else {
-        str_glue('data("{selected_levels}", package = "{selected_1}")')
-      }
+    # new_ds       <- safe_names(new_ds)
+    # new_var      <- safe_names(new_var)
+    # selected_var <- safe_names(selected_var)
+
+    Library("tidyverse")
+    Library("forcats")
 
     command <- str_glue(
-      "## Load data from R package \n",
-      "{command_load}"
+      "## Change order of levels \n",
+      "{new_ds} <- {.ds} %>% \n",
+      " mutate(  \n",
+      "   {new_var} = fct_relevel({selected_var}, {new_levels_str}) \n",
+      " )"
     )
 
     # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -306,6 +325,11 @@ window_fct_relevel <- function() {
     if (class(result)[1] != "try-error") {
       logger(style_cmd(command))
 
+      # FIXME: ...
+      if (!new_ds_ovewrite) {
+        active_dataset(new_ds)
+      }
+
     } else {
       logger_error(command, error_msg = result)
       show_code_evaluation_error_message()
@@ -313,6 +337,7 @@ window_fct_relevel <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    command_dataset_refresh()
     tkfocus(CommanderWindow())
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -489,10 +514,10 @@ window_fct_relevel <- function() {
   f3_combo_1 <-
     bs_combobox(
       parent = f3,
-      label = "List levels in this order",
+      label = "List levels in this order:",
       label_position = "above",
-      selection = 1,
-      width = 30,
+      value = initial$automatic_order,
+      width = 32,
 
       on_select = update_box_levels,
 
@@ -518,11 +543,11 @@ window_fct_relevel <- function() {
         NULL
       ))
 
-  tkgrid(f3, sticky = "w")
-  tkgrid(f3_combo_1$frame)
+  tkgrid(f3, sticky = "e")
+  tkgrid(f3_combo_1$frame, padx = c(0, 10))
 
   # F4 -----------------------------------------------------------------------
-  f4 <- bs_names_ds_var(get_var_name_fun = get_selected_1)
+  f4 <- bs_names_ds_var(parent = top, get_var_name_fun = get_selected_1)
   tkgrid(f4$frame, sticky = "w", pady = c(10, 0))
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Help menus ---------------------------------------------------------------
