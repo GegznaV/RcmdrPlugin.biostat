@@ -71,7 +71,7 @@ source_online <- function(url = NULL, parent = CommanderWindow()) {
 #' @export
 #' @keywords internal
 window_online_geogebra_probability  <- function() {
-  open_online_tool("https://www.geogebra.org/probability")
+  open_online_tool("https://www.geogebra.org/classic/probability")
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -93,14 +93,14 @@ window_online_image_digitizer  <- function(variables) {
 #' @export
 #' @keywords internal
 window_online_mvn  <- function() {
-  open_online_tool("http://www.biosoft.hacettepe.edu.tr/MVN/")                 # broken
+  open_online_tool("http://www.biosoft.hacettepe.edu.tr/MVN/")                 # FIXME broken
 }
 
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 window_online_easyROC  <- function() {
-  open_online_tool("http://www.biosoft.hacettepe.edu.tr/easyROC/")             # broken
+  open_online_tool("http://www.biosoft.hacettepe.edu.tr/easyROC/")             # FIXME broken
 }
 
 
@@ -108,7 +108,7 @@ window_online_easyROC  <- function() {
 #' @export
 #' @keywords internal
 window_online_tdROC  <- function() {
-  open_online_tool("http://www.biosoft.hacettepe.edu.tr/tdROC/")               # broken
+  open_online_tool("http://www.biosoft.hacettepe.edu.tr/tdROC/")               # FIXME broken
 }
 
 
