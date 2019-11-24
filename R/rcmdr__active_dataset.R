@@ -303,6 +303,7 @@ list_discrete_numeric <- function(dataSet = active_dataset_0()) {
       threshold <- min(round(2 * sqrt(n)), round(10 * log10(n)), 100)
     }
     variables <- list_numeric()
+    if (length(variables) == 0) {return(NULL)}
     variables[sapply(variables, function(.x) {
       length(
         unique(
