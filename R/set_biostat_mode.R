@@ -98,6 +98,7 @@ set_biostat_mode <- function() {
   button_set_analysis <- tk2frame(buttons_bar_low)
   button_set_plots    <- tk2frame(buttons_bar_low)
   button_set_settings <- tk2frame(buttons_bar_low)
+  button_set_web      <- tk2frame(buttons_bar_low)
   button_set_refresh  <- tk2frame(buttons_bar_low)
 
   button_import <- tk2button(
@@ -157,9 +158,15 @@ set_biostat_mode <- function() {
     image   = "::image::bs_plot",
     command = bs_mode_menu__plots)
 
+  button_web <- tk2button(
+    button_set_web,
+    tip     = "Online tools",
+    image   = "::image::bs_web",
+    command = bs_mode_menu__web)
+
   button_other <- tk2button(
     button_set_settings,
-    tip     = "Session and settings",
+    tip     = "Tools and settings",
     image   = "::image::bs_settings",
     command = bs_mode_menu__settings)
 
@@ -183,6 +190,7 @@ set_biostat_mode <- function() {
   putRcmdr("button_set_manage",   button_set_manage)
   putRcmdr("button_set_plots",    button_set_plots)
   putRcmdr("button_set_analysis", button_set_analysis)
+  # putRcmdr("button_set_web",      button_set_web)
   putRcmdr("button_set_settings", button_set_settings)
   putRcmdr("button_set_refresh",  button_set_refresh)
 
@@ -196,6 +204,7 @@ set_biostat_mode <- function() {
   putRcmdr("button_analysis",     button_analysis)
   putRcmdr("button_plots",        button_plots)
   putRcmdr("button_other",        button_other)
+  # putRcmdr("button_web",          button_web)
   putRcmdr("button_refresh",      button_refresh)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -223,6 +232,7 @@ set_biostat_mode <- function() {
     button_set_manage,
     button_set_analysis,
     button_set_plots,
+    # button_set_web,
     button_set_settings,
     button_set_refresh
   )
@@ -253,6 +263,11 @@ set_biostat_mode <- function() {
     button_other
   )
 
+  # # Set: web
+  # tkgrid(
+  #   button_web
+  # )
+
   # Set: refresh
   tkgrid(
     button_refresh
@@ -269,6 +284,7 @@ set_biostat_mode <- function() {
   #     button_analysis,
   #     button_plots,
   #     button_other,
+  #     button_web,
   #     button_refresh
   # )
 
@@ -356,6 +372,7 @@ set_biostat_mode <- function() {
         button_set_manage,
         button_set_analysis,
         button_set_plots,
+        # button_set_web,
         button_set_settings,
         button_set_refresh
       )
@@ -396,7 +413,9 @@ set_biostat_mode <- function() {
     tkconfigure(logo, image = "::image::bs_r_logo_management")
     tip_switch_to_biostat()
     tkgrid(button_set_manage)
-    tkgrid.remove(button_set_analysis, button_set_plots, button_set_settings)
+    tkgrid.remove(button_set_analysis, button_set_plots, button_set_settings
+      # , button_set_web
+    )
   })
 
   tkbind(lb2, "<Enter>", function() tkconfigure(lb2, image = "::image::dot-gw-4"))
@@ -405,7 +424,9 @@ set_biostat_mode <- function() {
     tkconfigure(logo, image = "::image::bs_r_logo_analysis")
     tip_switch_to_biostat()
     tkgrid(button_set_analysis)
-    tkgrid.remove(button_set_manage, button_set_plots, button_set_settings)
+    tkgrid.remove(button_set_manage, button_set_plots, button_set_settings,
+      # , button_set_web
+    )
   })
 
   tkbind(lb3, "<Enter>", function() tkconfigure(lb3, image = "::image::dot-gw-4"))
@@ -414,7 +435,9 @@ set_biostat_mode <- function() {
     tkconfigure(logo, image = "::image::bs_r_logo_plots")
     tip_switch_to_biostat()
     tkgrid(button_set_plots)
-    tkgrid.remove(button_set_manage, button_set_analysis, button_set_settings)
+    tkgrid.remove(button_set_manage, button_set_analysis, button_set_settings,
+      # , button_set_web
+    )
   })
 
   tkbind(lb4, "<Enter>", function() tkconfigure(lb4, image = "::image::dot-gw-4"))
@@ -423,7 +446,9 @@ set_biostat_mode <- function() {
     tkconfigure(logo, image = "::image::bs_r_logo_settings")
     tip_switch_to_biostat()
     tkgrid(button_set_settings)
-    tkgrid.remove(button_set_manage, button_set_analysis, button_set_plots)
+    tkgrid.remove(button_set_manage, button_set_analysis, button_set_plots,
+      # , button_set_web
+    )
   })
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Change the title and the main icon ---------------------------------------
@@ -1367,7 +1392,6 @@ bs_mode_menu__analyze <- function() {
   #       state      = set_menu_state(numericP() && factorsP()),
   #       command    = Rcmdr:::LeveneTest)
 
-
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkpopup(menu_p,
     tkwinfo("pointerx", top),
@@ -1695,6 +1719,59 @@ bs_mode_menu__settings <- function() {
     command  = command_chk_packages_r19)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkpopup(menu_p,
+    tkwinfo("pointerx", top),
+    tkwinfo("pointery", top))
+}
+
+
+# Web ------------------------------------------------------------------------
+bs_mode_menu__web <- function() {
+
+  top <- CommanderWindow()
+
+  menu_web  <- tk2menu(tk2menu(top), tearoff = FALSE)
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  menu_apps <- tk2menu(menu_web, tearoff = FALSE)
+
+  tkadd(menu_web, "cascade",
+        label    = "Web applications",
+        compound = "left",
+        image    = "::image::bs_web_app",
+        menu     = menu_apps)
+
+  tkadd(menu_apps, "command",
+    label      = "Probability calculator: GeoGebra (online)...",
+    # state      = set_menu_state(numericP()),
+    compound   = "left",
+    image      = "::image::bs_geogebra",
+    command    = window_online_geogebra_probability
+  )
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  menu_down <- tk2menu(menu_web, tearoff = FALSE)
+
+  tkadd(menu_web, "cascade",
+        label    = "Applications to download",
+        compound = "left",
+        image    = "::image::bs_web_get",
+        menu     = menu_down)
+
+  tkadd(menu_down, "command",
+    label      = "Data mining: Orange (online)...",
+    # state      = set_menu_state(numericP()),
+    # compound   = "left",
+    # image      = "::image::bs_geogebra",
+    command    = window_online_orange
+  )
+
+  tkadd(menu_down, "command",
+    label      = "Power analysis: GPower (online)...",
+    # state      = set_menu_state(numericP()),
+    # compound   = "left",
+    # image      = "::image::bs_geogebra",
+    command    = window_online_gpower)
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  tkpopup(menu_web,
     tkwinfo("pointerx", top),
     tkwinfo("pointery", top))
 }
