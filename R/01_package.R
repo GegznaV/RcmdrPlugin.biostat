@@ -137,11 +137,14 @@ biostat_env$use_relative_path <- TRUE
 
   bs_tkimage_create("::image::dot-gw-4",      "icons/oth/dot-gw-4x4.png")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  bs_tkimage_create("::image::bs_r_logo_shapes",     "icons/32/shapes.png")
-  bs_tkimage_create("::image::bs_r_logo_management", "icons/32/documentation.png")
-  bs_tkimage_create("::image::bs_r_logo_analysis",   "icons/32/bs-analysis-32.png")
-  bs_tkimage_create("::image::bs_r_logo_plots",      "icons/32/office-chart-pie.png")
-  bs_tkimage_create("::image::bs_r_logo_settings",   "icons/32/system-settings.png")
+  bs_tkimage_create("::image::bs_r_logo_analysis",      "icons/32/bs-analysis-32.png")
+  bs_tkimage_create("::image::bs_r_logo_documentation", "icons/32/documentation.png")
+  bs_tkimage_create("::image::bs_r_logo_help",          "icons/32/system-help-2.png")
+  bs_tkimage_create("::image::bs_r_logo_internet",      "icons/32/applications-internet.png")
+  bs_tkimage_create("::image::bs_r_logo_management",    "icons/32/management.png")
+  bs_tkimage_create("::image::bs_r_logo_plots",         "icons/32/office-chart-pie.png")
+  bs_tkimage_create("::image::bs_r_logo_settings",      "icons/32/system-settings.png")
+  bs_tkimage_create("::image::bs_r_logo_shapes",        "icons/32/shapes.png")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   bs_tkimage_create("::image::bs_r_logo_b"  , "icons/32/R-logo-b.png")
   bs_tkimage_create("::image::bs_r_logo_br" , "icons/32/R-logo-br.png")
@@ -206,6 +209,7 @@ biostat_env$use_relative_path <- TRUE
   bs_tkimage_create("::image::bs_import",     "icons/16/bs_import.png")
   bs_tkimage_create("::image::bs_text",       "icons/16/bs_txt.png")
   bs_tkimage_create("::image::bs_excel",      "icons/16/page-white_excel.png")
+  bs_tkimage_create("::image::bs_geogebra",   "icons/16/geogebra.png")
   bs_tkimage_create("::image::bs_package",    "icons/16/package-green.png")
   bs_tkimage_create("::image::bs_package_r",  "icons/16/package-red.png")
   bs_tkimage_create("::image::bs_package_br", "icons/16/package-br.png")
@@ -262,6 +266,12 @@ biostat_env$use_relative_path <- TRUE
   bs_tkimage_create("::image::bs_plotly",     "icons/16/plotly.png")
   bs_tkimage_create("::image::bs_chart",      "icons/16/insert-chart-bar.png")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # bs_tkimage_create("::image::bs_web",        "icons/16/applications-internet.png")
+  bs_tkimage_create("::image::bs_web",        "icons/16/emblem-web.png")
+  bs_tkimage_create("::image::bs_web_get",    "icons/16/application-x-kgetlist.png")
+  bs_tkimage_create("::image::bs_web_app",    "icons/16/application-x-desktop.png")
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   bs_tkimage_create("::image::bs_settings",   "icons/16/system-2.png")
   bs_tkimage_create("::image::bs_locale"    , "icons/16/locale.png")
 
@@ -286,6 +296,7 @@ biostat_env$use_relative_path <- TRUE
   bs_tkimage_create("::image::bs_about",       "icons/16/help-about-3.png")
   bs_tkimage_create("::image::bs_bug",         "icons/16/bug.png")
   bs_tkimage_create("::image::bs_home",        "icons/16/go-home-6.png")
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
