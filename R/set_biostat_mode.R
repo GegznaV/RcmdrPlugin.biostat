@@ -424,7 +424,7 @@ set_biostat_mode <- function() {
     tkconfigure(logo, image = "::image::bs_r_logo_analysis")
     tip_switch_to_biostat()
     tkgrid(button_set_analysis)
-    tkgrid.remove(button_set_manage, button_set_plots, button_set_settings,
+    tkgrid.remove(button_set_manage, button_set_plots, button_set_settings
       # , button_set_web
     )
   })
@@ -435,7 +435,7 @@ set_biostat_mode <- function() {
     tkconfigure(logo, image = "::image::bs_r_logo_plots")
     tip_switch_to_biostat()
     tkgrid(button_set_plots)
-    tkgrid.remove(button_set_manage, button_set_analysis, button_set_settings,
+    tkgrid.remove(button_set_manage, button_set_analysis, button_set_settings
       # , button_set_web
     )
   })
@@ -446,7 +446,7 @@ set_biostat_mode <- function() {
     tkconfigure(logo, image = "::image::bs_r_logo_settings")
     tip_switch_to_biostat()
     tkgrid(button_set_settings)
-    tkgrid.remove(button_set_manage, button_set_analysis, button_set_plots,
+    tkgrid.remove(button_set_manage, button_set_analysis, button_set_plots
       # , button_set_web
     )
   })
