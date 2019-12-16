@@ -47,6 +47,7 @@ ByteCompile: false
 URL: https://GegznaV.github.io/RcmdrPlugin.biostat
 BugReports: https://github.com/GegznaV/RcmdrPlugin.biostat/issues
 Remotes:
+    github::rforge/rcmdr/pkg/RcmdrMisc,
     github::rforge/rcmdr/pkg/Rcmdr-devel
 Depends:
     R (>= 3.3.0),
