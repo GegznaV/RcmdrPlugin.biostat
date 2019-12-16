@@ -96,8 +96,9 @@ biostat_env$use_relative_path <- TRUE
       Rcmdr_opts,
       list(
         plugins = plugins,
+        sort.names = sort.names,
         console.output = console.output,
-        sort.names = sort.names
+        fun_mod_commander = RcmdrPlugin.biostat::set_biostat_mode
       )
     )
 
@@ -183,7 +184,7 @@ biostat_env$use_relative_path <- TRUE
   bs_tkimage_create("::image::bs_redo"      , "icons/16/edit-redo-7.png")
   bs_tkimage_create("::image::bs_find"      , "icons/16/edit-find-7.png")
   bs_tkimage_create("::image::bs_refresh"   , "icons/16/refresh.png")
-  bs_tkimage_create("::image::bs_refresh_r" , "icons/16/refresh-r.png")
+  bs_tkimage_create("::image::bs_reset"     , "icons/16/refresh-r.png")
   bs_tkimage_create("::image::bs_select_all", "icons/16/edit-select-all.png")
   bs_tkimage_create("::image::bs_down"      , "icons/16/down-blue.png")
   bs_tkimage_create("::image::bs_chk_pkgs" ,  "icons/16/view-refresh-6.png")
