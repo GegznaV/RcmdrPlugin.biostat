@@ -183,7 +183,7 @@ remotes::install_github("GegznaV/RcmdrPlugin.EZR", ref = "ezr_as_menu")
 install.packages("RcmdrPlugin.KMggplot2")
 ```
 
-After the packages are installed, you can load them the automatically:
+After the packages are installed, you can load them automatically:
 
 ``` r
 options(Rcmdr = list(plugins = c(
