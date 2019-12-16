@@ -1763,10 +1763,11 @@ validate_var_name_string <- function(P, W) {
 #' @export
 #' @keywords internal
 command_rcmdr_restart <- function() {
-  ans <- command_rcmdr_close()
-  if (ans != "cancel") {
-    Rcmdr::Commander()
-  }
+  # ans <- command_rcmdr_close()
+  # if (ans != "cancel") {
+  #   Rcmdr::Commander()
+  # }
+  restartCommander()
 }
 
 #' @rdname Helper-functions
