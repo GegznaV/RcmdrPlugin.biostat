@@ -1,7 +1,7 @@
 Package: RcmdrPlugin.biostat
 Type: Package
-Version: 0.0.56
-Date: 2019-11-24
+Version: 0.0.57
+Date: 2019-12-16
 Title: R Commander Plug-in for Basic Data Management and Analysis Tasks
 Description: An Rcmdr plug-in for the most common data wrangling, visualisation 
              and analysis tasks using "tidyverse" family functions as well as 
@@ -46,12 +46,14 @@ LazyData: true
 ByteCompile: false
 URL: https://GegznaV.github.io/RcmdrPlugin.biostat
 BugReports: https://github.com/GegznaV/RcmdrPlugin.biostat/issues
+Remotes:
+    github::rforge/rcmdr/pkg/Rcmdr-devel
 Depends:
     R (>= 3.3.0),
     tcltk,
     tcltk2 (>= 1.2-11),
     RcmdrPlugin.EZR,
-    Rcmdr
+    Rcmdr (>= 2.6.1)
 Imports:
     binom,
     boot,
@@ -104,4 +106,4 @@ Suggests:
     knitr,
     rmarkdown,
     rvg
-RoxygenNote: 7.0.1
+RoxygenNote: 7.0.2
