@@ -157,9 +157,6 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  #' @rdname Menu-window-functions
-  #' @export
-  #' @keywords internal
   cmd_get_locale_of_os <- function() {
 
     # Cursor

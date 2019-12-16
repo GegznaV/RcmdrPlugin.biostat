@@ -63,6 +63,7 @@
 #'
 #'
 #' @param obj Widget.
+#' @param tkobj Tcl/Tk object.
 #' @param listbox List box widget.
 #' @param ind Index. Usually either character values or numeric indices.
 #' @param sel Selection. Usually either character values or numeric indices.
@@ -406,6 +407,8 @@ get_size.tkwin <- function(obj, ...) {
 # Values =================== ================================================
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname bs_listbox
+#' @param trim (logical) Should the whitespace characters be trimmed from the
+#'        beginning and the end of each string?
 #' @export
 get_values_listbox <- function(listbox, trim = FALSE) {
   n <- tclvalue_int(tksize(listbox))
@@ -433,6 +436,8 @@ get_values.tk2listbox <- function(obj, vals, ...) {
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname bs_listbox
+#' @param ignore_on_disabled (logical) Should the procedure be ignored
+#'        (not performed) if a widget is disabled?
 #' @export
 set_values_listbox <- function(listbox, values, clear = TRUE,
   ignore_on_disabled = FALSE) {
@@ -503,6 +508,8 @@ get_selection_listbox <- function(listbox) {
 }
 
 #' @rdname bs_listbox
+#' @param index (logical) Is provided input an index?
+#'        `TRUE` -- index, `FALSE` -- value.
 #' @export
 get_selection.listbox <- function(obj, ..., index = FALSE) {
   get_selection(obj$listbox, ..., index = index)

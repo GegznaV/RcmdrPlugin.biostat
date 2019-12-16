@@ -21,6 +21,10 @@ tk_label_red(parent, ..., size = 8, weight = "bold", fg = "darkred")
 \item{...}{Other arguments to pass to \code{tcltk2::tk2label()}.}
 
 \item{fg}{(character) Foreground color.}
+
+\item{size}{(integer) Font size}
+
+\item{weight}{(character) Font weight.}
 }
 \description{
 Functions, that create Tcl/Tk labels.
