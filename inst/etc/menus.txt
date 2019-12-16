@@ -220,6 +220,7 @@ item	import_menu	command	"Import data from plot (online)..."	window_online_image
 menu	bs19_export_menu	bs19_data_menu	""	""	""	""
 item	bs19_data_menu	cascade	"Export"	bs19_export_menu	"activeDataSetP()"	""
 
+item	bs19_export_menu	command	"Export to clipboard..."	window_export_to_clipboard	"activeDataSetP()"	""
 item	bs19_export_menu	command	"Export to Text file (.txt, .csv)..."	window_export_to_text	"activeDataSetP()"	""
 
 # item	bs19_export_menu	separator	""	""	""	""
