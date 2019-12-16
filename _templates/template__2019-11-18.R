@@ -358,7 +358,7 @@ window_tmp <- function() {
 
   f2_but_1_3 <- tk2button(
     f2_but_set_1,
-    image = "::image::bs_refresh_r",
+    image = "::image::bs_refresh",
     # command = select_dataset,
     tip = "Reset."
   )
