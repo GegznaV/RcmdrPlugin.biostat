@@ -18,6 +18,15 @@
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
+window_export_to_clipboard <- function() {
+  win <- window_export_to_text()
+  win$set_mode_clipboard()
+}
+# .============================ ==============================================
+
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
 window_export_to_text <- function() {
 
   # Functions ==============================================================
@@ -83,9 +92,9 @@ window_export_to_text <- function() {
       file_name <- make_relative_path(file_name)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    set_ext_field()
     tip(f1_ent_file$obj_text) <- file_name
     set_values(f1_ent_file, file_name)
+    set_ext_field()
     update_file_ent_pos()
   }
 
@@ -266,10 +275,29 @@ window_export_to_text <- function() {
     # Finalize
     custom_sep_activation()
   }
+
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   paste_text <-  function() {
     new_contents <- read_clipboard()
     set_file_path_related_values(new_contents)
+  }
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  reset_filename <- function() {
+    cur_ext <- cur_ext_txt_csv_tsv_dat()
+
+    set_file_path_related_values(file_name = .ds)
+
+    # Set ext to .txt, if not chosen
+    if (is.na(cur_ext)) {
+      set_values(f1_ent_file, str_c(read_path_to_file(), ".txt"))
+
+    } else {
+      set_values(f1_ent_file, str_c(read_path_to_file(), cur_ext))
+    }
+
+    # Set ext field value
+    set_ext_field()
   }
 
   #  ~~~ Activate / Disable ------------------------------------------------
@@ -324,6 +352,55 @@ window_export_to_text <- function() {
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  set_mode_file <- function() {
+    set_values(f1_but_dest, "File")
+
+    list(
+      f1_box_ext,
+      f1_ent_file
+    ) %>%
+      walk(tk_read_only)
+
+    list(
+      f1_but_paste,
+      f1_but_copy,
+      f1_but_clear,
+      f1_but_reset,
+      f1_but_f_choose
+    ) %>%
+      walk(tk_normalize)
+
+    fg = Rcmdr::getRcmdr("title.color")
+    tkconfigure(f1_lab_file, foreground = fg)
+    tkconfigure(f1_lab_ext,  foreground = fg)
+
+    tkconfigure(title_lab, text = "Export Data to Text File")
+    reset_filename()
+  }
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  set_mode_clipboard <- function() {
+    set_values(f1_but_dest, "Clipboard")
+
+    set_selection(f1_box_ext, 1)
+    list(
+      f1_box_ext,
+      f1_ent_file,
+      f1_but_paste,
+      f1_but_copy,
+      f1_but_clear,
+      f1_but_reset,
+      f1_but_f_choose
+    ) %>%
+      walk(tk_disable)
+
+    tkconfigure(f1_lab_file, foreground = "grey")
+    tkconfigure(f1_lab_ext,  foreground = "grey")
+
+    tkconfigure(title_lab, text = "Export Data to Clipboard")
+    set_values(f1_ent_file, "")
+  }
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # ~ onOK -------------------------------- --------------------------------
   onOK <- function() {
     # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -335,44 +412,65 @@ window_export_to_text <- function() {
     sep <- get_sep()
     dec <- get_dec()
     na_txt <- get_values(f1_ent_na)
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (is_empty_name(file_name, which_name = "file name", parent = top)) {
-      return()
-    }
-
-    if (forbid_to_replace_file(file_name, parent = top)) {
-      return()
-    }
-
-    #  Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+    destination <- get_values(f1_but_dest)
     has_rownames <- tibble::has_rownames(get(.ds, envir = .GlobalEnv))
 
-    command <-
-      str_glue("## Save data to text file\n",
-        'data.table::fwrite( \n',
-        '     {.ds}, \n',
-        '     file = "{file_name}", \n',
-        '     sep = "{sep}", \n',
-        '     dec = "{dec}", \n',
-        '     row.names  = {has_rownames}, \n',
-        '     col.names  = TRUE, \n',
-        '     na = "{na_txt}")'
-      )
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    if (destination == "Clipboard") {
+      command <-
+        str_glue("## Export data to clipboard\n",
+          'clipr::write_clip( \n',
+          '     {.ds}, \n',
+          '     sep = "{sep}", \n',
+          '     dec = "{dec}", \n',
+          '     row.names  = {has_rownames}, \n',
+          '     col.names  = TRUE, \n',
+          '     na = "{na_txt}")'
+        )
 
+    } else {
+      # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      if (is_empty_name(file_name, which_name = "file name", parent = top)) {
+        return()
+      }
+
+      if (forbid_to_replace_file(file_name, parent = top)) {
+        return()
+      }
+
+      if (nchar(sep) != 1) {
+        show_error_messages(
+          str_c(
+            "The length of column setarator must be 1. \n\n",
+            "Separator: ", sep, "\n",
+            "Length: ", nchar(sep)
+          ),
+          title = "Wrong Column Separator",
+          parent = top)
+        return()
+      }
+      # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      command <-
+        str_glue("## Save data to text file\n",
+          'data.table::fwrite( \n',
+          '     {.ds}, \n',
+          '     file = "{file_name}", \n',
+          '     sep = "{sep}", \n',
+          '     dec = "{dec}", \n',
+          '     row.names  = {has_rownames}, \n',
+          '     col.names  = TRUE, \n',
+          '     na = "{na_txt}")'
+        )
+
+      Library("data.table")
+    }
     # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Library("data.table")
     result <- justDoIt(command)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (class(result)[1] != "try-error") {
       logger(style_cmd(command))
-      # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      closeDialog()
 
     } else {
       logger_error(command, error_msg = result)
@@ -406,7 +504,7 @@ window_export_to_text <- function() {
   # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   dialogue_title <- "Export Data to Text File"
   initializeDialog(title = gettext_bs(dialogue_title))
-  tk_title(top, dialogue_title)
+  title_lab <- tk_title(top, dialogue_title)
 
   .ds <- active_dataset()
 
@@ -423,10 +521,13 @@ window_export_to_text <- function() {
 
   # F1, Frame 1, choose file name ------------------------------------------
 
-  # Row 1 ------------------------------------------------------------------
-
   f1 <- tk2frame(top)
 
+  # Row 0 ------------------------------------------------------------------
+  f1_lab_data_1 <- tk_label_blue(f1, text = "Dataset: ")
+  f1_lab_data_2 <- tk_label(f1, text = .ds, fg = "green")
+
+  # Row 1 ------------------------------------------------------------------
   f1_lab_file <- tk_label_blue(f1, text = "File: ")
 
   f1_ent_file <- bs_entry(
@@ -466,6 +567,13 @@ window_export_to_text <- function() {
     tip = "Clear file name"
   )
 
+  f1_but_reset <- tk2button(
+    f1_but,
+    image = "::image::bs_reset",
+    command = reset_filename,
+    tip = "Reset file name"
+  )
+
   f1_but_f_choose <- tk2button(
     f1_but,
     image = "::image::bs_open_file",
@@ -497,6 +605,19 @@ window_export_to_text <- function() {
     on_double_click = sep_ent_normalize_if_appropriate,
     on_key_release = set_dec_selection)
 
+  f1_lab_na <- tk_label_blue(f1, text = "NA value:")
+  f1_ent_na <- bs_entry(f1, width = 16, tip = "Missing value", value = "")
+
+  # Row 3 ------------------------------------------------------------------
+  f1_lab_dest <- tk_label_blue(f1, text = "Destination: ")
+
+  f1_but_dest <- bs_radiobuttons(
+    parent  = f1,
+    buttons = c("File", "Clipboard"),
+    commands = list("File" = set_mode_file, "Clipboard" = set_mode_clipboard),
+    layout  = "horizontal"
+  )
+
   f1_lab_ext <- tk_label_blue(f1, text = "Extension:")
 
   f1_box_ext  <- bs_combobox(
@@ -511,13 +632,6 @@ window_export_to_text <- function() {
     on_select = set_ext_in_file
   )
 
-  # Row 3 ------------------------------------------------------------------
-
-  f1_lab_data_1 <- tk_label_blue(f1, text = "Dataset: ")
-  f1_lab_data_2 <- tk_label(f1, text = .ds)
-
-  f1_lab_na <- tk_label_blue(f1, text = "NA value:")
-  f1_ent_na <- bs_entry(f1, width = 16, tip = "Missing value", value = "")
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Grid -------------------------------------------------------------------
@@ -525,16 +639,19 @@ window_export_to_text <- function() {
   tkgrid(f1, sticky = "we")
 
 
+  # Row 0
+  tkgrid(f1_lab_data_1, f1_lab_data_2, sticky = "w")
+
   # Row 1
   tkgrid(f1_lab_file, f1_ent_file$frame, "x", f1_but, sticky = "we")
-  tkgrid(f1_but_f_choose, f1_but_paste, f1_but_copy, f1_but_clear)
+  tkgrid(f1_but_f_choose, f1_but_paste, f1_but_copy, f1_but_reset, f1_but_clear)
 
   # Row 2
-  tkgrid(f1_lab_dec, f1_row3_middle, f1_lab_ext, f1_box_ext$frame, pady = 2)
+  tkgrid(f1_lab_dec, f1_row3_middle, f1_lab_na, f1_ent_na$frame, pady = 2)
   tkgrid(f1_box_dec$frame, f1_box_sep$frame, f1_ent_sep$frame)
 
   # Row 3
-  tkgrid(f1_lab_data_1, f1_lab_data_2, f1_lab_na, f1_ent_na$frame,
+  tkgrid(f1_lab_dest, f1_but_dest$frame, f1_lab_ext, f1_box_ext$frame,
     sticky = "w")
 
   # Grid configuration
@@ -570,29 +687,43 @@ window_export_to_text <- function() {
     sticky = "e", padx = c(2, 0))
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Help menus -------------------------------------------------------------
+  help_menu <- function() {
+
+    menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
+
+    tkadd(menu_main, "command",
+      label    = "Function `fwrite`",
+      command  = open_help("fwrite", package = "data.table"))
+
+    tkadd(menu_main, "command",
+      label    = "Function `write_clip`",
+      command  = open_help("write_clip", package = "clipr"))
+
+    tkpopup(menu_main,
+      tkwinfo("pointerx", top),
+      tkwinfo("pointery", top))
+  }
   # Finalize -------------------------------------------------------------
 
   # Help topic
-  ok_cancel_help(helpSubject = "fwrite", helpPackage = "data.table",
-    # reset = "window_export_to_text()",
-    ok_label = "Export")
+  ok_cancel_help(
+    on_help = help_menu,
+    apply = "window_export_to_text()",
+    close_on_ok = TRUE,
+    ok_label = "Export"
+  )
 
   dialogSuffix(grid.buttons = TRUE, bindReturn = FALSE)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Configuration --------------------------------------------------------
-  set_file_path_related_values(file_name = .ds)
   sep_ent_disable()
-
-  # Set ext to .txt, if not chosen
-  if (is.na(cur_ext_txt_csv_tsv_dat())) {
-    set_values(f1_ent_file, str_c(read_path_to_file(), ".txt"))
-  }
-
-  # Set ext field value
-  set_ext_field()
-
-  # }
+  reset_filename()
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  invisible()
+  out <- list(
+    set_mode_clipboard = set_mode_clipboard,
+    set_mode_file      = set_mode_file
+  )
+  invisible(out)
 }
