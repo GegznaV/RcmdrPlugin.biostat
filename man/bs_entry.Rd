@@ -8,6 +8,7 @@
 \alias{tk_disable.bs_entry}
 \alias{tk_normalize.bs_entry}
 \alias{tk_activate.bs_entry}
+\alias{tk_read_only.bs_entry}
 \title{Tcl/Tk text entry widget.}
 \usage{
 bs_entry(
@@ -54,6 +55,8 @@ bs_entry(
 \method{tk_normalize}{bs_entry}(obj, ..., foreground = getRcmdr("title.color"))
 
 \method{tk_activate}{bs_entry}(obj, ..., foreground = getRcmdr("title.color"))
+
+\method{tk_read_only}{bs_entry}(obj, ..., foreground = getRcmdr("title.color"))
 }
 \arguments{
 \item{parent}{Parent Tcl/Tk window.}
