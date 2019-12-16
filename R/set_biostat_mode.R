@@ -678,15 +678,6 @@ bs_mode_menu__export <- function() {
     menu     = menu_clipb)
 
   tkadd(menu_clipb, "command",
-    label    = "as custom format...",
-    compound = "left",
-    image    = "::image::bs_copy",
-    command  = window_export_to_clipboard
-  )
-
-  tkadd(menu_clipb, "separator")
-
-  tkadd(menu_clipb, "command",
     label    = "as Tab delimited values (tsv)",
     compound = "left",
     image    = "::image::bs_copy",
@@ -703,6 +694,15 @@ bs_mode_menu__export <- function() {
       .ds <- active_dataset_0()
       export_to_clipboard(.ds, sep = "\t", dec = ",")
     })
+
+  tkadd(menu_clipb, "separator")
+
+  tkadd(menu_clipb, "command",
+    label    = "To clipboard (custom format)...",
+    compound = "left",
+    image    = "::image::bs_copy",
+    command  = window_export_to_clipboard
+  )
 
   # tkadd(menu_clipb, "command",
   #   label    = "as Comma separated values (csv)",
