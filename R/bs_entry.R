@@ -372,3 +372,10 @@ tk_activate.bs_entry <- function(obj, ..., foreground = getRcmdr("title.color"))
   tk_activate(obj$obj_label, foreground = foreground)
 }
 
+#' @rdname bs_entry
+#' @export
+tk_read_only.bs_entry <- function(obj, ..., foreground = getRcmdr("title.color")) {
+  tk_read_only(obj$obj_text)
+  tk_read_only(obj$obj_label, foreground = foreground)
+}
+
