@@ -495,7 +495,7 @@ window_import_from_pkg <- function() {
 
   f2_but_2_1 <- tk2button(
     parent  = f2_but_set_2,
-    image   = "::image::bs_refresh_r",
+    image   = "::image::bs_refresh",
     command =  refresh_all_installed_packages,
     tip = "Refresh the list of\n installed packages."
   )
