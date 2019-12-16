@@ -678,6 +678,15 @@ bs_mode_menu__export <- function() {
     menu     = menu_clipb)
 
   tkadd(menu_clipb, "command",
+    label    = "as custom format...",
+    compound = "left",
+    image    = "::image::bs_copy",
+    command  = window_export_to_clipboard
+  )
+
+  tkadd(menu_clipb, "separator")
+
+  tkadd(menu_clipb, "command",
     label    = "as Tab delimited values (tsv)",
     compound = "left",
     image    = "::image::bs_copy",
@@ -685,6 +694,7 @@ bs_mode_menu__export <- function() {
       .ds <- active_dataset_0()
       export_to_clipboard(.ds, sep = "\t")
     })
+
   tkadd(menu_clipb, "command",
     label    = "as Tab delimited values (European tsv)",
     compound = "left",
@@ -694,23 +704,24 @@ bs_mode_menu__export <- function() {
       export_to_clipboard(.ds, sep = "\t", dec = ",")
     })
 
-  tkadd(menu_clipb, "command",
-    label    = "as Comma separated values (csv)",
-    compound = "left",
-    image    = "::image::bs_copy",
-    command  = function() {
-      .ds <- active_dataset_0()
-      export_to_clipboard(.ds, sep = ",")
-    })
+  # tkadd(menu_clipb, "command",
+  #   label    = "as Comma separated values (csv)",
+  #   compound = "left",
+  #   image    = "::image::bs_copy",
+  #   command  = function() {
+  #     .ds <- active_dataset_0()
+  #     export_to_clipboard(.ds, sep = ",")
+  #   })
+  #
+  # tkadd(menu_clipb, "command",
+  #   label    = "as Comma separated values (European csv)",
+  #   compound = "left",
+  #   image    = "::image::bs_copy",
+  #   command  = function() {
+  #     .ds <- active_dataset_0()
+  #     export_to_clipboard(.ds, sep = ";", dec = ",")
+  #   })
 
-  tkadd(menu_clipb, "command",
-    label    = "as Comma separated values (European csv)",
-    compound = "left",
-    image    = "::image::bs_copy",
-    command  = function() {
-      .ds <- active_dataset_0()
-      export_to_clipboard(.ds, sep = ";", dec = ",")
-    })
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_to_console <- tk2menu(menu_e, tearoff = FALSE)
@@ -1734,10 +1745,10 @@ bs_mode_menu__web <- function() {
   menu_apps <- tk2menu(menu_web, tearoff = FALSE)
 
   tkadd(menu_web, "cascade",
-        label    = "Web applications",
-        compound = "left",
-        image    = "::image::bs_web_app",
-        menu     = menu_apps)
+    label    = "Web applications",
+    compound = "left",
+    image    = "::image::bs_web_app",
+    menu     = menu_apps)
 
   tkadd(menu_apps, "command",
     label      = "Probability calculator: GeoGebra (online)...",
@@ -1750,10 +1761,10 @@ bs_mode_menu__web <- function() {
   menu_down <- tk2menu(menu_web, tearoff = FALSE)
 
   tkadd(menu_web, "cascade",
-        label    = "Applications to download",
-        compound = "left",
-        image    = "::image::bs_web_get",
-        menu     = menu_down)
+    label    = "Applications to download",
+    compound = "left",
+    image    = "::image::bs_web_get",
+    menu     = menu_down)
 
   tkadd(menu_down, "command",
     label      = "Data mining: Orange (online)...",
