@@ -1,13 +1,32 @@
-options(Rcmdr = list(
-    plugins = c(
-        "RcmdrPlugin.KMggplot2",
-        "RcmdrPlugin.EZR.as.menu",
-        "RcmdrPlugin.biostat",
-        NULL)
-    , console.output = FALSE
-    # , use.rgl = FALSE
-    # , rmd.template = rmd_template_filename
-))
+# options(Rcmdr = list(
+#     plugins = c(
+#         "RcmdrPlugin.KMggplot2",
+#         "RcmdrPlugin.EZR.as.menu",
+#         "RcmdrPlugin.biostat",
+#         NULL)
+#     , console.output = FALSE
+#     , log.commands   = TRUE
+#     , fun_mod_commander = RcmdrPlugin.biostat::set_biostat_mode
+#     # , use.rgl = FALSE
+#     # , rmd.template = rmd_template_filename
+# ))
+
+
+# # No windows
+# options(Rcmdr = list(console.output = TRUE,  log.commands = FALSE))
+# # w = 0
+#
+# # 1 window: Logger
+# options(Rcmdr = list(console.output = TRUE, log.commands = TRUE))
+# # w = 0
+#
+# # 2 windows: Output, Messages
+# options(Rcmdr = list(console.output = FALSE, log.commands = FALSE))
+# # w = 0
+#
+# # 3 windows: Logger, Output, Messages
+# options(Rcmdr = list(console.output = FALSE, log.commands = TRUE))
+# # w = 1
 
 
 # # install.packages("RcmdrPlugin.KMggplot2")
