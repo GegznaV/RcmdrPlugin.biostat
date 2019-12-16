@@ -70,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RcmdrPlugin.biostat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.54</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.57</span>
       </span>
     </div>
 
@@ -436,6 +436,11 @@ elements.</p></td>
       <td><p>List box widget.</p></td>
     </tr>
     <tr>
+      <th>trim</th>
+      <td><p>(logical) Should the whitespace characters be trimmed from the
+beginning and the end of each string?</p></td>
+    </tr>
+    <tr>
       <th>vals</th>
       <td><p>Values.</p></td>
     </tr>
@@ -444,8 +449,22 @@ elements.</p></td>
       <td><p>(logical) Should values be cleared?</p></td>
     </tr>
     <tr>
+      <th>ignore_on_disabled</th>
+      <td><p>(logical) Should the procedure be ignored
+(not performed) if a widget is disabled?</p></td>
+    </tr>
+    <tr>
+      <th>index</th>
+      <td><p>(logical) Is provided input an index?
+`TRUE` -- index, `FALSE` -- value.</p></td>
+    </tr>
+    <tr>
       <th>sel</th>
       <td><p>Selection. Usually either character values or numeric indices.</p></td>
+    </tr>
+    <tr>
+      <th>tkobj</th>
+      <td><p>Tcl/Tk object.</p></td>
     </tr>
     <tr>
       <th>move_to</th>
