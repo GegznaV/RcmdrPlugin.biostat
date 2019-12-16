@@ -196,7 +196,7 @@ window_export_to_excel <- function() {
   f1 <- tk2frame(top)
 
   f1_lab_data_1 <- tk_label_blue(f1, text = "Dataset: ")
-  f1_lab_data_2 <- tk_label(f1, text = .ds)
+  f1_lab_data_2 <- tk_label(f1, text = .ds, fg = "green")
 
   f1_lab_file <- tk_label_blue(f1, text = "File: ")
 
@@ -261,6 +261,8 @@ window_export_to_excel <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(f1, sticky = "we")
 
+  tkgrid(f1_lab_data_1, f1_lab_data_2, pady = c(0, 2), sticky = "we")
+
   tkgrid(f1_lab_file, f1_ent_file$frame,
     f1_but_f_choose, f1_but_paste, f1_but_copy, f1_but_clear,
     pady = c(2, 2),  sticky = "we")
@@ -268,7 +270,6 @@ window_export_to_excel <- function() {
   tkgrid(f1_lab_sheet, f1_ent_sheet$frame, f1_but_refresh,
     pady = c(0,  2), sticky = "we")
 
-  tkgrid(f1_lab_data_1, f1_lab_data_2, pady = c(0, 2), sticky = "we")
 
   tkgrid.configure(f1_lab_data_1, f1_lab_file, f1_lab_sheet, sticky = "e")
   tkgrid.configure(f1_ent_file$frame, f1_ent_sheet$frame, sticky = "we",
