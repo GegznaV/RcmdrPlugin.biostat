@@ -138,6 +138,7 @@
 \alias{window_export_to_rdata_0}
 \alias{window_export_to_rds}
 \alias{window_export_to_rds_0}
+\alias{window_export_to_clipboard}
 \alias{window_export_to_text}
 \alias{window_factor_lvls_drop}
 \alias{window_fct_relevel}
@@ -417,6 +418,8 @@ window_export_to_rdata_0(ds_name = active_dataset())
 window_export_to_rds()
 
 window_export_to_rds_0(ds_name = active_dataset())
+
+window_export_to_clipboard()
 
 window_export_to_text()
 
