@@ -9,12 +9,12 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.r-project.org/package=RcmdrPlugin.biostat)
 [![GitHub
-version](https://img.shields.io/badge/GitHub-v0.0.57-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
+version](https://img.shields.io/badge/GitHub-v0.0.58-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/hm4h2rjb8ayr2df1/branch/master?svg=true)](https://ci.appveyor.com/project/GegznaV/rcmdrplugin-biostat/branch/master)
 [![Travis-CI Build
 Status](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.org/GegznaV/RcmdrPlugin.biostat)
-[![Updated-on](https://img.shields.io/badge/Updated%20on-2019--12--16-yellowgreen.svg)](/commits/master)
+[![Updated-on](https://img.shields.io/badge/Updated%20on-2019--12--17-yellowgreen.svg)](/commits/master)
 <!-- badges: end -->
 
 -----
@@ -206,8 +206,8 @@ Commander()
 
 # Important
 
-Some of the functions in the package are based on and modified from
-functions in packages *Rcmdr*<!--, *RcmdrPlugin.KMggplot2*-->, and
+Some functions in the package are based on and modified from functions
+in packages *Rcmdr*<!--, *RcmdrPlugin.KMggplot2*-->, and
 *RcmdrPlugin.EZR*. All of those packages are under GPL-2/GPL-3 license.
 
 -----
