@@ -475,7 +475,7 @@ window_import_from_excel <- function() {
 
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Clear both preview windows
+  # Clear preview window
   clear_preview <- function() {
     clear_dataset_window()
   }
@@ -1012,7 +1012,7 @@ window_import_from_excel <- function() {
     # width = 7,
     image = "::image::bs_delete",
     command = clear_preview,
-    tip = "Clear both preview windows."
+    tip = "Clear preview window."
   )
 
   f3_but_3 <- tk2button(
