@@ -48,8 +48,8 @@ URL: https://GegznaV.github.io/RcmdrPlugin.biostat
 BugReports: https://github.com/GegznaV/RcmdrPlugin.biostat/issues
 Remotes:
     r-lib/rlang,
-    rcmdr/pkg/RcmdrMisc,
-    rcmdr/pkg/Rcmdr-devel,
+    rforge/rcmdr/pkg/RcmdrMisc,
+    rforge/rcmdr/pkg/Rcmdr-devel,
     GegznaV/RcmdrPlugin.EZR
 Depends:
     R (>= 3.3.0),
