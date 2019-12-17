@@ -16,6 +16,8 @@ NULL
 #'
 #' @param parent (`"tkwin"` object) Parent Tcl/Tk window or frame.
 #' @param text (character) Label text.
+#' @param weight (character) Font weight.
+#' @param size (integer) Font size
 #' @param ... Other arguments to pass to `tcltk2::tk2label()`.
 #' @param fg (character) Foreground color.
 #'

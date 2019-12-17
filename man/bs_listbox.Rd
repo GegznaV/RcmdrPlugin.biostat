@@ -265,11 +265,22 @@ elements.}
 
 \item{listbox}{List box widget.}
 
+\item{trim}{(logical) Should the whitespace characters be trimmed from the
+beginning and the end of each string?}
+
 \item{vals}{Values.}
 
 \item{clear}{(logical) Should values be cleared?}
 
+\item{ignore_on_disabled}{(logical) Should the procedure be ignored
+(not performed) if a widget is disabled?}
+
+\item{index}{(logical) Is provided input an index?
+`TRUE` -- index, `FALSE` -- value.}
+
 \item{sel}{Selection. Usually either character values or numeric indices.}
+
+\item{tkobj}{Tcl/Tk object.}
 
 \item{move_to}{(string) Action:
 \itemize{

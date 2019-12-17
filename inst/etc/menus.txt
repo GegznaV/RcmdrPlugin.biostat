@@ -242,8 +242,8 @@ item	bs19_plots_menu	command	"Open a new window for plots"	open_new_plots_window
 
 
 # item	bs19_plots_menu	separator	""	""	""	""
-item	bs19_plots_menu	command	"Convert ggplot into interactive plot..."	window_plots_ggplotly	"gg_objects_exist() || gg_lastplot_exists()"	"packageAvailable('plotly')"
 item	bs19_plots_menu	command	"Close all plots"	close_all_plots	""	""
+item	bs19_plots_menu	command	"Convert ggplot into interactive plot..."	window_plots_ggplotly	"gg_objects_exist() || gg_lastplot_exists()"	"packageAvailable('plotly')"
 # item	bs19_plots_menu	command	"Digitize image (offline)..."	window_plots_image_digitizer	""	"packageAvailable('digitizeR')"
 # item	bs19_plots_menu	command	"Digitize image..."	window_dataset_digitizer_web	""	"packageAvailable('digitizeR')"
 
