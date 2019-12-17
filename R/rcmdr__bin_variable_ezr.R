@@ -2,31 +2,33 @@
 # window_bin_variable_manual() and window_bin_variable_manual2()
 # (revision by V. Gegzna, 2019-12-17)
 window_bin_variable_manual <- function(){
-    initializeDialog(title=gettext(domain="R-RcmdrPlugin.EZR","Bin numeric variable with specified threshold"))
+    initializeDialog(title=gettext(domain="R-RcmdrPlugin.biostat",
+      "Bin numeric variable with specified threshold [EZR]"))
   	dataSet <- activeDataSet()
-	variablesBox <- variableListBox(top, Numeric(), title=gettext(domain="R-RcmdrPlugin.EZR","Select one numeric variable"), listHeight=15)
+	variablesBox <- variableListBox(top, Numeric(), title=gettext(domain="R-RcmdrPlugin.biostat","Select one numeric variable"), listHeight=15)
 	newVariableName <- tclVar("")
 	newVariableNameEntry <- ttkentry(top, width="20", textvariable=newVariableName)
 	threshold <- tclVar("")
 	thresholdEntry <- ttkentry(top, width="20", textvariable=threshold)
 	radioButtons(name="grouping", buttons=c("equalgreater", "greater"), values=c(">=", ">"),
-		labels=gettext(domain="R-RcmdrPlugin.EZR",c(">= (equal to or greater than)", "> (greater than)")), title=gettext(domain="R-RcmdrPlugin.EZR","Threshold"))
+		labels=gettext(domain="R-RcmdrPlugin.biostat",c(">= (equal to or greater than)", "> (greater than)")), title=gettext(domain="R-RcmdrPlugin.biostat","Threshold"))
 	onOK <- function(){
-	logger(paste("#####", gettext(domain="R-RcmdrPlugin.EZR","Bin numeric variable with specified threshold"), "#####", sep=""))
+	logger(paste("## ", gettext(domain="R-RcmdrPlugin.biostat",
+	  "Bin numeric variable with specified threshold"), sep=""))
 		var <- trim.blanks(getSelection(variablesBox))
         	if (length(var) == 0){
-  	          errorCondition(recall=window_bin_variable_manual, message=gettext(domain="R-RcmdrPlugin.EZR","You must select a variable."))
+  	          errorCondition(recall=window_bin_variable_manual, message=gettext(domain="R-RcmdrPlugin.biostat","You must select a variable."))
             	return()
             	}
 		newVar <- trim.blanks(tclvalue(newVariableName))
 		if (!is.valid.name(newVar)){
 			errorCondition(recall=window_bin_variable_manual,
-				message=paste('"', newVar, '" ', gettext(domain="R-RcmdrPlugin.EZR","is not a valid name."), sep=""))
+				message=paste('"', newVar, '" ', gettext(domain="R-RcmdrPlugin.biostat","is not a valid name."), sep=""))
 			return()
 		}
 		threshold <- tclvalue(threshold)
         	if (length(threshold) == 0){
-  	          errorCondition(recall=window_bin_variable_manual, message=gettext(domain="R-RcmdrPlugin.EZR","Input threshold to bin a numeric variable."))
+  	          errorCondition(recall=window_bin_variable_manual, message=gettext(domain="R-RcmdrPlugin.biostat","Input threshold to bin a numeric variable."))
             	return()
             	}
 		grouping <- as.character(tclvalue(groupingVariable))
@@ -35,15 +37,15 @@ window_bin_variable_manual <- function(){
 		logger(command)
 		result <- justDoIt(command)
 		if (class(result)[1] !=  "try-error") activeDataSet(dataSet, flushModel=FALSE)
-#		logger(paste("#", gettext(domain="R-RcmdrPlugin.EZR","New variable"), " ", newVar, " ", gettext(domain="R-RcmdrPlugin.EZR","was made."), "(", threshold, gettext(domain="R-RcmdrPlugin.EZR","<=:1, >:0"), sep="") )
-		logger(paste("#", gettext(domain="R-RcmdrPlugin.EZR","New variable"), " ", newVar, " ", gettext(domain="R-RcmdrPlugin.EZR","was made."), sep="") )
+#		logger(paste("#", gettext(domain="R-RcmdrPlugin.biostat","New variable"), " ", newVar, " ", gettext(domain="R-RcmdrPlugin.biostat","was made."), "(", threshold, gettext(domain="R-RcmdrPlugin.biostat","<=:1, >:0"), sep="") )
+		logger(paste("#", gettext(domain="R-RcmdrPlugin.biostat","New variable"), " ", newVar, " ", gettext(domain="R-RcmdrPlugin.biostat","was made."), sep="") )
 		doItAndPrint(paste("table(", dataSet, "$", newVar, ", exclude=NULL)", sep="") )
 		tkfocus(CommanderWindow())
 	}
         OKCancelHelp(helpSubject="ifelse")
 	tkgrid(getFrame(variablesBox), sticky="nw")
-	tkgrid(tklabel(top, text=gettext(domain="R-RcmdrPlugin.EZR","New variable name")), newVariableNameEntry, sticky="w")
-	tkgrid(tklabel(top, text=gettext(domain="R-RcmdrPlugin.EZR","Threshold to bin a numeric variable.")), thresholdEntry, sticky="w")
+	tkgrid(tklabel(top, text=gettext(domain="R-RcmdrPlugin.biostat","New variable name")), newVariableNameEntry, sticky="w")
+	tkgrid(tklabel(top, text=gettext(domain="R-RcmdrPlugin.biostat","Threshold to bin a numeric variable.")), thresholdEntry, sticky="w")
 	tkgrid.configure(newVariableNameEntry, sticky="w")
 	tkgrid.configure(thresholdEntry, sticky="w")
 	tkgrid(groupingFrame, sticky="nw")
@@ -53,9 +55,10 @@ window_bin_variable_manual <- function(){
 
 
 window_bin_variable_manual2 <- function(){
-    initializeDialog(title=gettext(domain="R-RcmdrPlugin.EZR","Bin numeric variable to more than 2 groups with specified thresholds"))
+    initializeDialog(title=gettext(domain="R-RcmdrPlugin.biostat",
+      "Bin numeric variable to more than 2 groups with specified thresholds [EZR]"))
   	dataSet <- activeDataSet()
-	variablesBox <- variableListBox(top, Numeric(), title=gettext(domain="R-RcmdrPlugin.EZR","Select one numeric variable"), listHeight=15)
+	variablesBox <- variableListBox(top, Numeric(), title=gettext(domain="R-RcmdrPlugin.biostat","Select one numeric variable"), listHeight=15)
 
 	thresholdFrame <- tkframe(top)
 	newVariableNameFrame <- tkframe(thresholdFrame)
@@ -95,19 +98,19 @@ window_bin_variable_manual2 <- function(){
 	levelname6Variable <- tclVar("<no group>")
 	levelname6Field <- ttkentry(thresholdFrame, width="20", textvariable=levelname6Variable)
 	radioButtons(name="grouping", buttons=c("equalgreater", "greater"), values=c(">=", ">"),
-		labels=gettext(domain="R-RcmdrPlugin.EZR",c(">= (equal to or greater than)", "> (greater than)")), title=gettext(domain="R-RcmdrPlugin.EZR","Threshold"))
+		labels=gettext(domain="R-RcmdrPlugin.biostat",c(">= (equal to or greater than)", "> (greater than)")), title=gettext(domain="R-RcmdrPlugin.biostat","Threshold"))
 
 	onOK <- function(){
-	logger(paste("#####", gettext(domain="R-RcmdrPlugin.EZR","Bin numeric variable to more than 2 groups with specified thresholds"), "#####", sep=""))
+	logger(paste("## ", gettext(domain="R-RcmdrPlugin.biostat","Bin numeric variable to more than 2 groups with specified thresholds"), sep=""))
 		var <- trim.blanks(getSelection(variablesBox))
         	if (length(var) == 0){
-  	          errorCondition(recall=window_bin_variable_manual2, message=gettext(domain="R-RcmdrPlugin.EZR","You must select a variable."))
+  	          errorCondition(recall=window_bin_variable_manual2, message=gettext(domain="R-RcmdrPlugin.biostat","You must select a variable."))
             	return()
             	}
 		newVar <- trim.blanks(tclvalue(newVariableNameVariable))
 		if (!is.valid.name(newVar)){
 			errorCondition(recall=window_bin_variable_manual2,
-				message=paste('"', newVar, '" ', gettext(domain="R-RcmdrPlugin.EZR","is not a valid name."), sep=""))
+				message=paste('"', newVar, '" ', gettext(domain="R-RcmdrPlugin.biostat","is not a valid name."), sep=""))
 			return()
 		}
 		threshold1 <- tclvalue(threshold1Variable)
@@ -131,7 +134,7 @@ window_bin_variable_manual2 <- function(){
 		breaks <- ", breaks=c(-Inf, "
 		labels <- ", labels=c("
 		if (levelname1 == "<no group>"){
-  	        errorCondition(recall=window_bin_variable_manual2, message=gettext(domain="R-RcmdrPlugin.EZR","Input at least two groups."))
+  	        errorCondition(recall=window_bin_variable_manual2, message=gettext(domain="R-RcmdrPlugin.biostat","Input at least two groups."))
             return()
         } else {
 			levels <- levels + 1
@@ -139,7 +142,7 @@ window_bin_variable_manual2 <- function(){
 		}
 		if (levelname2 != "<no group>"){
 			if (length(threshold1) == 0){
-  	          errorCondition(recall=window_bin_variable_manual2, message=gettext(domain="R-RcmdrPlugin.EZR","Input threshold to bin a numeric variable."))
+  	          errorCondition(recall=window_bin_variable_manual2, message=gettext(domain="R-RcmdrPlugin.biostat","Input threshold to bin a numeric variable."))
             return()
             }
 			levels <- levels + 1
@@ -148,7 +151,7 @@ window_bin_variable_manual2 <- function(){
 		}
 		if (levelname3 != "<no group>"){
 			if (length(threshold2) == 0){
-  	          errorCondition(recall=window_bin_variable_manual2, message=gettext(domain="R-RcmdrPlugin.EZR","Input threshold to bin a numeric variable."))
+  	          errorCondition(recall=window_bin_variable_manual2, message=gettext(domain="R-RcmdrPlugin.biostat","Input threshold to bin a numeric variable."))
             return()
             }
 			levels <- levels + 1
@@ -157,7 +160,7 @@ window_bin_variable_manual2 <- function(){
 		}
 		if (levelname4 != "<no group>"){
 			if (length(threshold3) == 0){
-  	          errorCondition(recall=window_bin_variable_manual2, message=gettext(domain="R-RcmdrPlugin.EZR","Input threshold to bin a numeric variable."))
+  	          errorCondition(recall=window_bin_variable_manual2, message=gettext(domain="R-RcmdrPlugin.biostat","Input threshold to bin a numeric variable."))
             return()
             }
 			levels <- levels + 1
@@ -166,7 +169,7 @@ window_bin_variable_manual2 <- function(){
 		}
 		if (levelname5 != "<no group>"){
 			if (length(threshold4) == 0){
-  	          errorCondition(recall=window_bin_variable_manual2, message=gettext(domain="R-RcmdrPlugin.EZR","Input threshold to bin a numeric variable."))
+  	          errorCondition(recall=window_bin_variable_manual2, message=gettext(domain="R-RcmdrPlugin.biostat","Input threshold to bin a numeric variable."))
             return()
             }
 			levels <- levels + 1
@@ -175,7 +178,7 @@ window_bin_variable_manual2 <- function(){
 		}
 		if (levelname6 != "<no group>"){
 			if (length(threshold5) == 0){
-  	          errorCondition(recall=window_bin_variable_manual2, message=gettext(domain="R-RcmdrPlugin.EZR","Input threshold to bin a numeric variable."))
+  	          errorCondition(recall=window_bin_variable_manual2, message=gettext(domain="R-RcmdrPlugin.biostat","Input threshold to bin a numeric variable."))
             return()
             }
 			levels <- levels + 1
@@ -183,7 +186,7 @@ window_bin_variable_manual2 <- function(){
 			labels <- paste(labels, ', "', levelname6, '"', sep="")
 		}
 		if (levels < 2){
-  	          errorCondition(recall=window_bin_variable_manual2, message=gettext(domain="R-RcmdrPlugin.EZR","Input at least two groups."))
+  	          errorCondition(recall=window_bin_variable_manual2, message=gettext(domain="R-RcmdrPlugin.biostat","Input at least two groups."))
             return()
         }
 		breaks <- paste(breaks, ", Inf)", sep="")
@@ -193,33 +196,33 @@ window_bin_variable_manual2 <- function(){
 		logger(command)
 		result <- justDoIt(command)
 		if (class(result)[1] !=  "try-error") activeDataSet(dataSet, flushModel=FALSE)
-		logger(paste("#", gettext(domain="R-RcmdrPlugin.EZR","New variable"), " ", newVar, " ", gettext(domain="R-RcmdrPlugin.EZR","was made."), sep="") )
+		logger(paste("#", gettext(domain="R-RcmdrPlugin.biostat","New variable"), " ", newVar, " ", gettext(domain="R-RcmdrPlugin.biostat","was made."), sep="") )
 		doItAndPrint(paste("table(", dataSet, "$", newVar, ", exclude=NULL)", sep="") )
 		tkfocus(CommanderWindow())
 	}
         OKCancelHelp(helpSubject="ifelse")
 	tkgrid(getFrame(variablesBox), sticky="nw")
-	tkgrid(labelRcmdr(newVariableNameFrame, text=gettext(domain="R-RcmdrPlugin.EZR","New variable name:")), newVariableNameField, sticky = "w")
+	tkgrid(labelRcmdr(newVariableNameFrame, text=gettext(domain="R-RcmdrPlugin.biostat","New variable name:")), newVariableNameField, sticky = "w")
 	tkgrid(newVariableNameFrame, labelRcmdr(thresholdFrame, text="  "), sticky="w")
 
-	tkgrid(labelRcmdr(thresholdFrame, text=gettext(domain="R-RcmdrPlugin.EZR","Input thresholds and level names."), fg="blue"), sticky="w")
+	tkgrid(labelRcmdr(thresholdFrame, text=gettext(domain="R-RcmdrPlugin.biostat","Input thresholds and level names."), fg="blue"), sticky="w")
 
-	tkgrid(labelRcmdr(levelname1Frame, text=paste(gettext(domain="R-RcmdrPlugin.EZR","Level group name"), " 1:", sep="")), levelname1Field, sticky = "w")
+	tkgrid(labelRcmdr(levelname1Frame, text=paste(gettext(domain="R-RcmdrPlugin.biostat","Level group name"), " 1:", sep="")), levelname1Field, sticky = "w")
 	tkgrid(levelname1Frame, labelRcmdr(thresholdFrame, text="  "), sticky="w")
-	tkgrid(labelRcmdr(levelname2Frame, text=paste(gettext(domain="R-RcmdrPlugin.EZR","Level group name"), " 2:", sep="")), levelname2Field, sticky = "w")
-	tkgrid(labelRcmdr(threshold1Frame, text=paste(gettext(domain="R-RcmdrPlugin.EZR","Threshold"), " 1:", sep="")), threshold1Field, sticky = "w")
+	tkgrid(labelRcmdr(levelname2Frame, text=paste(gettext(domain="R-RcmdrPlugin.biostat","Level group name"), " 2:", sep="")), levelname2Field, sticky = "w")
+	tkgrid(labelRcmdr(threshold1Frame, text=paste(gettext(domain="R-RcmdrPlugin.biostat","Threshold"), " 1:", sep="")), threshold1Field, sticky = "w")
 	tkgrid(levelname2Frame, labelRcmdr(thresholdFrame, text="  "), threshold1Frame, sticky="w")
-	tkgrid(labelRcmdr(levelname3Frame, text=paste(gettext(domain="R-RcmdrPlugin.EZR","Level group name"), " 3:", sep="")), levelname3Field, sticky = "w")
-	tkgrid(labelRcmdr(threshold2Frame, text=paste(gettext(domain="R-RcmdrPlugin.EZR","Threshold"), " 2:", sep="")), threshold2Field, sticky = "w")
+	tkgrid(labelRcmdr(levelname3Frame, text=paste(gettext(domain="R-RcmdrPlugin.biostat","Level group name"), " 3:", sep="")), levelname3Field, sticky = "w")
+	tkgrid(labelRcmdr(threshold2Frame, text=paste(gettext(domain="R-RcmdrPlugin.biostat","Threshold"), " 2:", sep="")), threshold2Field, sticky = "w")
 	tkgrid(levelname3Frame, labelRcmdr(thresholdFrame, text="  "), threshold2Frame, sticky="w")
-	tkgrid(labelRcmdr(levelname4Frame, text=paste(gettext(domain="R-RcmdrPlugin.EZR","Level group name"), " 4:", sep="")), levelname4Field, sticky = "w")
-	tkgrid(labelRcmdr(threshold3Frame, text=paste(gettext(domain="R-RcmdrPlugin.EZR","Threshold"), " 3:", sep="")), threshold3Field, sticky = "w")
+	tkgrid(labelRcmdr(levelname4Frame, text=paste(gettext(domain="R-RcmdrPlugin.biostat","Level group name"), " 4:", sep="")), levelname4Field, sticky = "w")
+	tkgrid(labelRcmdr(threshold3Frame, text=paste(gettext(domain="R-RcmdrPlugin.biostat","Threshold"), " 3:", sep="")), threshold3Field, sticky = "w")
 	tkgrid(levelname4Frame, labelRcmdr(thresholdFrame, text="  "), threshold3Frame, sticky="w")
-	tkgrid(labelRcmdr(levelname5Frame, text=paste(gettext(domain="R-RcmdrPlugin.EZR","Level group name"), " 5:", sep="")), levelname5Field, sticky = "w")
-	tkgrid(labelRcmdr(threshold4Frame, text=paste(gettext(domain="R-RcmdrPlugin.EZR","Threshold"), " 4:", sep="")), threshold4Field, sticky = "w")
+	tkgrid(labelRcmdr(levelname5Frame, text=paste(gettext(domain="R-RcmdrPlugin.biostat","Level group name"), " 5:", sep="")), levelname5Field, sticky = "w")
+	tkgrid(labelRcmdr(threshold4Frame, text=paste(gettext(domain="R-RcmdrPlugin.biostat","Threshold"), " 4:", sep="")), threshold4Field, sticky = "w")
 	tkgrid(levelname5Frame, labelRcmdr(thresholdFrame, text="  "), threshold4Frame, sticky="w")
-	tkgrid(labelRcmdr(levelname6Frame, text=paste(gettext(domain="R-RcmdrPlugin.EZR","Level group name"), " 6:", sep="")), levelname6Field, sticky = "w")
-	tkgrid(labelRcmdr(threshold5Frame, text=paste(gettext(domain="R-RcmdrPlugin.EZR","Threshold"), " 5:", sep="")), threshold5Field, sticky = "w")
+	tkgrid(labelRcmdr(levelname6Frame, text=paste(gettext(domain="R-RcmdrPlugin.biostat","Level group name"), " 6:", sep="")), levelname6Field, sticky = "w")
+	tkgrid(labelRcmdr(threshold5Frame, text=paste(gettext(domain="R-RcmdrPlugin.biostat","Threshold"), " 5:", sep="")), threshold5Field, sticky = "w")
 	tkgrid(levelname6Frame, labelRcmdr(thresholdFrame, text="  "), threshold5Frame, sticky="w")
 	tkgrid(thresholdFrame, sticky="w")
 	tkgrid(groupingFrame, sticky="nw")
