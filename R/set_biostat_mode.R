@@ -1190,6 +1190,11 @@ bs_mode_menu__variables <- function() {
     state    = set_menu_state(factors_strict_P()),
     command  = window_fct_relevel)
 
+  tkadd(menu_fct, "command",
+    label    = "Define contrasts for a factor [Rcmdr]...",
+    state    = set_menu_state(factors_strict_P()),
+    command  = window_set_contrasts)
+
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_num <- tk2menu(menu_p, tearoff = FALSE)
 
@@ -1198,6 +1203,30 @@ bs_mode_menu__variables <- function() {
     compound = "left",
     image    = "::image::bs_data_num",
     menu     = menu_num)
+
+  menu_num_bins <- tk2menu(menu_num, tearoff = FALSE)
+
+  tkadd(menu_num, "cascade",
+    label    = "Bin a numeric variable",
+    # compound = "left",
+    # image    = "::image::bs_data_num",
+    menu     = menu_num_bins)
+
+  tkadd(menu_num_bins, "command",
+    label    = "automatic bins [Rcmdr]...",
+    state = set_menu_state(numericP()),
+    command  = window_bin_variable)
+
+  tkadd(menu_num_bins, "command",
+    label    = "two manual bins [EZR]...",
+    state = set_menu_state(numericP()),
+    command  = window_bin_variable_manual)
+
+  tkadd(menu_num_bins, "command",
+    label    = "several manual bins [EZR]...",
+    state = set_menu_state(numericP()),
+    command  = window_bin_variable_manual2)
+
 
   tkadd(menu_num, "command",
     label    = "Logarithmic transformation...",
