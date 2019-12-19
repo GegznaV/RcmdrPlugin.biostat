@@ -1510,6 +1510,25 @@ objects_in_env_P <- function(n = 1, envir = .GlobalEnv, ...) {
   isTRUE(length(objects(envir = envir, ...)) >= n)
 }
 
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' Get properties of variables in active dataset
+#'
+#' @param fun (function|character) function that will be applied on each
+#'        variable in a dataset.
+#'
+#' @return A named verctor with the result of the function `fun` for each
+#'         variable in a dataset.
+#' @noRd
+#' @md
+#'
+get_ds_var_prop <- function(fun) {
+  fun_name <- deparse(substitute(fun))
+    str_glue_eval(
+      "mapply({fun_name}, {active_dataset()})",
+      envir_eval = .GlobalEnv
+    )
+}
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Does active dataset contain characters?
 #'
@@ -1520,8 +1539,7 @@ objects_in_env_P <- function(n = 1, envir = .GlobalEnv, ...) {
 #' @keywords internal
 #' @export
 characterP <- function(n = 1) {
-  activeDataSetP() &&
-    (sum(str_glue_eval("mapply(is.character, {active_dataset()})")) >= n)
+  activeDataSetP() && (sum(get_ds_var_prop(is.character)) >= n)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1535,8 +1553,7 @@ characterP <- function(n = 1) {
 #' @keywords internal
 #' @export
 factors_strict_P <- function(n = 1) {
-  activeDataSetP() &&
-    (sum(str_glue_eval("mapply(is.factor, {active_dataset()})")) >= n)
+  activeDataSetP() && (sum(get_ds_var_prop(is.factor)) >= n)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Does active dataset contain logicals?
@@ -1548,9 +1565,9 @@ factors_strict_P <- function(n = 1) {
 #' @keywords internal
 #' @export
 logicalP <- function(n = 1) {
-  activeDataSetP() &&
-    (sum(str_glue_eval("mapply(is.logical, {active_dataset()})")) >= n)
+  activeDataSetP() && (sum(get_ds_var_prop(is.logical)) >= n)
 }
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Does dataset contain certain number of variables?
@@ -1573,7 +1590,10 @@ variablesP <- function(n = 1) {
 #' @export
 first_class_is_dataframeP <- function() {
   activeDataSetP() &&
-    (str_glue_eval("class({active_dataset()})[1]") == "data.frame")
+    ("data.frame" == str_glue_eval(
+      "class({active_dataset()})[1]",
+      envir_eval = .GlobalEnv
+    ))
 }
 #' [!] Is the first class the same as in brackets?
 #'
@@ -1582,7 +1602,10 @@ first_class_is_dataframeP <- function() {
 #' @export
 first_class_isP <- function(df_class) {
   activeDataSetP() &&
-    (str_glue_eval("class({active_dataset()})[1]") == df_class)
+    (df_class == str_glue_eval(
+      "class({active_dataset()})[1]",
+      envir_eval = .GlobalEnv
+    ))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Chech the class of the active model in Rcmdr
