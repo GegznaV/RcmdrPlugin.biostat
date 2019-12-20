@@ -275,6 +275,7 @@ item	bs19_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"
 
 item	bs19_summary_menu	separator	""	""	""	""
 
+item	bs19_summary_menu	command	"Summarize all variables (summary)"	window_summary_summary	"activeDataSetP()"	"packageAvailable('summarytools')"
 item	bs19_summary_menu	command	"Summarize all variables (dfSummary)"	window_summary_dfSummary	"activeDataSetP()"	"packageAvailable('summarytools')"
 item	bs19_summary_menu	command	"Summarize all variables (Desc)"	window_summary_desc_all	"activeDataSetP()"	"packageAvailable('DescTools')"
 item	bs19_summary_menu	command	"Summarize selected variables (Desc)..."	window_summary_desc	"activeDataSetP()"	"packageAvailable('DescTools')"

@@ -100,8 +100,22 @@ window_dataset_select <- function() {
       "#     <list> list column (more complex data structures)"
     ))
   }
+
+
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  cmd_var_summary_dfSummary <- function() {
+  cmd_var_summary <- function() {
+    .ds_1     <- get_selection(var_ds_box) %>% safe_names()
+
+    command <- str_glue(
+      .trim = FALSE,
+      "## The summary of variables in {.ds_1}\n",
+      'summary({.ds_1})'
+    )
+    doItAndPrint(command)
+  }
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    cmd_var_summary_dfSummary <- function() {
     .ds_1 <- get_selection(var_ds_box) %>% safe_names()
     Library("summarytools")
 
@@ -112,7 +126,7 @@ window_dataset_select <- function() {
     }, silent = TRUE)
 
     doItAndPrint(str_glue(
-      "## The summary of dataset '{.ds_1}'\n",
+      "## The summary of variables in {.ds_1}\n",
       "dfSummary({.ds_1})" # FIXME: , round.digits = 2
     ))
 
@@ -129,7 +143,7 @@ window_dataset_select <- function() {
     opts_code <- get_desctools_opts_str()
     command <- str_glue(
       .trim = FALSE,
-      "## The summary ofall variables\n",
+      "## The summary of variables in {.ds_1}\n",
       "{opts_code}",
       'DescTools::Desc({.ds_1}, plotit = FALSE, ord = "level")'
     )
@@ -326,6 +340,13 @@ window_dataset_select <- function() {
     }
 
     menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
+
+    tkadd(menu_p, "command",
+          label    = "of all variables (summary)",
+          # compound = "left",
+          # image    = "::image::bs_locale",
+          command  = cmd_var_summary
+    )
 
     tkadd(menu_p, "command",
       label    = "of all variables (dfSummary)",

@@ -948,6 +948,10 @@ bs_mode_menu__summary  <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   tkadd(menu_p, "command",
+    label    = "Summarize all variables (summary)",
+    command  = window_summary_summary)
+
+  tkadd(menu_p, "command",
     label    = "Summarize all variables (dfSummary)",
     command  = window_summary_dfSummary)
 
