@@ -55,17 +55,17 @@ To install the development version of the package from “GitHub”:
 
 ```{r Install package, eval=FALSE}
 # It is recommended to update all packages first
-update.packages(checkBuilt = TRUE, ask = FALSE)
+# update.packages(checkBuilt = TRUE, ask = FALSE)
 
 # Install required packages
 if (!require("remotes"))  install.packages("remotes")
 
-remotes::install_github("r-lib/rlang",                  upgrade = TRUE)
-remotes::install_github("rforge/rcmdr/pkg/RcmdrMisc",   upgrade = TRUE)
-remotes::install_github("rforge/rcmdr/pkg/Rcmdr-devel", upgrade = TRUE)
+# remotes::install_github("r-lib/rlang",                upgrade = TRUE)
+remotes::install_github("rforge/rcmdr/pkg/RcmdrMisc",   upgrade = FALSE)
+remotes::install_github("rforge/rcmdr/pkg/Rcmdr-devel", upgrade = FALSE)
 
 # Install RcmdrPlugin.biostat
-remotes::install_github("GegznaV/RcmdrPlugin.biostat",  upgrade = TRUE)
+remotes::install_github("GegznaV/RcmdrPlugin.biostat")
 ```
 
 In case you face installation issues, try removing `upgrade = TRUE`{.r}.
