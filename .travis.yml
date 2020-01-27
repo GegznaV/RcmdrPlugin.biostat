@@ -16,12 +16,12 @@ before_install:
   - sudo apt-get update
   - sudo apt-get install -y libmagick++-dev
 
-# matrix:
-#   allow_failures:
-#   - r: oldrel
-#   include:
-#   - r: devel
-#   - r: oldrel
-#   - r: release
-#     env:
-#       - FULL=true
+matrix:
+  allow_failures:
+  - r: oldrel
+  include:
+  - r: devel
+  - r: oldrel
+  - r: release
+    env:
+      - FULL=true
