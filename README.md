@@ -14,7 +14,7 @@ version](https://img.shields.io/badge/GitHub-v0.0.58-brightgreen.svg)](https://g
 status](https://ci.appveyor.com/api/projects/status/hm4h2rjb8ayr2df1/branch/master?svg=true)](https://ci.appveyor.com/project/GegznaV/rcmdrplugin-biostat/branch/master)
 [![Travis-CI Build
 Status](https://travis-ci.com/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.com/GegznaV/RcmdrPlugin.biostat)
-[![Updated-on](https://img.shields.io/badge/Updated%20on-2019--12--17-yellowgreen.svg)](/commits/master)
+[![Updated-on](https://img.shields.io/badge/Updated%20on-2020--01--27-yellowgreen.svg)]()
 <!-- badges: end -->
 
 -----
@@ -41,17 +41,17 @@ To install the development version of the package from “GitHub”:
 
 ``` r
 # It is recommended to update all packages first
-update.packages(checkBuilt = TRUE, ask = FALSE)
+# update.packages(checkBuilt = TRUE, ask = FALSE)
 
 # Install required packages
 if (!require("remotes"))  install.packages("remotes")
 
-remotes::install_github("r-lib/rlang",                  upgrade = TRUE)
-remotes::install_github("rforge/rcmdr/pkg/RcmdrMisc",   upgrade = TRUE)
-remotes::install_github("rforge/rcmdr/pkg/Rcmdr-devel", upgrade = TRUE)
+# remotes::install_github("r-lib/rlang",                upgrade = TRUE)
+remotes::install_github("rforge/rcmdr/pkg/RcmdrMisc",   upgrade = FALSE)
+remotes::install_github("rforge/rcmdr/pkg/Rcmdr-devel", upgrade = FALSE)
 
 # Install RcmdrPlugin.biostat
-remotes::install_github("GegznaV/RcmdrPlugin.biostat",  upgrade = TRUE)
+remotes::install_github("GegznaV/RcmdrPlugin.biostat")
 ```
 
 In case you face installation issues, try removing `upgrade = TRUE`.
