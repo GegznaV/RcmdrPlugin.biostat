@@ -57,7 +57,17 @@ biostat_env$use_relative_path <- TRUE
     return()
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+  # FIXME: remove this code when pkg `tcltk2` updates the version of tablelist.
+  # old_tablelist <- system.file("tklibs/tablelist5.5", package = "tcltk2")
+  # if (dir.exists(old_tablelist)) {
+  #   unlink(old_tablelist)
+  # }
+  #
+  # new_tablelist_from <- system.file("tklibs/tablelist6.8", package = "RcmdrPlugin.biostat")
+  # new_tablelist_to   <- fs::path(system.file(package = "tcltk2"), "tklibs/tablelist6.8")
+  # if (!dir.exists(new_tablelist_to)) {
+  #   fs::dir_copy(new_tablelist_from, new_tablelist_to)
+  # }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   libdir <- file.path(libname, pkgname, "tklibs")
