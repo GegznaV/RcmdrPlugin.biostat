@@ -1524,10 +1524,10 @@ objects_in_env_P <- function(n = 1, envir = .GlobalEnv, ...) {
 #'
 get_ds_var_prop <- function(fun) {
   fun_name <- deparse(substitute(fun))
-    str_glue_eval(
-      "mapply({fun_name}, {active_dataset()})",
-      envir_eval = .GlobalEnv
-    )
+  str_glue_eval(
+    "mapply({fun_name}, {active_dataset()})",
+    envir_eval = .GlobalEnv
+  )
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Does active dataset contain characters?
@@ -1786,11 +1786,15 @@ validate_var_name_string <- function(P, W) {
 #' @export
 #' @keywords internal
 command_rcmdr_restart <- function() {
-  # ans <- command_rcmdr_close()
-  # if (ans != "cancel") {
-  #   Rcmdr::Commander()
-  # }
-  restartCommander()
+  if (packageVersion("Rcmdr") >= "2.7") {
+    Rcmdr:::restartCommander()
+
+  } else {
+    ans <- command_rcmdr_close()
+    if (ans != "cancel") {
+      Rcmdr::Commander()
+    }
+  }
 }
 
 #' @rdname Helper-functions
