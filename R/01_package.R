@@ -50,11 +50,26 @@ NULL
 biostat_env <- new.env()
 biostat_env$use_relative_path <- TRUE
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 # Functions
 .onAttach <- function(libname, pkgname) {
   if (!interactive()) {
     return()
   }
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  libdir <- file.path(libname, pkgname, "tklibs")
+  add_tcl_path(libdir)
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Add paths of Tcl/Tl packages
+  # bs_add_tcl_path("tklibs")
+  # bs_add_tcl_path("etc/tcl-tk/wcb3.6")
+  # bs_add_tcl_path("etc/tcl-tk/scrollutil1.3")
+  # bs_add_tcl_path("etc/tcl-tk/tablelist6.8")
+  # bs_add_tcl_path("etc/tcl-tk/mentry3.10")
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   # Current options
   Rcmdr_opts <- options()$Rcmdr
@@ -120,11 +135,11 @@ biostat_env$use_relative_path <- TRUE
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Create icons
 
-  bs_tkimage_create <- function(name, file, package = "RcmdrPlugin.biostat") {
-    tcltk::tkimage.create(
-      "photo", name,
-      file = system.file("etc", file, package = package))
-  }
+  # bs_tkimage_create <- function(name, file, package = "RcmdrPlugin.biostat") {
+  #   tcltk::tkimage.create(
+  #     "photo", name,
+  #     file = system.file("etc", file, package = package))
+  # }
 
   bs_tkimage_create("::image::dot-black",     "icons/oth/dot-black.png")
   bs_tkimage_create("::image::dot-red",       "icons/oth/dot-red.png")
@@ -302,4 +317,48 @@ biostat_env$use_relative_path <- TRUE
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+# Create icons
+bs_tkimage_create <- function(name, file, package = "RcmdrPlugin.biostat") {
+  tcltk::tkimage.create(
+    "photo", name,
+    file = system.file("etc", file, package = package))
+}
 
+
+## A modified version of tcltk2::addTclPath()
+add_tcl_path <- function(path = ".") {
+  if (.Platform$OS.type == "windows") {
+    path <- gsub("\\\\", "/", path)
+  }
+  paths <- as.character(tcltk::tcl("set", "::auto_path"))
+  if (!path %in% paths) {
+    tcltk::tcl("lappend", "::auto_path", path)
+  }
+}
+
+# Add Tcl path of directory of installed R package
+bs_add_tcl_path <- function(path, package = "RcmdrPlugin.biostat") {
+  add_tcl_path(system.file(path, package = package))
+}
+
+
+# ============================================================================
+state.tk2widget <- function(x, ...) {
+  as.character(tkcget(tlist, "-state"))
+}
+
+print.tk2widget <- function(x, ...) {
+
+    if (disabled(x)) {txt <- " (disabled)"} else {txt <- ""}
+    cat("A tk2widget of class '", class(x)[1], "'", txt, "\n", sep = "")
+    cat("State: ", state(x), "\n", sep = "")
+    cursize <- size(x)
+    if (cursize > 0) {cat("Size: ", cursize, "\n", sep = "")}
+    val <- value(x)
+    if (!is.null(val)) {
+        cat("Value:\n")
+        print(value(x))
+    }
+    return(invisible(x))
+}
+# ============================================================================
