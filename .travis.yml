@@ -21,7 +21,7 @@ matrix:
   - r: oldrel
   include:
   - r: devel
-  - r: oldrel
   - r: release
     env:
       - FULL=true
+  # - r: oldrel

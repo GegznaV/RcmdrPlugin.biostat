@@ -49,7 +49,7 @@ BugReports: https://github.com/GegznaV/RcmdrPlugin.biostat/issues
 Remotes:
     GegznaV/RcmdrPlugin.EZR
 Depends:
-    R (>= 3.3.0),
+    R (>= 3.6.0),
     tcltk,
     tcltk2 (>= 1.2-11),
     RcmdrPlugin.EZR,
