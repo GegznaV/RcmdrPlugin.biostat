@@ -576,7 +576,7 @@ window_export_to_text <- function() {
 
   f1_but_f_choose <- tk2button(
     f1_but,
-    image = "::image::bs_open_file",
+    image = "::image::bs_choose_file",
     command = get_path_to_file,
     tip = "Choose file to save to"
   )

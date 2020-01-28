@@ -570,7 +570,7 @@ bs_mode_menu__import <- function() {
   tkadd(menu_i, "cascade",
     label    = "Import from file    ",
     compound = "left",
-    image    = "::image::bs_open_file",
+    image    = "::image::bs_choose_file",
     menu     = menu_f
   )
 
@@ -637,7 +637,7 @@ bs_mode_menu__export <- function() {
   tkadd(menu_e, "cascade",
     label    = "Export to file",
     compound = "left",
-    image    = "::image::bs_open_file",
+    image    = "::image::bs_choose_file",
     menu     = menu_to_file)
 
   tkadd(menu_to_file, "command",
@@ -1277,14 +1277,14 @@ bs_mode_menu__analyze <- function() {
   # tkadd(menu_p, "command",
   #       label      = "Association between categorical variables...",
   #       # compound = "left",
-  #       # image    = "::image::bs_open_file",
+  #       # image    = "::image::bs_question",
   #       state      = set_menu_state(factorsP(2)),
   #       command    = window_summary_count)
 
   # tkadd(menu_p, "command",
   #       label      = "Normality test (univariate)...",
   #       # compound = "left",
-  #       # image    = "::image::bs_open_file",
+  #       # image    = "::image::bs_question",
   #       state      = set_menu_state(numericP()),
   #       command    = window_test_normality)
 
@@ -1297,13 +1297,13 @@ bs_mode_menu__analyze <- function() {
   #       label      = "Relationship",
   #       # label    = "Association & Correlation",
   #       # compound = "left",
-  #       # image    = "::image::bs_open_file",
+  #       # image    = "::image::bs_question",
   #       menu     = menu_a)
   #
   # tkadd(menu_p, "command",
   #     label      = "Association between categorical variables...",
   #     # compound = "left",
-  #     # image    = "::image::bs_open_file",
+  #     # image    = "::image::bs_question",
   #     # state      = set_menu_state(factorsP(2)),
   #     command    = window_summary_count
   # )
@@ -1311,28 +1311,28 @@ bs_mode_menu__analyze <- function() {
   # tkadd(menu_a, "command",
   #       label      = "Correlation... [Rcmdr]",
   #       # compound = "left",
-  #       # image    = "::image::bs_open_file",
+  #       # image    = "::image::bs_question",
   #       state      = set_menu_state(numericP(2)),
   #       command    = Rcmdr:::correlationTest)
   #
   # tkadd(menu_a, "command",
   #       label      = "Correlation matrix... [Rcmdr]",
   #       # compound = "left",
-  #       # image    = "::image::bs_open_file",
+  #       # image    = "::image::bs_question",
   #       state      = set_menu_state(numericP(2)),
   #       command    = Rcmdr:::correlationMatrix)
   #
   # tkadd(menu_a, "command",
   #       label      = "Pearson's linear correlation... [EZR]",
   #       # compound = "left",
-  #       # image    = "::image::bs_open_file",
+  #       # image    = "::image::bs_question",
   #       state      = set_menu_state(numericP(2)),
   #       command    = RcmdrPlugin.EZR::StatMedCorrelation)
   #
   # tkadd(menu_a, "command",
   #       label      = "Spearman's / Kendall's rank correlation... [EZR]",
   #       # compound = "left",
-  #       # image    = "::image::bs_open_file",
+  #       # image    = "::image::bs_question",
   #       state      = set_menu_state(numericP(2)),
   #       command    = RcmdrPlugin.EZR::StatMedSpearman)
   #
@@ -1341,7 +1341,7 @@ bs_mode_menu__analyze <- function() {
   # tkadd(menu_a, "command",
   #       label      = "Association between categorical variables...",
   #       # compound = "left",
-  #       # image    = "::image::bs_open_file",
+  #       # image    = "::image::bs_question",
   #       # state      = set_menu_state(factorsP(2)),
   #       command    = window_summary_count)
   #
@@ -1351,7 +1351,7 @@ bs_mode_menu__analyze <- function() {
   # tkadd(menu_p, "cascade",
   #       label    = "Tests",
   #       # compound = "left",
-  #       # image    = "::image::bs_open_file",
+  #       # image    = "::image::bs_question",
   #       menu     = menu_t)
 
   tkadd(menu_p, "command",
@@ -1369,7 +1369,7 @@ bs_mode_menu__analyze <- function() {
   #     tkadd(menu_t, "cascade",
   #           label    = "Central tendency* tests",
   #           # compound = "left",
-  #           # image    = "::image::bs_open_file",
+  #           # image    = "::image::bs_question",
   #           menu     = menu_t_c)
   #
   #
@@ -1380,20 +1380,20 @@ bs_mode_menu__analyze <- function() {
   #     tkadd(menu_t, "cascade",
   #           label    = "Proportion tests",
   #           # compound = "left",
-  #           # image    = "::image::bs_open_file",
+  #           # image    = "::image::bs_question",
   #           menu     = menu_t_p)
   #
   #     tkadd(menu_t_p, "command",
   #           label      = ">>>",
   #           # compound = "left",
-  #           # image    = "::image::bs_open_file",
+  #           # image    = "::image::bs_question",
   #           state      = set_menu_state(twoLevelFactorsP()),
   #           command    = function_not_implemented)
   #
   #     tkadd(menu_t_p, "command",
   #           label      = ">>>",
   #           # compound = "left",
-  #           # image    = "::image::bs_open_file",
+  #           # image    = "::image::bs_question",
   #           state      = set_menu_state(twoLevelFactorsP()),
   #           command    = function_not_implemented)
 
@@ -1405,27 +1405,27 @@ bs_mode_menu__analyze <- function() {
   # tkadd(menu_t, "cascade",
   #       label    = "Variability tests",
   #       # compound = "left",
-  #       # image    = "::image::bs_open_file",
+  #       # image    = "::image::bs_question",
   #       menu     = menu_t_v)
   #
   # tkadd(menu_t_v, "command",
   #       label      = "Two-variances F-test... [EZR]",
   #       # compound = "left",
-  #       # image    = "::image::bs_open_file",
+  #       # image    = "::image::bs_question",
   #       state      = set_menu_state(numericP() && twoLevelFactorsP()),
   #       command    = RcmdrPlugin.EZR::StatMedFTest)
   #
   # tkadd(menu_t_v, "command",
   #       label      = "Bartlett's test... [EZR]",
   #       # compound = "left",
-  #       # image    = "::image::bs_open_file",
+  #       # image    = "::image::bs_question",
   #       state      = set_menu_state(numericP() && factorsP()),
   #       command    = RcmdrPlugin.EZR::StatMedBartlett)
   #
   # tkadd(menu_t_v, "command",
   #       label      = "Levene's / Brown-Forsythe's test... [Rcmdr]",
   #       # compound = "left",
-  #       # image    = "::image::bs_open_file",
+  #       # image    = "::image::bs_question",
   #       state      = set_menu_state(numericP() && factorsP()),
   #       command    = Rcmdr:::LeveneTest)
 
@@ -1819,7 +1819,25 @@ bs_mode_menu__datasets <- function() {
   top <- CommanderWindow()
 
   menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
+
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  tkadd(menu_p, "command",
+    label    = "Manage objects (and datasets)...",
+    compound = "left",
+    image    = "::image::bs_objects",
+    command  = window_data_obj_manage)
+
+  tkadd(menu_p, "command",
+    label    = "List loaded objects (and datasets)",
+    compound = "left",
+    image    = "::image::bs_workspace",
+    command  = command_list_objects)
+
+  tkadd(menu_p, "separator")
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
   tkadd(menu_p, "command",
     label    = "Join two datasets by matching row ID...",
     compound = "left",
@@ -1837,21 +1855,6 @@ bs_mode_menu__datasets <- function() {
     compound = "left",
     image    = "::image::bs_bind_cols",
     command  = window_dataset_bind_cols)
-
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  tkadd(menu_p, "separator")
-
-  tkadd(menu_p, "command",
-    label    = "List loaded objects (and datasets)",
-    compound = "left",
-    image    = "::image::bs_workspace",
-    command  = command_list_objects)
-
-  tkadd(menu_p, "command",
-    label    = "Manage objects (and datasets)...",
-    compound = "left",
-    image    = "::image::bs_objects",
-    command  = window_data_obj_manage)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
