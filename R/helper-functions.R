@@ -472,17 +472,17 @@ logger_error <- function(command = NULL, error_msg = NULL) {
 #' - several lines of text;
 #' - non-text object.
 #'
-#' @tests
-#' expect_true(
-#'    all.equal(read_clipboard(), read_clipboard_tcltk())
-#' )
-#' expect_true(
-#'    all.equal(read_clipboard_clipr(), read_clipboard_tcltk())
-#' )
-#'
 #' @examples
 #' read_clipboard()
 #'
+#' \dontrun{\donttest{
+#' testthat::expect_true(
+#'   all.equal(read_clipboard(), read_clipboard_tcltk())
+#' )
+#' testthat::expect_true(
+#'   all.equal(read_clipboard_clipr(), read_clipboard_tcltk())
+#' )
+#' }}
 #' @export
 #' @md
 
