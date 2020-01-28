@@ -813,6 +813,22 @@ bs_mode_menu__print <- function() {
 
   menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  if (is_rstudio()) {
+    tkadd(menu_p, "command",
+      label    = "View dataset (in RStudio)",
+      compound = "left",
+      image    = "::image::viewIcon",
+      command  = command_dataset_view)
+  }
+  tkadd(menu_p, "command",
+    label    = "View dataset (in R Commander)",
+    compound = "left",
+    image    = "::image::viewIcon",
+    command  = window_dataset_view_rcmdr)
+
+  tkadd(menu_p, "separator")
+
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_p, "command",
     label    = "Class of active dataset...",
@@ -846,31 +862,8 @@ bs_mode_menu__print <- function() {
     image    = "::image::bs_rows_top_bot",
     command = summary_head_tail)
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_p, "separator")
 
-  view_style <- if (is_rstudio()) {
-    tkadd(menu_p, "command",
-      label    = "View dataset (in RStudio)",
-      compound = "left",
-      image    = "::image::viewIcon",
-      command  = command_dataset_view)
-
-    tkadd(menu_p, "command",
-      label    = "View dataset (in R Commander)",
-      compound = "left",
-      image    = "::image::viewIcon",
-      command  = window_dataset_view_rcmdr)
-
-  } else {
-    tkadd(menu_p, "command",
-      label    = "View dataset",
-      compound = "left",
-      image    = "::image::viewIcon",
-      command  = window_dataset_view_rcmdr)
-  }
-
-  tkadd(menu_p, "separator")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # menu_to_console <- tk2menu(menu_p, tearoff = FALSE)
   #
