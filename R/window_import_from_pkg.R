@@ -1,3 +1,5 @@
+# TODO: create user interface for variables
+# "use_custom_name" (logical) & "new_name" (string)
 
 #  ===========================================================================
 #' @rdname Menu-window-functions
@@ -398,7 +400,8 @@ window_import_from_pkg <- function() {
     ))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    # TODO: create user interface for "use_custom_name" (logical) & "new_name" (string)
+    # TODO: create user interface for variables
+    # "use_custom_name" (logical) & "new_name" (string)
     use_custom_name <- FALSE
     new_name        <- selected_ds
 
