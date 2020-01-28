@@ -813,7 +813,7 @@ bs_mode_menu__print <- function() {
 
   menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   if (is_rstudio()) {
     tkadd(menu_p, "command",
       label    = "View dataset (in RStudio)",
@@ -1359,7 +1359,16 @@ bs_mode_menu__analyze <- function() {
     state      = set_menu_state(numericP()),
     compound   = "left",
     image      = "::image::bs_normality",
-    command    = window_test_normality)
+    command    = window_test_normality
+  )
+
+  tkadd(menu_p, "command",
+    label      = "Normality test (multivariate; online app)...",
+    # state      = set_menu_state(numericP()),
+    compound   = "left",
+    image      = "::image::bs_web",
+    command    = window_online_mvn
+  )
 
   #
   #     # ~~ Central tendency ----------------------------------------------------
@@ -1755,19 +1764,6 @@ bs_mode_menu__settings <- function() {
     image    = "::image::bs_chk_pkgs",
     command  = command_chk_packages_biostat)
 
-  tkadd(menu_ab, "separator")
-
-  tkadd(menu_ab, "command",
-    label    = "Check for updates for [BS-2019] course",
-    compound = "left",
-    image    = "::image::bs_chk_pkgs",
-    command  = command_chk_packages_bs19)
-
-  tkadd(menu_ab, "command",
-    label    = "Check for updates for [R-2019] course",
-    compound = "left",
-    image    = "::image::bs_chk_pkgs",
-    command  = command_chk_packages_r19)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkpopup(menu_p,
     tkwinfo("pointerx", top),
@@ -1804,7 +1800,8 @@ bs_mode_menu__web <- function() {
     label    = "Applications to download",
     compound = "left",
     image    = "::image::bs_web_get",
-    menu     = menu_down)
+    menu     = menu_down
+  )
 
   tkadd(menu_down, "command",
     label      = "Data mining: Orange (online)...",
@@ -1819,7 +1816,8 @@ bs_mode_menu__web <- function() {
     # state      = set_menu_state(numericP()),
     # compound   = "left",
     # image      = "::image::bs_geogebra",
-    command    = window_online_gpower)
+    command    = window_online_gpower
+  )
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkpopup(menu_web,

@@ -76,7 +76,6 @@
 \alias{window_online_image_digitizer}
 \alias{window_online_mvn}
 \alias{window_online_easyROC}
-\alias{window_online_tdROC}
 \alias{window_online_r_project}
 \alias{window_online_mro}
 \alias{window_online_rstudio}
@@ -104,7 +103,6 @@
 \alias{window_online_sthda}
 \alias{window_online_rweekly}
 \alias{window_online_r_bloggers}
-\alias{window_online_rstudio_learning}
 \alias{window_online_isl}
 \alias{window_online_esl}
 \alias{window_online_bookdown}
@@ -120,8 +118,6 @@
 \alias{window_online_homepage}
 \alias{window_online_bug_report}
 \alias{command_chk_packages_biostat}
-\alias{command_chk_packages_bs19}
-\alias{command_chk_packages_r19}
 \alias{active_dataset}
 \alias{refresh_dataset_window_0}
 \alias{configure_tags}
@@ -288,8 +284,6 @@ window_online_mvn()
 
 window_online_easyROC()
 
-window_online_tdROC()
-
 window_online_r_project()
 
 window_online_mro()
@@ -344,8 +338,6 @@ window_online_rweekly()
 
 window_online_r_bloggers()
 
-window_online_rstudio_learning()
-
 window_online_isl()
 
 window_online_esl()
@@ -375,10 +367,6 @@ window_online_homepage()
 window_online_bug_report()
 
 command_chk_packages_biostat()
-
-command_chk_packages_bs19()
-
-command_chk_packages_r19()
 
 active_dataset(dsname, flushModel = TRUE, flushDialogMemory = TRUE)
 

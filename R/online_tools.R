@@ -93,23 +93,16 @@ window_online_image_digitizer  <- function(variables) {
 #' @export
 #' @keywords internal
 window_online_mvn  <- function() {
-  open_online_tool("http://www.biosoft.hacettepe.edu.tr/MVN/")                 # FIXME broken
+  open_online_tool("http://www.biosoft.hacettepe.edu.tr/MVN/")
 }
 
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
 window_online_easyROC  <- function() {
-  open_online_tool("http://www.biosoft.hacettepe.edu.tr/easyROC/")             # FIXME broken
+  open_online_tool("http://www.biosoft.hacettepe.edu.tr/easyROC/")
 }
 
-
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-window_online_tdROC  <- function() {
-  open_online_tool("http://www.biosoft.hacettepe.edu.tr/tdROC/")               # FIXME broken
-}
 
 
 
@@ -135,7 +128,7 @@ window_online_mro  <- function() {
 #' @export
 #' @keywords internal
 window_online_rstudio  <- function() {
-  open_online_tool("https://www.rstudio.com/products/rstudio/download/")
+  open_online_tool("https://rstudio.com/products/rstudio/download/#download")
 }
 
 #' @rdname Menu-window-functions
@@ -290,7 +283,7 @@ window_online_ggplot2_ext <- function() {
 #' @export
 #' @keywords internal
 window_online_r_chearsheets  <- function() {
-  open_online_tool("https://www.rstudio.com/resources/cheatsheets/")
+  open_online_tool("https://rstudio.com/resources/cheatsheets/")
 }
 
 #' @rdname Menu-window-functions
@@ -318,15 +311,8 @@ window_online_r_bloggers  <- function() {
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_online_rstudio_learning  <- function() {
-  open_online_tool("https://www.rstudio.com/online-learning/")
-}
-
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
 window_online_isl  <- function() {
-  open_online_tool("http://www-bcf.usc.edu/~gareth/ISL/")
+  open_online_tool("http://faculty.marshall.usc.edu/gareth-james/ISL/")
 }
 #' @rdname Menu-window-functions
 #' @export
@@ -436,74 +422,5 @@ command_chk_packages_biostat <- function() {
   source_online("https://gegznav.github.io/RcmdrPlugin.biostat/check-pkgs.R")
 }
 
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-command_chk_packages_bs19 <- function() {
-  command_chk_r_config_online(
-    course     = "BS-2019",
-    source_url = "https://mokymai.github.io/resursai/tikrink-bs-2019.R"
-  )
-}
-
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-command_chk_packages_r19 <- function() {
-  command_chk_r_config_online(
-    course     = "R-2019",
-    source_url = "https://mokymai.github.io/resursai/tikrink-r-2019.R"
-  )
-}
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-command_chk_r_config_online <- function(course, source_url = "") {
-
-  old_locale <- Sys.getlocale("LC_COLLATE")
-
-  if (WindowsP()) {
-    loc <- Sys.setlocale(locale = "Lithuanian")
-  } else {
-    loc <- Sys.setlocale(locale = "lt_LT.UTF-8")
-  }
-
-  if (loc != "") {
-    msg <- "# (Locale was set to Lithuanian)\n\n"
-  } else {
-    msg <- ""
-  }
-
-  command <- str_glue(
-    '## Check if R, RStudio and R package versions required for {course} course\n',
-    '## are installed (output is in Lithuanian)\n\n',
-    msg,
-    'source("{source_url}", ',
-    'encoding = "UTF-8")')
-
-  if (!pingr::is_online()) {
-    proceed <-
-      tk_messageBox(
-        parent = CommanderWindow(),
-        message = str_c(
-          "This feature requires an Internet connection, ",
-          "but your computer is offline now.\n\n",
-          "Do you want to continue?\n",
-          "    Yes - continue anyway;\n",
-          "    No - just ptint the command;\n",
-          "    Cancel - abort the operation."
-        ),
-        icon  = "warning",
-        caption = "No Internet Connection",
-        type  = "yesnocancel", default = "cancel")
-
-  } else {
-    proceed <- "yes"
-  }
-
-  switch(proceed,
-    "no"  = logger(command),
-    "yes" = doItAndPrint(command)
-  )
-
-}
 

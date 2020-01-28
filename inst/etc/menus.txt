@@ -496,11 +496,6 @@ item	bs19_about_menu	command "Feedback & bug reports"	window_online_bug_report	"
 item	bs19_about_menu	separator	""	""	""	""
 item	bs19_about_menu	command "Check recommended packages for BioStat"	command_chk_packages_biostat	""	""
 
-item	bs19_about_menu	separator	""	""	""	""
-
-item	bs19_about_menu	command "Check for updates for [BS-2019] course"	command_chk_packages_bs19	""	""
-item	bs19_about_menu	command "Check for updates for [R-2019] course"	command_chk_packages_r19	""	""
-
 # . ===========================================================================
 # ---- >>> Online menu -------------------------------------------------------
 
@@ -517,7 +512,6 @@ item	bs19_online_apps_menu	command	"Import data from image: WebPlotDigitizer"  w
 # item	bs19_online_apps_menu	command	"Multivariate normality tests: MVN"  window_online_mvn	""	""
 item	bs19_online_apps_menu	command	"Probability calculator: GeoGebra"  window_online_geogebra_probability 	""	""
 # item	bs19_online_apps_menu	command	"ROC analysis: Easy ROC"  window_online_easyROC	""	""
-# item	bs19_online_apps_menu	command	"ROC analysis: Time dependent ROC"  window_online_tdROC	""	""
 
 # item	bs19_online_apps_menu	separator	""	""	""	""
 
@@ -628,6 +622,5 @@ item	bs19_r_news_menu	command	"R Bloggers (tutorials, news)"  window_online_r_bl
 item	bs19_r_news_menu	command	"R Weekly (news, tutorials)"  window_online_rweekly	""	""
 item	bs19_r_news_menu	separator	""	""	""	""
 
-item	bs19_r_news_menu	command	"RStudio learning (tutorials)"  window_online_rstudio_learning	""	""
 
 

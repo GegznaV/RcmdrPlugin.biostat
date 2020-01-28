@@ -34,24 +34,24 @@ install.packages("RcmdrPlugin.KMggplot2")
 # Part C
 if (!require("remotes"))  install.packages("remotes")
 remotes::install_github("GegznaV/RcmdrPlugin.biostat")
-remotes::install_github("rforge/rcmdr/pkg/Rcmdr-devel", upgrade = TRUE)
 
 # Part D
 options(old_opts)
 
-# Expected versions of packages after the instalation:
-#   Rcmdr                  2.6-1  or newer (NOT 2.6-0).
-#   RcmdrPlugin.biostat    0.0.48 or newer.
-#   RcmdrPlugin.KMggplot2  0.2-6  or newer.
+# Expected versions of packages after the installation:
+#   Rcmdr                  2.6-2  or newer (NOT 2.6-0).
+#   RcmdrPlugin.biostat    0.0.59 or newer.
+#   rvg                    0.2.3  or newer.
+#   officer                0.3.6  or newer.
+
 ')
 
 if (identical(.Platform$GUI, "RStudio") && rstudioapi::isAvailable("1.2.1335")) {
-  rstudioapi::executeCommand("activateConsole")
-  rstudioapi::executeCommand("consoleClear")
+  rstudioapi::executeCommand("activateConsole", quiet = TRUE)
+  rstudioapi::executeCommand("consoleClear",    quiet = TRUE)
   cat(sep = "\n", msg_rs)
   rstudioapi::sendToConsole(code, execute = FALSE)
 
 } else {
   cat(sep = "\n", msg_rcmdr)
 }
-
