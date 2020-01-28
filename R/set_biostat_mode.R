@@ -1661,7 +1661,7 @@ bs_mode_menu__settings <- function() {
     label    = "Restart R Commander",
     compound = "left",
     image    = "::image::bs_restart",
-    command  = command_rcmdr_restart)
+    command  = rcmdr_restart_commander)
 
   if (is_rstudio()) {
     tkadd(menu_session, "command",

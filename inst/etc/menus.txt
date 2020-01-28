@@ -477,7 +477,7 @@ item	bs19_session_menu	command	"Output to R Commander (3 windows mode)"	command_
 # ---- Close, Restart --------------------------------------------------------
 
 item	bs19_session_menu	separator	""	""	""	""
-item	bs19_session_menu	command	"Restart R Commander"	command_rcmdr_restart	""	""
+item	bs19_session_menu	command	"Restart R Commander"	rcmdr_restart_commander	""	""
 item	bs19_session_menu	command	"Restart R session in RStudio"	command_restart_rs_session	"is_rstudio()"	"packageAvailable('rstudioapi')"
 item	bs19_session_menu	command	"Close R Commander"	CloseCommander	""	""
 item	bs19_session_menu	command	"Close R Commander & R"	command_rcmdr_close_r	""	""

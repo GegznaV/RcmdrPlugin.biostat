@@ -1782,10 +1782,13 @@ validate_var_name_string <- function(P, W) {
 
 # ___ Rcmdr ___ ==============================================================
 
-#' @rdname Helper-functions
+
+#' Restart R commander.
+#'
+#' Helper function to restart R Commander.
+#'
 #' @export
-#' @keywords internal
-command_rcmdr_restart <- function() {
+rcmdr_restart_commander <- function() {
   if (packageVersion("Rcmdr") >= "2.7") {
     Rcmdr:::restartCommander()
 
@@ -1879,7 +1882,7 @@ command_rcmdr_set_output_mode <- function(console.output = NULL) {
   if (!identical(Rcmdr_opts, updated_opts)) {
     # Set new options and restart R Commander
     options(Rcmdr = updated_opts)
-    command_rcmdr_restart()
+    rcmdr_restart_commander()
   }
 }
 
