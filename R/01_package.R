@@ -214,7 +214,8 @@ biostat_env$use_relative_path <- TRUE
   bs_tkimage_create("::image::bs_down"      , "icons/16/down-blue.png")
   bs_tkimage_create("::image::bs_chk_pkgs" ,  "icons/16/view-refresh-6.png")
 
-  bs_tkimage_create("::image::bs_open_file",  "icons/16/document-open.png")
+  bs_tkimage_create("::image::bs_choose_file","icons/16/document-open.png")
+  bs_tkimage_create("::image::bs_open_file",  "icons/16/document-open-file.png")
   bs_tkimage_create("::image::bs_open_dir" ,  "icons/16/document-open-folder.png")
   bs_tkimage_create("::image::bs_table",      "icons/16/kdb_table.png")
   bs_tkimage_create("::image::bs_rectangle",  "icons/16/draw-rectangle.png")
@@ -309,7 +310,7 @@ biostat_env$use_relative_path <- TRUE
   bs_tkimage_create("::image::bs_close_rcmdr","icons/16/system-log-out-4v.png")
   bs_tkimage_create("::image::bs_close_r",    "icons/16/system-shutdown-6.png")
 
-  bs_tkimage_create("::image::bs_workspace",  "icons/16/user-desktop.png")
+  bs_tkimage_create("::image::bs_workspace",  "icons/16/bs-documents-ws.png")
   bs_tkimage_create("::image::bs_open_wd",    "icons/16/bs_folder_open.png")
   bs_tkimage_create("::image::bs_path_to_wd", "icons/16/bs_folder_show.png")
   bs_tkimage_create("::image::bs_set_wd",     "icons/16/bs_folder_change.png")
@@ -322,6 +323,7 @@ biostat_env$use_relative_path <- TRUE
   bs_tkimage_create("::image::bs_about",       "icons/16/help-about-3.png")
   bs_tkimage_create("::image::bs_bug",         "icons/16/bug.png")
   bs_tkimage_create("::image::bs_home",        "icons/16/go-home-6.png")
+  bs_tkimage_create("::image::bs_question",    "icons/16/question.png")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
