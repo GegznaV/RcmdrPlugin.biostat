@@ -64,6 +64,7 @@ Imports:
     desc,
     DescTools,
     dplyr (>= 0.8.1),
+    esquisse (>= 0.3.0),
     forcats,
     fs (>= 1.2.7),
     ggfortify,

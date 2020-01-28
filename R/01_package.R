@@ -292,6 +292,7 @@ biostat_env$use_relative_path <- TRUE
   bs_tkimage_create("::image::bs_plot_close", "icons/16/delete.png")
   bs_tkimage_create("::image::bs_plotly",     "icons/16/plotly.png")
   bs_tkimage_create("::image::bs_chart",      "icons/16/insert-chart-bar.png")
+  bs_tkimage_create("::image::bs_ggplot",     "icons/16/insert-chart-bar.png")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # bs_tkimage_create("::image::bs_web",        "icons/16/applications-internet.png")
   bs_tkimage_create("::image::bs_web",        "icons/16/emblem-web.png")

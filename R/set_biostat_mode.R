@@ -836,7 +836,7 @@ bs_mode_menu__print <- function() {
     command  = window_dataset_class)
 
   tkadd(menu_p, "command",
-    label    = "Number of rows and columns",
+    label    = "Dimensions: number of rows and columns",
     command  = command_dataset_dim)
 
   tkadd(menu_p, "command",
@@ -1488,6 +1488,20 @@ bs_mode_menu__plots <- function() {
     image    = "::image::bs_plot_close",
     command  = close_all_plots
   )
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  if (packageAvailable('esquisse')) {
+
+    tkadd(menu_p, "separator")
+
+    tkadd(menu_p, "command",
+      label    = "Build ggplot2 plot (esquisse)...",
+      compound = "left",
+      image    = "::image::bs_ggplot",
+      state    = set_menu_state(activeDataSetP()),
+      command  = open_esquisse_app
+    )
+  }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   if (packageAvailable('plotly')) {
