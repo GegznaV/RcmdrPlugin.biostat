@@ -46,7 +46,7 @@ window_set_contrasts <- function() {
         fg = getRcmdr("title.color"), font = "RcmdrTitleFont"), sticky = "w")
       env <- environment()
       tableFrame <- tkframe(subdialog)
-      row.names <- str_glue_eval("levels({.ds}${variable})")
+      row.names <- str_glue_eval("levels({.ds}${variable})", envir_eval = .GlobalEnv)
       row.names <- substring(paste(abbreviate(row.names, 12), "            "), 1, 12)
       nrows <- length(row.names)
       ncols <- nrows - 1
