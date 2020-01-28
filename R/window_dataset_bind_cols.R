@@ -74,8 +74,6 @@ window_dataset_bind_cols <- function() {
     name_ds_3 <- get_selection(ds_3_box)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    closeDialog()
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (new_ds_name == "") {
       errorCondition(
         recall = window_dataset_bind_cols,
@@ -165,6 +163,8 @@ window_dataset_bind_cols <- function() {
 
     doItAndPrint(command)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    closeDialog()
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     active_dataset(new_ds_name)
     tkfocus(CommanderWindow())
   }
@@ -188,5 +188,4 @@ window_dataset_bind_cols <- function() {
   dialogSuffix()
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   set_ds_name()
-
 }
