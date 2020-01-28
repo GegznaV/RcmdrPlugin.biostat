@@ -40,7 +40,7 @@ window_dataset_select <- function() {
   cmd_ds_class_print <- function() {
     .ds_1 <- get_selection(var_ds_box) %>% safe_names()
     doItAndPrint(str_glue(
-      "## The class of dataset '{.ds_1}'\n",
+      '## The class of dataset "{.ds_1}"\n',
       "class({.ds_1})"))
   }
 
@@ -53,7 +53,7 @@ window_dataset_select <- function() {
     .ds_1 <- get_selection(var_ds_box) %>% safe_names()
     Library("tidyverse")
     doItAndPrint(str_glue(
-      "## The size of dataset '{.ds_1}'\n",
+      '## The size of dataset "{.ds_1}"\n',
       'object.size({.ds_1}) %>% print(unit = "auto")'
     ))
   }
@@ -82,15 +82,15 @@ window_dataset_select <- function() {
   cmd_ds_glimpse <- function() {
     .ds_1 <- get_selection(var_ds_box) %>% safe_names()
     doItAndPrint(str_glue(
-      "## The structure of dataset '{.ds_1}'\n",
+      '## The structure of dataset "{.ds_1}"\n',
       "dplyr::glimpse({.ds_1})"
     ))
   }
   cmd_ds_glimpse_legend <- function() {
     doItAndPrint(str_c(
-      "# Variable type abbreviations: \n",
+      "# Abbreviations of the most common variable types: \n",
       "#     <fct> nominal (factor, categorical)\n",
-      "#     <ord> ordinal \n",
+      "#     <ord> ordinal (ordinal factor) \n",
       "#     <int> numeric (integers) \n",
       '#     <dbl> numeric (real numbers, "doubles") \n',
       "#     <lgl> logical \n",
@@ -108,7 +108,7 @@ window_dataset_select <- function() {
 
     command <- str_glue(
       .trim = FALSE,
-      "## The summary of variables in {.ds_1}\n",
+      '## The summary of variables in "{.ds_1}"\n',
       'summary({.ds_1})'
     )
     doItAndPrint(command)
@@ -126,7 +126,7 @@ window_dataset_select <- function() {
     }, silent = TRUE)
 
     doItAndPrint(str_glue(
-      "## The summary of variables in {.ds_1}\n",
+      '## The summary of variables in "{.ds_1}"\n',
       "dfSummary({.ds_1})" # FIXME: , round.digits = 2
     ))
 
@@ -143,7 +143,7 @@ window_dataset_select <- function() {
     opts_code <- get_desctools_opts_str()
     command <- str_glue(
       .trim = FALSE,
-      "## The summary of variables in {.ds_1}\n",
+      '## The summary of variables in "{.ds_1}"\n',
       "{opts_code}",
       'DescTools::Desc({.ds_1}, plotit = FALSE, ord = "level")'
     )
@@ -168,7 +168,7 @@ window_dataset_select <- function() {
         "{.ds_1} %>% ",
         # "  group_by() %>%",
         "  select_if(is.numeric) %>%",
-        "  descr(round.digits = 2)"
+        "  summarytools::descr(round.digits = 2)"
       )
       doItAndPrint(style_cmd(command))
 
