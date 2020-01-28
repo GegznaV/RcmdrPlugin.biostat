@@ -1,191 +1,191 @@
 #type	menu/item	operation/parent	label	command/menu	activation	install?
 
 # . ===========================================================================
-menu	biostat19_menu	topMenu	""	""	""	""
-item	topMenu	cascade	"BioStat'19"	biostat19_menu	""	""
+menu	biostat19r_menu	topMenu	""	""	""	""
+item	topMenu	cascade	"BioStat'19r"	biostat19r_menu	""	""
 
-item	biostat19_menu	command	"Mode: BioStat"  set_biostat_mode 	"!is_biostat_mode()"	""
+item	biostat19r_menu	command	"Mode: BioStat"  set_biostat_mode 	"!is_biostat_mode()"	""
 
 
 # . ===========================================================================
 # ---- >>> Data --------------------------------------------------------------
-menu	bs19_data_menu	biostat19_menu	""	""	""	""
-item	biostat19_menu	cascade	"Data"	bs19_data_menu	""	""
+menu	bs19r_data_menu	biostat19r_menu	""	""	""	""
+item	biostat19r_menu	cascade	"Data"	bs19r_data_menu	""	""
 
 
 # --- + Dataset --------------------------------------------------------------
 
-menu	bs19_active_ds_menu	bs19_data_menu	""	""	""	""
-item	bs19_data_menu	cascade	"Active dataset"	bs19_active_ds_menu	"activeDataSetP()"	""
+menu	bs19r_active_ds_menu	bs19r_data_menu	""	""	""	""
+item	bs19r_data_menu	cascade	"Active dataset"	bs19r_active_ds_menu	"activeDataSetP()"	""
 
-item	bs19_active_ds_menu	command	"View active dataset"	command_dataset_view	"activeDataSetP()"	""
-item	bs19_active_ds_menu	command	"Class of active dataset..."	window_dataset_class	"activeDataSetP()"	""
+item	bs19r_active_ds_menu	command	"View active dataset"	command_dataset_view	"activeDataSetP()"	""
+item	bs19r_active_ds_menu	command	"Class of active dataset..."	window_dataset_class	"activeDataSetP()"	""
 
 
 # --- + > Print ---------------------------------------------------
 
-item	bs19_active_ds_menu	separator	""	""	""	""
-item	bs19_active_ds_menu	command	"Print as Markdown table: kable"	window_dataset_print_as_kable	"activeDataSetP()"	"packageAvailable('knitr')"
-item	bs19_active_ds_menu	command	"Print as Markdown table: pander"	window_dataset_print_as_md	"activeDataSetP()"	"packageAvailable('pander')"
+item	bs19r_active_ds_menu	separator	""	""	""	""
+item	bs19r_active_ds_menu	command	"Print as Markdown table: kable"	window_dataset_print_as_kable	"activeDataSetP()"	"packageAvailable('knitr')"
+item	bs19r_active_ds_menu	command	"Print as Markdown table: pander"	window_dataset_print_as_md	"activeDataSetP()"	"packageAvailable('pander')"
 
-item	bs19_active_ds_menu	separator	""	""	""	""
-item	bs19_active_ds_menu	command	"Print top and bottom rows"	summary_head_tail	"activeDataSetP()"	""
+item	bs19r_active_ds_menu	separator	""	""	""	""
+item	bs19r_active_ds_menu	command	"Print top and bottom rows"	summary_head_tail	"activeDataSetP()"	""
 
-item	bs19_active_ds_menu	separator	""	""	""	""
-item	bs19_active_ds_menu	command	"Print as 'data.frame'"	command_dataset_print_as_df	"activeDataSetP()"	""
-item	bs19_active_ds_menu	command	"Print as 'data.table'"	command_dataset_print_as_dt	"activeDataSetP()"	""
-item	bs19_active_ds_menu	command	"Print as 'tibble'"	command_dataset_print_as_tibble	"activeDataSetP()"	""
-# item	bs19_active_ds_menu	command	"Print (as is)"	command_dataset_print	"activeDataSetP()"	""
+item	bs19r_active_ds_menu	separator	""	""	""	""
+item	bs19r_active_ds_menu	command	"Print as 'data.frame'"	command_dataset_print_as_df	"activeDataSetP()"	""
+item	bs19r_active_ds_menu	command	"Print as 'data.table'"	command_dataset_print_as_dt	"activeDataSetP()"	""
+item	bs19r_active_ds_menu	command	"Print as 'tibble'"	command_dataset_print_as_tibble	"activeDataSetP()"	""
+# item	bs19r_active_ds_menu	command	"Print (as is)"	command_dataset_print	"activeDataSetP()"	""
 
 
 # ---- + > Select active DS --------------------------------------------------
 # Refresh active dataset and menus
 
-item	bs19_active_ds_menu	separator	""	""	""	""
-item	bs19_active_ds_menu	command	"Select active dataset"	window_dataset_select	""	""
-item	bs19_active_ds_menu	command	"Refresh data & R Commander"	command_dataset_refresh	""	""
+item	bs19r_active_ds_menu	separator	""	""	""	""
+item	bs19r_active_ds_menu	command	"Select active dataset"	window_dataset_select	""	""
+item	bs19r_active_ds_menu	command	"Refresh data & R Commander"	command_dataset_refresh	""	""
 
 
 # --- + Rows (Manage observations) -------------------------------------------
 
-menu	bs19_rows_menu	bs19_data_menu	""	""	""	""
-item	bs19_data_menu	cascade	"Rows (observations)"	bs19_rows_menu	""	""
+menu	bs19r_rows_menu	bs19r_data_menu	""	""	""	""
+item	bs19r_data_menu	cascade	"Rows (observations)"	bs19r_rows_menu	""	""
 
-item	bs19_rows_menu	command	"Check if table has row names"	command_rows_has_rownames	"activeDataSetP()"	"packageAvailable('tibble')"
-item	bs19_rows_menu	command	"Print row names (or row indices)"	command_rownames	"activeDataSetP()"	""
+item	bs19r_rows_menu	command	"Check if table has row names"	command_rows_has_rownames	"activeDataSetP()"	"packageAvailable('tibble')"
+item	bs19r_rows_menu	command	"Print row names (or row indices)"	command_rownames	"activeDataSetP()"	""
 
 
-item	bs19_rows_menu	separator	""	""	""	""
-item	bs19_rows_menu	command	"Arrange: sort rows..."	window_rows_arrange	"activeDataSetP()"	""
-item	bs19_rows_menu	command	"Filter: select rows that match conditions..."	window_rows_filter0	"activeDataSetP()"	"packageAvailable('dplyr')"
-item	bs19_rows_menu	command	"Slice: select/remove rows by row index..."	window_rows_slice	"activeDataSetP()"	"packageAvailable('dplyr')"
-item	bs19_rows_menu	separator	""	""	""	""
-item	bs19_rows_menu	command	"Remove duplicated rows..."	window_rows_rm_duplicated	"activeDataSetP()"	"packageAvailable('tidyverse')"
-item	bs19_rows_menu	command	"Remove empty rows"	command_rows_rm_empty_rows	"activeDataSetP()"	""
-item	bs19_rows_menu	command	"Remove rows with missing values..."	window_rows_rm_with_na "activeDataSetP()"	"packageAvailable('tidyverse')"
-# item	bs19_rows_menu	command	"[???] Fill missing values with..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
-# item	bs19_rows_menu	command	"[???] Fill missing values in using the previous entry..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
+item	bs19r_rows_menu	separator	""	""	""	""
+item	bs19r_rows_menu	command	"Arrange: sort rows..."	window_rows_arrange	"activeDataSetP()"	""
+item	bs19r_rows_menu	command	"Filter: select rows that match conditions..."	window_rows_filter0	"activeDataSetP()"	"packageAvailable('dplyr')"
+item	bs19r_rows_menu	command	"Slice: select/remove rows by row index..."	window_rows_slice	"activeDataSetP()"	"packageAvailable('dplyr')"
+item	bs19r_rows_menu	separator	""	""	""	""
+item	bs19r_rows_menu	command	"Remove duplicated rows..."	window_rows_rm_duplicated	"activeDataSetP()"	"packageAvailable('tidyverse')"
+item	bs19r_rows_menu	command	"Remove empty rows"	command_rows_rm_empty_rows	"activeDataSetP()"	""
+item	bs19r_rows_menu	command	"Remove rows with missing values..."	window_rows_rm_with_na "activeDataSetP()"	"packageAvailable('tidyverse')"
+# item	bs19r_rows_menu	command	"[???] Fill missing values with..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
+# item	bs19r_rows_menu	command	"[???] Fill missing values in using the previous entry..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
 
-item	bs19_rows_menu	separator	""	""	""	""
-item	bs19_rows_menu	command	"Create column with row numbers"	window_rows_rowid_to_col	"activeDataSetP()"	"packageAvailable('tidyverse')"
-item	bs19_rows_menu	command	"Move column (with unique values) to row names..."	window_rows_col_to_rownames	"variables_with_unique_values_P()"	"packageAvailable('tibble')"
-item	bs19_rows_menu	command	"Move row names to column..."	window_rows_rownames_to_col	"activeDataSetP()"	"packageAvailable('tibble')"
+item	bs19r_rows_menu	separator	""	""	""	""
+item	bs19r_rows_menu	command	"Create column with row numbers"	window_rows_rowid_to_col	"activeDataSetP()"	"packageAvailable('tidyverse')"
+item	bs19r_rows_menu	command	"Move column (with unique values) to row names..."	window_rows_col_to_rownames	"variables_with_unique_values_P()"	"packageAvailable('tibble')"
+item	bs19r_rows_menu	command	"Move row names to column..."	window_rows_rownames_to_col	"activeDataSetP()"	"packageAvailable('tibble')"
 
 
 # --- + Columns (Manage variables)  ----------------------------------------
 
-menu	bs19_varible_menu	bs19_data_menu	""	""	""	""
-item	bs19_data_menu	cascade	"Variables (columns)"	bs19_varible_menu	""	""
+menu	bs19r_varible_menu	bs19r_data_menu	""	""	""	""
+item	bs19r_data_menu	cascade	"Variables (columns)"	bs19r_varible_menu	""	""
 
 
-menu	bs19_var_names_menu	bs19_varible_menu	""	""	""	""
-item	bs19_varible_menu	cascade	"Variable names"	bs19_var_names_menu	""	""
+menu	bs19r_var_names_menu	bs19r_varible_menu	""	""	""	""
+item	bs19r_varible_menu	cascade	"Variable names"	bs19r_var_names_menu	""	""
 
-item	bs19_var_names_menu	command	"Print variable (column) names"	command_colnames	"activeDataSetP()"	""
-item	bs19_var_names_menu	command	"Check syntactical validity of column names"	command_check_names_validity	"activeDataSetP()"	""
-item	bs19_var_names_menu	command	"Clean variable names (into snake case)"	command_clean_names	"activeDataSetP()"	"packageAvailable('dplyr') && packageAvailable('janitor')"
-item	bs19_var_names_menu	command	"Rename variables..."	window_variable_rename	"activeDataSetP()"	"packageAvailable('dplyr')"
-
-
-menu	bs19_var_select_menu	bs19_varible_menu	""	""	""	""
-item	bs19_varible_menu	cascade	"Select/Remove variables"	bs19_var_select_menu	""	""
-
-item	bs19_var_select_menu	command	"Select/Remove variables..."	window_variable_select0	"activeDataSetP()"	"packageAvailable('dplyr')"
+item	bs19r_var_names_menu	command	"Print variable (column) names"	command_colnames	"activeDataSetP()"	""
+item	bs19r_var_names_menu	command	"Check syntactical validity of column names"	command_check_names_validity	"activeDataSetP()"	""
+item	bs19r_var_names_menu	command	"Clean variable names (into snake case)"	command_clean_names	"activeDataSetP()"	"packageAvailable('dplyr') && packageAvailable('janitor')"
+item	bs19r_var_names_menu	command	"Rename variables..."	window_variable_rename	"activeDataSetP()"	"packageAvailable('dplyr')"
 
 
-# item	bs19_varible_menu	separator	""	""	""	""
+menu	bs19r_var_select_menu	bs19r_varible_menu	""	""	""	""
+item	bs19r_varible_menu	cascade	"Select/Remove variables"	bs19r_var_select_menu	""	""
+
+item	bs19r_var_select_menu	command	"Select/Remove variables..."	window_variable_select0	"activeDataSetP()"	"packageAvailable('dplyr')"
+
+
+# item	bs19r_varible_menu	separator	""	""	""	""
 
 # --- + > Variables (general) ------------------------------------------------
 
-menu	bs19_var_transform_menu	bs19_varible_menu	""	""	""	""
-item	bs19_varible_menu	cascade	"Compute, recode, convert"	bs19_var_transform_menu	""	""
+menu	bs19r_var_transform_menu	bs19r_varible_menu	""	""	""	""
+item	bs19r_varible_menu	cascade	"Compute, recode, convert"	bs19r_var_transform_menu	""	""
 
-item	bs19_var_transform_menu	command	"Mutate: compute a variable..."	window_variable_mutate0	"activeDataSetP()"	"packageAvailable('dplyr')"
-item	bs19_var_transform_menu	command	"Recode variable values..."	window_variable_recode0	"activeDataSetP()"	"packageAvailable('dplyr')"
-item	bs19_var_transform_menu	command	"Convert variable types manually..."	window_variable_convert_type	"activeDataSetP()"	"packageAvailable('tidyverse')"
+item	bs19r_var_transform_menu	command	"Mutate: compute a variable..."	window_variable_mutate0	"activeDataSetP()"	"packageAvailable('dplyr')"
+item	bs19r_var_transform_menu	command	"Recode variable values..."	window_variable_recode0	"activeDataSetP()"	"packageAvailable('dplyr')"
+item	bs19r_var_transform_menu	command	"Convert variable types manually..."	window_variable_convert_type	"activeDataSetP()"	"packageAvailable('tidyverse')"
 
 
 # --- + > Character variables ------------------------------------------------------
 
-menu	bs19_var_chr_menu	bs19_varible_menu	""	""	""	""
-item	bs19_varible_menu	cascade	"Character (text) variables"	bs19_var_chr_menu	"activeDataSetP()"	""
+menu	bs19r_var_chr_menu	bs19r_varible_menu	""	""	""	""
+item	bs19r_varible_menu	cascade	"Character (text) variables"	bs19r_var_chr_menu	"activeDataSetP()"	""
 
-item	bs19_var_chr_menu	command	"Convert all text variables into factors"	command_all_chr_to_fctr	"characterP()"	"packageAvailable('tidyverse')"
+item	bs19r_var_chr_menu	command	"Convert all text variables into factors"	command_all_chr_to_fctr	"characterP()"	"packageAvailable('tidyverse')"
 
 
 # --- + > Factor variables ------------------------------------------------------
 
-menu	bs19_var_fct_menu	bs19_varible_menu	""	""	""	""
-item	bs19_varible_menu	cascade	"Factors (categorical variables)"	bs19_var_fct_menu	"activeDataSetP()"	""
+menu	bs19r_var_fct_menu	bs19r_varible_menu	""	""	""	""
+item	bs19r_varible_menu	cascade	"Factors (categorical variables)"	bs19r_var_fct_menu	"activeDataSetP()"	""
 
-# item	bs19_var_fct_menu	command	"[???] Create dummy variables..."	function_not_implemented	"FALSE & factorsP()"	""
+# item	bs19r_var_fct_menu	command	"[???] Create dummy variables..."	function_not_implemented	"FALSE & factorsP()"	""
 #
-# item	bs19_var_fct_menu	separator	""	""	""	""
-# item	bs19_var_fct_menu	command	"[???] Add levels..."	function_not_implemented	"FALSE & factorsP()"	""
+# item	bs19r_var_fct_menu	separator	""	""	""	""
+# item	bs19r_var_fct_menu	command	"[???] Add levels..."	function_not_implemented	"FALSE & factorsP()"	""
 # Collapse levels:
 #	Collapse levels manually
 #	Collapse least/most common levels into "other"
 #	Replace levels with "other"
-# item	bs19_var_fct_menu	command	'[???] Collapse/Merge levels...'	function_not_implemented	"FALSE & factors_strict_P()"	""
-item	bs19_var_fct_menu	command	"Drop unused levels..."	window_factor_lvls_drop	"factors_strict_P()"	""
-# item	bs19_var_fct_menu	command	"[???] Remove levels"	function_not_implemented	"FALSE & factorsP()"	""
-# item	bs19_var_fct_menu	command	"[???] Reorder levels automatically..."	function_not_implemented	"FALSE & factors_strict_P()"	""
-item	bs19_var_fct_menu	command	"Reorder levels by hand..."	window_fct_relevel	"factors_strict_P()"	""
-# item	bs19_var_fct_menu	separator	""	""	""	""
-# item	bs19_var_fct_menu	command	"[???] Convert missing values into explicit level..."	function_not_implemented	"FALSE & factors_strict_P()"	""
+# item	bs19r_var_fct_menu	command	'[???] Collapse/Merge levels...'	function_not_implemented	"FALSE & factors_strict_P()"	""
+item	bs19r_var_fct_menu	command	"Drop unused levels..."	window_factor_lvls_drop	"factors_strict_P()"	""
+# item	bs19r_var_fct_menu	command	"[???] Remove levels"	function_not_implemented	"FALSE & factorsP()"	""
+# item	bs19r_var_fct_menu	command	"[???] Reorder levels automatically..."	function_not_implemented	"FALSE & factors_strict_P()"	""
+item	bs19r_var_fct_menu	command	"Reorder levels by hand..."	window_fct_relevel	"factors_strict_P()"	""
+# item	bs19r_var_fct_menu	separator	""	""	""	""
+# item	bs19r_var_fct_menu	command	"[???] Convert missing values into explicit level..."	function_not_implemented	"FALSE & factors_strict_P()"	""
 
 
 # --- + > Numeric variables ----------------------------------------------------
-menu	bs19_var_num_menu	bs19_varible_menu	""	""	""	""
-item	bs19_varible_menu	cascade	"Numeric variables"	bs19_var_num_menu	"activeDataSetP()"	""
+menu	bs19r_var_num_menu	bs19r_varible_menu	""	""	""	""
+item	bs19r_varible_menu	cascade	"Numeric variables"	bs19r_var_num_menu	"activeDataSetP()"	""
 
-# item	bs19_var_num_menu	command	"[???] Convert numeric into formatted text..."	function_not_implemented	"FALSE & numericP()"	"" # Format and convert to text
+# item	bs19r_var_num_menu	command	"[???] Convert numeric into formatted text..."	function_not_implemented	"FALSE & numericP()"	"" # Format and convert to text
 
-# item	bs19_var_num_menu	separator	""	""	""	""
-# item	bs19_var_num_menu	command	"[???] Bin/Categorize numeric values..."	function_not_implemented	"FALSE & numericP()"	"" # including `cut`, `if_else`,
+# item	bs19r_var_num_menu	separator	""	""	""	""
+# item	bs19r_var_num_menu	command	"[???] Bin/Categorize numeric values..."	function_not_implemented	"FALSE & numericP()"	"" # including `cut`, `if_else`,
 
-# item	bs19_var_num_menu	separator	""	""	""	""
-# item	bs19_var_num_menu	command	"Box-Cox transformation... [Rcmdr]"	function_not_implemented	"FALSE & numericP()"	""
-item	bs19_var_num_menu	command	"Log transformation..."	window_num_transform_log	"numericP()"	""
-item	bs19_var_num_menu	command	"Z transformation / Standardization..."	window_num_transform_z	"numericP()"	""
+# item	bs19r_var_num_menu	separator	""	""	""	""
+# item	bs19r_var_num_menu	command	"Box-Cox transformation... [Rcmdr]"	function_not_implemented	"FALSE & numericP()"	""
+item	bs19r_var_num_menu	command	"Log transformation..."	window_num_transform_log	"numericP()"	""
+item	bs19r_var_num_menu	command	"Z transformation / Standardization..."	window_num_transform_z	"numericP()"	""
 
 
 #  --- + >Reshape ------------------------------------------------------------
 
-menu	bs19_var_reshape_menu	bs19_varible_menu	""	""	""	""
-item	bs19_varible_menu	cascade	"Tidy, reshape"	bs19_var_reshape_menu	""	""
+menu	bs19r_var_reshape_menu	bs19r_varible_menu	""	""	""	""
+item	bs19r_varible_menu	cascade	"Tidy, reshape"	bs19r_var_reshape_menu	""	""
 
-item	bs19_var_reshape_menu	command	"Gather columns into long format dataset..."	window_variable_gather	"activeDataSetP()"	"packageAvailable('tidyr')"
-# item	bs19_var_reshape_menu	command	"[???] Spread columns into wide format dataset..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')" # Spread a key-value pair across multiple columns
-# item	bs19_var_reshape_menu	command	"[???] Separate one value into multiple columns..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
-# item	bs19_var_reshape_menu	command	"[???] Unite values into one column..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
+item	bs19r_var_reshape_menu	command	"Gather columns into long format dataset..."	window_variable_gather	"activeDataSetP()"	"packageAvailable('tidyr')"
+# item	bs19r_var_reshape_menu	command	"[???] Spread columns into wide format dataset..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')" # Spread a key-value pair across multiple columns
+# item	bs19r_var_reshape_menu	command	"[???] Separate one value into multiple columns..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
+# item	bs19r_var_reshape_menu	command	"[???] Unite values into one column..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
 
 
 
 # --- + Join/Bind datasets ----------------------------------------------------
 
-menu	bs19_several_ds_menu	bs19_data_menu	""	""	""	""
-item	bs19_data_menu	cascade	"Several datasets"	bs19_several_ds_menu	""	""
+menu	bs19r_several_ds_menu	bs19r_data_menu	""	""	""	""
+item	bs19r_data_menu	cascade	"Several datasets"	bs19r_several_ds_menu	""	""
 
-# item	bs19_several_ds_menu	separator	""	""	""	""
-item	bs19_several_ds_menu	command	"Join two datasets by matching row ID..."	window_dataset_join	"dataSetsP(2)"	"packageAvailable('dplyr')"
-item	bs19_several_ds_menu	command	"Bind rows of several datasets..."	window_dataset_bind_rows	"dataSetsP(2)"	"packageAvailable('dplyr')"
-item	bs19_several_ds_menu	command	"Bind columns of several datasets..."	window_dataset_bind_cols	"dataSetsP(2)"	"packageAvailable('dplyr')"
+# item	bs19r_several_ds_menu	separator	""	""	""	""
+item	bs19r_several_ds_menu	command	"Join two datasets by matching row ID..."	window_dataset_join	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	bs19r_several_ds_menu	command	"Bind rows of several datasets..."	window_dataset_bind_rows	"dataSetsP(2)"	"packageAvailable('dplyr')"
+item	bs19r_several_ds_menu	command	"Bind columns of several datasets..."	window_dataset_bind_cols	"dataSetsP(2)"	"packageAvailable('dplyr')"
 
 
 # --- + > Copy, delete, rename ---------------------------------------------------
-menu	bs19_objects_menu	bs19_data_menu	""	""	""	""
-item	bs19_data_menu	cascade	"Workspace"	bs19_objects_menu	"activeDataSetP()"	""
+menu	bs19r_objects_menu	bs19r_data_menu	""	""	""	""
+item	bs19r_data_menu	cascade	"Workspace"	bs19r_objects_menu	"activeDataSetP()"	""
 
-item	bs19_objects_menu	command	"List loaded objects (and datasets)"	command_list_objects	""	""
-item	bs19_objects_menu	command	"Manage objects (and datasets)..."	window_data_obj_manage	""	""
+item	bs19r_objects_menu	command	"List loaded objects (and datasets)"	command_list_objects	""	""
+item	bs19r_objects_menu	command	"Manage objects (and datasets)..."	window_data_obj_manage	""	""
 
 
 # --- + Import Data  ---------------------------------------------------------
 
-# item	bs19_data_menu	separator	""	""	""	""
-menu	import_menu	bs19_data_menu	""	""	""	""
-item	bs19_data_menu	cascade	"Import"	import_menu	""	""
+# item	bs19r_data_menu	separator	""	""	""	""
+menu	import_menu	bs19r_data_menu	""	""	""	""
+item	bs19r_data_menu	cascade	"Import"	import_menu	""	""
 
 # ---- Create data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 item	import_menu	command	"Create a new dataset... [Rcmdr]"	window_dataset_new_rcmdr	""	""
@@ -217,410 +217,410 @@ item	import_menu	command	"Import data from plot (online)..."	window_online_image
 
 #--- + Export Data -----------------------------------------------------------
 
-menu	bs19_export_menu	bs19_data_menu	""	""	""	""
-item	bs19_data_menu	cascade	"Export"	bs19_export_menu	"activeDataSetP()"	""
+menu	bs19r_export_menu	bs19r_data_menu	""	""	""	""
+item	bs19r_data_menu	cascade	"Export"	bs19r_export_menu	"activeDataSetP()"	""
 
-item	bs19_export_menu	command	"Export to clipboard..."	window_export_to_clipboard	"activeDataSetP()"	""
-item	bs19_export_menu	command	"Export to Text file (.txt, .csv)..."	window_export_to_text	"activeDataSetP()"	""
+item	bs19r_export_menu	command	"Export to clipboard..."	window_export_to_clipboard	"activeDataSetP()"	""
+item	bs19r_export_menu	command	"Export to Text file (.txt, .csv)..."	window_export_to_text	"activeDataSetP()"	""
 
-# item	bs19_export_menu	separator	""	""	""	""
-item	bs19_export_menu	command	"Export to Excel file (.xlsx)..."	window_export_to_excel	"activeDataSetP()"	""
+# item	bs19r_export_menu	separator	""	""	""	""
+item	bs19r_export_menu	command	"Export to Excel file (.xlsx)..."	window_export_to_excel	"activeDataSetP()"	""
 
-# item	bs19_export_menu	separator	""	""	""	""
-item	bs19_export_menu	command	"Export to Rds file (.Rds)..."	window_export_to_rds	"activeDataSetP()"	""
-item	bs19_export_menu	command	"Export to R-data file (.RData)..."	window_export_to_rdata	"activeDataSetP()"	""
-# item	bs19_export_menu	separator	""	""	""	""
-# item	bs19_export_menu	command	"[???] Save as MS Word table..."	function_not_implemented	"activeDataSetP()"	""
+# item	bs19r_export_menu	separator	""	""	""	""
+item	bs19r_export_menu	command	"Export to Rds file (.Rds)..."	window_export_to_rds	"activeDataSetP()"	""
+item	bs19r_export_menu	command	"Export to R-data file (.RData)..."	window_export_to_rdata	"activeDataSetP()"	""
+# item	bs19r_export_menu	separator	""	""	""	""
+# item	bs19r_export_menu	command	"[???] Save as MS Word table..."	function_not_implemented	"activeDataSetP()"	""
 
 # . ===========================================================================
 # ---- >>> Plots (main) -------------------------------------------------------
 
-menu	bs19_plots_menu	biostat19_menu	""	""	""	""
-item	biostat19_menu	cascade	"Plots"	bs19_plots_menu	""	""
+menu	bs19r_plots_menu	biostat19r_menu	""	""	""	""
+item	biostat19r_menu	cascade	"Plots"	bs19r_plots_menu	""	""
 
-item	bs19_plots_menu	command	"Open a new window for plots"	open_new_plots_window	""	""
-
-
-# item	bs19_plots_menu	separator	""	""	""	""
-item	bs19_plots_menu	command	"Close all plots"	close_all_plots	""	""
-item	bs19_plots_menu	command	"Convert ggplot into interactive plot..."	window_plots_ggplotly	"gg_objects_exist() || gg_lastplot_exists()"	"packageAvailable('plotly')"
-# item	bs19_plots_menu	command	"Digitize image (offline)..."	window_plots_image_digitizer	""	"packageAvailable('digitizeR')"
-# item	bs19_plots_menu	command	"Digitize image..."	window_dataset_digitizer_web	""	"packageAvailable('digitizeR')"
+item	bs19r_plots_menu	command	"Open a new window for plots"	open_new_plots_window	""	""
 
 
+# item	bs19r_plots_menu	separator	""	""	""	""
+item	bs19r_plots_menu	command	"Close all plots"	close_all_plots	""	""
+item	bs19r_plots_menu	command	"Convert ggplot into interactive plot..."	window_plots_ggplotly	"gg_objects_exist() || gg_lastplot_exists()"	"packageAvailable('plotly')"
+# item	bs19r_plots_menu	command	"Digitize image (offline)..."	window_plots_image_digitizer	""	"packageAvailable('digitizeR')"
+# item	bs19r_plots_menu	command	"Digitize image..."	window_dataset_digitizer_web	""	"packageAvailable('digitizeR')"
 
-# item	bs19_plots_menu	separator	""	""	""	""
-# item	bs19_plots_menu	command	"[???] Visualize color names & color codes (example)"	window_show_colors	""	""
-item	bs19_plots_menu	command	"Save editable plot to PowerPoint..."	window_export_fig_to_pptx	""	"packageAvailable('officer') && packageAvailable('rvg')"
+
+
+# item	bs19r_plots_menu	separator	""	""	""	""
+# item	bs19r_plots_menu	command	"[???] Visualize color names & color codes (example)"	window_show_colors	""	""
+item	bs19r_plots_menu	command	"Save editable plot to PowerPoint..."	window_export_fig_to_pptx	""	"packageAvailable('officer') && packageAvailable('rvg')"
 
 
 
 # . ==========================================================================
 # ---- >>> Statistical summaries ---------------------------------------------
-menu	bs19_summary_menu	biostat19_menu	""	""	""	""
-item	biostat19_menu	cascade	"Summaries"	bs19_summary_menu	""	""
+menu	bs19r_summary_menu	biostat19r_menu	""	""	""	""
+item	biostat19r_menu	cascade	"Summaries"	bs19r_summary_menu	""	""
 
 
 # ---- Overview / Structure --------------------------------------------------------------
 
-item	bs19_summary_menu	command	"Number of rows and columns"	command_dataset_dim	"activeDataSetP()"	""
-item	bs19_summary_menu	command	"Variable type summary"	summary_var_types	"activeDataSetP()"	"" # & dataset size
-item	bs19_summary_menu	command	"Screen missing data..."	window_summary_missings	"activeDataSetP()"	"packageAvailable('DescTools')"
-item	bs19_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
+item	bs19r_summary_menu	command	"Number of rows and columns"	command_dataset_dim	"activeDataSetP()"	""
+item	bs19r_summary_menu	command	"Variable type summary"	summary_var_types	"activeDataSetP()"	"" # & dataset size
+item	bs19r_summary_menu	command	"Screen missing data..."	window_summary_missings	"activeDataSetP()"	"packageAvailable('DescTools')"
+item	bs19r_summary_menu	command	"Glimpse: structure of dataset"	command_glimpse	"activeDataSetP()"	""
 
 
 
 
 # --- Summarize variables ----------------------------------------------------
 
-item	bs19_summary_menu	separator	""	""	""	""
+item	bs19r_summary_menu	separator	""	""	""	""
 
-item	bs19_summary_menu	command	"Summarize all variables (summary)"	window_summary_summary	"activeDataSetP()"	"packageAvailable('summarytools')"
-item	bs19_summary_menu	command	"Summarize all variables (dfSummary)"	window_summary_dfSummary	"activeDataSetP()"	"packageAvailable('summarytools')"
-item	bs19_summary_menu	command	"Summarize all variables (Desc)"	window_summary_desc_all	"activeDataSetP()"	"packageAvailable('DescTools')"
-item	bs19_summary_menu	command	"Summarize selected variables (Desc)..."	window_summary_desc	"activeDataSetP()"	"packageAvailable('DescTools')"
-
-
-item	bs19_summary_menu	separator	""	""	""	""
-
-item	bs19_summary_menu	command	"Summarize numeric variables"	window_summary_descr	"numericP()"	"packageAvailable('DescTools')"
+item	bs19r_summary_menu	command	"Summarize all variables (summary)"	window_summary_summary	"activeDataSetP()"	"packageAvailable('summarytools')"
+item	bs19r_summary_menu	command	"Summarize all variables (dfSummary)"	window_summary_dfSummary	"activeDataSetP()"	"packageAvailable('summarytools')"
+item	bs19r_summary_menu	command	"Summarize all variables (Desc)"	window_summary_desc_all	"activeDataSetP()"	"packageAvailable('DescTools')"
+item	bs19r_summary_menu	command	"Summarize selected variables (Desc)..."	window_summary_desc	"activeDataSetP()"	"packageAvailable('DescTools')"
 
 
-item	bs19_summary_menu	separator	""	""	""	""
-# item	bs19_summary_menu	command	"Summarize variables..."	window_summary_variables	"activeDataSetP()"	""
+item	bs19r_summary_menu	separator	""	""	""	""
 
-item	bs19_summary_menu	command	"Frequency & multi-way tables..."	window_summary_count	"activeDataSetP()"	""
+item	bs19r_summary_menu	command	"Summarize numeric variables"	window_summary_descr	"numericP()"	"packageAvailable('DescTools')"
+
+
+item	bs19r_summary_menu	separator	""	""	""	""
+# item	bs19r_summary_menu	command	"Summarize variables..."	window_summary_variables	"activeDataSetP()"	""
+
+item	bs19r_summary_menu	command	"Frequency & multi-way tables..."	window_summary_count	"activeDataSetP()"	""
 
 
 # . ===========================================================================
 # ---- >>> Analysis ----------------------------------------------------------
 
-menu	bs19_analysis_menu	biostat19_menu	""	""	""	""
-item	biostat19_menu	cascade	"Analysis"	bs19_analysis_menu	""	""
+menu	bs19r_analysis_menu	biostat19r_menu	""	""	""	""
+item	biostat19r_menu	cascade	"Analysis"	bs19r_analysis_menu	""	""
 
 
 # . ===========================================================================
 # ---- + Association / Correlation --------------------------------------------
 
-menu	bs19_assoc_menu	bs19_analysis_menu	""	""	""	""
-item	bs19_analysis_menu	cascade	"Association / Correlation"	bs19_assoc_menu	""	""
+menu	bs19r_assoc_menu	bs19r_analysis_menu	""	""	""	""
+item	bs19r_analysis_menu	cascade	"Association / Correlation"	bs19r_assoc_menu	""	""
 
-item	bs19_assoc_menu	command "Correlation... [Rcmdr]"	correlationTest	"numericP(2)"	"packageAvailable('RcmdrMisc')"
-item	bs19_assoc_menu	command "Correlation matrix... [Rcmdr]"	correlationMatrix	"numericP(2)"	"packageAvailable('RcmdrMisc')"
-item	bs19_assoc_menu	command	"Pearson's linear correlation... [EZR]"	StatMedCorrelation	"numericP(2)"	""
-item	bs19_assoc_menu	command	"Spearman's/Kendall's rank correlation... [EZR]"	StatMedSpearman	"numericP(2)"	""
-item	bs19_assoc_menu	separator	""	""	""	""
-item	bs19_assoc_menu	command	"Association between categorical variables..."	window_summary_count	"factorsP(2)"	"" # [???]
-# item	bs19_assoc_menu	command	"Association between categorical variables..."	window_summary_count	"factorsP(2)"	"" # [???]
-# item	bs19_assoc_menu	command	"[???] Kappa... [EZR]"	function_not_implemented	"activeDataSetP()"	""
+item	bs19r_assoc_menu	command "Correlation... [Rcmdr]"	correlationTest	"numericP(2)"	"packageAvailable('RcmdrMisc')"
+item	bs19r_assoc_menu	command "Correlation matrix... [Rcmdr]"	correlationMatrix	"numericP(2)"	"packageAvailable('RcmdrMisc')"
+item	bs19r_assoc_menu	command	"Pearson's linear correlation... [EZR]"	StatMedCorrelation	"numericP(2)"	""
+item	bs19r_assoc_menu	command	"Spearman's/Kendall's rank correlation... [EZR]"	StatMedSpearman	"numericP(2)"	""
+item	bs19r_assoc_menu	separator	""	""	""	""
+item	bs19r_assoc_menu	command	"Association between categorical variables..."	window_summary_count	"factorsP(2)"	"" # [???]
+# item	bs19r_assoc_menu	command	"Association between categorical variables..."	window_summary_count	"factorsP(2)"	"" # [???]
+# item	bs19r_assoc_menu	command	"[???] Kappa... [EZR]"	function_not_implemented	"activeDataSetP()"	""
 
 
 
 # . ===========================================================================
 # ---- + Confidence intervals ---------------------------------------------------
 
-# menu	bs19_ci_menu	bs19_analysis_menu	""	""	""	""
-# item	bs19_analysis_menu	cascade	"Confidence intervals (CI)"	bs19_ci_menu	""	""
+# menu	bs19r_ci_menu	bs19r_analysis_menu	""	""	""	""
+# item	bs19r_analysis_menu	cascade	"Confidence intervals (CI)"	bs19r_ci_menu	""	""
 
-# item	bs19_ci_menu	command	"[???] Mean CI"	window_ci_mean	""	""
-# item	bs19_ci_menu	command	"[???] Median CI"	window_ci_median	""	""
-# item	bs19_ci_menu	command	"[???] Binomial proportion CI"	window_ci_prop_binom	""	""
-# item	bs19_ci_menu	command	"[???] Multinomial proportion CI "	window_ci_prop_multi	""	""
-# item	bs19_ci_menu	command	"[???] CI for difference in means"	window_ci_mean_diff	""	""
+# item	bs19r_ci_menu	command	"[???] Mean CI"	window_ci_mean	""	""
+# item	bs19r_ci_menu	command	"[???] Median CI"	window_ci_median	""	""
+# item	bs19r_ci_menu	command	"[???] Binomial proportion CI"	window_ci_prop_binom	""	""
+# item	bs19r_ci_menu	command	"[???] Multinomial proportion CI "	window_ci_prop_multi	""	""
+# item	bs19r_ci_menu	command	"[???] CI for difference in means"	window_ci_mean_diff	""	""
 #
-# item	bs19_ci_menu	separator	""	""	""	""
-# item	bs19_ci_menu	command	"[???] Bootstrap confidence intervals"	window_ci_boot	""	""
+# item	bs19r_ci_menu	separator	""	""	""	""
+# item	bs19r_ci_menu	command	"[???] Bootstrap confidence intervals"	window_ci_boot	""	""
 
 
 # . ==========================================================================
 # ---- * Statistical tests ---------------------------------------------------
 
-menu	bs19_tests_menu	bs19_analysis_menu	""	""	""	""
-item	bs19_analysis_menu	cascade	"Tests"	bs19_tests_menu	""	""
+menu	bs19r_tests_menu	bs19r_analysis_menu	""	""	""	""
+item	bs19r_analysis_menu	cascade	"Tests"	bs19r_tests_menu	""	""
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # + ~ Normality tests --------------------------------------------------------
 
 
-item	bs19_tests_menu	command	"Normality test (univariate)..."	window_test_normality	"numericP()"	""
+item	bs19r_tests_menu	command	"Normality test (univariate)..."	window_test_normality	"numericP()"	""
 
-# menu	bs19_distr_tests_menu	bs19_tests_menu	""	""	""	""
-# item	bs19_tests_menu	cascade	"Normality / Distribution tests"	bs19_distr_tests_menu	""	""
+# menu	bs19r_distr_tests_menu	bs19r_tests_menu	""	""	""	""
+# item	bs19r_tests_menu	cascade	"Normality / Distribution tests"	bs19r_distr_tests_menu	""	""
 #
-# item	bs19_distr_tests_menu	command	"Normality test (univariate)..."	window_test_normality	"numericP()"	""
-# item	bs19_distr_tests_menu	command	"Normality test (multivariate; on-line)..."	window_online_mvn	"numericP()"	""
+# item	bs19r_distr_tests_menu	command	"Normality test (univariate)..."	window_test_normality	"numericP()"	""
+# item	bs19r_distr_tests_menu	command	"Normality test (multivariate; on-line)..."	window_online_mvn	"numericP()"	""
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # + ~ Central tendency tests -------------------------------------------------
 
-menu	bs19_centers_menu	bs19_tests_menu	""	""	""	""
-item	bs19_tests_menu	cascade	"Location tests"	bs19_centers_menu	""	""
+menu	bs19r_centers_menu	bs19r_tests_menu	""	""	""	""
+item	bs19r_tests_menu	cascade	"Location tests"	bs19r_centers_menu	""	""
 
-# item	bs19_centers_menu command	"Single-sample t-test... [Rcmdr]"	singleSampleTTest	"numericP()"	""
-item	bs19_centers_menu	command	"Single-sample t-test... [EZR]"	StatMedSingleSampleTTest	"numericP(2)"	""
-item	bs19_centers_menu	command	"Single-sample Wilcoxon's signed rank test... [EZR]"	StatMedWilSign	"numericP(2)"	""
-item	bs19_centers_menu	separator	""	""	""	""
-
-
-# item	bs19_centers_menu command	"Paired-samples t-test... [Rcmdr]"	pairedTTest	"numericP(2)"	""
-item	bs19_centers_menu	command	"Paired-samples t-test... [EZR]"	StatMedPairedTtest	"numericP(2)"	""
-item	bs19_centers_menu command	"Paired-samples Wilcoxon test... [Rcmdr]"	pairedWilcoxonTest	"numericP(2)"	""
-
-item	bs19_centers_menu	command	"Repeated-measures ANOVA... [EZR]"	StatMedRepANOVA	"numericP(2)"	"packageAvailable('multcomp') && packageAvailable('abind')"
-# item	bs19_centers_menu command	"Friedman's rank-sum test... [Rcmdr]"	FriedmanTest	"numericP(2)"	""
-item	bs19_centers_menu	command	"Friedman's rank-sum test... [EZR]"	StatMedFriedman	"numericP(2)"	""
-item	bs19_centers_menu	separator	""	""	""	""
+# item	bs19r_centers_menu command	"Single-sample t-test... [Rcmdr]"	singleSampleTTest	"numericP()"	""
+item	bs19r_centers_menu	command	"Single-sample t-test... [EZR]"	StatMedSingleSampleTTest	"numericP(2)"	""
+item	bs19r_centers_menu	command	"Single-sample Wilcoxon's signed rank test... [EZR]"	StatMedWilSign	"numericP(2)"	""
+item	bs19r_centers_menu	separator	""	""	""	""
 
 
-# item	bs19_centers_menu command	"Independent samples t-test... [Rcmdr]"	independentSamplesTTest	"numericP() && twoLevelFactorsP()"	""
-item	bs19_centers_menu	command	"Independent samples t-test... [EZR]"	StatMedTtest	"numericP() && twoLevelFactorsP()"	""
-# item	bs19_centers_menu command	"Independent samples Wilcoxon/Mann-Whitney U test... [Rcmdr]"	twoSampleWilcoxonTest	"numericP() && twoLevelFactorsP()"	""
-item	bs19_centers_menu	command	"Independent samples Wilcoxon/Mann-Whitney U test... [EZR]"	StatMedMannW	"numericP() && twoLevelFactorsP()"	""
+# item	bs19r_centers_menu command	"Paired-samples t-test... [Rcmdr]"	pairedTTest	"numericP(2)"	""
+item	bs19r_centers_menu	command	"Paired-samples t-test... [EZR]"	StatMedPairedTtest	"numericP(2)"	""
+item	bs19r_centers_menu command	"Paired-samples Wilcoxon test... [Rcmdr]"	pairedWilcoxonTest	"numericP(2)"	""
 
-# item	bs19_centers_menu	command	"One-way ANOVA... [Rcmdr]"	oneWayAnova	"numericP() && factorsP()"	""
-item	bs19_centers_menu	command	"One-way ANOVA... [EZR]"	StatMedANOVA	"numericP() && factorsP()"	"packageAvailable('multcomp') && packageAvailable('abind')"
-# item	bs19_centers_menu command	"Kruskal-Wallis test... [Rcmdr]"	KruskalWallisTest	"numericP() && factorsP()"	""
-item	bs19_centers_menu	command	"Kruskal-Wallis test... [EZR]"	StatMedKruWalli	"numericP() && factorsP()"	""
-item	bs19_centers_menu	command	"Jonckheere-Terpstra test... [EZR]"	StatMedJT	"activeDataSetP()"	"packageAvailable('clinfun')"
-item	bs19_centers_menu	separator	""	""	""	""
+item	bs19r_centers_menu	command	"Repeated-measures ANOVA... [EZR]"	StatMedRepANOVA	"numericP(2)"	"packageAvailable('multcomp') && packageAvailable('abind')"
+# item	bs19r_centers_menu command	"Friedman's rank-sum test... [Rcmdr]"	FriedmanTest	"numericP(2)"	""
+item	bs19r_centers_menu	command	"Friedman's rank-sum test... [EZR]"	StatMedFriedman	"numericP(2)"	""
+item	bs19r_centers_menu	separator	""	""	""	""
 
-# item	bs19_centers_menu	command	"Multi-way ANOVA... [Rcmdr]"	multiWayAnova	"numericP() && factorsP()"	""
-item	bs19_centers_menu	command	"Multi-way ANOVA... [EZR]"	StatMedMultiANOVA	"numericP() && factorsP()"	"packageAvailable('multcomp') && packageAvailable('abind')"
-item	bs19_centers_menu	command	"ANCOVA... [EZR]"	StatMedANCOVA	"numericP()"	"packageAvailable('multcomp') && packageAvailable('abind')"
+
+# item	bs19r_centers_menu command	"Independent samples t-test... [Rcmdr]"	independentSamplesTTest	"numericP() && twoLevelFactorsP()"	""
+item	bs19r_centers_menu	command	"Independent samples t-test... [EZR]"	StatMedTtest	"numericP() && twoLevelFactorsP()"	""
+# item	bs19r_centers_menu command	"Independent samples Wilcoxon/Mann-Whitney U test... [Rcmdr]"	twoSampleWilcoxonTest	"numericP() && twoLevelFactorsP()"	""
+item	bs19r_centers_menu	command	"Independent samples Wilcoxon/Mann-Whitney U test... [EZR]"	StatMedMannW	"numericP() && twoLevelFactorsP()"	""
+
+# item	bs19r_centers_menu	command	"One-way ANOVA... [Rcmdr]"	oneWayAnova	"numericP() && factorsP()"	""
+item	bs19r_centers_menu	command	"One-way ANOVA... [EZR]"	StatMedANOVA	"numericP() && factorsP()"	"packageAvailable('multcomp') && packageAvailable('abind')"
+# item	bs19r_centers_menu command	"Kruskal-Wallis test... [Rcmdr]"	KruskalWallisTest	"numericP() && factorsP()"	""
+item	bs19r_centers_menu	command	"Kruskal-Wallis test... [EZR]"	StatMedKruWalli	"numericP() && factorsP()"	""
+item	bs19r_centers_menu	command	"Jonckheere-Terpstra test... [EZR]"	StatMedJT	"activeDataSetP()"	"packageAvailable('clinfun')"
+item	bs19r_centers_menu	separator	""	""	""	""
+
+# item	bs19r_centers_menu	command	"Multi-way ANOVA... [Rcmdr]"	multiWayAnova	"numericP() && factorsP()"	""
+item	bs19r_centers_menu	command	"Multi-way ANOVA... [EZR]"	StatMedMultiANOVA	"numericP() && factorsP()"	"packageAvailable('multcomp') && packageAvailable('abind')"
+item	bs19r_centers_menu	command	"ANCOVA... [EZR]"	StatMedANCOVA	"numericP()"	"packageAvailable('multcomp') && packageAvailable('abind')"
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # + ~ Variability tests ------------------------------------------------------
 
-menu	bs19_variability_menu	bs19_tests_menu	""	""	""	""
-item	bs19_tests_menu	cascade	"Variability tests"	bs19_variability_menu	""	""
+menu	bs19r_variability_menu	bs19r_tests_menu	""	""	""	""
+item	bs19r_tests_menu	cascade	"Variability tests"	bs19r_variability_menu	""	""
 
-# item	bs19_variability_menu	command	"Two-variances F test... [Rcmdr]"	twoVariancesFTest	"numericP() && twoLevelFactorsP()"	""
-item	bs19_variability_menu	command	"Two-variances F-test... [EZR]"	StatMedFTest	"numericP() && twoLevelFactorsP()"	""
+# item	bs19r_variability_menu	command	"Two-variances F test... [Rcmdr]"	twoVariancesFTest	"numericP() && twoLevelFactorsP()"	""
+item	bs19r_variability_menu	command	"Two-variances F-test... [EZR]"	StatMedFTest	"numericP() && twoLevelFactorsP()"	""
 
-# item	bs19_variability_menu	command	"Bartlett's test... [Rcmdr]"	BartlettTest	"numericP() && factorsP()"	""
-item	bs19_variability_menu	command	"Bartlett's test... [EZR]"	StatMedBartlett	"numericP() && factorsP()"	""
+# item	bs19r_variability_menu	command	"Bartlett's test... [Rcmdr]"	BartlettTest	"numericP() && factorsP()"	""
+item	bs19r_variability_menu	command	"Bartlett's test... [EZR]"	StatMedBartlett	"numericP() && factorsP()"	""
 
-item	bs19_variability_menu	command	"Levene's / Brown-Forsythe's test... [Rcmdr]"	LeveneTest	"numericP() && factorsP()"	""
+item	bs19r_variability_menu	command	"Levene's / Brown-Forsythe's test... [Rcmdr]"	LeveneTest	"numericP() && factorsP()"	""
 
 
 # . ==========================================================================
 # ---- + Models (Fit) --------------------------------------------------------
-# menu	bs19_fit_models_menu	bs19_analysis_menu	""	""	""	""
-# item	bs19_analysis_menu	cascade	"Models (fit)"	bs19_fit_models_menu	""	""
+# menu	bs19r_fit_models_menu	bs19r_analysis_menu	""	""	""	""
+# item	bs19r_analysis_menu	cascade	"Models (fit)"	bs19r_fit_models_menu	""	""
 #
-# item	bs19_fit_models_menu	command	"Linear regression... [EZR]"	StatMedLinearRegression	"activeDataSetP()"	""
-# item	bs19_fit_models_menu	command	"[???] Calibration (linear regression)..."	function_not_implemented	"activeDataSetP() && FALSE"	""
+# item	bs19r_fit_models_menu	command	"Linear regression... [EZR]"	StatMedLinearRegression	"activeDataSetP()"	""
+# item	bs19r_fit_models_menu	command	"[???] Calibration (linear regression)..."	function_not_implemented	"activeDataSetP() && FALSE"	""
 
 
 # . ==========================================================================
 # ---- + Models (Analyze) ----------------------------------------------------
-menu	bs19_models_menu	bs19_analysis_menu	""	""	""	""
-item	bs19_analysis_menu	cascade	"Models (analyze)"	bs19_models_menu	""	""
+menu	bs19r_models_menu	bs19r_analysis_menu	""	""	""	""
+item	bs19r_analysis_menu	cascade	"Models (analyze)"	bs19r_models_menu	""	""
 
 
 
-item	bs19_models_menu	command	"Select and explore a model"	window_model_select	"modelsP()"	""
-item	bs19_models_menu	separator	""	""	""	""
-item	bs19_models_menu	command	"Print: basic model's results"	command_model_print	"activeModelP()"	""
-item	bs19_models_menu	command	"Summary: print base-R-style summary of the model"	command_model_summary	"activeModelP() "	""
+item	bs19r_models_menu	command	"Select and explore a model"	window_model_select	"modelsP()"	""
+item	bs19r_models_menu	separator	""	""	""	""
+item	bs19r_models_menu	command	"Print: basic model's results"	command_model_print	"activeModelP()"	""
+item	bs19r_models_menu	command	"Summary: print base-R-style summary of the model"	command_model_summary	"activeModelP() "	""
 
-item	bs19_models_menu	command	"Glance: one-row summary of the model"	command_model_glance	"activeModelP() "	""
-item	bs19_models_menu	command	"Tidy: summarize model's statistical findings"	command_model_tidy	"activeModelP() "	""
-item	bs19_models_menu	command	"Standardized regression coefficients"	command_model_std_lm_coeffs	"modelClassP('lm')"	""
-item	bs19_models_menu	command	"Show model's class"	command_model_get_class	"activeModelP()"	""
+item	bs19r_models_menu	command	"Glance: one-row summary of the model"	command_model_glance	"activeModelP() "	""
+item	bs19r_models_menu	command	"Tidy: summarize model's statistical findings"	command_model_tidy	"activeModelP() "	""
+item	bs19r_models_menu	command	"Standardized regression coefficients"	command_model_std_lm_coeffs	"modelClassP('lm')"	""
+item	bs19r_models_menu	command	"Show model's class"	command_model_get_class	"activeModelP()"	""
 
 
-item	bs19_models_menu	separator	""	""	""	""
-item	bs19_models_menu	command	"Augment: add modeled data to active dataset"	command_model_augment	"activeModelP() "	""
+item	bs19r_models_menu	separator	""	""	""	""
+item	bs19r_models_menu	command	"Augment: add modeled data to active dataset"	command_model_augment	"activeModelP() "	""
 
 
 # . ==========================================================================
 # ---- >>> Session menu ------------------------------------------------------
-menu	bs19_session_menu	biostat19_menu	""	""	""	""
-item	biostat19_menu	cascade	"Session"	bs19_session_menu	""	""
+menu	bs19r_session_menu	biostat19r_menu	""	""	""	""
+item	biostat19r_menu	cascade	"Session"	bs19r_session_menu	""	""
 
 # ---- Always on top ---------------------------------------------------------
-# item	bs19_session_menu	command	"Always on top (on/off)"	toggle_always_on_top	""	""
-# item	bs19_session_menu	separator	""	""	""	""
+# item	bs19r_session_menu	command	"Always on top (on/off)"	toggle_always_on_top	""	""
+# item	bs19r_session_menu	separator	""	""	""	""
 
 # ---- Manage locale ---------------------------------------------------------
-item	bs19_session_menu	command	"Locale..."	window_locale_set	""	""
+item	bs19r_session_menu	command	"Locale..."	window_locale_set	""	""
 
 # ---- Manage Working directory ----------------------------------------------
-item	bs19_session_menu	separator	""	""	""	""
-item	bs19_session_menu	command	"Print path to working directory"  command_getwd	""	""
-item	bs19_session_menu	command	"Open working directory"  command_openwd	""	"packageAvailable('fs')"
-item	bs19_session_menu	command	"Change working directory..."  command_setwd	""	""
+item	bs19r_session_menu	separator	""	""	""	""
+item	bs19r_session_menu	command	"Print path to working directory"  command_getwd	""	""
+item	bs19r_session_menu	command	"Open working directory"  command_openwd	""	"packageAvailable('fs')"
+item	bs19r_session_menu	command	"Change working directory..."  command_setwd	""	""
 
 # ---- File info -------------------------------------------------------------
-# item	bs19_session_menu	separator	""	""	""	""
-# item	bs19_session_menu	command	"Get information about file..."  command_get_file_info	""	"packageAvailable('fs')"
-# item	bs19_session_menu	command	"[???] Use absolute/relative path"  function_not_implemented	"FALSE"	""
+# item	bs19r_session_menu	separator	""	""	""	""
+# item	bs19r_session_menu	command	"Get information about file..."  command_get_file_info	""	"packageAvailable('fs')"
+# item	bs19r_session_menu	command	"[???] Use absolute/relative path"  function_not_implemented	"FALSE"	""
 
 
 # ---- Session information ---------------------------------------------------
-item	bs19_session_menu	separator	""	""	""	""
-item	bs19_session_menu	command	"Print session information: devtools style"	command_session_info_devtools	""	""
-item	bs19_session_menu	command	"Print session information: base R style"	command_session_info_utils	""	""
+item	bs19r_session_menu	separator	""	""	""	""
+item	bs19r_session_menu	command	"Print session information: devtools style"	command_session_info_devtools	""	""
+item	bs19r_session_menu	command	"Print session information: base R style"	command_session_info_utils	""	""
 
 
 # ---- Rcmdr windows: 1 vs. 3 ------------------------------------------------
 
-item	bs19_session_menu	separator	""	""	""	""
-item	bs19_session_menu	command	"Output to R console (1 window mode)"	command_rcmdr_use_1_window	"!is_console_output()"	""
-item	bs19_session_menu	command	"Output to R Commander (3 windows mode)"	command_rcmdr_use_3_windows	"is_console_output()"	""
+item	bs19r_session_menu	separator	""	""	""	""
+item	bs19r_session_menu	command	"Output to R console (1 window mode)"	command_rcmdr_use_1_window	"!is_console_output()"	""
+item	bs19r_session_menu	command	"Output to R Commander (3 windows mode)"	command_rcmdr_use_3_windows	"is_console_output()"	""
 
 
 # ---- Close, Restart --------------------------------------------------------
 
-item	bs19_session_menu	separator	""	""	""	""
-item	bs19_session_menu	command	"Restart R Commander"	rcmdr_restart_commander	""	""
-item	bs19_session_menu	command	"Restart R session in RStudio"	command_restart_rs_session	"is_rstudio()"	"packageAvailable('rstudioapi')"
-item	bs19_session_menu	command	"Close R Commander"	CloseCommander	""	""
-item	bs19_session_menu	command	"Close R Commander & R"	command_rcmdr_close_r	""	""
+item	bs19r_session_menu	separator	""	""	""	""
+item	bs19r_session_menu	command	"Restart R Commander"	rcmdr_restart_commander	""	""
+item	bs19r_session_menu	command	"Restart R session in RStudio"	command_restart_rs_session	"is_rstudio()"	"packageAvailable('rstudioapi')"
+item	bs19r_session_menu	command	"Close R Commander"	CloseCommander	""	""
+item	bs19r_session_menu	command	"Close R Commander & R"	command_rcmdr_close_r	""	""
 
 
 
 # . ==========================================================================
 # ---- >>> About -------------------------------------------------------------
-menu	bs19_about_menu	biostat19_menu	""	""	""	""
-item	biostat19_menu	cascade	"About"	bs19_about_menu	""	""
+menu	bs19r_about_menu	biostat19r_menu	""	""	""	""
+item	biostat19r_menu	cascade	"About"	bs19r_about_menu	""	""
 
-# item	bs19_about_menu	command 'About package "RcmdrPlugin.biostat"'	window_about_package	""	""
-item	bs19_about_menu	command "About BioStat'19..."	window_about_biostat_version	""	""
-item	bs19_about_menu	command "Go to Homepage"	window_online_homepage	""	""
-item	bs19_about_menu	command "Feedback & bug reports"	window_online_bug_report	""	""
-item	bs19_about_menu	separator	""	""	""	""
-item	bs19_about_menu	command "Check recommended packages for BioStat"	command_chk_packages_biostat	""	""
+# item	bs19r_about_menu	command 'About package "RcmdrPlugin.biostat"'	window_about_package	""	""
+item	bs19r_about_menu	command "About BioStat'19..."	window_about_biostat_version	""	""
+item	bs19r_about_menu	command "Go to Homepage"	window_online_homepage	""	""
+item	bs19r_about_menu	command "Feedback & bug reports"	window_online_bug_report	""	""
+item	bs19r_about_menu	separator	""	""	""	""
+item	bs19r_about_menu	command "Check recommended packages for BioStat"	command_chk_packages_biostat	""	""
 
 # . ===========================================================================
 # ---- >>> Online menu -------------------------------------------------------
 
-menu	bs19_online_menu	biostat19_menu	""	""	""	""
-item	biostat19_menu	cascade	"Online resources"	bs19_online_menu	""	""
+menu	bs19r_online_menu	biostat19r_menu	""	""	""	""
+item	biostat19r_menu	cascade	"Online resources"	bs19r_online_menu	""	""
 
 
 # ---- +  Apps (online) -------------------------------------------------------
 
-menu	bs19_online_apps_menu	bs19_online_menu	""	""	""	""
-item	bs19_online_menu	cascade	"Applications online"	bs19_online_apps_menu	""	""
+menu	bs19r_online_apps_menu	bs19r_online_menu	""	""	""	""
+item	bs19r_online_menu	cascade	"Applications online"	bs19r_online_apps_menu	""	""
 
-item	bs19_online_apps_menu	command	"Import data from image: WebPlotDigitizer"  window_online_image_digitizer	""	""
-# item	bs19_online_apps_menu	command	"Multivariate normality tests: MVN"  window_online_mvn	""	""
-item	bs19_online_apps_menu	command	"Probability calculator: GeoGebra"  window_online_geogebra_probability 	""	""
-# item	bs19_online_apps_menu	command	"ROC analysis: Easy ROC"  window_online_easyROC	""	""
+item	bs19r_online_apps_menu	command	"Import data from image: WebPlotDigitizer"  window_online_image_digitizer	""	""
+# item	bs19r_online_apps_menu	command	"Multivariate normality tests: MVN"  window_online_mvn	""	""
+item	bs19r_online_apps_menu	command	"Probability calculator: GeoGebra"  window_online_geogebra_probability 	""	""
+# item	bs19r_online_apps_menu	command	"ROC analysis: Easy ROC"  window_online_easyROC	""	""
 
-# item	bs19_online_apps_menu	separator	""	""	""	""
+# item	bs19r_online_apps_menu	separator	""	""	""	""
 
-menu	bs19_online_lists_menu	topMenu	""	""	""	""
-item	bs19_online_apps_menu	cascade	"Lists of applications"	bs19_online_lists_menu	""	""
+menu	bs19r_online_lists_menu	topMenu	""	""	""	""
+item	bs19r_online_apps_menu	cascade	"Lists of applications"	bs19r_online_lists_menu	""	""
 
-item	bs19_online_lists_menu	command	"statpages.info"  window_online_statpages	""	""
+item	bs19r_online_lists_menu	command	"statpages.info"  window_online_statpages	""	""
 
 
 
 # ---- +  Apps to download  ---------------------------------------------------
 
-menu	bs19_downlaod_menu	topMenu	""	""	""	""
-item	bs19_online_menu	cascade	"Applications to download"	bs19_downlaod_menu	""	""
+menu	bs19r_downlaod_menu	topMenu	""	""	""	""
+item	bs19r_online_menu	cascade	"Applications to download"	bs19r_downlaod_menu	""	""
 
-item	bs19_downlaod_menu	command	"Basic Excel R toolkit: BERT"  window_online_bert	""	""
-item	bs19_downlaod_menu	command	"Cluster analysis: Orange"  window_online_orange	""	""
-item	bs19_downlaod_menu	command	"Power analysis: G*Power"  window_online_gpower	""	""
-item	bs19_downlaod_menu	command	"Probability calculator: GeoGebra Classic 6"  window_online_geogebra_download	""	""
-item	bs19_downlaod_menu	command	"Scientific data analysis: PAST"  window_online_past_download	""	""
+item	bs19r_downlaod_menu	command	"Basic Excel R toolkit: BERT"  window_online_bert	""	""
+item	bs19r_downlaod_menu	command	"Cluster analysis: Orange"  window_online_orange	""	""
+item	bs19r_downlaod_menu	command	"Power analysis: G*Power"  window_online_gpower	""	""
+item	bs19r_downlaod_menu	command	"Probability calculator: GeoGebra Classic 6"  window_online_geogebra_download	""	""
+item	bs19r_downlaod_menu	command	"Scientific data analysis: PAST"  window_online_past_download	""	""
 
 
-item	bs19_downlaod_menu	separator	""	""	""	""
-item	bs19_downlaod_menu	command	"R project"  window_online_r_project	""	""
-item	bs19_downlaod_menu	command	"Microsoft R Open"  window_online_mro	""	""
-item	bs19_downlaod_menu	command	"RStudio"  window_online_rstudio	""	""
+item	bs19r_downlaod_menu	separator	""	""	""	""
+item	bs19r_downlaod_menu	command	"R project"  window_online_r_project	""	""
+item	bs19r_downlaod_menu	command	"Microsoft R Open"  window_online_mro	""	""
+item	bs19r_downlaod_menu	command	"RStudio"  window_online_rstudio	""	""
 
 
 
 # ---- +  Books --------------------------------------------------------------
 
-menu	bs19_r_books_menu	topMenu	""	""	""	""
-item	bs19_online_menu	cascade	"Books"	bs19_r_books_menu	""	""
+menu	bs19r_r_books_menu	topMenu	""	""	""	""
+item	bs19r_online_menu	cascade	"Books"	bs19r_r_books_menu	""	""
 
-item	bs19_r_books_menu	command	"Bookdown (library of books about R)"  window_online_bookdown	""	""
+item	bs19r_r_books_menu	command	"Bookdown (library of books about R)"  window_online_bookdown	""	""
 
-item	bs19_r_books_menu	separator	""	""	""	""
+item	bs19r_r_books_menu	separator	""	""	""	""
 
-item	bs19_r_books_menu	command	"R for Data Science"  window_online_r4ds	""	""
-item	bs19_r_books_menu	command	"Advanced R (2nd ed.)"  window_online_advanced_r_2ed	""	""
-item	bs19_r_books_menu	command	"R Markdown"  window_online_rmd	""	""
+item	bs19r_r_books_menu	command	"R for Data Science"  window_online_r4ds	""	""
+item	bs19r_r_books_menu	command	"Advanced R (2nd ed.)"  window_online_advanced_r_2ed	""	""
+item	bs19r_r_books_menu	command	"R Markdown"  window_online_rmd	""	""
 
-item	bs19_r_books_menu	separator	""	""	""	""
+item	bs19r_r_books_menu	separator	""	""	""	""
 
-item	bs19_r_books_menu	command	"Modern Statistics for Modern Biology"  window_online_msmb	""	""
-item	bs19_r_books_menu	command	"Handbook of Biological Statistics (HBS)"  window_online_biostathandbook	""	""
-item	bs19_r_books_menu	command	"An R Companion for HBS"  window_online_rcompanion	""	""
-item	bs19_r_books_menu	command	"SAEPE in R (by S. Mangiafico)"  window_online_rcompanion_handbook	""	""
-item	bs19_r_books_menu	separator	""	""	""	""
-item	bs19_r_books_menu	command	"Introduction to Statistical Learning"  window_online_isl	""	""
-item	bs19_r_books_menu	command	"Elements of Statistical Learning"  window_online_esl	""	""
+item	bs19r_r_books_menu	command	"Modern Statistics for Modern Biology"  window_online_msmb	""	""
+item	bs19r_r_books_menu	command	"Handbook of Biological Statistics (HBS)"  window_online_biostathandbook	""	""
+item	bs19r_r_books_menu	command	"An R Companion for HBS"  window_online_rcompanion	""	""
+item	bs19r_r_books_menu	command	"SAEPE in R (by S. Mangiafico)"  window_online_rcompanion_handbook	""	""
+item	bs19r_r_books_menu	separator	""	""	""	""
+item	bs19r_r_books_menu	command	"Introduction to Statistical Learning"  window_online_isl	""	""
+item	bs19r_r_books_menu	command	"Elements of Statistical Learning"  window_online_esl	""	""
 
 
 # ---- +  Forums -------------------------------------------------------------
 
-menu	bs19_forums_menu	topMenu	""	""	""	""
-item	bs19_online_menu	cascade	"Forums"	bs19_forums_menu	""	""
+menu	bs19r_forums_menu	topMenu	""	""	""	""
+item	bs19r_online_menu	cascade	"Forums"	bs19r_forums_menu	""	""
 
-item	bs19_forums_menu	command	"Stack Overflow (programming, R)"  window_online_stackoverflow	""	""
-item	bs19_forums_menu	command	"Cross Validated (data analysis, statistics)"  window_online_crossvalidated	""	""
+item	bs19r_forums_menu	command	"Stack Overflow (programming, R)"  window_online_stackoverflow	""	""
+item	bs19r_forums_menu	command	"Cross Validated (data analysis, statistics)"  window_online_crossvalidated	""	""
 
 
 # + Tidyverse -------------------------------------------------------------
 
-menu	bs19_tidyverse_menu	bs19_online_menu	""	""	""	""
-item	bs19_online_menu	cascade	"Tidyverse"	bs19_tidyverse_menu	""	""
+menu	bs19r_tidyverse_menu	bs19r_online_menu	""	""	""	""
+item	bs19r_online_menu	cascade	"Tidyverse"	bs19r_tidyverse_menu	""	""
 
-item	bs19_tidyverse_menu	command	"Tidyverse homepage"  window_online_tidyverse	""	""
+item	bs19r_tidyverse_menu	command	"Tidyverse homepage"  window_online_tidyverse	""	""
 
-item	bs19_tidyverse_menu	separator	""	""	""	""
+item	bs19r_tidyverse_menu	separator	""	""	""	""
 
-item	bs19_tidyverse_menu	command	"Package 'broom' (tidy models)"  window_online_broom	""	""
-item	bs19_tidyverse_menu	command	"Package 'dplyr' (manipulate data)"  window_online_dplyr	""	""
-item	bs19_tidyverse_menu	command	"Package 'forcats' (for categorical data)"  window_online_forcats	""	""
-item	bs19_tidyverse_menu	command	"Package 'magrittr' (pipe operator %>%)"  window_online_magrittr	""	""
-item	bs19_tidyverse_menu	command	"Package 'purrr' (functional programming)"  window_online_purrr	""	""
-item	bs19_tidyverse_menu	command	"Package 'readr' (import data from text files)"  window_online_readr	""	""
-item	bs19_tidyverse_menu	command	"Package 'readxl' (import data from Excel)"  window_online_readxl	""	""
-item	bs19_tidyverse_menu	command	"Package 'stringr' (for text data)"  window_online_stringr	""	""
-item	bs19_tidyverse_menu	command	"Package 'tidyr' (tidy data)"  window_online_tidyr	""	""
+item	bs19r_tidyverse_menu	command	"Package 'broom' (tidy models)"  window_online_broom	""	""
+item	bs19r_tidyverse_menu	command	"Package 'dplyr' (manipulate data)"  window_online_dplyr	""	""
+item	bs19r_tidyverse_menu	command	"Package 'forcats' (for categorical data)"  window_online_forcats	""	""
+item	bs19r_tidyverse_menu	command	"Package 'magrittr' (pipe operator %>%)"  window_online_magrittr	""	""
+item	bs19r_tidyverse_menu	command	"Package 'purrr' (functional programming)"  window_online_purrr	""	""
+item	bs19r_tidyverse_menu	command	"Package 'readr' (import data from text files)"  window_online_readr	""	""
+item	bs19r_tidyverse_menu	command	"Package 'readxl' (import data from Excel)"  window_online_readxl	""	""
+item	bs19r_tidyverse_menu	command	"Package 'stringr' (for text data)"  window_online_stringr	""	""
+item	bs19r_tidyverse_menu	command	"Package 'tidyr' (tidy data)"  window_online_tidyr	""	""
 
 
 # + Plotting --------------------------------------------------------------
-menu	bs19_online_plots_menu	bs19_online_menu	""	""	""	""
-item	bs19_online_menu	cascade	"R plots"	bs19_online_plots_menu	""	""
+menu	bs19r_online_plots_menu	bs19r_online_menu	""	""	""	""
+item	bs19r_online_menu	cascade	"R plots"	bs19r_online_plots_menu	""	""
 
 
-item	bs19_online_plots_menu	command	"Package 'ggplot2' (plots)"  window_online_ggplot2	""	""
-item	bs19_online_plots_menu	command	"Package 'ggstatsplot' (plots)"  window_online_ggstatsplot	""	""
-item	bs19_online_plots_menu	command	"Package 'ggpubr' (plots)"  window_online_ggpubr	""	""
-item	bs19_online_plots_menu	command	"Extensions for ggplot2 (plots)"  window_online_ggplot2_ext	""	""
+item	bs19r_online_plots_menu	command	"Package 'ggplot2' (plots)"  window_online_ggplot2	""	""
+item	bs19r_online_plots_menu	command	"Package 'ggstatsplot' (plots)"  window_online_ggstatsplot	""	""
+item	bs19r_online_plots_menu	command	"Package 'ggpubr' (plots)"  window_online_ggpubr	""	""
+item	bs19r_online_plots_menu	command	"Extensions for ggplot2 (plots)"  window_online_ggplot2_ext	""	""
 
-item	bs19_online_plots_menu	separator	""	""	""	""
+item	bs19r_online_plots_menu	separator	""	""	""	""
 
-item	bs19_online_plots_menu	command	"Plotly for R (interactive plots)"  window_online_plotly	""	""
+item	bs19r_online_plots_menu	command	"Plotly for R (interactive plots)"  window_online_plotly	""	""
 
 
 # ---- +  R news & tutorials -------------------------------------------------
 
-menu	bs19_r_news_menu	bs19_online_menu	""	""	""	""
-item	bs19_online_menu	cascade	"R news & tutorials"	bs19_r_news_menu	""	""
+menu	bs19r_r_news_menu	bs19r_online_menu	""	""	""	""
+item	bs19r_online_menu	cascade	"R news & tutorials"	bs19r_r_news_menu	""	""
 
-item	bs19_r_news_menu	command	"R Cheat sheets"  window_online_r_chearsheets	""	""
-item	bs19_r_news_menu	command	"STHDA website (tutorials)"  window_online_sthda	""	""
-item	bs19_r_news_menu	separator	""	""	""	""
+item	bs19r_r_news_menu	command	"R Cheat sheets"  window_online_r_chearsheets	""	""
+item	bs19r_r_news_menu	command	"STHDA website (tutorials)"  window_online_sthda	""	""
+item	bs19r_r_news_menu	separator	""	""	""	""
 
-item	bs19_r_news_menu	command	"R Bloggers (tutorials, news)"  window_online_r_bloggers	""	""
-item	bs19_r_news_menu	command	"R Weekly (news, tutorials)"  window_online_rweekly	""	""
-item	bs19_r_news_menu	separator	""	""	""	""
+item	bs19r_r_news_menu	command	"R Bloggers (tutorials, news)"  window_online_r_bloggers	""	""
+item	bs19r_r_news_menu	command	"R Weekly (news, tutorials)"  window_online_rweekly	""	""
+item	bs19r_r_news_menu	separator	""	""	""	""
 
 
 
