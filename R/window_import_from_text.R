@@ -311,9 +311,22 @@ window_import_from_text <- function() {
     }
   }
 
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Read value of file name entry box
   read_path_to_file <- function() {
     get_values(f1_ent_file)
+  }
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  open_file <- function() {
+    path <- read_path_to_file()
+    if (rstudioapi::isAvailable() && fs::file_exists(path)) {
+      # Opens only existing files and not URLs
+      browseURL(url = path, browser = "RStudio")
+
+    } else {
+      browseURL(url = path)
+    }
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -487,6 +500,7 @@ window_import_from_text <- function() {
         # if (need_update_from_file()) {
         #     read_text_from_file()
         #     highlight_update_button()
+        #     activate_f_open_button()
         # }
 
         biostat_env$file_contents
@@ -653,6 +667,7 @@ window_import_from_text <- function() {
     # update_from_file()
     refresh_dataset_window()
     highlight_update_button()
+    activate_f_open_button()
   }
 
   # ~ Change properties ----------------------------------------------------
@@ -669,6 +684,7 @@ window_import_from_text <- function() {
     tk_disable(f1_but_paste)
     tk_disable(f1_but_clear)
     tk_disable(f1_but_update)
+    tk_disable(f1_but_f_open)
 
     tkconfigure(f3_but_paste, default = "active", state = "active")
     # image = "::image::bs_paste2"
@@ -705,6 +721,7 @@ window_import_from_text <- function() {
     tk_normalize(f1_but_clear)
     tk_normalize(f1_but_update)
     highlight_update_button()
+    activate_f_open_button()
 
     tk_normalize(f3_box_nrow_1)
     set_selection(f3_box_nrow_1, "100")
@@ -794,6 +811,17 @@ window_import_from_text <- function() {
       } else {
         tkconfigure(f1_but_update, default = "normal")
       }
+    }
+  }
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  activate_f_open_button <- function() {
+    path <- read_path_to_file()
+    if (fs::file_exists(path) || is_url(path)) {
+      tk_normalize(f1_but_f_open)
+
+    } else {
+      tk_disable(f1_but_f_open)
     }
   }
 
@@ -1090,7 +1118,10 @@ window_import_from_text <- function() {
   f1_lab_file <- tk_label_blue(f1, text = "File, URL: ")
   f1_ent_file <- bs_entry(
     f1, width = 90, sticky = "we", tip = "Path to file or URL.",
-    on_key_release = highlight_update_button)
+    on_key_release = function() {
+      highlight_update_button()
+      activate_f_open_button()
+    })
 
   f1_but_set_1 <- tk2frame(f1)
 
@@ -1105,6 +1136,7 @@ window_import_from_text <- function() {
       tkxview.moveto(f1_ent_file$obj_text, "1")
 
       highlight_update_button()
+      activate_f_open_button()
     },
     tip = "Paste file name or URL."
   )
@@ -1117,6 +1149,7 @@ window_import_from_text <- function() {
     command = function() {
       set_values(f1_ent_file, "")
       highlight_update_button()
+      activate_f_open_button()
     },
     tip = "Clear file name or URL."
   )
@@ -1135,7 +1168,7 @@ window_import_from_text <- function() {
     f1_but_set_1,
     # width = 7,
     # text = "Browse",
-    image = "::image::bs_open_file",
+    image = "::image::bs_choose_file",
     command = function() {
 
       if (allow_switch_to_file_mode2() == "no") {
@@ -1147,6 +1180,14 @@ window_import_from_text <- function() {
     },
     tip = "Choose file to import."
   )
+
+  f1_but_f_open <- tk2button(
+    f1_but_set_1,
+    image = "::image::bs_open_file",
+    command = open_file,
+    tip = "Try to open the file/URL."
+  )
+
 
   f1_lab_ds_name <- tk_label_blue(f1, text = "Name: ")
   f1_ent_ds_name <- bs_entry(
@@ -1401,7 +1442,10 @@ window_import_from_text <- function() {
       "This option enhances performance for big files with many rows.\n",
       "Changing this option does not automatically update the preview."),
     selection = 2,
-    on_select = highlight_update_button)
+    on_select = function() {
+      highlight_update_button()
+      activate_f_open_button()
+    })
 
   f3_box_nrow_2 <- bs_combobox(
     f3_but_w,
@@ -1501,7 +1545,8 @@ window_import_from_text <- function() {
   tkgrid(f1_lab_file, f1_ent_file$frame, f1_but_set_1, pady = c(10, 2), sticky = "we")
   tkgrid(f1_lab_ds_name, f1_ent_ds_name$frame,         pady = c(0, 10), sticky = "we")
 
-  tkgrid(f1_but_f_choose, f1_but_paste, f1_but_clear, f1_but_update, sticky = "e")
+  tkgrid(f1_but_f_choose, f1_but_f_open, f1_but_paste, f1_but_clear,
+    f1_but_update, sticky = "e")
 
   tkgrid.configure(f1_lab_file, f1_lab_ds_name,             sticky = "e")
   tkgrid.configure(f1_ent_file$frame, f1_ent_ds_name$frame, sticky = "we", padx = 2)
@@ -1605,6 +1650,7 @@ window_import_from_text <- function() {
   # Configuration ------------------------------------------------------------
   set_values(f1_ent_ds_name, unique_obj_names("dataset", all_numbered = TRUE))
   highlight_update_button()
+  activate_f_open_button()
 
   # Tags -------------------------------------------------------------------
   configure_tags(f3_input$text)
