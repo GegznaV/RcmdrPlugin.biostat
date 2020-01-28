@@ -55,7 +55,7 @@ Depends:
     tcltk,
     tcltk2 (>= 1.2-11),
     RcmdrPlugin.EZR,
-    Rcmdr (>= 2.7.0)
+    Rcmdr (>= 2.6-2)
 Imports:
     binom,
     boot,
