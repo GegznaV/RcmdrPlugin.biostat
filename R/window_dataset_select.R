@@ -281,7 +281,7 @@ window_dataset_select <- function() {
       command  = cmd_ds_size)
 
     tkadd(menu_p, "command",
-      label    = "Number of rows and columns",
+      label    = "Dimensions: number of rows and columns",
       command  = cmd_ds_dims)
 
     tkadd(menu_p, "command",
