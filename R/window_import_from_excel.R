@@ -249,6 +249,10 @@ window_import_from_excel <- function() {
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  open_file <- function() {
+    browseURL(url = read_path_to_file())
+  }
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Read value of file name entry box
   read_path_to_file <- function() {
     get_values(f1_ent_file)
@@ -488,6 +492,7 @@ window_import_from_excel <- function() {
     update_name_entry()
     read_data_from_file()
     highlight_update_button()
+    activate_f_open_button()
     # update_from_file()
     refresh_dataset_window()
     check_file_name()
@@ -511,6 +516,32 @@ window_import_from_excel <- function() {
       } else {
         tkconfigure(f1_but_update, default = "normal")
       }
+    }
+
+    # path <- read_path_to_file()
+    # if (fs::file_exists(path) || is_url(path)) {
+    #   tk_normalize(f1_but_update)
+    #
+    #   if (need_update_from_file()) {
+    #     tk_activate(f1_but_update)
+    #     tkconfigure(f1_but_update, default = "active")
+    #
+    #   } else {
+    #     tkconfigure(f1_but_update, default = "normal")
+    #   }
+    #
+    # } else {
+    #   tk_disable(f1_but_update)
+    # }
+  }
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  activate_f_open_button <- function() {
+    path <- read_path_to_file()
+    if (fs::file_exists(path) || is_url(path)) {
+      tk_normalize(f1_but_f_open)
+
+    } else {
+      tk_disable(f1_but_f_open)
     }
   }
 
@@ -724,7 +755,10 @@ window_import_from_excel <- function() {
   f1_lab_file <- tk_label_blue(f1, text = "File, URL: ")
   f1_ent_file <- bs_entry(
     f1, width = 90, sticky = "we", tip = "Path to file or URL.",
-    on_key_release = highlight_update_button)
+    on_key_release = function() {
+      highlight_update_button()
+      activate_f_open_button()
+    })
 
   f1_but_set_1 <- tk2frame(f1)
 
@@ -740,6 +774,7 @@ window_import_from_excel <- function() {
       tkxview.moveto(f1_ent_file$obj_text, "1")
 
       highlight_update_button()
+      activate_f_open_button()
     },
     tip = "Paste file name or URL."
   )
@@ -752,6 +787,7 @@ window_import_from_excel <- function() {
     command = function() {
       set_values(f1_ent_file, "")
       highlight_update_button()
+      activate_f_open_button()
     },
     tip = "Clear file name or URL."
   )
@@ -770,9 +806,16 @@ window_import_from_excel <- function() {
     f1_but_set_1,
     # width = 7,
     # text = "Browse",
-    image = "::image::bs_open_file",
+    image = "::image::bs_choose_file",
     command = get_path_to_file,
     tip = "Choose file to import."
+  )
+
+  f1_but_f_open <- tk2button(
+    f1_but_set_1,
+    image = "::image::bs_open_file",
+    command = open_file,
+    tip = "Try to open the file/URL."
   )
 
   f1_lab_ds_name <- tk_label_blue(f1, text = "Name: ")
@@ -793,6 +836,7 @@ window_import_from_excel <- function() {
       # downloading or import is needed.
       update_name_entry()
       highlight_update_button()
+      activate_f_open_button()
     },
     width = 25
   )
@@ -802,6 +846,7 @@ window_import_from_excel <- function() {
     f1, width = 15, sticky = "we",
     on_key_release = function() {
       highlight_update_button()
+      activate_f_open_button()
       range_activation()
       range_to_upper()
     },
@@ -983,7 +1028,10 @@ window_import_from_excel <- function() {
       "Max. number of rows to read from the file for preview.\n",
       "Changing this option does not automatically update the preview."),
     selection = 2,
-    on_select = highlight_update_button)
+    on_select = function() {
+      highlight_update_button()
+      activate_f_open_button()
+    })
 
   f3_box_nrow_2 <- bs_combobox(
     f3_but_w,
@@ -1023,6 +1071,7 @@ window_import_from_excel <- function() {
     command = function() {
       refresh_dataset_window()
       highlight_update_button()
+      activate_f_open_button()
     },
 
     tip = str_c("Refresh Dataset's window.")
@@ -1049,7 +1098,8 @@ window_import_from_excel <- function() {
     pady = c(0,  10), sticky = "we")
   tkgrid(f1_ent_range$frame)
 
-  tkgrid(f1_but_f_choose, f1_but_paste, f1_but_clear, f1_but_update, sticky = "e")
+  tkgrid(f1_but_f_choose, f1_but_f_open, f1_but_paste, f1_but_clear,
+    f1_but_update, sticky = "e")
 
   tkgrid.configure(
     f1_lab_file, f1_lab_ds_name,
@@ -1148,6 +1198,7 @@ window_import_from_excel <- function() {
   # Configuration ----------------------------------------------------------
   set_values(f1_ent_ds_name, unique_obj_names("dataset", all_numbered = TRUE))
   highlight_update_button()
+  activate_f_open_button()
 
 
   # Tags -------------------------------------------------------------------
@@ -1204,7 +1255,10 @@ window_import_from_excel <- function() {
   tkbind(top, "<Return>", refresh_dataset_window)
 
   tkbind(f1_ent_range$frame, "<<Paste>>", range_activation)
-  tkbind(f1_but_paste$frame, "<<Paste>>", highlight_update_button)
+  tkbind(f1_but_paste$frame, "<<Paste>>", function() {
+    highlight_update_button()
+    activate_f_open_button()
+  })
 
   # tkbind(f1_ent_range$frame, "<<Enter>>", range_activation)
   tkbind(f1_ent_range$obj_text, "<FocusOut>", refresh_dataset_window)
