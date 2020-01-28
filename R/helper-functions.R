@@ -998,6 +998,13 @@ is_url <- function(str) {
   str_detect(str, "^(http://|https://|ftp://|ftps://)")
 }
 
+#' @rdname extract-fileparts
+#' @keywords internal
+#' @export
+is_url_accessible <- function(str) {
+  pingr::is_online() && pingr::is_up(str)
+}
+
 # + Valid name ---------------------------------------------------------------
 #' Check if name is valid
 #'
