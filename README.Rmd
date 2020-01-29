@@ -27,7 +27,7 @@ knitr::opts_chunk$set(
 
 ```{r logo-local, fig.align='center', out.height='30%', out.width='30%',echo=FALSE} 
  knitr::include_graphics(
-   "https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/docs/logo.png"
+   "https://gegznav.github.io/RcmdrPlugin.biostat/logo.png"
  ) 
 ``` 
  
@@ -126,7 +126,8 @@ c. *Option 3:* use *RStudio* and *R Commander* menus (see section "[Load by usin
     
     CAPTION = "" # Figure caption/description.
     ```
-    Or by using R code: 
+    
+    Or by using *R* code: 
     ```{r eval=FALSE}
     library(Rcmdr)
     ```
@@ -141,6 +142,7 @@ c. *Option 3:* use *RStudio* and *R Commander* menus (see section "[Load by usin
     
     CAPTION = "" # Figure caption/description.
     ```
+    
     If you need more than one plug-in to be loaded, hold <kbd>Ctrl</kbd> key while selecting the plug-ins.
 To load the plug-ins, *R Commander* must restart.
 

@@ -19,7 +19,7 @@ Status](https://travis-ci.com/GegznaV/RcmdrPlugin.biostat.png?branch=master)](ht
 
 -----
 
-<img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/docs/logo.png" width="30%" height="30%" style="display: block; margin: auto;" />
+<img src="https://gegznav.github.io/RcmdrPlugin.biostat/logo.png" width="30%" height="30%" style="display: block; margin: auto;" />
 
 <!-- 
 An *R Commander* Plugin for Basic (Bio)Statistical Routines  
@@ -117,7 +117,8 @@ only](#notes-for-mac-users-only)”.
     „Packages“ menu:
     
     <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/01--load-rcmdr-in-rs.png" style="display: block; margin: auto;" />
-    Or by using R code:
+    
+    Or by using *R* code:
     
     ``` r
     library(Rcmdr)
@@ -130,6 +131,7 @@ only](#notes-for-mac-users-only)”.
     menu bar.
     
     <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/02--load-plugin--biostat.png" style="display: block; margin: auto;" />
+    
     If you need more than one plug-in to be loaded, hold <kbd>Ctrl</kbd>
     key while selecting the plug-ins. To load the plug-ins, *R
     Commander* must restart.
