@@ -79,7 +79,7 @@ You may also try removing `upgrade = TRUE`{.r} and manually choose the packages 
 It is always recommended to restart *R* session before the next installation too.
 
 > **NOTE:** the most common installation issue is related to *R* package **rlang**.
-Usually, you have to delete the indicated "*00LOCK*" directory (you may use [`pacman::p_unlock()`{.r}](https://trinker.github.io/pacman/p_unlock.html){target="_blank"}, if you have package [**pacman**](https://trinker.github.io/pacman){target="_blank"} installed or delete the directory manually), restart the current *R* session and try to install again.
+Usually, you have to delete the indicated "*00LOCK*" directory (you may use [`pacman::p_unlock()`{.r}](https://trinker.github.io/pacman/p_unlock.html){target="_blank"}, if you have package [**pacman**](https://trinker.github.io/pacman){target="_blank"} installed, or delete the directory manually), restart the current *R* session and try to install again.
 
 
 ### Previous versions
