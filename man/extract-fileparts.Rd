@@ -5,6 +5,7 @@
 \alias{extract_filename}
 \alias{do_nothing}
 \alias{is_url}
+\alias{is_url_accessible}
 \title{Extract file parts.}
 \usage{
 extract_filename(str)
@@ -12,6 +13,8 @@ extract_filename(str)
 do_nothing(...)
 
 is_url(str)
+
+is_url_accessible(str)
 }
 \arguments{
 \item{str}{(character) Path to file (with filename and extension).}

@@ -472,17 +472,17 @@ logger_error <- function(command = NULL, error_msg = NULL) {
 #' - several lines of text;
 #' - non-text object.
 #'
-#' @tests
-#' expect_true(
-#'    all.equal(read_clipboard(), read_clipboard_tcltk())
-#' )
-#' expect_true(
-#'    all.equal(read_clipboard_clipr(), read_clipboard_tcltk())
-#' )
-#'
 #' @examples
 #' read_clipboard()
 #'
+#' \dontrun{\donttest{
+#' testthat::expect_true(
+#'   all.equal(read_clipboard(), read_clipboard_tcltk())
+#' )
+#' testthat::expect_true(
+#'   all.equal(read_clipboard_clipr(), read_clipboard_tcltk())
+#' )
+#' }}
 #' @export
 #' @md
 
@@ -998,6 +998,13 @@ is_url <- function(str) {
   str_detect(str, "^(http://|https://|ftp://|ftps://)")
 }
 
+#' @rdname extract-fileparts
+#' @keywords internal
+#' @export
+is_url_accessible <- function(str) {
+  pingr::is_online() && pingr::is_up(str)
+}
+
 # + Valid name ---------------------------------------------------------------
 #' Check if name is valid
 #'
@@ -1510,6 +1517,25 @@ objects_in_env_P <- function(n = 1, envir = .GlobalEnv, ...) {
   isTRUE(length(objects(envir = envir, ...)) >= n)
 }
 
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' Get properties of variables in active dataset
+#'
+#' @param fun (function|character) function that will be applied on each
+#'        variable in a dataset.
+#'
+#' @return A named verctor with the result of the function `fun` for each
+#'         variable in a dataset.
+#' @noRd
+#' @md
+#'
+get_ds_var_prop <- function(fun) {
+  fun_name <- deparse(substitute(fun))
+  str_glue_eval(
+    "mapply({fun_name}, {active_dataset()})",
+    envir_eval = .GlobalEnv
+  )
+}
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Does active dataset contain characters?
 #'
@@ -1520,8 +1546,7 @@ objects_in_env_P <- function(n = 1, envir = .GlobalEnv, ...) {
 #' @keywords internal
 #' @export
 characterP <- function(n = 1) {
-  activeDataSetP() &&
-    (sum(str_glue_eval("mapply(is.character, {active_dataset()})")) >= n)
+  activeDataSetP() && (sum(get_ds_var_prop(is.character)) >= n)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1535,8 +1560,7 @@ characterP <- function(n = 1) {
 #' @keywords internal
 #' @export
 factors_strict_P <- function(n = 1) {
-  activeDataSetP() &&
-    (sum(str_glue_eval("mapply(is.factor, {active_dataset()})")) >= n)
+  activeDataSetP() && (sum(get_ds_var_prop(is.factor)) >= n)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Does active dataset contain logicals?
@@ -1548,9 +1572,9 @@ factors_strict_P <- function(n = 1) {
 #' @keywords internal
 #' @export
 logicalP <- function(n = 1) {
-  activeDataSetP() &&
-    (sum(str_glue_eval("mapply(is.logical, {active_dataset()})")) >= n)
+  activeDataSetP() && (sum(get_ds_var_prop(is.logical)) >= n)
 }
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Does dataset contain certain number of variables?
@@ -1573,7 +1597,10 @@ variablesP <- function(n = 1) {
 #' @export
 first_class_is_dataframeP <- function() {
   activeDataSetP() &&
-    (str_glue_eval("class({active_dataset()})[1]") == "data.frame")
+    ("data.frame" == str_glue_eval(
+      "class({active_dataset()})[1]",
+      envir_eval = .GlobalEnv
+    ))
 }
 #' [!] Is the first class the same as in brackets?
 #'
@@ -1582,7 +1609,10 @@ first_class_is_dataframeP <- function() {
 #' @export
 first_class_isP <- function(df_class) {
   activeDataSetP() &&
-    (str_glue_eval("class({active_dataset()})[1]") == df_class)
+    (df_class == str_glue_eval(
+      "class({active_dataset()})[1]",
+      envir_eval = .GlobalEnv
+    ))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Chech the class of the active model in Rcmdr
@@ -1759,15 +1789,22 @@ validate_var_name_string <- function(P, W) {
 
 # ___ Rcmdr ___ ==============================================================
 
-#' @rdname Helper-functions
+
+#' Restart R commander.
+#'
+#' Helper function to restart R Commander.
+#'
 #' @export
-#' @keywords internal
-command_rcmdr_restart <- function() {
-  # ans <- command_rcmdr_close()
-  # if (ans != "cancel") {
-  #   Rcmdr::Commander()
-  # }
-  restartCommander()
+rcmdr_restart_commander <- function() {
+  if (packageVersion("Rcmdr") >= "2.7") {
+    Rcmdr:::restartCommander()
+
+  } else {
+    ans <- command_rcmdr_close()
+    if (ans != "cancel") {
+      Rcmdr::Commander()
+    }
+  }
 }
 
 #' @rdname Helper-functions
@@ -1852,7 +1889,7 @@ command_rcmdr_set_output_mode <- function(console.output = NULL) {
   if (!identical(Rcmdr_opts, updated_opts)) {
     # Set new options and restart R Commander
     options(Rcmdr = updated_opts)
-    command_rcmdr_restart()
+    rcmdr_restart_commander()
   }
 }
 

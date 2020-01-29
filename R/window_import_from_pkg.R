@@ -1,3 +1,5 @@
+# TODO: create user interface for variables
+# "use_custom_name" (logical) & "new_name" (string)
 
 #  ===========================================================================
 #' @rdname Menu-window-functions
@@ -398,17 +400,41 @@ window_import_from_pkg <- function() {
     ))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    # TODO: create user interface for variables
+    # "use_custom_name" (logical) & "new_name" (string)
+    use_custom_name <- FALSE
+    new_name        <- selected_ds
+
+    env_txt <- if (use_custom_name) {", envir = tmp_env"} else {""}
+
+    # Load data with custom name
     command_load <-
       if (is.null(selected_pkg)) {
-        str_glue('data("{selected_ds}")')
+        str_glue('data("{selected_ds}"{env_txt})')
+
       } else {
-        str_glue('data("{selected_ds}", package = "{selected_pkg}")')
+        str_glue('data("{selected_ds}", package = "{selected_pkg}"{env_txt})')
       }
 
-    command <- str_glue(
-      "## Load data from R package \n",
-      "{command_load}"
-    )
+    command <-
+      if (use_custom_name) {
+        str_glue(.sep = "\n",
+          "## Load data (with custom name) from R package",
+          "{new_name} <-",
+          "  local({{",
+          "    tmp_env <- new.env()",
+          "    {command_load}",
+          '    tmp_env[["{selected_ds}"]]',
+          "  }})"
+        )
+
+      } else {
+        str_glue(
+          "## Load data from R package \n",
+          "{command_load}"
+        )
+      }
+
 
     # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     result <- justDoIt(command)

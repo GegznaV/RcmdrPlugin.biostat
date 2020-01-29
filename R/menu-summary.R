@@ -128,8 +128,8 @@ summary_var_types_0 <- function(.ds) {
   doItAndPrint(
     str_glue(
       "## Variable type summary \n",
-      "## of dataset '{.ds}'\n",
-      "{.ds} %>% \n",
+      '## (dataset "{.ds}")\n',
+      '{.ds} %>% \n',
       '  purrr::map_chr(~ class(.) %>% paste(collapse = ", ")) %>% \n',
       '  tibble::enframe("variable", "class") %>% \n',
       '  dplyr::count(class, name = "n variables") %>% \n',

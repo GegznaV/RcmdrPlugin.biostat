@@ -50,11 +50,36 @@ NULL
 biostat_env <- new.env()
 biostat_env$use_relative_path <- TRUE
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 # Functions
 .onAttach <- function(libname, pkgname) {
   if (!interactive()) {
     return()
   }
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # FIXME: remove this code when pkg `tcltk2` updates the version of tablelist.
+  # old_tablelist <- system.file("tklibs/tablelist5.5", package = "tcltk2")
+  # if (dir.exists(old_tablelist)) {
+  #   unlink(old_tablelist)
+  # }
+  #
+  # new_tablelist_from <- system.file("tklibs/tablelist6.8", package = "RcmdrPlugin.biostat")
+  # new_tablelist_to   <- fs::path(system.file(package = "tcltk2"), "tklibs/tablelist6.8")
+  # if (!dir.exists(new_tablelist_to)) {
+  #   fs::dir_copy(new_tablelist_from, new_tablelist_to)
+  # }
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  libdir <- file.path(libname, pkgname, "tklibs")
+  add_tcl_path(libdir)
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Add paths of Tcl/Tl packages
+  # bs_add_tcl_path("tklibs")
+  # bs_add_tcl_path("etc/tcl-tk/wcb3.6")
+  # bs_add_tcl_path("etc/tcl-tk/scrollutil1.3")
+  # bs_add_tcl_path("etc/tcl-tk/tablelist6.8")
+  # bs_add_tcl_path("etc/tcl-tk/mentry3.10")
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   # Current options
   Rcmdr_opts <- options()$Rcmdr
@@ -120,11 +145,11 @@ biostat_env$use_relative_path <- TRUE
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Create icons
 
-  bs_tkimage_create <- function(name, file, package = "RcmdrPlugin.biostat") {
-    tcltk::tkimage.create(
-      "photo", name,
-      file = system.file("etc", file, package = package))
-  }
+  # bs_tkimage_create <- function(name, file, package = "RcmdrPlugin.biostat") {
+  #   tcltk::tkimage.create(
+  #     "photo", name,
+  #     file = system.file("etc", file, package = package))
+  # }
 
   bs_tkimage_create("::image::dot-black",     "icons/oth/dot-black.png")
   bs_tkimage_create("::image::dot-red",       "icons/oth/dot-red.png")
@@ -189,7 +214,8 @@ biostat_env$use_relative_path <- TRUE
   bs_tkimage_create("::image::bs_down"      , "icons/16/down-blue.png")
   bs_tkimage_create("::image::bs_chk_pkgs" ,  "icons/16/view-refresh-6.png")
 
-  bs_tkimage_create("::image::bs_open_file",  "icons/16/document-open.png")
+  bs_tkimage_create("::image::bs_choose_file","icons/16/document-open.png")
+  bs_tkimage_create("::image::bs_open_file",  "icons/16/document-open-file.png")
   bs_tkimage_create("::image::bs_open_dir" ,  "icons/16/document-open-folder.png")
   bs_tkimage_create("::image::bs_table",      "icons/16/kdb_table.png")
   bs_tkimage_create("::image::bs_rectangle",  "icons/16/draw-rectangle.png")
@@ -266,6 +292,7 @@ biostat_env$use_relative_path <- TRUE
   bs_tkimage_create("::image::bs_plot_close", "icons/16/delete.png")
   bs_tkimage_create("::image::bs_plotly",     "icons/16/plotly.png")
   bs_tkimage_create("::image::bs_chart",      "icons/16/insert-chart-bar.png")
+  bs_tkimage_create("::image::bs_ggplot",     "icons/16/insert-chart-bar.png")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # bs_tkimage_create("::image::bs_web",        "icons/16/applications-internet.png")
   bs_tkimage_create("::image::bs_web",        "icons/16/emblem-web.png")
@@ -284,7 +311,7 @@ biostat_env$use_relative_path <- TRUE
   bs_tkimage_create("::image::bs_close_rcmdr","icons/16/system-log-out-4v.png")
   bs_tkimage_create("::image::bs_close_r",    "icons/16/system-shutdown-6.png")
 
-  bs_tkimage_create("::image::bs_workspace",  "icons/16/user-desktop.png")
+  bs_tkimage_create("::image::bs_workspace",  "icons/16/bs-documents-ws.png")
   bs_tkimage_create("::image::bs_open_wd",    "icons/16/bs_folder_open.png")
   bs_tkimage_create("::image::bs_path_to_wd", "icons/16/bs_folder_show.png")
   bs_tkimage_create("::image::bs_set_wd",     "icons/16/bs_folder_change.png")
@@ -297,9 +324,54 @@ biostat_env$use_relative_path <- TRUE
   bs_tkimage_create("::image::bs_about",       "icons/16/help-about-3.png")
   bs_tkimage_create("::image::bs_bug",         "icons/16/bug.png")
   bs_tkimage_create("::image::bs_home",        "icons/16/go-home-6.png")
+  bs_tkimage_create("::image::bs_question",    "icons/16/question.png")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+# Create icons
+bs_tkimage_create <- function(name, file, package = "RcmdrPlugin.biostat") {
+  tcltk::tkimage.create(
+    "photo", name,
+    file = system.file("etc", file, package = package))
+}
 
+
+## A modified version of tcltk2::addTclPath()
+add_tcl_path <- function(path = ".") {
+  if (.Platform$OS.type == "windows") {
+    path <- gsub("\\\\", "/", path)
+  }
+  paths <- as.character(tcltk::tcl("set", "::auto_path"))
+  if (!path %in% paths) {
+    tcltk::tcl("lappend", "::auto_path", path)
+  }
+}
+
+# Add Tcl path of directory of installed R package
+bs_add_tcl_path <- function(path, package = "RcmdrPlugin.biostat") {
+  add_tcl_path(system.file(path, package = package))
+}
+
+
+# ============================================================================
+state.tk2widget <- function(x, ...) {
+  as.character(tkcget(tlist, "-state"))
+}
+
+print.tk2widget <- function(x, ...) {
+
+    if (disabled(x)) {txt <- " (disabled)"} else {txt <- ""}
+    cat("A tk2widget of class '", class(x)[1], "'", txt, "\n", sep = "")
+    cat("State: ", state(x), "\n", sep = "")
+    cursize <- size(x)
+    if (cursize > 0) {cat("Size: ", cursize, "\n", sep = "")}
+    val <- value(x)
+    if (!is.null(val)) {
+        cat("Value:\n")
+        print(value(x))
+    }
+    return(invisible(x))
+}
+# ============================================================================

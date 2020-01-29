@@ -694,7 +694,7 @@ window_export_fig_to_pptx_2 <- function() {
     f1_but_set_1,
     # width = 7,
     # text = "Browse",
-    image = "::image::bs_open_file",
+    image = "::image::bs_choose_file",
     command = function() {
       get_path_to_file()
     },

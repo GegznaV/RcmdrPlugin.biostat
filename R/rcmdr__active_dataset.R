@@ -192,7 +192,10 @@ active_dataset_0 <- function(name) {
       Numeric(list_numeric(name))
       Factors(list_factors(name))
       TwoLevelFactors(list_two_level_factors(name))
-      DiscreteNumeric(list_discrete_numeric(name))
+      if (packageVersion("Rcmdr") >= "2.7.0") {
+        DiscreteNumeric(list_discrete_numeric(name))
+      }
+
       open.showData.windows <- getRcmdr("open.showData.windows")
       if (!is.null(open.showData.windows) && name %in% names(open.showData.windows)) {
         ID <- open.showData.windows[[name]]$ID
@@ -223,7 +226,9 @@ active_dataset_0 <- function(name) {
       Numeric(NULL)
       Factors(NULL)
       TwoLevelFactors(NULL)
-      DiscreteNumeric(NULL)
+      if (packageVersion("Rcmdr") >= "2.7.0") {
+        DiscreteNumeric(NULL)
+      }
       RcmdrTclSet("dataSetName", gettextRcmdr("<No active dataset>"))
       putRcmdr(".activeModel", NULL)
       putRcmdr("nrow", NULL)

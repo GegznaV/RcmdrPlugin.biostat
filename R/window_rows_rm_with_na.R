@@ -103,22 +103,25 @@ window_rows_rm_with_na <- function() {
         "search_all.all_na" = {
           str_glue(
             "## {prepare_lab(label_all_vars_all_na)}\n",
-            "{new_name} <- {.ds} %>% \n",
-            "filter_all(any_vars(!is.na(.))) "
+            "{new_name} <- \n",
+            "  {.ds} %>% \n",
+            "  filter_all(any_vars(!is.na(.))) "
           )},
 
         "search_selected.any_na" = {
           str_glue(
             "## {prepare_lab(label_selected_vars_any_na)}\n",
-            "{new_name} <- {.ds} %>% \n ",
-            "tidyr::drop_na({vars_y_txt})"
+            "{new_name} <- \n",
+            "  {.ds} %>% \n ",
+            "  tidyr::drop_na({vars_y_txt})"
           )},
 
         "search_selected.all_na" = {
           str_glue(
             "## {prepare_lab(label_selected_vars_all_na)}\n",
-            "{new_name} <- {.ds} %>% \n ",
-            "filter_at(vars({vars_y_txt}), any_vars(!is.na(.)))"
+            "{new_name} <- \n",
+            "  {.ds} %>% \n ",
+            "  filter_at(vars({vars_y_txt}), any_vars(!is.na(.)))"
           )}
       )
 

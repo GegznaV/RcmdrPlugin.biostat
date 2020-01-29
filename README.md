@@ -5,16 +5,16 @@
 
 <!-- badges: start -->
 
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.r-project.org/package=RcmdrPlugin.biostat)
 [![GitHub
-version](https://img.shields.io/badge/GitHub-v0.0.58-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
+version](https://img.shields.io/badge/GitHub-v0.0.59-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/hm4h2rjb8ayr2df1/branch/master?svg=true)](https://ci.appveyor.com/project/GegznaV/rcmdrplugin-biostat/branch/master)
 [![Travis-CI Build
 Status](https://travis-ci.com/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.com/GegznaV/RcmdrPlugin.biostat)
-[![Updated-on](https://img.shields.io/badge/Updated%20on-2019--12--17-yellowgreen.svg)](/commits/master)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Updated-on](https://img.shields.io/badge/Updated%20on-2020--01--28-yellowgreen.svg)]()
 <!-- badges: end -->
 
 -----
@@ -40,18 +40,11 @@ Documentation and more information available at
 To install the development version of the package from “GitHub”:
 
 ``` r
-# It is recommended to update all packages first
-update.packages(checkBuilt = TRUE, ask = FALSE)
-
 # Install required packages
 if (!require("remotes"))  install.packages("remotes")
 
-remotes::install_github("r-lib/rlang",                  upgrade = TRUE)
-remotes::install_github("rforge/rcmdr/pkg/RcmdrMisc",   upgrade = TRUE)
-remotes::install_github("rforge/rcmdr/pkg/Rcmdr-devel", upgrade = TRUE)
-
 # Install RcmdrPlugin.biostat
-remotes::install_github("GegznaV/RcmdrPlugin.biostat",  upgrade = TRUE)
+remotes::install_github("GegznaV/RcmdrPlugin.biostat", upgrade = TRUE)
 ```
 
 In case you face installation issues, try removing `upgrade = TRUE`.
@@ -142,6 +135,16 @@ To close this mode, simply restart the *R Commander*:
 
 If you need previous versions of **RcmdrPlugin.biostat**, you can
 install them from `GitHub`:
+
+  - BioStat’19 (Autumn 2019):
+
+<!-- end list -->
+
+``` r
+remotes::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat19r")
+```
+
+(r – lith. “ruduo”)
 
   - BioStat’19 (Spring 2019):
 
