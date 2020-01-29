@@ -71,7 +71,7 @@ session before the next installation too.
 > directory (you may use
 > [`pacman::p_unlock()`](https://trinker.github.io/pacman/p_unlock.html),
 > if you have package [**pacman**](https://trinker.github.io/pacman)
-> installed or delete the directory manually), restart the current *R*
+> installed, or delete the directory manually), restart the current *R*
 > session and try to install again.
 
 ### Previous versions
