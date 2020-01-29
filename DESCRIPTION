@@ -44,7 +44,9 @@ License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
 ByteCompile: false
-URL: https://gegznav.github.io/RcmdrPlugin.biostat/
+URL: 
+    https://gegznav.github.io/RcmdrPlugin.biostat/,
+    https://github.com/GegznaV/RcmdrPlugin.biostat/
 BugReports: https://github.com/GegznaV/RcmdrPlugin.biostat/issues
 Remotes:
     GegznaV/RcmdrPlugin.EZR
