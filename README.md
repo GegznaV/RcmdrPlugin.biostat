@@ -241,7 +241,7 @@ library(Rcmdr)
 ```
 
 If package **Rcmdr** is loaded **and R Commander window is closed**,
-instead of `library(Rcmdr)` use:
+instead of ~~`library(Rcmdr)`~~, use this code **exactly once**:
 
 ``` r
 Commander()
