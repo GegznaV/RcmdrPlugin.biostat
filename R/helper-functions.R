@@ -1795,6 +1795,13 @@ validate_var_name_string <- function(P, W) {
 #' Helper function to restart R Commander.
 #'
 #' @export
+restart_commander <- function() {
+  rcmdr_restart_commander()
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 rcmdr_restart_commander <- function() {
   if (packageVersion("Rcmdr") >= "2.7") {
     Rcmdr:::restartCommander()
