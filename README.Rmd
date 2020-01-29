@@ -169,6 +169,7 @@ To load the plug-ins, *R Commander* must restart.
     ```
 
 
+
 ### Turn on *BioStat* (green) mode {#turn-on-biostat-mode}
 
 A more convenient way to use the plug-in is to turn on the *BioStat* mode.
