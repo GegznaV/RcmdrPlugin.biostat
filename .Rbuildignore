@@ -18,3 +18,6 @@ __rsurvey/*
 ^LICENSE\.md$
 ^inst/tklibs.*
 pkgdown/
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
