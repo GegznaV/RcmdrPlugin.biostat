@@ -8,12 +8,19 @@
 
 <title>GNU General Public License • RcmdrPlugin.biostat</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -51,8 +58,7 @@
 
 
 
-  	<link rel="icon" href="favicon.png" />
-</head>
+  </head>
 
   <body>
     <div class="container template-title-body">
@@ -75,19 +81,17 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="/index.html">
-    <span class="fa fa-home fa-lg"></span>
+  <a href="index.html">
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
+</li>
+<li>
+  <a href="reference/index.html">Reference</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/GegznaV/RcmdrPlugin.biostat">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -104,9 +108,6 @@
       <h1>GNU General Public License</h1>
     </div>
 
-
-<p>There are different licenses for different parts of this package:</p>
-<p>== For the R code the license is: ============================================</p>
 <div id="gnu-general-public-license" class="section level1">
 
 <p><em>Version 3, 29 June 2007</em><br><em>Copyright © 2007 Free Software Foundation, Inc. &lt;<a href="http://fsf.org/" class="uri">http://fsf.org/</a>&gt;</em></p>
@@ -304,50 +305,32 @@
 <a href="#how-to-apply-these-terms-to-your-new-programs" class="anchor"></a>How to Apply These Terms to Your New Programs</h2>
 <p>If you develop a new program, and you want it to be of the greatest possible use to the public, the best way to achieve this is to make it free software which everyone can redistribute and change under these terms.</p>
 <p>To do so, attach the following notices to the program. It is safest to attach them to the start of each source file to most effectively state the exclusion of warranty; and each file should have at least the “copyright” line and a pointer to where the full notice is found.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">RcmdrPlugin.biostat<span class="op">:</span><span class="st"> </span>R Commander Plug<span class="op">-</span><span class="cf">in</span> <span class="cf">for</span> Basic Data Management and Analysis Tasks</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">Copyright</span> (C) <span class="dv">2019</span> Vilmantas Gegzna</a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="op">&lt;</span>one line to give the program<span class="st">'s name and a brief idea of what it does.&gt;</span></a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="st">Copyright (C) 2020 Vilmantas Gegzna</span></a>
 <a class="sourceLine" id="cb1-3" title="3"></a>
-<a class="sourceLine" id="cb1-4" title="4">This program is free software<span class="op">:</span><span class="st"> </span>you can redistribute it and<span class="op">/</span>or modify</a>
-<a class="sourceLine" id="cb1-5" title="5">it under the terms of the GNU General Public License as published by</a>
-<a class="sourceLine" id="cb1-6" title="6">the Free Software Foundation, either version <span class="dv">3</span> of the License, or</a>
-<a class="sourceLine" id="cb1-7" title="7">(at your option) any later version.</a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="st">This program is free software: you can redistribute it and/or modify</span></a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="st">it under the terms of the GNU General Public License as published by</span></a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="st">the Free Software Foundation, either version 3 of the License, or</span></a>
+<a class="sourceLine" id="cb1-7" title="7"><span class="st">(at your option) any later version.</span></a>
 <a class="sourceLine" id="cb1-8" title="8"></a>
-<a class="sourceLine" id="cb1-9" title="9">This program is distributed <span class="cf">in</span> the hope that it will be useful,</a>
-<a class="sourceLine" id="cb1-10" title="10">but WITHOUT ANY WARRANTY; without even the implied warranty of</a>
-<a class="sourceLine" id="cb1-11" title="11">MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</a>
-<a class="sourceLine" id="cb1-12" title="12">GNU General Public License <span class="cf">for</span> more details.</a>
+<a class="sourceLine" id="cb1-9" title="9"><span class="st">This program is distributed in the hope that it will be useful,</span></a>
+<a class="sourceLine" id="cb1-10" title="10"><span class="st">but WITHOUT ANY WARRANTY; without even the implied warranty of</span></a>
+<a class="sourceLine" id="cb1-11" title="11"><span class="st">MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span></a>
+<a class="sourceLine" id="cb1-12" title="12"><span class="st">GNU General Public License for more details.</span></a>
 <a class="sourceLine" id="cb1-13" title="13"></a>
-<a class="sourceLine" id="cb1-14" title="14">You should have received a copy of the GNU General Public License</a>
-<a class="sourceLine" id="cb1-15" title="15">along with this program.  If not, see <span class="op">&lt;</span>http<span class="op">:</span><span class="er">//</span>www.gnu.org<span class="op">/</span>licenses<span class="op">/</span><span class="er">&gt;</span>.</a></code></pre></div>
+<a class="sourceLine" id="cb1-14" title="14"><span class="st">You should have received a copy of the GNU General Public License</span></a>
+<a class="sourceLine" id="cb1-15" title="15"><span class="st">along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span></a></code></pre></div>
 <p>Also add information on how to contact you by electronic and paper mail.</p>
 <p>If the program does terminal interaction, make it output a short notice like this when it starts in an interactive mode:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">RcmdrPlugin.biostat <span class="kw">Copyright</span> (C) <span class="dv">2019</span> Vilmantas Gegzna</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">RcmdrPlugin.biostat <span class="kw">Copyright</span> (C) <span class="dv">2020</span> Vilmantas Gegzna</a>
 <a class="sourceLine" id="cb2-2" title="2">This program comes with ABSOLUTELY NO WARRANTY; <span class="cf">for</span> details type <span class="st">'show w'</span>.</a>
 <a class="sourceLine" id="cb2-3" title="3">This is free software, and you are welcome to redistribute it</a>
 <a class="sourceLine" id="cb2-4" title="4">under certain conditions; type <span class="st">'show c'</span> <span class="cf">for</span> details.</a></code></pre></div>
 <p>The hypothetical commands <code>show w</code> and <code>show c</code> should show the appropriate parts of the General Public License. Of course, your program’s commands might be different; for a GUI interface, you would use an “about box”.</p>
 <p>You should also get your employer (if you work as a programmer) or school, if any, to sign a “copyright disclaimer” for the program, if necessary. For more information on this, and how to apply and follow the GNU GPL, see &lt;<a href="http://www.gnu.org/licenses/" class="uri">http://www.gnu.org/licenses/</a>&gt;.</p>
 <p>The GNU General Public License does not permit incorporating your program into proprietary programs. If your program is a subroutine library, you may consider it more useful to permit linking proprietary applications with the library. If this is what you want to do, use the GNU Lesser General Public License instead of this License. But first, please read &lt;<a href="http://www.gnu.org/philosophy/why-not-lgpl.html" class="uri">http://www.gnu.org/philosophy/why-not-lgpl.html</a>&gt;.</p>
-<p>==============================================================================</p>
-<p>== For Tablelist 6.8: ========================================================</p>
-<p>Multi-column listbox and tree widget package Tablelist, version 6.8 Copyright (c) 2000-2019 Csaba Nemethi (E-mail: <a href="mailto:csaba.nemethi@t-online.de" class="email">csaba.nemethi@t-online.de</a>)</p>
-<p>This library is free software; you can use, modify, and redistribute it for any purpose, provided that existing copyright notices are retained in all copies and that this notice is included verbatim in any distributions.</p>
-<p>This software is distributed WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p>
-<p>== For Mentry 3.10: ==========================================================</p>
-<p>Multi-entry widget package Mentry, version 3.10 Copyright (c) 1999-2019 Csaba Nemethi (E-mail: <a href="mailto:csaba.nemethi@t-online.de" class="email">csaba.nemethi@t-online.de</a>)</p>
-<p>This library is free software; you can use, modify, and redistribute it for any purpose, provided that existing copyright notices are retained in all copies and that this notice is included verbatim in any distributions.</p>
-<p>This software is distributed WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p>
-<p>== For Scrollutil 1.3: =======================================================</p>
-<p>Scrolling utilities package Scrollutil 1.3 Copyright (c) 2019 Csaba Nemethi (E-mail: <a href="mailto:csaba.nemethi@t-online.de" class="email">csaba.nemethi@t-online.de</a>)</p>
-<p>This library is free software; you can use, modify, and redistribute it for any purpose, provided that existing copyright notices are retained in all copies and that this notice is included verbatim in any distributions.</p>
-<p>This software is distributed WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p>
-<p>== For Wcb 3.6: ==============================================================</p>
-<p>Widget callback package Wcb, version 3.6 Copyright (c) 1999-2018 Csaba Nemethi (E-mail: <a href="mailto:csaba.nemethi@t-online.de" class="email">csaba.nemethi@t-online.de</a>)</p>
-<p>This library is free software; you can use, modify, and redistribute it for any purpose, provided that existing copyright notices are retained in all copies and that this notice is included verbatim in any distributions.</p>
-<p>This software is distributed WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p>
 </div>
 </div>
-
 
   </div>
 

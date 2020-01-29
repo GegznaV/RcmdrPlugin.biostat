@@ -8,7 +8,7 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.r-project.org/package=RcmdrPlugin.biostat)
 [![GitHub
-version](https://img.shields.io/badge/GitHub-v0.0.59-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
+version](https://img.shields.io/badge/GitHub-v0.0.60-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/hm4h2rjb8ayr2df1/branch/master?svg=true)](https://ci.appveyor.com/project/GegznaV/rcmdrplugin-biostat/branch/master)
 [![Travis-CI Build
@@ -29,21 +29,31 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 
 **RcmdrPlugin.biostat** is an
 [**Rcmdr**](https://CRAN.R-project.org/package=Rcmdr) plug-in for the
-most common data wrangling, visualization and analysis tasks that uses
-**tidyverse** family functions as well as functions from other packages.
-The documentation is available at
+most common data wrangling, visualization, and analysis tasks. In the
+package, **tidyverse** family functions, as well as functions from other
+packages, are used. The documentation is available at
 [gegznav.github.io/RcmdrPlugin.biostat](https://gegznav.github.io/RcmdrPlugin.biostat).
 
 ## Install the package
 
+### Preparation
+
 Before you begin installation or updating, make sure that only a single
-*R*/*RStudio* session is running and restart current *R* session (to
-unload the packages). It is also recommended to close current *RStudio*
-project, if you use one.
+*R*/*RStudio* session is running and restart the current *R* session (to
+unload the packages). It is also recommended to close the current
+*RStudio* project if you use one. *Windows* users need
+[*Rtools*](https://cloud.r-project.org/bin/windows/Rtools/) and *Mac*
+users need [*XQuartz*](http://www.xquartz.org/) to be installed (see
+also [Notes for *Mac* users only](#notes-for-mac-users-only)).
+
+### Installation
 
 To install the development version of the package from “GitHub”:
 
 ``` r
+# Update all necessary CRAN packages
+update.packages(ask = "graphics")
+
 # Install required packages
 if (!require("remotes"))  install.packages("remotes")
 
@@ -58,60 +68,48 @@ session before the next installation too.
 
 > **NOTE:** the most common installation issue is related to *R* package
 > **rlang**. Usually, you have to delete the indicated “*00LOCK*”
-> directory, restart current *R* session and try to install again.
+> directory (you may use
+> [`pacman::p_unlock()`](https://trinker.github.io/pacman/p_unlock.html),
+> if you have package [**pacman**](https://trinker.github.io/pacman)
+> installed or delete the directory manually), restart the current *R*
+> session and try to install again.
 
 ### Previous versions
 
-If you need a previous version of the package, find section “[Previous
-versions of **RcmdrPlugin.biostat**](#install-previous-versions)” below.
+If you need a previous version of the package, find the section
+“[Previous versions of
+**RcmdrPlugin.biostat**](#previous-versions-of-rcmdrpluginbiostat)”
+below.
 
 ## Load the plug-in correctly
 
-**NOTE:** At least **Rcmdr** version 2.6-2 is required.
+Package **RcmdrPlugin.biostat** can be loaded programmatically or by
+using menus. *Mac* users should also read “[Notes for *Mac* users
+only](#notes-for-mac-users-only)”.
 
-### Note for Mac users only
-
-For Mac users, there at least 2 things to pay attention to:
-
-1)  On Mac, *R Commander* opens only if
-    [*XQuartz*](http://www.xquartz.org/) is opened. So, first step of
-    using *R Commander* is to make sure that *XQuartz* is opened. More
-    information on [“Installing R Commander for Mac
-    users”](https://murraystate.instructure.com/courses/1252125/pages/installing-r-commander-on-your-mac).
-
-2)  Some Mac users also report, that it is impossible to switch between
-    languages while *R Commander* is running. This means, that some
-    users might not use numbers if in the chosen language the same keys
-    mean some non-English letters. Because of this, it is recommended to
-    choose an appropriate language (usually English) before opening
-    *R*/*RStudio*.
-
-### Load by using a script
-
-You may load the package **RcmdrPlugin.biostat** programmatically or by
-using menus:
-
-  - Option 1. Run code:
+1.  *Option 1.* Run code:
     
     ``` r
     library(RcmdrPlugin.biostat)
     restart_commander()
     ```
     
-    In a pop-up window, agree to restart.
+    A pop-up window appears. Agree to restart.
 
-  - Option 2. Run code:
+2.  *Option 2.* Run code:
     
     ``` r
     options(Rcmdr = list(plugins = "RcmdrPlugin.biostat", console.output = FALSE))
     library(Rcmdr)
     ```
 
-  - Option 3: use *RStudio* and *R Commander* menus (see section “[Load
-    by using menus](#load-by-menu)”).
+3.  *Option 3:* use *RStudio* and *R Commander* menus (see section
+    “[Load by using menus](#load-by-using-menus)”).
 
-  - **Next**, turn on *BioStat* mode (see section “[Turn on *BioStat*
-    (green) mode](#turn-on-biostat-mode)”).
+<br>
+
+**Next**, the *BioStat* mode should be turned on (see section “[Turn on
+*BioStat* (green) mode](#turn-on-biostat-green-mode)”).
 
 ### Load by using menus
 
@@ -128,24 +126,24 @@ using menus:
     Wait until *R Commander* window opens. <br>
 
 2.  Then load the plug-in (as well as the other necessary plug-ins)
-    through `Tools` → `Load Rcmdr plug-in(s)` in the *R Commander* menu
-    bar.
+    through `Tools` → `Load Rcmdr plug-in(s)...` in the *R Commander*
+    menu bar.
     
     <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/02--load-plugin--biostat.png" style="display: block; margin: auto;" />
     If you need more than one plug-in to be loaded, hold <kbd>Ctrl</kbd>
     key while selecting the plug-ins. To load the plug-ins, *R
     Commander* must restart.
 
-> NOTE: be aware that some plug-ins are incompatible one to the other
-> and some combinations of plug-ins may break *R Commander* (e.g.,
+> **NOTE:** be aware that some plug-ins are incompatible one to the
+> other and some combinations of plug-ins may break *R Commander* (e.g.,
 > “RcmdrPlugin.EZR” and “RcmdrPlugin.EZR.as.menu”). In this kind of
 > situations, you should restart *R* session and try the other
-> combination of plugins.
+> combinations of plugins.
 
-> NOTE: if “RcmdrPlugin.biostat” is not between the options of Plugins,
-> it means that the plugin is already chosen but not included in the
-> menus of *R Commander*. This means that you should restart the *R
-> Commander* by using function `restart_commander()`.
+> **NOTE:** if “RcmdrPlugin.biostat” is not between the options of
+> Plugins, it means that the plugin is already chosen but not included
+> in the menus of *R Commander*. This means that you should restart the
+> *R Commander* by using function `restart_commander()`.
 
 <br>
 
@@ -168,7 +166,8 @@ functions, are added below the menu bar:
 
 <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/05--buttons-in-biostat-mode.png" style="display: block; margin: auto;" />
 
-**NOTE:** if active dataset is not selected, some buttons are inactive.
+**NOTE:** If an active dataset is not selected, some buttons are shaded
+in gray and are inactive.
 
 <br>
 
@@ -183,6 +182,23 @@ You may use the following command as well:
 ``` r
 restart_commander()
 ```
+
+### Notes for *Mac* users only
+
+For *Mac* users, there at least 2 things to pay attention to:
+
+1)  On *Mac*, *R Commander* opens only if
+    [*XQuartz*](http://www.xquartz.org/) is opened. So, the first step
+    of using *R Commander* is to make sure that *XQuartz* is opened.
+    More information on [“Installing R Commander for *Mac*
+    users”](https://murraystate.instructure.com/courses/1252125/pages/installing-r-commander-on-your-mac).
+
+2)  Some *Mac* users also report that it is impossible to switch between
+    languages while *R Commander* is running. This means, that some
+    users might not use numbers if in the chosen language the same keys
+    mean some non-English letters. Because of this, it is recommended to
+    choose an appropriate language (usually English) before opening
+    *R*/*RStudio*.
 
 -----
 
@@ -225,7 +241,7 @@ library(Rcmdr)
 ```
 
 If package **Rcmdr** is loaded **and R Commander window is closed**,
-instead of `library(Rcmdr)` use:
+instead of ~~`library(Rcmdr)`~~, use this code **exactly once**:
 
 ``` r
 Commander()
@@ -235,7 +251,8 @@ Commander()
 
 Some functions in the package are based on and modified from functions
 in packages *Rcmdr*<!--, *RcmdrPlugin.KMggplot2*-->, and
-*RcmdrPlugin.EZR*. All of those packages are under GPL-2/GPL-3 license.
+*RcmdrPlugin.EZR*. All of those packages are under the GPL-2/GPL-3
+license.
 
 -----
 

@@ -40,7 +40,7 @@ Authors@R: c(
     person("Peter", "Wolf", role = "ctb"),
     person("Kevin", "Wright", role = "ctb")
     )
-License: GPL-3
+License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
 ByteCompile: false

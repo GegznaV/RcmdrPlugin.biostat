@@ -2,7 +2,6 @@
 ^\.Rproj\.user$
 data-raw.*
 .gitignore
-^D:\Dokumentai\R\RcmdrPlugin\.biostat\docs$
 README.Rmd
 _pkgdown.yaml
 ^docs.*
@@ -17,3 +16,8 @@ RcmdrPlugin.biostat-removed - Shortcut.lnk
 __rsurvey/*
 ^appveyor\.yml$
 ^LICENSE\.md$
+^inst/tklibs.*
+pkgdown/
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
