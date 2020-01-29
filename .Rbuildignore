@@ -17,3 +17,4 @@ __rsurvey/*
 ^appveyor\.yml$
 ^LICENSE\.md$
 ^inst/tklibs.*
+pkgdown/
