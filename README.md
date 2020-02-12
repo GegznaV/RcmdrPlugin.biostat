@@ -8,18 +8,18 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.r-project.org/package=RcmdrPlugin.biostat)
 [![GitHub
-version](https://img.shields.io/badge/GitHub-v0.0.60-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
+version](https://img.shields.io/badge/GitHub-v0.0.61-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/hm4h2rjb8ayr2df1/branch/master?svg=true)](https://ci.appveyor.com/project/GegznaV/rcmdrplugin-biostat/branch/master)
 [![Travis-CI Build
 Status](https://travis-ci.com/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.com/GegznaV/RcmdrPlugin.biostat)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Updated-on](https://img.shields.io/badge/Updated%20on-2020--01--29-yellowgreen.svg)]()
+[![Updated-on](https://img.shields.io/badge/Updated%20on-2020--02--12-yellowgreen.svg)]()
 <!-- badges: end -->
 
 -----
 
-<img src="https://gegznav.github.io/RcmdrPlugin.biostat/logo.png" width="30%" height="30%" style="display: block; margin: auto;" />
+<img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/logo.png" width="30%" height="30%" style="display: block; margin: auto;" />
 
 <!-- 
 An *R Commander* Plugin for Basic (Bio)Statistical Routines  
@@ -58,11 +58,14 @@ update.packages(ask = "graphics")
 if (!require("remotes"))  install.packages("remotes")
 
 # Install RcmdrPlugin.biostat
-remotes::install_github("GegznaV/RcmdrPlugin.biostat", upgrade = TRUE)
+remotes::install_github(
+  "GegznaV/RcmdrPlugin.biostat", 
+  dependencies = TRUE, upgrade = FALSE
+)
 ```
 
 In case you face installation issues, follow the instructions in the
-error message. You may also try removing `upgrade = TRUE` and manually
+error message. You may also try removing `upgrade = FALSE` and manually
 choose the packages to update. It is always recommended to restart *R*
 session before the next installation too.
 
@@ -73,6 +76,16 @@ session before the next installation too.
 > if you have package [**pacman**](https://trinker.github.io/pacman)
 > installed, or delete the directory manually), restart the current *R*
 > session and try to install again.
+
+### Check for updates
+
+To check if updates for **RcmdrPlugin.biostat** and associated packages
+are needed, package (**bio**)\[<https://mokymai.github.io/bio/>\] can be
+used:
+
+``` r
+bio::check_installed_packages("Rcmdr-biostat")
+```
 
 ### Previous versions
 
@@ -91,10 +104,10 @@ only](#notes-for-mac-users-only)”.
     
     ``` r
     library(RcmdrPlugin.biostat)
-    restart_commander()
+    load_rcmdr_biostat_mode()
     ```
     
-    A pop-up window appears. Agree to restart.
+    <!-- A pop-up window appears. --> <!-- Agree to restart. -->
 
 2.  *Option 2.* Run code:
     
@@ -108,8 +121,9 @@ only](#notes-for-mac-users-only)”.
 
 <br>
 
-**Next**, the *BioStat* mode should be turned on (see section “[Turn on
-*BioStat* (green) mode](#turn-on-biostat-green-mode)”).
+**Next**, for b. and c., the *BioStat* mode should be turned on by using
+commander (see section “[Turn on *BioStat* (green)
+mode](#turn-on-biostat-green-mode)”).
 
 ### Load by using menus
 

@@ -52,10 +52,10 @@ biostat_env$use_relative_path <- TRUE
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Functions
-.onAttach <- function(libname, pkgname) {
-  if (!interactive()) {
-    return()
-  }
+.onLoad <- function(libname, pkgname) {
+  # if (!interactive()) {
+  #   return()
+  # }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # FIXME: remove this code when pkg `tcltk2` updates the version of tablelist.
   # old_tablelist <- system.file("tklibs/tablelist5.5", package = "tcltk2")
@@ -69,6 +69,7 @@ biostat_env$use_relative_path <- TRUE
   #   fs::dir_copy(new_tablelist_from, new_tablelist_to)
   # }
 
+  # Tcl/Tk path --------------------------------------------------------------
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   libdir <- file.path(libname, pkgname, "tklibs")
   add_tcl_path(libdir)
@@ -81,6 +82,7 @@ biostat_env$use_relative_path <- TRUE
   # bs_add_tcl_path("etc/tcl-tk/mentry3.10")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+  # Options ------------------------------------------------------------------
   # Current options
   Rcmdr_opts <- options()$Rcmdr
 
@@ -88,8 +90,6 @@ biostat_env$use_relative_path <- TRUE
   if (is.null(Rcmdr_opts)) {
     Rcmdr_opts <- list(plugins = NULL)
   }
-
-  # TODO: getRcmdr("messages.height")  <----------- [???]
 
   # Plugins to add
   add_plugins <- "RcmdrPlugin.biostat"
@@ -122,8 +122,8 @@ biostat_env$use_relative_path <- TRUE
       list(
         plugins = plugins,
         sort.names = sort.names,
-        console.output = console.output,
-        fun_mod_commander = RcmdrPlugin.biostat::set_biostat_mode
+        # fun_mod_commander = RcmdrPlugin.biostat::set_biostat_mode,
+        console.output = console.output
       )
     )
 
@@ -143,7 +143,7 @@ biostat_env$use_relative_path <- TRUE
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Create icons
+  # Create icons -------------------------------------------------------------
 
   # bs_tkimage_create <- function(name, file, package = "RcmdrPlugin.biostat") {
   #   tcltk::tkimage.create(
