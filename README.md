@@ -100,7 +100,7 @@ Package **RcmdrPlugin.biostat** can be loaded programmatically or by
 using menus. *Mac* users should also read “[Notes for *Mac* users
 only](#notes-for-mac-users-only)”.
 
-1.  *Option 1.* Run code:
+1)  *Option 1.* Run code:
     
     ``` r
     library(RcmdrPlugin.biostat)
@@ -109,20 +109,20 @@ only](#notes-for-mac-users-only)”.
     
     <!-- A pop-up window appears. --> <!-- Agree to restart. -->
 
-2.  *Option 2.* Run code:
+2)  *Option 2.* Run code:
     
     ``` r
     options(Rcmdr = list(plugins = "RcmdrPlugin.biostat", console.output = FALSE))
     library(Rcmdr)
     ```
 
-3.  *Option 3:* use *RStudio* and *R Commander* menus (see section
+3)  *Option 3:* use *RStudio* and *R Commander* menus (see section
     “[Load by using menus](#load-by-using-menus)”).
 
 <br>
 
-**Next**, for b. and c., the *BioStat* mode should be turned on by using
-commander (see section “[Turn on *BioStat* (green)
+**Next**, for some of the potions above, the *BioStat* mode should be
+turned on by using commander (see section “[Turn on *BioStat* (green)
 mode](#turn-on-biostat-green-mode)”).
 
 ### Load by using menus
@@ -176,6 +176,8 @@ mode. This mode uses the green icon instead of the blue one.
 <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/04--activate-biostat-mode.png" style="display: block; margin: auto;" />
 
 <br>
+
+### Menus in *BioStat* (green) mode
 
 In this mode, additional buttons, which enable access to the most common
 functions, are added below the menu bar:
