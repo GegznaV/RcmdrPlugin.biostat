@@ -40,9 +40,11 @@
 #'    StatMedFTest
 #'    StatMedBartlett
 #'    StatMedLinearRegression
-#' @importFrom grDevices devAskNewPage
+#' @importFrom grDevices devAskNewPage dev.list dev.off
+#' @importFrom stats na.omit
 
-
+# @importFrom graphics text
+# FIXME: check "text": importFrom("graphics", "text")
 NULL
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -52,7 +54,7 @@ biostat_env$use_relative_path <- TRUE
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Functions
-.onLoad <- function(libname, pkgname) {
+.onAttach <- function(libname, pkgname) {
   # if (!interactive()) {
   #   return()
   # }
