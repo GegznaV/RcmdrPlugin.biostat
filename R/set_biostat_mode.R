@@ -1,4 +1,4 @@
-# Biostat mode heloers -------------------------------------------------------
+# Biostat mode helpers -------------------------------------------------------
 
 #' @rdname Helper-functions
 #' @export
@@ -35,6 +35,28 @@ use_absolute_path <- function() {
 #' @keywords internal
 get_use_relative_path <- function() {
   isTRUE(biostat_env$use_relative_path)
+}
+
+
+#' Load Biostat mode in R Commander
+#'
+#' Load Biostat mode in R Commander.
+#' Packages \pkg{Rcmdr} and \pkg{RcmdrPlugin.biostat} must be attached.
+#' For this purpose `library("RcmdrPlugin.biostat")` is sufficient
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{\donttest{
+#'
+#' library("RcmdrPlugin.biostat")
+#' load_rcmdr_biostat_mode()
+#'
+#' }}
+load_rcmdr_biostat_mode <- function() {
+
+  restart_commander()
+  set_biostat_mode()
 }
 
 # Set biostat mode -----------------------------------------------------------
