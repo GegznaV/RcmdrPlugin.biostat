@@ -54,10 +54,10 @@ biostat_env$use_relative_path <- TRUE
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Functions
-.onAttach <- function(libname, pkgname) {
-  # if (!interactive()) {
-  #   return()
-  # }
+.onLoad <- function(libname, pkgname) {
+  if (!interactive()) {
+    return()
+  }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # FIXME: remove this code when pkg `tcltk2` updates the version of tablelist.
   # old_tablelist <- system.file("tklibs/tablelist5.5", package = "tcltk2")
