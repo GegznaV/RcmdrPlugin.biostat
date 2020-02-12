@@ -1789,6 +1789,17 @@ validate_var_name_string <- function(P, W) {
 
 # ___ Rcmdr ___ ==============================================================
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+is_commander_open <- function() {
+  # If R Commander is closed (or destroyed), either tkwinfo() or
+  # CommanderWindow() returns an error, which is converted to NULL by try().
+  # Otherwise (if R Commander is open) tkwinfo() returns tcl object (ID if the
+  # window).
+  ans <- try(tcltk::tkwinfo("toplevel", CommanderWindow()), silent = TRUE)
+  tcltk::is.tclObj(ans)
+}
 
 #' Restart R commander.
 #'
@@ -1803,13 +1814,26 @@ restart_commander <- function() {
 #' @export
 #' @keywords internal
 rcmdr_restart_commander <- function() {
-  if (packageVersion("Rcmdr") >= "2.7") {
-    Rcmdr:::restartCommander()
+
+  if (is_commander_open()) {
+
+    if (packageVersion("Rcmdr") >= "2.7") {
+      Rcmdr:::restartCommander()
+
+    } else {
+      ans <- command_rcmdr_close()
+      if (ans != "cancel") {
+        Rcmdr::Commander()
+      }
+    }
 
   } else {
-    ans <- command_rcmdr_close()
-    if (ans != "cancel") {
-      Rcmdr::Commander()
+
+    if ("Rcmdr" %in% .packages()) {
+       Rcmdr::Commander()
+
+    } else {
+      stop("\nPackage 'Rcmdr' is not loaded. Use code: \nlibrary('Rcmdr')")
     }
   }
 }
@@ -1828,10 +1852,8 @@ command_restart_rs_session <- function() {
 #' @export
 #' @keywords internal
 command_rcmdr_close <- function() {
-  Rcmdr::closeCommander(
-    ask = Rcmdr::getRcmdr("ask.to.exit"),
-    ask.save = Rcmdr::getRcmdr("ask.on.exit")
-  )
+  ans <- tryCatch(Rcmdr::getRcmdr("ask.to.exit"), error = function(e) {FALSE})
+  Rcmdr::closeCommander(ask = ans, ask.save = ans)
 }
 
 #' @rdname Helper-functions
