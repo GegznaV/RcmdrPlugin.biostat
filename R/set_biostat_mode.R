@@ -1,10 +1,19 @@
+# Biostat mode heloers -------------------------------------------------------
+
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 is_biostat_mode <- function() {
-  # This test is based on the title of commander window
-  str <- tclvalue(tkwm.title(CommanderWindow()))
-  isTRUE(stringr::str_detect(str, "(BioStat mode)"))
+
+  if (is_commander_open()) {
+    # This test is based on the title of commander window
+    str <- tclvalue(tkwm.title(CommanderWindow()))
+    isTRUE(stringr::str_detect(str, "(BioStat mode)"))
+
+  } else {
+    warning("\nR Commander is not open. Use code: \nlibrary('Rcmdr')")
+    FALSE
+  }
 }
 
 #' @rdname Helper-functions
@@ -28,15 +37,25 @@ get_use_relative_path <- function() {
   isTRUE(biostat_env$use_relative_path)
 }
 
-# Biostat mode ---------------------------------------------------------------
+# Set biostat mode -----------------------------------------------------------
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
 set_biostat_mode <- function() {
+  if ("RcmdrPlugin.biostat" %in% .packages()) {
 
-  if (isTRUE(is_biostat_mode())) {
-    return()
+    if (isTRUE(is_biostat_mode())) {
+      return()
+    }
+
+  } else {
+    stop(
+      "\nCannot set 'Biostat' mode in R Commander. ",
+      "Please, load package 'RcmdrPlugin.biostat' first: \n",
+      "library('RcmdrPlugin.biostat')"
+    )
   }
+
 
   # Hide buttons bar ---------------------------------------------------------
   buttons_bar <- tcl_get_parent(getRcmdr("dataSetLabel"))
