@@ -82,6 +82,7 @@
 \alias{variables_with_unique_values_P}
 \alias{gg_objects_exist}
 \alias{gg_lastplot_exists}
+\alias{is_commander_open}
 \alias{rcmdr_restart_commander}
 \alias{command_restart_rs_session}
 \alias{command_rcmdr_close}
@@ -362,6 +363,8 @@ variables_with_unique_values_P(n = 1)
 gg_objects_exist(n = 1)
 
 gg_lastplot_exists()
+
+is_commander_open()
 
 rcmdr_restart_commander()
 
