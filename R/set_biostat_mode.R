@@ -1549,7 +1549,7 @@ bs_mode_menu__plots <- function() {
     tkadd(menu_p, "separator")
 
     tkadd(menu_p, "command",
-      label    = "Build ggplot2 plot (esquisse)...",
+      label    = "Create simple ggplot2 plot (esquisse)...",
       compound = "left",
       image    = "::image::bs_ggplot",
       state    = set_menu_state(activeDataSetP()),
