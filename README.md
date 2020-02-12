@@ -14,7 +14,7 @@ status](https://ci.appveyor.com/api/projects/status/hm4h2rjb8ayr2df1/branch/mast
 [![Travis-CI Build
 Status](https://travis-ci.com/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.com/GegznaV/RcmdrPlugin.biostat)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Updated-on](https://img.shields.io/badge/Updated%20on-2020--02--12-yellowgreen.svg)]()
+[![Documentation](https://img.shields.io/badge/Documentation-2020--02--13-yellowgreen.svg)]()
 <!-- badges: end -->
 
 -----
@@ -33,6 +33,10 @@ most common data wrangling, visualization, and analysis tasks. In the
 package, **tidyverse** family functions, as well as functions from other
 packages, are used. The documentation is available at
 [gegznav.github.io/RcmdrPlugin.biostat](https://gegznav.github.io/RcmdrPlugin.biostat).
+
+<br>
+
+-----
 
 ## Install the package
 
@@ -79,28 +83,36 @@ session before the next installation too.
 
 ### Check for updates
 
-To check if updates for **RcmdrPlugin.biostat** and associated packages
-are needed, package (**bio**)\[<https://mokymai.github.io/bio/>\] can be
-used:
+To check if all packages that extend capabilities of
+**RcmdrPlugin.biostat** are installed, use package
+[**bio**](https://mokymai.github.io/bio/):
 
 ``` r
-bio::check_installed_packages("Rcmdr-biostat")
+# remotes::install_github("mokymai/bio")
+bio::check_installed_packages(
+  "Rcmdr-biostat",
+  show_status = "newer_on_cran",
+  cran = "newer_on_cran"
+)
 ```
 
 ### Previous versions
 
-If you need a previous version of the package, find the section
-“[Previous versions of
+If you need a previous version of the package, read section “[Previous
+versions of
 **RcmdrPlugin.biostat**](#previous-versions-of-rcmdrpluginbiostat)”
 below.
 
-## Load the plug-in correctly
+<br>
+
+-----
+
+## Load the plug-in
 
 Package **RcmdrPlugin.biostat** can be loaded programmatically or by
-using menus. *Mac* users should also read “[Notes for *Mac* users
-only](#notes-for-mac-users-only)”.
+using menus:
 
-1.  *Option 1.* Run code:
+1)  *Option 1.* Run code:
     
     ``` r
     library(RcmdrPlugin.biostat)
@@ -109,21 +121,24 @@ only](#notes-for-mac-users-only)”.
     
     <!-- A pop-up window appears. --> <!-- Agree to restart. -->
 
-2.  *Option 2.* Run code:
+2)  *Option 2.* Run code:
     
     ``` r
     options(Rcmdr = list(plugins = "RcmdrPlugin.biostat", console.output = FALSE))
     library(Rcmdr)
+    set_biostat_mode()
     ```
 
-3.  *Option 3:* use *RStudio* and *R Commander* menus (see section
-    “[Load by using menus](#load-by-using-menus)”).
+3)  *Option 3:* use *RStudio* and *R Commander* menus (see sections
+    “[Load by using menus](#load-by-using-menus)” and “[Turn on
+    *BioStat* (green) mode](#turn-on-biostat-green-mode)”).
 
 <br>
 
-**Next**, for b. and c., the *BioStat* mode should be turned on by using
-commander (see section “[Turn on *BioStat* (green)
-mode](#turn-on-biostat-green-mode)”).
+*Mac* users should also read “[Notes for *Mac* users
+only](#notes-for-mac-users-only)”.
+
+<!-- **Next**, for some of the options above, the *BioStat* mode should be turned on by using commander (see section "[Turn on *BioStat* (green) mode](#turn-on-biostat-green-mode)"). -->
 
 ### Load by using menus
 
@@ -176,6 +191,8 @@ mode. This mode uses the green icon instead of the blue one.
 <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/04--activate-biostat-mode.png" style="display: block; margin: auto;" />
 
 <br>
+
+### Button bar in *BioStat* (green) mode
 
 In this mode, additional buttons, which enable access to the most common
 functions, are added below the menu bar:
@@ -283,7 +300,7 @@ install them from `GitHub`:
     remotes::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat19r")
     ```
     
-    (r – lith. “ruduo”)
+    (“r” – stands for “ruduo” in Lithuanian).
 
   - BioStat’19 (Spring 2019):
     

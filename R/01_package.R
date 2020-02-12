@@ -40,9 +40,11 @@
 #'    StatMedFTest
 #'    StatMedBartlett
 #'    StatMedLinearRegression
-#' @importFrom grDevices devAskNewPage
+#' @importFrom grDevices devAskNewPage dev.list dev.off
+#' @importFrom stats na.omit
 
-
+# @importFrom graphics text
+# FIXME: check "text": importFrom("graphics", "text")
 NULL
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -53,9 +55,9 @@ biostat_env$use_relative_path <- TRUE
 
 # Functions
 .onLoad <- function(libname, pkgname) {
-  # if (!interactive()) {
-  #   return()
-  # }
+  if (!interactive()) {
+    return()
+  }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # FIXME: remove this code when pkg `tcltk2` updates the version of tablelist.
   # old_tablelist <- system.file("tklibs/tablelist5.5", package = "tcltk2")
