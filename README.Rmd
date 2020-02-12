@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/hm4h2rjb8ayr2df1/branch/master?svg=true)](https://ci.appveyor.com/project/GegznaV/rcmdrplugin-biostat/branch/master)
 [![Travis-CI Build Status](https://travis-ci.com/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.com/GegznaV/RcmdrPlugin.biostat)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Updated-on](https://img.shields.io/badge/Updated%20on-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)]()
+[![Documentation](https://img.shields.io/badge/Documentation-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)]()
 <!-- badges: end -->
 
 ***
@@ -49,6 +49,9 @@ R Commander Plug-in for Basic Data Management and Analysis Tasks {#intro}
 In the package,  **tidyverse** family functions, as well as functions from other packages, are used.
 The documentation is available at [gegznav.github.io/RcmdrPlugin.biostat](https://gegznav.github.io/RcmdrPlugin.biostat){target="_blank"}.
 
+<br>
+
+***
 
 ## Install the package {#install-the-package}
 
@@ -86,22 +89,29 @@ Usually, you have to delete the indicated "*00LOCK*" directory (you may use [`pa
 
 ### Check for updates
 
-To check if updates for **RcmdrPlugin.biostat** and associated packages are needed, package (**bio**)[https://mokymai.github.io/bio/] can be used:
+To check if all packages that extend capabilities of **RcmdrPlugin.biostat** are installed, use package [**bio**](https://mokymai.github.io/bio/):
 
 ```{r eval=FALSE}
-bio::check_installed_packages("Rcmdr-biostat")
+# remotes::install_github("mokymai/bio")
+bio::check_installed_packages(
+  "Rcmdr-biostat",
+  show_status = "newer_on_cran",
+  cran = "newer_on_cran"
+)
 ```
 
 ### Previous versions
 
-If you need a previous version of the package, find the section "[Previous versions of **RcmdrPlugin.biostat**](#previous-versions-of-rcmdrpluginbiostat)" below.
+If you need a previous version of the package, read section "[Previous versions of **RcmdrPlugin.biostat**](#previous-versions-of-rcmdrpluginbiostat)" below.
 
+<br>
 
+***
 
-## Load the plug-in correctly {#load}
+## Load the plug-in {#load}
 
-Package **RcmdrPlugin.biostat** can be loaded programmatically or by using menus.
-*Mac* users should also read "[Notes for *Mac* users only](#notes-for-mac-users-only)".
+Package **RcmdrPlugin.biostat** can be loaded programmatically or by using menus:
+
 
 a) *Option 1.* Run code:
 
@@ -118,13 +128,16 @@ b) *Option 2.* Run code:
     ```{r eval=FALSE}
     options(Rcmdr = list(plugins = "RcmdrPlugin.biostat", console.output = FALSE))
     library(Rcmdr)
+    set_biostat_mode()
     ```
-
-c) *Option 3:* use *RStudio* and *R Commander* menus (see section "[Load by using menus](#load-by-using-menus)").
+    
+c) *Option 3:* use *RStudio* and *R Commander* menus (see sections "[Load by using menus](#load-by-using-menus)" and "[Turn on *BioStat* (green) mode](#turn-on-biostat-green-mode)").
 
 <br>
 
-**Next**, for some of the potions above, the *BioStat* mode should be turned on by using commander (see section "[Turn on *BioStat* (green) mode](#turn-on-biostat-green-mode)").
+*Mac* users should also read "[Notes for *Mac* users only](#notes-for-mac-users-only)".
+
+<!-- **Next**, for some of the options above, the *BioStat* mode should be turned on by using commander (see section "[Turn on *BioStat* (green) mode](#turn-on-biostat-green-mode)"). -->
 
 
 ### Load by using menus {#load-by-menu}
@@ -195,7 +208,7 @@ CAPTION = "" # Figure caption/description.
 <br>
 
 
-### Menus in *BioStat* (green) mode {#menus-in-biostat-mode}
+### Button bar in *BioStat* (green) mode {#button-bar-in-biostat-mode}
 
 In this mode, additional buttons, which enable access to the most common functions, are added below the menu bar:
 
@@ -297,7 +310,7 @@ If you need a previous version of **RcmdrPlugin.biostat**, you can install them 
     ```{r Install BioStat-19r, eval=FALSE}
     remotes::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat19r")
     ```
-    (r -- lith. "ruduo")
+    ("r" -- stands for "ruduo" in Lithuanian).
 
 
 - BioStat'19 (Spring 2019):
