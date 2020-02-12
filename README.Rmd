@@ -25,18 +25,18 @@ knitr::opts_chunk$set(
 
 ***
 
-```{r logo-local, fig.align='center', out.height='30%', out.width='30%',echo=FALSE} 
- knitr::include_graphics(
-   "https://gegznav.github.io/RcmdrPlugin.biostat/logo.png"
- ) 
-``` 
- 
 ```{r include=FALSE}
 fig_dir <-
   "https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/"
 
 knitr::opts_chunk$set(fig.align  = "center")
 ```
+
+```{r logo-local, fig.align='center', out.height='30%', out.width='30%',echo=FALSE} 
+knitr::include_graphics(paste0(fig_dir, "logo.png")) 
+``` 
+ 
+
 
 <!-- 
 An *R Commander* Plugin for Basic (Bio)Statistical Routines  
@@ -71,16 +71,26 @@ update.packages(ask = "graphics")
 if (!require("remotes"))  install.packages("remotes")
 
 # Install RcmdrPlugin.biostat
-remotes::install_github("GegznaV/RcmdrPlugin.biostat", upgrade = TRUE)
+remotes::install_github(
+  "GegznaV/RcmdrPlugin.biostat", 
+  dependencies = TRUE, upgrade = FALSE
+)
 ```
 
 In case you face installation issues, follow the instructions in the error message.
-You may also try removing `upgrade = TRUE`{.r} and manually choose the packages to update.
+You may also try removing `upgrade = FALSE`{.r} and manually choose the packages to update.
 It is always recommended to restart *R* session before the next installation too.
 
 > **NOTE:** the most common installation issue is related to *R* package **rlang**.
 Usually, you have to delete the indicated "*00LOCK*" directory (you may use [`pacman::p_unlock()`{.r}](https://trinker.github.io/pacman/p_unlock.html){target="_blank"}, if you have package [**pacman**](https://trinker.github.io/pacman){target="_blank"} installed, or delete the directory manually), restart the current *R* session and try to install again.
 
+### Check for updates
+
+To check if updates for **RcmdrPlugin.biostat** and associated packages are needed, package (**bio**)[https://mokymai.github.io/bio/] can be used:
+
+```{r eval=FALSE}
+bio::check_installed_packages("Rcmdr-biostat")
+```
 
 ### Previous versions
 
@@ -97,10 +107,10 @@ a. *Option 1.* Run code:
 
     ```{r eval=FALSE}
     library(RcmdrPlugin.biostat)
-    restart_commander()
+    load_rcmdr_biostat_mode()
     ```
-    A pop-up window appears.
-    Agree to restart.
+    <!-- A pop-up window appears. -->
+    <!-- Agree to restart. -->
 
 
 b. *Option 2.* Run code:
@@ -114,7 +124,7 @@ c. *Option 3:* use *RStudio* and *R Commander* menus (see section "[Load by usin
 
 <br>
 
-**Next**, the *BioStat* mode should be turned on (see section "[Turn on *BioStat* (green) mode](#turn-on-biostat-green-mode)").
+**Next**, for b. and c., the *BioStat* mode should be turned on by using commander (see section "[Turn on *BioStat* (green) mode](#turn-on-biostat-green-mode)").
 
 
 ### Load by using menus {#load-by-menu}
