@@ -7,9 +7,10 @@
 load_rcmdr_biostat_mode()
 }
 \description{
-Load Biostat mode in R Commander.
+Restarts R Commander (to load plugins) and sets Biostat mode in R Commander.
 Packages \pkg{Rcmdr} and \pkg{RcmdrPlugin.biostat} must be attached.
-For this purpose `library("RcmdrPlugin.biostat")` is sufficient
+For this purpose `library("RcmdrPlugin.biostat")` is sufficient.
+If restart is not needed, `set_biostat_mode()` is sufficient.
 }
 \examples{
 \dontrun{\donttest{
