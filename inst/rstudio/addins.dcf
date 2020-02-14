@@ -1,0 +1,5 @@
+Name: Open R Commander in BioStat mode
+Description: Load "Rcmdr" and "RcmdrPlugin.biostat"
+Binding: load_rcmdr_biostat
+Interactive: false
+
