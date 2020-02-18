@@ -76,7 +76,7 @@
   <div class="contents col-md-9">
 
 <hr>
-<!-- badges: start -->
+<!-- badges: start --><!-- [![GitHub version](https://img.shields.io/badge/GitHub-v0.0.62-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat) -->
 <hr>
 <p><img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/logo.png" width="30%" height="30%" style="display: block; margin: auto;"></p>
 <!-- 
@@ -107,7 +107,7 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"remotes"</span>))  <span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"remotes"</span>)</a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co"># Install RcmdrPlugin.biostat</span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">remotes<span class="op">::</span><span class="kw"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(</a>
 <a class="sourceLine" id="cb1-9" data-line-number="9">  <span class="st">"GegznaV/RcmdrPlugin.biostat"</span>, </a>
 <a class="sourceLine" id="cb1-10" data-line-number="10">  <span class="dt">dependencies =</span> <span class="ot">TRUE</span>, <span class="dt">upgrade =</span> <span class="ot">FALSE</span></a>
 <a class="sourceLine" id="cb1-11" data-line-number="11">)</a></code></pre></div>
@@ -119,13 +119,9 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 <div id="check-for-updates" class="section level3">
 <h3 class="hasAnchor">
 <a href="#check-for-updates" class="anchor"></a>Check for updates</h3>
-<p>To check if all packages that extend capabilities of <strong>RcmdrPlugin.biostat</strong> are installed, use package <a href="https://mokymai.github.io/bio/"><strong>bio</strong></a>:</p>
+<p>To get the most recent version of <strong>RcmdrPlugin.biostat</strong> and to check if all its dependencies (other packages) are installed, use package <a href="https://mokymai.github.io/bio/"><strong>bio</strong></a>:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># remotes::install_github("mokymai/bio")</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">bio<span class="op">::</span><span class="kw">check_installed_packages</span>(</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">  <span class="st">"Rcmdr-biostat"</span>,</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">  <span class="dt">show_status =</span> <span class="st">"newer_on_cran"</span>,</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">  <span class="dt">cran =</span> <span class="st">"newer_on_cran"</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6">)</a></code></pre></div>
+<a class="sourceLine" id="cb2-2" data-line-number="2">bio<span class="op">::</span><span class="kw">update_pkg_rcmdr_biostat</span>(<span class="dt">upgrade =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 </div>
 <div id="previous-versions" class="section level3">
 <h3 class="hasAnchor">
@@ -138,55 +134,65 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 <div id="load-the-plug-in" class="section level2">
 <h2 class="hasAnchor">
 <a href="#load-the-plug-in" class="anchor"></a>Load the plug-in</h2>
-<p>Package <strong>RcmdrPlugin.biostat</strong> can be loaded programmatically or by using menus:</p>
-<p>1) <em>Option 1.</em> Run code:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="st">```</span><span class="dt"> r</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="dt">library(RcmdrPlugin.biostat)</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="dt">load_rcmdr_biostat_mode()</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="st">```</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="op">&lt;!--</span><span class="st"> </span>A pop<span class="op">-</span>up window appears. <span class="op">-</span>-&gt;<span class="st"> </span><span class="er">&lt;</span><span class="op">!--</span><span class="st"> </span>Agree to restart. <span class="op">-</span>-&gt;</a></code></pre></div>
-<p>2) <em>Option 2.</em> Run code:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="st">```</span><span class="dt"> r</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="dt">options(Rcmdr = list(plugins = "RcmdrPlugin.biostat", console.output = FALSE))</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="dt">library(Rcmdr)</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="dt">set_biostat_mode()</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="st">```</span></a></code></pre></div>
-<p>3) <em>Option 3:</em> use <em>RStudio</em> and <em>R Commander</em> menus (see sections “<a href="#load-by-using-menus">Load by using menus</a>” and “<a href="#turn-on-biostat-green-mode">Turn on <em>BioStat</em> (green) mode</a>”).</p>
-<p><br></p>
+<p>The easiest way to load <strong>RcmdrPlugin.biostat</strong> in <em>BioStat</em> (green) mode is to use RStudio addin:</p>
+<p><img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/00-addin-to-load-biostat-mode.png" style="display: block; margin: auto;"></p>
+<p>Alternatively, use code:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(Rcmdr)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(RcmdrPlugin.biostat)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="reference/load_rcmdr_biostat_mode.html">load_rcmdr_biostat_mode</a></span>()</a></code></pre></div>
 <p><em>Mac</em> users should also read “<a href="#notes-for-mac-users-only">Notes for <em>Mac</em> users only</a>”.</p>
+<!-- Package **RcmdrPlugin.biostat** can be loaded programmatically or by using menus: -->
+<!-- a) *Option 1.* Run code: -->
+<!--     ```{r eval=FALSE} -->
+<!--     library(RcmdrPlugin.biostat) -->
+<!--     load_rcmdr_biostat_mode() -->
+<!--     ``` -->
+<!-- b) *Option 2.* Run code: -->
+<!--     ```{r eval=FALSE} -->
+<!--     options(Rcmdr = list(plugins = "RcmdrPlugin.biostat", console.output = FALSE)) -->
+<!--     library(Rcmdr) -->
+<!--     set_biostat_mode() -->
+<!--     ``` -->
+<!-- c) *Option 3:* use *RStudio* and *R Commander* menus (see sections "[Load by using menus](#load-by-using-menus)" and "[Turn on *BioStat* (green) mode](#turn-on-biostat-green-mode)"). -->
+<!-- <br> -->
+<!-- *Mac* users should also read "[Notes for *Mac* users only](#notes-for-mac-users-only)". -->
 <!-- **Next**, for some of the options above, the *BioStat* mode should be turned on by using commander (see section "[Turn on *BioStat* (green) mode](#turn-on-biostat-green-mode)"). -->
-<div id="load-by-using-menus" class="section level3">
-<h3 class="hasAnchor">
-<a href="#load-by-using-menus" class="anchor"></a>Load by using menus</h3>
-<ol>
-<li>
-<p>Load package <strong>Rcmdr</strong> by either selecting <strong>Rcmdr</strong> in <em>RStudio</em> „Packages“ menu:</p>
-<p><img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/01--load-rcmdr-in-rs.png" style="display: block; margin: auto;"></p>
-<p>Or by using <em>R</em> code:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(Rcmdr)</a></code></pre></div>
-<p>Wait until <em>R Commander</em> window opens. <br></p>
-</li>
-<li>
-<p>Then load the plug-in (as well as the other necessary plug-ins) through <code>Tools</code> → <code>Load Rcmdr plug-in(s)...</code> in the <em>R Commander</em> menu bar.</p>
-<p><img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/02--load-plugin--biostat.png" style="display: block; margin: auto;"></p>
-<p>If you need more than one plug-in to be loaded, hold <kbd>Ctrl</kbd> key while selecting the plug-ins. To load the plug-ins, <em>R Commander</em> must restart.</p>
-</li>
-</ol>
-<blockquote>
-<p><strong>NOTE:</strong> be aware that some plug-ins are incompatible one to the other and some combinations of plug-ins may break <em>R Commander</em> (e.g., “RcmdrPlugin.EZR” and “RcmdrPlugin.EZR.as.menu”). In this kind of situations, you should restart <em>R</em> session and try the other combinations of plugins.</p>
-</blockquote>
-<blockquote>
-<p><strong>NOTE:</strong> if “RcmdrPlugin.biostat” is not between the options of Plugins, it means that the plugin is already chosen but not included in the menus of <em>R Commander</em>. This means that you should restart the <em>R Commander</em> by using function <code><a href="reference/restart_commander.html">restart_commander()</a></code>.</p>
-</blockquote>
-<p><br></p>
+<!-- ### Load by using menus {#load-by-menu} -->
+<!-- 1. Load package **Rcmdr** by either selecting **Rcmdr** in *RStudio* „Packages“ menu: -->
+<!--     ```{r, echo=FALSE, fig.cap=CAPTION} -->
+<!--     knitr::include_graphics(paste0(fig_dir, "01--load-rcmdr-in-rs.png"))  -->
+<!--     CAPTION = "" # Figure caption/description. -->
+<!--     ``` -->
+<!--     Or by using *R* code:  -->
+<!--     ```{r eval=FALSE} -->
+<!--     library(Rcmdr) -->
+<!--     ``` -->
+<!--     Wait until *R Commander* window opens. -->
+<!--     <br> -->
+<!-- 2. Then load the plug-in (as well as the other necessary plug-ins) through  -->
+<!-- `Tools` → `Load Rcmdr plug-in(s)...` in the *R Commander* menu bar. -->
+<!--     ```{r, echo=FALSE, fig.cap=CAPTION} -->
+<!--     knitr::include_graphics(paste0(fig_dir, "02--load-plugin--biostat.png"))  -->
+<!--     CAPTION = "" # Figure caption/description. -->
+<!--     ``` -->
+<!--     If you need more than one plug-in to be loaded, hold <kbd>Ctrl</kbd> key while selecting the plug-ins. -->
+<!-- To load the plug-ins, *R Commander* must restart. -->
+<!-- > **NOTE:** be aware that some plug-ins are incompatible one to the other and  -->
+<!--         some combinations of plug-ins may break *R Commander*  -->
+<!--         (e.g., "RcmdrPlugin.EZR" and "RcmdrPlugin.EZR.as.menu"). -->
+<!--         In this kind of situations, you should restart *R* session and try the  -->
+<!--         other combinations of plugins. -->
+<!-- > **NOTE:** if "RcmdrPlugin.biostat" is not between the options of Plugins, it  -->
+<!--         means that the plugin is already chosen but not included in the menus of  -->
+<!--         *R Commander*. This means that you should restart the *R Commander* by  -->
+<!--         using function `restart_commander()`{.r}. -->
+<!-- <br> -->
 <ol>
 <li>
 <p>When <strong>RcmdrPlugin.biostat</strong> is loaded, you can access its functionality through <code>BioStat'20</code> menu in the menu bar:</p>
 <p><img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/03--biostat-plugin-loaded.png" style="display: block; margin: auto;"></p>
 </li>
 </ol>
-</div>
 <div id="turn-on-biostat-green-mode" class="section level3">
 <h3 class="hasAnchor">
 <a href="#turn-on-biostat-green-mode" class="anchor"></a>Turn on <em>BioStat</em> (green) mode</h3>
@@ -210,7 +216,7 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 <li>R Commander menu bar → BioStat’20 → Session → Restart R Commander</li>
 </ul>
 <p>You may use the following command as well:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="reference/restart_commander.html">restart_commander</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="reference/restart_commander.html">restart_commander</a></span>()</a></code></pre></div>
 </div>
 <div id="notes-for-mac-users-only" class="section level3">
 <h3 class="hasAnchor">
@@ -233,25 +239,25 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 <strong>RcmdrPlugin.KMggplot2</strong> – an <em>R Commander</em> plugin for <strong>ggplot2</strong> graphics.</li>
 </ol>
 <p>To install these packages, use the following code:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># RcmdrPlugin.EZR.as.menu</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"GegznaV/RcmdrPlugin.EZR"</span>, <span class="dt">ref =</span> <span class="st">"ezr_as_menu"</span>)</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co"># RcmdrPlugin.KMggplot2</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"RcmdrPlugin.KMggplot2"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># RcmdrPlugin.EZR.as.menu</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">remotes<span class="op">::</span><span class="kw"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"GegznaV/RcmdrPlugin.EZR"</span>, <span class="dt">ref =</span> <span class="st">"ezr_as_menu"</span>)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co"># RcmdrPlugin.KMggplot2</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"RcmdrPlugin.KMggplot2"</span>)</a></code></pre></div>
 <p>After the packages are installed, you can load them programmatically:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="dt">Rcmdr =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">  <span class="dt">plugins =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3">    <span class="st">"RcmdrPlugin.KMggplot2"</span>,</a>
-<a class="sourceLine" id="cb8-4" data-line-number="4">    <span class="st">"RcmdrPlugin.EZR.as.menu"</span>,</a>
-<a class="sourceLine" id="cb8-5" data-line-number="5">    <span class="st">"RcmdrPlugin.biostat"</span>,</a>
-<a class="sourceLine" id="cb8-6" data-line-number="6">    <span class="ot">NULL</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7">  ), </a>
-<a class="sourceLine" id="cb8-8" data-line-number="8">  <span class="dt">console.output =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9">))</a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(Rcmdr)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="dt">Rcmdr =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">  <span class="dt">plugins =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">    <span class="st">"RcmdrPlugin.KMggplot2"</span>,</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">    <span class="st">"RcmdrPlugin.EZR.as.menu"</span>,</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">    <span class="st">"RcmdrPlugin.biostat"</span>,</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">    <span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">  ), </a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">  <span class="dt">console.output =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9">))</a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(Rcmdr)</a></code></pre></div>
 <p>If package <strong>Rcmdr</strong> is loaded <strong>and R Commander window is closed</strong>, instead of <del><code><a href="https://rdrr.io/r/base/library.html">library(Rcmdr)</a></code></del>, use this code <strong>exactly once</strong>:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/pkg/Rcmdr/man/Commander.html">Commander</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/pkg/Rcmdr/man/Commander.html">Commander</a></span>()</a></code></pre></div>
 </div>
 <div id="important" class="section level1">
 <h1 class="hasAnchor">
@@ -267,16 +273,16 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 <ul>
 <li>
 <p>BioStat’19 (Autumn 2019):</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"GegznaV/RcmdrPlugin.biostat"</span>, <span class="dt">ref =</span> <span class="st">"biostat19r"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">remotes<span class="op">::</span><span class="kw"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"GegznaV/RcmdrPlugin.biostat"</span>, <span class="dt">ref =</span> <span class="st">"biostat19r"</span>)</a></code></pre></div>
 <p>(“r” – stands for “ruduo” in Lithuanian).</p>
 </li>
 <li>
 <p>BioStat’19 (Spring 2019):</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"GegznaV/RcmdrPlugin.biostat"</span>, <span class="dt">ref =</span> <span class="st">"biostat19"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">remotes<span class="op">::</span><span class="kw"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"GegznaV/RcmdrPlugin.biostat"</span>, <span class="dt">ref =</span> <span class="st">"biostat19"</span>)</a></code></pre></div>
 </li>
 <li>
 <p>BioStat’18 (2018):</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"GegznaV/RcmdrPlugin.biostat"</span>, <span class="dt">ref =</span> <span class="st">"biostat18"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">remotes<span class="op">::</span><span class="kw"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"GegznaV/RcmdrPlugin.biostat"</span>, <span class="dt">ref =</span> <span class="st">"biostat18"</span>)</a></code></pre></div>
 </li>
 </ul>
 <p><strong>NOTE:</strong> these versions are no longer maintained and may not work properly.</p>
@@ -315,11 +321,10 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://cran.r-project.org/package=RcmdrPlugin.biostat"><embed src="https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat"></embed></a></li>
-<li><a href="https://github.com/GegznaV/RcmdrPlugin.biostat"><img src="https://img.shields.io/badge/GitHub-v0.0.61-brightgreen.svg" alt="GitHub version"></a></li>
 <li><a href="https://ci.appveyor.com/project/GegznaV/rcmdrplugin-biostat/branch/master"><img src="https://ci.appveyor.com/api/projects/status/hm4h2rjb8ayr2df1/branch/master?svg=true" alt="AppVeyor build status"></a></li>
 <li><a href="https://travis-ci.com/GegznaV/RcmdrPlugin.biostat"><img src="https://travis-ci.com/GegznaV/RcmdrPlugin.biostat.png?branch=master" alt="Travis-CI Build Status"></a></li>
 <li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></li>
-<li><a href=""><img src="https://img.shields.io/badge/Documentation-2020--02--13-yellowgreen.svg" alt="Documentation"></a></li>
+<li><a href=""><img src="https://img.shields.io/badge/Documentation-2020--02--19-yellowgreen.svg" alt="Documentation"></a></li>
 </ul>
 </div>
 </div>
