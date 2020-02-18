@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-<!-- [![GitHub version](https://img.shields.io/badge/GitHub-v0.0.62-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat) -->
+<!-- [![GitHub version](https://img.shields.io/badge/GitHub-v0.0.63-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat) -->
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.r-project.org/package=RcmdrPlugin.biostat)
@@ -213,29 +213,17 @@ only](#notes-for-mac-users-only)”.
 
 <!-- <br> -->
 
-3.  When **RcmdrPlugin.biostat** is loaded, you can access its
-    functionality through `BioStat'20` menu in the menu bar:
-    
-    <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/03--biostat-plugin-loaded.png" style="display: block; margin: auto;" />
+When **RcmdrPlugin.biostat** is loaded, you can access its functionality
+through `BioStat'20` menu in the menu bar:
+
+<img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/03--biostat-plugin-loaded.png" style="display: block; margin: auto;" />
 
 ### Turn on *BioStat* (green) mode
 
-A more convenient way to use the plug-in is to turn on the *BioStat*
-mode. This mode uses the green icon instead of the blue one.
+If you restarted R Commander and “BioStat” menu is present, you may
+re-enable *BioStat* mode:
 
 <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/04--activate-biostat-mode.png" style="display: block; margin: auto;" />
-
-<br>
-
-### Button bar in *BioStat* (green) mode
-
-In this mode, additional buttons, which enable access to the most common
-functions, are added below the menu bar:
-
-<img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/05--buttons-in-biostat-mode.png" style="display: block; margin: auto;" />
-
-**NOTE:** If an active dataset is not selected, some buttons are shaded
-in gray and are inactive.
 
 <br>
 
@@ -267,6 +255,20 @@ For *Mac* users, there at least 2 things to pay attention to:
     mean some non-English letters. Because of this, it is recommended to
     choose an appropriate language (usually English) before opening
     *R*/*RStudio*.
+
+-----
+
+## Button bar in *BioStat* (green) mode
+
+In this mode, additional buttons, which enable access to the most common
+functions, are added below the menu bar:
+
+<img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/05--buttons-in-biostat-mode.png" style="display: block; margin: auto;" />
+
+**NOTE:** If an active dataset is not selected, some buttons are shaded
+in gray and are inactive.
+
+<br>
 
 -----
 

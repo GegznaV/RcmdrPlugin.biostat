@@ -197,21 +197,19 @@ load_rcmdr_biostat_mode()
 
 <!-- <br> -->
 
-3. When **RcmdrPlugin.biostat** is loaded, you can access its functionality through `BioStat'20` menu in the menu bar:
+When **RcmdrPlugin.biostat** is loaded, you can access its functionality through `BioStat'20` menu in the menu bar:
 
-    ```{r, echo=FALSE, fig.cap=CAPTION}
-    knitr::include_graphics(paste0(fig_dir, "03--biostat-plugin-loaded.png")) 
-    
-    CAPTION = "" # Figure caption/description.
-    ```
+```{r, echo=FALSE, fig.cap=CAPTION}
+knitr::include_graphics(paste0(fig_dir, "03--biostat-plugin-loaded.png")) 
+
+CAPTION = "" # Figure caption/description.
+```
 
 
 
 ### Turn on *BioStat* (green) mode {#turn-on-biostat-mode}
 
-A more convenient way to use the plug-in is to turn on the *BioStat* mode.
-This mode uses the green icon instead of the blue one.
-
+If you restarted R Commander and "BioStat" menu is present, you may re-enable *BioStat* mode:
 
 ```{r, echo=FALSE, fig.cap=CAPTION}
 knitr::include_graphics(paste0(fig_dir, "04--activate-biostat-mode.png")) 
@@ -221,20 +219,6 @@ CAPTION = "" # Figure caption/description.
 
 <br>
 
-
-### Button bar in *BioStat* (green) mode {#button-bar-in-biostat-mode}
-
-In this mode, additional buttons, which enable access to the most common functions, are added below the menu bar:
-
-```{r, echo=FALSE, fig.cap=CAPTION}
-knitr::include_graphics(paste0(fig_dir, "05--buttons-in-biostat-mode.png")) 
-
-CAPTION = "" # Figure caption/description.
-```
-
-**NOTE:** If an active dataset is not selected, some buttons are shaded in gray and are inactive.
-
-<br>
 
 ### Close *BioStat* mode {#close-biostat-mode}
 
@@ -260,6 +244,23 @@ More information on ["Installing R Commander for *Mac* users"](https://murraysta
 2) Some *Mac* users also report that it is impossible to switch between languages while *R Commander* is running.
 This means, that some users might not use numbers if in the chosen language the same keys mean some non-English letters. 
 Because of this, it is recommended to choose an appropriate language (usually English) before opening *R*/*RStudio*.
+
+
+***
+
+## Button bar in *BioStat* (green) mode {#button-bar-in-biostat-mode}
+
+In this mode, additional buttons, which enable access to the most common functions, are added below the menu bar:
+
+```{r, echo=FALSE, fig.cap=CAPTION}
+knitr::include_graphics(paste0(fig_dir, "05--buttons-in-biostat-mode.png")) 
+
+CAPTION = "" # Figure caption/description.
+```
+
+**NOTE:** If an active dataset is not selected, some buttons are shaded in gray and are inactive.
+
+<br>
 
 
 ***
