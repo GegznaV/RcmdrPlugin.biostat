@@ -82,68 +82,7 @@ biostat_env$use_relative_path <- TRUE
   # bs_add_tcl_path("etc/tcl-tk/scrollutil1.3")
   # bs_add_tcl_path("etc/tcl-tk/tablelist6.8")
   # bs_add_tcl_path("etc/tcl-tk/mentry3.10")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  # Options ------------------------------------------------------------------
-  # Current options
-  Rcmdr_opts <- options()$Rcmdr
-
-  # If empty, convert to named list
-  if (is.null(Rcmdr_opts)) {
-    Rcmdr_opts <- list(plugins = NULL)
-  }
-
-  # Plugins to add
-  add_plugins <- "RcmdrPlugin.biostat"
-
-  # Add plugins in certain order
-  plugins <- c(
-    setdiff(Rcmdr_opts$plugins, add_plugins),
-    rev(sort(add_plugins))
-  )
-
-  # Open 3-window Rcmdr, if options is not defined
-  if (is.null(Rcmdr_opts$console.output)) {
-    console.output <- FALSE
-
-  } else {
-    console.output <- Rcmdr_opts$console.output
-  }
-
-  # Use (un)sorted vector of variable names
-  if (is.null(Rcmdr_opts$sort.names)) {
-    sort.names <- FALSE
-
-  } else {
-    sort.names <- Rcmdr_opts$sort.names
-  }
-
-  updated_opts <-
-    utils::modifyList(
-      Rcmdr_opts,
-      list(
-        plugins = plugins,
-        sort.names = sort.names,
-        # fun_mod_commander = RcmdrPlugin.biostat::set_biostat_mode,
-        console.output = console.output
-      )
-    )
-
-  if (!identical(Rcmdr_opts, updated_opts)) {
-    # Set new options and restart R Commander
-    options(Rcmdr = updated_opts)
-
-    # if (!"package:Rcmdr" %in% search()) {
-    #     Rcmdr::Commander()
-    #
-    # } else {
-    #     if (!isTRUE(Rcmdr::getRcmdr("autoRestart", fail = FALSE))) {
-    #         Rcmdr::closeCommander(ask = FALSE, ask.save = TRUE)
-    #         Rcmdr::Commander()
-    #     }
-    # }
-  }
-
+  #
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Create icons -------------------------------------------------------------
 
@@ -331,7 +270,95 @@ biostat_env$use_relative_path <- TRUE
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.onAttach <- function(libname, pkgname) {
+  if (!interactive()) {
+    return()
+  }
 
+  # Options ------------------------------------------------------------------
+  # Current options
+  Rcmdr_opts <- getOption("Rcmdr")
+
+  # If empty, convert to named list
+  if (is.null(Rcmdr_opts)) {
+    Rcmdr_opts <- list(plugins = NULL)
+  }
+
+  # Plugins to add
+  recommended <- c("RcmdrPlugin.KMggplot2", "RcmdrPlugin.biostat")
+
+  add_plugins <- recommended[recommended %in% .packages(all.available = TRUE)]
+
+  # Add plugins in certain order
+  plugins <- c(
+    setdiff(Rcmdr_opts$plugins, add_plugins),
+    rev(sort(add_plugins))
+  )
+
+  # Open 3-window Rcmdr, if options is not defined
+  if (is.null(Rcmdr_opts$console.output)) {
+    console.output <- FALSE
+
+  } else {
+    console.output <- Rcmdr_opts$console.output
+  }
+
+  # Use (un)sorted vector of variable names
+  if (is.null(Rcmdr_opts$sort.names)) {
+    sort.names <- FALSE
+
+  } else {
+    sort.names <- Rcmdr_opts$sort.names
+  }
+
+  # For Mac
+  if (MacOSXP() && is.null(Rcmdr_opts$suppress.X11.warnings)) {
+    suppress.X11.warnings <- TRUE
+
+  } else {
+    suppress.X11.warnings <- Rcmdr_opts$suppress.X11.warnings
+  }
+
+  updated_opts <-
+    utils::modifyList(
+      Rcmdr_opts,
+      list(
+        plugins = plugins,
+        sort.names = sort.names,
+        # fun_mod_commander = RcmdrPlugin.biostat::set_biostat_mode,
+        console.output = console.output,
+        suppress.X11.warnings = suppress.X11.warnings
+      )
+    )
+
+  if (!identical(Rcmdr_opts, updated_opts)) {
+    # Set new options and restart R Commander
+    options(Rcmdr = updated_opts)
+
+    cmd <- paste(capture.output(dput(updated_opts)), collapse = "")
+    cmd <-  sub("list(", "list(\n", cmd, fixed = TRUE)
+    cmd <- gsub(", ", ",\n", cmd, fixed = TRUE)
+    packageStartupMessage(
+      "\n\n==================================================================\n",
+      "R Commander options were changed to: \n",
+      "------------------------------------------------------------------\n",
+      style_cmd(cmd),
+      "\n------------------------------------------------------------------\n",
+      "To take effect, the Commander should be RESTARTED.\n",
+      "To get more information on R Commander options, run code:",
+      "\n------------------------------------------------------------------\n",
+      'help("Commander", package = "Rcmdr")',
+      "\n==================================================================\n\n"
+    )
+
+    # if (is_commander_open()) {
+    #   if (!isTRUE(Rcmdr::getRcmdr("autoRestart", fail = FALSE))) {
+    #     restart_commander()
+    #   }
+    # }
+  }
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Create icons
 bs_tkimage_create <- function(name, file, package = "RcmdrPlugin.biostat") {
   tcltk::tkimage.create(
@@ -364,16 +391,16 @@ state.tk2widget <- function(x, ...) {
 
 print.tk2widget <- function(x, ...) {
 
-    if (disabled(x)) {txt <- " (disabled)"} else {txt <- ""}
-    cat("A tk2widget of class '", class(x)[1], "'", txt, "\n", sep = "")
-    cat("State: ", state(x), "\n", sep = "")
-    cursize <- size(x)
-    if (cursize > 0) {cat("Size: ", cursize, "\n", sep = "")}
-    val <- value(x)
-    if (!is.null(val)) {
-        cat("Value:\n")
-        print(value(x))
-    }
-    return(invisible(x))
+  if (disabled(x)) {txt <- " (disabled)"} else {txt <- ""}
+  cat("A tk2widget of class '", class(x)[1], "'", txt, "\n", sep = "")
+  cat("State: ", state(x), "\n", sep = "")
+  cursize <- size(x)
+  if (cursize > 0) {cat("Size: ", cursize, "\n", sep = "")}
+  val <- value(x)
+  if (!is.null(val)) {
+    cat("Value:\n")
+    print(value(x))
+  }
+  return(invisible(x))
 }
 # ============================================================================
