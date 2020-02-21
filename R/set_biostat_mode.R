@@ -56,7 +56,7 @@ get_use_relative_path <- function() {
 #' }}
 load_rcmdr_biostat_mode <- function() {
   op <- Rcmdr::getRcmdr("ask.to.exit")
-  Rcmdr:::putRcmdr("ask.to.exit", FALSE)
+  Rcmdr::putRcmdr("ask.to.exit", FALSE)
   restart_commander()
   Rcmdr::putRcmdr("ask.to.exit", op)
 
