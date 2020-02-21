@@ -1817,15 +1817,15 @@ rcmdr_restart_commander <- function() {
 
   if (is_commander_open()) {
 
-    if (packageVersion("Rcmdr") >= "2.7") {
-      Rcmdr:::restartCommander()
-
-    } else {
+    # if (packageVersion("Rcmdr") >= "2.7") {
+    #   Rcmdr:::restartCommander()
+    #
+    # } else {
       ans <- command_rcmdr_close()
       if (ans != "cancel") {
         Rcmdr::Commander()
       }
-    }
+    # }
 
   } else {
 
