@@ -76,12 +76,12 @@ if (!require("remotes"))  install.packages("remotes")
 # Install RcmdrPlugin.biostat
 remotes::install_github(
   "GegznaV/RcmdrPlugin.biostat", 
-  dependencies = TRUE, upgrade = FALSE
+  dependencies = TRUE, upgrade = TRUE
 )
 ```
 
 In case you face installation issues, follow the instructions in the error message.
-You may also try removing `upgrade = FALSE`{.r} and manually choose the packages to update.
+You may also try removing `upgrade = TRUE`{.r} and manually choose the packages to update.
 It is always recommended to restart *R* session before the next installation too.
 
 
@@ -95,8 +95,10 @@ To get the most recent version of **RcmdrPlugin.biostat** and to check if all it
 
 ```{r eval=FALSE}
 # remotes::install_github("mokymai/bio")
-bio::update_pkg_rcmdr_biostat(upgrade = FALSE)
+bio::update_pkg_rcmdr_biostat(upgrade = TRUE)
 ```
+
+Again, if installation errors occur, you may use `upgrade = "ask"`{.r} and manually choose the packages to update.
 
 ### Previous versions
 
