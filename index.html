@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">RcmdrPlugin.biostat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.63</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.64</span>
       </span>
     </div>
 
@@ -76,7 +76,7 @@
   <div class="contents col-md-9">
 
 <hr>
-<!-- badges: start --><!-- [![GitHub version](https://img.shields.io/badge/GitHub-v0.0.63-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat) -->
+<!-- badges: start -->
 <hr>
 <p><img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/logo.png" width="30%" height="30%" style="display: block; margin: auto;"></p>
 <!-- 
@@ -109,9 +109,9 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 <a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co"># Install RcmdrPlugin.biostat</span></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8">remotes<span class="op">::</span><span class="kw"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(</a>
 <a class="sourceLine" id="cb1-9" data-line-number="9">  <span class="st">"GegznaV/RcmdrPlugin.biostat"</span>, </a>
-<a class="sourceLine" id="cb1-10" data-line-number="10">  <span class="dt">dependencies =</span> <span class="ot">TRUE</span>, <span class="dt">upgrade =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">  <span class="dt">dependencies =</span> <span class="ot">TRUE</span>, <span class="dt">upgrade =</span> <span class="ot">TRUE</span></a>
 <a class="sourceLine" id="cb1-11" data-line-number="11">)</a></code></pre></div>
-<p>In case you face installation issues, follow the instructions in the error message. You may also try removing <code>upgrade = FALSE</code> and manually choose the packages to update. It is always recommended to restart <em>R</em> session before the next installation too.</p>
+<p>In case you face installation issues, follow the instructions in the error message. You may also try removing <code>upgrade = TRUE</code> and manually choose the packages to update. It is always recommended to restart <em>R</em> session before the next installation too.</p>
 <blockquote>
 <p><strong>NOTE:</strong> the most common installation issue is related to <em>R</em> package <strong>rlang</strong>. Usually, you have to delete the indicated “<em>00LOCK</em>” directory (you may use <a href="https://trinker.github.io/pacman/p_unlock.html"><code>pacman::p_unlock()</code></a>, if you have package <a href="https://trinker.github.io/pacman"><strong>pacman</strong></a> installed, or delete the directory manually), restart the current <em>R</em> session and try to install again.</p>
 </blockquote>
@@ -121,7 +121,8 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 <a href="#check-for-updates" class="anchor"></a>Check for updates</h3>
 <p>To get the most recent version of <strong>RcmdrPlugin.biostat</strong> and to check if all its dependencies (other packages) are installed, use package <a href="https://mokymai.github.io/bio/"><strong>bio</strong></a>:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># remotes::install_github("mokymai/bio")</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">bio<span class="op">::</span><span class="kw">update_pkg_rcmdr_biostat</span>(<span class="dt">upgrade =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb2-2" data-line-number="2">bio<span class="op">::</span><span class="kw">update_pkg_rcmdr_biostat</span>(<span class="dt">upgrade =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p>Again, if installation errors occur, you may use <code>upgrade = "ask"</code> and manually choose the packages to update.</p>
 </div>
 <div id="previous-versions" class="section level3">
 <h3 class="hasAnchor">
@@ -317,11 +318,12 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
+<li><a href="https://github.com/GegznaV/RcmdrPlugin.biostat"><img src="https://img.shields.io/badge/GitHub-v0.0.64-brightgreen.svg" alt="GitHub version"></a></li>
 <li><a href="https://cran.r-project.org/package=RcmdrPlugin.biostat"><embed src="https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat"></embed></a></li>
 <li><a href="https://ci.appveyor.com/project/GegznaV/rcmdrplugin-biostat/branch/master"><img src="https://ci.appveyor.com/api/projects/status/hm4h2rjb8ayr2df1/branch/master?svg=true" alt="AppVeyor build status"></a></li>
 <li><a href="https://travis-ci.com/GegznaV/RcmdrPlugin.biostat"><img src="https://travis-ci.com/GegznaV/RcmdrPlugin.biostat.png?branch=master" alt="Travis-CI Build Status"></a></li>
 <li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></li>
-<li><a href=""><img src="https://img.shields.io/badge/Documentation-2020--02--19-yellowgreen.svg" alt="Documentation"></a></li>
+<li><a href=""><img src="https://img.shields.io/badge/Documentation-2020--02--21-yellowgreen.svg" alt="Documentation"></a></li>
 </ul>
 </div>
 </div>
