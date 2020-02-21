@@ -783,43 +783,43 @@ bs_mode_menu__export <- function() {
     image    = "::image::bs_r_lgreen",
     command  = to_r_structure)
 
-  # menu_md <- tk2menu(menu_e, tearoff = FALSE)
-  #
-  # tkadd(menu_to_console, "cascade",
-  #   label    = "Print as Markdown table ",
-  #   compound = "left",
-  #   image    = "::image::bs_md",
-  #   menu     = menu_md)
-  #
-  # tkadd(menu_md, "command",
-  #   label = "Engine: kable",
-  #   command = window_dataset_print_as_kable)
-  #
-  # tkadd(menu_md, "command",
-  #   label = "Engine: pander",
-  #   command = window_dataset_print_as_md)
-  #
-  # # tkadd(menu_e, "separator")
-  # # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # menu_ds <- tk2menu(menu_e, tearoff = FALSE)
-  #
-  # tkadd(menu_to_console, "cascade",
-  #   label    = "Print as dataset",
-  #   compound = "left",
-  #   image    = "::image::bs_print_as_df",
-  #   menu     = menu_ds)
-  #
-  # tkadd(menu_ds, "command",
-  #   label   = "as 'data.frame'",
-  #   command = command_dataset_print_as_df)
-  #
-  # tkadd(menu_ds, "command",
-  #   label   = "as 'data.table'",
-  #   command = command_dataset_print_as_dt)
-  #
-  # tkadd(menu_ds, "command",
-  #   label   = "as 'tibble'",
-  #   command = command_dataset_print_as_tibble)
+  menu_md <- tk2menu(menu_e, tearoff = FALSE)
+
+  tkadd(menu_to_console, "cascade",
+    label    = "Print as Markdown table ",
+    compound = "left",
+    image    = "::image::bs_md",
+    menu     = menu_md)
+
+  tkadd(menu_md, "command",
+    label = "Engine: kable",
+    command = window_dataset_print_as_kable)
+
+  tkadd(menu_md, "command",
+    label = "Engine: pander",
+    command = window_dataset_print_as_md)
+
+  # tkadd(menu_e, "separator")
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  menu_ds <- tk2menu(menu_e, tearoff = FALSE)
+
+  tkadd(menu_to_console, "cascade",
+    label    = "Print as dataset",
+    compound = "left",
+    image    = "::image::bs_print_as_df",
+    menu     = menu_ds)
+
+  tkadd(menu_ds, "command",
+    label   = "as 'data.frame'",
+    command = command_dataset_print_as_df)
+
+  tkadd(menu_ds, "command",
+    label   = "as 'data.table'",
+    command = command_dataset_print_as_dt)
+
+  tkadd(menu_ds, "command",
+    label   = "as 'tibble'",
+    command = command_dataset_print_as_tibble)
 
 
 
@@ -907,64 +907,64 @@ bs_mode_menu__print <- function() {
     image    = "::image::bs_rows_top_bot",
     command = summary_head_tail)
 
-  tkadd(menu_p, "separator")
-
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # menu_to_console <- tk2menu(menu_p, tearoff = FALSE)
-  #
-  # tkadd(menu_p, "cascade",
-  #   label    = "Print to R console",
-  #   compound = "left",
-  #   image    = "::image::bs_r_lgreen",
-  #   menu     = menu_to_console)
-  #
-  menu_to_console <- menu_p
-
-  # tkadd(menu_to_console, "command",
-  #   label    = "Print as R structure",
-  #   compound = "left",
-  #   image    = "::image::bs_r_lgreen",
-  #   command  = to_r_structure)
-
-  menu_md <- tk2menu(menu_p, tearoff = FALSE)
-
-  tkadd(menu_to_console, "cascade",
-    label    = "Print as Markdown table ",
-    compound = "left",
-    image    = "::image::bs_md",
-    menu     = menu_md)
-
-  tkadd(menu_md, "command",
-    label = "Engine: kable",
-    command = window_dataset_print_as_kable)
-
-  tkadd(menu_md, "command",
-    label = "Engine: pander",
-    command = window_dataset_print_as_md)
-
   # tkadd(menu_p, "separator")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  menu_ds <- tk2menu(menu_p, tearoff = FALSE)
-
-  tkadd(menu_to_console, "cascade",
-    label    = "Print as dataset",
-    compound = "left",
-    image    = "::image::bs_print_as_df",
-    menu     = menu_ds)
-
-  tkadd(menu_ds, "command",
-    label   = "as 'data.frame'",
-    command = command_dataset_print_as_df)
-
-  tkadd(menu_ds, "command",
-    label   = "as 'data.table'",
-    command = command_dataset_print_as_dt)
-
-  tkadd(menu_ds, "command",
-    label   = "as 'tibble'",
-    command = command_dataset_print_as_tibble)
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # tkadd(menu_p, "separator")
+  #
+  # # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # # menu_to_console <- tk2menu(menu_p, tearoff = FALSE)
+  # #
+  # # tkadd(menu_p, "cascade",
+  # #   label    = "Print to R console",
+  # #   compound = "left",
+  # #   image    = "::image::bs_r_lgreen",
+  # #   menu     = menu_to_console)
+  # #
+  # menu_to_console <- menu_p
+  #
+  # # tkadd(menu_to_console, "command",
+  # #   label    = "Print as R structure",
+  # #   compound = "left",
+  # #   image    = "::image::bs_r_lgreen",
+  # #   command  = to_r_structure)
+  #
+  # menu_md <- tk2menu(menu_p, tearoff = FALSE)
+  #
+  # tkadd(menu_to_console, "cascade",
+  #   label    = "Print as Markdown table ",
+  #   compound = "left",
+  #   image    = "::image::bs_md",
+  #   menu     = menu_md)
+  #
+  # tkadd(menu_md, "command",
+  #   label = "Engine: kable",
+  #   command = window_dataset_print_as_kable)
+  #
+  # tkadd(menu_md, "command",
+  #   label = "Engine: pander",
+  #   command = window_dataset_print_as_md)
+  #
+  # # tkadd(menu_p, "separator")
+  # # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # menu_ds <- tk2menu(menu_p, tearoff = FALSE)
+  #
+  # tkadd(menu_to_console, "cascade",
+  #   label    = "Print as dataset",
+  #   compound = "left",
+  #   image    = "::image::bs_print_as_df",
+  #   menu     = menu_ds)
+  #
+  # tkadd(menu_ds, "command",
+  #   label   = "as 'data.frame'",
+  #   command = command_dataset_print_as_df)
+  #
+  # tkadd(menu_ds, "command",
+  #   label   = "as 'data.table'",
+  #   command = command_dataset_print_as_dt)
+  #
+  # tkadd(menu_ds, "command",
+  #   label   = "as 'tibble'",
+  #   command = command_dataset_print_as_tibble)
+  # # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # # tkadd(menu_p, "separator")
 
   tkpopup(menu_p,
     tkwinfo("pointerx", top),
@@ -1703,16 +1703,16 @@ bs_mode_menu__settings <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   tkadd(menu_session, "command",
-    label    = "Print session information: base R style",
-    compound = "left",
-    image    = "::image::bs_ses_info_br",
-    command  = command_session_info_utils)
-
-  tkadd(menu_session, "command",
     label    = "Print session information: devtools style",
     compound = "left",
     image    = "::image::bs_ses_info_g",
     command  = command_session_info_devtools)
+
+  tkadd(menu_session, "command",
+    label    = "Print session information: base R style",
+    compound = "left",
+    image    = "::image::bs_ses_info_br",
+    command  = command_session_info_utils)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_session, "separator")
@@ -1784,7 +1784,7 @@ bs_mode_menu__settings <- function() {
     menu     = menu_ab)
 
   tkadd(menu_ab, "command",
-    label    = "About BioStat'19...",
+    label    = "About BioStat...",
     compound = "left",
     image    = "::image::bs_about",
     command  = window_about_biostat_version)
@@ -1801,13 +1801,13 @@ bs_mode_menu__settings <- function() {
     image    = "::image::bs_bug",
     command  = window_online_bug_report)
 
-  tkadd(menu_ab, "separator")
-
-  tkadd(menu_ab, "command",
-    label    = "Check recommended packages for BioStat",
-    compound = "left",
-    image    = "::image::bs_chk_pkgs",
-    command  = command_chk_packages_biostat)
+  # tkadd(menu_ab, "separator")
+  #
+  # tkadd(menu_ab, "command",
+  #   label    = "Check recommended packages for BioStat",
+  #   compound = "left",
+  #   image    = "::image::bs_chk_pkgs",
+  #   command  = command_chk_packages_biostat)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkpopup(menu_p,
