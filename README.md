@@ -5,8 +5,8 @@
 
 <!-- badges: start -->
 
-<!-- [![GitHub version](https://img.shields.io/badge/GitHub-v0.0.63-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat) -->
-
+[![GitHub
+version](https://img.shields.io/badge/GitHub-v0.0.64-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.r-project.org/package=RcmdrPlugin.biostat)
 [![AppVeyor build
@@ -14,7 +14,7 @@ status](https://ci.appveyor.com/api/projects/status/hm4h2rjb8ayr2df1/branch/mast
 [![Travis-CI Build
 Status](https://travis-ci.com/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.com/GegznaV/RcmdrPlugin.biostat)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Documentation](https://img.shields.io/badge/Documentation-2020--02--19-yellowgreen.svg)]()
+[![Documentation](https://img.shields.io/badge/Documentation-2020--02--21-yellowgreen.svg)]()
 <!-- badges: end -->
 
 -----
@@ -64,12 +64,12 @@ if (!require("remotes"))  install.packages("remotes")
 # Install RcmdrPlugin.biostat
 remotes::install_github(
   "GegznaV/RcmdrPlugin.biostat", 
-  dependencies = TRUE, upgrade = FALSE
+  dependencies = TRUE, upgrade = TRUE
 )
 ```
 
 In case you face installation issues, follow the instructions in the
-error message. You may also try removing `upgrade = FALSE` and manually
+error message. You may also try removing `upgrade = TRUE` and manually
 choose the packages to update. It is always recommended to restart *R*
 session before the next installation too.
 
@@ -89,8 +89,11 @@ if all its dependencies (other packages) are installed, use package
 
 ``` r
 # remotes::install_github("mokymai/bio")
-bio::update_pkg_rcmdr_biostat(upgrade = FALSE)
+bio::update_pkg_rcmdr_biostat(upgrade = TRUE)
 ```
+
+Again, if installation errors occur, you may use `upgrade = "ask"` and
+manually choose the packages to update.
 
 ### Previous versions
 
