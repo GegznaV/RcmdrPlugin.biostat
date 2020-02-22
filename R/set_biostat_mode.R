@@ -1164,7 +1164,7 @@ bs_mode_menu__variables <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_p, "command",
-    label    = "Select/Remove variables...",
+    label    = "Select/Reorder/Remove variables...",
     compound = "left",
     image    = "::image::bs_cols_select",
     command  = window_variable_select0)
