@@ -1898,10 +1898,10 @@ bs_mode_menu__datasets <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   tkadd(menu_p, "command",
-    label    = "Bind rows of several datasets...",
+    label    = "Join two datasets by matching row ID...",
     compound = "left",
-    image    = "::image::bs_bind_rows",
-    command  = window_dataset_bind_rows)
+    image    = "::image::bs_join",
+    command  = window_dataset_join)
 
   tkadd(menu_p, "command",
     label    = "Bind columns of several datasets...",
@@ -1910,10 +1910,10 @@ bs_mode_menu__datasets <- function() {
     command  = window_dataset_bind_cols)
 
   tkadd(menu_p, "command",
-    label    = "Join two datasets by matching row ID...",
+    label    = "Bind rows of several datasets...",
     compound = "left",
-    image    = "::image::bs_join",
-    command  = window_dataset_join)
+    image    = "::image::bs_bind_rows",
+    command  = window_dataset_bind_rows)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
