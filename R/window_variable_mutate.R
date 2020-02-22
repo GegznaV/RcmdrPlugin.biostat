@@ -233,7 +233,7 @@ window_variable_mutate <- function() {
 
   tip(f2_entry_expr$obj_text) <- str_c(
     sep = "\n",
-    "Common operations: ",
+    "Standard operations: ",
     "+   -   *   /   ^   sqrt()    log()   abs()",
     "",
     "Examples: ",
