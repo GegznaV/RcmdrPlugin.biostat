@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">RcmdrPlugin.biostat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.64</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.65</span>
       </span>
     </div>
 
@@ -122,7 +122,7 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 <p>To get the most recent version of <strong>RcmdrPlugin.biostat</strong> and to check if all its dependencies (other packages) are installed, use package <a href="https://mokymai.github.io/bio/"><strong>bio</strong></a>:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># remotes::install_github("mokymai/bio")</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">bio<span class="op">::</span><span class="kw">update_pkg_rcmdr_biostat</span>(<span class="dt">upgrade =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<p>Again, if installation errors occur, you may use <code>upgrade = "ask"</code> and manually choose the packages to update.</p>
+<p>Again, if installation errors occur, you may use <code>upgrade = "ask"</code> and manually choose the packages to update, or <code>upgrade = FALSE</code>.</p>
 </div>
 <div id="previous-versions" class="section level3">
 <h3 class="hasAnchor">
@@ -193,7 +193,7 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 <div id="turn-on-biostat-green-mode" class="section level3">
 <h3 class="hasAnchor">
 <a href="#turn-on-biostat-green-mode" class="anchor"></a>Turn on <em>BioStat</em> (green) mode</h3>
-<p>If you restarted R Commander and “BioStat” menu is present, you may re-enable <em>BioStat</em> mode:</p>
+<p>If you restarted R Commander and “BioStat” menu is present but button bar is missing, you may re-enable <em>BioStat</em> mode by selecting option “Mode: BioStat”:</p>
 <p><img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/04--activate-biostat-mode.png" style="display: block; margin: auto;"></p>
 <p><br></p>
 </div>
@@ -318,12 +318,12 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/GegznaV/RcmdrPlugin.biostat"><img src="https://img.shields.io/badge/GitHub-v0.0.64-brightgreen.svg" alt="GitHub version"></a></li>
 <li><a href="https://cran.r-project.org/package=RcmdrPlugin.biostat"><embed src="https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat"></embed></a></li>
+<li><a href="https://github.com/GegznaV/RcmdrPlugin.biostat"><img src="https://img.shields.io/badge/GitHub-v0.0.65-brightgreen.svg" alt="GitHub version"></a></li>
 <li><a href="https://ci.appveyor.com/project/GegznaV/rcmdrplugin-biostat/branch/master"><img src="https://ci.appveyor.com/api/projects/status/hm4h2rjb8ayr2df1/branch/master?svg=true" alt="AppVeyor build status"></a></li>
 <li><a href="https://travis-ci.com/GegznaV/RcmdrPlugin.biostat"><img src="https://travis-ci.com/GegznaV/RcmdrPlugin.biostat.png?branch=master" alt="Travis-CI Build Status"></a></li>
 <li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></li>
-<li><a href=""><img src="https://img.shields.io/badge/Documentation-2020--02--21-yellowgreen.svg" alt="Documentation"></a></li>
+<li><a href=""><img src="https://img.shields.io/badge/Documentation-2020--02--23-yellowgreen.svg" alt="Documentation"></a></li>
 </ul>
 </div>
 </div>
