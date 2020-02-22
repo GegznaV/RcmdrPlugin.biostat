@@ -204,6 +204,7 @@ biostat_env$use_relative_path <- TRUE
   bs_tkimage_create("::image::bs_rows_filter","icons/16/bs_rows_filter.png")
   bs_tkimage_create("::image::bs_rows_slice", "icons/16/bs_rows_slice.png")
   bs_tkimage_create("::image::bs_rows_top_bot","icons/16/bs_rows_top_bottom.png")
+  bs_tkimage_create("::image::bs_rows_duplicates","icons/16/bs_rows_duplicates.png")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   bs_tkimage_create("::image::bs_columns"  ,    "icons/16/bs_cols.png")
   bs_tkimage_create("::image::bs_cols_names",   "icons/16/bs_cols_names.png")
@@ -247,10 +248,10 @@ biostat_env$use_relative_path <- TRUE
   bs_tkimage_create("::image::bs_load_pkg"  , "icons/16/edit-redo-7.png")
   bs_tkimage_create("::image::bs_load_pkg_c", "icons/16/edit-redo-7-c.png")
 
-  bs_tkimage_create("::image::bs_restart",    "icons/16/system-reboot-2.png")
-  bs_tkimage_create("::image::bs_restart_r",  "icons/16/system-log-out-2.png")
-  bs_tkimage_create("::image::bs_close_rcmdr","icons/16/system-log-out-4v.png")
-  bs_tkimage_create("::image::bs_close_r",    "icons/16/system-shutdown-6.png")
+  bs_tkimage_create("::image::bs_restart",    "icons/16/refresh-g.png")
+  bs_tkimage_create("::image::bs_restart_r",  "icons/16/refresh-rr.png")
+  bs_tkimage_create("::image::bs_close_rcmdr","icons/16/system-shutdown-6g.png")
+  bs_tkimage_create("::image::bs_close_r",    "icons/16/system-shutdown-6r.png")
 
   bs_tkimage_create("::image::bs_workspace",  "icons/16/bs-documents-ws.png")
   bs_tkimage_create("::image::bs_open_wd",    "icons/16/bs_folder_open.png")

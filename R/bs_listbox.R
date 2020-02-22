@@ -323,12 +323,15 @@ bs_listbox <-
 
       options <- bs_checkboxes(
         parent = frame,
-        boxes  = c("case"  = "Match case",
+        boxes  = c(
+          "case"  = "Match case",
           "regex" = "Regex"),
         values = c(0, 0),
         layout = "horizontal",
-        commands = list("case"  = cmd_update_list,
-          "regex" = cmd_update_list)
+        commands = list(
+          "case"  = cmd_update_list,
+          "regex" = cmd_update_list
+        )
       )
 
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -15,8 +15,8 @@ knitr::opts_chunk$set(
 ***
 
 <!-- badges: start -->
-[![GitHub version](https://img.shields.io/badge/GitHub-v`r packageVersion("RcmdrPlugin.biostat")`-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
 [![CRAN status](https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.r-project.org/package=RcmdrPlugin.biostat)
+[![GitHub version](https://img.shields.io/badge/GitHub-v`r packageVersion("RcmdrPlugin.biostat")`-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/hm4h2rjb8ayr2df1/branch/master?svg=true)](https://ci.appveyor.com/project/GegznaV/rcmdrplugin-biostat/branch/master)
 [![Travis-CI Build Status](https://travis-ci.com/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.com/GegznaV/RcmdrPlugin.biostat)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
@@ -98,7 +98,7 @@ To get the most recent version of **RcmdrPlugin.biostat** and to check if all it
 bio::update_pkg_rcmdr_biostat(upgrade = TRUE)
 ```
 
-Again, if installation errors occur, you may use `upgrade = "ask"`{.r} and manually choose the packages to update.
+Again, if installation errors occur, you may use `upgrade = "ask"`{.r} and manually choose the packages to update, or `upgrade = FALSE`.
 
 ### Previous versions
 
@@ -211,7 +211,7 @@ CAPTION = "" # Figure caption/description.
 
 ### Turn on *BioStat* (green) mode {#turn-on-biostat-mode}
 
-If you restarted R Commander and "BioStat" menu is present, you may re-enable *BioStat* mode:
+If you restarted R Commander and "BioStat" menu is present but button bar is missing, you may re-enable *BioStat* mode by selecting option "Mode: BioStat":
 
 ```{r, echo=FALSE, fig.cap=CAPTION}
 knitr::include_graphics(paste0(fig_dir, "04--activate-biostat-mode.png")) 

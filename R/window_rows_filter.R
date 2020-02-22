@@ -191,7 +191,7 @@ window_rows_filter <- function(new_dsname = NULL,
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid_text("\nExamples of logical conditions", fg = getRcmdr("title.color"))
-  tkgrid_text('Polular operations:   ==   !=   <   <=   >   >=    %in%   |   &   !   between()', fg = "darkgreen")
+  tkgrid_text('Standard operations:   ==   !=   <   <=   >   >=    %in%   |   &   !   between()', fg = "darkgreen")
   tkgrid_text("Example 1: age < 10")
   tkgrid_text('Example 2: color %in% c("red", "yellow")')
   tkgrid_text('Example 3: !is.na(color)')
