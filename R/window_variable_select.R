@@ -206,13 +206,15 @@ window_variable_select <- function(new_dsname = NULL, incorrect_cond_msg = NULL)
   everything_box <-
     bs_checkboxes(
       parent = middle_frame,
-      boxes  = c("everything" = "Include all columns after the selected ones"),
+      boxes  = c("everything" =
+          "Include all remaining columns (except explicitly removed ones)"),
       values = 0,
       layout = "horizontal",
       default_tip = paste0(
-        "Include all the remaining columns\n",
-        "after the selected ones. Used to \n",
-        "reorder columns.")
+        "Include all remaining columns\n",
+        "(except explicitly removed ones)\n",
+        "after the selected ones.  \n",
+        "Used to reorder columns.")
     )
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   lower_frame <- tkframe(top)
