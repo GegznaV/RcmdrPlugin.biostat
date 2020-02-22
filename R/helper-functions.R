@@ -2008,3 +2008,44 @@ print.tk2frame <- function(x, ...) {
   }
   return(invisible(x))
 }
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+rcmdr_read_window <- function(win) {
+  structure(get_values.tk2text(win), class = "glue")
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+rcmdr_read_log_window <- function() {
+  rcmdr_read_window(LogWindow())
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+rcmdr_read_rmd_window <- function() {
+  rcmdr_read_window(RmdWindow())
+}
+
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+rcmdr_read_rmd_window <- function() {
+  rcmdr_read_window(RmdWindow())
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+rcmdr_read_output_window <- function() {
+  rcmdr_read_window(OutputWindow())
+}
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
+rcmdr_read_messages_window <- function() {
+  rcmdr_read_window(MessagesWindow())
+}

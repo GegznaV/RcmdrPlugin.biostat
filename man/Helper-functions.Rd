@@ -93,6 +93,10 @@
 \alias{command_rcmdr_use_3_windows}
 \alias{command_rcmdr_set_output_mode}
 \alias{print.tk2frame}
+\alias{rcmdr_read_log_window}
+\alias{rcmdr_read_rmd_window}
+\alias{rcmdr_read_output_window}
+\alias{rcmdr_read_messages_window}
 \alias{is_biostat_mode}
 \alias{use_relative_path}
 \alias{use_absolute_path}
@@ -385,6 +389,16 @@ command_rcmdr_use_3_windows()
 command_rcmdr_set_output_mode(console.output = NULL)
 
 \method{print}{tk2frame}(x, ...)
+
+rcmdr_read_log_window()
+
+rcmdr_read_rmd_window()
+
+rcmdr_read_rmd_window()
+
+rcmdr_read_output_window()
+
+rcmdr_read_messages_window()
 
 is_biostat_mode()
 
