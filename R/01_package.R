@@ -204,6 +204,7 @@ biostat_env$use_relative_path <- TRUE
   bs_tkimage_create("::image::bs_rows_filter","icons/16/bs_rows_filter.png")
   bs_tkimage_create("::image::bs_rows_slice", "icons/16/bs_rows_slice.png")
   bs_tkimage_create("::image::bs_rows_top_bot","icons/16/bs_rows_top_bottom.png")
+  bs_tkimage_create("::image::bs_rows_duplicates","icons/16/bs_rows_duplicates.png")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   bs_tkimage_create("::image::bs_columns"  ,    "icons/16/bs_cols.png")
   bs_tkimage_create("::image::bs_cols_names",   "icons/16/bs_cols_names.png")
