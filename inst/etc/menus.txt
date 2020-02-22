@@ -88,9 +88,9 @@ item	bs20_var_names_menu	command	"Rename variables..."	window_variable_rename	"a
 
 
 menu	bs20_var_select_menu	bs20_varible_menu	""	""	""	""
-item	bs20_varible_menu	cascade	"Select/Remove variables"	bs20_var_select_menu	""	""
+item	bs20_varible_menu	cascade	"Select/Reorder/Remove variables"	bs20_var_select_menu	""	""
 
-item	bs20_var_select_menu	command	"Select/Remove variables..."	window_variable_select0	"activeDataSetP()"	"packageAvailable('dplyr')"
+item	bs20_var_select_menu	command	"Select/Reorder/Remove variables..."	window_variable_select0	"activeDataSetP()"	"packageAvailable('dplyr')"
 
 
 # item	bs20_varible_menu	separator	""	""	""	""
@@ -490,11 +490,11 @@ menu	bs20_about_menu	biostat20_menu	""	""	""	""
 item	biostat20_menu	cascade	"About"	bs20_about_menu	""	""
 
 # item	bs20_about_menu	command 'About package "RcmdrPlugin.biostat"'	window_about_package	""	""
-item	bs20_about_menu	command "About BioStat'20..."	window_about_biostat_version	""	""
+item	bs20_about_menu	command "About BioStat..."	window_about_biostat_version	""	""
 item	bs20_about_menu	command "Go to Homepage"	window_online_homepage	""	""
 item	bs20_about_menu	command "Feedback & bug reports"	window_online_bug_report	""	""
-item	bs20_about_menu	separator	""	""	""	""
-item	bs20_about_menu	command "Check recommended packages for BioStat"	command_chk_packages_biostat	""	""
+# item	bs20_about_menu	separator	""	""	""	""
+# item	bs20_about_menu	command "Check recommended packages for BioStat"	command_chk_packages_biostat	""	""
 
 # . ===========================================================================
 # ---- >>> Online menu -------------------------------------------------------
