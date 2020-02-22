@@ -1103,6 +1103,8 @@ bs_mode_menu__rows <- function() {
 
   tkadd(menu_rm, "command",
     label    = "Remove duplicated rows...",
+    compound = "left",
+    image    = "::image::bs_rows_duplicates",
     command  = window_rows_rm_duplicated)
 
   tkadd(menu_rm, "command",
@@ -1896,12 +1898,6 @@ bs_mode_menu__datasets <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   tkadd(menu_p, "command",
-    label    = "Join two datasets by matching row ID...",
-    compound = "left",
-    image    = "::image::bs_join",
-    command  = window_dataset_join)
-
-  tkadd(menu_p, "command",
     label    = "Bind rows of several datasets...",
     compound = "left",
     image    = "::image::bs_bind_rows",
@@ -1912,6 +1908,12 @@ bs_mode_menu__datasets <- function() {
     compound = "left",
     image    = "::image::bs_bind_cols",
     command  = window_dataset_bind_cols)
+
+  tkadd(menu_p, "command",
+    label    = "Join two datasets by matching row ID...",
+    compound = "left",
+    image    = "::image::bs_join",
+    command  = window_dataset_join)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
