@@ -14,7 +14,7 @@ status](https://ci.appveyor.com/api/projects/status/hm4h2rjb8ayr2df1/branch/mast
 [![Travis-CI Build
 Status](https://travis-ci.com/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.com/GegznaV/RcmdrPlugin.biostat)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Documentation](https://img.shields.io/badge/Documentation-2020--02--22-yellowgreen.svg)]()
+[![Documentation](https://img.shields.io/badge/Documentation-2020--02--23-yellowgreen.svg)]()
 <!-- badges: end -->
 
 -----
@@ -93,7 +93,7 @@ bio::update_pkg_rcmdr_biostat(upgrade = TRUE)
 ```
 
 Again, if installation errors occur, you may use `upgrade = "ask"` and
-manually choose the packages to update.
+manually choose the packages to update, or `upgrade = FALSE`.
 
 ### Previous versions
 
@@ -223,8 +223,9 @@ through `BioStat'20` menu in the menu bar:
 
 ### Turn on *BioStat* (green) mode
 
-If you restarted R Commander and “BioStat” menu is present, you may
-re-enable *BioStat* mode:
+If you restarted R Commander and “BioStat” menu is present but button
+bar is missing, you may re-enable *BioStat* mode by selecting option
+“Mode: BioStat”:
 
 <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/04--activate-biostat-mode.png" style="display: block; margin: auto;" />
 
