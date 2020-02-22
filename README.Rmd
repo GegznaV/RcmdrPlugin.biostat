@@ -98,7 +98,7 @@ To get the most recent version of **RcmdrPlugin.biostat** and to check if all it
 bio::update_pkg_rcmdr_biostat(upgrade = TRUE)
 ```
 
-Again, if installation errors occur, you may use `upgrade = "ask"`{.r} and manually choose the packages to update.
+Again, if installation errors occur, you may use `upgrade = "ask"`{.r} and manually choose the packages to update, or `upgrade = FALSE`.
 
 ### Previous versions
 
@@ -211,7 +211,7 @@ CAPTION = "" # Figure caption/description.
 
 ### Turn on *BioStat* (green) mode {#turn-on-biostat-mode}
 
-If you restarted R Commander and "BioStat" menu is present, you may re-enable *BioStat* mode:
+If you restarted R Commander and "BioStat" menu is present but button bar is missing, you may re-enable *BioStat* mode by selecting option "Mode: BioStat":
 
 ```{r, echo=FALSE, fig.cap=CAPTION}
 knitr::include_graphics(paste0(fig_dir, "04--activate-biostat-mode.png")) 
