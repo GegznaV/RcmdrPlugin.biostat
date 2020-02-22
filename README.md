@@ -5,16 +5,16 @@
 
 <!-- badges: start -->
 
-[![GitHub
-version](https://img.shields.io/badge/GitHub-v0.0.64-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.r-project.org/package=RcmdrPlugin.biostat)
+[![GitHub
+version](https://img.shields.io/badge/GitHub-v0.0.65-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/hm4h2rjb8ayr2df1/branch/master?svg=true)](https://ci.appveyor.com/project/GegznaV/rcmdrplugin-biostat/branch/master)
 [![Travis-CI Build
 Status](https://travis-ci.com/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.com/GegznaV/RcmdrPlugin.biostat)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Documentation](https://img.shields.io/badge/Documentation-2020--02--21-yellowgreen.svg)]()
+[![Documentation](https://img.shields.io/badge/Documentation-2020--02--22-yellowgreen.svg)]()
 <!-- badges: end -->
 
 -----
