@@ -337,8 +337,10 @@ biostat_env$use_relative_path <- TRUE
     options(Rcmdr = updated_opts)
 
     cmd <- paste(capture.output(dput(updated_opts)), collapse = "")
-    cmd <-  sub("list(", "list(\n", cmd, fixed = TRUE)
+    cmd <- sub("list(", "list(\n", cmd, fixed = TRUE)
     cmd <- gsub(", ", ",\n", cmd, fixed = TRUE)
+    cmd <- paste0("options(Rcmdr = ", cmd, "\n)")
+
     packageStartupMessage(
       "\n\n==================================================================\n",
       "R Commander options were changed to: \n",
