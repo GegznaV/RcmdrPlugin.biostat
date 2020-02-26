@@ -1057,25 +1057,35 @@ bs_mode_menu__rows <- function() {
 
   tkadd(menu_n, "command",
     label    = "Check if table has row names",
+    compound = "left",
+    image    = "::image::bs_rows_have_names",
     command  = command_rows_has_rownames)
 
   tkadd(menu_n, "command",
     label    = "Print row names (or row indices)",
+    compound = "left",
+    image    = "::image::bs_rows_names_print",
     command  = command_rownames)
 
   tkadd(menu_n, "separator")
 
   tkadd(menu_n, "command",
     label    = "Move row names to column...",
+    compound = "left",
+    image    = "::image::bs_rows_names_to_col",
     command  = window_rows_rownames_to_col)
 
   tkadd(menu_n, "command",
     label    = "Move column (with unique values) to row names...",
+    compound = "left",
+    image    = "::image::bs_rows_names_to_names",
     state = set_menu_state(variables_with_unique_values_P()),
     command  = window_rows_col_to_rownames)
 
   tkadd(menu_n, "command",
     label    = "Create column with row numbers...",
+    compound = "left",
+    image    = "::image::bs_rows_number",
     command  = window_rows_rowid_to_col)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1150,18 +1160,26 @@ bs_mode_menu__variables <- function() {
 
   tkadd(menu_var_names, "command",
     label    = "Print variable (column) names",
+    compound = "left",
+    image    = "::image::bs_cols_names_print",
     command  = command_colnames)
 
   tkadd(menu_var_names, "command",
     label    = "Check syntactical validity of column names",
+    compound = "left",
+    image    = "::image::bs_cols_names_check",
     command  = command_check_names_validity)
 
   tkadd(menu_var_names, "command",
     label    = "Clean variable names (into snake case)",
+    compound = "left",
+    image    = "::image::bs_cols_names_clean",
     command  = command_clean_names)
 
   tkadd(menu_var_names, "command",
     label    = "Rename variables...",
+    compound = "left",
+    image    = "::image::bs_cols_names_rename",
     command  = window_variable_rename)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1760,6 +1778,12 @@ bs_mode_menu__settings <- function() {
     compound = "left",
     image    = "::image::bs_path_to_wd",
     command  = command_getwd)
+
+  tkadd(menu_wd, "command",
+    label    = "Print file and folder names in WD",
+    compound = "left",
+    image    = "::image::bs_print_wd",
+    command  = command_list_files_wd)
 
   tkadd(menu_wd, "command",
     label    = "Open WD",
