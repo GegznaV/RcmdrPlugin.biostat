@@ -8,8 +8,18 @@
 #' @keywords internal
 command_getwd <- function() {
   Rcmdr::doItAndPrint(paste(
-    '## You are working in folder:',
+    '## Current working directory:',
     'getwd()',
+    sep = " \n"))
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Menu-window-functions
+#' @export
+#' @keywords internal
+command_list_files_wd <- function() {
+  Rcmdr::doItAndPrint(paste(
+    '## Files and folders in working directory:',
+    'dir(all.files = TRUE)',
     sep = " \n"))
 }
 
