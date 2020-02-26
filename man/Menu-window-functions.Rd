@@ -51,6 +51,7 @@
 \alias{command_rows_has_rownames}
 \alias{command_rows_rm_empty_rows}
 \alias{command_getwd}
+\alias{command_list_files_wd}
 \alias{command_setwd}
 \alias{command_openwd}
 \alias{command_get_file_info}
@@ -229,6 +230,8 @@ command_rows_has_rownames()
 command_rows_rm_empty_rows()
 
 command_getwd()
+
+command_list_files_wd()
 
 command_setwd()
 
