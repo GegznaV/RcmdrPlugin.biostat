@@ -157,50 +157,6 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # FIXME: remove this function
-  cmd_get_locale_of_os__OLD <- function() {
-
-    # Cursor
-    cursor_set_busy(top)
-    on.exit(cursor_set_idle(top))
-
-    # Get information
-    if (isTRUE(tclvalue_lgl(print_os_locale))) {
-
-      sys_info <- get_system_info()
-
-      if (is.null(sys_info)) {
-        msg <-
-          str_c(
-            "## No information about operating system (OS)\n",
-            "## locale is available for Mac and Linux.")
-
-      } else {
-
-        # .Platform$OS.type == "windows"
-        os_locale <-
-          sys_info %>%
-          str_subset(regex("(locale|OS Name)", ignore_case = TRUE)) %>%
-          str_replace("           ", " ") %>%
-          str_c("# - ", .)
-
-        msg <-
-          c('## Current locale of operating system (OS):\n',
-            os_locale,
-            "\n# NOTE: OS locale cannot be changed from R.") %>%
-          str_c(collapse = "\n")
-      }
-    }
-
-    # Print information
-    Rcmdr::logger(msg)
-
-    tclvalue(print_os_locale) <- FALSE
-    tk_disable(b2)
-    tip(b2) <- str_c("This information is already printed.\n\n", msg)
-  }
-
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   cmd_get_locale_of_os <- function() {
 
     # Cursor
