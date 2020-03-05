@@ -157,7 +157,8 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  cmd_get_locale_of_os <- function() {
+  # FIXME: remove this function
+  cmd_get_locale_of_os__OLD <- function() {
 
     # Cursor
     cursor_set_busy(top)
@@ -170,7 +171,8 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
 
       if (is.null(sys_info)) {
         msg <-
-          str_c("## No information about operating system (OS)\n",
+          str_c(
+            "## No information about operating system (OS)\n",
             "## locale is available for Mac and Linux.")
 
       } else {
@@ -187,8 +189,6 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
             os_locale,
             "\n# NOTE: OS locale cannot be changed from R.") %>%
           str_c(collapse = "\n")
-
-
       }
     }
 
@@ -198,6 +198,51 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
     tclvalue(print_os_locale) <- FALSE
     tk_disable(b2)
     tip(b2) <- str_c("This information is already printed.\n\n", msg)
+  }
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  cmd_get_locale_of_os <- function() {
+
+    # Cursor
+    cursor_set_busy(top)
+    cursor_set_busy(CommanderWindow())
+
+    on.exit({
+      cursor_set_idle(top)
+      cursor_set_idle(CommanderWindow())
+    })
+
+    # Information
+    if (isTRUE(.Platform$OS.type == "windows")) {
+
+      Library("tidyverse")
+
+      command <-
+        str_c(sep = "\n",
+          '## Locale of operating system (OS)',
+          '# (NOTE: OS locale cannot be changed from R)',
+          'shell("systeminfo", intern = TRUE) %>%',
+          '  str_subset(regex("(OS Name|locale)", ignore_case = TRUE)) %>%',
+          '  str_remove("( ){11}") %>%',
+          '  structure(class = "glue")'
+        ) %>%
+        style_cmd()
+
+      doItAndPrint(command)
+
+    } else {
+      # Print information
+      msg <- str_c(
+        '## Locale of operating system (OS) \n',
+        "#  This information is currently available on Windows only"
+      )
+      Rcmdr::logger(msg)
+
+      tclvalue(print_os_locale) <- FALSE
+      tip(b2) <- "This information is currently available on Windows only."
+      tk_disable(b2)
+    }
+
   }
 
   # Function onOK ----------------------------------------------------------
