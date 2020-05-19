@@ -122,6 +122,7 @@ window_summary_desc <- function() {
     digits_num <- get_values(f2_digits_num)
     scipen     <- get_values(f2_scipen)
     big_mark   <- get_big_mark_symbol()
+    verbose    <- get_selection(f2_verbose)
 
     # Plots
     use_plot             <- get_values(f2_plot_enable)
@@ -184,6 +185,7 @@ window_summary_desc <- function() {
 
       # Numeric output
       print_num  = print_num,
+      verbose    = verbose,
       digits_per = digits_per,
       digits_num = digits_num,
       scipen     = scipen,
@@ -214,7 +216,7 @@ window_summary_desc <- function() {
 
       opts_code <-
         get_desctools_opts_str(
-          big_mark = big_mark,
+          big_mark   = big_mark,
           num_digits = digits_num,
           per_digits = digits_per,
           scipen = scipen,
@@ -272,12 +274,20 @@ window_summary_desc <- function() {
 
     }
 
+    verbose_txt <- dplyr::recode(
+      verbose,
+      "Minimal"  = ", verbose = 1",
+      "Regular"  = "",
+      "Extended" = ", verbose = 3",
+      .default   = ", verbose = 3"
+    )
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     command <- str_glue(
       .trim = FALSE,
       "{opts_code}",
       "## Summary of variables\n",
-      "{rez} <- \n   with({.ds}, DescTools::Desc({variables}{opts})) \n",
+      "{rez} <- \n   with({.ds}, DescTools::Desc({variables}{opts}{verbose_txt})) \n",
       "{print_code}",
       "{plot_code}",
       "{rm_code}")
@@ -341,6 +351,7 @@ window_summary_desc <- function() {
 
     # Numeric output
     print_num  = TRUE,
+    verbose    = "Regular",
     digits_per = get_default(DescTools::Fmt()$per$digits,       1),
     digits_num = get_default(DescTools::Fmt()$num$digits,       3),
     scipen     = get_default(dplyr::na_if(options()$scipen, 0), 9),
@@ -353,7 +364,6 @@ window_summary_desc <- function() {
   )
 
   initial <- getDialog("window_summary_desc", defaults)
-
 
   # Widgets ----------------------------------------------------------------
 
@@ -470,6 +480,19 @@ window_summary_desc <- function() {
     value = initial$big_mark
   )
 
+  f2_verbose <- bs_combobox(
+    parent = f2_num_sub,
+    width  = 12,
+    label  = "Level of detail: ",
+    label_color = "black",
+    values = c("Minimal", "Regular", "Extended"),
+    tip = str_c(
+      "The level of details in the results. For more details, \n",
+      "see the documentation of argument 'verbose' in DescTools::Desc()"
+    ),
+    value = initial$verbose
+  )
+
   f2_force_options <- bs_checkboxes(
     parent   = f2_num_sub,
     boxes    = "force_options",
@@ -537,7 +560,8 @@ window_summary_desc <- function() {
   tkgrid(f2_digits_per$frame, sticky = "e",   padx = 5, pady = 1)
   tkgrid(f2_digits_num$frame, sticky = "e",   padx = 5, pady = 1)
   tkgrid(f2_scipen$frame,     sticky = "e",   padx = 5, pady = 1)
-  tkgrid(f2_big_mark$frame,   sticky = "e",   padx = 5, pady = c(1, 5))
+  tkgrid(f2_big_mark$frame,   sticky = "e",   padx = 5, pady = 1)
+  tkgrid(f2_verbose$frame,    sticky = "e",   padx = 5, pady = c(1, 5))
   tkgrid(f2_force_options$frame,sticky = "w", padx = 5, pady = c(1, 5))
 
   tkgrid(f2_plot_enable$frame, sticky = "nwe", padx = c(5, 50))
