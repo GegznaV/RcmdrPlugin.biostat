@@ -58,39 +58,14 @@ biostat_env$use_relative_path <- TRUE
   if (!interactive()) {
     return()
   }
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # FIXME: remove this code when pkg `tcltk2` updates the version of tablelist.
-  # old_tablelist <- system.file("tklibs/tablelist5.5", package = "tcltk2")
-  # if (dir.exists(old_tablelist)) {
-  #   unlink(old_tablelist)
-  # }
-  #
-  # new_tablelist_from <- system.file("tklibs/tablelist6.8", package = "RcmdrPlugin.biostat")
-  # new_tablelist_to   <- fs::path(system.file(package = "tcltk2"), "tklibs/tablelist6.8")
-  # if (!dir.exists(new_tablelist_to)) {
-  #   fs::dir_copy(new_tablelist_from, new_tablelist_to)
-  # }
 
   # Tcl/Tk path --------------------------------------------------------------
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   libdir <- file.path(libname, pkgname, "tklibs")
   add_tcl_path(libdir)
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Add paths of Tcl/Tl packages
-  # bs_add_tcl_path("tklibs")
-  # bs_add_tcl_path("etc/tcl-tk/wcb3.6")
-  # bs_add_tcl_path("etc/tcl-tk/scrollutil1.3")
-  # bs_add_tcl_path("etc/tcl-tk/tablelist6.8")
-  # bs_add_tcl_path("etc/tcl-tk/mentry3.10")
-  #
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Create icons -------------------------------------------------------------
 
-  # bs_tkimage_create <- function(name, file, package = "RcmdrPlugin.biostat") {
-  #   tcltk::tkimage.create(
-  #     "photo", name,
-  #     file = system.file("etc", file, package = package))
-  # }
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Create icons -------------------------------------------------------------
 
   bs_tkimage_create("::image::dot-black",     "icons/oth/dot-black.png")
   bs_tkimage_create("::image::dot-red",       "icons/oth/dot-red.png")
@@ -103,7 +78,7 @@ biostat_env$use_relative_path <- TRUE
   bs_tkimage_create("::image::dot-violet",    "icons/oth/dot-violet.png")
 
   bs_tkimage_create("::image::dot-gw-4",      "icons/oth/dot-gw-4x4.png")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   bs_tkimage_create("::image::bs_r_logo_analysis",      "icons/32/bs-analysis-32.png")
   bs_tkimage_create("::image::bs_r_logo_documentation", "icons/32/documentation.png")
   bs_tkimage_create("::image::bs_r_logo_help",          "icons/32/system-help-2.png")
@@ -112,7 +87,7 @@ biostat_env$use_relative_path <- TRUE
   bs_tkimage_create("::image::bs_r_logo_plots",         "icons/32/office-chart-pie.png")
   bs_tkimage_create("::image::bs_r_logo_settings",      "icons/32/system-settings.png")
   bs_tkimage_create("::image::bs_r_logo_shapes",        "icons/32/shapes.png")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   bs_tkimage_create("::image::bs_r_logo_b"  , "icons/32/R-logo-b.png")
   bs_tkimage_create("::image::bs_r_logo_br" , "icons/32/R-logo-br.png")
   bs_tkimage_create("::image::bs_r_logo_bw" , "icons/32/R-logo-bw.png")
@@ -123,7 +98,7 @@ biostat_env$use_relative_path <- TRUE
   bs_tkimage_create("::image::bs_r_logo_r"  , "icons/32/R-logo-r.png")
   bs_tkimage_create("::image::bs_r_logo_v"  , "icons/32/R-logo-v.png")
   bs_tkimage_create("::image::bs_r_logo_y"  , "icons/32/R-logo-y.png")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   bs_tkimage_create("::image::bs_r"         , "icons/16/r-logo-16x16.png")
   bs_tkimage_create("::image::bs_r_blue"    , "icons/16/r-logo-b-16x16.png")
   bs_tkimage_create("::image::bs_r_brown"   , "icons/16/r-logo-br-16x16.png")
@@ -173,7 +148,7 @@ biostat_env$use_relative_path <- TRUE
 
   bs_tkimage_create("::image::bs_sort_asc",   "icons/16/sort_ascending.png")
   bs_tkimage_create("::image::bs_sort_desc",  "icons/16/sort_descending.png")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   bs_tkimage_create("::image::bs_import",     "icons/16/bs_import.png")
   bs_tkimage_create("::image::bs_text",       "icons/16/bs_txt.png")
   bs_tkimage_create("::image::bs_excel",      "icons/16/page-white_excel.png")
@@ -187,16 +162,16 @@ biostat_env$use_relative_path <- TRUE
 
   bs_tkimage_create("::image::bs_word",       "icons/16/page-white_word.png")
   bs_tkimage_create("::image::bs_pptx",       "icons/16/page-white_powerpoint.png")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   bs_tkimage_create("::image::bs_export",     "icons/16/bs_export.png")
   bs_tkimage_create("::image::bs_md",         "icons/16/md.png")
   bs_tkimage_create("::image::bs_print_as_df","icons/16/bs-print-as-df.png")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   bs_tkimage_create("::image::bs_objects",    "icons/16/emblem-documents.png")
   bs_tkimage_create("::image::bs_join"     ,  "icons/16/application-side-list.png")
   bs_tkimage_create("::image::bs_bind_rows",  "icons/16/application-tile-vertical.png")
   bs_tkimage_create("::image::bs_bind_cols",  "icons/16/application-tile-horizontal.png")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   bs_tkimage_create("::image::bs_rows"     ,  "icons/16/bs_rows.png")
   bs_tkimage_create("::image::bs_rows_sort",  "icons/16/bs_rows_sort.png")
   bs_tkimage_create("::image::bs_rows_names", "icons/16/bs_rows_names.png")
@@ -210,7 +185,7 @@ biostat_env$use_relative_path <- TRUE
   bs_tkimage_create("::image::bs_rows_slice",     "icons/16/bs_rows_slice.png")
   bs_tkimage_create("::image::bs_rows_top_bot",   "icons/16/bs_rows_top_bottom.png")
   bs_tkimage_create("::image::bs_rows_duplicates","icons/16/bs_rows_duplicates.png")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   bs_tkimage_create("::image::bs_columns"  ,    "icons/16/bs_cols.png")
   bs_tkimage_create("::image::bs_cols_names",   "icons/16/bs_cols_names.png")
   bs_tkimage_create("::image::bs_cols_names_print",   "icons/16/bs_cols_names_print.png")
@@ -226,31 +201,31 @@ biostat_env$use_relative_path <- TRUE
   bs_tkimage_create("::image::bs_data_chr",     "icons/16/bs_data_chr.png")
   bs_tkimage_create("::image::bs_data_fct",     "icons/16/bs_data_fct.png")
   bs_tkimage_create("::image::bs_data_num",     "icons/16/bs_data_num.png")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   bs_tkimage_create("::image::bs_preview",    "icons/16/document-preview.png")
   bs_tkimage_create("::image::bs_glimpse",    "icons/16/glimpse_16.png")
   bs_tkimage_create("::image::bs_na_red",     "icons/16/bs_na_red.png")
   bs_tkimage_create("::image::bs_na_blue",    "icons/16/bs_na_blue.png")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   bs_tkimage_create("::image::bs_summary",    "icons/16/bs_enumlist.png")
   bs_tkimage_create("::image::bs_desc",       "icons/16/bs_desc.png")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   bs_tkimage_create("::image::bs_analyze",    "icons/16/bs_analyze.png")
   bs_tkimage_create("::image::bs_normality",  "icons/16/bs_normality.png")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   bs_tkimage_create("::image::bs_plot",       "icons/16/office-chart-pie.png")
   bs_tkimage_create("::image::bs_new_window", "icons/16/window-new.png")
   bs_tkimage_create("::image::bs_plot_close", "icons/16/delete.png")
   bs_tkimage_create("::image::bs_plotly",     "icons/16/plotly.png")
   bs_tkimage_create("::image::bs_chart",      "icons/16/insert-chart-bar.png")
   bs_tkimage_create("::image::bs_ggplot",     "icons/16/insert-chart-bar.png")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # bs_tkimage_create("::image::bs_web",        "icons/16/applications-internet.png")
   bs_tkimage_create("::image::bs_web",        "icons/16/emblem-web.png")
   bs_tkimage_create("::image::bs_web_get",    "icons/16/application-x-kgetlist.png")
   bs_tkimage_create("::image::bs_web_app",    "icons/16/application-x-desktop.png")
 
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   bs_tkimage_create("::image::bs_settings",   "icons/16/system-2.png")
   bs_tkimage_create("::image::bs_locale"    , "icons/16/locale.png")
 
@@ -277,7 +252,7 @@ biostat_env$use_relative_path <- TRUE
   bs_tkimage_create("::image::bs_bug",         "icons/16/bug.png")
   bs_tkimage_create("::image::bs_home",        "icons/16/go-home-6.png")
   bs_tkimage_create("::image::bs_question",    "icons/16/question.png")
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -399,7 +374,7 @@ bs_add_tcl_path <- function(path, package = "RcmdrPlugin.biostat") {
 
 # ============================================================================
 state.tk2widget <- function(x, ...) {
-  as.character(tkcget(tlist, "-state"))
+  as.character(tkcget(x, "-state", ...))
 }
 
 print.tk2widget <- function(x, ...) {
