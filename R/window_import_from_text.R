@@ -15,6 +15,8 @@
 # FIXME: Context menu commands (Cut, Paste, etc.) do not update the
 #        preview. Fix/Update context menu function.
 
+# DONE: Replaced Custom\u2026 → Custom...
+
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
@@ -98,7 +100,7 @@ window_import_from_text <- function() {
       "Comma ( , )"        = ",",
       "Semicolon ( ; )"    = ";",
       "Vertical bar ( | )" = "|",
-      "Custom\u2026"       = get_values(f2_ent_sep),
+      "Custom..."       = get_values(f2_ent_sep),
       stop("Value '", val, "' is unknown (f2_box_sep)."))
   }
   get_code_sep <- function() {
@@ -116,7 +118,7 @@ window_import_from_text <- function() {
     val <- get_selection(f2_box_skip)
     res <- switch(val,
       "Auto"            = "__auto__",
-      "Custom\u2026"    = as.numeric(get_values(f2_ent_skip)),
+      "Custom..."    = as.numeric(get_values(f2_ent_skip)),
       stop("Value '", val, "' is unknown (f2_box_skip)."))
 
     if (is.na(res)) {0} else {res}
@@ -166,7 +168,7 @@ window_import_from_text <- function() {
       "Double ( \" )" = '"',
       "Single ( ' )"  = "'" ,
       "None"          = "",
-      "Custom\u2026"    = get_values(f2_ent_quo),
+      "Custom..."    = get_values(f2_ent_quo),
       stop("Value '", val, "' is unknown (f2_box_quo)."))
   }
   get_code_quote <- function() {
@@ -181,7 +183,7 @@ window_import_from_text <- function() {
       "Default"      = getOption("datatable.na.strings", "NA"),
       "Empty"        = "",
       "None"         = NULL,
-      "Custom\u2026" = get_values(f2_ent_na),
+      "Custom..." = get_values(f2_ent_na),
       val)
   }
   get_code_na_str <- function() {
@@ -792,7 +794,7 @@ window_import_from_text <- function() {
       }
     }
 
-    set_selection(obj_1, "Custom\u2026")
+    set_selection(obj_1, "Custom...")
     tk_normalize(obj_2)
 
     refresh_dataset_window()
@@ -1271,12 +1273,12 @@ window_import_from_text <- function() {
 
   dec1  <- c("Period ( . )", "Comma ( , )") # "Default"
   sep1  <- c("Auto", "Tab ( \\t )", "Comma ( , )", "Semicolon ( ; )",
-    "White space ( )", "Vertical bar ( | )", "Custom\u2026")
+    "White space ( )", "Vertical bar ( | )", "Custom...")
   nas1  <- c("Default", "Empty", "None",  "NA",  "na", "N/A", "n/a", "#N/A",
-    "?", "(?)", "!", "Custom\u2026")
-  quo1  <- c("Double ( \" )", "Single ( \' )", "None", "Custom\u2026" )
-  max1  <- c("All",  "Custom\u2026")
-  skip1 <- c("Auto", "Custom\u2026")
+    "?", "(?)", "!", "Custom...")
+  quo1  <- c("Double ( \" )", "Single ( \' )", "None", "Custom..." )
+  max1  <- c("All",  "Custom...")
+  skip1 <- c("Auto", "Custom...")
   enc1  <- c( "UTF-8", "Latin-1", "unknown")
   head1 <- c("Auto", "No", "Yes")
   out1  <- c("Data frame", "Data table")
