@@ -59,6 +59,9 @@ biostat_env$use_relative_path <- TRUE
     return()
   }
 
+  # Options ------------------------------------------------------------------
+  # set_default_bs_options()
+
   # Tcl/Tk path --------------------------------------------------------------
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   libdir <- file.path(libname, pkgname, "tklibs")
@@ -346,6 +349,7 @@ biostat_env$use_relative_path <- TRUE
     # }
   }
 }
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Create icons
 bs_tkimage_create <- function(name, file, package = "RcmdrPlugin.biostat") {
