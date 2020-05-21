@@ -35,7 +35,7 @@ window_dataset_bind_rows <- function() {
     tclvalue(new_ds_name_variable) <- unique_base_name
   }
 
-  id_names_fun <- function(variables) {
+  id_names_fun <- function() {
     tk_activate(entry_id_name)
     tk_activate(ds_1_id_entry)
     tk_activate(ds_2_id_entry)
@@ -47,7 +47,7 @@ window_dataset_bind_rows <- function() {
     set_id_name3()
   }
 
-  id_numeric_fun <- function(variables) {
+  id_numeric_fun <- function() {
     tk_activate(entry_id_name)
     tk_disable(ds_1_id_entry)
     tk_disable(ds_2_id_entry)
@@ -59,7 +59,7 @@ window_dataset_bind_rows <- function() {
     tclvalue(ds_3_id_var) <- ""
   }
 
-  id_none_fun <- function(variables) {
+  id_none_fun <- function() {
     tk_disable(entry_id_name)
     tk_disable(ds_1_id_entry)
     tk_disable(ds_2_id_entry)
@@ -72,7 +72,7 @@ window_dataset_bind_rows <- function() {
 
   }
 
-  choose_id_fun <- function(variables) {
+  choose_id_fun <- function() {
     switch(tclvalue(which_idVariable),
       id_names   = id_names_fun(),
       id_numeric = id_numeric_fun(),

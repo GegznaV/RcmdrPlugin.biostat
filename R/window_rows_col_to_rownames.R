@@ -2,7 +2,7 @@
 #' @export
 #' @keywords internal
 # Correctly initializes window `window_rows_col_to_rownames()`
-window_rows_col_to_rownames0  <- function(variables) {
+window_rows_col_to_rownames0  <- function() {
   window_rows_col_to_rownames()
 }
 

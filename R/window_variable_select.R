@@ -8,7 +8,7 @@
 #' @export
 #' @keywords internal
 # Correctly initializes window `window_variable_select()`
-window_variable_select0  <- function(variables) {
+window_variable_select0  <- function() {
   window_variable_select()
 }
 

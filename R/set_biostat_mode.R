@@ -391,7 +391,7 @@ set_biostat_mode <- function() {
       if (length(button_view0) > 0) tkgrid(button_view0)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    set_buttons_bs_fun <- function(variables) {
+    set_buttons_bs_fun <- function() {
       if (length(logo) > 0) {
         tkconfigure(logo, image = "::image::bs_r_logo_g")
         tk2tip(tcl_get_obj_by_id(logo), "Switch to standard \nRcmdr buttons")

@@ -78,14 +78,14 @@ window_online_geogebra_probability  <- function() {
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_online_statpages  <- function(variables) {
+window_online_statpages  <- function() {
   open_online_tool("http://statpages.info/")
 }
 
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_online_image_digitizer  <- function(variables) {
+window_online_image_digitizer  <- function() {
   open_online_tool("https://apps.automeris.io/wpd/")
 }
 

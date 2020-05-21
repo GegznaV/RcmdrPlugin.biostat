@@ -53,7 +53,7 @@ window_import_from_text <- function() {
   # ~ Read import options --------------------------------------------------
 
   # Shortcut function
-  get_import_mode <- function(variables) {
+  get_import_mode <- function() {
     get_values(f2_but_from)
   }
 
@@ -371,7 +371,7 @@ window_import_from_text <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Values used to check if update from file is needed
-  update_previous_values <- function(variables) {
+  update_previous_values <- function() {
     tclvalue(previous_nrows_to_preview) <- get_selection(f3_box_nrow_1)
     tclvalue(previous_file_name)        <- read_path_to_file()
   }

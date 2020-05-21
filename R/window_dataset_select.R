@@ -7,7 +7,7 @@ window_dataset_select <- function() {
   .ds      <- active_dataset_0()
 
   # Functions --------------------------------------------------------------
-  cmd_refresh_listbox  <- function(variables) {
+  cmd_refresh_listbox  <- function() {
 
     set_values(var_ds_box, listDataSets())
 

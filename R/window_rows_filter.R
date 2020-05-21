@@ -13,7 +13,7 @@
 #' @export
 #' @keywords internal
 # Correctly initializes window `window_rows_filter()`
-window_rows_filter0  <- function(variables) {
+window_rows_filter0  <- function() {
   window_rows_filter()
 }
 

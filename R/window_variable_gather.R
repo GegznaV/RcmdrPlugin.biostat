@@ -17,7 +17,7 @@ window_variable_gather <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  activate_arrow_buttons <- function(variables) {
+  activate_arrow_buttons <- function() {
     # Arrow buttons are enabled if anything in f1_y_var_box is selected
     n <- get_selection_length(f1_y_var_box)
 
