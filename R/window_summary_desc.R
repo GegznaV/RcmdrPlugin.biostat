@@ -551,12 +551,15 @@ window_summary_desc <- function() {
       "Create new window for plots",
       "Trendline in front of points"
     )),
-    tips = gettext_bs(c(
-      str_c("A new window will be created for a new plot. \n",
+    tips = list(
+      "new_plots_window" = str_c(
+        "A new window will be created for a new plot. \n",
         "Do not use this option if you want your results in RStudio"
       ),
-      "In scatterplots, should a trendline \nbe plotted in front of points?"
-    ))
+      "conf_on_top" = str_c(
+        "In scatterplots, should a trendline \nbe plotted in front of points?"
+      )
+    )
   )
 
 
