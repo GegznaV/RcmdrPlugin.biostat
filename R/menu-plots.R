@@ -35,6 +35,7 @@ close_all_plots <- function() {
 set_plots_to_separate_window <- function() {
   if (.Platform$OS.type == "windows") {
     options(device = "windows")
+
   } else {
     options(device = "X11")
     # options(device = "quartz") # For Mac
