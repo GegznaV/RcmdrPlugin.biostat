@@ -351,7 +351,7 @@ window_summary_desc <- function() {
 
     # Numeric output
     print_num  = TRUE,
-    verbose    = "Regular",
+    verbose    = "Extended",
     digits_per = get_default(DescTools::Fmt()$per$digits,       1),
     digits_num = get_default(DescTools::Fmt()$num$digits,       3),
     scipen     = get_default(dplyr::na_if(options()$scipen, 0), 9),
