@@ -127,7 +127,9 @@ window_summary_desc <- function() {
     # Plots
     use_plot             <- get_values(f2_plot_enable)
     new_plots_window     <- get_values(f2_plot_opts, "new_plots_window")
+    conf_on_top          <- get_values(f2_plot_opts, "conf_on_top")
     las                  <- get_lab_direction_las()
+    pch                  <- get_selection(f2_plot_pch)
 
     # General
     keep_results         <- get_values(f1_keep_results,  "keep_results")
@@ -194,6 +196,8 @@ window_summary_desc <- function() {
       # Plots
       use_plot         = use_plot,
       new_plots_window = new_plots_window,
+      pch              = pch,
+      conf_on_top      = conf_on_top,
       labels_direction = get_lab_direction_label(las)
     ))
 
@@ -233,16 +237,33 @@ window_summary_desc <- function() {
         open_new_plots_window()
       }
 
+      both_num <-
+        isTRUE(str_glue_eval(
+          "is.numeric({.ds}${y_var}) && is.numeric({.ds}${gr_var})"
+        ))
+
+      pch_txt <-
+        if (both_num && !(is.null(pch) || pch == "Default")) {
+          str_glue(", pch = {pch}")
+
+        } else {
+          ""
+        }
+
+      conf_on_top_txt <-
+        if (conf_on_top == FALSE) {", smooth.front = FALSE"} else {""}
+
+      plot_base <- str_glue("plot({rez}{pch_txt}{conf_on_top_txt})")
+
       plot_code <-
         if (las == par("las")) {
-          str_glue("plot({rez}) \n", .trim = FALSE)
+          str_glue("{plot_base} \n", .trim = FALSE)
 
         } else {
           str_glue(
             .trim = FALSE,
-            "withr::with_par(list(las = {las}), plot({rez})) \n")
+            "withr::with_par(list(las = {las}), {plot_base}) \n")
         }
-
 
     } else {
       plot_code <- ""
@@ -360,6 +381,8 @@ window_summary_desc <- function() {
     # Plots
     use_plot         = TRUE,
     new_plots_window = is_plot_in_separate_window(),
+    pch              = "19",
+    conf_on_top      = TRUE,
     labels_direction = gettext_bs("Parallel to the axis")
   )
 
@@ -522,13 +545,33 @@ window_summary_desc <- function() {
   f2_plot_opts <- bs_checkboxes(
     parent = f2_plot_sub,
     border = FALSE,
-    boxes  = c("new_plots_window"),
-    values = c(initial$new_plots_window),
+    boxes  = c("new_plots_window", "conf_on_top"),
+    values = c(initial$new_plots_window, initial$conf_on_top),
     labels = gettext_bs(c(
-      "Create new window for plots"
+      "Create new window for plots",
+      "Trendline in front of points"
+    )),
+    tips = gettext_bs(c(
+      str_c("A new window will be created for a new plot. \n",
+        "Do not use this option if you want your results in RStudio"
+      ),
+      "In scatterplots, should a trendline \nbe plotted in front of points?"
     ))
   )
 
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  f2_plot_pch <- bs_combobox(
+    parent = f2_plot_sub,
+    width  = 7,
+    label  = "Shape of points: ",
+    label_color = "black",
+    values = c("Default", 1, 3, 4, 16, 19, 20, 21),
+    tip = str_c(
+      "The number of point shape.\nParameter 'pch'."
+    ),
+    value = initial$pch
+  )
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   f2_plot_las <- bs_combobox(
     parent = f2_plot_sub,
@@ -567,7 +610,8 @@ window_summary_desc <- function() {
   tkgrid(f2_plot_enable$frame, sticky = "nwe", padx = c(5, 50))
   tkgrid(f2_plot_sub,          sticky = "nwe")
   tkgrid(f2_plot_opts$frame,   sticky = "nwe", padx = c(5, 0))
-  tkgrid(f2_plot_las$frame,    sticky = "w",   padx = 5, pady = 5)
+  tkgrid(f2_plot_pch$frame,    sticky = "e",   padx = 5, pady = 1)
+  tkgrid(f2_plot_las$frame,    sticky = "w",   padx = 5, pady = c(1, 5))
 
   # Help menus -------------------------------------------------------------
   help_menu <- function() {
@@ -597,6 +641,10 @@ window_summary_desc <- function() {
     tkadd(menu_main, "command",
       label    = "Direction of axis labels (see section 'las')",
       command  = open_help("par", package = "graphics"))
+
+    tkadd(menu_main, "command",
+      label    = "The number of point shape (see section 'pch')",
+      command  = open_help("points ", package = "graphics"))
 
     tkadd(menu_main, "command",
       label    = "Function 'with'",
