@@ -279,9 +279,9 @@ source_online(url = NULL, parent = CommanderWindow())
 
 window_online_geogebra_probability()
 
-window_online_statpages(variables)
+window_online_statpages()
 
-window_online_image_digitizer(variables)
+window_online_image_digitizer()
 
 window_online_mvn()
 
@@ -446,7 +446,7 @@ window_plots_ggplotly()
 
 window_rows_arrange()
 
-window_rows_col_to_rownames0(variables)
+window_rows_col_to_rownames0()
 
 window_rows_col_to_rownames(
   new_dsname = NULL,
@@ -454,7 +454,7 @@ window_rows_col_to_rownames(
   incorrect_cond_msg = NULL
 )
 
-window_rows_filter0(variables)
+window_rows_filter0()
 
 window_rows_filter(
   new_dsname = NULL,
@@ -490,7 +490,7 @@ window_test_normality()
 
 window_variable_gather()
 
-window_variable_mutate0(variables)
+window_variable_mutate0()
 
 window_variable_mutate()
 
@@ -498,7 +498,7 @@ window_variable_recode0()
 
 window_variable_rename()
 
-window_variable_select0(variables)
+window_variable_select0()
 
 window_variable_select(new_dsname = NULL, incorrect_cond_msg = NULL)
 }

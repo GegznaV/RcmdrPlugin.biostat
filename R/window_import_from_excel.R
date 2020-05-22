@@ -301,7 +301,7 @@ window_import_from_excel <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Values used to check if update from file is needed
-  update_previous_values <- function(variables) {
+  update_previous_values <- function() {
     tclvalue(previous_nrows_to_preview) <- get_selection(f3_box_nrow_1)
     tclvalue(previous_file_name)        <- read_path_to_file()
     tclvalue(previous_sheet)            <- get_selection(f1_box_sheet)
@@ -575,7 +575,7 @@ window_import_from_excel <- function() {
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  range_to_upper <- function(variables) {
+  range_to_upper <- function() {
     set_values(f1_ent_range, str_to_upper(get_values(f1_ent_range)))
   }
 

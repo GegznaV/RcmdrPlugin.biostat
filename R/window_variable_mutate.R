@@ -17,7 +17,7 @@
 #' @export
 #' @keywords internal
 # Correctly initializes window `window_variable_mutate()`
-window_variable_mutate0  <- function(variables) {
+window_variable_mutate0  <- function() {
   window_variable_mutate()
 }
 
@@ -56,7 +56,7 @@ window_variable_mutate <- function() {
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  get_labeled_variables <- function(variables) {
+  get_labeled_variables <- function() {
 
     vars <- Variables()
     paste(vars,

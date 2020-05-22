@@ -35,6 +35,7 @@ close_all_plots <- function() {
 set_plots_to_separate_window <- function() {
   if (.Platform$OS.type == "windows") {
     options(device = "windows")
+
   } else {
     options(device = "X11")
     # options(device = "quartz") # For Mac
@@ -74,7 +75,7 @@ which_graphical_device <- function() {
 }
 
 # Check if plot should be in a new separate window
-is_plot_in_separate_window <- function(variables) {
+is_plot_in_separate_window <- function() {
   isTRUE(which_graphical_device() != "RStudioGD")
 }
 

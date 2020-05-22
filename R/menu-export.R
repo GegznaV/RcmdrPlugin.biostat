@@ -35,7 +35,7 @@ to_pptx <- function() {
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # to_word
-to_word <- function(variables) {
+to_word <- function() {
   function_not_implemented()
   stop()
 

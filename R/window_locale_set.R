@@ -161,43 +161,44 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
 
     # Cursor
     cursor_set_busy(top)
-    on.exit(cursor_set_idle(top))
+    cursor_set_busy(CommanderWindow())
 
-    # Get information
-    if (isTRUE(tclvalue_lgl(print_os_locale))) {
+    on.exit({
+      cursor_set_idle(top)
+      cursor_set_idle(CommanderWindow())
+    })
 
-      sys_info <- get_system_info()
+    # Information
+    if (isTRUE(.Platform$OS.type == "windows")) {
 
-      if (is.null(sys_info)) {
-        msg <-
-          str_c("## No information about operating system (OS)\n",
-            "## locale is available for Mac and Linux.")
+      Library("tidyverse")
 
-      } else {
+      command <-
+        str_c(sep = "\n",
+          '## Locale of operating system (OS)',
+          '# (NOTE: OS locale cannot be changed from R)',
+          'shell("systeminfo", intern = TRUE) %>%',
+          '  str_subset(regex("(OS Name|locale)", ignore_case = TRUE)) %>%',
+          '  str_remove("( ){11}") %>%',
+          '  structure(class = "glue")'
+        ) %>%
+        style_cmd()
 
-        # .Platform$OS.type == "windows"
-        os_locale <-
-          sys_info %>%
-          str_subset(regex("(locale|OS Name)", ignore_case = TRUE)) %>%
-          str_replace("           ", " ") %>%
-          str_c("# - ", .)
+      doItAndPrint(command)
 
-        msg <-
-          c('## Current locale of operating system (OS):\n',
-            os_locale,
-            "\n# NOTE: OS locale cannot be changed from R.") %>%
-          str_c(collapse = "\n")
+    } else {
+      # Print information
+      msg <- str_c(
+        '## Locale of operating system (OS) \n',
+        "#  This information is currently available on Windows only"
+      )
+      Rcmdr::logger(msg)
 
-
-      }
+      tclvalue(print_os_locale) <- FALSE
+      tip(b2) <- "This information is currently available on Windows only."
+      tk_disable(b2)
     }
 
-    # Print information
-    Rcmdr::logger(msg)
-
-    tclvalue(print_os_locale) <- FALSE
-    tk_disable(b2)
-    tip(b2) <- str_c("This information is already printed.\n\n", msg)
   }
 
   # Function onOK ----------------------------------------------------------

@@ -9,7 +9,7 @@
 window_load_packages <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  refresh_window <- function(variables) {
+  refresh_window <- function() {
     loaded_packages <- .packages()
     availablePackages <-
       sort(setdiff(.packages(all.available = TRUE), loaded_packages))

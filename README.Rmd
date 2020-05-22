@@ -21,6 +21,7 @@ knitr::opts_chunk$set(
 [![Travis-CI Build Status](https://travis-ci.com/GegznaV/RcmdrPlugin.biostat.png?branch=master)](https://travis-ci.com/GegznaV/RcmdrPlugin.biostat)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![Documentation](https://img.shields.io/badge/Documentation-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)]()
+[![R build status](https://github.com/GegznaV/RcmdrPlugin.BioStat/workflows/R-CMD-check/badge.svg)](https://github.com/GegznaV/RcmdrPlugin.BioStat/actions)
 <!-- badges: end -->
 
 ***

@@ -11,7 +11,7 @@
 #       b. Forbid custom separator field to be empty in all cases.
 # 6. Filename field:  unique initial name (that does not exist in the folder)
 #    should be chosen.
-
+# 7. Repaced "Custom\u2026" → "Custom..."
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # .============================ ==============================================
@@ -123,7 +123,7 @@ window_export_to_text <- function() {
       "Comma ( , )"        = ",",
       "Semicolon ( ; )"    = ";",
       "Vertical bar ( | )" = "|",
-      "Custom\u2026"       = get_values(f1_ent_sep),
+      "Custom..."       = get_values(f1_ent_sep),
       stop("Value '", val, "' is unknown (f1_box_sep)."))
   }
 
@@ -244,7 +244,7 @@ window_export_to_text <- function() {
       ".csv" = c("Comma ( , )", "Semicolon ( ; )"),
       ".tsv" = c("Tab"),
       c("Tab", "Space ( )", "Comma ( , )", "Semicolon ( ; )",
-        "Vertical bar ( | )"  , "Custom\u2026")
+        "Vertical bar ( | )"  , "Custom...")
     )
 
     if (get_dec() == ",") {
@@ -307,7 +307,7 @@ window_export_to_text <- function() {
   sep_ent_normalize <- function() {
     tk_normalize(f1_ent_sep)
     tk2tip(f1_ent_sep$frame, "Enter a custom field separator")
-    set_selection(f1_box_sep, "Custom\u2026")
+    set_selection(f1_box_sep, "Custom...")
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -325,7 +325,7 @@ window_export_to_text <- function() {
       tk2tip(f1_ent_sep$frame,
         "Custom separator is not available\nif extension is either .csv or .tsv.")
 
-      # if (get_selection(f1_box_sep) == "Custom\u2026") {
+      # if (get_selection(f1_box_sep) == "Custom...") {
       #     set_selection(f1_box_sep, get_values(f1_box_sep)[1])
       # }
 
@@ -333,7 +333,7 @@ window_export_to_text <- function() {
     }
 
     # Otherwise
-    if (get_selection(f1_box_sep) == "Custom\u2026") {
+    if (get_selection(f1_box_sep) == "Custom...") {
       sep_ent_normalize()
 
     } else {
@@ -516,7 +516,7 @@ window_export_to_text <- function() {
   dec1     <- c("Period ( . )", "Comma ( , )") # "Default"
 
   sep1_all <- c("Tab", "Space ( )", "Comma ( , )", "Semicolon ( ; )",
-    "Vertical bar ( | )"  , "Custom\u2026")
+    "Vertical bar ( | )"  , "Custom...")
 
 
   # F1, Frame 1, choose file name ------------------------------------------

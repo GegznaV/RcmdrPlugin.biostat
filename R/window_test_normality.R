@@ -799,11 +799,13 @@ window_test_normality <- function() {
   f2_plot_opts <- bs_checkboxes(
     parent = f2_plot_sub,
     border = FALSE,
-    boxes  = c("new_plots_window",
+    boxes  = c(
+      "new_plots_window",
       "plot_in_colors",
       "qq_detrend",
       "qq_line",
-      "qq_band"),
+      "qq_band"
+    ),
     values = c(
       initial$new_plots_window,
       initial$plot_in_colors,
