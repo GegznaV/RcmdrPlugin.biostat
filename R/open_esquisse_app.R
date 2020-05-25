@@ -1,8 +1,6 @@
 open_esquisse_app <- function() {
   suppressMessages({suppressWarnings({
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    str_glue_eval("esquisse::esquisser(data = {active_dataset()})",
-      envir_eval = .GlobalEnv)
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    run_in_rstudio("esquisse::esquisser(data = {active_dataset()})")
   })})
 }
+

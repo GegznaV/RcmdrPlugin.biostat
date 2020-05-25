@@ -248,6 +248,24 @@ list_summaries_Models <- function(envir = .GlobalEnv, ...) {
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
+# 1. Pastes the code with `glue()`
+# 2. Tries to run the command via RStudio console when possible.
+# Otherwise, runs in current R session (for shiny apps, this may lead to frozen
+# R session in some situations.)
+run_in_rstudio <- function(command, ...) {
+  if (rstudioapi::isAvailable("0.99.787")) {
+    rstudioapi::sendToConsole(str_glue(.envir = .GlobalEnv, command), ...)
+
+  } else {
+    # If required version of RStudio is not available
+    str_glue_eval(command,  envir_eval = .GlobalEnv)
+  }
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 # ?stringr::str_glue
 # ?parse
 # ?eval

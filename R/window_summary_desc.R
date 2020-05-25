@@ -1,7 +1,6 @@
 # TODO:
 #
-# 1) implement function `activate_results_name`
-# 2) DescTools options may be incorrect at start up, if only some options are reset.
+# 1) DescTools options may be incorrect at start up, if only some options are reset.
 
 #' @rdname Menu-window-functions
 #' @export
@@ -42,14 +41,47 @@ window_summary_desc <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   activate_results_name <- function() {
 
-    # [???]
+    if (isTRUE(get_values(f4_keep_results))) {
+      tk_normalize(f4_results_name)
 
-    # if (get_values(f1_keep_results)) {
-    #     tkgrid(...)
-    #
-    # } else {
-    #     tkgrid.remove(...)
-    # }
+    } else {
+      set_values(f4_results_name, get_default_rez_name())
+      tk_disable(f4_results_name)
+    }
+  }
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  activate_trendline_options <- function() {
+    if (isTRUE(get_values(f2_plot_trendline, "use_trendline"))) {
+      # Enable trendline options
+      tk_normalize(f2_plot_trendline, "trendline_on_top")
+      tk_normalize(f2_plot_conf_band, "use_conf_band")
+      tk_normalize(f2_trendline_type)
+      tkconfigure(f2_trendline_type$obj_label, foreground = "black")
+      tk_normalize(f2_conf_band_level)
+      tkconfigure(f2_conf_band_level$obj_label, foreground = "black")
+
+    } else {
+      # Disable trendline options
+      tk_disable(f2_plot_trendline, "trendline_on_top")
+      tk_disable(f2_plot_conf_band, "use_conf_band")
+      tk_disable(f2_trendline_type)
+      tkconfigure(f2_trendline_type$obj_label, foreground = "grey")
+      tk_disable(f2_conf_band_level)
+      tkconfigure(f2_conf_band_level$obj_label, foreground = "grey")
+    }
+  }
+
+  hide_trendline_options <- function() {
+    # Hide options if the version of package is to old.
+    if (packageVersion("DescTools") < "0.99.36") {
+      tkgrid.remove(
+        f2_plot_trendline$frame,
+        f2_trendline_type$frame,
+        f2_plot_conf_band$frame,
+        f2_conf_band_level$frame
+      )
+    }
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -57,6 +89,13 @@ window_summary_desc <- function() {
     activate_num()
     activate_plots()
     activate_results_name()
+    activate_trendline_options()
+    hide_trendline_options()
+  }
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  get_default_rez_name <- function() {
+    unique_obj_names("desc_summary", all_numbered = TRUE)
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -115,6 +154,7 @@ window_summary_desc <- function() {
     by_group  <- get_values(f1_widget_y_gr$checkbox)
     y_var     <- get_selection(f1_widget_y_gr$y)
     gr_var    <- get_selection(f1_widget_y_gr$gr)
+    rez       <- get_values(f4_results_name)
 
     # Numeric output
     print_num  <- get_values(f2_num_enable)
@@ -126,13 +166,19 @@ window_summary_desc <- function() {
 
     # Plots
     use_plot             <- get_values(f2_plot_enable)
-    new_plots_window     <- get_values(f2_plot_opts, "new_plots_window")
-    conf_on_top          <- get_values(f2_plot_opts, "conf_on_top")
-    las                  <- get_lab_direction_las()
+    new_plots_window     <- get_values(f2_plot_opts,      "new_plots_window")
+    use_trendline        <- get_values(f2_plot_trendline, "use_trendline")
+    trendline_on_top     <- get_values(f2_plot_trendline, "trendline_on_top")
+    use_conf_band        <- get_values(f2_plot_conf_band, "use_conf_band")
+
+    trendline_type       <- get_selection(f2_trendline_type)
+    conf_band_level      <- get_selection(f2_conf_band_level)
+
     pch                  <- get_selection(f2_plot_pch)
+    las                  <- get_lab_direction_las()
 
     # General
-    keep_results         <- get_values(f1_keep_results,  "keep_results")
+    keep_results         <- get_values(f4_keep_results,  "keep_results")
     force_options        <- get_values(f2_force_options, "force_options")
 
     # # Not implemented yet
@@ -152,9 +198,9 @@ window_summary_desc <- function() {
       }
     }
 
-    # if (is_empty_name(new_name, parent = top))              {return()}
-    # if (is_not_valid_name(new_name, parent = top))          {return()}
-    # if (forbid_to_replace_variable(new_name, parent = top)) {return()}
+    if (is_empty_name(rez, parent = top))              {return()}
+    if (is_not_valid_name(rez, parent = top))          {return()}
+    if (forbid_to_replace_object(rez, parent = top)) {return()}
 
 
     all_selected <- c(y_var, gr_var)
@@ -196,8 +242,15 @@ window_summary_desc <- function() {
       # Plots
       use_plot         = use_plot,
       new_plots_window = new_plots_window,
+
+      use_trendline    = use_trendline,
+      trendline_on_top = trendline_on_top,
+      trendline_type   = trendline_type,
+
+      use_conf_band    = use_conf_band,
+      conf_band_level  = conf_band_level,
+
       pch              = pch,
-      conf_on_top      = conf_on_top,
       labels_direction = get_lab_direction_label(las)
     ))
 
@@ -205,9 +258,6 @@ window_summary_desc <- function() {
 
     y_var  <- safe_names(y_var)
     gr_var <- safe_names(gr_var)
-
-
-    rez <- unique_obj_names("desc_summary", all_numbered = TRUE)
 
     if (isTRUE(print_num)) {
       print_code <- str_glue("print({rez}, plotit = FALSE) \n", .trim = FALSE)
@@ -250,10 +300,58 @@ window_summary_desc <- function() {
           ""
         }
 
-      conf_on_top_txt <-
-        if (conf_on_top == FALSE) {", smooth.front = FALSE"} else {""}
 
-      plot_base <- str_glue("plot({rez}{pch_txt}{conf_on_top_txt})")
+
+      if (packageVersion("DescTools") >= "0.99.36") {
+
+        if (isTRUE(use_trendline)) {
+
+          if (trendline_type == "Default") {
+            smooth_txt <- ""
+
+          } else {
+            smooth_name <-
+              switch(trendline_type,
+                "Linear"      = "lm",
+                "Spline"      = "spline",
+                "LOESS"       = "loess",
+                "Exponential" = "exp",
+                "none"        = "none"
+              )
+
+            smooth_txt <- str_glue(', smooth = "{smooth_name}"')
+          }
+
+          trendline_on_top_txt <-
+            if (trendline_on_top == FALSE) {", smooth.front = FALSE"} else {""}
+
+          conf_level_plot_txt <-
+            if (isTRUE(use_conf_band)) {
+              switch(conf_band_level,
+                "Default"        = "",
+                "none"           = ", conf.level = NA",
+                # otherwise
+                str_glue(', conf.level = {conf_band_level}')
+              )
+
+            } else {
+              ", conf.level = NA"
+            }
+
+
+          trendline_opts <-
+            str_glue("{smooth_txt}{trendline_on_top_txt}{conf_level_plot_txt}")
+
+        } else {
+          trendline_opts <- ', smooth = "none"'
+        }
+
+      } else {
+        # Too old version of DescTools
+        trendline_opts <- ""
+      }
+
+      plot_base <- str_glue("plot({rez}{pch_txt}{trendline_opts})")
 
       plot_code <-
         if (las == par("las")) {
@@ -262,7 +360,7 @@ window_summary_desc <- function() {
         } else {
           str_glue(
             .trim = FALSE,
-            "withr::with_par(list(las = {las}), {plot_base}) \n")
+            "withr::with_par(list(las = {las}),\n{plot_base}) \n")
         }
 
     } else {
@@ -341,7 +439,8 @@ window_summary_desc <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkfocus(CommanderWindow())
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+    # On "Apply", updates the nae of "rez"
+    set_values(f4_results_name, get_default_rez_name())
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Announce about the success to run the function `onOk()`
     TRUE
@@ -381,8 +480,12 @@ window_summary_desc <- function() {
     # Plots
     use_plot         = TRUE,
     new_plots_window = is_plot_in_separate_window(),
+    use_trendline    = TRUE,
+    trendline_type   = "Default",
+    trendline_on_top = TRUE,
+    use_conf_band    = TRUE,
+    conf_band_level  = "0.95",
     pch              = "19",
-    conf_on_top      = TRUE,
     labels_direction = gettext_bs("Parallel to the axis")
   )
 
@@ -415,12 +518,24 @@ window_summary_desc <- function() {
       "If unselected - single-variable summary.")
   )
 
-  f1_keep_results <- bs_checkboxes(
-    parent   = f1,
+  f4 <- tkframe(f0)
+
+  f4_keep_results <- bs_checkboxes(
+    parent   = f4,
     boxes    = "keep_results",
-    labels   = gettext_bs("Keep results in R memory"),
+    labels   = gettext_bs("Keep results in R memory as:"),
     values   = initial$keep_results,
     commands = list("keep_results"  = activate_results_name)
+  )
+
+  f4_results_name <- bs_entry(
+    parent = f4,
+    width  = 44,
+    value  = get_default_rez_name(),
+    justify  = "center",
+    validate = "focus",
+    validatecommand = validate_var_name_string,
+    invalidcommand  = make_red_text
   )
 
   # F2 ---------------------------------------------------------------------
@@ -545,25 +660,79 @@ window_summary_desc <- function() {
   f2_plot_opts <- bs_checkboxes(
     parent = f2_plot_sub,
     border = FALSE,
-    boxes  = c("new_plots_window", "conf_on_top"),
-    values = c(initial$new_plots_window, initial$conf_on_top),
-    labels = gettext_bs(c(
-      "Create new window for plots",
-      "Trendline in front of points"
-    )),
+    boxes  = c("new_plots_window"),
+    values = c(initial$new_plots_window),
+    labels = gettext_bs(c("Create new window for plots")),
     tips = list(
       "new_plots_window" = str_c(
         "A new window will be created for a new plot. \n",
         "Do not use this option if you want your results in RStudio"
+      ))
+  )
+
+  f2_plot_trendline <- bs_checkboxes(
+    parent = f2_plot_sub,
+    border = FALSE,
+    boxes  = c("use_trendline", "trendline_on_top"),
+    values = c(
+      initial$use_trendline,
+      initial$trendline_on_top
+    ),
+    labels = gettext_bs(c(
+      "Add trendline to scatterplots",
+      "Trendline in front of points"
+    )),
+    commands = list(
+      "use_trendline" = activate_trendline_options
+    ),
+    tips = list(
+      "use_trendline" = str_c(
+        "Should a trendline be plotted in scatterplots?"
       ),
-      "conf_on_top" = str_c(
+      "trendline_on_top" = str_c(
         "In scatterplots, should a trendline \nbe plotted in front of points?"
       )
     )
   )
 
+  f2_plot_conf_band <- bs_checkboxes(
+    parent = f2_plot_sub,
+    border = FALSE,
+    boxes  = c("use_conf_band"),
+    values = c(initial$use_conf_band),
+    labels = gettext_bs(c(
+      "Draw confidence band for trendline"
+    )),
+    tips = list(
+      "use_conf_band" = str_c(
+        "Use confidence band for trendline"
+      )
+    )
+  )
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  f2_trendline_type <- bs_combobox(
+    parent = f2_plot_sub,
+    width  = 11,
+    label  = "Type of trendline: ",
+    label_color = "black",
+    values = c("Default", "Linear", "Spline", "LOESS", "Exponential"),
+    tip = str_c("The type of trendline.\n(In scatterplos only)"),
+    value = initial$trendline_type
+  )
+
+  f2_conf_band_level <- bs_combobox(
+    parent = f2_plot_sub,
+    width  = 7,
+    label  = "Level for confidence band: ",
+    label_color = "black",
+    values = c("Default", "0.90", "0.95", "0.99", "0.999"),
+    tip = str_c(
+      "The level for confidence band of trendline."
+    ),
+    value = initial$conf_band_level
+  )
+
   f2_plot_pch <- bs_combobox(
     parent = f2_plot_sub,
     width  = 7,
@@ -571,7 +740,7 @@ window_summary_desc <- function() {
     label_color = "black",
     values = c("Default", 1, 3, 4, 16, 19, 20, 21),
     tip = str_c(
-      "The number of point shape.\nParameter 'pch'."
+      "The number of point shape.\nParameter 'pch'.\n(In scatterplos only)"
     ),
     value = initial$pch
   )
@@ -595,7 +764,6 @@ window_summary_desc <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(f1,                    sticky = "nwe", padx = c(0,  4))
   tkgrid(f1_widget_y_gr$frame,  sticky = "nwe", padx = c(10, 0))
-  tkgrid(f1_keep_results$frame, sticky = "nwe", padx = c(10, 0))
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(f2, pady = c(5, 0),  sticky = "")
@@ -603,20 +771,30 @@ window_summary_desc <- function() {
 
   tkgrid(f2_num_enable$frame, sticky = "nwe", padx = c(5, 65))
   tkgrid(f2_num_sub,          sticky = "nwe")
+  tkgrid(f2_verbose$frame,    sticky = "e",   padx = 5, pady = c(5, 5))
   tkgrid(f2_digits_per$frame, sticky = "e",   padx = 5, pady = 1)
   tkgrid(f2_digits_num$frame, sticky = "e",   padx = 5, pady = 1)
   tkgrid(f2_scipen$frame,     sticky = "e",   padx = 5, pady = 1)
   tkgrid(f2_big_mark$frame,   sticky = "e",   padx = 5, pady = 1)
-  tkgrid(f2_verbose$frame,    sticky = "e",   padx = 5, pady = c(1, 5))
   tkgrid(f2_force_options$frame,sticky = "w", padx = 5, pady = c(1, 5))
 
-  tkgrid(f2_plot_enable$frame, sticky = "nwe", padx = c(5, 50))
-  tkgrid(f2_plot_sub,          sticky = "nwe")
-  tkgrid(f2_plot_opts$frame,   sticky = "nwe", padx = c(5, 0))
-  tkgrid(f2_plot_pch$frame,    sticky = "e",   padx = 5, pady = 1)
-  tkgrid(f2_plot_las$frame,    sticky = "w",   padx = 5, pady = c(1, 5))
+  tkgrid(f2_plot_enable$frame,     sticky = "nwe", padx = c(5, 100))
+  tkgrid(f2_plot_sub,              sticky = "nwe")
+  tkgrid(f2_plot_opts$frame,       sticky = "nwe", padx = c(5, 0))
+  tkgrid(f2_plot_las$frame,        sticky = "w",   padx = 5, pady = c(1, 4))
+  tkgrid(f2_plot_trendline$frame,  sticky = "nwe", padx = c(5, 0))
+  tkgrid(f2_trendline_type$frame,  sticky = "e",   padx = 5, pady = 1)
+  tkgrid(f2_plot_conf_band$frame,  sticky = "nwe", padx = c(5, 0))
+  tkgrid(f2_conf_band_level$frame, sticky = "e",   padx = 5, pady = 1)
+  tkgrid(f2_plot_pch$frame,        sticky = "e",   padx = 5, pady = c(1, 5))
 
-  # Help menus -------------------------------------------------------------
+  # F4 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  tkgrid(f4, sticky = "nw",  padx = c(0, 0), pady = c(2, 0))
+
+  tkgrid(f4_keep_results$frame, f4_results_name$frame, sticky = "nwe")
+  tkgrid.configure(f4_results_name$frame, padx = c(5, 0))
+
+  # Help menus ---------------------------------------------------------------
   help_menu <- function() {
 
     menu_main <- tk2menu(tk2menu(top), tearoff = FALSE)
