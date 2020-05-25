@@ -385,7 +385,7 @@ print.tk2widget <- function(x, ...) {
 
   if (disabled(x)) {txt <- " (disabled)"} else {txt <- ""}
   cat("A tk2widget of class '", class(x)[1], "'", txt, "\n", sep = "")
-  cat("State: ", state(x), "\n", sep = "")
+  cat("State: ", paste(state(x), collapse = ", ", sep = " "), "\n", sep = "")
   cursize <- size(x)
   if (cursize > 0) {cat("Size: ", cursize, "\n", sep = "")}
   val <- value(x)
