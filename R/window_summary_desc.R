@@ -484,7 +484,7 @@ window_summary_desc <- function() {
     trendline_type   = "Default",
     trendline_on_top = TRUE,
     use_conf_band    = TRUE,
-    conf_band_level  = "Default",
+    conf_band_level  = "0.95",
     pch              = "19",
     labels_direction = gettext_bs("Parallel to the axis")
   )
@@ -717,7 +717,7 @@ window_summary_desc <- function() {
     label  = "Type of trendline: ",
     label_color = "black",
     values = c("Default", "Linear", "Spline", "LOESS", "Exponential"),
-    tip = str_c("In scatterplos, the type of trendline."),
+    tip = str_c("The type of trendline.\n(In scatterplos only)"),
     value = initial$trendline_type
   )
 
@@ -740,7 +740,7 @@ window_summary_desc <- function() {
     label_color = "black",
     values = c("Default", 1, 3, 4, 16, 19, 20, 21),
     tip = str_c(
-      "In scatterplotts.\nThe number of point shape.\nParameter 'pch'."
+      "The number of point shape.\nParameter 'pch'.\n(In scatterplos only)"
     ),
     value = initial$pch
   )
@@ -771,11 +771,11 @@ window_summary_desc <- function() {
 
   tkgrid(f2_num_enable$frame, sticky = "nwe", padx = c(5, 65))
   tkgrid(f2_num_sub,          sticky = "nwe")
+  tkgrid(f2_verbose$frame,    sticky = "e",   padx = 5, pady = c(5, 5))
   tkgrid(f2_digits_per$frame, sticky = "e",   padx = 5, pady = 1)
   tkgrid(f2_digits_num$frame, sticky = "e",   padx = 5, pady = 1)
   tkgrid(f2_scipen$frame,     sticky = "e",   padx = 5, pady = 1)
   tkgrid(f2_big_mark$frame,   sticky = "e",   padx = 5, pady = 1)
-  tkgrid(f2_verbose$frame,    sticky = "e",   padx = 5, pady = c(1, 5))
   tkgrid(f2_force_options$frame,sticky = "w", padx = 5, pady = c(1, 5))
 
   tkgrid(f2_plot_enable$frame,     sticky = "nwe", padx = c(5, 100))
