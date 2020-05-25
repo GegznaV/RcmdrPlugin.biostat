@@ -37,6 +37,7 @@
 \alias{Helper-functions}
 \alias{variables_with_unique_values}
 \alias{list_summaries_Models}
+\alias{run_in_rstudio}
 \alias{str_glue_eval}
 \alias{eval_text}
 \alias{style_cmd}
@@ -210,6 +211,8 @@ tk_bind_row_swap(obj)
 variables_with_unique_values()
 
 list_summaries_Models(envir = .GlobalEnv, ...)
+
+run_in_rstudio(command, ...)
 
 str_glue_eval(
   ...,
