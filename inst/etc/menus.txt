@@ -522,7 +522,7 @@ item	bs20_online_lists_menu	command	"statpages.info"  window_online_statpages	""
 
 
 
-# ---- +  Apps to download  ---------------------------------------------------
+# ---- +  Apps to download  --------------------------------------------------
 
 menu	bs20_downlaod_menu	topMenu	""	""	""	""
 item	bs20_online_menu	cascade	"Applications to download"	bs20_downlaod_menu	""	""
@@ -574,7 +574,7 @@ item	bs20_forums_menu	command	"Stack Overflow (programming, R)"  window_online_s
 item	bs20_forums_menu	command	"Cross Validated (data analysis, statistics)"  window_online_crossvalidated	""	""
 
 
-# + Tidyverse -------------------------------------------------------------
+# + Tidyverse ----------------------------------------------------------------
 
 menu	bs20_tidyverse_menu	bs20_online_menu	""	""	""	""
 item	bs20_online_menu	cascade	"Tidyverse"	bs20_tidyverse_menu	""	""
@@ -594,7 +594,7 @@ item	bs20_tidyverse_menu	command	"Package 'stringr' (for text data)"  window_onl
 item	bs20_tidyverse_menu	command	"Package 'tidyr' (tidy data)"  window_online_tidyr	""	""
 
 
-# + Plotting --------------------------------------------------------------
+# + Plotting -----------------------------------------------------------------
 menu	bs20_online_plots_menu	bs20_online_menu	""	""	""	""
 item	bs20_online_menu	cascade	"R plots"	bs20_online_plots_menu	""	""
 
