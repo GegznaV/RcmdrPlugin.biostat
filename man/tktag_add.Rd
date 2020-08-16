@@ -32,5 +32,5 @@ matches a pattern.
 \code{tktag_add_row()} adds text tags to the \strong{rows} that match a pattern.
 }
 \seealso{
-\code{\link[tcltk:tktag.add]{tcltk::tktag.add()}}
+\code{\link[tcltk:TkWidgetcmds]{tcltk::tktag.add()}}
 }

@@ -117,7 +117,7 @@ bs_entry(
 
 \item{variable}{Tcl/Tk variable.}
 
-\item{...}{Other parameters sent to \code{\link[tcltk2:tk2entry]{tcltk2::tk2entry()}}}
+\item{...}{Other parameters sent to \code{\link[tcltk2:tk2widgets]{tcltk2::tk2entry()}}}
 
 \item{trim}{(logical) Should leading and tailing whitespace be trimmed in the result?}
 
