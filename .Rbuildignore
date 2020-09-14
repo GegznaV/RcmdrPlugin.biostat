@@ -22,3 +22,4 @@ pkgdown/
 ^docs$
 ^pkgdown$
 ^\.github$
+^_tmp$
