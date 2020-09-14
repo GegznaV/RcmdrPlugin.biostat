@@ -35,11 +35,10 @@ jobs:
 
       - name: Install dependencies
         run: |
-          install.packages("remotes")
-          install.packages("rmarkdown")
-          install.packages("ps")
+          options("repos" = "https://cran.rstudio.com/")
+          install.packages('remotes', repos = "https://cran.rstudio.com/")
+          remotes::install_cran(c("rmarkdown", "ps", "pkgdown"))
           remotes::install_deps(dependencies = TRUE)
-          install.packages("pkgdown")
         shell: Rscript {0}
 
       - name: Install package
