@@ -125,58 +125,58 @@
     </div>
 
     <pre class="usage"><span class='fu'>bs_entry</span>(
-  <span class='kw'>parent</span> <span class='kw'>=</span> <span class='no'>top</span>,
-  <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>"28"</span>,
-  <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>label_position</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"left"</span>, <span class='st'>"above"</span>, <span class='st'>"right"</span>, <span class='st'>"none"</span>),
-  <span class='kw'>label_color</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"title.color"</span>),
-  <span class='kw'>padx</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>pady</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>sticky</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
-  <span class='kw'>sticky_label</span> <span class='kw'>=</span> <span class='no'>sticky</span>,
-  <span class='kw'>sticky_text</span> <span class='kw'>=</span> <span class='no'>sticky</span>,
-  <span class='kw'>main_frame</span> <span class='kw'>=</span> <span class='fu'>tk2frame</span>(<span class='no'>parent</span>),
-  <span class='kw'>text_frame</span> <span class='kw'>=</span> <span class='fu'>tk2frame</span>(<span class='no'>main_frame</span>),
-  <span class='kw'>label_frame</span> <span class='kw'>=</span> <span class='fu'>tk2frame</span>(<span class='no'>main_frame</span>),
-  <span class='kw'>tip</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>label_tip</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>scroll_x</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>on_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_double_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_triple_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_release</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_double_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_triple_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_release_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_key_release</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>use_context_menu</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>bind_clear</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>variable</span> <span class='kw'>=</span> <span class='fu'>tclVar</span>(<span class='no'>value</span>),
-  <span class='no'>...</span>
+  parent = <span class='kw'>top</span>,
+  width = <span class='st'>"28"</span>,
+  value = <span class='st'>""</span>,
+  label = <span class='st'>""</span>,
+  label_position = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"left"</span>, <span class='st'>"above"</span>, <span class='st'>"right"</span>, <span class='st'>"none"</span>),
+  label_color = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>getRcmdr</a></span>(<span class='st'>"title.color"</span>),
+  padx = <span class='fl'>0</span>,
+  pady = <span class='fl'>0</span>,
+  sticky = <span class='st'>"w"</span>,
+  sticky_label = <span class='kw'>sticky</span>,
+  sticky_text = <span class='kw'>sticky</span>,
+  main_frame = <span class='fu'>tk2frame</span>(<span class='kw'>parent</span>),
+  text_frame = <span class='fu'>tk2frame</span>(<span class='kw'>main_frame</span>),
+  label_frame = <span class='fu'>tk2frame</span>(<span class='kw'>main_frame</span>),
+  tip = <span class='st'>""</span>,
+  label_tip = <span class='st'>""</span>,
+  scroll_x = <span class='fl'>FALSE</span>,
+  on_click = <span class='kw'>do_nothing</span>,
+  on_double_click = <span class='kw'>do_nothing</span>,
+  on_triple_click = <span class='kw'>do_nothing</span>,
+  on_release = <span class='kw'>do_nothing</span>,
+  on_click_3 = <span class='kw'>do_nothing</span>,
+  on_double_click_3 = <span class='kw'>do_nothing</span>,
+  on_triple_click_3 = <span class='kw'>do_nothing</span>,
+  on_release_3 = <span class='kw'>do_nothing</span>,
+  on_key_release = <span class='kw'>do_nothing</span>,
+  use_context_menu = <span class='fl'>TRUE</span>,
+  bind_clear = <span class='fl'>TRUE</span>,
+  variable = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr-internal.html'>tclVar</a></span>(<span class='kw'>value</span>),
+  <span class='kw'>...</span>
 )
 
 <span class='co'># S3 method for bs_entry</span>
-<span class='fu'><a href='Helper-functions.html'>get_values</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>trim</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>get_values</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>, trim = <span class='fl'>TRUE</span>)
 
 <span class='co'># S3 method for bs_entry</span>
-<span class='fu'><a href='Helper-functions.html'>set_values</a></span>(<span class='no'>obj</span>, <span class='no'>values</span>, <span class='no'>...</span>, <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>set_values</a></span>(<span class='kw'>obj</span>, <span class='kw'>values</span>, <span class='kw'>...</span>, add = <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for bs_entry</span>
-<span class='fu'><a href='widget-state.html'>tk_get_state</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'><a href='widget-state.html'>tk_get_state</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for bs_entry</span>
-<span class='fu'><a href='widget-state.html'>tk_disable</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>foreground</span> <span class='kw'>=</span> <span class='st'>"grey"</span>)
+<span class='fu'><a href='widget-state.html'>tk_disable</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>, foreground = <span class='st'>"grey"</span>)
 
 <span class='co'># S3 method for bs_entry</span>
-<span class='fu'><a href='widget-state.html'>tk_normalize</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>foreground</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"title.color"</span>))
+<span class='fu'><a href='widget-state.html'>tk_normalize</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>, foreground = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>getRcmdr</a></span>(<span class='st'>"title.color"</span>))
 
 <span class='co'># S3 method for bs_entry</span>
-<span class='fu'><a href='widget-state.html'>tk_activate</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>foreground</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"title.color"</span>))
+<span class='fu'><a href='widget-state.html'>tk_activate</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>, foreground = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>getRcmdr</a></span>(<span class='st'>"title.color"</span>))
 
 <span class='co'># S3 method for bs_entry</span>
-<span class='fu'><a href='widget-state.html'>tk_read_only</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>foreground</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"title.color"</span>))</pre>
+<span class='fu'><a href='widget-state.html'>tk_read_only</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>, foreground = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>getRcmdr</a></span>(<span class='st'>"title.color"</span>))</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -331,7 +331,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

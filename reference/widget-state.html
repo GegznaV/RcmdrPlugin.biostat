@@ -124,51 +124,51 @@
     <p>Get or modify the state of Tk widgets.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tk_get_default_enabled_state</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>tk_get_default_enabled_state</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
-<span class='fu'>tk_set_default_enabled_state</span>(<span class='no'>obj</span>, <span class='no'>state</span>, <span class='no'>...</span>)
+<span class='fu'>tk_set_default_enabled_state</span>(<span class='kw'>obj</span>, <span class='kw'>state</span>, <span class='kw'>...</span>)
 
-<span class='fu'>tk_get_state</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'>tk_get_state</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
-<span class='fu'>tk_set_state</span>(<span class='no'>obj</span>, <span class='no'>state</span>, <span class='no'>...</span>)
+<span class='fu'>tk_set_state</span>(<span class='kw'>obj</span>, <span class='kw'>state</span>, <span class='kw'>...</span>)
 
-<span class='fu'>tk_normalize</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'>tk_normalize</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
-<span class='fu'>tk_activate</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'>tk_activate</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
-<span class='fu'>tk_read_only</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'>tk_read_only</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
-<span class='fu'>tk_enable</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'>tk_enable</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
-<span class='fu'>tk_disable</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for default</span>
-<span class='fu'>tk_get_default_enabled_state</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'>tk_disable</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>tk_get_state</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'>tk_get_default_enabled_state</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>tk_get_state</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for default</span>
 <span class='fu'>tk_set_default_enabled_state</span>(
-  <span class='no'>obj</span>,
-  <span class='kw'>state</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"active"</span>, <span class='st'>"normal"</span>, <span class='st'>"readonly"</span>),
-  <span class='no'>...</span>
+  <span class='kw'>obj</span>,
+  state = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"active"</span>, <span class='st'>"normal"</span>, <span class='st'>"readonly"</span>),
+  <span class='kw'>...</span>
 )
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>tk_set_state</span>(<span class='no'>obj</span>, <span class='no'>state</span>, <span class='no'>...</span>)
+<span class='fu'>tk_set_state</span>(<span class='kw'>obj</span>, <span class='kw'>state</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>tk_normalize</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'>tk_normalize</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>tk_activate</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'>tk_activate</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>tk_read_only</span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'>tk_read_only</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>tk_disable</span>(<span class='no'>obj</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>tk_disable</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -216,12 +216,12 @@ either "normal", "active" or "readonly".</p></li>
     <div class='dont-index'><p><code><a href='https://rdrr.io/r/tcltk/TkWidgetcmds.html'>tcltk::tkconfigure()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'># tk_get_state(obj)
-# tk_get_state(".1.2.5")
+    <pre class="examples"><div class='input'><span class='co'># tk_get_state(obj)</span>
+<span class='co'># tk_get_state(".1.2.5")</span>
 
-# tk_disable(obj)
-# tk_normalize(obj)
-# tk_set_state(obj, "normal")
+<span class='co'># tk_disable(obj)</span>
+<span class='co'># tk_normalize(obj)</span>
+<span class='co'># tk_set_state(obj, "normal")</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -238,7 +238,7 @@ either "normal", "active" or "readonly".</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

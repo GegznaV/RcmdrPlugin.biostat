@@ -125,171 +125,171 @@
     </div>
 
     <pre class="usage"><span class='fu'>bs_listbox</span>(
-  <span class='no'>parent</span>,
-  <span class='kw'>values</span> <span class='kw'>=</span> <span class='fu'><a href='variables_all.html'>variables_all</a></span>(),
-  <span class='kw'>value</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>selection</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>selectmode</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"single"</span>, <span class='st'>"extended"</span>, <span class='st'>"browse"</span>, <span class='st'>"multiple"</span>),
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>subtitle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>tip</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>height</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"variable.list.height"</span>),
-  <span class='kw'>width</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"variable.list.width"</span>),
-  <span class='kw'>enabled</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>scroll</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"both"</span>, <span class='st'>"x"</span>, <span class='st'>"y"</span>, <span class='st'>"none"</span>),
-  <span class='kw'>autoscroll</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"x"</span>, <span class='st'>"y"</span>, <span class='st'>"both"</span>, <span class='st'>"none"</span>),
-  <span class='kw'>use_filter</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>filter_label</span> <span class='kw'>=</span> <span class='st'>"Filter"</span>,
-  <span class='kw'>sticky</span> <span class='kw'>=</span> <span class='st'>"nw"</span>,
-  <span class='kw'>on_select</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_double_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_triple_click</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_release</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_double_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_triple_click_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_release_3</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>on_keyboard</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"select"</span>, <span class='st'>"scroll"</span>, <span class='st'>"ignore"</span>),
-  <span class='kw'>on_keyboard_fun</span> <span class='kw'>=</span> <span class='no'>do_nothing</span>,
-  <span class='kw'>bind_row_swap</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>title_sticky</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
-  <span class='kw'>subtitle_sticky</span> <span class='kw'>=</span> <span class='no'>title_sticky</span>,
-  <span class='kw'>title_color</span> <span class='kw'>=</span> <span class='fu'>getRcmdr</span>(<span class='st'>"title.color"</span>),
-  <span class='kw'>subtitle_color</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
-  <span class='kw'>filter_label_color</span> <span class='kw'>=</span> <span class='no'>title_color</span>,
-  <span class='no'>...</span>
+  <span class='kw'>parent</span>,
+  values = <span class='fu'><a href='variables_all.html'>variables_all</a></span>(),
+  value = <span class='kw'>NULL</span>,
+  selection = <span class='kw'>NULL</span>,
+  selectmode = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"single"</span>, <span class='st'>"extended"</span>, <span class='st'>"browse"</span>, <span class='st'>"multiple"</span>),
+  title = <span class='kw'>NULL</span>,
+  subtitle = <span class='kw'>NULL</span>,
+  tip = <span class='st'>""</span>,
+  height = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>getRcmdr</a></span>(<span class='st'>"variable.list.height"</span>),
+  width = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>getRcmdr</a></span>(<span class='st'>"variable.list.width"</span>),
+  enabled = <span class='fl'>TRUE</span>,
+  scroll = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"both"</span>, <span class='st'>"x"</span>, <span class='st'>"y"</span>, <span class='st'>"none"</span>),
+  autoscroll = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"x"</span>, <span class='st'>"y"</span>, <span class='st'>"both"</span>, <span class='st'>"none"</span>),
+  use_filter = <span class='fl'>FALSE</span>,
+  filter_label = <span class='st'>"Filter"</span>,
+  sticky = <span class='st'>"nw"</span>,
+  on_select = <span class='kw'>do_nothing</span>,
+  on_click = <span class='kw'>do_nothing</span>,
+  on_double_click = <span class='kw'>do_nothing</span>,
+  on_triple_click = <span class='kw'>do_nothing</span>,
+  on_release = <span class='kw'>do_nothing</span>,
+  on_click_3 = <span class='kw'>do_nothing</span>,
+  on_double_click_3 = <span class='kw'>do_nothing</span>,
+  on_triple_click_3 = <span class='kw'>do_nothing</span>,
+  on_release_3 = <span class='kw'>do_nothing</span>,
+  on_keyboard = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"select"</span>, <span class='st'>"scroll"</span>, <span class='st'>"ignore"</span>),
+  on_keyboard_fun = <span class='kw'>do_nothing</span>,
+  bind_row_swap = <span class='fl'>FALSE</span>,
+  title_sticky = <span class='st'>"w"</span>,
+  subtitle_sticky = <span class='kw'>title_sticky</span>,
+  title_color = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>getRcmdr</a></span>(<span class='st'>"title.color"</span>),
+  subtitle_color = <span class='st'>"black"</span>,
+  filter_label_color = <span class='kw'>title_color</span>,
+  <span class='kw'>...</span>
 )
 
 <span class='co'># S3 method for listbox</span>
-<span class='fu'><a href='Helper-functions.html'>get_size</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>get_size</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for tkwin</span>
-<span class='fu'><a href='Helper-functions.html'>get_size</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>get_size</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
-<span class='fu'>get_values_listbox</span>(<span class='no'>listbox</span>, <span class='kw'>trim</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='co'># S3 method for listbox</span>
-<span class='fu'><a href='Helper-functions.html'>get_values</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for tk2listbox</span>
-<span class='fu'><a href='Helper-functions.html'>get_values</a></span>(<span class='no'>obj</span>, <span class='no'>vals</span>, <span class='no'>...</span>)
-
-<span class='fu'>set_values_listbox</span>(<span class='no'>listbox</span>, <span class='no'>values</span>, <span class='kw'>clear</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ignore_on_disabled</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>get_values_listbox</span>(<span class='kw'>listbox</span>, trim = <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for listbox</span>
-<span class='fu'><a href='Helper-functions.html'>set_values</a></span>(<span class='no'>obj</span>, <span class='no'>values</span>, <span class='no'>...</span>, <span class='kw'>clear</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>get_values</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for tk2listbox</span>
-<span class='fu'><a href='Helper-functions.html'>set_values</a></span>(<span class='no'>obj</span>, <span class='no'>values</span>, <span class='no'>...</span>, <span class='kw'>clear</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>get_values</a></span>(<span class='kw'>obj</span>, <span class='kw'>vals</span>, <span class='kw'>...</span>)
+
+<span class='fu'>set_values_listbox</span>(<span class='kw'>listbox</span>, <span class='kw'>values</span>, clear = <span class='fl'>TRUE</span>, ignore_on_disabled = <span class='fl'>FALSE</span>)
+
+<span class='co'># S3 method for listbox</span>
+<span class='fu'><a href='get_values.bs_checkboxes.html'>set_values</a></span>(<span class='kw'>obj</span>, <span class='kw'>values</span>, <span class='kw'>...</span>, clear = <span class='fl'>TRUE</span>)
+
+<span class='co'># S3 method for tk2listbox</span>
+<span class='fu'><a href='get_values.bs_checkboxes.html'>set_values</a></span>(<span class='kw'>obj</span>, <span class='kw'>values</span>, <span class='kw'>...</span>, clear = <span class='fl'>TRUE</span>)
 
 <span class='co'># S3 method for listbox_with_filter</span>
-<span class='fu'><a href='Helper-functions.html'>set_values</a></span>(<span class='no'>obj</span>, <span class='no'>values</span>, <span class='no'>...</span>, <span class='kw'>clear</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>set_values</a></span>(<span class='kw'>obj</span>, <span class='kw'>values</span>, <span class='kw'>...</span>, clear = <span class='fl'>TRUE</span>)
 
-<span class='fu'>get_selection_ind_listbox</span>(<span class='no'>listbox</span>)
+<span class='fu'>get_selection_ind_listbox</span>(<span class='kw'>listbox</span>)
 
-<span class='fu'>get_selection_listbox</span>(<span class='no'>listbox</span>)
-
-<span class='co'># S3 method for listbox</span>
-<span class='fu'><a href='Helper-functions.html'>get_selection</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>index</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='co'># S3 method for tk2listbox</span>
-<span class='fu'><a href='Helper-functions.html'>get_selection</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>index</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>get_selection_listbox</span>(<span class='kw'>listbox</span>)
 
 <span class='co'># S3 method for listbox</span>
-<span class='fu'><a href='Helper-functions.html'>get_selection_length</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>get_selection</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>, index = <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for tk2listbox</span>
-<span class='fu'><a href='Helper-functions.html'>get_selection_length</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
-
-<span class='fu'>set_selection_listbox</span>(<span class='no'>listbox</span>, <span class='no'>sel</span>, <span class='kw'>clear</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>get_selection</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>, index = <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for listbox</span>
-<span class='fu'><a href='Helper-functions.html'>set_selection</a></span>(<span class='no'>obj</span>, <span class='no'>sel</span>, <span class='kw'>clear</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>get_selection_length</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for tk2listbox</span>
-<span class='fu'><a href='Helper-functions.html'>set_selection</a></span>(<span class='no'>obj</span>, <span class='no'>sel</span>, <span class='kw'>clear</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>get_selection_length</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
+
+<span class='fu'>set_selection_listbox</span>(<span class='kw'>listbox</span>, <span class='kw'>sel</span>, clear = <span class='fl'>TRUE</span>)
 
 <span class='co'># S3 method for listbox</span>
-<span class='fu'><a href='Helper-functions.html'>add_selection</a></span>(<span class='no'>obj</span>, <span class='no'>sel</span>, <span class='no'>...</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>set_selection</a></span>(<span class='kw'>obj</span>, <span class='kw'>sel</span>, clear = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for tk2listbox</span>
-<span class='fu'><a href='Helper-functions.html'>add_selection</a></span>(<span class='no'>obj</span>, <span class='no'>sel</span>, <span class='no'>...</span>)
-
-<span class='fu'>move_selected_row_in_box</span>(<span class='no'>tkobj</span>, <span class='kw'>move_to</span> <span class='kw'>=</span> <span class='st'>"+1"</span>)
-
-<span class='fu'>move_selection_in_box</span>(<span class='no'>tkobj</span>, <span class='kw'>move_to</span> <span class='kw'>=</span> <span class='st'>"+1"</span>)
-
-<span class='fu'>move_selected_row_in_listbox__previous_version</span>(<span class='no'>listbox</span>, <span class='kw'>move_to</span> <span class='kw'>=</span> <span class='st'>""</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>set_selection</a></span>(<span class='kw'>obj</span>, <span class='kw'>sel</span>, clear = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for listbox</span>
-<span class='fu'><a href='Helper-functions.html'>tk_bind_row_swap</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>add_selection</a></span>(<span class='kw'>obj</span>, <span class='kw'>sel</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for tk2listbox</span>
-<span class='fu'><a href='Helper-functions.html'>tk_bind_row_swap</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>add_selection</a></span>(<span class='kw'>obj</span>, <span class='kw'>sel</span>, <span class='kw'>...</span>)
+
+<span class='fu'>move_selected_row_in_box</span>(<span class='kw'>tkobj</span>, move_to = <span class='st'>"+1"</span>)
+
+<span class='fu'>move_selection_in_box</span>(<span class='kw'>tkobj</span>, move_to = <span class='st'>"+1"</span>)
+
+<span class='fu'>move_selected_row_in_listbox__previous_version</span>(<span class='kw'>listbox</span>, move_to = <span class='st'>""</span>)
 
 <span class='co'># S3 method for listbox</span>
-<span class='fu'><a href='Helper-functions.html'>set_yview</a></span>(<span class='no'>obj</span>, <span class='no'>ind</span>, <span class='no'>...</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>tk_bind_row_swap</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for tk2listbox</span>
-<span class='fu'><a href='Helper-functions.html'>set_yview</a></span>(<span class='no'>obj</span>, <span class='no'>ind</span>, <span class='no'>...</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>tk_bind_row_swap</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for listbox</span>
-<span class='fu'><a href='Helper-functions.html'>get_yview</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>set_yview</a></span>(<span class='kw'>obj</span>, <span class='kw'>ind</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for tk2listbox</span>
-<span class='fu'><a href='Helper-functions.html'>get_yview</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>set_yview</a></span>(<span class='kw'>obj</span>, <span class='kw'>ind</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for listbox</span>
-<span class='fu'><a href='Helper-functions.html'>tk_yview_moveto</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>get_yview</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for tk2listbox</span>
-<span class='fu'><a href='Helper-functions.html'>tk_yview_moveto</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>get_yview</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for listbox</span>
-<span class='fu'><a href='Helper-functions.html'>tk_see</a></span>(<span class='no'>obj</span>, <span class='no'>ind</span>, <span class='no'>...</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>tk_yview_moveto</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for tk2listbox</span>
-<span class='fu'><a href='Helper-functions.html'>tk_see</a></span>(<span class='no'>obj</span>, <span class='no'>ind</span>, <span class='no'>...</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>tk_yview_moveto</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for listbox</span>
-<span class='fu'><a href='widget-state.html'>tk_get_state</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>tk_see</a></span>(<span class='kw'>obj</span>, <span class='kw'>ind</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for tk2listbox</span>
-<span class='fu'><a href='widget-state.html'>tk_get_state</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>)
+<span class='fu'><a href='get_values.bs_checkboxes.html'>tk_see</a></span>(<span class='kw'>obj</span>, <span class='kw'>ind</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for listbox</span>
-<span class='fu'><a href='widget-state.html'>tk_disable</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>background</span> <span class='kw'>=</span> <span class='st'>"grey95"</span>)
+<span class='fu'><a href='widget-state.html'>tk_get_state</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for tk2listbox</span>
-<span class='fu'><a href='widget-state.html'>tk_disable</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>background</span> <span class='kw'>=</span> <span class='st'>"grey95"</span>)
+<span class='fu'><a href='widget-state.html'>tk_get_state</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
+
+<span class='co'># S3 method for listbox</span>
+<span class='fu'><a href='widget-state.html'>tk_disable</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>, background = <span class='st'>"grey95"</span>)
+
+<span class='co'># S3 method for tk2listbox</span>
+<span class='fu'><a href='widget-state.html'>tk_disable</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>, background = <span class='st'>"grey95"</span>)
 
 <span class='co'># S3 method for listbox_with_filter</span>
 <span class='fu'><a href='widget-state.html'>tk_disable</a></span>(
-  <span class='no'>obj</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>background</span> <span class='kw'>=</span> <span class='st'>"grey95"</span>,
-  <span class='kw'>ignore_filter</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>clear_filter</span> <span class='kw'>=</span> !<span class='no'>ignore_filter</span>
+  <span class='kw'>obj</span>,
+  <span class='kw'>...</span>,
+  background = <span class='st'>"grey95"</span>,
+  ignore_filter = <span class='fl'>FALSE</span>,
+  clear_filter = <span class='op'>!</span><span class='kw'>ignore_filter</span>
 )
 
 <span class='co'># S3 method for listbox</span>
-<span class='fu'><a href='widget-state.html'>tk_normalize</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>background</span> <span class='kw'>=</span> <span class='st'>"white"</span>)
+<span class='fu'><a href='widget-state.html'>tk_normalize</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>, background = <span class='st'>"white"</span>)
 
 <span class='co'># S3 method for tk2listbox</span>
-<span class='fu'><a href='widget-state.html'>tk_normalize</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>background</span> <span class='kw'>=</span> <span class='st'>"white"</span>)
+<span class='fu'><a href='widget-state.html'>tk_normalize</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>, background = <span class='st'>"white"</span>)
 
 <span class='co'># S3 method for listbox_with_filter</span>
-<span class='fu'><a href='widget-state.html'>tk_normalize</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>background</span> <span class='kw'>=</span> <span class='st'>"grey95"</span>)
+<span class='fu'><a href='widget-state.html'>tk_normalize</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>, background = <span class='st'>"grey95"</span>)
 
 <span class='co'># S3 method for listbox</span>
-<span class='fu'><a href='widget-state.html'>tk_enable</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>background</span> <span class='kw'>=</span> <span class='st'>"white"</span>)
+<span class='fu'><a href='widget-state.html'>tk_enable</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>, background = <span class='st'>"white"</span>)
 
 <span class='co'># S3 method for tk2listbox</span>
-<span class='fu'><a href='widget-state.html'>tk_enable</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>background</span> <span class='kw'>=</span> <span class='st'>"white"</span>)
+<span class='fu'><a href='widget-state.html'>tk_enable</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>, background = <span class='st'>"white"</span>)
 
 <span class='co'># S3 method for listbox_with_filter</span>
-<span class='fu'><a href='widget-state.html'>tk_enable</a></span>(<span class='no'>obj</span>, <span class='no'>...</span>, <span class='kw'>background</span> <span class='kw'>=</span> <span class='st'>"grey95"</span>)</pre>
+<span class='fu'><a href='widget-state.html'>tk_enable</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>, background = <span class='st'>"grey95"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -400,7 +400,7 @@ Indicates scrollbar position.</p></td>
     </tr>
     <tr>
       <th>on_keyboard</th>
-      <td><p>("select", "scroll", "ignore") Action on keyboard letter click:</p><dl'>
+      <td><p>("select", "scroll", "ignore") Action on keyboard letter click:</p><dl>
     <dt>"select"</dt><dd><p>toggle selection of values that start with the pressed letter.
     This letter binding is good for single-selection boxes, otherwise selection should not be toggled (see "scroll")</p></dd>
     <dt>"scroll"</dt><dd><p>toggle view of values that start with the pressed letter.
@@ -529,7 +529,7 @@ listbox reset?</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
