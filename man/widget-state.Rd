@@ -63,7 +63,7 @@ tk_disable(obj, ...)
 \item{obj}{Tk widget or a string with the ID of an existing Tk widget
 (e.g., \code{".1.2.5"}).}
 
-\item{...}{other options to be passed to \code{\link[tcltk:tkconfigure]{tcltk::tkconfigure()}}.}
+\item{...}{other options to be passed to \code{\link[tcltk:TkWidgetcmds]{tcltk::tkconfigure()}}.}
 
 \item{state}{(character) The state of widget.
 Usually one of "normal", "active", "diabled", "readonly".}
@@ -104,6 +104,6 @@ either "normal", "active" or "readonly".
 # tk_set_state(obj, "normal")
 }
 \seealso{
-\code{\link[tcltk:tkconfigure]{tcltk::tkconfigure()}}
+\code{\link[tcltk:TkWidgetcmds]{tcltk::tkconfigure()}}
 }
 \keyword{internal}
