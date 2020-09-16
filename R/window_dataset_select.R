@@ -115,7 +115,7 @@ window_dataset_select <- function() {
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    cmd_var_summary_dfSummary <- function() {
+  cmd_var_summary_dfSummary <- function() {
     .ds_1 <- get_selection(var_ds_box) %>% safe_names()
     Library("summarytools")
 
@@ -342,10 +342,10 @@ window_dataset_select <- function() {
     menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
 
     tkadd(menu_p, "command",
-          label    = "of all variables (summary)",
-          # compound = "left",
-          # image    = "::image::bs_locale",
-          command  = cmd_var_summary
+      label    = "of all variables (summary)",
+      # compound = "left",
+      # image    = "::image::bs_locale",
+      command  = cmd_var_summary
     )
 
     tkadd(menu_p, "command",
