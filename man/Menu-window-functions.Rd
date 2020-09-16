@@ -78,7 +78,6 @@
 \alias{window_online_mvn}
 \alias{window_online_easyROC}
 \alias{window_online_r_project}
-\alias{window_online_mro}
 \alias{window_online_rstudio}
 \alias{window_online_bert}
 \alias{window_online_gpower}
@@ -288,8 +287,6 @@ window_online_mvn()
 window_online_easyROC()
 
 window_online_r_project()
-
-window_online_mro()
 
 window_online_rstudio()
 

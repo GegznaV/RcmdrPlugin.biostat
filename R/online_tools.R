@@ -120,13 +120,6 @@ window_online_r_project  <- function() {
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_online_mro  <- function() {
-  open_online_tool("https://mran.microsoft.com/download/")
-}
-
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
 window_online_rstudio  <- function() {
   open_online_tool("https://rstudio.com/products/rstudio/download/#download")
 }
