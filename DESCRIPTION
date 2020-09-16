@@ -108,7 +108,6 @@ Imports:
     vcd,
     withr
 Suggests:
-    bio,
     extrafont,
     knitr,
     rmarkdown,
