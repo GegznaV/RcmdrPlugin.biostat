@@ -194,6 +194,7 @@ active_dataset_0 <- function(name) {
       TwoLevelFactors(list_two_level_factors(name))
       if (packageVersion("Rcmdr") >= "2.7.0") {
         DiscreteNumeric(list_discrete_numeric(name))
+        Character(list_character(name))
       }
 
       open.showData.windows <- getRcmdr("open.showData.windows")
@@ -228,6 +229,7 @@ active_dataset_0 <- function(name) {
       TwoLevelFactors(NULL)
       if (packageVersion("Rcmdr") >= "2.7.0") {
         DiscreteNumeric(NULL)
+        Character(NULL)
       }
       RcmdrTclSet("dataSetName", gettextRcmdr("<No active dataset>"))
       putRcmdr(".activeModel", NULL)
@@ -255,6 +257,21 @@ list_numeric <- function(dataSet = active_dataset_0()) {
     variables[sapply(variables, function(.x) {
       .v <- eval_text(safe_names(.x), envir = get(dataSet, envir = .GlobalEnv))
       is.numeric(.v)
+    })]
+  }
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Based on Rcmdr v2.7-0
+list_character <- function(dataSet = active_dataset_0()) {
+  if (missing(dataSet)) {
+    Character()
+  }
+  else {
+    variables <- listVariables(dataSet)
+    variables[sapply(variables, function(.x) {
+      .v <- eval_text(safe_names(.x), envir = get(dataSet, envir = .GlobalEnv))
+      is.character(.v)
     })]
   }
 }
@@ -318,6 +335,5 @@ list_discrete_numeric <- function(dataSet = active_dataset_0()) {
     })]
   }
 }
-
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
