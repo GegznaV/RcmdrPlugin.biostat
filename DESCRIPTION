@@ -50,6 +50,8 @@ URL:
 BugReports: https://github.com/GegznaV/RcmdrPlugin.biostat/issues
 Remotes:
     GegznaV/RcmdrPlugin.EZR
+Additional_repositories:
+  https://mokymai.github.io/download/
 Depends:
     R (>= 3.6.0),
     tcltk,
@@ -106,6 +108,7 @@ Imports:
     vcd,
     withr
 Suggests:
+    bio,
     extrafont,
     knitr,
     rmarkdown,
