@@ -90,7 +90,7 @@ set_biostat_mode <- function() {
   on.exit(tkgrid(buttons_bar))
   # ==========================================================================
   # Get and modify default buttons -------------------------------------------
-  # Twho main buttons
+  # Two main buttons
   button_data <- getRcmdr("dataSetLabel")
   button_data_opts <- list()
   button_data_opts$orig_image   <- tcl_get_property(button_data, "-image")
