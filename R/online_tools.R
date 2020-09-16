@@ -268,7 +268,7 @@ window_online_plotly  <- function() {
 #' @export
 #' @keywords internal
 window_online_ggplot2_ext <- function() {
-  open_online_tool("http://www.ggplot2-exts.org/gallery/")
+  open_online_tool("https://exts.ggplot2.tidyverse.org/gallery/")
 }
 
 # News and tutorials ---------------------------------------------------------
