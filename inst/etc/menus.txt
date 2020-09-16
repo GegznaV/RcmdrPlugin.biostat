@@ -531,7 +531,6 @@ item	bs20_downlaod_menu	command	"Basic Excel R toolkit: BERT"  window_online_ber
 item	bs20_downlaod_menu	command	"Cluster analysis: Orange"  window_online_orange	""	""
 item	bs20_downlaod_menu	command	"Power analysis: G*Power"  window_online_gpower	""	""
 item	bs20_downlaod_menu	command	"Probability calculator: GeoGebra Classic 6"  window_online_geogebra_download	""	""
-item	bs20_downlaod_menu	command	"Scientific data analysis: PAST"  window_online_past_download	""	""
 
 
 item	bs20_downlaod_menu	separator	""	""	""	""

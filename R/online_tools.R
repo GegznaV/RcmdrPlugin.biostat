@@ -156,6 +156,7 @@ window_online_geogebra_download  <- function() {
 #' @export
 #' @keywords internal
 window_online_past_download  <- function() {
+  # The link is broken
   open_online_tool("https://folk.uio.no/ohammer/past/")
 }
 
