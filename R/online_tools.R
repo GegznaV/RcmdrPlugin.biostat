@@ -175,7 +175,7 @@ window_online_tidyverse <- function() {
 #' @export
 #' @keywords internal
 window_online_broom <- function() {
-  open_online_tool("https://broom.tidyverse.org/")
+  open_online_tool("https://broom.tidymodels.org/")
 }
 
 #' @rdname Menu-window-functions
