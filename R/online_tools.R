@@ -120,13 +120,6 @@ window_online_r_project  <- function() {
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_online_mro  <- function() {
-  open_online_tool("https://mran.microsoft.com/download/")
-}
-
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
 window_online_rstudio  <- function() {
   open_online_tool("https://rstudio.com/products/rstudio/download/#download")
 }
@@ -163,6 +156,7 @@ window_online_geogebra_download  <- function() {
 #' @export
 #' @keywords internal
 window_online_past_download  <- function() {
+  # The link is broken
   open_online_tool("https://folk.uio.no/ohammer/past/")
 }
 
@@ -181,7 +175,7 @@ window_online_tidyverse <- function() {
 #' @export
 #' @keywords internal
 window_online_broom <- function() {
-  open_online_tool("https://broom.tidyverse.org/")
+  open_online_tool("https://broom.tidymodels.org/")
 }
 
 #' @rdname Menu-window-functions
@@ -274,7 +268,7 @@ window_online_plotly  <- function() {
 #' @export
 #' @keywords internal
 window_online_ggplot2_ext <- function() {
-  open_online_tool("http://www.ggplot2-exts.org/gallery/")
+  open_online_tool("https://exts.ggplot2.tidyverse.org/gallery/")
 }
 
 # News and tutorials ---------------------------------------------------------

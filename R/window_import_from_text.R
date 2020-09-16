@@ -80,21 +80,21 @@ window_import_from_text <- function() {
   get_dec <- function() {
     val <- get_selection(f2_box_dec)
 
-    if (packageVersion("data.table") >= "1.12.9") {
-      switch(val,
-        "Auto"         = "auto",
-        "Period ( . )" = ".",
-        "Comma ( , )"  = ",",
-        stop("Value '", val, "' is unknown (f2_box_dec)."))
-
-    } else {
-      # dec = "auto" is not present
-      switch(val,
+    # if (packageVersion("data.table") >= "1.12.9") {
+    #   switch(val,
+    #     "Auto"         = "auto",
+    #     "Period ( . )" = ".",
+    #     "Comma ( , )"  = ",",
+    #     stop("Value '", val, "' is unknown (f2_box_dec)."))
+    #
+    # } else {
+    # dec = "auto" is not present
+    switch(val,
       "Default"      = ".",
       "Period ( . )" = ".",
       "Comma ( , )"  = ",",
       stop("Value '", val, "' is unknown (f2_box_dec)."))
-    }
+    # }
 
 
   }
@@ -1284,12 +1284,12 @@ window_import_from_text <- function() {
 
   # Possible options ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  if (packageVersion("data.table") >= "1.12.9") {
-    dec1  <- c("Auto", "Period ( . )", "Comma ( , )")
-
-  } else {
+  # if (packageVersion("data.table") >= "1.12.9") {
+  #   dec1  <- c("Auto", "Period ( . )", "Comma ( , )")
+  #
+  # } else {
     dec1  <- c("Period ( . )", "Comma ( , )") # "Default"
-  }
+  # }
 
   sep1  <- c("Auto", "Tab ( \\t )", "Comma ( , )", "Semicolon ( ; )",
     "White space ( )", "Vertical bar ( | )", "None", "Custom...")
