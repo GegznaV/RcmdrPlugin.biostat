@@ -484,7 +484,7 @@ window_summary_desc <- function() {
     trendline_type   = "Default",
     trendline_on_top = TRUE,
     use_conf_band    = TRUE,
-    conf_band_level  = "0.95",
+    conf_band_level  = "Default",
     pch              = "19",
     labels_direction = gettext_bs("Parallel to the axis")
   )
