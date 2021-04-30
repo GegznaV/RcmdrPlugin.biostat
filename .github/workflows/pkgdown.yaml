@@ -9,7 +9,7 @@ name: pkgdown
 
 jobs:
   pkgdown:
-    runs-on: windows-latest
+    runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -43,7 +43,7 @@ jobs:
           options("repos" = "https://cran.rstudio.com/")
           install.packages('remotes', repos = "https://cran.rstudio.com/")
           remotes::install_cran(c("rmarkdown", "ps", "pkgdown"), type = "binary")
-          
+
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
