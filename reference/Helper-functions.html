@@ -87,7 +87,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="..//index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -95,7 +95,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/GegznaV/RcmdrPlugin.biostat">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -122,375 +122,375 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for bs_checkboxes</span>
-<span class='fu'>get_values</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>, simplify = <span class='fl'>TRUE</span>, rm_names = <span class='kw'>simplify</span>)
+<span class='fu'>get_values</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span>, simplify <span class='op'>=</span> <span class='cn'>TRUE</span>, rm_names <span class='op'>=</span> <span class='va'>simplify</span><span class='op'>)</span>
 
 <span class='co'># S3 method for bs_checkboxes</span>
-<span class='fu'>set_values</span>(<span class='kw'>obj</span>, <span class='kw'>values</span>, <span class='kw'>...</span>)
+<span class='fu'>set_values</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>values</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for bs_entry</span>
-<span class='fu'>values</span>(<span class='kw'>x</span>) <span class='op'>&lt;-</span> <span class='kw'>value</span>
+<span class='fu'>values</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>value</span>
 
 <span class='co'># S3 method for bs_entry</span>
-<span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>tclvalue</a></span>(<span class='kw'>x</span>) <span class='op'>&lt;-</span> <span class='kw'>value</span>
+<span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>tclvalue</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>value</span>
 
 <span class='co'># S3 method for bs_radiobuttons</span>
-<span class='fu'>get_values</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
+<span class='fu'>get_values</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for bs_radiobuttons</span>
-<span class='fu'>set_values</span>(<span class='kw'>obj</span>, <span class='kw'>values</span>, <span class='kw'>...</span>)
+<span class='fu'>set_values</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>values</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>bs_text</span>(<span class='kw'>parent</span>, <span class='kw'>...</span>, label = <span class='st'>""</span>, undo = <span class='fl'>TRUE</span>, context_menu = <span class='fl'>FALSE</span>)
-
-<span class='co'># S3 method for bs_tk_buttonset</span>
-<span class='fu'><a href='widget-state.html'>tk_activate</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>, .which = <span class='kw'>NULL</span>)
+<span class='fu'>bs_text</span><span class='op'>(</span><span class='va'>parent</span>, <span class='va'>...</span>, label <span class='op'>=</span> <span class='st'>""</span>, undo <span class='op'>=</span> <span class='cn'>TRUE</span>, context_menu <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='co'># S3 method for bs_tk_buttonset</span>
-<span class='fu'><a href='widget-state.html'>tk_normalize</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>, .which = <span class='kw'>NULL</span>)
+<span class='fu'><a href='widget-state.html'>tk_activate</a></span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span>, .which <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
 <span class='co'># S3 method for bs_tk_buttonset</span>
-<span class='fu'><a href='widget-state.html'>tk_disable</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>, .which = <span class='kw'>NULL</span>)
+<span class='fu'><a href='widget-state.html'>tk_normalize</a></span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span>, .which <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
 <span class='co'># S3 method for bs_tk_buttonset</span>
-<span class='fu'><a href='widget-state.html'>tk_get_state</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>, .out = <span class='st'>"list"</span>)
+<span class='fu'><a href='widget-state.html'>tk_disable</a></span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span>, .which <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>bs_check_boxes</span>(
-  window = <span class='kw'>top</span>,
-  frame = <span class='fu'><a href='https://rdrr.io/r/base/stop.html'>stop</a></span>(<span class='st'>"frame not supplied"</span>),
-  boxes = <span class='fu'><a href='https://rdrr.io/r/base/stop.html'>stop</a></span>(<span class='st'>"boxes not supplied"</span>),
-  initialValues = <span class='kw'>NULL</span>,
-  labels = <span class='fu'><a href='https://rdrr.io/r/base/stop.html'>stop</a></span>(<span class='st'>"labels not supplied"</span>),
-  title = <span class='kw'>NULL</span>,
-  ttk = <span class='fl'>FALSE</span>,
-  commands = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
-)
+<span class='co'># S3 method for bs_tk_buttonset</span>
+<span class='fu'><a href='widget-state.html'>tk_get_state</a></span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span>, .out <span class='op'>=</span> <span class='st'>"list"</span><span class='op'>)</span>
 
-<span class='fu'>radioButtons_horizontal</span>(
-  window = <span class='kw'>top</span>,
-  name = <span class='fu'><a href='https://rdrr.io/r/base/stop.html'>stop</a></span>(<span class='st'>"name not supplied"</span>),
-  buttons = <span class='fu'><a href='https://rdrr.io/r/base/stop.html'>stop</a></span>(<span class='st'>"buttons not supplied"</span>),
-  values = <span class='kw'>NULL</span>,
-  initialValue = <span class='kw'>..values</span>[<span class='fl'>1</span>],
-  labels = <span class='fu'><a href='https://rdrr.io/r/base/stop.html'>stop</a></span>(<span class='st'>"labels not supplied"</span>),
-  title = <span class='kw'>NULL</span>,
-  title.color = <span class='kw'>NULL</span>,
-  right.buttons = <span class='fl'>FALSE</span>,
-  command = <span class='fu'>function</span>() { },
-  sticky_title = <span class='st'>"w"</span>,
-  sticky_buttons = <span class='st'>"e"</span>
-)
+<span class='fu'>bs_check_boxes</span><span class='op'>(</span>
+  window <span class='op'>=</span> <span class='va'>top</span>,
+  frame <span class='op'>=</span> <span class='kw'><a href='https://rdrr.io/r/base/stop.html'>stop</a></span><span class='op'>(</span><span class='st'>"frame not supplied"</span><span class='op'>)</span>,
+  boxes <span class='op'>=</span> <span class='kw'><a href='https://rdrr.io/r/base/stop.html'>stop</a></span><span class='op'>(</span><span class='st'>"boxes not supplied"</span><span class='op'>)</span>,
+  initialValues <span class='op'>=</span> <span class='cn'>NULL</span>,
+  labels <span class='op'>=</span> <span class='kw'><a href='https://rdrr.io/r/base/stop.html'>stop</a></span><span class='op'>(</span><span class='st'>"labels not supplied"</span><span class='op'>)</span>,
+  title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  ttk <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  commands <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='fu'>get_size</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
+<span class='fu'>radioButtons_horizontal</span><span class='op'>(</span>
+  window <span class='op'>=</span> <span class='va'>top</span>,
+  name <span class='op'>=</span> <span class='kw'><a href='https://rdrr.io/r/base/stop.html'>stop</a></span><span class='op'>(</span><span class='st'>"name not supplied"</span><span class='op'>)</span>,
+  buttons <span class='op'>=</span> <span class='kw'><a href='https://rdrr.io/r/base/stop.html'>stop</a></span><span class='op'>(</span><span class='st'>"buttons not supplied"</span><span class='op'>)</span>,
+  values <span class='op'>=</span> <span class='cn'>NULL</span>,
+  initialValue <span class='op'>=</span> <span class='va'>..values</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>,
+  labels <span class='op'>=</span> <span class='kw'><a href='https://rdrr.io/r/base/stop.html'>stop</a></span><span class='op'>(</span><span class='st'>"labels not supplied"</span><span class='op'>)</span>,
+  title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  title.color <span class='op'>=</span> <span class='cn'>NULL</span>,
+  right.buttons <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  command <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>{</span> <span class='op'>}</span>,
+  sticky_title <span class='op'>=</span> <span class='st'>"w"</span>,
+  sticky_buttons <span class='op'>=</span> <span class='st'>"e"</span>
+<span class='op'>)</span>
 
-<span class='fu'>get_values</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
+<span class='fu'>get_size</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>set_values</span>(<span class='kw'>obj</span>, <span class='kw'>values</span>, <span class='kw'>...</span>)
+<span class='fu'>get_values</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>get_selection</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
+<span class='fu'>set_values</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>values</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>get_selection_length</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
+<span class='fu'>get_selection</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>set_selection</span>(<span class='kw'>obj</span>, <span class='kw'>sel</span>, <span class='kw'>...</span>)
+<span class='fu'>get_selection_length</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>add_selection</span>(<span class='kw'>obj</span>, <span class='kw'>sel</span>, <span class='kw'>...</span>)
+<span class='fu'>set_selection</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>sel</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>get_xview</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
+<span class='fu'>add_selection</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>sel</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>set_xview</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
+<span class='fu'>get_xview</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>get_yview</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
+<span class='fu'>set_xview</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>set_yview</span>(<span class='kw'>obj</span>, <span class='kw'>ind</span>, <span class='kw'>...</span>)
+<span class='fu'>get_yview</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>tk_yview_moveto</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
+<span class='fu'>set_yview</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>ind</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>tk_see</span>(<span class='kw'>obj</span>, <span class='kw'>ind</span>, <span class='kw'>...</span>)
+<span class='fu'>tk_yview_moveto</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>tk_get_n_lines</span>(<span class='kw'>obj</span>)
+<span class='fu'>tk_see</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>ind</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>tk_bind_row_swap</span>(<span class='kw'>obj</span>)
+<span class='fu'>tk_get_n_lines</span><span class='op'>(</span><span class='va'>obj</span><span class='op'>)</span>
+
+<span class='fu'>tk_bind_row_swap</span><span class='op'>(</span><span class='va'>obj</span><span class='op'>)</span>
 
 <span class='co'># S3 method for bs_tk_widget</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>x</span>, <span class='kw'>...</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>variables_with_unique_values</span>()
+<span class='fu'>variables_with_unique_values</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>list_summaries_Models</span>(envir = <span class='kw'>.GlobalEnv</span>, <span class='kw'>...</span>)
+<span class='fu'>list_summaries_Models</span><span class='op'>(</span>envir <span class='op'>=</span> <span class='va'>.GlobalEnv</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>run_in_rstudio</span>(<span class='kw'>command</span>, <span class='kw'>...</span>)
+<span class='fu'>run_in_rstudio</span><span class='op'>(</span><span class='va'>command</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>str_glue_eval</span>(
-  <span class='kw'>...</span>,
-  envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(),
-  .sep = <span class='st'>""</span>,
-  .open = <span class='st'>"{"</span>,
-  .close = <span class='st'>"}"</span>,
-  envir_eval = <span class='kw'>envir</span>,
-  envir_glue = <span class='kw'>envir</span>
-)
+<span class='fu'>str_glue_eval</span><span class='op'>(</span>
+  <span class='va'>...</span>,
+  envir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span><span class='op'>(</span><span class='op'>)</span>,
+  .sep <span class='op'>=</span> <span class='st'>""</span>,
+  .open <span class='op'>=</span> <span class='st'>"{"</span>,
+  .close <span class='op'>=</span> <span class='st'>"}"</span>,
+  envir_eval <span class='op'>=</span> <span class='va'>envir</span>,
+  envir_glue <span class='op'>=</span> <span class='va'>envir</span>
+<span class='op'>)</span>
 
-<span class='fu'>eval_text</span>(<span class='kw'>x</span>, envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(), <span class='kw'>...</span>)
+<span class='fu'>eval_text</span><span class='op'>(</span><span class='va'>x</span>, envir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>style_cmd</span>(<span class='kw'>command</span>, indent_by = <span class='fl'>2</span>, <span class='kw'>...</span>)
+<span class='fu'>style_cmd</span><span class='op'>(</span><span class='va'>command</span>, indent_by <span class='op'>=</span> <span class='fl'>2</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>try_command</span>(<span class='kw'>x</span>)
+<span class='fu'>try_command</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
-<span class='fu'>is_try_error</span>(<span class='kw'>obj</span>)
+<span class='fu'>is_try_error</span><span class='op'>(</span><span class='va'>obj</span><span class='op'>)</span>
 
-<span class='fu'>function_not_implemented</span>()
+<span class='fu'>function_not_implemented</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>gettext_ezr</span>(<span class='kw'>...</span>)
+<span class='fu'>gettext_ezr</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>gettext_bs</span>(<span class='kw'>...</span>)
+<span class='fu'>gettext_bs</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>s2u</span>(<span class='kw'>str</span>)
+<span class='fu'>s2u</span><span class='op'>(</span><span class='va'>str</span><span class='op'>)</span>
 
-<span class='fu'>u2s</span>(<span class='kw'>str</span>)
+<span class='fu'>u2s</span><span class='op'>(</span><span class='va'>str</span><span class='op'>)</span>
 
-<span class='fu'>spaces</span>(<span class='kw'>n</span>, symbol = <span class='st'>" "</span>)
+<span class='fu'>spaces</span><span class='op'>(</span><span class='va'>n</span>, symbol <span class='op'>=</span> <span class='st'>" "</span><span class='op'>)</span>
 
-<span class='fu'>logger_error</span>(command = <span class='kw'>NULL</span>, error_msg = <span class='kw'>NULL</span>)
+<span class='fu'>logger_error</span><span class='op'>(</span>command <span class='op'>=</span> <span class='cn'>NULL</span>, error_msg <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>swap</span>(<span class='kw'>x</span>, <span class='kw'>i</span>, <span class='kw'>j</span>)
+<span class='fu'>swap</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>i</span>, <span class='va'>j</span><span class='op'>)</span>
 
-<span class='fu'>swap_rows</span>(<span class='kw'>x</span>, <span class='kw'>i</span>, <span class='kw'>j</span>)
+<span class='fu'>swap_rows</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>i</span>, <span class='va'>j</span><span class='op'>)</span>
 
-<span class='fu'>correct_row_index</span>(<span class='kw'>i</span>, <span class='kw'>n_max</span>)
+<span class='fu'>correct_row_index</span><span class='op'>(</span><span class='va'>i</span>, <span class='va'>n_max</span><span class='op'>)</span>
 
-<span class='fu'>clean_str</span>(<span class='kw'>str</span>, transliterations = <span class='st'>"Latin-ASCII"</span>, <span class='kw'>...</span>)
+<span class='fu'>clean_str</span><span class='op'>(</span><span class='va'>str</span>, transliterations <span class='op'>=</span> <span class='st'>"Latin-ASCII"</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>get_obj_names</span>(
-  include_class = <span class='kw'>NULL</span>,
-  exclude_class = <span class='kw'>NULL</span>,
-  include2_class = <span class='kw'>NULL</span>,
-  all.names = <span class='fl'>TRUE</span>,
-  envir = <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>globalenv</a></span>()
-)
+<span class='fu'>get_obj_names</span><span class='op'>(</span>
+  include_class <span class='op'>=</span> <span class='cn'>NULL</span>,
+  exclude_class <span class='op'>=</span> <span class='cn'>NULL</span>,
+  include2_class <span class='op'>=</span> <span class='cn'>NULL</span>,
+  all.names <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  envir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>globalenv</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='fu'>unique_obj_names</span>(
-  <span class='kw'>names</span>,
-  prefix = <span class='st'>""</span>,
-  suffix = <span class='st'>""</span>,
-  list_of_choices = <span class='fu'><a href='https://rdrr.io/r/base/ls.html'>objects</a></span>(all.names = <span class='fl'>TRUE</span>, envir = <span class='kw'>.GlobalEnv</span>),
-  all_numbered = <span class='fl'>FALSE</span>
-)
+<span class='fu'>unique_obj_names</span><span class='op'>(</span>
+  <span class='va'>names</span>,
+  prefix <span class='op'>=</span> <span class='st'>""</span>,
+  suffix <span class='op'>=</span> <span class='st'>""</span>,
+  list_of_choices <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ls.html'>objects</a></span><span class='op'>(</span>all.names <span class='op'>=</span> <span class='cn'>TRUE</span>, envir <span class='op'>=</span> <span class='va'>.GlobalEnv</span><span class='op'>)</span>,
+  all_numbered <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
-<span class='fu'>unique_df_name</span>(
-  names = <span class='fu'>active_dataset_0</span>(),
-  prefix = <span class='st'>""</span>,
-  suffix = <span class='st'>""</span>,
-  list_of_choices = <span class='fu'><a href='https://rdrr.io/r/base/ls.html'>objects</a></span>(all.names = <span class='fl'>TRUE</span>, envir = <span class='kw'>.GlobalEnv</span>),
-  all_numbered = <span class='fl'>FALSE</span>
-)
+<span class='fu'>unique_df_name</span><span class='op'>(</span>
+  names <span class='op'>=</span> <span class='fu'>active_dataset_0</span><span class='op'>(</span><span class='op'>)</span>,
+  prefix <span class='op'>=</span> <span class='st'>""</span>,
+  suffix <span class='op'>=</span> <span class='st'>""</span>,
+  list_of_choices <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ls.html'>objects</a></span><span class='op'>(</span>all.names <span class='op'>=</span> <span class='cn'>TRUE</span>, envir <span class='op'>=</span> <span class='va'>.GlobalEnv</span><span class='op'>)</span>,
+  all_numbered <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
-<span class='fu'>unique_file_name</span>(
-  name = <span class='st'>"file"</span>,
-  dir = <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>(),
-  list_of_choices = <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='kw'>dir</span>, all.files = <span class='fl'>TRUE</span>),
-  all_numbered = <span class='fl'>FALSE</span>
-)
+<span class='fu'>unique_file_name</span><span class='op'>(</span>
+  name <span class='op'>=</span> <span class='st'>"file"</span>,
+  dir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span><span class='op'>(</span><span class='op'>)</span>,
+  list_of_choices <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='va'>dir</span>, all.files <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
+  all_numbered <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
-<span class='fu'>unique_colnames</span>(
-  names = <span class='st'>""</span>,
-  prefix = <span class='st'>""</span>,
-  suffix = <span class='st'>""</span>,
-  list_of_choices = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>listVariables</a></span>(),
-  all_numbered = <span class='fl'>FALSE</span>
-)
+<span class='fu'>unique_colnames</span><span class='op'>(</span>
+  names <span class='op'>=</span> <span class='st'>""</span>,
+  prefix <span class='op'>=</span> <span class='st'>""</span>,
+  suffix <span class='op'>=</span> <span class='st'>""</span>,
+  list_of_choices <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>listVariables</a></span><span class='op'>(</span><span class='op'>)</span>,
+  all_numbered <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
-<span class='fu'>unique_colnames_2</span>(
-  names = <span class='st'>""</span>,
-  prefix = <span class='st'>""</span>,
-  suffix = <span class='st'>""</span>,
-  list_of_choices = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>listVariables</a></span>(),
-  all_numbered = <span class='fl'>TRUE</span>
-)
+<span class='fu'>unique_colnames_2</span><span class='op'>(</span>
+  names <span class='op'>=</span> <span class='st'>""</span>,
+  prefix <span class='op'>=</span> <span class='st'>""</span>,
+  suffix <span class='op'>=</span> <span class='st'>""</span>,
+  list_of_choices <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>listVariables</a></span><span class='op'>(</span><span class='op'>)</span>,
+  all_numbered <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
 
-<span class='fu'>safe_names</span>(<span class='kw'>str</span>)
+<span class='fu'>safe_names</span><span class='op'>(</span><span class='va'>str</span><span class='op'>)</span>
 
-<span class='fu'>path_truncate</span>(<span class='kw'>path</span>, max_length = <span class='fl'>30</span>)
+<span class='fu'>path_truncate</span><span class='op'>(</span><span class='va'>path</span>, max_length <span class='op'>=</span> <span class='fl'>30</span><span class='op'>)</span>
 
-<span class='fu'>show_error_messages</span>(
-  <span class='kw'>message</span>,
-  popup_msg = <span class='kw'>message</span>,
-  title = <span class='st'>"Error"</span>,
-  parent = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span>()
-)
+<span class='fu'>show_error_messages</span><span class='op'>(</span>
+  <span class='va'>message</span>,
+  popup_msg <span class='op'>=</span> <span class='va'>message</span>,
+  title <span class='op'>=</span> <span class='st'>"Error"</span>,
+  parent <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='fu'>is_not_valid_name</span>(<span class='kw'>name</span>, parent = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span>())
+<span class='fu'>is_not_valid_name</span><span class='op'>(</span><span class='va'>name</span>, parent <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>is_empty_name</span>(<span class='kw'>name</span>, which_name = <span class='st'>"name"</span>, parent = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span>())
+<span class='fu'>is_empty_name</span><span class='op'>(</span><span class='va'>name</span>, which_name <span class='op'>=</span> <span class='st'>"name"</span>, parent <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>is_not_empty_name</span>(
-  <span class='kw'>name</span>,
-  which_name = <span class='st'>"name"</span>,
-  parent = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span>(),
-  article = <span class='st'>"a"</span>
-)
+<span class='fu'>is_not_empty_name</span><span class='op'>(</span>
+  <span class='va'>name</span>,
+  which_name <span class='op'>=</span> <span class='st'>"name"</span>,
+  parent <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span><span class='op'>(</span><span class='op'>)</span>,
+  article <span class='op'>=</span> <span class='st'>"a"</span>
+<span class='op'>)</span>
 
-<span class='fu'>variable_is_not_selected</span>(
-  <span class='kw'>obj</span>,
-  obj_type = <span class='st'>"variable"</span>,
-  parent = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span>(),
-  article = <span class='st'>"a"</span>
-)
+<span class='fu'>variable_is_not_selected</span><span class='op'>(</span>
+  <span class='va'>obj</span>,
+  obj_type <span class='op'>=</span> <span class='st'>"variable"</span>,
+  parent <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span><span class='op'>(</span><span class='op'>)</span>,
+  article <span class='op'>=</span> <span class='st'>"a"</span>
+<span class='op'>)</span>
 
-<span class='fu'>object_is_not_selected</span>(
-  <span class='kw'>obj</span>,
-  obj_type = <span class='st'>"object"</span>,
-  parent = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span>(),
-  article = <span class='st'>"an"</span>
-)
+<span class='fu'>object_is_not_selected</span><span class='op'>(</span>
+  <span class='va'>obj</span>,
+  obj_type <span class='op'>=</span> <span class='st'>"object"</span>,
+  parent <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span><span class='op'>(</span><span class='op'>)</span>,
+  article <span class='op'>=</span> <span class='st'>"an"</span>
+<span class='op'>)</span>
 
-<span class='fu'>are_not_valid_names</span>(<span class='kw'>name</span>, parent = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span>())
+<span class='fu'>are_not_valid_names</span><span class='op'>(</span><span class='va'>name</span>, parent <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>forbid_to_replace_variable</span>(<span class='kw'>name</span>, parent = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span>())
+<span class='fu'>forbid_to_replace_variable</span><span class='op'>(</span><span class='va'>name</span>, parent <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>forbid_to_replace_variables</span>(<span class='kw'>name</span>, parent = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span>())
+<span class='fu'>forbid_to_replace_variables</span><span class='op'>(</span><span class='va'>name</span>, parent <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>forbid_to_replace_object</span>(<span class='kw'>name</span>, envir = <span class='kw'>.GlobalEnv</span>, parent = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span>())
+<span class='fu'>forbid_to_replace_object</span><span class='op'>(</span><span class='va'>name</span>, envir <span class='op'>=</span> <span class='va'>.GlobalEnv</span>, parent <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>forbid_to_replace_file</span>(<span class='kw'>name</span>, parent = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span>())
+<span class='fu'>forbid_to_replace_file</span><span class='op'>(</span><span class='va'>name</span>, parent <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>show_code_evaluation_error_message</span>(
-  parent = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span>(),
-  add_msg = <span class='st'>""</span>,
-  add_note = <span class='st'>""</span>
-)
+<span class='fu'>show_code_evaluation_error_message</span><span class='op'>(</span>
+  parent <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span><span class='op'>(</span><span class='op'>)</span>,
+  add_msg <span class='op'>=</span> <span class='st'>""</span>,
+  add_note <span class='op'>=</span> <span class='st'>""</span>
+<span class='op'>)</span>
 
-<span class='fu'>dataset_not_persent</span>(parent = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span>())
+<span class='fu'>dataset_not_persent</span><span class='op'>(</span>parent <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>active_dataset_not_persent</span>(parent = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span>())
+<span class='fu'>active_dataset_not_persent</span><span class='op'>(</span>parent <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>nonFactorsP</span>(n = <span class='fl'>1</span>)
+<span class='fu'>nonFactorsP</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 
-<span class='fu'>class_ggplot_P</span>(n = <span class='fl'>1</span>)
+<span class='fu'>class_ggplot_P</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 
-<span class='fu'>list_objects_ggplot</span>(envir = <span class='kw'>.GlobalEnv</span>)
+<span class='fu'>list_objects_ggplot</span><span class='op'>(</span>envir <span class='op'>=</span> <span class='va'>.GlobalEnv</span><span class='op'>)</span>
 
-<span class='fu'>objects_in_env_P</span>(n = <span class='fl'>1</span>, envir = <span class='kw'>.GlobalEnv</span>, <span class='kw'>...</span>)
+<span class='fu'>objects_in_env_P</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>1</span>, envir <span class='op'>=</span> <span class='va'>.GlobalEnv</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>variables_with_unique_values_P</span>(n = <span class='fl'>1</span>)
+<span class='fu'>variables_with_unique_values_P</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 
-<span class='fu'>gg_objects_exist</span>(n = <span class='fl'>1</span>)
+<span class='fu'>gg_objects_exist</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 
-<span class='fu'>gg_lastplot_exists</span>()
+<span class='fu'>gg_lastplot_exists</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>is_commander_open</span>()
+<span class='fu'>is_commander_open</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>rcmdr_restart_commander</span>()
+<span class='fu'>rcmdr_restart_commander</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_restart_rs_session</span>()
+<span class='fu'>command_restart_rs_session</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_rcmdr_close</span>()
+<span class='fu'>command_rcmdr_close</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_rcmdr_close_and_update_cran</span>()
+<span class='fu'>command_rcmdr_close_and_update_cran</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_rcmdr_close_r</span>()
+<span class='fu'>command_rcmdr_close_r</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>is_console_output</span>()
+<span class='fu'>is_console_output</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_rcmdr_use_1_window</span>()
+<span class='fu'>command_rcmdr_use_1_window</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_rcmdr_use_3_windows</span>()
+<span class='fu'>command_rcmdr_use_3_windows</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_rcmdr_set_output_mode</span>(console.output = <span class='kw'>NULL</span>)
+<span class='fu'>command_rcmdr_set_output_mode</span><span class='op'>(</span>console.output <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
 <span class='co'># S3 method for tk2frame</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>x</span>, <span class='kw'>...</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>rcmdr_read_log_window</span>()
+<span class='fu'>rcmdr_read_log_window</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>rcmdr_read_rmd_window</span>()
+<span class='fu'>rcmdr_read_rmd_window</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>rcmdr_read_rmd_window</span>()
+<span class='fu'>rcmdr_read_rmd_window</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>rcmdr_read_output_window</span>()
+<span class='fu'>rcmdr_read_output_window</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>rcmdr_read_messages_window</span>()
+<span class='fu'>rcmdr_read_messages_window</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>is_biostat_mode</span>()
+<span class='fu'>is_biostat_mode</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>use_relative_path</span>()
+<span class='fu'>use_relative_path</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>use_absolute_path</span>()
+<span class='fu'>use_absolute_path</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>get_use_relative_path</span>()
+<span class='fu'>get_use_relative_path</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>set_biostat_mode</span>()
+<span class='fu'>set_biostat_mode</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>get_values_combobox</span>(<span class='kw'>combobox</span>)
+<span class='fu'>get_values_combobox</span><span class='op'>(</span><span class='va'>combobox</span><span class='op'>)</span>
 
-<span class='fu'>set_values_combobox</span>(<span class='kw'>combobox</span>, <span class='kw'>values</span>, <span class='kw'>...</span>)
+<span class='fu'>set_values_combobox</span><span class='op'>(</span><span class='va'>combobox</span>, <span class='va'>values</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>get_selection_ind_combobox</span>(<span class='kw'>combobox</span>)
+<span class='fu'>get_selection_ind_combobox</span><span class='op'>(</span><span class='va'>combobox</span><span class='op'>)</span>
 
-<span class='fu'>get_selection_combobox</span>(<span class='kw'>combobox</span>)
+<span class='fu'>get_selection_combobox</span><span class='op'>(</span><span class='va'>combobox</span><span class='op'>)</span>
 
 <span class='co'># S3 method for combobox</span>
-<span class='fu'>get_size</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
+<span class='fu'>get_size</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for tk2combobox</span>
-<span class='fu'>get_size</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
+<span class='fu'>get_size</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for combobox</span>
-<span class='fu'>get_selection</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
+<span class='fu'>get_selection</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for combobox</span>
-<span class='fu'>set_selection</span>(<span class='kw'>obj</span>, <span class='kw'>sel</span>, <span class='kw'>...</span>)
+<span class='fu'>set_selection</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>sel</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for combobox</span>
-<span class='fu'>get_values</span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
+<span class='fu'>get_values</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for combobox</span>
-<span class='fu'>set_values</span>(<span class='kw'>obj</span>, <span class='kw'>values</span>, <span class='kw'>...</span>)
+<span class='fu'>set_values</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>values</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for combobox</span>
-<span class='fu'><a href='widget-state.html'>tk_activate</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
+<span class='fu'><a href='widget-state.html'>tk_activate</a></span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for combobox</span>
-<span class='fu'><a href='widget-state.html'>tk_normalize</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
+<span class='fu'><a href='widget-state.html'>tk_normalize</a></span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for combobox</span>
-<span class='fu'><a href='widget-state.html'>tk_read_only</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
+<span class='fu'><a href='widget-state.html'>tk_read_only</a></span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for combobox</span>
-<span class='fu'><a href='widget-state.html'>tk_disable</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
+<span class='fu'><a href='widget-state.html'>tk_disable</a></span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for combobox</span>
-<span class='fu'><a href='widget-state.html'>tk_get_state</a></span>(<span class='kw'>obj</span>, <span class='kw'>...</span>)
+<span class='fu'><a href='widget-state.html'>tk_get_state</a></span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>ok_cancel_help</span>(
-  window = <span class='kw'>top</span>,
-  helpSubject = <span class='kw'>NULL</span>,
-  model = <span class='fl'>FALSE</span>,
-  reset = <span class='kw'>NULL</span>,
-  apply = <span class='kw'>NULL</span>,
-  helpPackage = <span class='kw'>NULL</span>,
-  on_help = <span class='kw'>NULL</span>,
-  close_on_ok = <span class='fl'>FALSE</span>,
-  reset_location = <span class='fl'>FALSE</span>,
-  sticky = <span class='st'>"w"</span>,
-  ok_label = <span class='st'>"OK"</span>,
-  apply_label = <span class='st'>"Apply"</span>,
-  reset_label = <span class='st'>"Reset"</span>,
-  after_apply_fun = <span class='kw'>do_nothing</span>,
-  after_apply_success_fun = <span class='kw'>do_nothing</span>,
-  before_cancel_fun = <span class='kw'>do_nothing</span>
-)
+<span class='fu'>ok_cancel_help</span><span class='op'>(</span>
+  window <span class='op'>=</span> <span class='va'>top</span>,
+  helpSubject <span class='op'>=</span> <span class='cn'>NULL</span>,
+  model <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  reset <span class='op'>=</span> <span class='cn'>NULL</span>,
+  apply <span class='op'>=</span> <span class='cn'>NULL</span>,
+  helpPackage <span class='op'>=</span> <span class='cn'>NULL</span>,
+  on_help <span class='op'>=</span> <span class='cn'>NULL</span>,
+  close_on_ok <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  reset_location <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  sticky <span class='op'>=</span> <span class='st'>"w"</span>,
+  ok_label <span class='op'>=</span> <span class='st'>"OK"</span>,
+  apply_label <span class='op'>=</span> <span class='st'>"Apply"</span>,
+  reset_label <span class='op'>=</span> <span class='st'>"Reset"</span>,
+  after_apply_fun <span class='op'>=</span> <span class='va'>do_nothing</span>,
+  after_apply_success_fun <span class='op'>=</span> <span class='va'>do_nothing</span>,
+  before_cancel_fun <span class='op'>=</span> <span class='va'>do_nothing</span>
+<span class='op'>)</span>
 
-<span class='fu'>cursor_set_busy</span>(frame = <span class='kw'>NULL</span>)
+<span class='fu'>cursor_set_busy</span><span class='op'>(</span>frame <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>cursor_set_idle</span>(frame = <span class='kw'>NULL</span>)
+<span class='fu'>cursor_set_idle</span><span class='op'>(</span>frame <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>tk_yview.default</span>(<span class='kw'>obj</span>, <span class='kw'>ind</span>, <span class='kw'>...</span>)
+<span class='fu'>tk_yview.default</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>ind</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>tk_xview.default</span>(<span class='kw'>obj</span>, <span class='kw'>ind</span>, <span class='kw'>...</span>)
+<span class='fu'>tk_xview.default</span><span class='op'>(</span><span class='va'>obj</span>, <span class='va'>ind</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>tclvalue_lgl</span>(<span class='kw'>x</span>)
+<span class='fu'>tclvalue_lgl</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
-<span class='fu'>tclvalue_int</span>(<span class='kw'>x</span>)
+<span class='fu'>tclvalue_int</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
-<span class='fu'>tclvalue_chr</span>(<span class='kw'>x</span>, trim = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'>tclvalue_chr</span><span class='op'>(</span><span class='va'>x</span>, trim <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

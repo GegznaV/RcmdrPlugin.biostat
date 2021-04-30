@@ -87,7 +87,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="..//index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -95,7 +95,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/GegznaV/RcmdrPlugin.biostat">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -121,365 +121,365 @@
     <p>Functions that open Rcmdr menus and windows windows.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>command_dataset_refresh</span>()
+    <pre class="usage"><span class='fu'>command_dataset_refresh</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>activate_menus</span>()
+<span class='fu'>activate_menus</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_dataset_view</span>()
+<span class='fu'>command_dataset_view</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_dataset_print</span>()
+<span class='fu'>command_dataset_print</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_dataset_print_as_df</span>()
+<span class='fu'>command_dataset_print_as_df</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_dataset_print_as_dt</span>()
+<span class='fu'>command_dataset_print_as_dt</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_dataset_print_as_tibble</span>()
+<span class='fu'>command_dataset_print_as_tibble</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_dataset_class</span>()
+<span class='fu'>command_dataset_class</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_dataset_as_df</span>()
+<span class='fu'>command_dataset_as_df</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_dataset_as_tibble</span>()
+<span class='fu'>command_dataset_as_tibble</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_dataset_as_dt</span>()
+<span class='fu'>command_dataset_as_dt</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_model_std_lm_coeffs</span>()
+<span class='fu'>command_model_std_lm_coeffs</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_model_get_class</span>()
+<span class='fu'>command_model_get_class</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_model_print</span>()
+<span class='fu'>command_model_print</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_model_summary</span>()
+<span class='fu'>command_model_summary</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_model_glance</span>()
+<span class='fu'>command_model_glance</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_model_tidy</span>()
+<span class='fu'>command_model_tidy</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_model_augment</span>()
+<span class='fu'>command_model_augment</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>open_new_plots_window</span>()
+<span class='fu'>open_new_plots_window</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>close_all_plots</span>()
+<span class='fu'>close_all_plots</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_show_colors</span>()
+<span class='fu'>window_show_colors</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_plots_image_digitizer</span>()
+<span class='fu'>window_plots_image_digitizer</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_rownames</span>()
+<span class='fu'>command_rownames</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_rows_has_rownames</span>()
+<span class='fu'>command_rows_has_rownames</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_rows_rm_empty_rows</span>()
+<span class='fu'>command_rows_rm_empty_rows</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_getwd</span>()
+<span class='fu'>command_getwd</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_list_files_wd</span>()
+<span class='fu'>command_list_files_wd</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_setwd</span>()
+<span class='fu'>command_setwd</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_openwd</span>()
+<span class='fu'>command_openwd</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_get_file_info</span>()
+<span class='fu'>command_get_file_info</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_list_objects</span>()
+<span class='fu'>command_list_objects</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_session_info_devtools</span>()
+<span class='fu'>command_session_info_devtools</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_session_info_utils</span>()
+<span class='fu'>command_session_info_utils</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_summary_inspect</span>()
+<span class='fu'>window_summary_inspect</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_dataset_dim</span>()
+<span class='fu'>command_dataset_dim</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_dataset_dim_0</span>(<span class='kw'>.ds</span>)
+<span class='fu'>command_dataset_dim_0</span><span class='op'>(</span><span class='va'>.ds</span><span class='op'>)</span>
 
-<span class='fu'>command_glimpse</span>()
+<span class='fu'>command_glimpse</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_summary_desc_all</span>()
+<span class='fu'>window_summary_desc_all</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>summary_head_tail</span>()
+<span class='fu'>summary_head_tail</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>summary_var_types</span>()
+<span class='fu'>summary_var_types</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>summary_var_types_plot</span>()
+<span class='fu'>summary_var_types_plot</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_colnames</span>()
+<span class='fu'>command_colnames</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_clean_names</span>()
+<span class='fu'>command_clean_names</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_check_names_validity</span>()
+<span class='fu'>command_check_names_validity</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_all_chr_to_fctr</span>()
+<span class='fu'>command_all_chr_to_fctr</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>open_online_tool</span>(
-  url = <span class='kw'>NULL</span>,
-  copy_to_clipboard = <span class='fl'>FALSE</span>,
-  parent = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span>()
-)
+<span class='fu'>open_online_tool</span><span class='op'>(</span>
+  url <span class='op'>=</span> <span class='cn'>NULL</span>,
+  copy_to_clipboard <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  parent <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='fu'>source_online</span>(url = <span class='kw'>NULL</span>, parent = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span>())
+<span class='fu'>source_online</span><span class='op'>(</span>url <span class='op'>=</span> <span class='cn'>NULL</span>, parent <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>window_online_geogebra_probability</span>()
+<span class='fu'>window_online_geogebra_probability</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_statpages</span>()
+<span class='fu'>window_online_statpages</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_image_digitizer</span>()
+<span class='fu'>window_online_image_digitizer</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_mvn</span>()
+<span class='fu'>window_online_mvn</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_easyROC</span>()
+<span class='fu'>window_online_easyROC</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_r_project</span>()
+<span class='fu'>window_online_r_project</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_rstudio</span>()
+<span class='fu'>window_online_rstudio</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_bert</span>()
+<span class='fu'>window_online_bert</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_gpower</span>()
+<span class='fu'>window_online_gpower</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_orange</span>()
+<span class='fu'>window_online_orange</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_geogebra_download</span>()
+<span class='fu'>window_online_geogebra_download</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_past_download</span>()
+<span class='fu'>window_online_past_download</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_tidyverse</span>()
+<span class='fu'>window_online_tidyverse</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_broom</span>()
+<span class='fu'>window_online_broom</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_dplyr</span>()
+<span class='fu'>window_online_dplyr</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_forcats</span>()
+<span class='fu'>window_online_forcats</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_magrittr</span>()
+<span class='fu'>window_online_magrittr</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_purrr</span>()
+<span class='fu'>window_online_purrr</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_readr</span>()
+<span class='fu'>window_online_readr</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_readxl</span>()
+<span class='fu'>window_online_readxl</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_stringr</span>()
+<span class='fu'>window_online_stringr</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_tidyr</span>()
+<span class='fu'>window_online_tidyr</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_ggplot2</span>()
+<span class='fu'>window_online_ggplot2</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_ggstatsplot</span>()
+<span class='fu'>window_online_ggstatsplot</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_ggpubr</span>()
+<span class='fu'>window_online_ggpubr</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_plotly</span>()
+<span class='fu'>window_online_plotly</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_ggplot2_ext</span>()
+<span class='fu'>window_online_ggplot2_ext</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_r_chearsheets</span>()
+<span class='fu'>window_online_r_chearsheets</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_sthda</span>()
+<span class='fu'>window_online_sthda</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_rweekly</span>()
+<span class='fu'>window_online_rweekly</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_r_bloggers</span>()
+<span class='fu'>window_online_r_bloggers</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_isl</span>()
+<span class='fu'>window_online_isl</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_esl</span>()
+<span class='fu'>window_online_esl</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_bookdown</span>()
+<span class='fu'>window_online_bookdown</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_biostathandbook</span>()
+<span class='fu'>window_online_biostathandbook</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_rcompanion</span>()
+<span class='fu'>window_online_rcompanion</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_rcompanion_handbook</span>()
+<span class='fu'>window_online_rcompanion_handbook</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_msmb</span>()
+<span class='fu'>window_online_msmb</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_r4ds</span>()
+<span class='fu'>window_online_r4ds</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_advanced_r_2ed</span>()
+<span class='fu'>window_online_advanced_r_2ed</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_rmd</span>()
+<span class='fu'>window_online_rmd</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_stackoverflow</span>()
+<span class='fu'>window_online_stackoverflow</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_crossvalidated</span>()
+<span class='fu'>window_online_crossvalidated</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_homepage</span>()
+<span class='fu'>window_online_homepage</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_online_bug_report</span>()
+<span class='fu'>window_online_bug_report</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_chk_packages_biostat</span>()
+<span class='fu'>command_chk_packages_biostat</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>active_dataset</span>(<span class='kw'>dsname</span>, flushModel = <span class='fl'>TRUE</span>, flushDialogMemory = <span class='fl'>TRUE</span>)
+<span class='fu'>active_dataset</span><span class='op'>(</span><span class='va'>dsname</span>, flushModel <span class='op'>=</span> <span class='cn'>TRUE</span>, flushDialogMemory <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>refresh_dataset_window_0</span>(
-  <span class='kw'>widget</span>,
-  <span class='kw'>ds_contents</span>,
-  <span class='kw'>preview_type</span>,
-  <span class='kw'>nrow_preview_ds</span>,
-  expect_more_rows = <span class='fl'>FALSE</span>,
-  err_msg_default = <span class='kw'>NULL</span>
-)
+<span class='fu'>refresh_dataset_window_0</span><span class='op'>(</span>
+  <span class='va'>widget</span>,
+  <span class='va'>ds_contents</span>,
+  <span class='va'>preview_type</span>,
+  <span class='va'>nrow_preview_ds</span>,
+  expect_more_rows <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  err_msg_default <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span>
 
-<span class='fu'>configure_tags</span>(<span class='kw'>text_widget</span>)
+<span class='fu'>configure_tags</span><span class='op'>(</span><span class='va'>text_widget</span><span class='op'>)</span>
 
-<span class='fu'>window_data_obj_manage</span>()
+<span class='fu'>window_data_obj_manage</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_dataset_bind_cols</span>()
+<span class='fu'>window_dataset_bind_cols</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_dataset_bind_rows</span>()
+<span class='fu'>window_dataset_bind_rows</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_dataset_class</span>()
+<span class='fu'>window_dataset_class</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_dataset_join</span>()
+<span class='fu'>window_dataset_join</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_dataset_print_as_md</span>()
+<span class='fu'>window_dataset_print_as_md</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_dataset_print_as_kable</span>()
+<span class='fu'>window_dataset_print_as_kable</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_dataset_select</span>()
+<span class='fu'>window_dataset_select</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_export_fig_to_pptx</span>()
+<span class='fu'>window_export_fig_to_pptx</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_export_to_excel</span>()
+<span class='fu'>window_export_to_excel</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_export_to_rdata</span>()
+<span class='fu'>window_export_to_rdata</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_export_to_rdata_0</span>(ds_name = <span class='fu'>active_dataset</span>())
+<span class='fu'>window_export_to_rdata_0</span><span class='op'>(</span>ds_name <span class='op'>=</span> <span class='fu'>active_dataset</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>window_export_to_rds</span>()
+<span class='fu'>window_export_to_rds</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_export_to_rds_0</span>(ds_name = <span class='fu'>active_dataset</span>())
+<span class='fu'>window_export_to_rds_0</span><span class='op'>(</span>ds_name <span class='op'>=</span> <span class='fu'>active_dataset</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>window_export_to_clipboard</span>()
+<span class='fu'>window_export_to_clipboard</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_export_to_text</span>()
+<span class='fu'>window_export_to_text</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_factor_lvls_drop</span>()
+<span class='fu'>window_factor_lvls_drop</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_fct_relevel</span>()
+<span class='fu'>window_fct_relevel</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_import_from_excel</span>()
+<span class='fu'>window_import_from_excel</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_list_datasets_in_pkgs</span>()
+<span class='fu'>command_list_datasets_in_pkgs</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_import_from_pkg</span>()
+<span class='fu'>window_import_from_pkg</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_import_from_rds</span>()
+<span class='fu'>window_import_from_rds</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_import_from_clipboard</span>()
+<span class='fu'>window_import_from_clipboard</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_import_from_text</span>()
+<span class='fu'>window_import_from_text</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_import_rdata</span>()
+<span class='fu'>window_import_rdata</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>command_get_locale</span>()
+<span class='fu'>command_get_locale</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_locale_set</span>()
+<span class='fu'>window_locale_set</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_locale_set_0</span>(parent = <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span>())
+<span class='fu'>window_locale_set_0</span><span class='op'>(</span>parent <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/Rcmdr/man/Rcmdr.Utilities.html'>CommanderWindow</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>window_model_select</span>()
+<span class='fu'>window_model_select</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_plots_ggplotly</span>()
+<span class='fu'>window_plots_ggplotly</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_rows_arrange</span>()
+<span class='fu'>window_rows_arrange</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_rows_col_to_rownames0</span>()
+<span class='fu'>window_rows_col_to_rownames0</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_rows_col_to_rownames</span>(
-  new_dsname = <span class='kw'>NULL</span>,
-  init_conditions = <span class='kw'>NULL</span>,
-  incorrect_cond_msg = <span class='kw'>NULL</span>
-)
+<span class='fu'>window_rows_col_to_rownames</span><span class='op'>(</span>
+  new_dsname <span class='op'>=</span> <span class='cn'>NULL</span>,
+  init_conditions <span class='op'>=</span> <span class='cn'>NULL</span>,
+  incorrect_cond_msg <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span>
 
-<span class='fu'>window_rows_filter0</span>()
+<span class='fu'>window_rows_filter0</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_rows_filter</span>(
-  new_dsname = <span class='kw'>NULL</span>,
-  init_conditions = <span class='kw'>NULL</span>,
-  incorrect_cond_msg = <span class='kw'>NULL</span>
-)
+<span class='fu'>window_rows_filter</span><span class='op'>(</span>
+  new_dsname <span class='op'>=</span> <span class='cn'>NULL</span>,
+  init_conditions <span class='op'>=</span> <span class='cn'>NULL</span>,
+  incorrect_cond_msg <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span>
 
-<span class='fu'>window_rows_rm_duplicated</span>()
+<span class='fu'>window_rows_rm_duplicated</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_rows_rm_with_na</span>()
+<span class='fu'>window_rows_rm_with_na</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_rows_rowid_to_col</span>()
+<span class='fu'>window_rows_rowid_to_col</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_rows_rownames_to_col</span>()
+<span class='fu'>window_rows_rownames_to_col</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_rows_slice</span>()
+<span class='fu'>window_rows_slice</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_summary_count</span>()
+<span class='fu'>window_summary_count</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_summary_desc</span>()
+<span class='fu'>window_summary_desc</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_summary_descr</span>()
+<span class='fu'>window_summary_descr</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_summary_dfSummary</span>()
+<span class='fu'>window_summary_dfSummary</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_summary_missings</span>()
+<span class='fu'>window_summary_missings</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_summary_summary</span>()
+<span class='fu'>window_summary_summary</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_summary_variables</span>()
+<span class='fu'>window_summary_variables</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_test_normality</span>()
+<span class='fu'>window_test_normality</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_variable_gather</span>()
+<span class='fu'>window_variable_gather</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_variable_mutate0</span>()
+<span class='fu'>window_variable_mutate0</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_variable_mutate</span>()
+<span class='fu'>window_variable_mutate</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_variable_recode0</span>()
+<span class='fu'>window_variable_recode0</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_variable_rename</span>()
+<span class='fu'>window_variable_rename</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_variable_select0</span>()
+<span class='fu'>window_variable_select0</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>window_variable_select</span>(new_dsname = <span class='kw'>NULL</span>, incorrect_cond_msg = <span class='kw'>NULL</span>)</pre>
+<span class='fu'>window_variable_select</span><span class='op'>(</span>new_dsname <span class='op'>=</span> <span class='cn'>NULL</span>, incorrect_cond_msg <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span>)
-</div><div class='output co'>#&gt; <span class='message'>── <span style='font-weight: bold;'>Attaching packages</span><span> ─────────────────────────────────────── tidyverse 1.3.0 ──</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>ggplot2</span><span> 3.3.2     </span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>purrr  </span><span> 0.3.4</span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>tibble </span><span> 3.0.3     </span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>dplyr  </span><span> 1.0.2</span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>tidyr  </span><span> 1.1.2     </span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>stringr</span><span> 1.4.0</span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>readr  </span><span> 1.3.1     </span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>forcats</span><span> 0.5.0</span></div><div class='output co'>#&gt; <span class='message'>── </span><span style='font-weight: bold;'>Conflicts</span><span> ────────────────────────────────────────── tidyverse_conflicts() ──</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>── <span style='font-weight: bold;'>Attaching packages</span><span> ─────────────────────────────────────── tidyverse 1.3.1 ──</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>ggplot2</span><span> 3.3.3     </span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>purrr  </span><span> 0.3.4</span>
+#&gt; <span class='message'></span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>tibble </span><span> 3.1.1     </span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>dplyr  </span><span> 1.0.5</span>
+#&gt; <span class='message'></span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>tidyr  </span><span> 1.1.3     </span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>stringr</span><span> 1.4.0</span>
+#&gt; <span class='message'></span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>readr  </span><span> 1.4.0     </span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>forcats</span><span> 0.5.1</span></div><div class='output co'>#&gt; <span class='message'>── </span><span style='font-weight: bold;'>Conflicts</span><span> ────────────────────────────────────────── tidyverse_conflicts() ──</span>
 #&gt; <span class='message'></span><span style='color: #BB0000;'>✖</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>filter()</span><span> masks </span><span style='color: #0000BB;'>stats</span><span>::filter()</span>
 #&gt; <span class='message'></span><span style='color: #BB0000;'>✖</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>lag()</span><span>    masks </span><span style='color: #0000BB;'>stats</span><span>::lag()</span>
 #&gt; <span class='message'></span><span style='color: #BB0000;'>✖</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>recode()</span><span> masks </span><span style='color: #0000BB;'>car</span><span>::recode()</span>
 #&gt; <span class='message'></span><span style='color: #BB0000;'>✖</span><span> </span><span style='color: #0000BB;'>purrr</span><span>::</span><span style='color: #00BB00;'>some()</span><span>   masks </span><span style='color: #0000BB;'>car</span><span>::some()</span></div><div class='input'>
-<span class='kw'>df</span> <span class='op'>=</span> <span class='kw'>tibble</span>::<span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(
-  <span class='op'>~</span><span class='kw'>x</span>, <span class='op'>~</span><span class='kw'>y</span>, <span class='op'>~</span><span class='kw'>z</span>, <span class='op'>~</span><span class='kw'>q</span>,
+<span class='va'>df</span> <span class='op'>=</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span>
+  <span class='op'>~</span><span class='va'>x</span>, <span class='op'>~</span><span class='va'>y</span>, <span class='op'>~</span><span class='va'>z</span>, <span class='op'>~</span><span class='va'>q</span>,
   <span class='fl'>1</span>,   <span class='fl'>1</span> , <span class='fl'>1</span>,  <span class='fl'>1</span>,
-  <span class='fl'>2</span>,   <span class='fl'>2</span>,  <span class='fl'>2</span>, <span class='fl'>NA</span>,
-  <span class='fl'>3</span>,   <span class='fl'>3</span>, <span class='fl'>NA</span>, <span class='fl'>NA</span>,
-  <span class='fl'>4</span>,  <span class='fl'>NA</span>, <span class='fl'>NA</span>, <span class='fl'>NA</span>,
-  <span class='fl'>NA</span>, <span class='fl'>NA</span>, <span class='fl'>NA</span>, <span class='fl'>NA</span>
-)
+  <span class='fl'>2</span>,   <span class='fl'>2</span>,  <span class='fl'>2</span>, <span class='cn'>NA</span>,
+  <span class='fl'>3</span>,   <span class='fl'>3</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>,
+  <span class='fl'>4</span>,  <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>,
+  <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>
+<span class='op'>)</span>
 
 <span class='co'># remove empty rows</span>
-<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>filter_all</span>(<span class='fu'>any_vars</span>(<span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='kw'>.</span>)))
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 4</span><span>
+<span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>filter_all</span><span class='op'>(</span><span class='fu'>any_vars</span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 4 x 4</span><span>
 #&gt;       x     y     z     q
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     1     1     1     1
-#&gt; </span><span style='color: #555555;'>2</span><span>     2     2     2    </span><span style='color: #BB0000;'>NA</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span>     3     3    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span>     4    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span></div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1     1     1     1
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     2     2     2    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     3     3    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     4    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span></div><div class='input'>
 <span class='co'># remove rows with all NA in selected vars</span>
-<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>filter_at</span>(<span class='fu'>vars</span>(<span class='kw'>q</span>, <span class='kw'>z</span>), <span class='fu'>any_vars</span>(<span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='kw'>.</span>)))
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 4</span><span>
+<span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>filter_at</span><span class='op'>(</span><span class='fu'>vars</span><span class='op'>(</span><span class='va'>q</span>, <span class='va'>z</span><span class='op'>)</span>, <span class='fu'>any_vars</span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 2 x 4</span><span>
 #&gt;       x     y     z     q
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     1     1     1     1
-#&gt; </span><span style='color: #555555;'>2</span><span>     2     2     2    </span><span style='color: #BB0000;'>NA</span><span></div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1     1     1     1
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     2     2     2    </span><span style='color: #BB0000;'>NA</span><span></div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
