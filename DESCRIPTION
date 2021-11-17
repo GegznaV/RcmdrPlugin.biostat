@@ -54,7 +54,6 @@ Depends:
     R (>= 3.6.0),
     tcltk,
     tcltk2 (>= 1.2-11),
-    RcmdrPlugin.EZR,
     Rcmdr (>= 2.6-2)
 Imports:
     binom,
@@ -108,6 +107,7 @@ Imports:
 Suggests:
     extrafont,
     knitr,
+    RcmdrPlugin.EZR,
     rmarkdown,
     rvg
 RoxygenNote: 7.1.1
