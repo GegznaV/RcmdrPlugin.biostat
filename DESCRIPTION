@@ -48,8 +48,6 @@ URL:
     https://gegznav.github.io/RcmdrPlugin.biostat/,
     https://github.com/GegznaV/RcmdrPlugin.biostat/
 BugReports: https://github.com/GegznaV/RcmdrPlugin.biostat/issues
-Remotes:
-    GegznaV/RcmdrPlugin.EZR
 Additional_repositories:
   https://mokymai.github.io/download/
 Depends:
