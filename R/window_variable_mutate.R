@@ -344,7 +344,7 @@ window_variable_mutate <- function() {
 
     tkadd(menu_convert_type, "command",
       label    = "Extract numeric part: parse_number() + locale()",
-      command  = open_help("locale ()", package = "readr"))
+      command  = open_help("locale()", package = "readr"))
 
     tkadd(menu_convert_type, "separator")
 
