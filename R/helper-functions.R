@@ -1506,7 +1506,8 @@ active_dataset_not_persent <- function(parent = CommanderWindow()) {
 
 
 # Message box to warn about missing package
-msg_missing_pkg <- function(pkg = "", msg = "", parent = CommanderWindow()) {
+msg_missing_pkg <- function(pkg = "", msg = "", install_log = FALSE,
+                            parent = CommanderWindow()) {
 
   warning(msg, call. = FALSE)
 
@@ -1517,6 +1518,10 @@ msg_missing_pkg <- function(pkg = "", msg = "", parent = CommanderWindow()) {
     icon = "warning",
     type = "ok"
   )
+
+  if (isTRUE(install_log)) {
+    logger(paste0('# install.packages("', pkg,'")'))
+  }
 }
 
 # + Class --------------------------------------------------------------------
