@@ -365,30 +365,30 @@ item	bs20_centers_menu	separator	""	""	""	""
 
 
 # item	bs20_centers_menu command	"Paired-samples t-test... [Rcmdr]"	pairedTTest	"numericP(2)"	""
-item	bs20_centers_menu	command	"Paired-samples t-test... [EZR]"	StatMedPairedTtest	"numericP(2)"	""
+item	bs20_centers_menu	command	"Paired-samples t-test... [EZR]"	StatMedPairedTtest	"numericP(2)"	"packageAvailable('RcmdrPlugin.EZR')"
 item	bs20_centers_menu command	"Paired-samples Wilcoxon test... [Rcmdr]"	pairedWilcoxonTest	"numericP(2)"	""
 
-item	bs20_centers_menu	command	"Repeated-measures ANOVA... [EZR]"	StatMedRepANOVA	"numericP(2)"	"packageAvailable('multcomp') && packageAvailable('abind')"
+item	bs20_centers_menu	command	"Repeated-measures ANOVA... [EZR]"	StatMedRepANOVA	"numericP(2)"	"packageAvailable('multcomp') && packageAvailable('abind') && packageAvailable('RcmdrPlugin.EZR')"
 # item	bs20_centers_menu command	"Friedman's rank-sum test... [Rcmdr]"	FriedmanTest	"numericP(2)"	""
-item	bs20_centers_menu	command	"Friedman's rank-sum test... [EZR]"	StatMedFriedman	"numericP(2)"	""
+item	bs20_centers_menu	command	"Friedman's rank-sum test... [EZR]"	StatMedFriedman	"numericP(2)"	"packageAvailable('RcmdrPlugin.EZR')"
 item	bs20_centers_menu	separator	""	""	""	""
 
 
 # item	bs20_centers_menu command	"Independent samples t-test... [Rcmdr]"	independentSamplesTTest	"numericP() && twoLevelFactorsP()"	""
-item	bs20_centers_menu	command	"Independent samples t-test... [EZR]"	StatMedTtest	"numericP() && twoLevelFactorsP()"	""
+item	bs20_centers_menu	command	"Independent samples t-test... [EZR]"	StatMedTtest	"numericP() && twoLevelFactorsP()"	"packageAvailable('RcmdrPlugin.EZR')"
 # item	bs20_centers_menu command	"Independent samples Wilcoxon/Mann-Whitney U test... [Rcmdr]"	twoSampleWilcoxonTest	"numericP() && twoLevelFactorsP()"	""
-item	bs20_centers_menu	command	"Independent samples Wilcoxon/Mann-Whitney U test... [EZR]"	StatMedMannW	"numericP() && twoLevelFactorsP()"	""
+item	bs20_centers_menu	command	"Independent samples Wilcoxon/Mann-Whitney U test... [EZR]"	StatMedMannW	"numericP() && twoLevelFactorsP()"	"packageAvailable('RcmdrPlugin.EZR')"
 
 # item	bs20_centers_menu	command	"One-way ANOVA... [Rcmdr]"	oneWayAnova	"numericP() && factorsP()"	""
-item	bs20_centers_menu	command	"One-way ANOVA... [EZR]"	StatMedANOVA	"numericP() && factorsP()"	"packageAvailable('multcomp') && packageAvailable('abind')"
+item	bs20_centers_menu	command	"One-way ANOVA... [EZR]"	StatMedANOVA	"numericP() && factorsP()"	"packageAvailable('multcomp') && packageAvailable('abind') && packageAvailable('RcmdrPlugin.EZR')"
 # item	bs20_centers_menu command	"Kruskal-Wallis test... [Rcmdr]"	KruskalWallisTest	"numericP() && factorsP()"	""
-item	bs20_centers_menu	command	"Kruskal-Wallis test... [EZR]"	StatMedKruWalli	"numericP() && factorsP()"	""
-item	bs20_centers_menu	command	"Jonckheere-Terpstra test... [EZR]"	StatMedJT	"activeDataSetP()"	"packageAvailable('clinfun')"
+item	bs20_centers_menu	command	"Kruskal-Wallis test... [EZR]"	StatMedKruWalli	"numericP() && factorsP()"	"packageAvailable('RcmdrPlugin.EZR')"
+item	bs20_centers_menu	command	"Jonckheere-Terpstra test... [EZR]"	StatMedJT	"activeDataSetP()"	"packageAvailable('clinfun') && packageAvailable('RcmdrPlugin.EZR')"
 item	bs20_centers_menu	separator	""	""	""	""
 
 # item	bs20_centers_menu	command	"Multi-way ANOVA... [Rcmdr]"	multiWayAnova	"numericP() && factorsP()"	""
-item	bs20_centers_menu	command	"Multi-way ANOVA... [EZR]"	StatMedMultiANOVA	"numericP() && factorsP()"	"packageAvailable('multcomp') && packageAvailable('abind')"
-item	bs20_centers_menu	command	"ANCOVA... [EZR]"	StatMedANCOVA	"numericP()"	"packageAvailable('multcomp') && packageAvailable('abind')"
+item	bs20_centers_menu	command	"Multi-way ANOVA... [EZR]"	StatMedMultiANOVA	"numericP() && factorsP()"	"packageAvailable('multcomp') && packageAvailable('abind') && packageAvailable('RcmdrPlugin.EZR')"
+item	bs20_centers_menu	command	"ANCOVA... [EZR]"	StatMedANCOVA	"numericP()"	"packageAvailable('multcomp') && packageAvailable('abind') && packageAvailable('RcmdrPlugin.EZR')"
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -398,10 +398,10 @@ menu	bs20_variability_menu	bs20_tests_menu	""	""	""	""
 item	bs20_tests_menu	cascade	"Variability tests"	bs20_variability_menu	""	""
 
 # item	bs20_variability_menu	command	"Two-variances F test... [Rcmdr]"	twoVariancesFTest	"numericP() && twoLevelFactorsP()"	""
-item	bs20_variability_menu	command	"Two-variances F-test... [EZR]"	StatMedFTest	"numericP() && twoLevelFactorsP()"	""
+item	bs20_variability_menu	command	"Two-variances F-test... [EZR]"	StatMedFTest	"numericP() && twoLevelFactorsP()"	"packageAvailable('RcmdrPlugin.EZR')"
 
 # item	bs20_variability_menu	command	"Bartlett's test... [Rcmdr]"	BartlettTest	"numericP() && factorsP()"	""
-item	bs20_variability_menu	command	"Bartlett's test... [EZR]"	StatMedBartlett	"numericP() && factorsP()"	""
+item	bs20_variability_menu	command	"Bartlett's test... [EZR]"	StatMedBartlett	"numericP() && factorsP()"	"packageAvailable('RcmdrPlugin.EZR')"
 
 item	bs20_variability_menu	command	"Levene's / Brown-Forsythe's test... [Rcmdr]"	LeveneTest	"numericP() && factorsP()"	""
 
@@ -411,7 +411,7 @@ item	bs20_variability_menu	command	"Levene's / Brown-Forsythe's test... [Rcmdr]"
 # menu	bs20_fit_models_menu	bs20_analysis_menu	""	""	""	""
 # item	bs20_analysis_menu	cascade	"Models (fit)"	bs20_fit_models_menu	""	""
 #
-# item	bs20_fit_models_menu	command	"Linear regression... [EZR]"	StatMedLinearRegression	"activeDataSetP()"	""
+# item	bs20_fit_models_menu	command	"Linear regression... [EZR]"	StatMedLinearRegression	"activeDataSetP()"	"packageAvailable('RcmdrPlugin.EZR')"
 # item	bs20_fit_models_menu	command	"[???] Calibration (linear regression)..."	function_not_implemented	"activeDataSetP() && FALSE"	""
 
 
