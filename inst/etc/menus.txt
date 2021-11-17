@@ -356,7 +356,7 @@ item	bs20_tests_menu	command	"Normality test (univariate)..."	window_test_normal
 # + ~ Central tendency tests -------------------------------------------------
 
 menu	bs20_centers_menu	bs20_tests_menu	""	""	""	""
-item	bs20_tests_menu	cascade	"Location tests"	bs20_centers_menu	""	""
+item	bs20_tests_menu	cascade	"Central tendency/Location tests"	bs20_centers_menu	""	""
 
 # item	bs20_centers_menu command	"Single-sample t-test... [Rcmdr]"	singleSampleTTest	"numericP()"	""
 item	bs20_centers_menu	command	"Single-sample t-test... [EZR]"	StatMedSingleSampleTTest	"numericP(2)"	""
