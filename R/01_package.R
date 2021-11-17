@@ -22,24 +22,6 @@
 #' @importFrom stats p.adjust.methods C setNames
 #' @importFrom utils browseURL packageVersion data installed.packages modifyList
 #'                   capture.output tail vignette help globalVariables
-#' @importFrom RcmdrPlugin.EZR
-#'    StatMedCorrelation
-#'    StatMedSpearman
-#'    StatMedSingleSampleTTest
-#'    StatMedWilSign
-#'    StatMedPairedTtest
-#'    StatMedRepANOVA
-#'    StatMedFriedman
-#'    StatMedTtest
-#'    StatMedMannW
-#'    StatMedANOVA
-#'    StatMedKruWalli
-#'    StatMedJT
-#'    StatMedMultiANOVA
-#'    StatMedANCOVA
-#'    StatMedFTest
-#'    StatMedBartlett
-#'    StatMedLinearRegression
 #' @importFrom grDevices devAskNewPage dev.list dev.off
 #' @importFrom stats na.omit
 
