@@ -44,6 +44,13 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 R Commander Plug-in for Basic Data Management and Analysis Tasks {#intro}
 ==============================================================================
 
+<br>
+<center><font color = "red"><b>
+This package is still experimental.<br>
+Some features may change.
+</b></font></center>
+<br>
+
 **RcmdrPlugin.biostat** is an [**Rcmdr**](https://CRAN.R-project.org/package=Rcmdr) plug-in for the most common data wrangling, visualization, and analysis tasks. 
 It provides so-called *BioStat* (green) mode.
 In this mode, additional button bar appears:

@@ -8,11 +8,11 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.r-project.org/package=RcmdrPlugin.biostat)
 [![GitHub
-version](https://img.shields.io/badge/GitHub-v0.0.70-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
+version](https://img.shields.io/badge/GitHub-v0.0.70.9000-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
 [![R build
 status](https://github.com/GegznaV/RcmdrPlugin.BioStat/workflows/R-CMD-check/badge.svg)](https://github.com/GegznaV/RcmdrPlugin.BioStat/actions)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Documentation](https://img.shields.io/badge/Documentation-2021--04--30-yellowgreen.svg)]()
+[![Documentation](https://img.shields.io/badge/Documentation-2021--11--17-yellowgreen.svg)]()
 <!-- badges: end -->
 
 ------------------------------------------------------------------------
@@ -24,6 +24,14 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 -->
 
 # R Commander Plug-in for Basic Data Management and Analysis Tasks
+
+<br>
+<center>
+<font color = "red"><b> This package is still experimental.<br> Some
+features may change. </b></font>
+</center>
+
+<br>
 
 **RcmdrPlugin.biostat** is an
 [**Rcmdr**](https://CRAN.R-project.org/package=Rcmdr) plug-in for the
