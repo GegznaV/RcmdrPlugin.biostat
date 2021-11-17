@@ -1504,6 +1504,21 @@ active_dataset_not_persent <- function(parent = CommanderWindow()) {
   }
 }
 
+
+# Message box to warn about missing package
+msg_missing_pkg <- function(pkg = "", msg = "", parent = CommanderWindow()) {
+
+  warning(msg, call. = FALSE)
+
+  tk_messageBox(
+    parent = parent,
+    caption = paste0("Missing Package ", pkg),
+    message = msg,
+    icon = "warning",
+    type = "ok"
+  )
+}
+
 # + Class --------------------------------------------------------------------
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
