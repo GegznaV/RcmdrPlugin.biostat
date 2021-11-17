@@ -11,8 +11,8 @@ NULL
 
 msg_missing_ezr <- function() {
   warning(
-    "This function cannot be executed as package 'RcmdrPlugin.EZR' ",
-    "is missing. Please, install 'RcmdrPlugin.EZR' to use this function. "
+    "Package 'RcmdrPlugin.EZR' is missing.\n  ",
+    "To use this function, please, install 'RcmdrPlugin.EZR'. "
   )
 }
 
