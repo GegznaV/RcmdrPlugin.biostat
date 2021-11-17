@@ -1,20 +1,24 @@
 
 
-
 #' \pkg{RcmdrPlugin.EZR} functions
 #'
 #' Functions imported from package \pkg{RcmdrPlugin.EZR}.
+#' To use menus that have suffix `[EZR]`, package  \pkg{RcmdrPlugin.EZR} must
+#' be installed.
 #'
 #' @name ezr-functions
 #' @md
 NULL
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 msg_missing_ezr <- function() {
-  warning(
-    "Package 'RcmdrPlugin.EZR' is missing.\n  ",
-    "To use this function, please, install 'RcmdrPlugin.EZR'. "
+  msg <- paste0(
+    "Package 'RcmdrPlugin.EZR' is missing.\n",
+    "To use menus with suffix '[EZR]', please, install 'RcmdrPlugin.EZR'. "
   )
+  msg_missing_pkg(pkg = 'RcmdrPlugin.EZR', msg)
 }
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #' @rdname ezr-functions
 #' @export
