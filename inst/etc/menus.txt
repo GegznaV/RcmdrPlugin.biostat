@@ -408,10 +408,10 @@ item	bs20_variability_menu	command	"Levene's / Brown-Forsythe's test... [Rcmdr]"
 
 # . ==========================================================================
 # ---- + Models (Fit) --------------------------------------------------------
-# menu	bs20_fit_models_menu	bs20_analysis_menu	""	""	""	""
-# item	bs20_analysis_menu	cascade	"Models (fit)"	bs20_fit_models_menu	""	""
-#
-# item	bs20_fit_models_menu	command	"Linear regression... [EZR]"	StatMedLinearRegression	"activeDataSetP()"	""
+menu	bs20_fit_models_menu	bs20_analysis_menu	""	""	""	""
+item	bs20_analysis_menu	cascade	"Models (fit)"	bs20_fit_models_menu	""	""
+
+item	bs20_fit_models_menu	command	"Linear regression... [EZR]"	StatMedLinearRegression	"activeDataSetP()"	""
 # item	bs20_fit_models_menu	command	"[???] Calibration (linear regression)..."	function_not_implemented	"activeDataSetP() && FALSE"	""
 
 
