@@ -438,7 +438,7 @@ window_export_to_text <- function() {
         return()
       }
 
-      if (nchar(sep) != 1) {
+      if (!(nchar(sep) == 1 || sep == "\\t")) {
         show_error_messages(
           str_c(
             "The length of column setarator must be 1. \n\n",
