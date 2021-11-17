@@ -112,6 +112,16 @@ StatMedANOVA <- function() {
 
 #' @rdname ezr-functions
 #' @export
+StatMedRepANOVA <- function() {
+  if (requireNamespace("RcmdrPlugin.EZR")) {
+    RcmdrPlugin.EZR::StatMedRepANOVA()
+  } else {
+    msg_missing_ezr()
+  }
+}
+
+#' @rdname ezr-functions
+#' @export
 StatMedKruWalli <- function() {
   if (requireNamespace("RcmdrPlugin.EZR")) {
     RcmdrPlugin.EZR::StatMedKruWalli()
@@ -165,6 +175,16 @@ StatMedBartlett <- function() {
 StatMedFTest <- function() {
   if (requireNamespace("RcmdrPlugin.EZR")) {
     RcmdrPlugin.EZR::StatMedFTest()
+  } else {
+    msg_missing_ezr()
+  }
+}
+
+#' @rdname ezr-functions
+#' @export
+StatMedLinearRegression <- function() {
+  if (requireNamespace("RcmdrPlugin.EZR")) {
+    RcmdrPlugin.EZR::StatMedLinearRegression()
   } else {
     msg_missing_ezr()
   }

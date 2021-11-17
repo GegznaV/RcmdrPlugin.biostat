@@ -11,12 +11,14 @@
 \alias{StatMedTtest}
 \alias{StatMedMannW}
 \alias{StatMedANOVA}
+\alias{StatMedRepANOVA}
 \alias{StatMedKruWalli}
 \alias{StatMedJT}
 \alias{StatMedMultiANOVA}
 \alias{StatMedANCOVA}
 \alias{StatMedBartlett}
 \alias{StatMedFTest}
+\alias{StatMedLinearRegression}
 \title{\pkg{RcmdrPlugin.EZR} functions}
 \usage{
 StatMedCorrelation()
@@ -37,6 +39,8 @@ StatMedMannW()
 
 StatMedANOVA()
 
+StatMedRepANOVA()
+
 StatMedKruWalli()
 
 StatMedJT()
@@ -48,6 +52,8 @@ StatMedANCOVA()
 StatMedBartlett()
 
 StatMedFTest()
+
+StatMedLinearRegression()
 }
 \description{
 Functions imported from package \pkg{RcmdrPlugin.EZR}.
