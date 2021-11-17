@@ -103,7 +103,9 @@ Imports:
     utils,
     usethis,
     vcd,
-    withr
+    withr,
+    nloptr,
+    effects
 Suggests:
     extrafont,
     knitr,
