@@ -1511,6 +1511,13 @@ msg_missing_pkg <- function(pkg = "", msg = "", install_log = FALSE,
 
   warning(msg, call. = FALSE)
 
+  if (isTRUE(install_log)) {
+    logger(paste0(
+      '# To install the package, uncomment and use this code:\n',
+      '# install.packages("', pkg,'")'
+    ))
+  }
+
   tk_messageBox(
     parent = parent,
     caption = paste0("Missing Package ", pkg),
@@ -1519,9 +1526,6 @@ msg_missing_pkg <- function(pkg = "", msg = "", install_log = FALSE,
     type = "ok"
   )
 
-  if (isTRUE(install_log)) {
-    logger(paste0('# install.packages("', pkg,'")'))
-  }
 }
 
 # + Class --------------------------------------------------------------------
