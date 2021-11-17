@@ -51,4 +51,6 @@ StatMedFTest()
 }
 \description{
 Functions imported from package \pkg{RcmdrPlugin.EZR}.
+To use menus that have suffix \verb{[EZR]}, package  \pkg{RcmdrPlugin.EZR} must
+be installed.
 }
