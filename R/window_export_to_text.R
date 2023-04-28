@@ -28,7 +28,6 @@ window_export_to_clipboard <- function() {
 #' @export
 #' @keywords internal
 window_export_to_text <- function() {
-
   # Functions ==============================================================
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -244,7 +243,7 @@ window_export_to_text <- function() {
       ".csv" = c("Comma ( , )", "Semicolon ( ; )"),
       ".tsv" = c("Tab"),
       c("Tab", "Space ( )", "Comma ( , )", "Semicolon ( ; )",
-        "Vertical bar ( | )"  , "Custom...")
+        "Vertical bar ( | )", "Custom...")
     )
 
     if (get_dec() == ",") {
@@ -370,7 +369,7 @@ window_export_to_text <- function() {
     ) %>%
       walk(tk_normalize)
 
-    fg = Rcmdr::getRcmdr("title.color")
+    fg <- Rcmdr::getRcmdr("title.color")
     tkconfigure(f1_lab_file, foreground = fg)
     tkconfigure(f1_lab_ext,  foreground = fg)
 
@@ -419,12 +418,12 @@ window_export_to_text <- function() {
     if (destination == "Clipboard") {
       command <-
         str_glue("## Export data to clipboard\n",
-          'clipr::write_clip( \n',
-          '     {.ds}, \n',
+          "clipr::write_clip( \n",
+          "     {.ds}, \n",
           '     sep = "{sep}", \n',
           '     dec = "{dec}", \n',
-          '     row.names  = {has_rownames}, \n',
-          '     col.names  = TRUE, \n',
+          "     row.names  = {has_rownames}, \n",
+          "     col.names  = TRUE, \n",
           '     na = "{na_txt}")'
         )
 
@@ -453,13 +452,13 @@ window_export_to_text <- function() {
       # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       command <-
         str_glue("## Save data to text file\n",
-          'data.table::fwrite( \n',
-          '     {.ds}, \n',
+          "data.table::fwrite( \n",
+          "     {.ds}, \n",
           '     file = "{file_name}", \n',
           '     sep = "{sep}", \n',
           '     dec = "{dec}", \n',
-          '     row.names  = {has_rownames}, \n',
-          '     col.names  = TRUE, \n',
+          "     row.names  = {has_rownames}, \n",
+          "     col.names  = TRUE, \n",
           '     na = "{na_txt}")'
         )
 
@@ -516,7 +515,7 @@ window_export_to_text <- function() {
   dec1     <- c("Period ( . )", "Comma ( , )") # "Default"
 
   sep1_all <- c("Tab", "Space ( )", "Comma ( , )", "Semicolon ( ; )",
-    "Vertical bar ( | )"  , "Custom...")
+    "Vertical bar ( | )", "Custom...")
 
 
   # F1, Frame 1, choose file name ------------------------------------------
