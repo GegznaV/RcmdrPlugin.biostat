@@ -16,7 +16,7 @@ msg_missing_ezr <- function() {
     "Package 'RcmdrPlugin.EZR' is missing.\n",
     "To use menus with suffix '[EZR]', please, install 'RcmdrPlugin.EZR'. "
   )
-  msg_missing_pkg(pkg = 'RcmdrPlugin.EZR', msg = msg, install_log = TRUE)
+  msg_missing_pkg(pkg = "RcmdrPlugin.EZR", msg = msg, install_log = TRUE)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
