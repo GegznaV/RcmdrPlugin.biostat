@@ -7,7 +7,6 @@
 #' @export
 #' @keywords internal
 window_rows_rownames_to_col <- function() {
-
   # Functions --------------------------------------------------------------
   onOK <- function() {
     new_name <- trim.blanks(tclvalue(name_variable))
@@ -17,7 +16,7 @@ window_rows_rownames_to_col <- function() {
     if (!is.valid.name(new_name)) {
       errorCondition(
         recall = window_rows_rownames_to_col,
-        message = paste0( '"',new_name,'" ', gettext_bs("is not a valid name."))
+        message = paste0('"', new_name, '" ', gettext_bs("is not a valid name."))
       )
       return()
     }
