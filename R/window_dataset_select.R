@@ -23,7 +23,7 @@ window_dataset_select <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   cmd_ds_selection_callback  <- function() {
 
-    envir = parent.frame()
+    envir <- parent.frame()
     button_obj <- c("i1", "i3", "i5", "i6")
 
     if (get_size(var_ds_box) == 0 || get_selection_length(var_ds_box) == 0) {
@@ -109,7 +109,7 @@ window_dataset_select <- function() {
     command <- str_glue(
       .trim = FALSE,
       '## The summary of variables in "{.ds_1}"\n',
-      'summary({.ds_1})'
+      "summary({.ds_1})"
     )
     doItAndPrint(command)
   }
@@ -120,10 +120,12 @@ window_dataset_select <- function() {
     Library("summarytools")
 
     # FIXME: remove when summarytools fixes this bug
-    try({
-      op <- summarytools::st_options("use.x11")
-      summarytools::st_options("use.x11" = FALSE)
-    }, silent = TRUE)
+    try(
+      {
+        op <- summarytools::st_options("use.x11")
+        summarytools::st_options("use.x11" = FALSE)
+      },
+      silent = TRUE)
 
     doItAndPrint(str_glue(
       '## The summary of variables in "{.ds_1}"\n',
@@ -131,7 +133,11 @@ window_dataset_select <- function() {
     ))
 
     # FIXME: remove when summarytools fixes this bug
-    try({summarytools::st_options("use.x11" = op)}, silent = TRUE)
+    try(
+      {
+        summarytools::st_options("use.x11" = op)
+      },
+      silent = TRUE)
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -157,7 +163,7 @@ window_dataset_select <- function() {
     # If any numeric variables exist
     ds_numeric <-
       purrr::map_lgl(str_glue_eval("{.ds_1}", envir_eval = .GlobalEnv),
-        ~is.numeric(.))
+        ~ is.numeric(.))
     if (any(ds_numeric)) {
       Library("tidyverse")
       Library("summarytools")
@@ -185,7 +191,7 @@ window_dataset_select <- function() {
     ds_factors <-
       purrr::map_lgl(
         str_glue_eval("{.ds_1}", envir_eval = .GlobalEnv),
-        ~inherits(., "factor")
+        ~ inherits(., "factor")
       )
 
     if (any(ds_factors)) {
@@ -469,7 +475,7 @@ window_dataset_select <- function() {
     text = "Summary",
     tip  = str_c(
       "Summary of selected ",
-      "dataset's variable values" ,
+      "dataset's variable values",
       sep = "\n"),
     width = 0,
     command = menu_summary)
