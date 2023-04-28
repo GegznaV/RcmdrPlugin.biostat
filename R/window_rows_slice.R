@@ -6,7 +6,7 @@
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_rows_slice <- function(){
+window_rows_slice <- function() {
   dataSet <- active_dataset()
 
   initializeDialog(title = gettext_bs("Select / Remove Rows by Position"))
@@ -43,7 +43,7 @@ window_rows_slice <- function(){
     if (!is.valid.name(new_dsname)) {
       errorCondition(
         recall = window_rows_slice,
-        message = paste0( '"',new_dsname,'" ', gettext_bs("is not a valid name."))
+        message = paste0('"', new_dsname, '" ', gettext_bs("is not a valid name."))
       )
       return()
     }
@@ -107,7 +107,7 @@ window_rows_slice <- function(){
     text = gettext_bs("Slice: select/remove rows by index"),
     font = tkfont.create(weight = "bold", size = 9),
     fg = fg_col),
-    pady = c(5, 9))
+  pady = c(5, 9))
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   row_number_frame <- tkframe(top)
   tkgrid(row_number_frame)
@@ -133,8 +133,8 @@ window_rows_slice <- function(){
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(labelRcmdr(dataSetNameFrame,
     text = gettext_bs("Name for sliced dataset:   ")),
-    dataSetNameEntry,
-    sticky = "w")
+  dataSetNameEntry,
+  sticky = "w")
 
   # tkgrid(dataSetNameEntry, sticky = "w")
   tkgrid(dataSetNameFrame, sticky = "w")
