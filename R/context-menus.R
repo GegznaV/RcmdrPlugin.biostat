@@ -37,7 +37,7 @@ right_click_menu_text <- function(tcl_widget, undo = TRUE, menu_rm = FALSE) {
     onDelete()
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  onPaste <- function(){
+  onPaste <- function() {
     onDelete()
     # focused <- tkfocus()
 
@@ -84,7 +84,7 @@ right_click_menu_text <- function(tcl_widget, undo = TRUE, menu_rm = FALSE) {
       stop <- if (direction == "-forward") "end" else "1.0"
       where.txt <-
         if (case) tksearch(focused, type, direction, "--", text, "insert", stop)
-      else tksearch(focused, type, direction, "-nocase", "--", text, "insert", stop)
+        else tksearch(focused, type, direction, "-nocase", "--", text, "insert", stop)
       where.txt <- tclvalue(where.txt)
       if (where.txt == "") {
         Message(message = gettext_bs("Text not found."),
@@ -100,7 +100,7 @@ right_click_menu_text <- function(tcl_widget, undo = TRUE, menu_rm = FALSE) {
       tksee(focused, where.txt)
       tkdestroy(top)
     }
-    .exit <- function(){
+    .exit <- function() {
       text <- tclvalue(textVar)
       putRcmdr("last.search", text)
       return("")
@@ -138,13 +138,13 @@ right_click_menu_text <- function(tcl_widget, undo = TRUE, menu_rm = FALSE) {
     onDelete()
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  onUndo <- function(){
+  onUndo <- function() {
     # focused <- tkfocus()
     tcl(tcl_widget, "edit", "undo")
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  onRedo <- function(){
+  onRedo <- function() {
     # focused <- tkfocus()
     tcl(tcl_widget, "edit", "redo")
   }
@@ -152,7 +152,6 @@ right_click_menu_text <- function(tcl_widget, undo = TRUE, menu_rm = FALSE) {
 
   # ========================================================================
   crete_context_menu <- function() {
-
     # if (tclvalue(tkfocus()) != tcl_widget$ID) return()
 
     contextMenu <- tk2menu(tk2menu(tcl_widget), tearoff = FALSE)
