@@ -42,9 +42,8 @@
 #' @export
 #' @keywords internal
 refresh_dataset_window_0 <- function(
-  widget, ds_contents, preview_type, nrow_preview_ds, expect_more_rows = FALSE,
-  err_msg_default = NULL) {
-
+    widget, ds_contents, preview_type, nrow_preview_ds, expect_more_rows = FALSE,
+    err_msg_default = NULL) {
   # Check arguments
   preview_type <- match.arg(preview_type,
     choices = c("Tibble", "Data table", "Structure"))
@@ -110,7 +109,7 @@ refresh_dataset_window_0 <- function(
               n = nrow_preview_ds)
           ) %>%
           str_subset("^(?!# A tibble.*)") %>%
-          str_replace( "^# \\.\\.\\. with.*", txt_trunc)
+          str_replace("^# \\.\\.\\. with.*", txt_trunc)
 
         options(op)
 
@@ -126,7 +125,7 @@ refresh_dataset_window_0 <- function(
           if (is.infinite(nrow_preview_ds)) {
             nrows_from_file
           } else {
-            floor(nrow_preview_ds/2)
+            floor(nrow_preview_ds / 2)
           }
 
         op <- options(width = 10000)
@@ -149,7 +148,7 @@ refresh_dataset_window_0 <- function(
       "Structure" = {
         ds_preview <- capture.output(glimpse(ds_contents, width = 74))
 
-        if (expect_more_rows)  {
+        if (expect_more_rows) {
           ds_preview <- str_replace(
             ds_preview,
             "(?<=^Observations: )(.*)", "\\1 or more")
@@ -157,7 +156,9 @@ refresh_dataset_window_0 <- function(
       }
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (length(ds_preview) <= 1) {err_msg <- err_msg_default}
+    if (length(ds_preview) <= 1) {
+      err_msg <- err_msg_default
+    }
   }
 
   if (!is.null(err_msg)) {
@@ -222,7 +223,6 @@ refresh_dataset_window_0 <- function(
 #' @export
 #' @keywords internal
 configure_tags <- function(text_widget) {
-
   # Fonts ----------------------------------------------------------------------
   font_consolas_italic  <- tkfont.create(family = "Consolas", size = 8, slant = "italic")
   font_consolas_bold    <- tkfont.create(family = "Consolas", size = 8, weight = "bold")
@@ -260,4 +260,3 @@ configure_tags <- function(text_widget) {
   tktag.configure(text_widget, "num",  foreground = "green4")
   tktag.configure(text_widget, "NA",   foreground = "tomato1")
 }
-
