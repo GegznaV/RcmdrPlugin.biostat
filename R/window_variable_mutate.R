@@ -25,7 +25,6 @@ window_variable_mutate0  <- function() {
 #' @export
 #' @keywords internal
 window_variable_mutate <- function() {
-
   # Functions --------------------------------------------------------------
   insert_selected_variable <- function() {
     # var <- trim.blanks(getSelection(variablesBox))
@@ -63,7 +62,7 @@ window_variable_mutate <- function() {
       ifelse(vars %in% Factors(),
         yes = gettext_bs("[factor]"),
         no  = ""
-      ))
+    ))
   }
 
   # onOK -------------------------------------------------------------------
@@ -237,10 +236,10 @@ window_variable_mutate <- function() {
     "+   -   *   /   ^   sqrt()    log()   abs()",
     "",
     "Examples: ",
-    '    log(age)',
-    '    length + width',
-    '    as.factor(color)',
-    '    weight / (height^2)',
+    "    log(age)",
+    "    length + width",
+    "    as.factor(color)",
+    "    weight / (height^2)",
     '    ifelse(age < 50, "young", "old")',
     "",
     'Browse "Help" for more information.')
@@ -424,7 +423,6 @@ window_variable_mutate <- function() {
     reset = "window_variable_mutate",
     apply = "window_variable_mutate",
     after_apply_success_fun = function() {
-
       # Get value before it is changed
       created_variable <- get_values(f2_name_entry)
 
