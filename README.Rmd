@@ -32,7 +32,7 @@ knitr::opts_chunk$set(fig.align  = "center")
 ```
 
 ```{r logo-local, fig.align='center', out.height='30%', out.width='30%',echo=FALSE} 
-knitr::include_graphics(paste0(fig_dir, "logo.png")) 
+knitr::include_graphics(paste0(fig_dir, "logo.png"))
 ``` 
  
 
@@ -56,9 +56,9 @@ It provides so-called *BioStat* (green) mode.
 In this mode, additional button bar appears:
 
 ```{r, echo=FALSE, fig.cap=CAPTION}
-knitr::include_graphics(paste0(fig_dir, "05--buttons-in-biostat-mode.png")) 
+knitr::include_graphics(paste0(fig_dir, "05--buttons-in-biostat-mode.png"))
 
-CAPTION = ""
+CAPTION <- ""
 # Figure caption/description.
 ```
 
@@ -105,11 +105,11 @@ If you want to install the development version of the package from “GitHub”,
 update.packages(ask = "graphics")
 
 # Install required packages
-if (!require("remotes"))  install.packages("remotes")
+if (!require("remotes")) install.packages("remotes")
 
 # Install RcmdrPlugin.biostat
 remotes::install_github(
-  "GegznaV/RcmdrPlugin.biostat", 
+  "GegznaV/RcmdrPlugin.biostat",
   dependencies = TRUE, upgrade = TRUE
 )
 ```
@@ -150,9 +150,9 @@ Usually, you have to delete the indicated "*00LOCK*" directory (you may use [`pa
 The easiest way to load **RcmdrPlugin.biostat** in *BioStat* (green) mode is to use RStudio addin:
 
 ```{r fig-00, echo=FALSE, fig.cap=CAPTION}
-knitr::include_graphics(paste0(fig_dir, "00-addin-to-load-biostat-mode.png")) 
+knitr::include_graphics(paste0(fig_dir, "00-addin-to-load-biostat-mode.png"))
 
-CAPTION = "" # Figure caption/description.
+CAPTION <- "" # Figure caption/description.
 ```
 
 Alternatively, use code:
@@ -239,9 +239,9 @@ load_rcmdr_biostat_mode()
 When **RcmdrPlugin.biostat** is loaded, you can access its functionality through either the *BioStat* button bar (find figure above) or through `BioStat'20` menu in the menu bar (shown as `BioStat'19` in the example):
 
 ```{r, echo=FALSE, fig.cap=CAPTION}
-knitr::include_graphics(paste0(fig_dir, "03--biostat-plugin-loaded.png")) 
+knitr::include_graphics(paste0(fig_dir, "03--biostat-plugin-loaded.png"))
 
-CAPTION = "" # Figure caption/description.
+CAPTION <- "" # Figure caption/description.
 ```
 
 
@@ -251,9 +251,9 @@ CAPTION = "" # Figure caption/description.
 If you restarted R Commander and "BioStat" menu is present but button bar is missing, you may re-enable *BioStat* mode by selecting option "Mode: BioStat":
 
 ```{r, echo=FALSE, fig.cap=CAPTION}
-knitr::include_graphics(paste0(fig_dir, "04--activate-biostat-mode.png")) 
+knitr::include_graphics(paste0(fig_dir, "04--activate-biostat-mode.png"))
 
-CAPTION = "" # Figure caption/description.
+CAPTION <- "" # Figure caption/description.
 ```
 
 <br>
@@ -316,7 +316,7 @@ options(Rcmdr = list(
     "RcmdrPlugin.EZR.as.menu",
     "RcmdrPlugin.biostat",
     NULL
-  ), 
+  ),
   console.output = FALSE
 ))
 
