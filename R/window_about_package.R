@@ -5,7 +5,10 @@
 window_about_biostat_version <- function() {
   initializeDialog(title = gettext_bs("Information About The Package"))
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  onOK <- function() {closeDialog(); tkfocus(CommanderWindow())}
+  onOK <- function() {
+    closeDialog()
+    tkfocus(CommanderWindow())
+  }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   descr_file <- system.file("DESCRIPTION", package = "RcmdrPlugin.biostat")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -29,7 +32,7 @@ window_about_biostat_version <- function() {
 
   tkgrid(
     tk_label_blue(info_frame, text = gettext_bs("Package: ")),
-    tk_label(  info_frame, text = "RcmdrPlugin.biostat"),
+    tk_label(info_frame, text = "RcmdrPlugin.biostat"),
     sticky = "e", pady = c(2, 0), padx = 16)
 
   tkgrid(
