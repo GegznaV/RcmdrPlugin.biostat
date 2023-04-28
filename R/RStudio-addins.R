@@ -10,4 +10,3 @@ load_rcmdr_biostat <- function() {
   rstudioapi::sendToConsole(command)
 
 }
-
