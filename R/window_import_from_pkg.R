@@ -182,12 +182,12 @@ window_import_from_pkg <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   get_ds_info_summary <- function(ds) {
 
-    n_variables = ncol(ds)
-    n_numeric   = sum(purrr::map_int(ds, is.numeric))
-    n_factor    = sum(purrr::map_int(ds, is.factor))
-    n_logical   = sum(purrr::map_int(ds, is.logical))
-    n_character = sum(purrr::map_int(ds, is.character))
-    n_other     = n_variables - n_character - n_logical - n_factor - n_numeric
+    n_variables <- ncol(ds)
+    n_numeric   <- sum(purrr::map_int(ds, is.numeric))
+    n_factor    <- sum(purrr::map_int(ds, is.factor))
+    n_logical   <- sum(purrr::map_int(ds, is.logical))
+    n_character <- sum(purrr::map_int(ds, is.character))
+    n_other     <- n_variables - n_character - n_logical - n_factor - n_numeric
     str_glue(
       "Class: data frame \nSize: {nrow(ds)} rows {n_variables} columns \n",
       "(num: {n_numeric}, fct: {n_factor}, chr: {n_character}, ",
@@ -372,7 +372,6 @@ window_import_from_pkg <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   onOK <- function() {
-
     # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cursor_set_busy(top)
     on.exit(cursor_set_idle(top))
@@ -392,7 +391,9 @@ window_import_from_pkg <- function() {
     if (variable_is_not_selected(selected_ds, "dataset", parent = top)) {
       return()
     }
-    if (forbid_to_replace_object(selected_ds, parent = top)) {return()}
+    if (forbid_to_replace_object(selected_ds, parent = top)) {
+      return()
+    }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     putDialog("window_import_from_pkg", list(
@@ -405,7 +406,11 @@ window_import_from_pkg <- function() {
     use_custom_name <- FALSE
     new_name        <- selected_ds
 
-    env_txt <- if (use_custom_name) {", envir = tmp_env"} else {""}
+    env_txt <- if (use_custom_name) {
+      ", envir = tmp_env"
+    } else {
+      ""
+    }
 
     # Load data with custom name
     command_load <-
@@ -493,7 +498,9 @@ window_import_from_pkg <- function() {
       width = 25,
       values = list_packages(which = "loaded"),
       on_select = function() {
-        if (tk_get_state(f2_box_pkgs) == "disabled") {return()}
+        if (tk_get_state(f2_box_pkgs) == "disabled") {
+          return()
+        }
         select_package()
       },
       title = gettext_bs("Package (select one)"),
