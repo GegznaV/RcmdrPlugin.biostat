@@ -112,8 +112,8 @@ window_dataset_bind_rows <- function() {
   radioButtons_horizontal(
     radiobuttons_frame,
     name = "which_id",
-    buttons = c("id_names", "id_numeric","id_none"),
-    values  = c("id_names", "id_numeric","id_none"),
+    buttons = c("id_names", "id_numeric", "id_none"),
+    values  = c("id_names", "id_numeric", "id_none"),
     labels  =  gettext_bs(c("Names  ",
       "Numeric (1, 2, ...) ",
       "Do not use ID")),
