@@ -171,7 +171,8 @@ radioButtons_horizontal(
   title = NULL,
   title.color = NULL,
   right.buttons = FALSE,
-  command = function() { },
+  command = function() {
+ },
   sticky_title = "w",
   sticky_buttons = "e"
 )
