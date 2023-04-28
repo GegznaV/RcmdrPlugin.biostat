@@ -56,7 +56,7 @@ window_import_rdata <- function() {
   on.exit(cursor_set_idle())
 
   # Change these lines [!!!]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  make_relative = TRUE
+  make_relative <- TRUE
 
   if (make_relative) {
     file <- make_relative_path(file)
@@ -65,7 +65,7 @@ window_import_rdata <- function() {
 
 
   command <- str_glue(
-    '## Import data from R-data file\n',
+    "## Import data from R-data file\n",
     'load("{file}")'
   )
 
