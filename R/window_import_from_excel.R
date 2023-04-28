@@ -3,7 +3,6 @@
 #' @export
 #' @keywords internal
 window_import_from_excel <- function() {
-
   # Fonts ------------------------------------------------------------------
   font_consolas_regular <- tkfont.create(family = "Consolas", size = 8)
 
@@ -90,7 +89,7 @@ window_import_from_excel <- function() {
     val <- get_values(f2_ent_skip)
     switch(val,
       "0" = "",
-      str_c(', skip = ', val)
+      str_c(", skip = ", val)
       # str_c(', skip = "', get_skip(), '"')
     )
   }
@@ -156,8 +155,8 @@ window_import_from_excel <- function() {
       "unique"       = "",
       "universal"    = ', .name_repair = "universal"',
       "check unique" = ', .name_repair = "check_unique"',
-      "snake case"   = ', .name_repair = ~ janitor::make_clean_names(.)',
-      "make names"   = ', .name_repair = ~ make.names(., unique = TRUE)',
+      "snake case"   = ", .name_repair = ~ janitor::make_clean_names(.)",
+      "make names"   = ", .name_repair = ~ make.names(., unique = TRUE)",
       stop("Value '", val, "' is unknown (f2_box_out).")
     )
   }
@@ -208,7 +207,7 @@ window_import_from_excel <- function() {
     if (isTRUE(val)) {
       ""
     } else {
-      str_c(',\n trim_ws = ', val)
+      str_c(",\n trim_ws = ", val)
     }
   }
 
@@ -263,8 +262,8 @@ window_import_from_excel <- function() {
   # Return TRUE on success
   #        FALSE on failure.
   check_file_name <- function(on_success = do_nothing,
-    on_failure = do_nothing,
-    silent = FALSE) {
+      on_failure = do_nothing,
+      silent = FALSE) {
     filename <- read_path_to_file()
 
     if (fs::is_file(filename) || is_url(filename)) {
@@ -582,7 +581,9 @@ window_import_from_excel <- function() {
   # ~ Input validation -----------------------------------------------------
   make_red_text_reset_val <- function(to = "") {
     function(P, W, S, v, s) {
-      tcl("after", "idle", function() {tkconfigure(W, validate = v)})
+      tcl("after", "idle", function() {
+        tkconfigure(W, validate = v)
+      })
       tkconfigure(W, foreground = "red2")
 
       if (!is.null(to)) {
@@ -678,9 +679,9 @@ window_import_from_excel <- function() {
     Library("readxl")
 
     command <- str_glue(.trim = FALSE,
-      '## Import data from Excel file \n',
-      '{new_name} <- \n ',
-      '  readxl::read_excel(\n',
+      "## Import data from Excel file \n",
+      "{new_name} <- \n ",
+      "  readxl::read_excel(\n",
       '  "{file_name}"',
 
       get_code_xl_sheet(),
@@ -911,10 +912,10 @@ window_import_from_excel <- function() {
     "and unique. \n",
     "Options: \n",
     # '  minimal  \t- Check if names exist, but do not repair;\n',
-    '  check unique \t- Check if names are unique, but do not repair; \n',
-    '  unique    \t- Names are made unique and not empty;\n',
-    '  universal \t- Names are made unique and syntactic;\n',
-    '  make names \t- Function `make.names` is applied.')
+    "  check unique \t- Check if names are unique, but do not repair; \n",
+    "  unique    \t- Names are made unique and not empty;\n",
+    "  universal \t- Names are made unique and syntactic;\n",
+    "  make names \t- Function `make.names` is applied.")
 
   # Possible options ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -984,7 +985,7 @@ window_import_from_excel <- function() {
       "strip_white"
     ),
     default_command = refresh_dataset_window,
-    values = c( 0, 1),
+    values = c(0, 1),
     labels = gettext_bs(c(
       "Convert strings to factors",
       "Strip leading and tailing spaces"
@@ -1272,4 +1273,3 @@ window_import_from_excel <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   invisible()
 }
-
