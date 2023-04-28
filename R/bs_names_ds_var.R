@@ -9,15 +9,17 @@
 #' @examples
 #' if (FALSE) {
 #'
-#' top <- tktoplevel()
-#' obj <- bs_names_ds_var(get_ds_name_fun = function() {"ds"})
-#' tkgrid(obj$frame)
+#'   top <- tktoplevel()
+#'   obj <- bs_names_ds_var(get_ds_name_fun = function() {
+#'     "ds"
+#'   })
+#'   tkgrid(obj$frame)
 #'
 #' }
-
 bs_names_ds_var <- function(parent = top,
-  get_ds_name_fun = active_dataset_0,
-  get_var_name_fun = function() {"variable"}) {
+                            get_ds_name_fun = active_dataset_0,
+                            get_var_name_fun = function() "variable"
+) {
 
   frame <- tk2frame(parent)
 
@@ -91,7 +93,7 @@ bs_names_ds_var <- function(parent = top,
     dataset  = dataset,
     variable = variable
   ),
-    class = c("bs_names_ds_var", "bs_tk_widget", "list")
+  class = c("bs_names_ds_var", "bs_tk_widget", "list")
   )
 }
 
