@@ -2,7 +2,7 @@
 # Imported from Rcmdr
 
 globalVariables(c(
-  "top", "OKCancelHelp","ok_cancel_help", ".",
+  "top", "OKCancelHelp", "ok_cancel_help", ".",
 
   "ActiveDataSet", "ActiveModel", "Commander", "CommanderWindow", "Factors",
   "GrabFocus", "Library", "LogWindow", "Message", "MessagesWindow", "Numeric",
