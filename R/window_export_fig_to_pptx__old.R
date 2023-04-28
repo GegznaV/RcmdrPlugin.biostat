@@ -439,8 +439,8 @@ window_export_fig_to_pptx__old <- function() {
     code__open_after_saving <-
       if (open_after_saving) {
         str_glue(
-          '\n\n',
-          '## Open PowerPoint file \n',
+          "\n\n",
+          "## Open PowerPoint file \n",
           'browseURL("{pptx_file}")'
         )
       } else {
@@ -450,19 +450,19 @@ window_export_fig_to_pptx__old <- function() {
     # Save plot
     command <- str_c(
       sep = "\n",
-      '## Save plot',
-      '    {file_open}officer::read_pptx() %>%',
+      "## Save plot",
+      "    {file_open}officer::read_pptx() %>%",
       '    officer::add_slide(layout = "Blank", master = "Office Theme") %>%',
-      '    rvg::ph_with_vg_at(',
-      '        width  = {pos_width}, # {in_units}',
-      '        height = {pos_height}, # {in_units}',
-      '        left   = {pos_left}, # {in_units}',
-      '        top    = {pos_top}, # {in_units}',
-      '        {gg_code}',
-      '    ) %>%',
+      "    rvg::ph_with_vg_at(",
+      "        width  = {pos_width}, # {in_units}",
+      "        height = {pos_height}, # {in_units}",
+      "        left   = {pos_left}, # {in_units}",
+      "        top    = {pos_top}, # {in_units}",
+      "        {gg_code}",
+      "    ) %>%",
       '    print(target = "{pptx_file}")',
 
-      '{code__open_after_saving}'
+      "{code__open_after_saving}"
     ) %>%
       str_glue()
 
@@ -716,7 +716,7 @@ window_export_fig_to_pptx__old <- function() {
         "  - ggplot2 - best gor 'ggplot2' polots. ",
         "  - print() - additionally calls function `print()`.",
         "  - plot()  - additionally calls function `plot()`."
-      ))
+    ))
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   f3_gg_obj_name_box <-
