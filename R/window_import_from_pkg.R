@@ -614,8 +614,8 @@ window_import_from_pkg <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(f1, sticky = "w")
 
-  tkgrid(f1_lab_selected_pkg_0, f1_lab_selected_pkg,  pady = c(0, 0),  sticky = "w")
-  tkgrid(f1_lab_selected_ds_0,  f1_lab_selected_ds,   pady = c(0, 2),  sticky = "w")
+  tkgrid(f1_lab_selected_pkg_0, f1_lab_selected_pkg, pady = c(0, 0), sticky = "w")
+  tkgrid(f1_lab_selected_ds_0,  f1_lab_selected_ds,  pady = c(0, 2), sticky = "w")
 
 
   tkgrid(f2, sticky = "nw")
