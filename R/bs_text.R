@@ -5,7 +5,8 @@
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
-bs_text <- function(parent, ..., label = "", undo = TRUE, context_menu = FALSE) {
+bs_text <- function(parent, ...,
+                    label = "", undo = TRUE, context_menu = FALSE) {
 
   frame <- tk2frame(parent)
 
@@ -16,18 +17,19 @@ bs_text <- function(parent, ..., label = "", undo = TRUE, context_menu = FALSE) 
   obj_xsc <- tk2scrollbar(
     frame,
     orientation = "horizontal",
-    command = function(...) {tkxview(obj_txt, ...)}
+    command = function(...) tkxview(obj_txt, ...)
   )
 
   obj_ysc <- tk2scrollbar(
     frame,
     orientation = "vertical",
-    command = function(...) {tkyview(obj_txt, ...)}
-  )
+    command = function(...) tkyview(obj_txt, ...))
 
-  tkconfigure(obj_txt,
-    xscrollcommand = function(...) {tkset(obj_xsc, ...)},
-    yscrollcommand = function(...) {tkset(obj_ysc, ...)})
+  tkconfigure(
+    obj_txt,
+    xscrollcommand = function(...) tkset(obj_xsc, ...),
+    yscrollcommand = function(...) tkset(obj_ysc, ...)
+  )
 
   tkgrid(obj_label)
   tkgrid(obj_txt, obj_ysc)
@@ -50,7 +52,7 @@ bs_text <- function(parent, ..., label = "", undo = TRUE, context_menu = FALSE) 
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   structure(list(
-    frame = frame,
+    frame    = frame,
     label    = obj_label,
     text     = obj_txt,
     x_scroll = obj_xsc,
@@ -58,7 +60,7 @@ bs_text <- function(parent, ..., label = "", undo = TRUE, context_menu = FALSE) 
     context_menu_fun =
       purrr::partial(right_click_menu_text, tcl_widget = obj_txt, undo = undo)
   ),
-    class = c("bs_text", "bs_tk_widget", "list"))
+  class = c("bs_text", "bs_tk_widget", "list"))
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
