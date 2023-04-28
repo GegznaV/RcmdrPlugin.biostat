@@ -114,7 +114,7 @@ command_dataset_print_as_dt <- function() {
 command_dataset_print_as_tibble <- function() {
   .ds <- active_dataset_0()
   Library("tibble")
-  doItAndPrint(str_glue('print(as_tibble({.ds}))'))
+  doItAndPrint(str_glue("print(as_tibble({.ds}))"))
 }
 
 
