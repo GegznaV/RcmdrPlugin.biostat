@@ -80,11 +80,11 @@ window_plots_ggplotly <- function() {
       if (source == "obj_gg") {
         str_glue(
           "## Print a ggplot as an interactive plot.\n",
-          'plotly::ggplotly({gg_obj})')
+          "plotly::ggplotly({gg_obj})")
       } else {
         str_c(
           "## Prnt the last ggplot as an interactive plot.\n",
-          'plotly::ggplotly()')
+          "plotly::ggplotly()")
       }
 
     # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -137,7 +137,11 @@ window_plots_ggplotly <- function() {
 
   # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   defaults <- list(
-    source = if (gg_objects_exist()) {"obj_gg"} else {"last_gg"}
+    source = if (gg_objects_exist()) {
+      "obj_gg"
+    } else {
+      "last_gg"
+    }
   )
   initial <- getDialog("window_plots_ggplotly", defaults)
 
