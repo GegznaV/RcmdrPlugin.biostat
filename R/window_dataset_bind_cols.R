@@ -156,9 +156,9 @@ window_dataset_bind_cols <- function() {
       stringr::str_c(name_ds_1, name_ds_2, name_ds_3, sep = ", ")
 
     command <- style_cmd(str_glue(
-      '## Bind columns of datasets\n',
-      '{new_ds_name} <- \n',
-      'dplyr::bind_cols({all_new_ds_names})'
+      "## Bind columns of datasets\n",
+      "{new_ds_name} <- \n",
+      "dplyr::bind_cols({all_new_ds_names})"
     ))
 
     doItAndPrint(command)
