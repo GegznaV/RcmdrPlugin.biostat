@@ -65,11 +65,11 @@ window_factor_lvls_drop <- function() {
 
     if (all == 1)
       command <- paste0(.ds, " <- droplevels(", .ds, ")")
-    else{
+    else {
       command <- ""
       for (variable in variables) {
         command <-
-          paste0(command,.ds,"$",variable," <- droplevels(",.ds,"$",variable,")\n"
+          paste0(command, .ds, "$", variable, " <- droplevels(", .ds, "$", variable, ")\n"
           )
       }
     }
