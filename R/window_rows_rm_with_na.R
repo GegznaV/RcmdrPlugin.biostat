@@ -8,9 +8,9 @@
 #'
 #' library(tidyverse)
 #'
-#' df = tibble::tribble(
+#' df <- tibble::tribble(
 #'   ~x, ~y, ~z, ~q,
-#'   1,   1 , 1,  1,
+#'   1,   1, 1,  1,
 #'   2,   2,  2, NA,
 #'   3,   3, NA, NA,
 #'   4,  NA, NA, NA,
@@ -24,7 +24,6 @@
 #' df %>% filter_at(vars(q, z), any_vars(!is.na(.)))
 #'
 window_rows_rm_with_na <- function() {
-
   # Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   cmd_activation <- function() {
@@ -68,12 +67,20 @@ window_rows_rm_with_na <- function() {
 
     # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (scope == "search_selected") {
-      if (variable_is_not_selected(vars_y, "variable")) {return()}
+      if (variable_is_not_selected(vars_y, "variable")) {
+        return()
+      }
     }
 
-    if (is_empty_name(new_name))            {return()}
-    if (is_not_valid_name(new_name))        {return()}
-    if (forbid_to_replace_object(new_name)) {return()}
+    if (is_empty_name(new_name)) {
+      return()
+    }
+    if (is_not_valid_name(new_name)) {
+      return()
+    }
+    if (forbid_to_replace_object(new_name)) {
+      return()
+    }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -98,7 +105,8 @@ window_rows_rm_with_na <- function() {
           str_glue(
             "## {prepare_lab(label_all_vars_any_na)}\n",
             "{new_name} <- {.ds} %>% tidyr::drop_na()"
-          )},
+          )
+        },
 
         "search_all.all_na" = {
           str_glue(
@@ -106,7 +114,8 @@ window_rows_rm_with_na <- function() {
             "{new_name} <- \n",
             "  {.ds} %>% \n",
             "  filter_all(any_vars(!is.na(.))) "
-          )},
+          )
+        },
 
         "search_selected.any_na" = {
           str_glue(
@@ -114,7 +123,8 @@ window_rows_rm_with_na <- function() {
             "{new_name} <- \n",
             "  {.ds} %>% \n ",
             "  tidyr::drop_na({vars_y_txt})"
-          )},
+          )
+        },
 
         "search_selected.all_na" = {
           str_glue(
@@ -122,7 +132,8 @@ window_rows_rm_with_na <- function() {
             "{new_name} <- \n",
             "  {.ds} %>% \n ",
             "  filter_at(vars({vars_y_txt}), any_vars(!is.na(.)))"
-          )}
+          )
+        }
       )
 
     # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -221,8 +232,8 @@ window_rows_rm_with_na <- function() {
     parent          = left_frame,
     title           = "Take into account:",
     layout          = "horizontal",
-    buttons         = c("search_all"    , "search_selected"),
-    labels          = c("All variables" , "Selected variables"),
+    buttons         = c("search_all",    "search_selected"),
+    labels          = c("All variables", "Selected variables"),
     value           = initial$scope,
     default_command = cmd_activation
   )
@@ -232,7 +243,7 @@ window_rows_rm_with_na <- function() {
     title           = "Remove rows with:",
     buttons         = c("all_na", "any_na"),
     labels          = c("All missing values", "At least one missing value"),
-    value           = initial$rm_if ,
+    value           = initial$rm_if,
     default_command = cmd_activation
   )
 
