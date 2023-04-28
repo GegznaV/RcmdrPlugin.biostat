@@ -13,7 +13,7 @@ window_variable_convert_type <- function() {
     opt_2 <- get_values(widget_2$suffix)
 
     if (opt_1 != "overwrite" &&
-        opt_2 %in% c("", "_chr", "_fct", "_ord", "_num", "_int", "_lgl")) {
+      opt_2 %in% c("", "_chr", "_fct", "_ord", "_num", "_int", "_lgl")) {
 
       set_values(
         widget_2$suffix,
@@ -184,12 +184,12 @@ window_variable_convert_type <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     putDialog("window_variable_convert_type",
       list(
-        variables     = variables    ,
-        into          = into         ,
-        names_action  = names_action ,
-        make_unique   = make_unique  ,
-        prefix        = prefix       ,
-        suffix        = suffix       ,
+        variables     = variables,
+        into          = into,
+        names_action  = names_action,
+        make_unique   = make_unique,
+        prefix        = prefix,
+        suffix        = suffix,
         selected_type = selected_type
       )
     )
@@ -198,20 +198,20 @@ window_variable_convert_type <- function() {
 
     into_fun <- switch(
       into,
-      "character"  = "as.character" ,
-      "text"       = "as.character" ,
-      "factor"     = "as.factor" ,
-      "nominal"    = "factor" ,
-      "ordinal"    = "factor" ,
-      "numeric"    = "as.numeric"  ,
-      "integer"    = "as.integer" ,
-      "logical"    = "as.logical" ,
+      "character"  = "as.character",
+      "text"       = "as.character",
+      "factor"     = "as.factor",
+      "nominal"    = "factor",
+      "ordinal"    = "factor",
+      "numeric"    = "as.numeric",
+      "integer"    = "as.integer",
+      "logical"    = "as.logical",
       stop("Unexpected choice"))
 
     fct_type <- switch(
       into,
-      "ordinal"    = ", ordered = TRUE" ,
-      "nominal"    = ", ordered = FALSE" ,
+      "ordinal"    = ", ordered = TRUE",
+      "nominal"    = ", ordered = FALSE",
       "")
 
     tans_txt <- str_glue("{new_names} = {into_fun}({variables}{fct_type})")
@@ -224,7 +224,7 @@ window_variable_convert_type <- function() {
       } else {
         str_glue("{.ds} <- {.ds} %>%\n",
           'dplyr::mutate(\n{paste0(tans_txt, collapse = ",\n")}\n',
-          ')\n')
+          ")\n")
       }
 
     # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -352,7 +352,7 @@ window_variable_convert_type <- function() {
         "Numbers",
         "Integers",
         "Logical"
-      )),
+    )),
     command = change_name_suffix
   )
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
