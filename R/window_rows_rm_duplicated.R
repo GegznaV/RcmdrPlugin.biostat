@@ -14,8 +14,7 @@ window_rows_rm_duplicated <- function() {
         tk_disable(var_y_box)
         tk_disable(keep_all_Button)
         tk_disable(keep_selected_Button)
-      },
-      {
+      }, {
         tk_normalize(var_y_box)
         tk_normalize(keep_all_Button)
         tk_normalize(keep_selected_Button)
@@ -39,12 +38,20 @@ window_rows_rm_duplicated <- function() {
 
     # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (scope == "search_selected") {
-      if (variable_is_not_selected(vars_y, "variable")) {return()}
+      if (variable_is_not_selected(vars_y, "variable")) {
+        return()
+      }
     }
 
-    if (is_empty_name(new_name))            {return()}
-    if (is_not_valid_name(new_name))        {return()}
-    if (forbid_to_replace_object(new_name)) {return()}
+    if (is_empty_name(new_name)) {
+      return()
+    }
+    if (is_not_valid_name(new_name)) {
+      return()
+    }
+    if (forbid_to_replace_object(new_name)) {
+      return()
+    }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # Save default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -70,7 +77,7 @@ window_rows_rm_duplicated <- function() {
     }
 
     command <- str_glue(
-      '## Select unique rows \n',
+      "## Select unique rows \n",
       "{command_1}")
 
 
@@ -160,9 +167,9 @@ window_rows_rm_duplicated <- function() {
     # right.buttons = FALSE,
     name            = "scope_",
     sticky_buttons  = "e",
-    buttons         = c("search_all"    , "search_selected"),
-    values          = c("search_all"    , "search_selected"),
-    labels          = c("All variables" , "Selected variables"),
+    buttons         = c("search_all",    "search_selected"),
+    values          = c("search_all",    "search_selected"),
+    labels          = c("All variables", "Selected variables"),
     initialValue    = initial$scope,
     command         = cmd_activation
   )
@@ -182,7 +189,7 @@ window_rows_rm_duplicated <- function() {
     sticky_buttons = "w",
     buttons = c("keep_all_",  "keep_selected_"),
     values =  c("keep_all_",  "keep_selected_"),
-    labels =  c("All  ","Selected only  "),
+    labels =  c("All  ",      "Selected only  "),
     initialValue = initial$keep_variables
   )
 
