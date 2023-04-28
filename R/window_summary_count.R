@@ -156,7 +156,7 @@ window_summary_count <- function() {
       "assoc_stats"
     ),
     initialValues = c(
-      initial$chisq_test ,
+      initial$chisq_test,
       initial$fisher_test,
       initial$assoc_stats),
     labels = gettext_bs(
@@ -164,9 +164,9 @@ window_summary_count <- function() {
         "Fisher's exact test",
         "Measures of association for categorical variables")
     ),
-    commands = list("chisq_test"  = function(){},
-      "fisher_test" = function(){},
-      "assoc_stats" = function(){})
+    commands = list("chisq_test"  = function() {},
+      "fisher_test" = function() {},
+      "assoc_stats" = function() {})
   )
 
   # Choose model name ------------------------------------------------------
@@ -192,7 +192,7 @@ window_summary_count <- function() {
     labels = gettext_bs(
       c("Keep summary in R memory")
     ),
-    commands = list("keep_model"  = function(){})
+    commands = list("keep_model"  = function() {})
   )
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -273,9 +273,9 @@ window_summary_count <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     chisq_cmd  <-
-      if (chisq_test & (n_vars == 2))  {
+      if (chisq_test & (n_vars == 2)) {
         "chisq.test({my_table})\n"
-      }  else {
+      } else {
         ""
       }
 
@@ -310,7 +310,7 @@ window_summary_count <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     my_table <- unique_obj_names("table", all_numbered = TRUE)
     command1 <-
-      str_glue('## Frequency table / Multi-way table\n',
+      str_glue("## Frequency table / Multi-way table\n",
         "{my_table} <- {.ds} %>% \n",
         'with(table({all_vars}, useNA = "ifany"))\n',
         as_df_command,
@@ -322,7 +322,7 @@ window_summary_count <- function() {
       str_glue(chisq_cmd,
         fisher_cmd,
         assoc_cmd,
-        'remove({my_table})') %>%
+        "remove({my_table})") %>%
       style_cmd()
 
     doItAndPrint(command1)
@@ -348,7 +348,7 @@ window_summary_count <- function() {
   tkgrid(labelRcmdr(main_frame_b,
     text = gettext_bs("Enter name for summary table: "),
     fg = Rcmdr::getRcmdr("title.color")),
-    sticky = "w")
+  sticky = "w")
 
   tkgrid(keep_model_inner_frame, padx = c(10, 0))
   tkgrid(model_name_box, keep_model_frame, sticky = "ew")
@@ -378,4 +378,3 @@ window_summary_count <- function() {
   #              preventGrabFocus = TRUE)
 }
 # ==============================================================================
-
