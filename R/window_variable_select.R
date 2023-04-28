@@ -148,7 +148,7 @@ window_variable_select <- function(new_dsname = NULL, incorrect_cond_msg = NULL)
   tkgrid(f2_but_1_3)
   tkgrid(f2_but_1_4)
   tkgrid(f2_but_1_5)
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   f2_but_set_2 <- tkframe(upper_frame)
 
   f2_but_2_1 <- tk2button(
@@ -207,7 +207,7 @@ window_variable_select <- function(new_dsname = NULL, incorrect_cond_msg = NULL)
     bs_checkboxes(
       parent = middle_frame,
       boxes  = c("everything" =
-          "Include all remaining columns (except explicitly removed ones)"),
+        "Include all remaining columns (except explicitly removed ones)"),
       values = 0,
       layout = "horizontal",
       default_tip = paste0(
@@ -219,7 +219,7 @@ window_variable_select <- function(new_dsname = NULL, incorrect_cond_msg = NULL)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   lower_frame <- tkframe(top)
 
-  if (is.null(new_dsname))  new_dsname <- unique_df_name(active_dataset())
+  if (is.null(new_dsname)) new_dsname <- unique_df_name(active_dataset())
 
   new_dsname_variable <- tclVar(new_dsname)
   new_dsname_field    <- ttkentry(lower_frame,
