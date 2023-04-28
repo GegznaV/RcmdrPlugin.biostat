@@ -1,7 +1,9 @@
+
 on:
   push:
     branches:
       - master
+      - main
 
 name: Publish package
 
@@ -29,9 +31,9 @@ jobs:
       TMP_DIR:     tmp_dir
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - uses: r-lib/actions/setup-r@master
+      - uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ matrix.config.r }}
 
@@ -39,27 +41,11 @@ jobs:
         if: runner.os == 'macOS'
         run: brew install --cask xquartz
 
-      - name: Query dependencies
-        run: |
-          options("repos" = "https://cran.rstudio.com/")
-          install.packages('remotes', repos = "https://cran.rstudio.com/")
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
-        shell: Rscript {0}
 
-      - name: Cache R packages
-        if: runner.os != 'Windows'
-        uses: actions/cache@v1
+      - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          path: ${{ env.R_LIBS_USER }}
-          key:  ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
-
-      - name: Install dependencies
-        shell: Rscript {0}
-        run: |
-          remotes::install_cran(c("roxygen2", "devtools", "drat"))
-          remotes::install_deps(dependencies = TRUE)
+          extra-packages: any::drat, any::devtools, local::.
+          needs: check
 
       - name: Roxygenize
         shell: Rscript {0}
@@ -89,7 +75,7 @@ jobs:
           TOKEN: ${{ secrets.DEPLOY_DRAT_TOKEN }}
 
       - name: Git clone DEST_REPO
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: ${{ env.DEST_REPO }} # 'mokymai/download'
           ref:   'master'
