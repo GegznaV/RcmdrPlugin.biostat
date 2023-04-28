@@ -110,4 +110,4 @@ Suggests:
     RcmdrPlugin.EZR,
     rmarkdown,
     rvg
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
