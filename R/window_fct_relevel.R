@@ -235,17 +235,29 @@ window_fct_relevel <- function() {
     }
 
     # New variable name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (is_empty_name(new_var, "new variable name", parent = top)) {return()}
-    if (is_not_valid_name(new_var, parent = top)) {return()}
+    if (is_empty_name(new_var, "new variable name", parent = top)) {
+      return()
+    }
+    if (is_not_valid_name(new_var, parent = top)) {
+      return()
+    }
     if (!new_var_ovewrite) {
-      if (forbid_to_replace_variables(new_var, parent = top)) {return()}
+      if (forbid_to_replace_variables(new_var, parent = top)) {
+        return()
+      }
     }
 
     # New dataset name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (is_empty_name(new_ds, "new dataset name", parent = top)) {return()}
-    if (is_not_valid_name(new_ds, parent = top)) {return()}
+    if (is_empty_name(new_ds, "new dataset name", parent = top)) {
+      return()
+    }
+    if (is_not_valid_name(new_ds, parent = top)) {
+      return()
+    }
     if (!new_ds_ovewrite) {
-      if (forbid_to_replace_object(new_ds, parent = top)) {return()}
+      if (forbid_to_replace_object(new_ds, parent = top)) {
+        return()
+      }
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -484,7 +496,7 @@ window_fct_relevel <- function() {
         "Numeric order (Roman numbers)",
         "Random order",
         "Reversed original order"
-      ))
+    ))
 
   tkgrid(f3, sticky = "e")
   tkgrid(f3_combo_1$frame, padx = c(0, 10))
@@ -533,6 +545,3 @@ window_fct_relevel <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-
