@@ -36,48 +36,47 @@
 # @export
 
 bs_combobox <- function(
-  parent             = top,
-  values             = NULL,
-  state              = c("readonly", "normal", "disabled"),
-  # default_text     = "<no variable selected>",
-  # selection        = gettext_bs(default_text),
-  value              = NULL,
-  selection          = NULL,
-  combobox_sticky    = "nw",
+    parent             = top,
+    values             = NULL,
+    state              = c("readonly", "normal", "disabled"),
+    # default_text     = "<no variable selected>",
+    # selection        = gettext_bs(default_text),
+    value              = NULL,
+    selection          = NULL,
+    combobox_sticky    = "nw",
 
-  on_select          = do_nothing,
-  postcommand        = do_nothing,
-  on_click           = do_nothing,
-  on_double_click    = do_nothing,
-  on_triple_click    = do_nothing,
-  on_release         = do_nothing,
-  on_click_3         = do_nothing,
-  on_double_click_3  = do_nothing,
-  on_triple_click_3  = do_nothing,
-  on_release_3       = do_nothing,
+    on_select          = do_nothing,
+    postcommand        = do_nothing,
+    on_click           = do_nothing,
+    on_double_click    = do_nothing,
+    on_triple_click    = do_nothing,
+    on_release         = do_nothing,
+    on_click_3         = do_nothing,
+    on_double_click_3  = do_nothing,
+    on_triple_click_3  = do_nothing,
+    on_release_3       = do_nothing,
 
-  tip                = gettext_bs(
-    "For quicker search, press the \nfirst letter of variable name\non your keyboard."),
-  width              = 20,
-  height             = 8,
-  on_keyboard        = c("select", "ignore"),
-  export             = "FALSE",
+    tip                = gettext_bs(
+      "For quicker search, press the \nfirst letter of variable name\non your keyboard."),
+    width              = 20,
+    height             = 8,
+    on_keyboard        = c("select", "ignore"),
+    export             = "FALSE",
 
 
-  label          = "",
-  label_position = c("left", "above", "right", "none"),
-  label_color    = getRcmdr("title.color"),
-  padx           = 0,
-  pady           = 0,     # pady = 5,
-  sticky         = "w",
-  sticky_label   = sticky,
-  sticky_text    = sticky,
-  main_frame     = tk2frame(parent),
-  combobox_frame = tk2frame(main_frame),
-  label_frame    = tk2frame(main_frame),
-  label_tip      = "",
-  ...)
-{
+    label          = "",
+    label_position = c("left", "above", "right", "none"),
+    label_color    = getRcmdr("title.color"),
+    padx           = 0,
+    pady           = 0,     # pady = 5,
+    sticky         = "w",
+    sticky_label   = sticky,
+    sticky_text    = sticky,
+    main_frame     = tk2frame(parent),
+    combobox_frame = tk2frame(main_frame),
+    label_frame    = tk2frame(main_frame),
+    label_tip      = "",
+    ...) {
   label_position <- match.arg(label_position)
 
   state       <- match.arg(state)
@@ -123,8 +122,8 @@ bs_combobox <- function(
     width        = width,
     height       = height,
     postcommand  = postcommand,
-    tip = tip
-    , ...
+    tip = tip,
+    ...
   )
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -223,7 +222,7 @@ bs_combobox <- function(
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid.columnconfigure(main_frame,     0, weight = 1)
   tkgrid.columnconfigure(combobox_frame, 0, weight = 1)
-  tkgrid.columnconfigure(combobox      , 0, weight = 1, minsize = 3)
+  tkgrid.columnconfigure(combobox, 0, weight = 1, minsize = 3)
   tkgrid.columnconfigure(label_frame,    0, weight = 1)
   tkgrid.columnconfigure(obj_label,      0, weight = 0)
 
