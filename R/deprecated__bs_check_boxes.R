@@ -1,4 +1,4 @@
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
@@ -15,7 +15,6 @@ bs_check_boxes <- defmacro(
   ttk = FALSE,
   commands = list(),
   expr = {
-
     # Manage `commands` ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (length(commands) > 0) {
       if (!all(names(commands) %in% boxes)) {
@@ -49,7 +48,7 @@ bs_check_boxes <- defmacro(
         text = title,
         fg = getRcmdr("title.color"),
         font = "RcmdrTitleFont"),
-        sticky = "w")
+      sticky = "w")
     }
 
     ..variables <- paste(boxes, "Variable", sep = "")
