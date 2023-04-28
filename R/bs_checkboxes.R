@@ -8,17 +8,20 @@
 #' @param boxes (vector of strings) Variable names for each checkbox.
 #' @param labels (vector of strings) Labels for each checkbox.
 #' @param title Title for the set of checkboxes.
-#' @param values  A vector of values ("0" or "1"). Overrides the `default_value`.
+#' @param values  A vector of values ("0" or "1").
+#'        Overrides the `default_value`.
 #' @param default_value (string) Default value ("0" or "1").
-#' @param commands  A named list of commands (functions) for checkbox. The names must match the values of "boxes".
+#' @param commands  A named list of commands (functions) for checkbox.
+#'        The names must match the values of "boxes".
 #' @param default_command (function) A default command.
-#' @param tips   A named list of strings to be used as tips for checkbox.
-#' The names must match the values of "boxes".
+#' @param tips A named list of strings to be used as tips for checkbox.
+#'        The names must match the values of "boxes".
 #' @param default_tip (string) a default tip.
 #' @param border (logical) Flag if the frame should have a border.
 #' @param layout (string) One of "vertical" (default) and "horizontal".
 #' @param sticky_buttons (string) `sticky` option for buttons.
-#' @param sticky_title (string) `sticky` option for title (if no border is used).
+#' @param sticky_title (string) `sticky` option for title
+#'        (if no border is used).
 #'
 #' @return A named list with fields `frame` (frame with the checkboxes),
 #'  `var` (tcl/tk variables for each box),
@@ -31,53 +34,51 @@
 #'
 #' library(RcmdrPlugin.biostat)
 #'
-#' top <- tcltk::tktoplevel()
+#'  top <- tcltk::tktoplevel()
 #'
-#' boxes_1 <- bs_checkboxes(top, c("A", "B", "C"))
-#' tcltk::tkgrid(boxes_1$frame)
-#'
-#'
-#' top <- tcltk::tktoplevel()
-#' boxes_2 <- bs_checkboxes(top, boxes = c("A", "B", "C"), border = TRUE)
-#' tcltk::tkgrid(boxes_2$frame)
+#'  boxes_1 <- bs_checkboxes(top, c("A", "B", "C"))
+#'  tcltk::tkgrid(boxes_1$frame)
 #'
 #'
-#' top <- tcltk::tktoplevel()
-#' boxes_3 <- bs_checkboxes(top, c("A", "B", "C"),
-#'                         layout = "h", title = "Buttons")
-#' tcltk::tkgrid(boxes_3$frame)
+#'  top <- tcltk::tktoplevel()
+#'  boxes_2 <- bs_checkboxes(top, boxes = c("A", "B", "C"), border = TRUE)
+#'  tcltk::tkgrid(boxes_2$frame)
 #'
 #'
-#' set_values(boxes_3, B = TRUE, C = TRUE)
+#'  top <- tcltk::tktoplevel()
+#'  boxes_3 <- bs_checkboxes(top, c("A", "B", "C"),
+#'    layout = "h", title = "Buttons")
+#'  tcltk::tkgrid(boxes_3$frame)
 #'
-#' new_vals <- c(A = TRUE, B = FALSE)
-#' set_values(boxes_3, new_vals)
+#'
+#'  set_values(boxes_3, B = TRUE, C = TRUE)
+#'
+#'  new_vals <- c(A = TRUE, B = FALSE)
+#'  set_values(boxes_3, new_vals)
 #'
 #'
-#' get_values(boxes_3)
-#' get_values(boxes_3, "B")
-#' get_values(boxes_3, simplify = FALSE)
-#'
+#'  get_values(boxes_3)
+#'  get_values(boxes_3, "B")
+#'  get_values(boxes_3, simplify = FALSE)
 #'
 #'}}
 
 bs_checkboxes <- function(
-  parent          = top,
-  boxes,
-  labels          = NULL,
-  title           = NULL,
-  values          = NULL,
-  default_value   = "0",
-  commands        = list(),          # named list of functions
-  default_command = function() {},
-  tips            = list(), # named list of strings
-  default_tip     = "",
-  border          = FALSE,
-  layout          = c("vertical", "horizontal"),
-  sticky_buttons  = "w",
-  sticky_title    = "w"
-)
-{
+    parent          = top,
+    boxes,
+    labels          = NULL,
+    title           = NULL,
+    values          = NULL,
+    default_value   = "0",
+    commands        = list(),          # named list of functions
+    default_command = function() {},
+    tips            = list(), # named list of strings
+    default_tip     = "",
+    border          = FALSE,
+    layout          = c("vertical", "horizontal"),
+    sticky_buttons  = "w",
+    sticky_title    = "w"
+    ) {
   checkmate::assert_character(boxes)
   checkmate::assert_character(labels, null.ok = TRUE)
   checkmate::assert_string(title, null.ok = TRUE)
@@ -178,11 +179,13 @@ bs_checkboxes <- function(
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   objs <- pmap(
     list(vars, labels, commands, tips),
-    ~ tk2checkbutton(frame,
+    ~ tk2checkbutton(
+      frame,
       variable = ..1,
       text     = ..2,
       command  = ..3,
-      tip      = ..4))
+      tip      = ..4)
+  )
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   switch(layout,
@@ -193,7 +196,7 @@ bs_checkboxes <- function(
     horizontal = {
       buttons_str <- paste0("objs[[", seq_along(objs), "]]",
         collapse = ", ")
-      str_glue_eval('tkgrid({buttons_str}, sticky = sticky_buttons)')
+      str_glue_eval("tkgrid({buttons_str}, sticky = sticky_buttons)")
     },
 
     stop("Unrecognized layout: ", layout)
@@ -205,7 +208,7 @@ bs_checkboxes <- function(
     var   = structure(vars, names = boxes),
     obj   = structure(objs, names = boxes)
   ),
-    class = c("bs_checkboxes", "bs_tk_buttonset", "bs_tk_widget", "list"))
+  class = c("bs_checkboxes", "bs_tk_buttonset", "bs_tk_widget", "list"))
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -213,7 +216,9 @@ bs_checkboxes <- function(
 #' @export
 #' @keywords internal
 # @noRd
-get_values.bs_checkboxes <- function(obj, ..., simplify = TRUE, rm_names = simplify) {
+get_values.bs_checkboxes <- function(obj,
+                                     ..., simplify = TRUE, rm_names = simplify
+) {
   opts <- c(...)
   len <- length(opts)
 
@@ -237,9 +242,7 @@ get_values.bs_checkboxes <- function(obj, ..., simplify = TRUE, rm_names = simpl
   } else {
     res
   }
-
 }
-
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .set_values <- function(obj_list, values, FUN) {
@@ -274,4 +277,3 @@ set_values.bs_checkboxes <- function(obj, values, ...) {
 
   invisible(.set_values(obj$var, values, function(.x, .y) tclvalue(.x) <- .y))
 }
-
