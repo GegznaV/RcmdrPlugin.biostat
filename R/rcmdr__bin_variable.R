@@ -53,7 +53,7 @@ window_bin_variable <- function() {
     if (!is.valid.name(newVar)) {
       errorCondition(message = paste("\"", newVar, "\" ",
         gettextRcmdr("is not a valid name."), sep = ""),
-        recall = window_bin_variable)
+      recall = window_bin_variable)
       return()
     }
     method <- tclvalue(methodVariable)
@@ -77,8 +77,8 @@ window_bin_variable <- function() {
       }
       subOKCancelHelp()
       tkgrid(labelRcmdr(subdialog, text = gettextRcmdr("Bin"),
-        fg = getRcmdr("title.color"), font="RcmdrTitleFont"), labelRcmdr(subdialog, text = gettextRcmdr("Name"),
-          fg = getRcmdr("title.color"), font="RcmdrTitleFont"), sticky = "w")
+        fg = getRcmdr("title.color"), font = "RcmdrTitleFont"), labelRcmdr(subdialog, text = gettextRcmdr("Name"),
+        fg = getRcmdr("title.color"), font = "RcmdrTitleFont"), sticky = "w")
       for (i in 1:bins) {
         valVar <- paste("levelName", i, sep = "")
         assign(valVar, tclVar(i))
