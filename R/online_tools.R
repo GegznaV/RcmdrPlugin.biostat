@@ -4,7 +4,7 @@
 #' @export
 #' @keywords internal
 open_online_tool <- function(url = NULL, copy_to_clipboard = FALSE,
-  parent = CommanderWindow()) {
+    parent = CommanderWindow()) {
   checkmate::assert_string(url, null.ok = TRUE)
   checkmate::assert_logical(copy_to_clipboard)
 
@@ -417,4 +417,3 @@ command_chk_packages_biostat <- function() {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
