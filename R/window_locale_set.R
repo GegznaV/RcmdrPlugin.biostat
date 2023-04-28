@@ -17,8 +17,8 @@
 #' @keywords internal
 command_get_locale <- function() {
   paste0(
-    '## Current locale  \n',
-    'Sys.getlocale()') %>%
+    "## Current locale  \n",
+    "Sys.getlocale()") %>%
     Rcmdr::doItAndPrint()
 }
 
@@ -37,7 +37,6 @@ window_locale_set <- function() {
 
 # str_split(cur_loc_all, pattern = ";")[[1]]
 window_locale_set_0 <- function(parent = CommanderWindow()) {
-
   # Functions --------------------------------------------------------------
   cmd_control_activation <- function() {
 
@@ -148,8 +147,8 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
 
     if (isTRUE(tclvalue_lgl(print_r_locale))) {
       paste0(
-        '## Current R locale \n',
-        'Sys.getlocale()') %>%
+        "## Current R locale \n",
+        "Sys.getlocale()") %>%
         Rcmdr::doItAndPrint()
 
       tclvalue(print_r_locale) <- FALSE
@@ -158,7 +157,6 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   cmd_get_locale_of_os <- function() {
-
     # Cursor
     cursor_set_busy(top)
     cursor_set_busy(CommanderWindow())
@@ -175,8 +173,8 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
 
       command <-
         str_c(sep = "\n",
-          '## Locale of operating system (OS)',
-          '# (NOTE: OS locale cannot be changed from R)',
+          "## Locale of operating system (OS)",
+          "# (NOTE: OS locale cannot be changed from R)",
           'shell("systeminfo", intern = TRUE) %>%',
           '  str_subset(regex("(OS Name|locale)", ignore_case = TRUE)) %>%',
           '  str_remove("( ){11}") %>%',
@@ -189,7 +187,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
     } else {
       # Print information
       msg <- str_c(
-        '## Locale of operating system (OS) \n',
+        "## Locale of operating system (OS) \n",
         "#  This information is currently available on Windows only"
       )
       Rcmdr::logger(msg)
@@ -262,7 +260,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
     }
 
     command <- str_glue(
-      '## Change locale to {txt_locale_set} \n',
+      "## Change locale to {txt_locale_set} \n",
       "{cmd_locale_set}",
     )
 
@@ -333,9 +331,9 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
     # right.buttons = FALSE,
     name            = "options_",
     sticky_buttons  = "e",
-    buttons         = c("default"          , "other"),
-    values          = c("default"          , "other"),
-    labels          = c("System's default" , "Other"),
+    buttons         = c("default", "other"),
+    values          = c("default", "other"),
+    labels          = c("System's default", "Other"),
     initialValue    = "other",
     command         = cmd_control_activation
   )
@@ -383,7 +381,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
         "NOTE: some of the listed locales may \n",
         "not be available on your computer. \n",
         'Select one to update "Locale" box. \n',
-        'Double-click to set the selected locale.'
+        "Double-click to set the selected locale."
       )
     )
 
