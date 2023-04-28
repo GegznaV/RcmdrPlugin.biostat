@@ -6,19 +6,21 @@
 
 
 bs_text2 <- function(parent, width = 80, ..., label = "", undo = TRUE, k = 2,
-  context_menu = FALSE) {
+                     context_menu = FALSE) {
 
   frame <- tk2frame(parent)
 
   obj_label <- tk_label_blue(frame, text = label)
 
-  obj_num <- tk2text(frame, wrap = "none", state = "disabled", width = k,        cursor = "", ...)
-  obj_txt <- tk2text(frame, wrap = "none", undo = undo,        width = width - k, ...)
+  obj_num <- tk2text(frame, wrap = "none", width = k, state = "disabled", cursor = "", ...)
+  obj_txt <- tk2text(frame, wrap = "none", width = width - k, undo = undo, ...)
 
   obj_xsc <- tk2scrollbar(
     frame,
     orientation = "horizontal",
-    command = function(...) {tkxview(obj_txt, ...)}
+    command = function(...) {
+      tkxview(obj_txt, ...)
+    }
   )
 
   obj_ysc <- tk2scrollbar(
@@ -107,5 +109,5 @@ bs_text2 <- function(parent, width = 80, ..., label = "", undo = TRUE, k = 2,
     update_line_numbers = update_line_numbers
 
   ),
-    class = c("bs_text2", "bs_text", "bs_tk_widget", "list"))
+  class = c("bs_text2", "bs_text", "bs_tk_widget", "list"))
 }
