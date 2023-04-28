@@ -2,7 +2,7 @@
 # opt_name <- str_glue("rcmdr_bs.{opt}")
 # default  <- TRUE
 get_bs_options <- function() {
-  .prefix = "^rcmdr_bs."
+  .prefix <- "^rcmdr_bs."
   opts <- options()
   opts <- opts[grepl(.prefix, names(opts))]
   names(opts) <- sub(.prefix, "", names(opts))
@@ -18,7 +18,7 @@ get_bs_option <- function(x) {
 set_default_options <- function(..., .prefix = "") {
   opts <- list(...)
   names(opts) <- str_glue("{.prefix}{names(opts)}")
-  modified_defaults <- purrr::imap(opts, ~getOption(..2, default = ..1))
+  modified_defaults <- purrr::imap(opts, ~ getOption(..2, default = ..1))
   options(modified_defaults)
 }
 
@@ -43,4 +43,3 @@ set_default_option <- function(x, default = NULL, .prefix = "") {
 # }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
