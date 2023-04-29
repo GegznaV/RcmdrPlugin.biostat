@@ -129,7 +129,7 @@ summary_var_types_0 <- function(.ds) {
     str_glue(
       "## Variable type summary \n",
       '## (dataset "{.ds}")\n',
-      '{.ds} %>% \n',
+      "{.ds} %>% \n",
       '  purrr::map_chr(~ class(.) %>% paste(collapse = ", ")) %>% \n',
       '  tibble::enframe("variable", "class") %>% \n',
       '  dplyr::count(class, name = "n variables") %>% \n',
@@ -144,13 +144,17 @@ summary_var_types_plot_0 <- function(.ds) {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Each plot in a separate window
-  if (is_plot_in_separate_window()) {open_new_plots_window()}
+  if (is_plot_in_separate_window()) {
+    open_new_plots_window()
+  }
   doItAndPrint(str_glue(
     "## Variable sizes in memory \n",
     "{.ds} %>% inspect_mem() %>% show_plot()"
   ))
 
-  if (is_plot_in_separate_window()) {open_new_plots_window()}
+  if (is_plot_in_separate_window()) {
+    open_new_plots_window()
+  }
   doItAndPrint(str_glue(
     "## Plot of variable type frequency \n",
     "{.ds} %>% inspect_types() %>% show_plot()"

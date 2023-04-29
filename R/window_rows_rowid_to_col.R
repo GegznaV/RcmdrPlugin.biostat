@@ -36,13 +36,12 @@ window_rows_rowid_to_col <- function() {
     sticky_buttons = "w",
     buttons = c("first",  "last"),
     values =  c("first",  "last"),
-    labels =  c("First  ","Last  "),
+    labels =  c("First  ", "Last  "),
     initialValue = initial$initial_position
   )
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   onOK <- function() {
-
     # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     new_name       <- trim.blanks(tclvalue(name_variable))
     which_position <- tclvalue(positionVariable)
@@ -85,7 +84,7 @@ window_rows_rowid_to_col <- function() {
     cmd_ungroup <- if (is_grouped_df(ds)) "ungroup() %>% \n" else ""
 
     command <- style_cmd(str_glue(
-      '## Add column with row numbers \n',
+      "## Add column with row numbers \n",
       "{.ds} <- {.ds} %>% \n",
       "{cmd_ungroup}",
       "dplyr::mutate({new_name} = 1:n())",

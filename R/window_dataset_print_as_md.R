@@ -27,13 +27,13 @@ window_dataset_print_as_md <- function() {
 
 
   command <- str_glue(
-    '## Dataset as Markdown table \n',
+    "## Dataset as Markdown table \n",
     # '# The dataset printed in a from that will be converted \n',
     # '# to a table in an R Markdown report. \n',
-    '{active_dataset_0()} %>% \n',
+    "{active_dataset_0()} %>% \n",
     '    pander::pander(missing = "", style = "{tbl_style}"',
-    '    {tbl_caption}',
-    '    )') %>%
+    "    {tbl_caption}",
+    "    )") %>%
     style_cmd()
 
   doItAndPrint(command)
@@ -62,11 +62,11 @@ window_dataset_print_as_kable <- function() {
 
 
   command <- str_glue(
-    '## Dataset as Markdown table \n',
+    "## Dataset as Markdown table \n",
     # '# The dataset printed in a from that will be converted \n',
     # '# to a table in an R Markdown report. \n',
-    '{active_dataset_0()} %>% \n',
-    '    knitr::kable(',
+    "{active_dataset_0()} %>% \n",
+    "    knitr::kable(",
     'digits = {getOption("digits")}, format = "pandoc"{tbl_caption})') %>%
     style_cmd()
 

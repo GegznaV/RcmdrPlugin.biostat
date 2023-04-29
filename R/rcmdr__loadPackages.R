@@ -7,7 +7,6 @@
 #
 
 window_load_packages <- function() {
-
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   refresh_window <- function() {
     loaded_packages <- .packages()

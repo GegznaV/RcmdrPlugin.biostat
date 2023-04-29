@@ -17,7 +17,6 @@
 #' @export
 #' @keywords internal
 window_test_normality <- function() {
-
   # Functions --------------------------------------------------------------
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -110,13 +109,13 @@ window_test_normality <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   get_test_list <- function() {
     tibble::tribble(
-      ~name,                                             ~fun,
-      gettext_bs("Shapiro-Wilk test")                    , "shapiro.test",
-      gettext_bs("Anderson-Darling test")                , "ad.test",
-      gettext_bs("Cramer-von Mises test")                , "cvm.test",
-      gettext_bs("Lilliefors (Kolmogorov-Smirnov) test") , "lillie.test",
-      gettext_bs("Shapiro-Francia test")                 , "sf.test",
-      gettext_bs("Pearson chi-square test")              , "pearson.test")
+      ~name,                                              ~fun,
+      gettext_bs("Shapiro-Wilk test"),                    "shapiro.test",
+      gettext_bs("Anderson-Darling test"),                "ad.test",
+      gettext_bs("Cramer-von Mises test"),                "cvm.test",
+      gettext_bs("Lilliefors (Kolmogorov-Smirnov) test"), "lillie.test",
+      gettext_bs("Shapiro-Francia test"),                 "sf.test",
+      gettext_bs("Pearson chi-square test"),              "pearson.test")
   }
 
   get_test_function <- function() {
@@ -133,10 +132,10 @@ window_test_normality <- function() {
   get_bandtype_list <- function() {
     tibble::tribble(
       ~name,                                     ~fun,
-      gettext_bs("Point-wise (pointwise)")     , "pointwise",
+      gettext_bs("Point-wise (pointwise)"),      "pointwise",
       gettext_bs("Parametric bootstrap (boot)"), "boot",
-      gettext_bs("Kolmogorov-Smirnov (ks)")    , "ks",
-      gettext_bs("Tail-sensitive (ts)")        , "ts")
+      gettext_bs("Kolmogorov-Smirnov (ks)"),     "ks",
+      gettext_bs("Tail-sensitive (ts)"),         "ts")
   }
 
   get_bandtype_function <- function() {
@@ -152,7 +151,6 @@ window_test_normality <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   onOK <- function() {
-
     # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cursor_set_busy(top)
     on.exit(cursor_set_idle(top))
@@ -216,7 +214,6 @@ window_test_normality <- function() {
       }
 
       if (test_function == "pearson.test") {
-
         # Chi-square bins ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (bins != bins_auto && (is.na(nbins) || nbins < 4)) {
           show_error_messages(
@@ -286,25 +283,25 @@ window_test_normality <- function() {
     putDialog(
       "window_test_normality",
       list(
-        by_group         = by_group         ,
-        y_var            = y_var            ,
-        gr_var           = gr_var           ,
+        by_group         = by_group,
+        y_var            = y_var,
+        gr_var           = gr_var,
 
-        use_test         = use_test         ,
+        use_test         = use_test,
         test_name        = get_test_name(test_function),
-        keep_results     = keep_results     ,
-        as_markdown      = as_markdown      ,
-        digits_p         = digits_p         ,
-        bins             = bins             ,
+        keep_results     = keep_results,
+        as_markdown      = as_markdown,
+        digits_p         = digits_p,
+        bins             = bins,
 
-        use_plot         = use_plot         ,
-        new_plots_window = new_plots_window ,
-        plot_in_colors   = plot_in_colors   ,
-        qq_detrend       = qq_detrend       ,
-        qq_line          = qq_line          ,
-        qq_band          = qq_band          ,
-        bootstrap_n      = bootstrap_n      ,
-        conf_level       = conf_level       ,
+        use_plot         = use_plot,
+        new_plots_window = new_plots_window,
+        plot_in_colors   = plot_in_colors,
+        qq_detrend       = qq_detrend,
+        qq_line          = qq_line,
+        qq_band          = qq_band,
+        bootstrap_n      = bootstrap_n,
+        conf_level       = conf_level,
         qq_band_type     = get_bandtype_name(qq_bandtype_function)
       )
     )
@@ -336,14 +333,14 @@ window_test_normality <- function() {
         y_label <- "Distance between empirical \\n quantiles and QQ line"
         title_detrend  <- " (detrended)"
         detrend_code   <- "detrend = TRUE"
-        qq_points_code <- 'qqplotr::stat_qq_point(detrend = TRUE) + '
+        qq_points_code <- "qqplotr::stat_qq_point(detrend = TRUE) + "
 
       } else {
 
         y_label <- "Empirical quantiles"
         title_detrend <- ""
         detrend_code <- NULL
-        qq_points_code <- 'qqplotr::stat_qq_point() + '
+        qq_points_code <- "qqplotr::stat_qq_point() + "
       }
 
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -370,8 +367,8 @@ window_test_normality <- function() {
 
           } else if (length(gr_var) == 1) {
             # One grouping variable
-            use_fill_code  <- str_glue(', fill = {gr_var_str}')
-            use_color_code <- str_glue('mapping = aes(color = {gr_var_str})')
+            use_fill_code  <- str_glue(", fill = {gr_var_str}")
+            use_color_code <- str_glue("mapping = aes(color = {gr_var_str})")
           }
         }
       }
@@ -398,7 +395,7 @@ window_test_normality <- function() {
           bootstrap_n_code,
           sep = ", "))
 
-        qq_band_code <- str_glue('qqplotr::stat_qq_band(\n{band_arg_code}) + ')
+        qq_band_code <- str_glue("qqplotr::stat_qq_band(\n{band_arg_code}) + ")
 
         labs_subtitle <- str_glue(
           'subtitle = "Band: {conf_band_name}{title_boot}, ',
@@ -411,8 +408,12 @@ window_test_normality <- function() {
 
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       if (qq_line) {
-        line_arg_code <- str_c(detrend_code, {use_color_code}, sep = ", ")
-        qq_line_code <- str_glue('qqplotr::stat_qq_line({line_arg_code}) + ')
+        line_arg_code <- str_c(detrend_code,
+          {
+            use_color_code
+          },
+          sep = ", ")
+        qq_line_code <- str_glue("qqplotr::stat_qq_line({line_arg_code}) + ")
       } else {
         qq_line_code <- ""
       }
@@ -433,13 +434,13 @@ window_test_normality <- function() {
           .sep = "\n",
           .trim = FALSE,
           "## Normal QQ plot",
-          'ggplot({.ds}, aes(sample = {y_var}{use_fill_code})) + ',
-          '    {qq_band_code}',
-          '    {qq_line_code}',
-          '    {qq_points_code}',
-          '    {facet_code}',
-          '    labs({lab_args_code}) + ',
-          '    theme_bw()') %>%
+          "ggplot({.ds}, aes(sample = {y_var}{use_fill_code})) + ",
+          "    {qq_band_code}",
+          "    {qq_line_code}",
+          "    {qq_points_code}",
+          "    {facet_code}",
+          "    labs({lab_args_code}) + ",
+          "    theme_bw()") %>%
         str_replace_all("((\n)?    \n( )*?\n|\n\n|\n    \n)", "\n")
 
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -506,8 +507,8 @@ window_test_normality <- function() {
       print_results_code <-
         if (as_markdown) {
           str_glue(
-            ' %>% \n',
-            '  mutate(p.value = scales::pvalue(p.value, accuracy = {accu})) %>% \n',
+            " %>% \n",
+            "  mutate(p.value = scales::pvalue(p.value, accuracy = {accu})) %>% \n",
             '  knitr::kable(digits = {digits_p}, format = "pandoc")'
           )
 
@@ -607,7 +608,7 @@ window_test_normality <- function() {
     # Normality test
     use_test  = TRUE,
     test_name =
-      # if (nrows <= 5000) {
+    # if (nrows <= 5000) {
       gettext_bs("Shapiro-Wilk test")
     # } else {
     #     gettext_bs("Anderson-Darling test")
@@ -890,14 +891,14 @@ window_test_normality <- function() {
   tkgrid(f2_num_enable$frame, sticky = "nwe", padx = c(5, 70))
   tkgrid(f2_num_sub)
   tkgrid(f2_test_name$frame,                  padx = 5, pady = c(3, 5))
-  tkgrid(f2_pearson_opts$frame,sticky = "nse",padx = c(8, 5), pady = c(0, 2))
+  tkgrid(f2_pearson_opts$frame, sticky = "nse", padx = c(8, 5), pady = c(0, 2))
 
   tkgrid(f2_as_markdown$frame, sticky = "w",  padx = c(5, 0))
   tkgrid(f2_round_p$frame,     sticky = "w",  padx = 5, pady = c(0, 5))
   tkgrid(f2_round_p$frame_obj, sticky = "w")
 
-  tkgrid(f2_keep_results$frame,sticky = "w",  padx = c(5, 0), pady = c(0, 0))
-  tkgrid(f2_results_name$frame,sticky = "w",  padx = c(5, 0), pady = c(0, 5))
+  tkgrid(f2_keep_results$frame, sticky = "w",  padx = c(5, 0), pady = c(0, 0))
+  tkgrid(f2_results_name$frame, sticky = "w",  padx = c(5, 0), pady = c(0, 5))
 
   tkgrid(f2_test_simplify$frame, sticky = "w",  padx = c(5, 5))
 
@@ -1003,4 +1004,3 @@ window_test_normality <- function() {
 
   activate_all()
 }
-

@@ -24,9 +24,8 @@ window_rows_filter0  <- function() {
 # init_conditions (character) - conditions to be evaluated to select rows
 # incorrect_cond_msg (character) - Message for incorrect expression.
 window_rows_filter <- function(new_dsname = NULL,
-  init_conditions = NULL,
-  incorrect_cond_msg = NULL) {
-
+    init_conditions = NULL,
+    incorrect_cond_msg = NULL) {
   # Functions --------------------------------------------------------------
   onDoubleClick_variable <- function() {
     var <- trim.blanks(get_selection(y_var_box))
@@ -76,7 +75,7 @@ window_rows_filter <- function(new_dsname = NULL,
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   lower_frame <- tkframe(top)
 
-  if (is.null(new_dsname))  new_dsname <- unique_df_name(suffix = "_subset")
+  if (is.null(new_dsname)) new_dsname <- unique_df_name(suffix = "_subset")
   new_dsname_variable <- tclVar(new_dsname)
   new_dsname_field    <- ttkentry(lower_frame,
     width = "30",
@@ -185,16 +184,16 @@ window_rows_filter <- function(new_dsname = NULL,
   examples_frame <- tkframe(upper_frame)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid_text <- function(text = "", frame = examples_frame, fg = "black",
-    sticky = "w", padx = 20, pady = 0, ...) {
+      sticky = "w", padx = 20, pady = 0, ...) {
     tkgrid(labelRcmdr(frame, text = gettext_bs(text), fg = fg),
       sticky = sticky, padx = padx, pady = pady, ...)
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid_text("\nExamples of logical conditions", fg = getRcmdr("title.color"))
-  tkgrid_text('Standard operations:   ==   !=   <   <=   >   >=    %in%   |   &   !   between()', fg = "darkgreen")
+  tkgrid_text("Standard operations:   ==   !=   <   <=   >   >=    %in%   |   &   !   between()", fg = "darkgreen")
   tkgrid_text("Example 1: age < 10")
   tkgrid_text('Example 2: color %in% c("red", "yellow")')
-  tkgrid_text('Example 3: !is.na(color)')
+  tkgrid_text("Example 3: !is.na(color)")
   tkgrid_text('Example 4: sex == "male", age >= 20, between(weight, 50, 80)')
   tkgrid_text('Example 5: age_group != "young" | income > 500')
   if (!is.null(incorrect_cond_msg)) {

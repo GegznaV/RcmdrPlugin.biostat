@@ -109,7 +109,7 @@ set_biostat_mode <- function() {
 
   logo            <- sibl[str_detect(img, "(^::image::RlogoIcon$|^::image::bs_r_logo_)")]
   button_edit0    <- sibl[img == "::image::editIcon"]
-  button_view0    <- sibl[img == "::image::viewIcon"]
+  button_inspect0 <- sibl[img == "::image::viewIcon"]
   button_id_data  <- sibl[img %in% c("::image::dataIcon",  "::image::bs_dataset")]
   button_id_model <- sibl[img %in% c("::image::modelIcon", "::image::bs_model")]
   lab_data        <- sibl[txt == gettextRcmdr("   Data set:")]
@@ -119,9 +119,9 @@ set_biostat_mode <- function() {
   tk2tip(button_data,  "Select active data set")
   tk2tip(button_model, "Select active model")
 
-  if (length(button_view0) > 0) {
-    # tkgrid.remove(button_view0)
-    tk2tip(tcl_get_obj_by_id(button_view0), "View active data set")
+  if (length(button_inspect0) > 0) {
+    # tkgrid.remove(button_inspect0)
+    tk2tip(tcl_get_obj_by_id(button_inspect0), "View active data set")
   }
 
   if (length(button_edit0) > 0) {
@@ -162,16 +162,16 @@ set_biostat_mode <- function() {
 
   button_datasets <- tk2button(
     button_set_manage,
-    tip     = "Datasets and objects",
+    tip     = "Manage objects/datasets. \nJoin datasets",
     image   = "::image::bs_objects",
     command = bs_mode_menu__datasets
   )
 
-  button_view <- tk2button(
+  button_inspect <- tk2button(
     button_set_analysis,
-    tip     = "View, summarize and print \nactive data set",
+    tip     = "Inspect active data set",
     image   = "::image::viewIcon",
-    command = bs_mode_menu__print)
+    command = bs_mode_menu__inspect)
 
   button_rows <- tk2button(
     button_set_manage,
@@ -227,7 +227,7 @@ set_biostat_mode <- function() {
 
   putRcmdr("button_data",         button_data)
   putRcmdr("button_model",        button_model)
-  putRcmdr("button_view0",        button_view0) # FIXME: error if object does not exist
+  putRcmdr("button_inspect0",     button_inspect0) # FIXME: error if object does not exist
   putRcmdr("button_edit0",        button_edit0) # FIXME: error if object does not exist
 
   putRcmdr("buttons_variant",     buttons_variant)
@@ -242,7 +242,7 @@ set_biostat_mode <- function() {
   putRcmdr("button_import",       button_import)
   putRcmdr("button_datasets",     button_datasets)
   putRcmdr("button_export",       button_export)
-  putRcmdr("button_view",         button_view)
+  putRcmdr("button_inspect",      button_inspect)
   putRcmdr("button_summary",      button_summary)
   putRcmdr("button_rows",         button_rows)
   putRcmdr("button_variables",    button_variables)
@@ -293,7 +293,7 @@ set_biostat_mode <- function() {
 
   # Set: analyze
   tkgrid(
-    button_view,
+    button_inspect,
     button_summary,
     button_analysis
   )
@@ -322,7 +322,7 @@ set_biostat_mode <- function() {
   #     button_import,
   #     button_export,
   #     button_datasets,
-  #     button_view,
+  #     button_inspect,
   #     button_rows,
   #     button_variables,
   #     button_summary,
@@ -342,8 +342,8 @@ set_biostat_mode <- function() {
     tkgrid.configure(button_edit0,  pady = c(5, 0))
   }
 
-  if (length(button_view0) > 0) {
-    tkgrid.configure(button_view0,  pady = c(5, 0))
+  if (length(button_inspect0) > 0) {
+    tkgrid.configure(button_inspect0,  pady = c(5, 0))
   }
   tkgrid.configure(lab_model,       padx = c(2, 2),  pady = c(5, 0))
   tkgrid.configure(button_id_model, padx = c(0, 10), pady = c(5, 0))
@@ -388,7 +388,7 @@ set_biostat_mode <- function() {
         command = button_model_opts$orig_command
       )
       if (length(button_edit0) > 0) tkgrid(button_edit0)
-      if (length(button_view0) > 0) tkgrid(button_view0)
+      if (length(button_inspect0) > 0) tkgrid(button_inspect0)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     set_buttons_bs_fun <- function() {
@@ -411,7 +411,7 @@ set_biostat_mode <- function() {
         command = window_model_select
       )
       if (length(button_edit0) > 0) tkgrid.remove(button_edit0)
-      if (length(button_view0) > 0) tkgrid.remove(button_view0)
+      if (length(button_inspect0) > 0) tkgrid.remove(button_inspect0)
 
       tkgrid(
         button_set_manage,
@@ -843,8 +843,8 @@ bs_mode_menu__export <- function() {
     tkwinfo("pointery", top))
 }
 
-# Preview, summarize df, print -----------------------------------------------
-bs_mode_menu__print <- function() {
+# Inspect data frame ---------------------------------------------------------
+bs_mode_menu__inspect <- function() {
 
   .ds <- active_dataset_0()
 
@@ -876,7 +876,7 @@ bs_mode_menu__print <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_p, "command",
-    label    = "Class of active dataset...",
+    label    = "Class of active dataset (print, convert)...",
     state    = activate_if_active_ds(),
     command  = window_dataset_class)
 
@@ -1038,7 +1038,6 @@ bs_mode_menu__summary  <- function() {
     tkwinfo("pointery", top))
 }
 
-
 # Row menus ------------------------------------------------------------------
 bs_mode_menu__rows <- function() {
 
@@ -1142,6 +1141,7 @@ bs_mode_menu__rows <- function() {
     tkwinfo("pointerx", top),
     tkwinfo("pointery", top))
 }
+
 # Variable menus -------------------------------------------------------------
 bs_mode_menu__variables <- function() {
 
@@ -1620,7 +1620,7 @@ bs_mode_menu__settings <- function() {
 
   top <- CommanderWindow()
 
-  menu_p  <- tk2menu(tk2menu(top), tearoff = FALSE)
+  menu_p <- tk2menu(tk2menu(top), tearoff = FALSE)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # tkadd(menu_p, "command",
@@ -1634,19 +1634,64 @@ bs_mode_menu__settings <- function() {
   #           },
   #       command    = toggle_always_on_top)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  menu_lng  <- tk2menu(menu_p, tearoff = FALSE)
+  # menu_lng <- tk2menu(menu_p, tearoff = FALSE)
 
-  tkadd(menu_p, "cascade",
-    label    = "Language",
-    compound = "left",
-    image    = "::image::bs_locale",
-    menu     = menu_lng)
+  # tkadd(menu_p, "cascade",
+  #   label    = "Language",
+  #   compound = "left",
+  #   image    = "::image::bs_locale",
+  #   menu     = menu_lng)
+  #
+  # tkadd(menu_lng, "command",
+  #   label    = "Locale...",
+  #   compound = "left",
+  #   image    = "::image::bs_locale",
+  #   command  = window_locale_set)
 
-  tkadd(menu_lng, "command",
+  tkadd(menu_p, "command",
     label    = "Locale...",
     compound = "left",
     image    = "::image::bs_locale",
     command  = window_locale_set)
+
+  tkadd(menu_p, "command",
+    label    = "Load R packages...",
+    compound = "left",
+    image    = "::image::bs_package",
+    command  = window_load_packages)
+
+ # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  menu_wd <- tk2menu(menu_p, tearoff = FALSE)
+
+  tkadd(menu_p, "cascade",
+    label    = "Working directory (WD)",
+    compound = "left",
+    image    = "::image::bs_folder",
+    menu     = menu_wd)
+
+  tkadd(menu_wd, "command",
+    label    = "Print path to WD",
+    compound = "left",
+    image    = "::image::bs_path_to_wd",
+    command  = command_getwd)
+
+  tkadd(menu_wd, "command",
+    label    = "Print file and folder names in WD",
+    compound = "left",
+    image    = "::image::bs_print_wd",
+    command  = command_list_files_wd)
+
+  tkadd(menu_wd, "command",
+    label    = "Open WD",
+    compound = "left",
+    image    = "::image::bs_open_wd",
+    command  = command_openwd)
+
+  tkadd(menu_wd, "command",
+    label    = "Change WD",
+    compound = "left",
+    image    = "::image::bs_set_wd",
+    command  = command_setwd)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_opts  <- tk2menu(menu_p, tearoff = FALSE)
@@ -1662,14 +1707,14 @@ bs_mode_menu__settings <- function() {
   tkadd(menu_opts, "command",
     label    = "Output to R console (1 window mode)",
     compound = "left",
-    image    = if (to_console) {"::image::bs_tick"} else {""},
-    command  = if (to_console) {do_nothing} else {command_rcmdr_use_1_window})
+    image    = if (to_console) "::image::bs_tick" else "",
+    command  = if (to_console) do_nothing else command_rcmdr_use_1_window)
 
   tkadd(menu_opts, "command",
     label    = "Output to R Commander (3 windows mode)",
     compound = "left",
-    image    = if (!to_console) {"::image::bs_tick"} else {""},
-    command  = if (!to_console) {do_nothing} else {command_rcmdr_use_3_windows})
+    image    = if (!to_console) "::image::bs_tick" else "",
+    command  = if (!to_console) do_nothing else command_rcmdr_use_3_windows)
 
   tkadd(menu_opts, "separator")
 
@@ -1678,7 +1723,7 @@ bs_mode_menu__settings <- function() {
   tkadd(menu_opts, "command",
     label    = "Keep original order (column names in widgets)",
     compound = "left",
-    image    = if (!sort_names) {"::image::bs_tick"} else {""},
+    image    = if (!sort_names) "::image::bs_tick" else "",
     command  =
       if (!sort_names) {
         do_nothing
@@ -1692,7 +1737,7 @@ bs_mode_menu__settings <- function() {
   tkadd(menu_opts, "command",
     label    = "Sort alphabetically (column names in widgets)",
     compound = "left",
-    image    = if (sort_names) {"::image::bs_tick"} else {""},
+    image    = if (sort_names) "::image::bs_tick" else "",
     command  =
       if (sort_names) {
         do_nothing
@@ -1712,14 +1757,6 @@ bs_mode_menu__settings <- function() {
     image    = "::image::bs_r",
     menu     = menu_session)
 
-  tkadd(menu_session, "command",
-    label    = "Load R packages...",
-    compound = "left",
-    image    = "::image::bs_package",
-    command  = window_load_packages)
-
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  tkadd(menu_session, "separator")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   tkadd(menu_session, "command",
@@ -1763,39 +1800,6 @@ bs_mode_menu__settings <- function() {
     compound = "left",
     image    = "::image::bs_close_r",
     command  = command_rcmdr_close_r)
-
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  menu_wd <- tk2menu(menu_p, tearoff = FALSE)
-
-  tkadd(menu_p, "cascade",
-    label    = "Working directory (WD)",
-    compound = "left",
-    image    = "::image::bs_folder",
-    menu     = menu_wd)
-
-  tkadd(menu_wd, "command",
-    label    = "Print path to WD",
-    compound = "left",
-    image    = "::image::bs_path_to_wd",
-    command  = command_getwd)
-
-  tkadd(menu_wd, "command",
-    label    = "Print file and folder names in WD",
-    compound = "left",
-    image    = "::image::bs_print_wd",
-    command  = command_list_files_wd)
-
-  tkadd(menu_wd, "command",
-    label    = "Open WD",
-    compound = "left",
-    image    = "::image::bs_open_wd",
-    command  = command_openwd)
-
-  tkadd(menu_wd, "command",
-    label    = "Change WD",
-    compound = "left",
-    image    = "::image::bs_set_wd",
-    command  = command_setwd)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkadd(menu_p, "separator")
@@ -1906,13 +1910,13 @@ bs_mode_menu__datasets <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   tkadd(menu_p, "command",
-    label    = "Manage objects (and datasets)...",
+    label    = "Rename, copy, delete objects/datasets...",
     compound = "left",
     image    = "::image::bs_objects",
     command  = window_data_obj_manage)
 
   tkadd(menu_p, "command",
-    label    = "List loaded objects (and datasets)",
+    label    = "List loaded objects/datasets",
     compound = "left",
     image    = "::image::bs_workspace",
     command  = command_list_objects)

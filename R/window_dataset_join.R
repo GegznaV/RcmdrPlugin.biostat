@@ -28,9 +28,9 @@ window_dataset_join <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tk_pair_control <- function(obj1, obj2,
-    state = c("readonly", "disabled", "active", "normal"),
-    reset = FALSE,
-    selected = c("", ""), ...) {
+      state = c("readonly", "disabled", "active", "normal"),
+      reset = FALSE,
+      selected = c("", ""), ...) {
     state <- match.arg(state)
     if (reset == TRUE) {
       tclvalue(obj1$combovar) <- selected[1]
@@ -241,7 +241,7 @@ window_dataset_join <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # If only one pair of names is entered
     if (by_x_name_2_Value == "" & by_y_name_2_Value == "" &
-        by_x_name_3_Value == "" & by_y_name_3_Value == ""   ) {
+      by_x_name_3_Value == "" & by_y_name_3_Value == "") {
       # If no variable names entered,
       # all matching names are used.
       if (by_x_name_1_Value == "" & by_y_name_1_Value == "") {
@@ -340,7 +340,7 @@ window_dataset_join <- function() {
     text = gettext_bs(paste(
       "     Variable names to join the datasets by \n",
       "(leave blank to choose all matching names)"))),
-    columnspan = 3, padx = c(5, 5), pady = c(5, 5)
+  columnspan = 3, padx = c(5, 5), pady = c(5, 5)
   )
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(
@@ -372,7 +372,7 @@ window_dataset_join <- function() {
   tkgrid(labelRcmdr(ds_name_Frame,
     fg = getRcmdr("title.color"),
     text = gettext_bs("Name for joint dataset:  ")),
-    entry_ds_name, pady = c(5, 0))
+  entry_ds_name, pady = c(5, 0))
 
   tkgrid(ds_name_Frame, pady = c(0, 5), sticky = "sw", columnspan = 3)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

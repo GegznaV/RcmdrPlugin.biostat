@@ -35,7 +35,7 @@ window_set_contrasts <- function() {
       command <- str_glue(
         "## Define contrasts for a factor ({variable}) \n",
         'contrasts({.ds}${variable}) <- "{contrasts}"'
-        )
+      )
       result <- doItAndPrint(command)
       if (class(result)[1] != "try-error") activeDataSet(.ds)
       tkfocus(CommanderWindow())
@@ -118,7 +118,7 @@ window_set_contrasts <- function() {
           "colnames(.Contrasts) <- c({all_contrasts}) \n",
           "contrasts({.ds}${variable}) <- .Contrasts \n",
           "remove(.Contrasts)"
-          )
+        )
 
         result <- doItAndPrint(command)
 

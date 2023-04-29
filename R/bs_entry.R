@@ -38,39 +38,39 @@
 #' @keywords internal
 bs_entry <- function(
 
-  parent = top,
-  width = "28",
-  value = "",
-  label = "",
-  label_position = c("left", "above", "right", "none"),
-  label_color = getRcmdr("title.color"),
-  padx = 0,
-  pady = 0,     # pady = 5,
-  sticky = "w",
-  sticky_label = sticky,
-  sticky_text  = sticky,
-  main_frame  = tk2frame(parent),
-  text_frame  = tk2frame(main_frame),
-  label_frame = tk2frame(main_frame),
-  tip       = "",
-  label_tip = "",
-  scroll_x  = FALSE,
-  on_click           = do_nothing,
-  on_double_click    = do_nothing,
-  on_triple_click    = do_nothing,
-  on_release         = do_nothing,
-  on_click_3         = do_nothing,
-  on_double_click_3  = do_nothing,
-  on_triple_click_3  = do_nothing,
-  on_release_3       = do_nothing,
-  on_key_release     = do_nothing,
+    parent = top,
+    width = "28",
+    value = "",
+    label = "",
+    label_position = c("left", "above", "right", "none"),
+    label_color = getRcmdr("title.color"),
+    padx = 0,
+    pady = 0,     # pady = 5,
+    sticky = "w",
+    sticky_label = sticky,
+    sticky_text  = sticky,
+    main_frame  = tk2frame(parent),
+    text_frame  = tk2frame(main_frame),
+    label_frame = tk2frame(main_frame),
+    tip       = "",
+    label_tip = "",
+    scroll_x  = FALSE,
+    on_click           = do_nothing,
+    on_double_click    = do_nothing,
+    on_triple_click    = do_nothing,
+    on_release         = do_nothing,
+    on_click_3         = do_nothing,
+    on_double_click_3  = do_nothing,
+    on_triple_click_3  = do_nothing,
+    on_release_3       = do_nothing,
+    on_key_release     = do_nothing,
 
-  use_context_menu = TRUE, # on single right-click
-  bind_clear = TRUE,       # on double right-click
-  variable = tclVar(value),
-  ...
+    use_context_menu = TRUE, # on single right-click
+    bind_clear = TRUE,       # on double right-click
+    variable = tclVar(value),
+    ...
 
-) {
+    ) {
   label_position <- match.arg(label_position)
 
   # var_text <- tclVar(value)
@@ -299,7 +299,7 @@ bs_entry <- function(
     obj_text  = obj_text,
     obj_label = obj_label
   ),
-    class = c("bs_entry", "bs_tk_widget", "list"))
+  class = c("bs_entry", "bs_tk_widget", "list"))
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -378,4 +378,3 @@ tk_read_only.bs_entry <- function(obj, ..., foreground = getRcmdr("title.color")
   tk_read_only(obj$obj_text)
   tk_read_only(obj$obj_label, foreground = foreground)
 }
-

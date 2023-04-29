@@ -3,7 +3,6 @@
 #' @export
 #' @keywords internal
 window_import_from_rds <- function() {
-
   # Functions ==============================================================
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Open file select dialogue
@@ -50,8 +49,8 @@ window_import_from_rds <- function() {
   # Return TRUE on success
   #        FALSE on failure.
   check_file_name <- function(on_success = do_nothing,
-    on_failure = do_nothing,
-    silent = FALSE) {
+      on_failure = do_nothing,
+      silent = FALSE) {
     filename <- read_path_to_file()
 
     if (fs::is_file(filename)) {
@@ -126,7 +125,7 @@ window_import_from_rds <- function() {
 
     #  Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     command <- str_glue(
-      '## Import data from Rds file\n',
+      "## Import data from Rds file\n",
       '{new_name} <- readRDS("{file_name}")'
     )
 
@@ -247,4 +246,3 @@ window_import_from_rds <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   invisible()
 }
-

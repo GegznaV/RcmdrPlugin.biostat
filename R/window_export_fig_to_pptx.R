@@ -481,8 +481,8 @@ window_export_fig_to_pptx_2 <- function() {
     code__open_after_saving <-
       if (open_after_saving) {
         str_glue(
-          '\n\n',
-          '## Open PowerPoint file \n',
+          "\n\n",
+          "## Open PowerPoint file \n",
           'browseURL("{pptx_file}")'
         )
       } else {
@@ -490,12 +490,12 @@ window_export_fig_to_pptx_2 <- function() {
       }
 
     code__dml_plot <- str_glue(.sep = "\n",
-      'dml_plot <- rvg::dml(',
-      '    {gg_code},',
-      '    bg = NULL, # background color',
-      '    pointsize = 12,',
-      '    editable = TRUE',
-      ')'
+      "dml_plot <- rvg::dml(",
+      "    {gg_code},",
+      "    bg = NULL, # background color",
+      "    pointsize = 12,",
+      "    editable = TRUE",
+      ")"
     )
 
     code__location <-
@@ -504,20 +504,20 @@ window_export_fig_to_pptx_2 <- function() {
         "Left side"  = "officer::ph_location_left()",
         "Right side" = "officer::ph_location_right()",
         "Center"     = str_glue(.sep = "\n",
-          ' officer::ph_location(',
-          '        left   = 1 ,  # {in_units}',
-          '        top    = 1,   # {in_units}',
-          '        width  = 8,   # {in_units}',
-          '        height = 5.5, # {in_units}',
-          '    )'
+          " officer::ph_location(",
+          "        left   = 1 ,  # {in_units}",
+          "        top    = 1,   # {in_units}",
+          "        width  = 8,   # {in_units}",
+          "        height = 5.5, # {in_units}",
+          "    )"
         ),
         "Custom..."    = str_glue(.sep = "\n",
-          ' officer::ph_location(',
-          '        left   = {pos_left}, # {in_units}',
-          '        top    = {pos_top}, # {in_units}',
-          '        width  = {pos_width}, # {in_units}',
-          '        height = {pos_height}, # {in_units}',
-          '    )'
+          " officer::ph_location(",
+          "        left   = {pos_left}, # {in_units}",
+          "        top    = {pos_top}, # {in_units}",
+          "        width  = {pos_width}, # {in_units}",
+          "        height = {pos_height}, # {in_units}",
+          "    )"
         ),
         stop("Unknown value of 'location_type': ", location_type)
 
@@ -526,15 +526,15 @@ window_export_fig_to_pptx_2 <- function() {
     # Save plot
     command <- str_c(
       sep = "\n",
-      '## Save plot',
-      '    {code__dml_plot}\n',
+      "## Save plot",
+      "    {code__dml_plot}\n",
 
-      '    {file_open}officer::read_pptx() %>%',
+      "    {file_open}officer::read_pptx() %>%",
       '    officer::add_slide(layout = "Blank", master = "Office Theme") %>%',
-      '    officer::ph_with(dml_plot, location = {code__location}) %>%',
+      "    officer::ph_with(dml_plot, location = {code__location}) %>%",
       '    print(target = "{pptx_file}")',
 
-      '{code__open_after_saving}'
+      "{code__open_after_saving}"
     ) %>%
       str_glue()
 
@@ -808,7 +808,7 @@ window_export_fig_to_pptx_2 <- function() {
         "  - plot()  - additionally calls function `plot()`.",
         "  - print() - additionally calls function `print()`.",
         "  - ggplot2 - best for 'ggplot2' polots. "
-      ))
+    ))
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   f3_gg_obj_name_box <-

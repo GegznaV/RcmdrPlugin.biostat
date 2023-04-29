@@ -2,7 +2,7 @@
 
 # . ===========================================================================
 menu	biostat20_menu	topMenu	""	""	""	""
-item	topMenu	cascade	"BioStat'20"	biostat20_menu	""	""
+item	topMenu	cascade	"BioStat'21"	biostat20_menu	""	""
 
 item	biostat20_menu	command	"Mode: BioStat"  set_biostat_mode 	"!is_biostat_mode()"	""
 
@@ -356,7 +356,7 @@ item	bs20_tests_menu	command	"Normality test (univariate)..."	window_test_normal
 # + ~ Central tendency tests -------------------------------------------------
 
 menu	bs20_centers_menu	bs20_tests_menu	""	""	""	""
-item	bs20_tests_menu	cascade	"Location tests"	bs20_centers_menu	""	""
+item	bs20_tests_menu	cascade	"Central tendency/Location tests"	bs20_centers_menu	""	""
 
 # item	bs20_centers_menu command	"Single-sample t-test... [Rcmdr]"	singleSampleTTest	"numericP()"	""
 item	bs20_centers_menu	command	"Single-sample t-test... [EZR]"	StatMedSingleSampleTTest	"numericP(2)"	""
@@ -408,10 +408,10 @@ item	bs20_variability_menu	command	"Levene's / Brown-Forsythe's test... [Rcmdr]"
 
 # . ==========================================================================
 # ---- + Models (Fit) --------------------------------------------------------
-# menu	bs20_fit_models_menu	bs20_analysis_menu	""	""	""	""
-# item	bs20_analysis_menu	cascade	"Models (fit)"	bs20_fit_models_menu	""	""
-#
-# item	bs20_fit_models_menu	command	"Linear regression... [EZR]"	StatMedLinearRegression	"activeDataSetP()"	""
+menu	bs20_fit_models_menu	bs20_analysis_menu	""	""	""	""
+item	bs20_analysis_menu	cascade	"Models (fit)"	bs20_fit_models_menu	""	""
+
+item	bs20_fit_models_menu	command	"Linear regression... [EZR]"	StatMedLinearRegression	"activeDataSetP()"	""
 # item	bs20_fit_models_menu	command	"[???] Calibration (linear regression)..."	function_not_implemented	"activeDataSetP() && FALSE"	""
 
 

@@ -2,7 +2,7 @@
 # Imported from Rcmdr
 
 globalVariables(c(
-  "top", "OKCancelHelp","ok_cancel_help", ".",
+  "top", "OKCancelHelp", "ok_cancel_help", ".",
 
   "ActiveDataSet", "ActiveModel", "Commander", "CommanderWindow", "Factors",
   "GrabFocus", "Library", "LogWindow", "Message", "MessagesWindow", "Numeric",
@@ -52,5 +52,11 @@ globalVariables(c(
   "use_groups_frame", "varPosn", "variableListBox", "which_idFrame",
   "which_idVariable", "window_new_dataset_rcmdr", "x", "start", "tktag_add_obj",
   "cancelButton", "active_ds", "loadPackages", "activate_menus",
-  "f3_input"
+  "f3_input",
+
+  ".Contrasts", "Dataset", "Item LibPath", "Package", "code_to_load",
+  "contrastsFrame", "contrastsVariable", "do_nothing", "f2_entry_expr",
+  "groupingFrame", "groupingVariable", "info", "levelNames", "levelsFrame",
+  "levelsVariable", "methodFrame", "methodVariable", "pkg_ds", "pop_up_window",
+  "show_output_Variable", "summary_skim", "text", "v", "var_ds_box"
 ))

@@ -67,4 +67,3 @@ command_rows_rm_empty_rows <- function() {
   if (!identical(dim_before, dim_after))
     command_dataset_refresh()
 }
-

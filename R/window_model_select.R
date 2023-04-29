@@ -40,7 +40,6 @@ window_model_select <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Functions --------------------------------------------------------------
   cmd_model_selection_callback  <- function() {
-
     # If object already destroyed
     if (!tcl_obj_exists(var_model_box$listbox)) {
       return()
@@ -52,7 +51,7 @@ window_model_select <- function() {
     )
 
     if (get_size(var_model_box) == 0 ||
-        get_selection_length(var_model_box) == 0) {
+      get_selection_length(var_model_box) == 0) {
       # Disable buttons
       str_glue_eval("tk_disable({button_obj})",   eval_envir = envir)
 
@@ -127,7 +126,7 @@ window_model_select <- function() {
 
       imported_datasets <- listDataSets()
 
-      if (!isTRUE(models_dataset %in% imported_datasets) ) {
+      if (!isTRUE(models_dataset %in% imported_datasets)) {
         active_dataset_0(NULL)
         show_error_messages(
           str_c(
@@ -303,12 +302,12 @@ window_model_select <- function() {
       }
 
       doItAndPrint(str_glue(
-        '## Cooks distance, d \n',
-        '#  Outlier if distance d is above 1 (d > 1) \n',
-        'library(ggfortify)\n',
-        'autoplot({.mod}, which = 4, nrow = 1, ncol = 1) + \n',
+        "## Cooks distance, d \n",
+        "#  Outlier if distance d is above 1 (d > 1) \n",
+        "library(ggfortify)\n",
+        "autoplot({.mod}, which = 4, nrow = 1, ncol = 1) + \n",
         '  geom_hline(yintercept = 1, color = "red", lty = 2) + \n',
-        '  theme_bw()'))
+        "  theme_bw()"))
     })
 
   i10 <- tk2button(
@@ -322,7 +321,7 @@ window_model_select <- function() {
       .mod <- activeModel()
       doItAndPrint(str_glue(
         "## Explore model's object \n",
-        'View({.mod})'))
+        "View({.mod})"))
     })
 
 
@@ -339,7 +338,8 @@ window_model_select <- function() {
   ok_cancel_help(
     before_cancel_fun = function() {
       active_dataset_0(.ds)
-      activeModel(.activeModel)}
+      activeModel(.activeModel)
+    }
   )
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

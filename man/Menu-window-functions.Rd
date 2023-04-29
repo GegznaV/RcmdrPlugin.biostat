@@ -506,9 +506,9 @@ Functions that open Rcmdr menus and windows windows.
 
 library(tidyverse)
 
-df = tibble::tribble(
+df <- tibble::tribble(
   ~x, ~y, ~z, ~q,
-  1,   1 , 1,  1,
+  1,   1, 1,  1,
   2,   2,  2, NA,
   3,   3, NA, NA,
   4,  NA, NA, NA,

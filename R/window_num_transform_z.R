@@ -112,16 +112,16 @@ window_num_transform_z <- function() {
   tkgrid(labelRcmdr(top,
     text = gettext_bs("Prefix for variable names (optional):"),
     fg = getRcmdr("title.color")),
-    sticky = "w",
-    pady = c(10, 0), columnspan = 2)
+  sticky = "w",
+  pady = c(10, 0), columnspan = 2)
 
   tkgrid(prefixField, sticky = "ew", columnspan = 2)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(labelRcmdr(top,
     text = gettext_bs("Suffix for variable names (optional):"),
     fg = getRcmdr("title.color")),
-    sticky = "w",
-    pady = c(10, 0), columnspan = 2)
+  sticky = "w",
+  pady = c(10, 0), columnspan = 2)
 
   tkgrid(suffixField, sticky = "ew", columnspan = 2)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

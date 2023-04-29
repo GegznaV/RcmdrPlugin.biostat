@@ -8,11 +8,11 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/RcmdrPlugin.biostat)](https://cran.r-project.org/package=RcmdrPlugin.biostat)
 [![GitHub
-version](https://img.shields.io/badge/GitHub-v0.0.70-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
+version](https://img.shields.io/badge/GitHub-v0.0.71-brightgreen.svg)](https://github.com/GegznaV/RcmdrPlugin.biostat)
 [![R build
 status](https://github.com/GegznaV/RcmdrPlugin.BioStat/workflows/R-CMD-check/badge.svg)](https://github.com/GegznaV/RcmdrPlugin.BioStat/actions)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Documentation](https://img.shields.io/badge/Documentation-2021--04--30-yellowgreen.svg)]()
+[![Documentation](https://img.shields.io/badge/Documentation-2023--04--29-yellowgreen.svg)]()
 <!-- badges: end -->
 
 ------------------------------------------------------------------------
@@ -24,6 +24,14 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 -->
 
 # R Commander Plug-in for Basic Data Management and Analysis Tasks
+
+<br>
+<center>
+<font color = "red"><b> This package is still experimental.<br> Some
+features may change. </b></font>
+</center>
+
+<br>
 
 **RcmdrPlugin.biostat** is an
 [**Rcmdr**](https://CRAN.R-project.org/package=Rcmdr) plug-in for the
@@ -42,7 +50,8 @@ some basic data wrangling, cleaning, plotting, preview and analysis
 tasks.
 
 The documentation is available at
-<a href="https://gegznav.github.io/RcmdrPlugin.biostat" target="_blank">gegznav.github.io/RcmdrPlugin.biostat</a>.
+<a href="https://gegznav.github.io/RcmdrPlugin.biostat"
+target="_blank">gegznav.github.io/RcmdrPlugin.biostat</a>.
 
 <br>
 
@@ -60,8 +69,9 @@ unload the packages). It is also recommended to close the current
 to be installed (see also [Notes for *Mac* users
 only](#notes-for-mac-users-only)) and opened during the installation.
 *Windows* users need
-<a href="https://cloud.r-project.org/bin/windows/Rtools/" target="_blank"><em>Rtools</em></a>
-if they want to install the package form GitHub.
+<a href="https://cloud.r-project.org/bin/windows/Rtools/"
+target="_blank"><em>Rtools</em></a> if they want to install the package
+form GitHub.
 
 ### Installation (Recommended)
 
@@ -83,11 +93,11 @@ If you want to install the development version of the package from
 update.packages(ask = "graphics")
 
 # Install required packages
-if (!require("remotes"))  install.packages("remotes")
+if (!require("remotes")) install.packages("remotes")
 
 # Install RcmdrPlugin.biostat
 remotes::install_github(
-  "GegznaV/RcmdrPlugin.biostat", 
+  "GegznaV/RcmdrPlugin.biostat",
   dependencies = TRUE, upgrade = TRUE
 )
 ```
@@ -100,11 +110,13 @@ session before the next installation too.
 > **NOTE:** the most common installation issue is related to *R* package
 > **rlang**. Usually, you have to delete the indicated “*00LOCK*”
 > directory (you may use
-> <a href="https://trinker.github.io/pacman/p_unlock.html" target="_blank"><code class="sourceCode r">pacman<span class="sc">::</span><span class="fu">p_unlock</span>()</code></a>,
-> if you have package
-> <a href="https://trinker.github.io/pacman" target="_blank"><strong>pacman</strong></a>
-> installed, or delete the directory manually), restart the current *R*
-> session and try to install again.
+> <a href="https://trinker.github.io/pacman/p_unlock.html"
+> target="_blank"><code
+> class="sourceCode r">pacman<span class="sc">::</span><span class="fu">p_unlock</span>()</code></a>,
+> if you have package <a href="https://trinker.github.io/pacman"
+> target="_blank"><strong>pacman</strong></a> installed, or delete the
+> directory manually), restart the current *R* session and try to
+> install again.
 
 <!-- ### Check for updates -->
 <!-- To get the most recent version of **RcmdrPlugin.biostat** and to check if all its dependency packages are installed, use a function from package [**bio**](https://mokymai.github.io/bio/): -->
@@ -208,7 +220,7 @@ bar is missing, you may re-enable *BioStat* mode by selecting option
 
 To close this mode, simply restart the *R Commander*:
 
--   R Commander menu bar → BioStat’20 → Session → Restart R Commander
+- R Commander menu bar → BioStat’20 → Session → Restart R Commander
 
 You may use the following command as well:
 
@@ -220,13 +232,14 @@ restart_commander()
 
 For *Mac* users, there at least 2 things to pay attention to:
 
-1.  On *Mac*, *R Commander* opens only if
+1)  On *Mac*, *R Commander* opens only if
     <a href="http://www.xquartz.org/" target="_blank"><em>XQuartz</em></a>
     is opened. So, the first step of using *R Commander* is to make sure
-    that *XQuartz* is opened. More information on
-    <a href="https://murraystate.instructure.com/courses/1252125/pages/installing-r-commander-on-your-mac" target="_blank">“Installing R Commander for <em>Mac</em> users”</a>.
+    that *XQuartz* is opened. More information on <a
+    href="https://murraystate.instructure.com/courses/1252125/pages/installing-r-commander-on-your-mac"
+    target="_blank">“Installing R Commander for <em>Mac</em> users”</a>.
 
-2.  Some *Mac* users also report that it is impossible to switch between
+2)  Some *Mac* users also report that it is impossible to switch between
     languages while *R Commander* is running. This means, that some
     users might not use numbers if in the chosen language the same keys
     mean some non-English letters. Because of this, it is recommended to
@@ -266,7 +279,7 @@ options(Rcmdr = list(
     "RcmdrPlugin.EZR.as.menu",
     "RcmdrPlugin.biostat",
     NULL
-  ), 
+  ),
   console.output = FALSE
 ))
 

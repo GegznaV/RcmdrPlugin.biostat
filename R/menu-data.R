@@ -47,7 +47,7 @@ activate_menus <- function() {
       tk_normalize(getRcmdr("button_export"))
       tk_normalize(getRcmdr("button_rows"))
       tk_normalize(getRcmdr("button_variables"))
-      tk_normalize(getRcmdr("button_view"))
+      tk_normalize(getRcmdr("button_inspect"))
       tk_normalize(getRcmdr("button_summary"))
       tk_normalize(getRcmdr("button_analysis"))
 
@@ -55,7 +55,7 @@ activate_menus <- function() {
       tk_disable(getRcmdr("button_export"))
       tk_disable(getRcmdr("button_rows"))
       tk_disable(getRcmdr("button_variables"))
-      tk_disable(getRcmdr("button_view"))
+      tk_disable(getRcmdr("button_inspect"))
       tk_disable(getRcmdr("button_summary"))
       tk_disable(getRcmdr("button_analysis"))
     }
@@ -114,7 +114,7 @@ command_dataset_print_as_dt <- function() {
 command_dataset_print_as_tibble <- function() {
   .ds <- active_dataset_0()
   Library("tibble")
-  doItAndPrint(str_glue('print(as_tibble({.ds}))'))
+  doItAndPrint(str_glue("print(as_tibble({.ds}))"))
 }
 
 

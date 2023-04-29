@@ -18,7 +18,7 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
       Message(message = msg_1, type = "error")
       ans <- tk_messageBox(
         parent  = CommanderWindow(),
-        caption = 'No Active Dataset',
+        caption = "No Active Dataset",
         message = msg_1,
         icon    = "error",
         type    = "ok")
@@ -34,7 +34,7 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
     if (!exists.method("as.data.frame", ds, default = FALSE)) {
       Message(message = paste0(
         dsname, gettext_bs(" is not a data frame and cannot be attached.")),
-        type = "error")
+      type = "error")
       tkfocus(CommanderWindow())
       return()
     }
@@ -69,7 +69,7 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
     new_good_names <-            newnames[badnames]
 
     n <- length(old_bad_names)
-    if (n > n_max) {l <- n_max} else {l <- n}
+    if (n > n_max) l <- n_max else l <- n
 
     old_bad_names  <- old_bad_names[1:l]
     new_good_names <- new_good_names[1:l]
@@ -89,7 +89,7 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
 
     ans <- tk_messageBox(
       parent  = CommanderWindow(),
-      caption = 'Column Names Need Correction',
+      caption = "Column Names Need Correction",
       message = warn_msg,
       icon    = "warning",
       type    = "yesno",
@@ -127,7 +127,7 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
 
   Message(sprintf(
     gettext_bs("The dataset `%s` has %d rows and %d columns."), dsname, nrow, ncol),
-    type = "note")
+  type = "note")
 
   if (suggest_fixing_names) {
     if (ans == "yes") {
@@ -209,8 +209,9 @@ active_dataset_0 <- function(name) {
         suppress <-
           if (getRcmdr("suppress.X11.warnings")) ", suppress.X11.warnings=FALSE" else ""
         view.height <-
-          max(as.numeric(getRcmdr("output.height")) +
-              as.numeric(getRcmdr("log.height")), 10)
+          max(
+            as.numeric(getRcmdr("output.height")) + as.numeric(getRcmdr("log.height")),
+            10)
         command <- paste0(
           "showData(", name, ", placement='", posn,
           "', font=getRcmdr('logFont'), maxwidth=",
@@ -251,8 +252,7 @@ active_dataset_0 <- function(name) {
 list_numeric <- function(dataSet = active_dataset_0()) {
   if (missing(dataSet)) {
     Numeric()
-  }
-  else {
+  } else {
     variables <- listVariables(dataSet)
     variables[sapply(variables, function(.x) {
       .v <- eval_text(safe_names(.x), envir = get(dataSet, envir = .GlobalEnv))
@@ -266,8 +266,7 @@ list_numeric <- function(dataSet = active_dataset_0()) {
 list_character <- function(dataSet = active_dataset_0()) {
   if (missing(dataSet)) {
     Character()
-  }
-  else {
+  } else {
     variables <- listVariables(dataSet)
     variables[sapply(variables, function(.x) {
       .v <- eval_text(safe_names(.x), envir = get(dataSet, envir = .GlobalEnv))
@@ -281,8 +280,7 @@ list_character <- function(dataSet = active_dataset_0()) {
 list_factors <- function(dataSet = active_dataset_0()) {
   if (missing(dataSet)) {
     Factors()
-  }
-  else {
+  } else {
     variables <- listVariables(dataSet)
     variables[sapply(variables, function(.x) {
       .v <- eval_text(safe_names(.x), envir = get(dataSet, envir = .GlobalEnv))
@@ -296,8 +294,7 @@ list_factors <- function(dataSet = active_dataset_0()) {
 list_two_level_factors <- function(dataSet = active_dataset_0()) {
   if (missing(dataSet)) {
     TwoLevelFactors()
-  }
-  else {
+  } else {
     factors <- list_factors(dataSet)
     if (length(factors) == 0) return(NULL)
     factors[sapply(factors, function(.x) {
@@ -314,8 +311,7 @@ list_two_level_factors <- function(dataSet = active_dataset_0()) {
 list_discrete_numeric <- function(dataSet = active_dataset_0()) {
   if (missing(dataSet)) {
     DiscreteNumeric()
-  }
-  else {
+  } else {
     threshold <- getRcmdr("discreteness.threshold")
     if (threshold <= 0) {
       n <- getRcmdr("nrow")
@@ -325,7 +321,9 @@ list_discrete_numeric <- function(dataSet = active_dataset_0()) {
       threshold <- min(round(2 * sqrt(n)), round(10 * log10(n)), 100)
     }
     variables <- list_numeric()
-    if (length(variables) == 0) {return(NULL)}
+    if (length(variables) == 0) {
+      return(NULL)
+    }
     variables[sapply(variables, function(.x) {
       length(
         unique(

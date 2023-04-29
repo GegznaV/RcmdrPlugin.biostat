@@ -22,7 +22,7 @@ window_num_transform_log <- function() {
     text = gettext_bs("Logarithmic transformation"),
     font = tkfont.create(weight = "bold", size = 9),
     fg = fg_col),
-    pady = c(5, 9), columnspan = 2)
+  pady = c(5, 9), columnspan = 2)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   change_prefix <- function() {
     tclvalue(prefix_variable) <- str_glue("{tclvalue(log_txtVariable)}_")
@@ -157,7 +157,7 @@ window_num_transform_log <- function() {
         } else {
           str_glue("{.ds} <- {.ds} %>%\n",
             'dplyr::mutate(\n{paste0(tans_txt, collapse = ",\n")}\n',
-            ')\n')
+            ")\n")
         }
 
       },
@@ -193,12 +193,12 @@ window_num_transform_log <- function() {
   tkgrid(labelRcmdr(middle_frame,
     text = gettext_bs("Prefix for variable names (optional):"),
     fg = fg_col),
-    labelRcmdr(middle_frame, text = gettext_bs("     ")),
-    labelRcmdr(middle_frame,
-      text = gettext_bs("Suffix for variable names (optional):"),
-      fg = fg_col),
-    sticky = "ew",
-    pady = c(10, 0))
+  labelRcmdr(middle_frame, text = gettext_bs("     ")),
+  labelRcmdr(middle_frame,
+    text = gettext_bs("Suffix for variable names (optional):"),
+    fg = fg_col),
+  sticky = "ew",
+  pady = c(10, 0))
   tkgrid(prefix_field,
     labelRcmdr(middle_frame, text = gettext_bs("     ")),
     suffix_field, sticky = "ew")

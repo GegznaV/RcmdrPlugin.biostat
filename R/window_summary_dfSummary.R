@@ -6,10 +6,12 @@ window_summary_dfSummary <- function() {
   Library("summarytools")
 
   # FIXME: remove when summarytools fixes this bug
-  try({
-    op <- summarytools::st_options("use.x11")
-    summarytools::st_options("use.x11" = FALSE)
-  }, silent = TRUE)
+  try(
+    {
+      op <- summarytools::st_options("use.x11")
+      summarytools::st_options("use.x11" = FALSE)
+    },
+    silent = TRUE)
 
   .ds <- active_dataset_0()
   command <-
@@ -22,5 +24,9 @@ window_summary_dfSummary <- function() {
   doItAndPrint(command)
 
   # FIXME: remove when summarytools fixes this bug
-  try({summarytools::st_options("use.x11" = op)}, silent = TRUE)
+  try(
+    {
+      summarytools::st_options("use.x11" = op)
+    },
+    silent = TRUE)
 }

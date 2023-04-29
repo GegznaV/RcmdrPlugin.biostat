@@ -14,9 +14,8 @@ window_rows_col_to_rownames0  <- function() {
 # init_conditions (character) - conditions to be evaluated to select rows
 # incorrect_cond_msg (character) - Message for incorrect expression.
 window_rows_col_to_rownames <- function(new_dsname = NULL,
-  init_conditions = NULL,
-  incorrect_cond_msg = NULL) {
-
+    init_conditions = NULL,
+    incorrect_cond_msg = NULL) {
   # Dialog -----------------------------------------------------------------
 
   initializeDialog(title = gettext_bs("Set Row Names"))

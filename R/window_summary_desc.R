@@ -1,6 +1,7 @@
 # TODO:
 #
-# 1) DescTools options may be incorrect at start up, if only some options are reset.
+# 1) DescTools options may be incorrect at start up, if only some options
+#    are reset.
 
 #' @rdname Menu-window-functions
 #' @export
@@ -102,7 +103,7 @@ window_summary_desc <- function() {
   get_big_mark_list <- function() {
     tibble::tribble(
       ~name,                       ~fun,
-      gettext_bs("None")     ,       "",
+      gettext_bs("None"),            "",
       gettext_bs("Space [ ]"),       " ",
       gettext_bs("Apostrophe [']"),  "'",
       gettext_bs("Comma [,]"),       ",",
@@ -151,35 +152,35 @@ window_summary_desc <- function() {
     on.exit(cursor_set_idle(top))
 
     # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    by_group  <- get_values(f1_widget_y_gr$checkbox)
-    y_var     <- get_selection(f1_widget_y_gr$y)
-    gr_var    <- get_selection(f1_widget_y_gr$gr)
-    rez       <- get_values(f4_results_name)
+    by_group         <- get_values(f1_widget_y_gr$checkbox)
+    y_var            <- get_selection(f1_widget_y_gr$y)
+    gr_var           <- get_selection(f1_widget_y_gr$gr)
+    rez              <- get_values(f4_results_name)
 
     # Numeric output
-    print_num  <- get_values(f2_num_enable)
-    digits_per <- get_values(f2_digits_per)
-    digits_num <- get_values(f2_digits_num)
-    scipen     <- get_values(f2_scipen)
-    big_mark   <- get_big_mark_symbol()
-    verbose    <- get_selection(f2_verbose)
+    print_num        <- get_values(f2_num_enable)
+    digits_per       <- get_values(f2_digits_per)
+    digits_num       <- get_values(f2_digits_num)
+    scipen           <- get_values(f2_scipen)
+    big_mark         <- get_big_mark_symbol()
+    verbose          <- get_selection(f2_verbose)
 
     # Plots
-    use_plot             <- get_values(f2_plot_enable)
-    new_plots_window     <- get_values(f2_plot_opts,      "new_plots_window")
-    use_trendline        <- get_values(f2_plot_trendline, "use_trendline")
-    trendline_on_top     <- get_values(f2_plot_trendline, "trendline_on_top")
-    use_conf_band        <- get_values(f2_plot_conf_band, "use_conf_band")
+    use_plot         <- get_values(f2_plot_enable)
+    new_plots_window <- get_values(f2_plot_opts,      "new_plots_window")
+    use_trendline    <- get_values(f2_plot_trendline, "use_trendline")
+    trendline_on_top <- get_values(f2_plot_trendline, "trendline_on_top")
+    use_conf_band    <- get_values(f2_plot_conf_band, "use_conf_band")
 
-    trendline_type       <- get_selection(f2_trendline_type)
-    conf_band_level      <- get_selection(f2_conf_band_level)
+    trendline_type   <- get_selection(f2_trendline_type)
+    conf_band_level  <- get_selection(f2_conf_band_level)
 
-    pch                  <- get_selection(f2_plot_pch)
-    las                  <- get_lab_direction_las()
+    pch              <- get_selection(f2_plot_pch)
+    las              <- get_lab_direction_las()
 
     # General
-    keep_results         <- get_values(f4_keep_results,  "keep_results")
-    force_options        <- get_values(f2_force_options, "force_options")
+    keep_results     <- get_values(f4_keep_results,  "keep_results")
+    force_options    <- get_values(f2_force_options, "force_options")
 
     # # Not implemented yet
     # conf_level           <- get_values(f2_conf)
@@ -198,9 +199,15 @@ window_summary_desc <- function() {
       }
     }
 
-    if (is_empty_name(rez, parent = top))              {return()}
-    if (is_not_valid_name(rez, parent = top))          {return()}
-    if (forbid_to_replace_object(rez, parent = top)) {return()}
+    if (is_empty_name(rez, parent = top)) {
+      return()
+    }
+    if (is_not_valid_name(rez, parent = top)) {
+      return()
+    }
+    if (forbid_to_replace_object(rez, parent = top)) {
+      return()
+    }
 
 
     all_selected <- c(y_var, gr_var)
@@ -323,7 +330,11 @@ window_summary_desc <- function() {
           }
 
           trendline_on_top_txt <-
-            if (trendline_on_top == FALSE) {", smooth.front = FALSE"} else {""}
+            if (trendline_on_top == FALSE) {
+              ", smooth.front = FALSE"
+            } else {
+              ""
+            }
 
           conf_level_plot_txt <-
             if (isTRUE(use_conf_band)) {
@@ -331,7 +342,7 @@ window_summary_desc <- function() {
                 "Default"        = "",
                 "none"           = ", conf.level = NA",
                 # otherwise
-                str_glue(', conf.level = {conf_band_level}')
+                str_glue(", conf.level = {conf_band_level}")
               )
 
             } else {
@@ -374,7 +385,7 @@ window_summary_desc <- function() {
     } else {
       variables <- str_glue("{y_var}")
       if (any(variables %in% variables_fct() &
-          !variables %in% variables_fct_like_2_lvls())) {
+        !variables %in% variables_fct_like_2_lvls())) {
         opts <- ', ord = "level"'
         # TODO: add possibility to use other options of "ord":
         # "level" by factor levels
@@ -667,7 +678,7 @@ window_summary_desc <- function() {
       "new_plots_window" = str_c(
         "A new window will be created for a new plot. \n",
         "Do not use this option if you want your results in RStudio"
-      ))
+    ))
   )
 
   f2_plot_trendline <- bs_checkboxes(
@@ -776,7 +787,7 @@ window_summary_desc <- function() {
   tkgrid(f2_digits_num$frame, sticky = "e",   padx = 5, pady = 1)
   tkgrid(f2_scipen$frame,     sticky = "e",   padx = 5, pady = 1)
   tkgrid(f2_big_mark$frame,   sticky = "e",   padx = 5, pady = 1)
-  tkgrid(f2_force_options$frame,sticky = "w", padx = 5, pady = c(1, 5))
+  tkgrid(f2_force_options$frame, sticky = "w", padx = 5, pady = c(1, 5))
 
   tkgrid(f2_plot_enable$frame,     sticky = "nwe", padx = c(5, 100))
   tkgrid(f2_plot_sub,              sticky = "nwe")
@@ -869,9 +880,8 @@ window_summary_desc <- function() {
 # Returns only those options that have to be changed.
 # .force = TRUE  -- print options string even if options are not changed
 get_desctools_opts_str <- function(num_digits = 3, per_digits = 1, scipen = 9,
-  big_mark = "", abs_big_mark = big_mark, num_big_mark = big_mark,
-  .force = FALSE)
-{
+    big_mark = "", abs_big_mark = big_mark, num_big_mark = big_mark,
+    .force = FALSE) {
 
   x <- DescTools::Fmt()
   str <- ""
@@ -922,4 +932,3 @@ get_desctools_opts_str <- function(num_digits = 3, per_digits = 1, scipen = 9,
 
   structure(str, class = c("glue", "string"))
 }
-

@@ -93,23 +93,23 @@ window_data_obj_manage <- function() {
 
     obj_names <- get_selection(f1_listbox_y) %>% safe_names()
     if (length(obj_names) < 1) {
-      return
+      return()
     }
     # FIXME: add warning if too many datasets are selected.
 
     str_glue("View({obj_names})") %>%
       str_c(collapse = "\n") %>%
       doItAndPrint()
-
   }
+
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  on_select_all    <- function() {
+  on_select_all <- function() {
     set_selection(f1_listbox_y, sel = 1:get_size(f1_listbox_y))
     buttons_activation()
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  on_rename_obj   <- function() {
+  on_rename_obj <- function() {
     buttons_activation()
 
     # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -117,7 +117,6 @@ window_data_obj_manage <- function() {
     on.exit(cursor_set_idle(top))
 
     rename_object <- function() {
-
       # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       obj_names     <- get_selection(f1_listbox_y)
       new_obj_names <- get_values(text_box_1)
@@ -125,16 +124,20 @@ window_data_obj_manage <- function() {
 
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      if (object_is_not_selected(obj_names, parent = pop_up_window)) {return()}
+      if (object_is_not_selected(obj_names, parent = pop_up_window)) {
+        return()
+      }
 
-      if (is_not_valid_name(new_obj_names, parent = pop_up_window)) {return()}
+      if (is_not_valid_name(new_obj_names, parent = pop_up_window)) {
+        return()
+      }
 
       if (obj_names == new_obj_names) {
         show_error_messages(str_c(
           "The old and the new names are identical. ",
           "To rename the object, you must choose different names."),
-          title = "Choose Another Name",
-          parent = pop_up_window)
+        title = "Choose Another Name",
+        parent = pop_up_window)
         return()
       }
 
@@ -195,10 +198,10 @@ window_data_obj_manage <- function() {
     }
 
     # The next code could be a function
-    parent   = top
-    title    = "Rename Object"
-    ok_label = "Rename"
-    on_ok    = rename_object
+    parent   <- top
+    title    <- "Rename Object"
+    ok_label <- "Rename"
+    on_ok    <- rename_object
 
     # Functions
     close_pop_up_window <- function() {
@@ -207,14 +210,13 @@ window_data_obj_manage <- function() {
     }
 
     # Widget
-    offset = 10
+    offset <- 10
     pop_up_window <- tktoplevel(parent, borderwidth = 10)
     tkwm.title(pop_up_window, title)
 
     position <- str_c(
       "+", tclvalue_int(tkwinfo("pointerx", parent))
-      - floor(tclvalue_int(tkwinfo("reqwidth",  pop_up_window)) / 2)
-      ,
+      - floor(tclvalue_int(tkwinfo("reqwidth",  pop_up_window)) / 2),
       "+", tclvalue_int(tkwinfo("pointery", parent))
       - floor(tclvalue_int(tkwinfo("reqheight", pop_up_window)) / 2) + 25
     )
@@ -243,7 +245,7 @@ window_data_obj_manage <- function() {
       command  = on_ok)
 
     lab_1_1 <- tk_label_blue(pop_up_window, text = "Name: ")
-    lab_1_2 <- tk_label(  pop_up_window, text = get_selection(f1_listbox_y))
+    lab_1_2 <- tk_label(pop_up_window, text = get_selection(f1_listbox_y))
     lab_2_1 <- tk_label_blue(pop_up_window, text = "New name: ")
 
     initlal_name <-
@@ -286,10 +288,17 @@ window_data_obj_manage <- function() {
 
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      if (object_is_not_selected(obj_names, "object", parent = top))   {return()}
+      if (object_is_not_selected(obj_names, "object", parent = top)) {
+        return()
+      }
 
-      if (is_not_valid_name(new_obj_names, parent = top))              {return()}
-      if (forbid_to_replace_object(new_obj_names, parent = top))       {return()}
+      if (is_not_valid_name(new_obj_names, parent = top)) {
+        return()
+      }
+      if (forbid_to_replace_object(new_obj_names, parent = top)) {
+        return()
+      }
+
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       # Deselect active dataset if it should be copied
       # if (isTRUE(any(.ds %in% obj_names))) {active_dataset_0(NULL)}
@@ -333,10 +342,10 @@ window_data_obj_manage <- function() {
     }
 
     # The next code could be a function
-    parent   = top
-    title    = "Duplicate Object"
-    ok_label = "OK"
-    on_ok    = duplicate_object
+    parent   <- top
+    title    <- "Duplicate Object"
+    ok_label <- "OK"
+    on_ok    <- duplicate_object
 
     # Functions
     close_pop_up_window <- function() {
@@ -345,14 +354,13 @@ window_data_obj_manage <- function() {
     }
 
     # Widget
-    offset = 10
+    offset <- 10
     pop_up_window <- tktoplevel(parent, borderwidth = 10)
     tkwm.title(pop_up_window, title)
 
     position <- str_c(
       "+", tclvalue_int(tkwinfo("pointerx", parent))
-      - floor(tclvalue_int(tkwinfo("reqwidth",  pop_up_window)) / 2)
-      ,
+      - floor(tclvalue_int(tkwinfo("reqwidth",  pop_up_window)) / 2),
       "+", tclvalue_int(tkwinfo("pointery", parent))
       - floor(tclvalue_int(tkwinfo("reqheight", pop_up_window)) / 2) + 25
     )
@@ -381,7 +389,7 @@ window_data_obj_manage <- function() {
       command  = on_ok)
 
     lab_1_1 <- tk_label_blue(pop_up_window, text = "Original name: ")
-    lab_1_2 <- tk_label(  pop_up_window, text = get_selection(f1_listbox_y))
+    lab_1_2 <- tk_label(pop_up_window, text = get_selection(f1_listbox_y))
     lab_2_1 <- tk_label_blue(pop_up_window, text = "Name of a copy: ")
 
     initlal_name <-
@@ -423,7 +431,7 @@ window_data_obj_manage <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (object_is_not_selected(obj_names, parent = top))   {
+    if (object_is_not_selected(obj_names, parent = top)) {
       return()
     }
 
@@ -463,7 +471,9 @@ window_data_obj_manage <- function() {
     } else {
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       # Deselect active dataset if it should not be deleted.
-      if (isTRUE(any(.ds %in% obj_names))) {active_dataset_0(NULL)}
+      if (isTRUE(any(.ds %in% obj_names))) {
+        active_dataset_0(NULL)
+      }
 
       # Construct the command ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       command <-

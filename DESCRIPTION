@@ -1,7 +1,7 @@
 Package: RcmdrPlugin.biostat
 Type: Package
-Version: 0.0.70
-Date: 2020-09-23
+Version: 0.0.71
+Date: 2023-04-29
 Title: R Commander Plug-in for Basic Data Management and Analysis Tasks
 Description: An Rcmdr plug-in for the most common data wrangling, visualisation
              and analysis tasks using "tidyverse" family functions as well as
@@ -40,7 +40,7 @@ Authors@R: c(
     person("Peter", "Wolf", role = "ctb"),
     person("Kevin", "Wright", role = "ctb")
     )
-License: GPL-3 + file LICENSE
+License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 ByteCompile: false
@@ -48,15 +48,12 @@ URL:
     https://gegznav.github.io/RcmdrPlugin.biostat/,
     https://github.com/GegznaV/RcmdrPlugin.biostat/
 BugReports: https://github.com/GegznaV/RcmdrPlugin.biostat/issues
-Remotes:
-    GegznaV/RcmdrPlugin.EZR
 Additional_repositories:
   https://mokymai.github.io/download/
 Depends:
     R (>= 3.6.0),
     tcltk,
     tcltk2 (>= 1.2-11),
-    RcmdrPlugin.EZR,
     Rcmdr (>= 2.6-2)
 Imports:
     binom,
@@ -110,6 +107,7 @@ Imports:
 Suggests:
     extrafont,
     knitr,
+    RcmdrPlugin.EZR,
     rmarkdown,
     rvg
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3

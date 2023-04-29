@@ -12,7 +12,6 @@
 #' @export
 #' @keywords internal
 window_variable_gather <- function() {
-
   # Functions --------------------------------------------------------------
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -208,12 +207,12 @@ window_variable_gather <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     command <- str_glue(
-      '## Convert to long-format data frame \n',
-      '{new_dataset} <- \n',
-      '{.ds} %>% \n',
+      "## Convert to long-format data frame \n",
+      "{new_dataset} <- \n",
+      "{.ds} %>% \n",
       'tidyr::gather(key = "{key_colname}", value = "{value_colname}"',
-      '{variables}{opts_text}',
-      ')')
+      "{variables}{opts_text}",
+      ")")
 
     # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Library("tidyverse")
@@ -339,7 +338,7 @@ window_variable_gather <- function() {
     title  = "Options",
     boxes  = c("gather_all", "na_rm", "factor_key", "convert_key"),
     labels = gettext_bs(
-      c(  "Gather all variables",
+      c("Gather all variables",
         "Remove missing values from output",
         "Convert key column to factor",
         "Convert key column to numeric, integer, or logical ")),

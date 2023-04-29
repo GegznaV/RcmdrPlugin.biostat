@@ -28,11 +28,13 @@ initialize_dialog <- defmacro(
       location
     } else {
       pos <- offset + commanderPosition()
-      if (any(pos < 0)) {"-50+50"} else {paste0("+", paste(pos, collapse = "+"))
+      if (any(pos < 0)) {
+        "-50+50"
+      } else {
+        paste0("+", paste(pos, collapse = "+"))
       }
     }
     tkwm.geometry(window, position)
     if (suppress.window.resize.buttons) tkwm.transient(window, parent)
   }
 )
-

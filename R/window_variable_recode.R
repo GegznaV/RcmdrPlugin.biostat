@@ -62,7 +62,7 @@ recode_values_template <- function(x, template = "1") {
       rez <-
         str_glue('"{unique_values}" = ""') %>%
         paste(collapse = "\n") %>%
-        paste('\n',
+        paste("\n",
           '\n.default = ""',
           '\n.missing = ""')
     },
@@ -70,7 +70,7 @@ recode_values_template <- function(x, template = "1") {
       rez <-
         str_glue('"{unique_values}" = ""') %>%
         paste(collapse = "\n") %>%
-        paste('\n',
+        paste("\n",
           '\n.default = ""',
           '\n.missing = ""')
       # %>% align_at_equal()
@@ -79,7 +79,7 @@ recode_values_template <- function(x, template = "1") {
       rez <-
         str_glue('"{unique_values}" = "{unique_values}"') %>%
         paste(collapse = "\n") %>%
-        paste('\n',
+        paste("\n",
           '\n.default = ""',
           '\n.missing = ""')
     },
@@ -87,7 +87,7 @@ recode_values_template <- function(x, template = "1") {
       rez <-
         str_glue('"{unique_values}" = "{unique_values}"') %>%
         paste(collapse = "\n") %>%
-        paste('\n',
+        paste("\n",
           '\n.default = ""',
           '\n.missing = ""')
       # %>% align_at_equal()
@@ -390,9 +390,15 @@ window_variable_recode0 <- function() {
 
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (is_empty_name(name, parent = top))              {return()}
-    if (is_not_valid_name(name, parent = top))          {return()}
-    if (forbid_to_replace_variable(name, parent = top)) {return()}
+    if (is_empty_name(name, parent = top)) {
+      return()
+    }
+    if (is_not_valid_name(name, parent = top)) {
+      return()
+    }
+    if (forbid_to_replace_variable(name, parent = top)) {
+      return()
+    }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     switch(
       recode_into,
@@ -407,7 +413,7 @@ window_variable_recode0 <- function() {
       "other" = {
         recode_fun     <- "dplyr::recode"
         ordered_factor <- ""
-      })
+    })
 
     .ds <- active_dataset()
 
@@ -678,8 +684,8 @@ window_variable_recode0 <- function() {
     variablesFrame,
     fg = getRcmdr("title.color"),
     text = gettext_bs("Name for recoded variable: ")),
-    sticky = "w",
-    pady = c(2, 0))
+  sticky = "w",
+  pady = c(2, 0))
   tkgrid(newVariable, sticky = "w")
 
   tkgrid(
@@ -717,7 +723,7 @@ window_variable_recode0 <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid_text <- function(text = "", frame = examples_frame, fg = "black",
-    sticky = "w", padx = 10, pady = 0, ...) {
+      sticky = "w", padx = 10, pady = 0, ...) {
     tkgrid(tk_label(frame, text = gettext_bs(text), fg = fg),
       sticky = sticky, padx = padx, pady = pady, ...)
   }
@@ -729,8 +735,8 @@ window_variable_recode0 <- function() {
     '\t\t"old value 2" = "new value 2"\n'))
 
   # tkgrid_text('      Example 2:       "old 1" = "new 1", "old 2" = "new 2"\n')
-  tkgrid_text('      .default - a default value for all non-specified values.')
-  tkgrid_text('      .missing - a new explicit value for missing (NA) values.')
+  tkgrid_text("      .default - a default value for all non-specified values.")
+  tkgrid_text("      .missing - a new explicit value for missing (NA) values.")
   # tkgrid_text('      Unmodified recode directives will be removed automatically.')
 
   # if (!is.null(incorrect_expr_msg)) {

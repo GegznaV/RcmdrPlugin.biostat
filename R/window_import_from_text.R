@@ -134,13 +134,17 @@ window_import_from_text <- function() {
       "Custom..."    = as.numeric(get_values(f2_ent_skip)),
       stop("Value '", val, "' is unknown (f2_box_skip)."))
 
-    if (is.na(res)) {0} else {res}
+    if (is.na(res)) {
+      0
+    } else {
+      res
+    }
   }
   get_code_skip <- function() {
     val <- get_selection(f2_box_skip)
     switch(val,
       "Auto" = "",
-      str_c(', skip = ', get_skip())
+      str_c(", skip = ", get_skip())
       # str_c(', skip = "', get_skip(), '"')
     )
   }
@@ -151,7 +155,11 @@ window_import_from_text <- function() {
       Inf
     } else {
       res <- as.numeric(get_values(f2_ent_max))
-      if (is.na(res)) {0} else {res}
+      if (is.na(res)) {
+        0
+      } else {
+        res
+      }
     }
   }
   get_code_nrows <- function() {
@@ -179,7 +187,7 @@ window_import_from_text <- function() {
     val <- get_selection(f2_box_quo)
     switch(val,
       "Double ( \" )" = '"',
-      "Single ( ' )"  = "'" ,
+      "Single ( ' )"  = "'",
       "None"          = "",
       "Custom..."    = get_values(f2_ent_quo),
       stop("Value '", val, "' is unknown (f2_box_quo)."))
@@ -203,7 +211,7 @@ window_import_from_text <- function() {
     val <- get_selection(f2_box_na)
     switch(val,
       "Default" = "",
-      "None"    =  str_c(',\n na.strings = NULL'),
+      "None"    =  str_c(",\n na.strings = NULL"),
       str_c(',\n na.strings = "', get_na_str(), '"')
     )
   }
@@ -227,7 +235,7 @@ window_import_from_text <- function() {
       stop("Value '", val, "' is unknown (f2_box_out)."))
   }
   get_code_output_type <- function() {
-    str_c(',\n data.table = ', get_output_type())
+    str_c(",\n data.table = ", get_output_type())
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -235,7 +243,7 @@ window_import_from_text <- function() {
   get_code_check_names <- function() {
     val <- get_values(f2_opts, "check_names")
     if (isTRUE(val)) {
-      str_c(',\n check.names = ', val)
+      str_c(",\n check.names = ", val)
     } else {
       ""
     }
@@ -244,7 +252,7 @@ window_import_from_text <- function() {
   get_code_stringsAsFactors <- function() {
     val <- get_values(f2_opts, "stringsAsFactors")
     if (isTRUE(val)) {
-      str_c(', stringsAsFactors = ', val)
+      str_c(", stringsAsFactors = ", val)
     } else {
       ""
     }
@@ -253,7 +261,7 @@ window_import_from_text <- function() {
   get_code_logical01 <- function() {
     val <- get_values(f2_opts, "logical01")
     if (isTRUE(val)) {
-      str_c(', logical01 = ', val)
+      str_c(", logical01 = ", val)
     } else {
       ""
     }
@@ -264,14 +272,14 @@ window_import_from_text <- function() {
     if (isTRUE(val)) {
       ""
     } else {
-      str_c(',\n strip.white = ', val)
+      str_c(",\n strip.white = ", val)
     }
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   get_code_blank_lines_skip <- function() {
     val <- get_values(f2_opts, "blank_lines_skip")
     if (isTRUE(val)) {
-      str_c(', blank.lines.skip = ', val)
+      str_c(", blank.lines.skip = ", val)
     } else {
       ""
     }
@@ -280,7 +288,7 @@ window_import_from_text <- function() {
   get_code_fill <- function() {
     val <- get_values(f2_opts, "fill")
     if (isTRUE(val)) {
-      str_c(', fill = ', val)
+      str_c(", fill = ", val)
     } else {
       ""
     }
@@ -433,8 +441,8 @@ window_import_from_text <- function() {
   # @param char_width (integer) Character width (in points). Default is 6.
   # @md
   align_tabs <- function(input = get_input_by_mode(),
-    auto_align_tabs = isTRUE(get_values(f3_tabs_align)), default_stops = "",
-    add_spaces = 2L, char_width = 6L, skip = get_skip()) {
+      auto_align_tabs = isTRUE(get_values(f3_tabs_align)), default_stops = "",
+      add_spaces = 2L, char_width = 6L, skip = get_skip()) {
 
     if (isTRUE(auto_align_tabs)) {
 
@@ -461,7 +469,7 @@ window_import_from_text <- function() {
             input_as_several_str
           }) %>%
           stringr::str_split(., "\t") %>%
-          purrr::map(~str_length(.) + add_spaces)
+          purrr::map(~ str_length(.) + add_spaces)
 
         max_elements <- max(map_dbl(len_list, length))
 
@@ -713,7 +721,7 @@ window_import_from_text <- function() {
     tk_normalize(f3_input)
     tcltk2::tip(f3_input$text) <- str_c(
       "Editable text. \n",
-      'Grey shading represents tabs.'
+      "Grey shading represents tabs."
     )
 
     f3_input$context_menu_fun()
@@ -990,8 +998,8 @@ window_import_from_text <- function() {
         Library("data.table")
 
         command <- str_glue(
-          '## Import data from text file \n',
-          '{new_name} <- data.table::fread(\n',
+          "## Import data from text file \n",
+          "{new_name} <- data.table::fread(\n",
           '"{file_name}"',
           get_code_dec(),
           get_code_sep(),
@@ -1001,8 +1009,8 @@ window_import_from_text <- function() {
           get_code_encoding(),
           get_code_na_str(),
           get_code_quote(),
-          get_code_check_names() ,
-          get_code_stringsAsFactors() ,
+          get_code_check_names(),
+          get_code_stringsAsFactors(),
           get_code_logical01(),
           get_code_strip_white(),
           get_code_blank_lines_skip(),
@@ -1288,17 +1296,17 @@ window_import_from_text <- function() {
   #   dec1  <- c("Auto", "Period ( . )", "Comma ( , )")
   #
   # } else {
-    dec1  <- c("Period ( . )", "Comma ( , )") # "Default"
+  dec1  <- c("Period ( . )", "Comma ( , )") # "Default"
   # }
 
   sep1  <- c("Auto", "Tab ( \\t )", "Comma ( , )", "Semicolon ( ; )",
     "White space ( )", "Vertical bar ( | )", "None", "Custom...")
   nas1  <- c("Default", "Empty", "None",  "NA",  "na", "N/A", "n/a", "#N/A",
     "?", "(?)", "!", "Custom...")
-  quo1  <- c("Double ( \" )", "Single ( \' )", "None", "Custom..." )
+  quo1  <- c("Double ( \" )", "Single ( \' )", "None", "Custom...")
   max1  <- c("All",  "Custom...")
   skip1 <- c("Auto", "Custom...")
-  enc1  <- c( "UTF-8", "Latin-1", "unknown")
+  enc1  <- c("UTF-8", "Latin-1", "unknown")
   head1 <- c("Auto", "No", "Yes")
   out1  <- c("Data frame", "Data table")
 
@@ -1313,23 +1321,33 @@ window_import_from_text <- function() {
 
   f2_box_sep  <- bs_combobox(
     f2, width = 13, values = sep1,  tip = tip_box_sep,
-    selection = 1, on_select = function() {enable_entry("sep", "-", tip_enable, "")})
+    selection = 1, on_select = function() {
+      enable_entry("sep", "-", tip_enable, "")
+    })
 
   f2_box_skip <- bs_combobox(
     f2, width = 13, values = skip1, tip = tip_box_skip,
-    selection = 1, on_select = function() {enable_entry("skip", "0", tip_enable, "")})
+    selection = 1, on_select = function() {
+      enable_entry("skip", "0", tip_enable, "")
+    })
 
   f2_box_max  <- bs_combobox(
     f2, width = 13, values = max1,  tip = tip_box_max,
-    selection = 1, on_select = function() {enable_entry("max",  "0", tip_enable, "")})
+    selection = 1, on_select = function() {
+      enable_entry("max",  "0", tip_enable, "")
+    })
 
   f2_box_na   <- bs_combobox(
     f2, width = 13, values = nas1,  tip = tip_box_na,
-    selection = 1, on_select = function() {enable_entry("na",   "?", tip_enable, "")})
+    selection = 1, on_select = function() {
+      enable_entry("na",   "?", tip_enable, "")
+    })
 
   f2_box_quo  <- bs_combobox(
     f2, width = 13, values = quo1,  tip = tip_box_quo,
-    selection = 1, on_select = function() {enable_entry("quo",  "\"", tip_enable, "")})
+    selection = 1, on_select = function() {
+      enable_entry("quo",  "\"", tip_enable, "")
+    })
 
   f2_box_enc  <- bs_combobox(
     f2, width = 13, values = enc1,  tip = tip_box_enc,
@@ -1341,12 +1359,16 @@ window_import_from_text <- function() {
 
   f2_ent_sep  <- bs_entry(
     f2, width = 4, tip = tip_enable,
-    on_double_click = function() {set_to_custom("sep", "|")},
+    on_double_click = function() {
+      set_to_custom("sep", "|")
+    },
     on_key_release = refresh_dataset_window)
 
   f2_ent_skip <- bs_entry(
     f2, width = 4, tip = tip_enable,
-    on_double_click = function() {set_to_custom("skip", "0")},
+    on_double_click = function() {
+      set_to_custom("skip", "0")
+    },
     on_key_release = refresh_dataset_window,
     validate = "focus",
     validatecommand = validate_pos_int,
@@ -1354,7 +1376,9 @@ window_import_from_text <- function() {
 
   f2_ent_max  <- bs_entry(
     f2, width = 4, tip = tip_enable,
-    on_double_click = function() {set_to_custom("max", "0")},
+    on_double_click = function() {
+      set_to_custom("max", "0")
+    },
     on_key_release = refresh_dataset_window,
     validate = "focus",
     validatecommand = validate_int_0_inf,
@@ -1362,12 +1386,16 @@ window_import_from_text <- function() {
 
   f2_ent_na   <- bs_entry(
     f2, width = 4, tip = tip_enable,
-    on_double_click = function() {set_to_custom("na",   "?")},
+    on_double_click = function() {
+      set_to_custom("na",   "?")
+    },
     on_key_release = refresh_dataset_window)
 
   f2_ent_quo  <- bs_entry(
     f2, width = 4, tip = tip_enable,
-    on_double_click = function() {set_to_custom("quo",  "\"")},
+    on_double_click = function() {
+      set_to_custom("quo",  "\"")
+    },
     on_key_release = refresh_dataset_window)
 
   # Check boxes ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1498,7 +1526,9 @@ window_import_from_text <- function() {
       "Auto-align column positions\n",
       "in 'Input' window when tabs\n",
       "(tabulations) are present."),
-    default_command = function() {align_tabs()}
+    default_command = function() {
+      align_tabs()
+    }
   )
 
   f3_but_paste <- tk2button(
@@ -1542,7 +1572,9 @@ window_import_from_text <- function() {
     # text = "Locale",
     # compound = "right",
     image = "::image::bs_locale",
-    command = function() {window_locale_set_0(parent = top)},
+    command = function() {
+      window_locale_set_0(parent = top)
+    },
     tip = str_c(
       "Change locale. \n",
       "Useful if pasting text results in encoding issues. \n",
@@ -1612,7 +1644,7 @@ window_import_from_text <- function() {
   )
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   list(f2_ent_sep, f2_ent_skip, f2_ent_max, f2_ent_quo, f2_ent_na) %>%
-    purrr::walk(~tk_disable(.))
+    purrr::walk(~ tk_disable(.))
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(f2_opts$frame,
     padx = c(3, 0), pady = c(4, 2), columnspan = 3, sticky = "w")

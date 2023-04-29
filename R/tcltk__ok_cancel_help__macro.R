@@ -32,7 +32,6 @@ ok_cancel_help <- Rcmdr::defmacro(
   after_apply_success_fun = do_nothing, # is applied if onOK() returns TRUE.
   before_cancel_fun = do_nothing,
   expr = {
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Functions that allows parentheses "()" in string with function name.
 
@@ -43,7 +42,11 @@ ok_cancel_help <- Rcmdr::defmacro(
 
     # Make string into form ready to evaluate as function
     make_ready_to_eval <- function(str) {
-      if (str_detect(str, "\\(")) {str} else {str_c(str, "()")}
+      if (str_detect(str, "\\(")) {
+        str
+      } else {
+        str_c(str, "()")
+      }
     }
 
     if (!is.null(reset)) {
@@ -64,9 +67,9 @@ ok_cancel_help <- Rcmdr::defmacro(
     button.strings <- c(
       gettext_bs(ok_label),
       gettext_bs("Cancel"),
-      if (use_help_button)           gettext_bs("Help"),
+      if (use_help_button) gettext_bs("Help"),
       if (!is.null(reset) && memory) gettext_bs(reset_label),
-      if (!is.null(apply))           gettext_bs(apply_label)
+      if (!is.null(apply)) gettext_bs(apply_label)
     )
 
     width <- max(nchar(gettext_bs(button.strings)))

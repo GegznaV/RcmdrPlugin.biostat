@@ -12,7 +12,8 @@ bs_checkboxes(
   values = NULL,
   default_value = "0",
   commands = list(),
-  default_command = function() { },
+  default_command = function() {
+ },
   tips = list(),
   default_tip = "",
   border = FALSE,
@@ -30,11 +31,13 @@ bs_checkboxes(
 
 \item{title}{Title for the set of checkboxes.}
 
-\item{values}{A vector of values ("0" or "1"). Overrides the `default_value`.}
+\item{values}{A vector of values ("0" or "1").
+Overrides the `default_value`.}
 
 \item{default_value}{(string) Default value ("0" or "1").}
 
-\item{commands}{A named list of commands (functions) for checkbox. The names must match the values of "boxes".}
+\item{commands}{A named list of commands (functions) for checkbox.
+The names must match the values of "boxes".}
 
 \item{default_command}{(function) A default command.}
 
@@ -49,7 +52,8 @@ The names must match the values of "boxes".}
 
 \item{sticky_buttons}{(string) `sticky` option for buttons.}
 
-\item{sticky_title}{(string) `sticky` option for title (if no border is used).}
+\item{sticky_title}{(string) `sticky` option for title
+(if no border is used).}
 }
 \value{
 A named list with fields `frame` (frame with the checkboxes),
@@ -64,33 +68,32 @@ Checkboxes widget with command functions and tips when mouse is over the box.
 
 library(RcmdrPlugin.biostat)
 
-top <- tcltk::tktoplevel()
+ top <- tcltk::tktoplevel()
 
-boxes_1 <- bs_checkboxes(top, c("A", "B", "C"))
-tcltk::tkgrid(boxes_1$frame)
-
-
-top <- tcltk::tktoplevel()
-boxes_2 <- bs_checkboxes(top, boxes = c("A", "B", "C"), border = TRUE)
-tcltk::tkgrid(boxes_2$frame)
+ boxes_1 <- bs_checkboxes(top, c("A", "B", "C"))
+ tcltk::tkgrid(boxes_1$frame)
 
 
-top <- tcltk::tktoplevel()
-boxes_3 <- bs_checkboxes(top, c("A", "B", "C"),
-                        layout = "h", title = "Buttons")
-tcltk::tkgrid(boxes_3$frame)
+ top <- tcltk::tktoplevel()
+ boxes_2 <- bs_checkboxes(top, boxes = c("A", "B", "C"), border = TRUE)
+ tcltk::tkgrid(boxes_2$frame)
 
 
-set_values(boxes_3, B = TRUE, C = TRUE)
+ top <- tcltk::tktoplevel()
+ boxes_3 <- bs_checkboxes(top, c("A", "B", "C"),
+   layout = "h", title = "Buttons")
+ tcltk::tkgrid(boxes_3$frame)
 
-new_vals <- c(A = TRUE, B = FALSE)
-set_values(boxes_3, new_vals)
+
+ set_values(boxes_3, B = TRUE, C = TRUE)
+
+ new_vals <- c(A = TRUE, B = FALSE)
+ set_values(boxes_3, new_vals)
 
 
-get_values(boxes_3)
-get_values(boxes_3, "B")
-get_values(boxes_3, simplify = FALSE)
-
+ get_values(boxes_3)
+ get_values(boxes_3, "B")
+ get_values(boxes_3, simplify = FALSE)
 
 }}
 }

@@ -6,17 +6,21 @@ template:
   params:
     bootswatch: sandstone
 
-navbar:
-  title: "RcmdrPlugin.biostat | R package"
-  type: default
-  left:
-  - icon: fa-home fa-lg
-    href: /index.html
-#  - text: Functions
-#    href: reference/index.html
-#  - text: Turorials and Examples
-#    href: articles/index.html
-  right:
-  - icon: fa-github fa-lg
-    href: https://github.com/GegznaV/RcmdrPlugin.biostat
+development:
+  mode: auto
 
+navbar:
+  type: default
+  structure:
+    left:  [version, home, reference, news]
+    # left:  [version, home, intro, articles, tutorials, reference, news]
+    right: [github]
+  components:
+    version:
+      icon: fa-book
+      menu:
+      - text: "Documentation:"
+      - text: Released version
+        href: https://gegznav.github.io/RcmdrPlugin.biostat/
+      - text: In-development version
+        href: https://gegznav.github.io/RcmdrPlugin.biostat/dev/

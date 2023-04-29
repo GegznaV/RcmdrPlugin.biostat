@@ -79,7 +79,7 @@ tk_get_state.default <- function(obj, ...) {
 #' @keywords internal
 #' @export
 tk_set_default_enabled_state.default <- function(obj,
-  state = c("active", "normal", "readonly"), ...) {
+    state = c("active", "normal", "readonly"), ...) {
 
   state <- match.arg(state)
   obj$default_enabled_state <- state
@@ -143,7 +143,9 @@ tk_xview.default <- function(obj, ind, ...) {
 #' @keywords internal
 #' @export
 tclvalue_lgl <- function(x) {
-  if (inherits(x, "tclVar")) {x <- tclObj(x)}
+  if (inherits(x, "tclVar")) {
+    x <- tclObj(x)
+  }
   # as.logical(as.integer(tclvalue(x)))
   as.logical(tclvalue_int(x))
 }
@@ -153,7 +155,9 @@ tclvalue_lgl <- function(x) {
 #' @keywords internal
 #' @export
 tclvalue_int <- function(x) {
-  if (inherits(x, "tclVar")) {x <- tclObj(x)}
+  if (inherits(x, "tclVar")) {
+    x <- tclObj(x)
+  }
   # as.integer(tclvalue(x))
   as.integer(as.character(x))
 }
@@ -169,9 +173,13 @@ tclvalue_int <- function(x) {
 #' @md
 tclvalue_chr <- function(x, trim = TRUE, ...) {
   # FIXME: Check if this function works as expected
-  if (inherits(x, "tclVar")) {x <- tclObj(x)}
+  if (inherits(x, "tclVar")) {
+    x <- tclObj(x)
+  }
   rez <- as.character(tclvalue(x))
-  if (isTRUE(trim)) {rez <- trimws(rez, ...)}
+  if (isTRUE(trim)) {
+    rez <- trimws(rez, ...)
+  }
   unname(rez)
 }
 

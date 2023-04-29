@@ -50,7 +50,6 @@ list_packages <- function(which = c("loaded", "installed"), decreasing = FALSE, 
 #' @examples
 #' get_n_datasets("datasets")
 #' get_n_datasets("purrr")
-
 get_n_datasets <- function(package) {
   ds_in_pkg <- data(package = package)$results
   nrow(ds_in_pkg)
@@ -91,9 +90,7 @@ get_obj_dims <- function(obj, x_symbol = " \u00D7 ") {
 #'
 #' @examples
 #' get_ds_info("datasets::iris")
-
 get_ds_info <- function(str) {
-
   # ds <- eval(parse(text = str))
   ds <- get_ds_data(str)
 
@@ -126,7 +123,6 @@ get_ds_info <- function(str) {
 #'
 #' str <- "datasets::BOD"
 #' get_ds_data(str)
-
 get_ds_data <- function(str) {
   ds <- try(eval(parse(text = str)), silent = TRUE)
 
@@ -166,35 +162,33 @@ get_ds_data <- function(str) {
 #' get_ds_info_2("datasets::iris")
 #' get_ds_info_2("BOD")
 #'
-
-
 get_ds_info_2 <- function(str) {
 
   ds <- get_ds_data(str)
 
-  ds_size = get_obj_dims(ds)
+  ds_size <- get_obj_dims(ds)
 
   if (is.data.frame(ds)) {
-    n_variables = ncol(ds)
-    n_numeric   = sum(purrr::map_int(ds, is.numeric))
-    n_factor    = sum(purrr::map_int(ds, is.factor))
-    n_logical   = sum(purrr::map_int(ds, is.logical))
-    n_character = sum(purrr::map_int(ds, is.character))
-    n_other     = n_variables - n_character - n_logical - n_factor - n_numeric
+    n_variables <- ncol(ds)
+    n_numeric   <- sum(purrr::map_int(ds, is.numeric))
+    n_factor    <- sum(purrr::map_int(ds, is.factor))
+    n_logical   <- sum(purrr::map_int(ds, is.logical))
+    n_character <- sum(purrr::map_int(ds, is.character))
+    n_other     <- n_variables - n_character - n_logical - n_factor - n_numeric
 
 
   } else {
-    n_variables = n_numeric = n_factor = n_logical = n_character =
-      n_other   = n_variables = NA
+    n_variables <- n_numeric <- n_factor <- n_logical <- n_character <-
+      n_other   <- n_variables <- NA
   }
 
   tibble::tibble(
     size = ds_size,
     is_data_frame = is.data.frame(ds),
     # n_vars = n_variables,
-    n_num   = n_numeric ,
-    n_fct   = n_factor  ,
-    n_lgl   = n_logical ,
+    n_num   = n_numeric,
+    n_fct   = n_factor,
+    n_lgl   = n_logical,
     n_chr   = n_character,
     n_other = n_other,
     class   = str_c(class(ds), collapse = ", ")
@@ -210,9 +204,7 @@ get_ds_info_2 <- function(str) {
 #'
 #' @examples
 #' get_info_about_datasets("ggplot2")
-
 get_info_about_datasets <- function(package = NULL) {
-
   # library(tidyverse)
   #
   # package  <- "ggplot2"
@@ -226,14 +218,14 @@ get_info_about_datasets <- function(package = NULL) {
 
   res <-
     package %>%
-    purrr::map_dfr(~tibble::as_tibble(data(package = .)$results)) %>%
+    purrr::map_dfr(~ tibble::as_tibble(data(package = .)$results)) %>%
     dplyr::select(-LibPath) %>%
     dplyr::mutate(
       # removes unnecessary information
       Item = stringr::str_trim(stringr::str_replace(Item, " .*$", "")),
       pkg_ds = stringr::str_c(Package, "::", Item),
       code_to_load = stringr::str_glue('data({Item}, package = "{Package}")'),
-      info = purrr::map(pkg_ds, ~purrr::safely(get_ds_info_2)(.)$result)
+      info = purrr::map(pkg_ds, ~ purrr::safely(get_ds_info_2)(.)$result)
     ) %>%
     tidyr::unnest(info) %>%
     dplyr::rename(Dataset = Item) %>%
@@ -271,7 +263,7 @@ get_info_about_datasets <- function(package = NULL) {
 }
 
 list_datasets_in_package <- function(package) {
-  data(package = package)$results[ ,"Item"]
+  data(package = package)$results[, "Item"]
 }
 
 get_ds_info_as_sring <- function(str) {
@@ -286,7 +278,7 @@ get_ds_info_as_sring <- function(str) {
 # get_ds_list(pkgs)
 get_ds_list <- function(pkgs) {
   pkgs %>%
-    purrr::map_dfr(~tibble::as_tibble(data(package = .)$results)) %>%
+    purrr::map_dfr(~ tibble::as_tibble(data(package = .)$results)) %>%
     dplyr::mutate(Item = stringr::str_trim(stringr::str_replace(Item, " .*$", ""))) %>%
     dplyr::pull(Item)
 }

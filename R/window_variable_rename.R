@@ -14,7 +14,9 @@ window_variable_rename <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     n_old_names <- length(old_names)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (variable_is_not_selected(old_names, parent = top)) {return()}
+    if (variable_is_not_selected(old_names, parent = top)) {
+      return()
+    }
 
 
     # if (n_old_names < 1) {
@@ -93,13 +95,13 @@ window_variable_rename <- function() {
       new_names <- safe_names(new_names)
 
       renaming_directives <-
-        str_c(str_glue('{new_names} = {old_names}'), collapse = ", \n")
+        str_c(str_glue("{new_names} = {old_names}"), collapse = ", \n")
 
       command <-
         str_glue("## Rename variables\n",
-          '# new_name = old_name\n\n',
+          "# new_name = old_name\n\n",
           "{.ds} <- {.ds} %>% \n",
-          'dplyr::rename({renaming_directives})') %>%
+          "dplyr::rename({renaming_directives})") %>%
         style_cmd()
 
       result <- justDoIt(command)
@@ -125,7 +127,7 @@ window_variable_rename <- function() {
       assign(valVar, tclVar(""))
       assign(x = paste0("entry", i),
         value =  ttkentry(subdialog, width = "20", textvariable = get(valVar)
-        ))
+      ))
 
       tkgrid(labelRcmdr(subdialog, text = old_names[i]),
         get(paste0("entry", i)),

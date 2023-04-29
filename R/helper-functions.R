@@ -82,8 +82,8 @@ list_objects_of_class <-
         # For data frames
         variable_names <-
           envir %>%
-          dplyr::select({all_variable_names}) %>%
-          dplyr::select_if(~inherits(., class)) %>%
+          dplyr::select({{ all_variable_names }}) %>%
+          dplyr::select_if(~ inherits(., class)) %>%
           names()
 
         return(variable_names)
@@ -94,7 +94,7 @@ list_objects_of_class <-
         variable_names <-
           all_variable_names %>%
           mget(envir = envir) %>%
-          purrr::keep(~inherits(.x, class)) %>%
+          purrr::keep(~ inherits(.x, class)) %>%
           names()
 
         return(variable_names)
@@ -103,7 +103,11 @@ list_objects_of_class <-
   }
 
 make_sorted <- function(vars) {
-  if (getRcmdr("sort.names")) {sort(vars)} else {vars}
+  if (getRcmdr("sort.names")) {
+    sort(vars)
+  } else {
+    vars
+  }
 }
 
 
@@ -210,7 +214,7 @@ variables_dbl <- function() {
 variables_with_unique_values <- function() {
 
   ds <- get_active_ds()
-  not_duplicated_cols <- purrr::map_lgl(ds, ~!any(duplicated(.)))
+  not_duplicated_cols <- purrr::map_lgl(ds, ~ !any(duplicated(.)))
   vars <- names(not_duplicated_cols[not_duplicated_cols == TRUE])
   make_sorted(vars)
 }
@@ -273,10 +277,10 @@ run_in_rstudio <- function(command, ...) {
 # envir_eval  - environment to evaluate in.
 # envir_glue  - environment to glue in.
 str_glue_eval <- function(..., envir = parent.frame(),
-  # .collapse = "\n",
-  .sep = "", .open = "{", .close = "}",
-  envir_eval = envir,
-  envir_glue = envir) {
+    # .collapse = "\n",
+    .sep = "", .open = "{", .close = "}",
+    envir_eval = envir,
+    envir_glue = envir) {
 
   commands_as_text <- stringr::str_glue(...,
     .envir = envir_glue,
@@ -354,7 +358,7 @@ function_not_implemented <- function() {
 
   return()
 
-  x = NULL
+  x <- NULL
   doItAndPrint("## ~~~ Not implemented yet! ~~~\n")
 
   if (is.null(x)) {
@@ -399,7 +403,7 @@ open_online_fun <- function(url) {
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 is_named <- function(x) {
-  any(purrr::map_lgl(names(x), ~!is.null(.)))
+  any(purrr::map_lgl(names(x), ~ !is.null(.)))
 }
 
 # ___ Translate ___ ==========================================================
@@ -453,7 +457,7 @@ logger_error <- function(command = NULL, error_msg = NULL) {
   if (!is.null(command)) {
     logger(str_c("#### START (code with error) ", spaces(50, "-")), rmd = FALSE)
     rez <- logger(str_c(
-      "   #   ", str_split(command,"\n")[[1]], collapse = "\n"),  rmd = FALSE)
+      "   #   ", str_split(command, "\n")[[1]], collapse = "\n"),  rmd = FALSE)
 
     txt <- "-----"
 
@@ -462,9 +466,9 @@ logger_error <- function(command = NULL, error_msg = NULL) {
   }
 
   if (!is.null(error_msg)) {
-    logger(str_c("#### ", txt ," (error message) ", spaces(52, "-")), rmd = FALSE)
+    logger(str_c("#### ", txt, " (error message) ", spaces(52, "-")), rmd = FALSE)
     rez <- logger(str_c(
-      "   #   ", str_split(error_msg,"\n")[[1]], collapse = "\n"),  rmd = FALSE)
+      "   #   ", str_split(error_msg, "\n")[[1]], collapse = "\n"),  rmd = FALSE)
   }
 
   logger(str_c("#### END ", spaces(70, "-")), rmd = FALSE)
@@ -1504,6 +1508,30 @@ active_dataset_not_persent <- function(parent = CommanderWindow()) {
   }
 }
 
+
+# Message box to warn about missing package
+msg_missing_pkg <- function(pkg = "", msg = "", install_log = FALSE,
+                            parent = CommanderWindow()) {
+
+  warning(msg, call. = FALSE)
+
+  if (isTRUE(install_log)) {
+    logger(paste0(
+      '# To install the package, uncomment and use this code:\n',
+      '# install.packages("', pkg,'")'
+    ))
+  }
+
+  tk_messageBox(
+    parent = parent,
+    caption = paste0("Missing Package ", pkg),
+    message = msg,
+    icon = "warning",
+    type = "ok"
+  )
+
+}
+
 # + Class --------------------------------------------------------------------
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1875,7 +1903,7 @@ command_restart_rs_session <- function() {
 #' @export
 #' @keywords internal
 command_rcmdr_close <- function() {
-  ans <- tryCatch(Rcmdr::getRcmdr("ask.to.exit"), error = function(e) {FALSE})
+  ans <- tryCatch(Rcmdr::getRcmdr("ask.to.exit"), error = function(e) FALSE)
   Rcmdr::closeCommander(ask = ans, ask.save = ans)
 }
 
@@ -1885,8 +1913,8 @@ command_rcmdr_close <- function() {
 command_rcmdr_close_and_update_cran <- function() {
   ans <- command_rcmdr_close()
   if (ans != "cancel") {
-    rstudioapi::restartSession(command =
-        'update.packages(checkBuilt = TRUE, ask = "graphics")')
+    rstudioapi::restartSession(
+        command = 'update.packages(checkBuilt = TRUE, ask = "graphics")')
   }
 }
 

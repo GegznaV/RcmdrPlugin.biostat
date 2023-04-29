@@ -59,7 +59,7 @@ to_word <- function() {
     # body_add_break() %>%
 
     body_add_par(value = str_glue("Dataset '{ds_name}'"), style = "table title") %>%
-    body_add_table(value = ds, style = "table_template" ) %>%
+    body_add_table(value = ds, style = "table_template") %>%
     body_end_section_portrait() %>%
     print(doc, target = f_name)
 

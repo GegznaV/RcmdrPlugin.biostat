@@ -96,4 +96,3 @@ command_all_chr_to_fctr <- function() {
 
   command_dataset_refresh()
 }
-

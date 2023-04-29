@@ -38,7 +38,7 @@ tk_label <- function(parent, text = "", ..., fg = NULL) {
 #' @rdname TclTk-labels
 #' @export
 tk_label_blue <- function(parent, text = "", ...,
-  fg = Rcmdr::getRcmdr("title.color")) {
+    fg = Rcmdr::getRcmdr("title.color")) {
 
   tk_label(parent = parent, text = text, ..., fg = fg)
 }
@@ -47,7 +47,7 @@ tk_label_blue <- function(parent, text = "", ...,
 #' @rdname TclTk-labels
 #' @export
 tk_label_red <- function(parent, ..., size = 8, weight = "bold",
-  fg = "darkred") {
+    fg = "darkred") {
   tk_label(parent, text = text, font = tkfont.create(weight = "bold", size = 8),
     ..., fg = fg)
 }
@@ -72,10 +72,10 @@ labeled_frame <- function(parent, label = NULL, ...) {
 #' @export
 #' @keywords internal
 tk_title <- function(parent = top, text = "", pady = c(5, 9),
-  font = tkfont.create(weight = "bold", size = 9),
-  fg = Rcmdr::getRcmdr("title.color"),
-  add_to_grid = TRUE,
-  ...) {
+    font = tkfont.create(weight = "bold", size = 9),
+    fg = Rcmdr::getRcmdr("title.color"),
+    add_to_grid = TRUE,
+    ...) {
 
   lab <- tk_label(parent, text = gettext_bs(text), font = font, fg = fg)
   if (add_to_grid) {
@@ -158,7 +158,7 @@ tcl_get_property <- function(.widget, property) {
 }
 
 # tooltip::tooltip -----------------------------------------------------------
-# .Tcl(str_glue('tooltip::tooltip {button_view0} "View and print data"'))
+# .Tcl(str_glue('tooltip::tooltip {button_inspect0} "Inspect data"'))
 
 
 tcl_obj_exists <- function(tkobj) {

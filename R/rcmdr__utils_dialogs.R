@@ -1,11 +1,11 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Based on funcrion from Rcmdr v 2.5-1
 commander_position <- function() {
-    ID <- CommanderWindow()$ID
-    as.numeric(c(
-        tclvalue(.Tcl(paste("winfo rootx", ID))),
-        tclvalue(.Tcl(paste("winfo rooty", ID)))
-    ))
+  ID <- CommanderWindow()$ID
+  as.numeric(c(
+    tclvalue(.Tcl(paste("winfo rootx", ID))),
+    tclvalue(.Tcl(paste("winfo rooty", ID)))
+  ))
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -45,9 +45,9 @@ dialog_suffix <- defmacro(
     if (use.tabs) {
       for (i in 1:length(tabs)) {
         tkadd(notebook, get(tabs[i]),
-              text = gettextRcmdr(tab.names[i]),
-              padding = 6,
-              sticky = "nsew")
+          text = gettextRcmdr(tab.names[i]),
+          padding = 6,
+          sticky = "nsew")
       }
 
       tkgrid(notebook, sticky = "nsew")
@@ -56,9 +56,9 @@ dialog_suffix <- defmacro(
     if (grid.buttons) tkgrid(buttonsFrame, sticky = "ew")
 
     if (use.tabs &&
-        exists("dialog.values") &&
-        !is.null(dialog.values$initial.tab) &&
-        getRcmdr("restoreTab")) {
+      exists("dialog.values") &&
+      !is.null(dialog.values$initial.tab) &&
+      getRcmdr("restoreTab")) {
 
       tkselect(notebook, dialog.values$initial.tab)
     }
@@ -68,12 +68,12 @@ dialog_suffix <- defmacro(
     tkwm.resizable(window, as.numeric(resizable), as.numeric(resizable))
 
     if (bindReturn)
-        tkbind(window, "<Return>", onOK)
+      tkbind(window, "<Return>", onOK)
 
     tkbind(window, "<Escape>", onCancel)
 
     if (getRcmdr("double.click") && (!preventDoubleClick))
-        tkbind(window, "<Double-ButtonPress-1>", onOK)
+      tkbind(window, "<Double-ButtonPress-1>", onOK)
 
     tkwm.deiconify(window)
 

@@ -1,10 +1,10 @@
 get_filename_to_save <- function(
-  file_name = "",
-  filetypes = "{ {All Files} * }",
-  defaultextension = "",
-  parent = CommanderWindow(),
-  ...
-) {
+    file_name = "",
+    filetypes = "{ {All Files} * }",
+    defaultextension = "",
+    parent = CommanderWindow(),
+    ...
+    ) {
 
   initialfile <- extract_filename(file_name)
   initialdir  <- fs::path_dir(file_name)

@@ -28,7 +28,7 @@ close_all_plots <- function() {
     "yes" = {
       justDoIt("sapply(dev.list(), dev.off)")
       doItAndPrint("## Close all plots \n# sapply(dev.list(), dev.off)")
-    })
+  })
 }
 
 # New plot is drawn in a separare R window for plots
@@ -104,7 +104,7 @@ window_show_colors <- function() {
   command <- style_cmd(str_glue(
     "## This is just an example of code to show colors. \n",
     "## Please write either color names or color codes of inerest: \n\n",
-    'scales::show_col(c({color_names}))'))
+    "scales::show_col(c({color_names}))"))
 
   doItAndPrint(command)
 }
@@ -118,4 +118,3 @@ window_plots_image_digitizer <- function() {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
