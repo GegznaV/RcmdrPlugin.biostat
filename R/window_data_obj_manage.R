@@ -93,7 +93,7 @@ window_data_obj_manage <- function() {
 
     obj_names <- get_selection(f1_listbox_y) %>% safe_names()
     if (length(obj_names) < 1) {
-      return
+      return()
     }
     # FIXME: add warning if too many datasets are selected.
 
