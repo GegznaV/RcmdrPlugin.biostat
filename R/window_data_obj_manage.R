@@ -100,16 +100,16 @@ window_data_obj_manage <- function() {
     str_glue("View({obj_names})") %>%
       str_c(collapse = "\n") %>%
       doItAndPrint()
-
   }
+
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  on_select_all    <- function() {
+  on_select_all <- function() {
     set_selection(f1_listbox_y, sel = 1:get_size(f1_listbox_y))
     buttons_activation()
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  on_rename_obj   <- function() {
+  on_rename_obj <- function() {
     buttons_activation()
 
     # Cursor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
