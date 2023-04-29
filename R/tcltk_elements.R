@@ -158,7 +158,7 @@ tcl_get_property <- function(.widget, property) {
 }
 
 # tooltip::tooltip -----------------------------------------------------------
-# .Tcl(str_glue('tooltip::tooltip {button_view0} "View and print data"'))
+# .Tcl(str_glue('tooltip::tooltip {button_inspect0} "Inspect data"'))
 
 
 tcl_obj_exists <- function(tkobj) {

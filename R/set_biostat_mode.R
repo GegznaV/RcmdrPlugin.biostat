@@ -109,7 +109,7 @@ set_biostat_mode <- function() {
 
   logo            <- sibl[str_detect(img, "(^::image::RlogoIcon$|^::image::bs_r_logo_)")]
   button_edit0    <- sibl[img == "::image::editIcon"]
-  button_view0    <- sibl[img == "::image::viewIcon"]
+  button_inspect0 <- sibl[img == "::image::viewIcon"]
   button_id_data  <- sibl[img %in% c("::image::dataIcon",  "::image::bs_dataset")]
   button_id_model <- sibl[img %in% c("::image::modelIcon", "::image::bs_model")]
   lab_data        <- sibl[txt == gettextRcmdr("   Data set:")]
@@ -119,9 +119,9 @@ set_biostat_mode <- function() {
   tk2tip(button_data,  "Select active data set")
   tk2tip(button_model, "Select active model")
 
-  if (length(button_view0) > 0) {
-    # tkgrid.remove(button_view0)
-    tk2tip(tcl_get_obj_by_id(button_view0), "View active data set")
+  if (length(button_inspect0) > 0) {
+    # tkgrid.remove(button_inspect0)
+    tk2tip(tcl_get_obj_by_id(button_inspect0), "View active data set")
   }
 
   if (length(button_edit0) > 0) {
@@ -167,7 +167,7 @@ set_biostat_mode <- function() {
     command = bs_mode_menu__datasets
   )
 
-  button_view <- tk2button(
+  button_inspect <- tk2button(
     button_set_analysis,
     tip     = "Inspect active data set",
     image   = "::image::viewIcon",
@@ -227,7 +227,7 @@ set_biostat_mode <- function() {
 
   putRcmdr("button_data",         button_data)
   putRcmdr("button_model",        button_model)
-  putRcmdr("button_view0",        button_view0) # FIXME: error if object does not exist
+  putRcmdr("button_inspect0",     button_inspect0) # FIXME: error if object does not exist
   putRcmdr("button_edit0",        button_edit0) # FIXME: error if object does not exist
 
   putRcmdr("buttons_variant",     buttons_variant)
@@ -242,7 +242,7 @@ set_biostat_mode <- function() {
   putRcmdr("button_import",       button_import)
   putRcmdr("button_datasets",     button_datasets)
   putRcmdr("button_export",       button_export)
-  putRcmdr("button_view",         button_view)
+  putRcmdr("button_inspect",      button_inspect)
   putRcmdr("button_summary",      button_summary)
   putRcmdr("button_rows",         button_rows)
   putRcmdr("button_variables",    button_variables)
@@ -293,7 +293,7 @@ set_biostat_mode <- function() {
 
   # Set: analyze
   tkgrid(
-    button_view,
+    button_inspect,
     button_summary,
     button_analysis
   )
@@ -322,7 +322,7 @@ set_biostat_mode <- function() {
   #     button_import,
   #     button_export,
   #     button_datasets,
-  #     button_view,
+  #     button_inspect,
   #     button_rows,
   #     button_variables,
   #     button_summary,
@@ -342,8 +342,8 @@ set_biostat_mode <- function() {
     tkgrid.configure(button_edit0,  pady = c(5, 0))
   }
 
-  if (length(button_view0) > 0) {
-    tkgrid.configure(button_view0,  pady = c(5, 0))
+  if (length(button_inspect0) > 0) {
+    tkgrid.configure(button_inspect0,  pady = c(5, 0))
   }
   tkgrid.configure(lab_model,       padx = c(2, 2),  pady = c(5, 0))
   tkgrid.configure(button_id_model, padx = c(0, 10), pady = c(5, 0))
@@ -388,7 +388,7 @@ set_biostat_mode <- function() {
         command = button_model_opts$orig_command
       )
       if (length(button_edit0) > 0) tkgrid(button_edit0)
-      if (length(button_view0) > 0) tkgrid(button_view0)
+      if (length(button_inspect0) > 0) tkgrid(button_inspect0)
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     set_buttons_bs_fun <- function() {
@@ -411,7 +411,7 @@ set_biostat_mode <- function() {
         command = window_model_select
       )
       if (length(button_edit0) > 0) tkgrid.remove(button_edit0)
-      if (length(button_view0) > 0) tkgrid.remove(button_view0)
+      if (length(button_inspect0) > 0) tkgrid.remove(button_inspect0)
 
       tkgrid(
         button_set_manage,
