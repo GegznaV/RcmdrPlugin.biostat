@@ -302,14 +302,12 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
   print_r_locale  <- tclVar(TRUE)
   print_os_locale <- tclVar(TRUE)
 
-
-  if (.Platform$OS.type == "windows") {
-    locales <- windows_languages
-  } else {
-    locales <- system("locale -a", intern = TRUE)
-  }
-
-  locales <- sort(locales)
+  locales <- tryCatch(
+    system("locale -a", intern = TRUE) %>% sort(),
+    # For older versions where `locale -a` did not work on Windows.
+    # The variable `windows_languages` comes from `sysdata.rda` file.
+    error = function(e) windows_languages
+  )
 
   # Initialize dialog window ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   initialize_dialog(title = gettext_bs("Change R Locale"), parent = parent)
