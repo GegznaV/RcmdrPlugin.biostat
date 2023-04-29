@@ -2,7 +2,7 @@
 
 # . ===========================================================================
 menu	biostat20_menu	topMenu	""	""	""	""
-item	topMenu	cascade	"BioStat"	biostat20_menu	""	""
+item	topMenu	cascade	"BioStat'21"	biostat20_menu	""	""
 
 item	biostat20_menu	command	"Mode: BioStat"  set_biostat_mode 	"!is_biostat_mode()"	""
 
