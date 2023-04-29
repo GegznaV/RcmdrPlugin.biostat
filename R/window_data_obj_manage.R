@@ -128,7 +128,7 @@ window_data_obj_manage <- function() {
         return()
       }
 
-      if (is_not_valid_name(new_obj_names, parent = pop_up_window))
+      if (is_not_valid_name(new_obj_names, parent = pop_up_window)) {
         return()
       }
 
