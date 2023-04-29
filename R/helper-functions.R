@@ -82,7 +82,7 @@ list_objects_of_class <-
         # For data frames
         variable_names <-
           envir %>%
-          dplyr::select({all_variable_names}) %>%
+          dplyr::select({{ all_variable_names }}) %>%
           dplyr::select_if(~ inherits(., class)) %>%
           names()
 
