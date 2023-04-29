@@ -288,10 +288,16 @@ window_data_obj_manage <- function() {
 
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       # Check values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      if (object_is_not_selected(obj_names, "object", parent = top)) return()
+      if (object_is_not_selected(obj_names, "object", parent = top)) {
+        return()
+      }
 
-      if (is_not_valid_name(new_obj_names, parent = top)) return()
-      if (forbid_to_replace_object(new_obj_names, parent = top)) return()
+      if (is_not_valid_name(new_obj_names, parent = top)) {
+        return()
+      }
+      if (forbid_to_replace_object(new_obj_names, parent = top)) {
+        return()
+      }
 
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       # Deselect active dataset if it should be copied
