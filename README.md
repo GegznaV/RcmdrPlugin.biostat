@@ -12,7 +12,7 @@ version](https://img.shields.io/badge/GitHub-v0.0.71-brightgreen.svg)](https://g
 [![R build
 status](https://github.com/GegznaV/RcmdrPlugin.BioStat/workflows/R-CMD-check/badge.svg)](https://github.com/GegznaV/RcmdrPlugin.BioStat/actions)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Documentation](https://img.shields.io/badge/Documentation-2023--04--29-yellowgreen.svg)]()
+[![Documentation](https://img.shields.io/badge/Documentation-2024--02--15-yellowgreen.svg)]()
 <!-- badges: end -->
 
 ------------------------------------------------------------------------
@@ -27,11 +27,13 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 
 <br>
 <center>
-<font color = "red"><b> This package is still experimental.<br> Some
-features may change. </b></font>
-</center>
 
-<br>
+<font color = "red"><b>
+
+This package is still experimental.<br> Some features may change.
+
+</b></font>
+</center>
 
 **RcmdrPlugin.biostat** is an
 [**Rcmdr**](https://CRAN.R-project.org/package=Rcmdr) plug-in for the
@@ -57,7 +59,7 @@ target="_blank">gegznav.github.io/RcmdrPlugin.biostat</a>.
 
 ------------------------------------------------------------------------
 
-## Install the package
+## Install the Package
 
 ### Preparation
 
@@ -75,7 +77,7 @@ form GitHub.
 
 ### Installation (Recommended)
 
-The most convenient way is to install the pacage form CRAN-like
+The most convenient way is to install the package form CRAN-like
 repository:
 
 ``` r
@@ -118,23 +120,9 @@ session before the next installation too.
 > directory manually), restart the current *R* session and try to
 > install again.
 
-<!-- ### Check for updates -->
-<!-- To get the most recent version of **RcmdrPlugin.biostat** and to check if all its dependency packages are installed, use a function from package [**bio**](https://mokymai.github.io/bio/): -->
-<!-- ```{r update-biostat eval=FALSE} -->
-<!-- bio::update_pkg_rcmdr_biostat(upgrade = TRUE) -->
-<!-- ``` -->
-<!-- If you do not have package **bio**, install it: -->
-<!-- ```{r install-bio, eval=FALSE} -->
-<!-- repos <- c("https://mokymai.github.io/download/", getOption("repos")) -->
-<!-- install.packages("bio", repos = repos) -->
-<!-- ``` -->
-<!-- ### Previous versions -->
-<!-- If you need a previous version of the package, read section "[Previous versions of **RcmdrPlugin.biostat**](#previous-versions-of-rcmdrpluginbiostat)" below. -->
-<!-- <br> -->
-
 ------------------------------------------------------------------------
 
-## Load the plug-in
+## Load the Plug-in
 
 The easiest way to load **RcmdrPlugin.biostat** in *BioStat* (green)
 mode is to use RStudio addin:
@@ -201,12 +189,11 @@ only](#notes-for-mac-users-only)”.
 
 When **RcmdrPlugin.biostat** is loaded, you can access its functionality
 through either the *BioStat* button bar (find figure above) or through
-`BioStat'20` menu in the menu bar (shown as `BioStat'19` in the
-example):
+`BioStat` menu in the menu bar (shown as `BioStat'19` in the example):
 
 <img src="https://raw.githubusercontent.com/GegznaV/RcmdrPlugin.biostat/master/inst/etc/fig/03--biostat-plugin-loaded.png" style="display: block; margin: auto;" />
 
-### Turn on *BioStat* (green) mode
+### Turn on *BioStat* (Green) Mode
 
 If you restarted R Commander and “BioStat” menu is present but button
 bar is missing, you may re-enable *BioStat* mode by selecting option
@@ -216,11 +203,11 @@ bar is missing, you may re-enable *BioStat* mode by selecting option
 
 <br>
 
-### Close *BioStat* mode
+### Close *BioStat* Mode
 
 To close this mode, simply restart the *R Commander*:
 
-- R Commander menu bar → BioStat’20 → Session → Restart R Commander
+- R Commander menu bar → BioStat → Session → Restart R Commander
 
 You may use the following command as well:
 
@@ -228,7 +215,7 @@ You may use the following command as well:
 restart_commander()
 ```
 
-### Notes for *Mac* users only
+### Notes for *Mac* Users Only
 
 For *Mac* users, there at least 2 things to pay attention to:
 
@@ -246,59 +233,41 @@ For *Mac* users, there at least 2 things to pay attention to:
     choose an appropriate language (usually English) before opening
     *R*/*RStudio*.
 
-------------------------------------------------------------------------
-
-# The other useful packages
-
-Other useful **Rcmdr** plug-ins:
-
-1.  **RcmdrPlugin.EZR.as.menu** – an *R Commander* plugin for the most
-    common statistical analyses (functionality is the same as in
-    **RcmdrPlugin.EZR**, except that **RcmdrPlugin.EZR.as.menu** creates
-    a separate “EZR” menu in a menu bar and does not reorganize the
-    original **Rcmdr** menus in the menu bar);
-2.  **RcmdrPlugin.KMggplot2** – an *R Commander* plugin for **ggplot2**
-    graphics.
-
-To install these packages, use the following code:
-
-``` r
-# RcmdrPlugin.EZR.as.menu
-remotes::install_github("GegznaV/RcmdrPlugin.EZR", ref = "ezr_as_menu")
-
-# RcmdrPlugin.KMggplot2
-install.packages("RcmdrPlugin.KMggplot2")
-```
-
-After the packages are installed, you can load them programmatically:
-
-``` r
-options(Rcmdr = list(
-  plugins = c(
-    "RcmdrPlugin.KMggplot2",
-    "RcmdrPlugin.EZR.as.menu",
-    "RcmdrPlugin.biostat",
-    NULL
-  ),
-  console.output = FALSE
-))
-
-library(Rcmdr)
-```
-
-If package **Rcmdr** is loaded **and R Commander window is closed**,
-instead of ~~`library(Rcmdr)`~~, use this code **exactly once**:
-
-``` r
-Commander()
-```
+<!-- *** -->
+<!-- # Other Useful Packages {#related-packages} -->
+<!-- Other useful **Rcmdr** plug-ins: -->
+<!-- a. **RcmdrPlugin.EZR.as.menu** -- an *R Commander* plugin for the most common statistical analyses (functionality is the same as in **RcmdrPlugin.EZR**, except that **RcmdrPlugin.EZR.as.menu** creates a separate "EZR" menu in a menu bar and does not reorganize the original **Rcmdr** menus in the menu bar); -->
+<!-- b. **RcmdrPlugin.KMggplot2** -- an *R Commander* plugin for **ggplot2** graphics. -->
+<!-- To install these packages, use the following code: -->
+<!-- ```{r Install other packages, eval=FALSE} -->
+<!-- # RcmdrPlugin.EZR.as.menu -->
+<!-- remotes::install_github("GegznaV/RcmdrPlugin.EZR", ref = "ezr_as_menu") -->
+<!-- # RcmdrPlugin.KMggplot2 -->
+<!-- install.packages("RcmdrPlugin.KMggplot2") -->
+<!-- ``` -->
+<!-- After the packages are installed, you can load them programmatically: -->
+<!-- ```{r eval=FALSE} -->
+<!-- options(Rcmdr = list( -->
+<!--   plugins = c( -->
+<!--     "RcmdrPlugin.KMggplot2", -->
+<!--     "RcmdrPlugin.EZR.as.menu", -->
+<!--     "RcmdrPlugin.biostat", -->
+<!--     NULL -->
+<!--   ), -->
+<!--   console.output = FALSE -->
+<!-- )) -->
+<!-- library(Rcmdr) -->
+<!-- ``` -->
+<!-- If package **Rcmdr** is loaded **and R Commander window is closed**, instead of ~~`library(Rcmdr)`~~, use this code **exactly once**: -->
+<!-- ```{r eval=FALSE} -->
+<!-- Commander() -->
+<!-- ``` -->
 
 # Important
 
 Some functions in the package are based on and modified from functions
-in packages *Rcmdr*<!--, *RcmdrPlugin.KMggplot2*-->, and
-*RcmdrPlugin.EZR*. All of those packages are under the GPL-2/GPL-3
-license.
+in packages *Rcmdr*, and *RcmdrPlugin.EZR*. All of those packages are
+under the GPL-2/GPL-3 license.
 
 ------------------------------------------------------------------------
 
