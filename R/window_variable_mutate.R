@@ -32,7 +32,7 @@ window_variable_mutate <- function() {
 
     word <- str_glue('\\[{gettext_bs("factor")}\\]')
 
-    if (length(grep(word, var)) == 1)
+    if (length(grep(word, var, useBytes = TRUE)) == 1)
       var <- trim.blanks(sub(word, "", var))
 
     tkfocus(f2_entry_expr$obj_text)
