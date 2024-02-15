@@ -32,7 +32,7 @@ window_rows_filter <- function(new_dsname = NULL,
 
     word <- str_glue('\\[{gettext_bs("factor")}\\]')
 
-    if (length(grep(word, var)) == 1)
+    if (length(grep(word, var, useBytes = TRUE)) == 1)
       var <- trim.blanks(sub(word, "", var))
     tkfocus(conditions_field)
 
