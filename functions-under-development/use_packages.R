@@ -14,7 +14,7 @@ use_packages <- function(package, pos = length(search()), rmd = TRUE) {
 
 
     # loaded <- search()
-    # loaded <- loaded[grep("^package:", loaded)]
+    # loaded <- loaded[grep("^package:", loaded, useBytes = TRUE)]
     # loaded <- sub("^package:", "", loaded)
     # if (!getRcmdr("suppress.X11.warnings")) {
     #     messages.connection <- file(open = "w+")
