@@ -86,7 +86,7 @@ window_online_statpages  <- function() {
 #' @export
 #' @keywords internal
 window_online_image_digitizer  <- function() {
-  open_online_tool("https://apps.automeris.io/wpd/")
+  open_online_tool("https://apps.automeris.io/wpd4/")
 }
 
 #' @rdname Menu-window-functions
