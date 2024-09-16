@@ -2,11 +2,22 @@
 % Please edit documentation in R/01_package.R
 \docType{package}
 \name{RcmdrPlugin.biostat}
+\alias{RcmdrPlugin.biostat-package}
 \alias{RcmdrPlugin.biostat}
 \title{R Commander Plug-in for Basic Data Management and Analysis Tasks}
 \description{
 \pkg{RcmdrPlugin.biostat} is an
 \href{\pkg{Rcmdr}}{https://CRAN.R-project.org/package=Rcmdr}
-plug-in for the most common data wrangling, visualisation and analysis tasks
+plug-in for the most common data wrangling, visualization and analysis tasks
 using "tidyverse" family functions as well as functions from other packages.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://gegznav.github.io/RcmdrPlugin.biostat/}
+  \item \url{https://github.com/GegznaV/RcmdrPlugin.biostat/}
+  \item Report bugs at \url{https://github.com/GegznaV/RcmdrPlugin.biostat/issues}
+}
+
+}
+\keyword{internal}

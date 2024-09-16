@@ -44,12 +44,16 @@ An *R Commander* Plugin for Basic (Bio)Statistical Routines
 R Commander Plug-in for Basic Data Management and Analysis Tasks {#intro}
 ==============================================================================
 
+
 <br>
 <center><font color = "red"><b>
+
 This package is still experimental.<br>
 Some features may change.
+
 </b></font></center>
-<br>
+
+
 
 **RcmdrPlugin.biostat** is an [**Rcmdr**](https://CRAN.R-project.org/package=Rcmdr) plug-in for the most common data wrangling, visualization, and analysis tasks. 
 It provides so-called *BioStat* (green) mode.
@@ -59,7 +63,6 @@ In this mode, additional button bar appears:
 knitr::include_graphics(paste0(fig_dir, "05--buttons-in-biostat-mode.png"))
 
 CAPTION <- ""
-# Figure caption/description.
 ```
 
 **NOTE:** If an active dataset is not selected, some buttons are shaded in gray and are inactive.
@@ -70,13 +73,12 @@ This **BioStat** mode enables access to menus that use **tidyverse** family func
 
 The documentation is available at [gegznav.github.io/RcmdrPlugin.biostat](https://gegznav.github.io/RcmdrPlugin.biostat){target="_blank"}.
 
-
-
 <br>
+
 
 ***
 
-## Install the package {#install-the-package}
+## Install the Package {#install-the-package}
 
 ### Preparation
 
@@ -88,7 +90,7 @@ It is also recommended to close the current *RStudio* project if you use one.
 
 ### Installation (Recommended)
 
-The most convenient way is to install the pacage form CRAN-like repository:
+The most convenient way is to install the package form CRAN-like repository:
 
 ```{r install-biostat, eval=FALSE}
 repos <- c("https://mokymai.github.io/download/", getOption("repos"))
@@ -123,36 +125,17 @@ It is always recommended to restart *R* session before the next installation too
 Usually, you have to delete the indicated "*00LOCK*" directory (you may use [`pacman::p_unlock()`{.r}](https://trinker.github.io/pacman/p_unlock.html){target="_blank"}, if you have package [**pacman**](https://trinker.github.io/pacman){target="_blank"} installed, or delete the directory manually), restart the current *R* session and try to install again.
 
 
-<!-- ### Check for updates -->
-
-<!-- To get the most recent version of **RcmdrPlugin.biostat** and to check if all its dependency packages are installed, use a function from package [**bio**](https://mokymai.github.io/bio/): -->
-
-<!-- ```{r update-biostat eval=FALSE} -->
-<!-- bio::update_pkg_rcmdr_biostat(upgrade = TRUE) -->
-<!-- ``` -->
-
-<!-- If you do not have package **bio**, install it: -->
-<!-- ```{r install-bio, eval=FALSE} -->
-<!-- repos <- c("https://mokymai.github.io/download/", getOption("repos")) -->
-<!-- install.packages("bio", repos = repos) -->
-<!-- ``` -->
-
-<!-- ### Previous versions -->
-
-<!-- If you need a previous version of the package, read section "[Previous versions of **RcmdrPlugin.biostat**](#previous-versions-of-rcmdrpluginbiostat)" below. -->
-
-<!-- <br> -->
 
 ***
 
-## Load the plug-in {#load}
+## Load the Plug-in {#load}
 
 The easiest way to load **RcmdrPlugin.biostat** in *BioStat* (green) mode is to use RStudio addin:
 
 ```{r fig-00, echo=FALSE, fig.cap=CAPTION}
 knitr::include_graphics(paste0(fig_dir, "00-addin-to-load-biostat-mode.png"))
 
-CAPTION <- "" # Figure caption/description.
+CAPTION <- ""
 ```
 
 Alternatively, use code:
@@ -164,6 +147,9 @@ load_rcmdr_biostat_mode()
 ```
 
 *Mac* users should also read "[Notes for *Mac* users only](#notes-for-mac-users-only)".
+
+
+
 
 <!-- Package **RcmdrPlugin.biostat** can be loaded programmatically or by using menus: -->
 
@@ -236,34 +222,35 @@ load_rcmdr_biostat_mode()
 
 <!-- <br> -->
 
-When **RcmdrPlugin.biostat** is loaded, you can access its functionality through either the *BioStat* button bar (find figure above) or through `BioStat'20` menu in the menu bar (shown as `BioStat'19` in the example):
+
+When **RcmdrPlugin.biostat** is loaded, you can access its functionality through either the *BioStat* button bar (find figure above) or through `BioStat` menu in the menu bar (shown as `BioStat'19` in the example):
 
 ```{r, echo=FALSE, fig.cap=CAPTION}
 knitr::include_graphics(paste0(fig_dir, "03--biostat-plugin-loaded.png"))
 
-CAPTION <- "" # Figure caption/description.
+CAPTION <- ""
 ```
 
 
 
-### Turn on *BioStat* (green) mode {#turn-on-biostat-mode}
+### Turn on *BioStat* (Green) Mode {#turn-on-biostat-mode}
 
 If you restarted R Commander and "BioStat" menu is present but button bar is missing, you may re-enable *BioStat* mode by selecting option "Mode: BioStat":
 
 ```{r, echo=FALSE, fig.cap=CAPTION}
 knitr::include_graphics(paste0(fig_dir, "04--activate-biostat-mode.png"))
 
-CAPTION <- "" # Figure caption/description.
+CAPTION <- ""
 ```
 
 <br>
 
 
-### Close *BioStat* mode {#close-biostat-mode}
+### Close *BioStat* Mode {#close-biostat-mode}
 
 To close this mode, simply restart the *R Commander*: 
 
-* R Commander menu bar → BioStat'20 → Session → Restart R Commander
+* R Commander menu bar → BioStat → Session → Restart R Commander
 
 You may use the following command as well:
 
@@ -272,7 +259,7 @@ restart_commander()
 ```
 
 
-### Notes for *Mac* users only {#notes-for-mac-users-only}
+### Notes for *Mac* Users Only {#notes-for-mac-users-only}
 
 For *Mac* users, there at least 2 things to pay attention to:
 
@@ -285,54 +272,54 @@ This means, that some users might not use numbers if in the chosen language the 
 Because of this, it is recommended to choose an appropriate language (usually English) before opening *R*/*RStudio*.
 
 
-***
+<!-- *** -->
 
 
-# The other useful packages {#related-packages}
+<!-- # Other Useful Packages {#related-packages} -->
 
-Other useful **Rcmdr** plug-ins:
+<!-- Other useful **Rcmdr** plug-ins: -->
 
-a. **RcmdrPlugin.EZR.as.menu** -- an *R Commander* plugin for the most common statistical analyses (functionality is the same as in **RcmdrPlugin.EZR**, except that **RcmdrPlugin.EZR.as.menu** creates a separate "EZR" menu in a menu bar and does not reorganize the original **Rcmdr** menus in the menu bar);
-b. **RcmdrPlugin.KMggplot2** -- an *R Commander* plugin for **ggplot2** graphics.
-
-
-To install these packages, use the following code:
+<!-- a. **RcmdrPlugin.EZR.as.menu** -- an *R Commander* plugin for the most common statistical analyses (functionality is the same as in **RcmdrPlugin.EZR**, except that **RcmdrPlugin.EZR.as.menu** creates a separate "EZR" menu in a menu bar and does not reorganize the original **Rcmdr** menus in the menu bar); -->
+<!-- b. **RcmdrPlugin.KMggplot2** -- an *R Commander* plugin for **ggplot2** graphics. -->
 
 
-```{r Install other packages, eval=FALSE}
-# RcmdrPlugin.EZR.as.menu
-remotes::install_github("GegznaV/RcmdrPlugin.EZR", ref = "ezr_as_menu")
+<!-- To install these packages, use the following code: -->
 
-# RcmdrPlugin.KMggplot2
-install.packages("RcmdrPlugin.KMggplot2")
-```
 
-After the packages are installed, you can load them programmatically:
+<!-- ```{r Install other packages, eval=FALSE} -->
+<!-- # RcmdrPlugin.EZR.as.menu -->
+<!-- remotes::install_github("GegznaV/RcmdrPlugin.EZR", ref = "ezr_as_menu") -->
 
-```{r eval=FALSE}
-options(Rcmdr = list(
-  plugins = c(
-    "RcmdrPlugin.KMggplot2",
-    "RcmdrPlugin.EZR.as.menu",
-    "RcmdrPlugin.biostat",
-    NULL
-  ),
-  console.output = FALSE
-))
+<!-- # RcmdrPlugin.KMggplot2 -->
+<!-- install.packages("RcmdrPlugin.KMggplot2") -->
+<!-- ``` -->
 
-library(Rcmdr)
-```
+<!-- After the packages are installed, you can load them programmatically: -->
 
-If package **Rcmdr** is loaded **and R Commander window is closed**, instead of ~~`library(Rcmdr)`~~, use this code **exactly once**:
+<!-- ```{r eval=FALSE} -->
+<!-- options(Rcmdr = list( -->
+<!--   plugins = c( -->
+<!--     "RcmdrPlugin.KMggplot2", -->
+<!--     "RcmdrPlugin.EZR.as.menu", -->
+<!--     "RcmdrPlugin.biostat", -->
+<!--     NULL -->
+<!--   ), -->
+<!--   console.output = FALSE -->
+<!-- )) -->
 
-```{r eval=FALSE}
-Commander()
-```
+<!-- library(Rcmdr) -->
+<!-- ``` -->
+
+<!-- If package **Rcmdr** is loaded **and R Commander window is closed**, instead of ~~`library(Rcmdr)`~~, use this code **exactly once**: -->
+
+<!-- ```{r eval=FALSE} -->
+<!-- Commander() -->
+<!-- ``` -->
 
 
 # Important
 
-Some functions in the package are based on and modified from functions in packages *Rcmdr*<!--, *RcmdrPlugin.KMggplot2*-->, and *RcmdrPlugin.EZR*.
+Some functions in the package are based on and modified from functions in packages *Rcmdr*, and *RcmdrPlugin.EZR*.
 All of those packages are under the GPL-2/GPL-3 license.
 
 

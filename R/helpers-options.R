@@ -4,7 +4,7 @@
 get_bs_options <- function() {
   .prefix <- "^rcmdr_bs."
   opts <- options()
-  opts <- opts[grepl(.prefix, names(opts))]
+  opts <- opts[grepl(.prefix, names(opts), useBytes = TRUE)]
   names(opts) <- sub(.prefix, "", names(opts))
   opts
 }
