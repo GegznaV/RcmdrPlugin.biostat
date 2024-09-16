@@ -231,7 +231,9 @@ window_import_from_excel <- function() {
           "{{Excel files}          {.xlsx .xls}}
                     {{Excel open XML files}   .xlsx}
                     {{Excel 97-2003 files}    .xls}
-                 {{All Files} *}")))
+                 {{All Files} *}")
+        )
+      )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (filename == "") {
       return()
