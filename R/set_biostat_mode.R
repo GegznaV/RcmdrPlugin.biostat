@@ -532,11 +532,7 @@ set_biostat_mode <- function() {
 #       )
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 set_menu_state <- function(cond) {
-  if (cond) {
-    "normal"
-  } else {
-    "disabled"
-  }
+  if (cond) "normal" else "disabled"
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
