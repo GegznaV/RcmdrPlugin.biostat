@@ -77,15 +77,15 @@ window_rows_rowid_to_col <- function() {
     cmd_position <-
       switch(which_position,
         "first" = str_glue(
-          "%>% \n dplyr::select({new_name}, everything())"),
+          "|> \n dplyr::select({new_name}, everything())"),
         "last" = "")
 
     ds <- get(.ds, envir = globalenv())
-    cmd_ungroup <- if (is_grouped_df(ds)) "ungroup() %>% \n" else ""
+    cmd_ungroup <- if (is_grouped_df(ds)) "ungroup() |> \n" else ""
 
     command <- style_cmd(str_glue(
       "## Add column with row numbers \n",
-      "{.ds} <- {.ds} %>% \n",
+      "{.ds} <- {.ds} |> \n",
       "{cmd_ungroup}",
       "dplyr::mutate({new_name} = 1:n())",
       "{cmd_position}"))

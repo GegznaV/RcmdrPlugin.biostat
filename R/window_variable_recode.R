@@ -60,16 +60,16 @@ recode_values_template <- function(x, template = "1") {
   switch(as.character(template),
     "1" = {
       rez <-
-        str_glue('"{unique_values}" = ""') %>%
-        paste(collapse = "\n") %>%
+        str_glue('"{unique_values}" = ""') |>
+        paste(collapse = "\n") |>
         paste("\n",
           '\n.default = ""',
           '\n.missing = ""')
     },
     "1a" = {
       rez <-
-        str_glue('"{unique_values}" = ""') %>%
-        paste(collapse = "\n") %>%
+        str_glue('"{unique_values}" = ""') |>
+        paste(collapse = "\n") |>
         paste("\n",
           '\n.default = ""',
           '\n.missing = ""')
@@ -77,16 +77,16 @@ recode_values_template <- function(x, template = "1") {
     },
     "2" = {
       rez <-
-        str_glue('"{unique_values}" = "{unique_values}"') %>%
-        paste(collapse = "\n") %>%
+        str_glue('"{unique_values}" = "{unique_values}"') |>
+        paste(collapse = "\n") |>
         paste("\n",
           '\n.default = ""',
           '\n.missing = ""')
     },
     "2a" = {
       rez <-
-        str_glue('"{unique_values}" = "{unique_values}"') %>%
-        paste(collapse = "\n") %>%
+        str_glue('"{unique_values}" = "{unique_values}"') |>
+        paste(collapse = "\n") |>
         paste("\n",
           '\n.default = ""',
           '\n.missing = ""')
@@ -420,7 +420,7 @@ window_variable_recode0 <- function() {
     command <- str_glue(
       "## ", gettext_bs("Recode variable values"), "\n\n",
       "{.ds} <- \n",
-      "   {.ds} %>% \n",
+      "   {.ds} |> \n",
       "   dplyr::mutate(\n",
       "   {name} = {recode_fun}({selected_variable}, \n",
       "   {recode_directives}{ordered_factor}))"

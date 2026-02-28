@@ -315,8 +315,8 @@ window_variable_select <- function(new_dsname = NULL, incorrect_cond_msg = NULL)
 
     command <-
       str_glue("## Select, reorder, or remove variables \n",
-        "{new_dsname} <- {active_dataset()} %>% \n",
-        "dplyr::select({variables})") %>%
+        "{new_dsname} <- {active_dataset()} |> \n",
+        "dplyr::select({variables})") |>
       style_cmd()
 
     result <- doItAndPrint(command)

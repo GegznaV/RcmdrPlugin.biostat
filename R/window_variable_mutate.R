@@ -134,12 +134,12 @@ window_variable_mutate <- function() {
 
       gr_var <- safe_names(gr_var)
       gr_text <- str_c(gr_var, collapse = ", ")
-      cmd_group <- str_glue("group_by({gr_text}) %>% \n", .trim = FALSE)
-      cmd_ungroup <- " %>% \n    ungroup()"
+      cmd_group <- str_glue("group_by({gr_text}) |> \n", .trim = FALSE)
+      cmd_ungroup <- " |> \n    ungroup()"
 
     } else {
       ds <- get(.ds, envir = globalenv())
-      cmd_group <- if (dplyr::is_grouped_df(ds)) "ungroup() %>% \n" else ""
+      cmd_group <- if (dplyr::is_grouped_df(ds)) "ungroup() |> \n" else ""
 
       cmd_ungroup <- ""
     }
@@ -147,7 +147,7 @@ window_variable_mutate <- function() {
     command <- str_glue(
       "## Computed variable: {new_name}\n",
       "{.ds} <- \n",
-      "    {.ds} %>% \n",
+      "    {.ds} |> \n",
       "    {cmd_group}",
       "    mutate({new_name} = {express})",
       "{cmd_ungroup}")

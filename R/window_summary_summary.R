@@ -9,7 +9,7 @@ window_summary_summary <- function() {
     str_glue(
       "## The summary of variables in '{.ds}'\n",
       "summary({.ds})"
-    ) %>%
+    ) |>
     style_cmd()
 
   doItAndPrint(command)

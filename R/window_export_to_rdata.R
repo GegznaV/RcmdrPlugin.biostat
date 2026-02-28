@@ -37,7 +37,7 @@ window_export_to_rdata_0 <- function(ds_name = active_dataset()) {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   command <- str_glue(
     "## Save data to R-data file\n",
-    'save({.ds}, file = "{file_name}")') %>%
+    'save({.ds}, file = "{file_name}")') |>
     style_cmd()
 
   doItAndPrint(command)

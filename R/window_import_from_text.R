@@ -300,7 +300,7 @@ window_import_from_text <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Open file select dialogue
   get_path_to_file <- function() {
-    initialdir <- read_path_to_file() %>% fs::path_dir()
+    initialdir <- read_path_to_file() |> fs::path_dir()
 
     if (initialdir %in% c("", ".") || !fs::dir_exists(initialdir)) {
       initialdir <- getwd()
@@ -402,7 +402,7 @@ window_import_from_text <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   read_input_window <- function() {
-    get_values(f3_input) %>% str_c("\n")
+    get_values(f3_input) |> str_c("\n")
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   write_input_window <- function(contents, ...) {
@@ -453,9 +453,9 @@ window_import_from_text <- function() {
         input_as_several_str <-
           if (length(input) == 1) {
 
-            input %>%
-              str_trim() %>%
-              stringr::str_split("\n") %>%
+            input |>
+              str_trim() |>
+              stringr::str_split("\n") |>
               purrr::pluck(1)
 
           } else {
@@ -467,16 +467,16 @@ window_import_from_text <- function() {
             input_as_several_str[-(0:skip)]
           } else {
             input_as_several_str
-          }) %>%
-          stringr::str_split(., "\t") %>%
+          }) |>
+          stringr::str_split(., "\t") |>
           purrr::map(~ str_length(.) + add_spaces)
 
         max_elements <- max(map_dbl(len_list, length))
 
         tab_n_char <-
-          len_list %>%
+          len_list |>
           # Make vectors of equal length by filling with NA's
-          map(~ .[1:max_elements]) %>%
+          map(~ .[1:max_elements]) |>
           purrr::reduce(pmax, na.rm = TRUE)
 
         tap_positions     <- cumsum(tab_n_char * char_width)
@@ -555,10 +555,10 @@ window_import_from_text <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Format fread error for display
   parse_fread_error <- function(err) {
-    err %>%
-      str_replace("Error in .*\n", "") %>%
-      str_replace("(does not exist)", "\n\\1") %>%
-      str_replace("\\. ", ".\n") %>%
+    err |>
+      str_replace("Error in .*\n", "") |>
+      str_replace("(does not exist)", "\n\\1") |>
+      str_replace("\\. ", ".\n") |>
       str_trim()
   }
 
@@ -571,7 +571,7 @@ window_import_from_text <- function() {
 
     if (inherits(file_contents, "try-error")) {
       err_msg <-
-        file_contents %>%
+        file_contents |>
         str_replace_all(c(
           "Error : " = "Error!\n\nFile: ",
           "does not exist" = "\ndoes not exist",
@@ -652,10 +652,10 @@ window_import_from_text <- function() {
         filename <- read_path_to_file()
         if (filename != "") {
           new_name <-
-            filename %>%
-            fs::path_file() %>%
-            fs::path_ext_remove() %>%
-            clean_str() %>%
+            filename |>
+            fs::path_file() |>
+            fs::path_ext_remove() |>
+            clean_str() |>
             unique_df_name()
 
           set_values(f1_ent_ds_name, new_name)
@@ -1067,7 +1067,7 @@ window_import_from_text <- function() {
         # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         command <-
           c("## Data from clipboard",
-            capture.output(dput(ds_contents)) %>%
+            capture.output(dput(ds_contents)) |>
               str_replace(
                 "structure\\(list\\(",
                 str_c(new_name, " <- structure(list(\n"))
@@ -1643,7 +1643,7 @@ window_import_from_text <- function() {
     padx = c(2, 0)
   )
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  list(f2_ent_sep, f2_ent_skip, f2_ent_max, f2_ent_quo, f2_ent_na) %>%
+  list(f2_ent_sep, f2_ent_skip, f2_ent_max, f2_ent_quo, f2_ent_na) |>
     purrr::walk(~ tk_disable(.))
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(f2_opts$frame,

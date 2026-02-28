@@ -41,9 +41,9 @@ tktag_add <- function(obj, tag, pattern, row_ind = NULL, all = TRUE) {
 
   } else {
     mat <-
-      stringr::str_locate(str, pattern) %>%
-      as.data.frame() %>%
-      dplyr::mutate(row = dplyr::row_number()) %>%
+      stringr::str_locate(str, pattern) |>
+      as.data.frame() |>
+      dplyr::mutate(row = dplyr::row_number()) |>
       dplyr::filter(!is.na(start))
   }
 
@@ -52,8 +52,8 @@ tktag_add <- function(obj, tag, pattern, row_ind = NULL, all = TRUE) {
   }
 
   pos <-
-    mat %>%
-    dplyr::mutate(start = start - 1) %>%
+    mat |>
+    dplyr::mutate(start = start - 1) |>
     dplyr::transmute(
       start = stringr::str_glue("{row}.{start}"),
       end   = stringr::str_glue("{row}.{end}")

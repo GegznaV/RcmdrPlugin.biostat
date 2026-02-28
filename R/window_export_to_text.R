@@ -357,7 +357,7 @@ window_export_to_text <- function() {
     list(
       f1_box_ext,
       f1_ent_file
-    ) %>%
+    ) |>
       walk(tk_read_only)
 
     list(
@@ -366,7 +366,7 @@ window_export_to_text <- function() {
       f1_but_clear,
       f1_but_reset,
       f1_but_f_choose
-    ) %>%
+    ) |>
       walk(tk_normalize)
 
     fg <- Rcmdr::getRcmdr("title.color")
@@ -390,7 +390,7 @@ window_export_to_text <- function() {
       f1_but_clear,
       f1_but_reset,
       f1_but_f_choose
-    ) %>%
+    ) |>
       walk(tk_disable)
 
     tkconfigure(f1_lab_file, foreground = "grey")

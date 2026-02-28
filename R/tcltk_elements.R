@@ -100,7 +100,7 @@ tcl_get_parent <- function(obj) {
 #' @export
 #' @keywords internal
 tcl_get_children_id <- function(obj) {
-  tkwinfo("children", obj) %>% as.character()
+  tkwinfo("children", obj) |> as.character()
   # tkwinfo("children", obj) %>% tclvalue() %>% tcl_str_split()
 }
 

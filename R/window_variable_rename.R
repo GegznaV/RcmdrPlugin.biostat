@@ -100,8 +100,8 @@ window_variable_rename <- function() {
       command <-
         str_glue("## Rename variables\n",
           "# new_name = old_name\n\n",
-          "{.ds} <- {.ds} %>% \n",
-          "dplyr::rename({renaming_directives})") %>%
+          "{.ds} <- {.ds} |> \n",
+          "dplyr::rename({renaming_directives})") |>
         style_cmd()
 
       result <- justDoIt(command)

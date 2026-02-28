@@ -44,7 +44,7 @@ window_num_transform_z <- function() {
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    new_names <- paste0(prefix, variables, suffix) %>% make.names()
+    new_names <- paste0(prefix, variables, suffix) |> make.names()
 
     # Chech for errors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     for (i in seq_along(variables)) {
@@ -80,14 +80,14 @@ window_num_transform_z <- function() {
 
     command <- paste0(
       c("\n",
-        str_glue("{.ds} <- {.ds} %>% \n",
+        str_glue("{.ds} <- {.ds} |> \n",
           "dplyr::mutate(\n"),
         paste(
           str_glue("   {new_names} = as.vector(scale({variables})) "),
           collapse = ",\n"),
         ")\n"
       ),
-      collapse = "\n") %>%
+      collapse = "\n") |>
       style_cmd()
 
     result <- justDoIt(command)

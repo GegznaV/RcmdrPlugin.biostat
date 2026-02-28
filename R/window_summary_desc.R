@@ -927,7 +927,7 @@ get_desctools_opts_str <- function(num_digits = 3, per_digits = 1, scipen = 9,
   }
 
   if (str_detect(str, "Fmt|options")) {
-    str <- str %>% style_cmd() %>% str_c("\n")
+    str <- str |> style_cmd() |> str_c("\n")
   }
 
   structure(str, class = c("glue", "string"))

@@ -149,8 +149,8 @@ window_rows_filter <- function(new_dsname = NULL,
     Library("dplyr")
     command <- str_glue(
       "## Select rows that match conditions \n",
-      "{new_dsname} <- {active_dataset()} %>% \n",
-      "dplyr::filter({conditions})") %>%
+      "{new_dsname} <- {active_dataset()} |> \n",
+      "dplyr::filter({conditions})") |>
       style_cmd()
 
     result <- justDoIt(command)

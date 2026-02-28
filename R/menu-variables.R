@@ -31,9 +31,9 @@ command_clean_names <- function() {
   command <-
     str_glue(
       "## Clean names (to sanke case)\n",
-      "{.ds} <- {.ds} %>% \n",
+      "{.ds} <- {.ds} |> \n",
       'janitor::clean_names(case = "snake")'
-    ) %>%
+    ) |>
     style_cmd()
 
   doItAndPrint(command)
@@ -87,9 +87,9 @@ command_all_chr_to_fctr <- function() {
   command <-
     str_glue(
       "## Convert all text variables to factor variables\n",
-      "{.ds} <- {.ds} %>% \n",
       "dplyr::mutate_if(is.character, forcats::as_factor)"
-    ) %>%
+      "{.ds} <- {.ds} |> \n",
+    ) |>
     style_cmd()
 
   doItAndPrint(command)

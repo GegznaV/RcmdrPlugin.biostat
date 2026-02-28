@@ -7,7 +7,7 @@ window_import_from_rds <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Open file select dialogue
   get_path_to_file <- function() {
-    initialdir <- read_path_to_file() %>% fs::path_dir()
+    initialdir <- read_path_to_file() |> fs::path_dir()
 
     if (initialdir %in% c("", ".") || !fs::dir_exists(initialdir)) {
       initialdir <- getwd()
@@ -74,10 +74,10 @@ window_import_from_rds <- function() {
 
     if (filename != "") {
       new_name <-
-        filename %>%
-        fs::path_file() %>%
-        fs::path_ext_remove() %>%
-        clean_str() %>%
+        filename |>
+        fs::path_file() |>
+        fs::path_ext_remove() |>
+        clean_str() |>
         unique_df_name()
 
     } else {

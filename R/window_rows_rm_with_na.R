@@ -104,7 +104,7 @@ window_rows_rm_with_na <- function() {
         "search_all.any_na" = {
           str_glue(
             "## {prepare_lab(label_all_vars_any_na)}\n",
-            "{new_name} <- {.ds} %>% tidyr::drop_na()"
+            "{new_name} <- {.ds} |> tidyr::drop_na()"
           )
         },
 
@@ -121,7 +121,7 @@ window_rows_rm_with_na <- function() {
           str_glue(
             "## {prepare_lab(label_selected_vars_any_na)}\n",
             "{new_name} <- \n",
-            "  {.ds} %>% \n ",
+            "  {.ds} |> \n ",
             "  tidyr::drop_na({vars_y_txt})"
           )
         },
@@ -130,8 +130,8 @@ window_rows_rm_with_na <- function() {
           str_glue(
             "## {prepare_lab(label_selected_vars_all_na)}\n",
             "{new_name} <- \n",
-            "  {.ds} %>% \n ",
             "  filter_at(vars({vars_y_txt}), any_vars(!is.na(.)))"
+            "  {.ds} |> \n ",
           )
         }
       )
@@ -252,8 +252,8 @@ window_rows_rm_with_na <- function() {
 
   # Name
   init_name <-
-    str_c(.ds, "_rm_na_rows") %>%
-    str_trunc(50, ellipsis = "") %>%
+    str_c(.ds, "_rm_na_rows") |>
+    str_trunc(50, ellipsis = "") |>
     unique_obj_names()
 
   name_box <- bs_entry(

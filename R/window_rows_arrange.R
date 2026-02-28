@@ -60,7 +60,7 @@ window_rows_arrange <- function() {
 
     command <- str_glue(
       "## Sort rows \n",
-      "{new_dsname} <- {.ds} %>% \n",
+      "{new_dsname} <- {.ds} |> \n",
       "dplyr::arrange({variables})")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

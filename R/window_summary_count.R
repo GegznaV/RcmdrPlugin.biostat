@@ -310,18 +310,18 @@ window_summary_count <- function() {
     my_table <- unique_obj_names("table", all_numbered = TRUE)
     command1 <-
       str_glue("## Frequency table / Multi-way table\n",
-        "{my_table} <- {.ds} %>% \n",
+        "{my_table} <- {.ds} |> \n",
         'with(table({all_vars}, useNA = "ifany"))\n',
         as_df_command,
         "print({model_name})\n",
-        keep_model_command) %>%
+        keep_model_command) |>
       style_cmd()
 
     command2 <-
       str_glue(chisq_cmd,
         fisher_cmd,
         assoc_cmd,
-        "remove({my_table})") %>%
+        "remove({my_table})") |>
       style_cmd()
 
     doItAndPrint(command1)

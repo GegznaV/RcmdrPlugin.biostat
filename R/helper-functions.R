@@ -81,9 +81,9 @@ list_objects_of_class <-
       if (is.data.frame(envir)) {
         # For data frames
         variable_names <-
-          envir %>%
-          dplyr::select({{ all_variable_names }}) %>%
-          dplyr::select_if(~ inherits(., class)) %>%
+          envir |>
+          dplyr::select({{ all_variable_names }}) |>
+          dplyr::select(where(~ inherits(., class))) |>
           names()
 
         return(variable_names)
@@ -92,9 +92,9 @@ list_objects_of_class <-
         # For envirenments, lists, etc.
         envir <- as.environment(envir)
         variable_names <-
-          all_variable_names %>%
-          mget(envir = envir) %>%
-          purrr::keep(~ inherits(.x, class)) %>%
+          all_variable_names |>
+          mget(envir = envir) |>
+          purrr::keep(~ inherits(.x, class)) |>
           names()
 
         return(variable_names)
@@ -761,10 +761,10 @@ unique_file_name <- function(name = "file", # all names are converted to lower c
       c(list_of_choices, initial_names)
     }
 
-  list_to_check %>%
-    str_to_lower() %>%
-    make.unique(sep = "_") %>%
-    tail(n = n_names) %>%
+  list_to_check |>
+    str_to_lower() |>
+    make.unique(sep = "_") |>
+    tail(n = n_names) |>
     set_multi_ext(ext)
 }
 
@@ -807,10 +807,10 @@ unique_file_name_2 <- function(name = "file", # all names are converted to lower
       c(list_of_choices, initial_names)
     }
 
-  list_to_check %>%
-    str_to_lower() %>%
-    make.unique(sep = "_") %>%
-    tail(n = n_names) %>%
+  list_to_check |>
+    str_to_lower() |>
+    make.unique(sep = "_") |>
+    tail(n = n_names) |>
     set_multi_ext(ext)
 }
 
@@ -889,7 +889,7 @@ path_truncate <- function(path, max_length = 30) {
   } else {
     path_parts <- str_split(path, "/")[[1]]
     last_ind <- length(path_parts)
-    legths <- path_parts %>% map_int(str_length)
+    legths <- path_parts |> map_int(str_length)
     lengths2 <-
       cumsum(c(legths[last_ind], legths[-last_ind])) + 5 # 5 is length of " ... "
     add_parts <- max(which(lengths2 <= max_length)) - 1    # -1 is minus the last one
@@ -911,7 +911,7 @@ path_truncate <- function(path, max_length = 30) {
 #' @keywords internal
 #' @export
 extract_filename <- function(str) {
-  str %>% fs::path_file() %>% fs::path_ext_remove()
+  str |> fs::path_file() |> fs::path_ext_remove()
   # sub("(.*\\/)([^.]+)(\\.[[:alnum:]]+$)", "\\2", str)
 }
 
@@ -1030,7 +1030,7 @@ get_system_info <- function() {
       # For Windows: get information about Windows.
       # Administrator password may be required.
       biostat_env$systeminfo <-
-        shell("systeminfo", intern = TRUE) %>%
+        shell("systeminfo", intern = TRUE) |>
         structure(class = c("glue", "character"))
 
     } else {

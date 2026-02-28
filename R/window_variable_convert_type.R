@@ -218,11 +218,11 @@ window_variable_convert_type <- function() {
 
     command <-
       if (length(tans_txt) == 1) {
-        str_glue("{.ds} <- {.ds} %>%\n",
+        str_glue("{.ds} <- {.ds} |>\n",
           "dplyr::mutate({tans_txt})\n")
 
       } else {
-        str_glue("{.ds} <- {.ds} %>%\n",
+        str_glue("{.ds} <- {.ds} |>\n",
           'dplyr::mutate(\n{paste0(tans_txt, collapse = ",\n")}\n',
           ")\n")
       }

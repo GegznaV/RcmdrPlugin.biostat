@@ -440,7 +440,7 @@ window_test_normality <- function() {
           "    {qq_points_code}",
           "    {facet_code}",
           "    labs({lab_args_code}) + ",
-          "    theme_bw()") %>%
+          "    theme_bw()") |>
         str_replace_all("((\n)?    \n( )*?\n|\n\n|\n    \n)", "\n")
 
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -488,7 +488,7 @@ window_test_normality <- function() {
 
 
       single_test_code <-
-        str_glue(".${y_var} %>% {perform_test_code} %>% broom::tidy()")
+        str_glue(".${y_var} |> {perform_test_code} |> broom::tidy()")
       # str_glue("(.) %>% pull({y_var}) %>% {perform_test_code} %>% broom::tidy()")
       # str_glue(".${y_var} %>% {test_function}({chi_sq_params}) %>% broom::tidy()")
       # str_glue("broom::tidy({test_function}(.${y_var}{chi_sq_params}))")
@@ -498,7 +498,7 @@ window_test_normality <- function() {
       main_test_code <-
         if (by_group) {
           str_glue(
-            "group_by({gr_var_str}) %>% \n",
+            "group_by({gr_var_str}) |> \n",
             "group_modify({new_line} ~ {single_test_code})")
         } else {
           single_test_code
@@ -507,8 +507,8 @@ window_test_normality <- function() {
       print_results_code <-
         if (as_markdown) {
           str_glue(
-            " %>% \n",
-            "  mutate(p.value = scales::pvalue(p.value, accuracy = {accu})) %>% \n",
+            " |> \n",
+            "  mutate(p.value = scales::pvalue(p.value, accuracy = {accu})) |> \n",
             '  knitr::kable(digits = {digits_p}, format = "pandoc")'
           )
 
@@ -528,7 +528,7 @@ window_test_normality <- function() {
       # Command
       command_do_test <- str_glue(
         "## Notmality test \n {empty_htest_obj}",
-        "{results_name} <- \n {.ds} %>%\n",
+        "{results_name} <- \n {.ds} |>\n",
         "    {main_test_code} \n\n",
 
         "## Print the results of the notmality test \n",

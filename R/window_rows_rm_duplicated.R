@@ -68,12 +68,12 @@ window_rows_rm_duplicated <- function() {
 
     if (scope == "search_selected") {
       command_1 <- str_glue(
-        "{new_name} <- {.ds} %>% \n ",
+        "{new_name} <- {.ds} |> \n ",
         "dplyr::distinct({vars_y_txt}, .keep_all = {keep_lgl})")
 
     } else {
       command_1 <- str_glue(
-        "{new_name} <- {.ds} %>% dplyr::distinct()")
+        "{new_name} <- {.ds} |> dplyr::distinct()")
     }
 
     command <- str_glue(
@@ -197,8 +197,8 @@ window_rows_rm_duplicated <- function() {
 
   # Name
   init_name <-
-    str_c(.ds, "_unique_rows") %>%
-    str_trunc(50, ellipsis = "") %>%
+    str_c(.ds, "_unique_rows") |>
+    str_trunc(50, ellipsis = "") |>
     unique_obj_names()
 
   name_box <- bs_entry(

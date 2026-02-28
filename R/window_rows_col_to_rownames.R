@@ -42,7 +42,7 @@ window_rows_col_to_rownames <- function(new_dsname = NULL,
     command <- str_glue(
       "## ", gettext_bs("Move column values to row names"), "\n",
       '{.ds} <- tibble::column_to_rownames({.ds}, var = "{col_name}")'
-    ) %>%
+    ) |>
       style_cmd()
 
     result <- doItAndPrint(command)

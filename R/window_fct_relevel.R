@@ -278,7 +278,7 @@ window_fct_relevel <- function() {
 
     command <- str_glue(
       "## Change order of levels \n",
-      "{new_ds} <- {.ds} %>% \n",
+      "{new_ds} <- {.ds} |> \n",
       " mutate(  \n",
       "   {new_var} = fct_relevel({selected_var}, {new_levels_str}) \n",
       " )"

@@ -18,7 +18,7 @@
 command_get_locale <- function() {
   paste0(
     "## Current locale  \n",
-    "Sys.getlocale()") %>%
+    "Sys.getlocale()") |>
     Rcmdr::doItAndPrint()
 }
 
@@ -148,7 +148,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
     if (isTRUE(tclvalue_lgl(print_r_locale))) {
       paste0(
         "## Current R locale \n",
-        "Sys.getlocale()") %>%
+        "Sys.getlocale()") |>
         Rcmdr::doItAndPrint()
 
       tclvalue(print_r_locale) <- FALSE
@@ -175,11 +175,11 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
         str_c(sep = "\n",
           "## Locale of operating system (OS)",
           "# (NOTE: OS locale cannot be changed from R)",
-          'shell("systeminfo", intern = TRUE) %>%',
-          '  str_subset(regex("(OS Name|locale)", ignore_case = TRUE)) %>%',
-          '  str_remove("( ){11}") %>%',
+          'shell("systeminfo", intern = TRUE) |>',
+          '  str_subset(regex("(OS Name|locale)", ignore_case = TRUE)) |>',
+          '  str_remove("( ){11}") |>',
           '  structure(class = "glue")'
-        ) %>%
+        ) |>
         style_cmd()
 
       doItAndPrint(command)
@@ -303,7 +303,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
   print_os_locale <- tclVar(TRUE)
 
   locales <- tryCatch(
-    system("locale -a", intern = TRUE) %>% sort(),
+    system("locale -a", intern = TRUE) |> sort(),
     # For older versions where `locale -a` did not work on Windows.
     # The variable `windows_languages` comes from `sysdata.rda` file.
     error = function(e) windows_languages

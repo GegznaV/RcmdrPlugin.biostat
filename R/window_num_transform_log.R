@@ -112,7 +112,7 @@ window_num_transform_log <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     .ds <- active_dataset_0()
 
-    new_names <- paste0(prefix, variables, suffix) %>% make.names()
+    new_names <- paste0(prefix, variables, suffix) |> make.names()
 
     # Check if new variable names are not duplicated ~~~~~~~~~~~~~~~~~~~~~~
     for (i in seq_along(variables)) {
@@ -151,11 +151,11 @@ window_num_transform_log <- function() {
         tans_txt <- str_glue("{new_names} = {log_txt}({variables})")
 
         if (length(tans_txt) == 1) {
-          str_glue("{.ds} <- {.ds} %>%\n",
+          str_glue("{.ds} <- {.ds} |>\n",
             "dplyr::mutate({tans_txt})\n")
 
         } else {
-          str_glue("{.ds} <- {.ds} %>%\n",
+          str_glue("{.ds} <- {.ds} |>\n",
             'dplyr::mutate(\n{paste0(tans_txt, collapse = ",\n")}\n',
             ")\n")
         }

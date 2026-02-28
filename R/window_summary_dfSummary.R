@@ -18,7 +18,7 @@ window_summary_dfSummary <- function() {
     str_glue(
       "## The summary of dataset '{.ds}'\n",
       "dfSummary({.ds})"
-    ) %>%
+    ) |>
     style_cmd()
 
   doItAndPrint(command)

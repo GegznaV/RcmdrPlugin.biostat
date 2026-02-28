@@ -106,7 +106,7 @@ window_summary_missings <- function() {
         "# cifnot - complete cases if current variable is removed\n",
         "#    nas - missing values\n",
         "#     _p - percentage\n",
-        "{.ds} %>% \n DescTools::CountCompCases() %>% \n print(digits = 1)")
+        "{.ds} |> \n DescTools::CountCompCases() |> \n print(digits = 1)")
 
       result <- try_command(command_count)
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -174,8 +174,8 @@ window_import_from_excel <- function() {
   get_code_output_type <- function() {
     val <- get_selection(f2_box_out)
     switch(val,
-      "Data frame" = " %>% \n as.data.frame(stringsAsFactors = FALSE)",
-      "Data table" = " %>% \n data.table::as.data.table()",
+      "Data frame" = " |> \n as.data.frame(stringsAsFactors = FALSE)",
+      "Data table" = " |> \n data.table::as.data.table()",
       "Tibble"     = "",
       # "Tibble"     = " %>% \n tibble::as_tibble()",
       stop("Value '", val, "' is unknown (f2_box_out).")
@@ -215,7 +215,7 @@ window_import_from_excel <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Open file select dialogue
   get_path_to_file <- function() {
-    initialdir <- read_path_to_file() %>% fs::path_dir()
+    initialdir <- read_path_to_file() |> fs::path_dir()
 
     if (initialdir %in% c("", ".") || !fs::dir_exists(initialdir)) {
       initialdir <- getwd()
@@ -340,7 +340,7 @@ window_import_from_excel <- function() {
         na           = get_na_str(),
         trim_ws      = get_values(f2_opts, "strip_white"),
         .name_repair = get_name_repair()
-      ) %>%
+      ) |>
         # get_output_type() %>%
         get_stringsAsFactors()
 
@@ -403,10 +403,10 @@ window_import_from_excel <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Format fread error for display
   parse_fread_error <- function(err) {
-    err %>%
-      str_replace("Error in .*\n", "") %>%
-      str_replace("(does not exist)", "\n\\1") %>%
-      str_replace("\\. ", ".\n") %>%
+    err |>
+      str_replace("Error in .*\n", "") |>
+      str_replace("(does not exist)", "\n\\1") |>
+      str_replace("\\. ", ".\n") |>
       str_trim()
   }
 
@@ -461,12 +461,12 @@ window_import_from_excel <- function() {
 
     if (filename != "") {
       new_name <-
-        filename %>%
-        fs::path_file() %>%
-        fs::path_ext_remove() %>%
-        str_c("_", sheetname) %>%
-        clean_str() %>%
-        str_trunc(77, ellipsis = "") %>%
+        filename |>
+        fs::path_file() |>
+        fs::path_ext_remove() |>
+        str_c("_", sheetname) |>
+        clean_str() |>
+        str_trunc(77, ellipsis = "") |>
         unique_df_name()
 
       set_values(f1_ent_ds_name, new_name)

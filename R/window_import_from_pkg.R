@@ -40,7 +40,7 @@ window_import_from_pkg <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   get_loaded_packages <- function() {
-    list_packages(which = "loaded") %>% setdiff(c("base", "stats"))
+    list_packages(which = "loaded") |> setdiff(c("base", "stats"))
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   get_all_installed_packages <- function(force = FALSE) {
@@ -52,7 +52,7 @@ window_import_from_pkg <- function() {
     pkgs_all <- getRcmdr("bs_installed_packages", fail = FALSE)
 
     if (isTRUE(force) || is.null(pkgs_all)) {
-      pkgs_all <- list_packages("installed") %>% setdiff(c("base", "stats"))
+      pkgs_all <- list_packages("installed") |> setdiff(c("base", "stats"))
       putRcmdr("bs_installed_packages", pkgs_all)
     }
     pkgs_all
@@ -106,7 +106,7 @@ window_import_from_pkg <- function() {
         tk_normalize(f2_box_ds)
 
         pkgs <-
-          list_packages(which = "loaded") %>%
+          list_packages(which = "loaded") |>
           setdiff(c("base", "stats"))
 
         set_values(f2_box_pkgs, pkgs)

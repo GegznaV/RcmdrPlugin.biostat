@@ -52,9 +52,8 @@ window_summary_descr <- function() {
     command <- str_glue(
       .trim = FALSE,
       "## The summary of numeric variables\n",
-      "{.ds} %>% ",
-      # "  group_by() %>%",
-      "  select_if(is.numeric) %>%",
+      "{.ds} |> ",
+      "  dplyr::select(where(is.numeric)) |>",
       "  descr(round.digits = 2)"
     )
     doItAndPrint(style_cmd(command))
