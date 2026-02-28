@@ -23,7 +23,7 @@ Oterwise, TRUE is returned.\cr
 \code{is_empty_name} - does not check character validity.
 }
 \examples{
-\dontrun{\donttest{
+\dontrun{
 is_valid_name("a")
 is_valid_name("")
 is_valid_name("|||")
@@ -31,6 +31,6 @@ is_valid_name("|||")
 is_empty_name("a")
 is_empty_name("")
 is_empty_name("|||")
-}}
+}
 }
 \keyword{internal}

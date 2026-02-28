@@ -63,7 +63,7 @@ A named list with fields `frame` (frame with the radiobuttons),
 Radiobuttons widget with command functions and tips when mouse is over the box.
 }
 \examples{
-\dontrun{\donttest{
+\dontrun{
 
 top <- tcltk::tktoplevel()
 
@@ -73,14 +73,13 @@ tcltk::tkgrid(buttons_1$frame)
 
 top <- tcltk::tktoplevel()
 buttons_2 <- bs_radiobuttons(top, buttons = c("A", "B", "C"),
-                             border = TRUE, title = "Buttons")
+  border = TRUE, title = "Buttons")
 tcltk::tkgrid(buttons_2$frame)
 
 
 top <- tcltk::tktoplevel()
 buttons_3 <- bs_radiobuttons(top, c("A", "B", "C"), layout = "h",
-                         title = "Buttons", sticky_buttons = "")
+  title = "Buttons", sticky_buttons = "")
 tcltk::tkgrid(buttons_3$frame)
-
-}}
+}
 }

@@ -304,16 +304,14 @@ listbox reset?}
 A list box with constant number of rows.
 }
 \examples{
-
-\dontrun{\donttest{
+\dontrun{
 
 # Active dataset must be selected
 top <- tktoplevel()
 lb1 <- bs_listbox(top, values = LETTERS, value = "K")
 lb2 <- bs_listbox(top, values = LETTERS, selection = c(12, 15), selectmode = "multiple")
 tkgrid(lb1$frame, lb2$frame)
-
-}}
+}
 
 }
 \seealso{

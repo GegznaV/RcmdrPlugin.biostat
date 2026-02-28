@@ -35,13 +35,12 @@ bs_listbox_y_gr(
 Widget: two listboxes with checkbox
 }
 \examples{
-\dontrun{\donttest{
+\dontrun{
 
 # Active dataset must be selected
 top <- tktoplevel()
 lb <- bs_listbox_y_gr(top)
 tkgrid(lb$frame)
-
-}}
+}
 }
 \keyword{internal}

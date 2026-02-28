@@ -27,7 +27,7 @@ Sring eihter "yes" or "no"
 Message box to confirm replacement
 }
 \examples{
-\dontrun{\donttest{
+\dontrun{
 msg_box_confirm_to_replace()
-}}
+}
 }

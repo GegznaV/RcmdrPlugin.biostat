@@ -22,10 +22,10 @@ tk_widget_modify_names(
 TCL/TK helper widget for multiple variable names
 }
 \examples{
-\dontrun{\donttest{
+\dontrun{
 paret_frame <- tktoplevel()
 widget <- tk_widget_modify_names(paret_frame, layout = "vvhv")
 tkgrid(widget$frame)
-}}
+}
 }
 \keyword{internal}

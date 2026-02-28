@@ -13,10 +13,9 @@ For this purpose `library("RcmdrPlugin.biostat")` is sufficient.
 If restart is not needed, `set_biostat_mode()` is sufficient.
 }
 \examples{
-\dontrun{\donttest{
+\dontrun{
 
 library("RcmdrPlugin.biostat")
 load_rcmdr_biostat_mode()
-
-}}
+}
 }

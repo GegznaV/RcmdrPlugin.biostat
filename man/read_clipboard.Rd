@@ -44,12 +44,12 @@ Possible different conditions on clipboard:
 \examples{
 read_clipboard()
 
-\dontrun{\donttest{
+\dontrun{
 testthat::expect_true(
   all.equal(read_clipboard(), read_clipboard_tcltk())
 )
 testthat::expect_true(
   all.equal(read_clipboard_clipr(), read_clipboard_tcltk())
 )
-}}
+}
 }
