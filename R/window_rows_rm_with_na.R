@@ -18,10 +18,10 @@
 #' )
 #'
 #' # remove empty rows
-#' df %>% filter_all(any_vars(!is.na(.)))
+#' df |> dplyr::filter(if_any(everything(), \(x) !is.na(x)))
 #'
 #' # remove rows with all NA in selected vars
-#' df %>% filter_at(vars(q, z), any_vars(!is.na(.)))
+#' df |> dplyr::filter(if_any(c(q, z), \(x) !is.na(x)))
 #'
 window_rows_rm_with_na <- function() {
   # Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -112,8 +112,8 @@ window_rows_rm_with_na <- function() {
           str_glue(
             "## {prepare_lab(label_all_vars_all_na)}\n",
             "{new_name} <- \n",
-            "  {.ds} %>% \n",
-            "  filter_all(any_vars(!is.na(.))) "
+            "  {.ds} |> \n",
+            "  dplyr::filter(if_any(everything(), \\(x) !is.na(x))) "
           )
         },
 
@@ -130,8 +130,8 @@ window_rows_rm_with_na <- function() {
           str_glue(
             "## {prepare_lab(label_selected_vars_all_na)}\n",
             "{new_name} <- \n",
-            "  filter_at(vars({vars_y_txt}), any_vars(!is.na(.)))"
             "  {.ds} |> \n ",
+            "  dplyr::filter(if_any(c({vars_y_txt}), \\(x) !is.na(x)))"
           )
         }
       )
@@ -290,20 +290,12 @@ window_rows_rm_with_na <- function() {
     tkadd(menu_main, "separator")
 
     tkadd(menu_main, "command",
-      label    = "Function `filter_all`",
-      command  = open_help("filter_all", package = "dplyr"))
+      label    = "Function `filter` + `if_any`",
+      command  = open_help("if_any", package = "dplyr"))
 
     tkadd(menu_main, "command",
-      label    = "Function `filter_at`",
-      command  = open_help("filter_at", package = "dplyr"))
-
-    tkadd(menu_main, "command",
-      label    = "Function `any_vars`",
-      command  = open_help("any_vars", package = "dplyr"))
-
-    tkadd(menu_main, "command",
-      label    = "Function `vars`",
-      command  = open_help("vars", package = "dplyr"))
+      label    = "Function `everything`",
+      command  = open_help("everything", package = "tidyselect"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     tkpopup(menu_main,
       tkwinfo("pointerx", top),
