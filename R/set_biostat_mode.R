@@ -48,12 +48,11 @@ get_use_relative_path <- function() {
 #' @export
 #'
 #' @examples
-#' \dontrun{\donttest{
+#' \dontrun{
 #'
 #' library("RcmdrPlugin.biostat")
 #' load_rcmdr_biostat_mode()
-#'
-#' }}
+#' }
 load_rcmdr_biostat_mode <- function() {
   op <- Rcmdr::getRcmdr("ask.to.exit")
   Rcmdr::putRcmdr("ask.to.exit", FALSE)
@@ -104,8 +103,8 @@ set_biostat_mode <- function() {
   # Get existing buttons' IDs
   sibl <- tcl_get_siblings_id(getRcmdr("dataSetLabel"))
 
-  img <- purrr::map_chr(sibl, ~tcl_get_property(., "-image"))
-  txt <- purrr::map_chr(sibl, ~tcl_get_property(., "-text"))
+  img <- purrr::map_chr(sibl, ~ tcl_get_property(., "-image"))
+  txt <- purrr::map_chr(sibl, ~ tcl_get_property(., "-text"))
 
   logo            <- sibl[str_detect(img, "(^::image::RlogoIcon$|^::image::bs_r_logo_)")]
   button_edit0    <- sibl[img == "::image::editIcon"]
@@ -355,7 +354,6 @@ set_biostat_mode <- function() {
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   toggle_buttons_bar_low <- function() {
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     is_visible_buttons_bar_low <- function() {
       vals <- as.character(tkgrid.info(getRcmdr("buttons_bar_low")))
@@ -1560,7 +1558,7 @@ bs_mode_menu__plots <- function() {
   )
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  if (packageAvailable('esquisse')) {
+  if (packageAvailable("esquisse")) {
 
     tkadd(menu_p, "separator")
 
@@ -1574,7 +1572,7 @@ bs_mode_menu__plots <- function() {
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  if (packageAvailable('plotly')) {
+  if (packageAvailable("plotly")) {
 
     tkadd(menu_p, "separator")
 
@@ -1595,7 +1593,7 @@ bs_mode_menu__plots <- function() {
   #     image    = "::image::bs_chart",
   #     command  = window_online_image_digitizer)
 
-  if (packageAvailable('officer') && packageAvailable('rvg')) {
+  if (packageAvailable("officer") && packageAvailable("rvg")) {
     tkadd(menu_p, "separator")
 
     tkadd(menu_p, "command",
@@ -1656,7 +1654,7 @@ bs_mode_menu__settings <- function() {
     image    = "::image::bs_package",
     command  = window_load_packages)
 
- # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_wd <- tk2menu(menu_p, tearoff = FALSE)
 
   tkadd(menu_p, "cascade",
@@ -1728,7 +1726,8 @@ bs_mode_menu__settings <- function() {
           putRcmdr("sort.names", FALSE)
           # options(Rcmdr = list(sort.names = FALSE))
           command_dataset_refresh()
-        }})
+        }
+      })
 
   tkadd(menu_opts, "command",
     label    = "Sort alphabetically (column names in widgets)",
@@ -1742,7 +1741,8 @@ bs_mode_menu__settings <- function() {
           putRcmdr("sort.names", TRUE)
           # options(Rcmdr = list(sort.names = TRUE))
           command_dataset_refresh()
-        }})
+        }
+      })
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   menu_session  <- tk2menu(menu_p, tearoff = FALSE)
@@ -1946,4 +1946,3 @@ bs_mode_menu__datasets <- function() {
     tkwinfo("pointery", top))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
