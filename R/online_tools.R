@@ -9,7 +9,7 @@ open_online_tool <- function(url = NULL, copy_to_clipboard = FALSE,
   checkmate::assert_logical(copy_to_clipboard)
 
   if (!pingr::is_online()) {
-    open_browser <-
+    choice <-
       tk_messageBox(
         parent = parent,
         message = str_c(
@@ -41,7 +41,7 @@ source_online <- function(url = NULL, parent = CommanderWindow()) {
   checkmate::assert_string(url, null.ok = TRUE)
 
   if (!pingr::is_online()) {
-    open_browser <-
+    choice <-
       tk_messageBox(
         parent = parent,
         message = str_c(
