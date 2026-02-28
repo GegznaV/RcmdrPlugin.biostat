@@ -46,9 +46,9 @@ tk_label_blue <- function(parent, text = "", ...,
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname TclTk-labels
 #' @export
-tk_label_red <- function(parent, ..., size = 8, weight = "bold",
+tk_label_red <- function(parent, text = "", ..., size = 8, weight = "bold",
   fg = "darkred") {
-  tk_label(parent, text = text, font = tkfont.create(weight = "bold", size = 8),
+  tk_label(parent, text = text, font = tkfont.create(weight = weight, size = size),
     ..., fg = fg)
 }
 
