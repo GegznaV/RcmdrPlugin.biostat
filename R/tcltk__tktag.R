@@ -70,7 +70,7 @@ tktag_add <- function(obj, tag, pattern, row_ind = NULL, all = TRUE) {
 #' @export
 tktag_add_first <- function(obj, pattern, tag, row_ind = NULL) {
 
-  tcltk::tktag.add(obj = obj, pattern = pattern, tag = tag, row_ind = row_ind,
+  tktag_add(obj = obj, tag = tag, pattern = pattern, row_ind = row_ind,
     all = FALSE)
 }
 
