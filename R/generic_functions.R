@@ -89,7 +89,7 @@ tk_read_only <- function(obj, ...) {
 #' @rdname widget-state
 #' @export
 tk_enable <- function(obj, ...) {
-  UseMethod("tk_disable")
+  UseMethod("tk_enable")
 }
 
 #' @rdname widget-state
