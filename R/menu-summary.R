@@ -17,10 +17,11 @@ window_summary_inspect <- function() {
 
   # command <- str_glue("{active_dataset_0()} %>% inspect_mem() %>% show_plot()")
   # command <- str_glue("{active_dataset_0()} %>% inspect_types() %>% show_plot()")
-  command <- str_glue("{active_dataset_0()} %>% inspect_num() %>% show_plot()")
-  command <- str_glue("{active_dataset_0()} %>% inspect_cat() %>% show_plot()")
+  command_num <- str_glue("{active_dataset_0()} %>% inspect_num() %>% show_plot()")
+  command_cat <- str_glue("{active_dataset_0()} %>% inspect_cat() %>% show_plot()")
 
-  doItAndPrint(command)
+  doItAndPrint(command_num)
+  doItAndPrint(command_cat)
 }
 
 #  Overview ------------------------------------------------------------------
