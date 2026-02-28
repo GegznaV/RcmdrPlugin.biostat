@@ -4,7 +4,7 @@
 menu	biostat20_menu	topMenu	""	""	""	""
 item	topMenu	cascade	"BioStat"	biostat20_menu	""	""
 
-item	biostat20_menu	command	"Mode: BioStat"  set_biostat_mode 	"!is_biostat_mode()"	""
+item	biostat20_menu	command	"Mode: BioStat"	set_biostat_mode	"!is_biostat_mode()"	""
 
 
 # . ===========================================================================
@@ -62,7 +62,7 @@ item	bs20_rows_menu	command	"Slice: select/remove rows by row index..."	window_r
 item	bs20_rows_menu	separator	""	""	""	""
 item	bs20_rows_menu	command	"Remove duplicated rows..."	window_rows_rm_duplicated	"activeDataSetP()"	"packageAvailable('tidyverse')"
 item	bs20_rows_menu	command	"Remove empty rows"	command_rows_rm_empty_rows	"activeDataSetP()"	""
-item	bs20_rows_menu	command	"Remove rows with missing values..."	window_rows_rm_with_na "activeDataSetP()"	"packageAvailable('tidyverse')"
+item	bs20_rows_menu	command	"Remove rows with missing values..."	window_rows_rm_with_na	"activeDataSetP()"	"packageAvailable('tidyverse')"
 # item	bs20_rows_menu	command	"[???] Fill missing values with..."	function_not_implemented	"FALSE"	"packageAvailable('tidyverse')"
 # item	bs20_rows_menu	command	"[???] Fill missing values in using the previous entry..."	function_not_implemented	"FALSE & activeDataSetP()"	"packageAvailable('tidyr')"
 
@@ -192,23 +192,23 @@ item	import_menu	command	"Create a new dataset... [Rcmdr]"	window_dataset_new_rc
 
 # ---- Import data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 item	import_menu	separator	""	""	""	""
-item    import_menu      command         "Import from clipboard... "          window_import_from_clipboard         ""  ""
-item    import_menu      command         "Import from text file (.txt, .csv, .dat)..."   window_import_from_text   ""  ""
+item	import_menu	command	"Import from clipboard..."	window_import_from_clipboard	""	""
+item	import_menu	command	"Import from text file (.txt, .csv, .dat)..."	window_import_from_text	""	""
 
 item	import_menu	separator	""	""	""	""
-item    import_menu      command         "Import from Excel file..."     window_import_from_excel    ""     "packageAvailable('readxl')"
+item	import_menu	command	"Import from Excel file..."	window_import_from_excel	""	"packageAvailable('readxl')"
 
 item	import_menu	separator	""	""	""	""
 item	import_menu	command	"Import from Rds file (.Rds, .rds)..."	window_import_from_rds	""	""
 item	import_menu	command	"Import from R data file (.RData, .Rda, .rda)..."	window_import_rdata	""	""
-item    import_menu    command    "Import from R package... "     window_import_from_pkg    ""          ""
+item	import_menu	command	"Import from R package..."	window_import_from_pkg	""	""
 
 item	import_menu	separator	""	""	""	""
-item    import_menu      command         "Import from SPSS data file... [Rcmdr]"     importSPSS     ""     "packageAvailable('foreign')"
-item    import_menu      command         "Import from SAS xport file... [Rcmdr]"     importSAS     ""     "packageAvailable('foreign')"
-item    import_menu      command         "Import from SAS b7dat file... [Rcmdr]"     importSASb7dat     ""           "packageAvailable('RcmdrMisc')"
-item    import_menu      command         "Import from STATA data file... [Rcmdr]"     importSTATA     ""          "packageAvailable('foreign')"
-item    import_menu      command         "Import from Minitab data file... [Rcmdr]"     importMinitab     ""          "packageAvailable('foreign')"
+item	import_menu	command	"Import from SPSS data file... [Rcmdr]"	importSPSS	""	"packageAvailable('foreign')"
+item	import_menu	command	"Import from SAS xport file... [Rcmdr]"	importSAS	""	"packageAvailable('foreign')"
+item	import_menu	command	"Import from SAS b7dat file... [Rcmdr]"	importSASb7dat	""	"packageAvailable('RcmdrMisc')"
+item	import_menu	command	"Import from STATA data file... [Rcmdr]"	importSTATA	""	"packageAvailable('foreign')"
+item	import_menu	command	"Import from Minitab data file... [Rcmdr]"	importMinitab	""	"packageAvailable('foreign')"
 
 item	import_menu	separator	""	""	""	""
 item	import_menu	command	"Import data from plot (online)..."	window_online_image_digitizer	""	""
@@ -305,8 +305,8 @@ item	biostat20_menu	cascade	"Analysis"	bs20_analysis_menu	""	""
 menu	bs20_assoc_menu	bs20_analysis_menu	""	""	""	""
 item	bs20_analysis_menu	cascade	"Association / Correlation"	bs20_assoc_menu	""	""
 
-item	bs20_assoc_menu	command "Correlation... [Rcmdr]"	correlationTest	"numericP(2)"	"packageAvailable('RcmdrMisc')"
-item	bs20_assoc_menu	command "Correlation matrix... [Rcmdr]"	correlationMatrix	"numericP(2)"	"packageAvailable('RcmdrMisc')"
+item	bs20_assoc_menu	command	"Correlation... [Rcmdr]"	correlationTest	"numericP(2)"	"packageAvailable('RcmdrMisc')"
+item	bs20_assoc_menu	command	"Correlation matrix... [Rcmdr]"	correlationMatrix	"numericP(2)"	"packageAvailable('RcmdrMisc')"
 item	bs20_assoc_menu	command	"Pearson's linear correlation... [EZR]"	StatMedCorrelation	"numericP(2)"	""
 item	bs20_assoc_menu	command	"Spearman's/Kendall's rank correlation... [EZR]"	StatMedSpearman	"numericP(2)"	""
 item	bs20_assoc_menu	separator	""	""	""	""
@@ -366,7 +366,7 @@ item	bs20_centers_menu	separator	""	""	""	""
 
 # item	bs20_centers_menu command	"Paired-samples t-test... [Rcmdr]"	pairedTTest	"numericP(2)"	""
 item	bs20_centers_menu	command	"Paired-samples t-test... [EZR]"	StatMedPairedTtest	"numericP(2)"	""
-item	bs20_centers_menu command	"Paired-samples Wilcoxon test... [Rcmdr]"	pairedWilcoxonTest	"numericP(2)"	""
+item	bs20_centers_menu	command	"Paired-samples Wilcoxon test... [Rcmdr]"	pairedWilcoxonTest	"numericP(2)"	""
 
 item	bs20_centers_menu	command	"Repeated-measures ANOVA... [EZR]"	StatMedRepANOVA	"numericP(2)"	"packageAvailable('multcomp') && packageAvailable('abind')"
 # item	bs20_centers_menu command	"Friedman's rank-sum test... [Rcmdr]"	FriedmanTest	"numericP(2)"	""
@@ -451,14 +451,14 @@ item	bs20_session_menu	command	"Locale..."	window_locale_set	""	""
 
 # ---- Manage Working directory ----------------------------------------------
 item	bs20_session_menu	separator	""	""	""	""
-item	bs20_session_menu	command	"Print path to working directory"  command_getwd	""	""
-item	bs20_session_menu	command	"Open working directory"  command_openwd	""	"packageAvailable('fs')"
-item	bs20_session_menu	command	"Change working directory..."  command_setwd	""	""
+item	bs20_session_menu	command	"Print path to working directory"	command_getwd	""	""
+item	bs20_session_menu	command	"Open working directory"	command_openwd	""	"packageAvailable('fs')"
+item	bs20_session_menu	command	"Change working directory..."	command_setwd	""	""
 
 # ---- File info -------------------------------------------------------------
 # item	bs20_session_menu	separator	""	""	""	""
-# item	bs20_session_menu	command	"Get information about file..."  command_get_file_info	""	"packageAvailable('fs')"
-# item	bs20_session_menu	command	"[???] Use absolute/relative path"  function_not_implemented	"FALSE"	""
+# item	bs20_session_menu	command	"Get information about file..."	command_get_file_info	""	"packageAvailable('fs')"
+# item	bs20_session_menu	command	"[???] Use absolute/relative path"	function_not_implemented	"FALSE"	""
 
 
 # ---- Session information ---------------------------------------------------
@@ -490,9 +490,9 @@ menu	bs20_about_menu	biostat20_menu	""	""	""	""
 item	biostat20_menu	cascade	"About"	bs20_about_menu	""	""
 
 # item	bs20_about_menu	command 'About package "RcmdrPlugin.biostat"'	window_about_package	""	""
-item	bs20_about_menu	command "About BioStat..."	window_about_biostat_version	""	""
-item	bs20_about_menu	command "Go to Homepage"	window_online_homepage	""	""
-item	bs20_about_menu	command "Feedback & bug reports"	window_online_bug_report	""	""
+item	bs20_about_menu	command	"About BioStat..."	window_about_biostat_version	""	""
+item	bs20_about_menu	command	"Go to Homepage"	window_online_homepage	""	""
+item	bs20_about_menu	command	"Feedback & bug reports"	window_online_bug_report	""	""
 # item	bs20_about_menu	separator	""	""	""	""
 # item	bs20_about_menu	command "Check recommended packages for BioStat"	command_chk_packages_biostat	""	""
 
@@ -508,17 +508,17 @@ item	biostat20_menu	cascade	"Online resources"	bs20_online_menu	""	""
 menu	bs20_online_apps_menu	bs20_online_menu	""	""	""	""
 item	bs20_online_menu	cascade	"Applications online"	bs20_online_apps_menu	""	""
 
-item	bs20_online_apps_menu	command	"Import data from image: WebPlotDigitizer"  window_online_image_digitizer	""	""
-# item	bs20_online_apps_menu	command	"Multivariate normality tests: MVN"  window_online_mvn	""	""
-item	bs20_online_apps_menu	command	"Probability calculator: GeoGebra"  window_online_geogebra_probability 	""	""
-# item	bs20_online_apps_menu	command	"ROC analysis: Easy ROC"  window_online_easyROC	""	""
+item	bs20_online_apps_menu	command	"Import data from image: WebPlotDigitizer"	window_online_image_digitizer	""	""
+# item	bs20_online_apps_menu	command	"Multivariate normality tests: MVN"	window_online_mvn	""	""
+item	bs20_online_apps_menu	command	"Probability calculator: GeoGebra"	window_online_geogebra_probability	""	""
+# item	bs20_online_apps_menu	command	"ROC analysis: Easy ROC"	window_online_easyROC	""	""
 
 # item	bs20_online_apps_menu	separator	""	""	""	""
 
 menu	bs20_online_lists_menu	topMenu	""	""	""	""
 item	bs20_online_apps_menu	cascade	"Lists of applications"	bs20_online_lists_menu	""	""
 
-item	bs20_online_lists_menu	command	"statpages.info"  window_online_statpages	""	""
+item	bs20_online_lists_menu	command	"statpages.info"	window_online_statpages	""	""
 
 
 
@@ -527,15 +527,15 @@ item	bs20_online_lists_menu	command	"statpages.info"  window_online_statpages	""
 menu	bs20_downlaod_menu	topMenu	""	""	""	""
 item	bs20_online_menu	cascade	"Applications to download"	bs20_downlaod_menu	""	""
 
-item	bs20_downlaod_menu	command	"Basic Excel R toolkit: BERT"  window_online_bert	""	""
-item	bs20_downlaod_menu	command	"Cluster analysis: Orange"  window_online_orange	""	""
-item	bs20_downlaod_menu	command	"Power analysis: G*Power"  window_online_gpower	""	""
-item	bs20_downlaod_menu	command	"Probability calculator: GeoGebra Classic 6"  window_online_geogebra_download	""	""
+item	bs20_downlaod_menu	command	"Basic Excel R toolkit: BERT"	window_online_bert	""	""
+item	bs20_downlaod_menu	command	"Cluster analysis: Orange"	window_online_orange	""	""
+item	bs20_downlaod_menu	command	"Power analysis: G*Power"	window_online_gpower	""	""
+item	bs20_downlaod_menu	command	"Probability calculator: GeoGebra Classic 6"	window_online_geogebra_download	""	""
 
 
 item	bs20_downlaod_menu	separator	""	""	""	""
-item	bs20_downlaod_menu	command	"R project"  window_online_r_project	""	""
-item	bs20_downlaod_menu	command	"RStudio"  window_online_rstudio	""	""
+item	bs20_downlaod_menu	command	"R project"	window_online_r_project	""	""
+item	bs20_downlaod_menu	command	"RStudio"	window_online_rstudio	""	""
 
 
 
@@ -544,23 +544,23 @@ item	bs20_downlaod_menu	command	"RStudio"  window_online_rstudio	""	""
 menu	bs20_r_books_menu	topMenu	""	""	""	""
 item	bs20_online_menu	cascade	"Books"	bs20_r_books_menu	""	""
 
-item	bs20_r_books_menu	command	"Bookdown (library of books about R)"  window_online_bookdown	""	""
+item	bs20_r_books_menu	command	"Bookdown (library of books about R)"	window_online_bookdown	""	""
 
 item	bs20_r_books_menu	separator	""	""	""	""
 
-item	bs20_r_books_menu	command	"R for Data Science"  window_online_r4ds	""	""
-item	bs20_r_books_menu	command	"Advanced R (2nd ed.)"  window_online_advanced_r_2ed	""	""
-item	bs20_r_books_menu	command	"R Markdown"  window_online_rmd	""	""
+item	bs20_r_books_menu	command	"R for Data Science"	window_online_r4ds	""	""
+item	bs20_r_books_menu	command	"Advanced R (2nd ed.)"	window_online_advanced_r_2ed	""	""
+item	bs20_r_books_menu	command	"R Markdown"	window_online_rmd	""	""
 
 item	bs20_r_books_menu	separator	""	""	""	""
 
-item	bs20_r_books_menu	command	"Modern Statistics for Modern Biology"  window_online_msmb	""	""
-item	bs20_r_books_menu	command	"Handbook of Biological Statistics (HBS)"  window_online_biostathandbook	""	""
-item	bs20_r_books_menu	command	"An R Companion for HBS"  window_online_rcompanion	""	""
-item	bs20_r_books_menu	command	"SAEPE in R (by S. Mangiafico)"  window_online_rcompanion_handbook	""	""
+item	bs20_r_books_menu	command	"Modern Statistics for Modern Biology"	window_online_msmb	""	""
+item	bs20_r_books_menu	command	"Handbook of Biological Statistics (HBS)"	window_online_biostathandbook	""	""
+item	bs20_r_books_menu	command	"An R Companion for HBS"	window_online_rcompanion	""	""
+item	bs20_r_books_menu	command	"SAEPE in R (by S. Mangiafico)"	window_online_rcompanion_handbook	""	""
 item	bs20_r_books_menu	separator	""	""	""	""
-item	bs20_r_books_menu	command	"Introduction to Statistical Learning"  window_online_isl	""	""
-item	bs20_r_books_menu	command	"Elements of Statistical Learning"  window_online_esl	""	""
+item	bs20_r_books_menu	command	"Introduction to Statistical Learning"	window_online_isl	""	""
+item	bs20_r_books_menu	command	"Elements of Statistical Learning"	window_online_esl	""	""
 
 
 # ---- +  Forums -------------------------------------------------------------
@@ -568,8 +568,8 @@ item	bs20_r_books_menu	command	"Elements of Statistical Learning"  window_online
 menu	bs20_forums_menu	topMenu	""	""	""	""
 item	bs20_online_menu	cascade	"Forums"	bs20_forums_menu	""	""
 
-item	bs20_forums_menu	command	"Stack Overflow (programming, R)"  window_online_stackoverflow	""	""
-item	bs20_forums_menu	command	"Cross Validated (data analysis, statistics)"  window_online_crossvalidated	""	""
+item	bs20_forums_menu	command	"Stack Overflow (programming, R)"	window_online_stackoverflow	""	""
+item	bs20_forums_menu	command	"Cross Validated (data analysis, statistics)"	window_online_crossvalidated	""	""
 
 
 # + Tidyverse ----------------------------------------------------------------
@@ -577,19 +577,19 @@ item	bs20_forums_menu	command	"Cross Validated (data analysis, statistics)"  win
 menu	bs20_tidyverse_menu	bs20_online_menu	""	""	""	""
 item	bs20_online_menu	cascade	"Tidyverse"	bs20_tidyverse_menu	""	""
 
-item	bs20_tidyverse_menu	command	"Tidyverse homepage"  window_online_tidyverse	""	""
+item	bs20_tidyverse_menu	command	"Tidyverse homepage"	window_online_tidyverse	""	""
 
 item	bs20_tidyverse_menu	separator	""	""	""	""
 
-item	bs20_tidyverse_menu	command	"Package 'broom' (tidy models)"  window_online_broom	""	""
-item	bs20_tidyverse_menu	command	"Package 'dplyr' (manipulate data)"  window_online_dplyr	""	""
-item	bs20_tidyverse_menu	command	"Package 'forcats' (for categorical data)"  window_online_forcats	""	""
-item	bs20_tidyverse_menu	command	"Package 'magrittr' (pipe operator %>%)"  window_online_magrittr	""	""
-item	bs20_tidyverse_menu	command	"Package 'purrr' (functional programming)"  window_online_purrr	""	""
-item	bs20_tidyverse_menu	command	"Package 'readr' (import data from text files)"  window_online_readr	""	""
-item	bs20_tidyverse_menu	command	"Package 'readxl' (import data from Excel)"  window_online_readxl	""	""
-item	bs20_tidyverse_menu	command	"Package 'stringr' (for text data)"  window_online_stringr	""	""
-item	bs20_tidyverse_menu	command	"Package 'tidyr' (tidy data)"  window_online_tidyr	""	""
+item	bs20_tidyverse_menu	command	"Package 'broom' (tidy models)"	window_online_broom	""	""
+item	bs20_tidyverse_menu	command	"Package 'dplyr' (manipulate data)"	window_online_dplyr	""	""
+item	bs20_tidyverse_menu	command	"Package 'forcats' (for categorical data)"	window_online_forcats	""	""
+item	bs20_tidyverse_menu	command	"Package 'magrittr' (pipe operator %>%)"	window_online_magrittr	""	""
+item	bs20_tidyverse_menu	command	"Package 'purrr' (functional programming)"	window_online_purrr	""	""
+item	bs20_tidyverse_menu	command	"Package 'readr' (import data from text files)"	window_online_readr	""	""
+item	bs20_tidyverse_menu	command	"Package 'readxl' (import data from Excel)"	window_online_readxl	""	""
+item	bs20_tidyverse_menu	command	"Package 'stringr' (for text data)"	window_online_stringr	""	""
+item	bs20_tidyverse_menu	command	"Package 'tidyr' (tidy data)"	window_online_tidyr	""	""
 
 
 # + Plotting -----------------------------------------------------------------
@@ -597,14 +597,14 @@ menu	bs20_online_plots_menu	bs20_online_menu	""	""	""	""
 item	bs20_online_menu	cascade	"R plots"	bs20_online_plots_menu	""	""
 
 
-item	bs20_online_plots_menu	command	"Package 'ggplot2' (plots)"  window_online_ggplot2	""	""
-item	bs20_online_plots_menu	command	"Package 'ggstatsplot' (plots)"  window_online_ggstatsplot	""	""
-item	bs20_online_plots_menu	command	"Package 'ggpubr' (plots)"  window_online_ggpubr	""	""
-item	bs20_online_plots_menu	command	"Extensions for ggplot2 (plots)"  window_online_ggplot2_ext	""	""
+item	bs20_online_plots_menu	command	"Package 'ggplot2' (plots)"	window_online_ggplot2	""	""
+item	bs20_online_plots_menu	command	"Package 'ggstatsplot' (plots)"	window_online_ggstatsplot	""	""
+item	bs20_online_plots_menu	command	"Package 'ggpubr' (plots)"	window_online_ggpubr	""	""
+item	bs20_online_plots_menu	command	"Extensions for ggplot2 (plots)"	window_online_ggplot2_ext	""	""
 
 item	bs20_online_plots_menu	separator	""	""	""	""
 
-item	bs20_online_plots_menu	command	"Plotly for R (interactive plots)"  window_online_plotly	""	""
+item	bs20_online_plots_menu	command	"Plotly for R (interactive plots)"	window_online_plotly	""	""
 
 
 # ---- +  R news & tutorials -------------------------------------------------
@@ -612,12 +612,12 @@ item	bs20_online_plots_menu	command	"Plotly for R (interactive plots)"  window_o
 menu	bs20_r_news_menu	bs20_online_menu	""	""	""	""
 item	bs20_online_menu	cascade	"R news & tutorials"	bs20_r_news_menu	""	""
 
-item	bs20_r_news_menu	command	"R Cheat sheets"  window_online_r_chearsheets	""	""
-item	bs20_r_news_menu	command	"STHDA website (tutorials)"  window_online_sthda	""	""
+item	bs20_r_news_menu	command	"R Cheat sheets"	window_online_r_chearsheets	""	""
+item	bs20_r_news_menu	command	"STHDA website (tutorials)"	window_online_sthda	""	""
 item	bs20_r_news_menu	separator	""	""	""	""
 
-item	bs20_r_news_menu	command	"R Bloggers (tutorials, news)"  window_online_r_bloggers	""	""
-item	bs20_r_news_menu	command	"R Weekly (news, tutorials)"  window_online_rweekly	""	""
+item	bs20_r_news_menu	command	"R Bloggers (tutorials, news)"	window_online_r_bloggers	""	""
+item	bs20_r_news_menu	command	"R Weekly (news, tutorials)"	window_online_rweekly	""	""
 item	bs20_r_news_menu	separator	""	""	""	""
 
 
