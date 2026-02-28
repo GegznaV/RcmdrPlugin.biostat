@@ -277,10 +277,10 @@ run_in_rstudio <- function(command, ...) {
 # envir_eval  - environment to evaluate in.
 # envir_glue  - environment to glue in.
 str_glue_eval <- function(..., envir = parent.frame(),
-    # .collapse = "\n",
-    .sep = "", .open = "{", .close = "}",
-    envir_eval = envir,
-    envir_glue = envir) {
+  # .collapse = "\n",
+  .sep = "", .open = "{", .close = "}",
+  envir_eval = envir,
+  envir_glue = envir) {
 
   commands_as_text <- stringr::str_glue(...,
     .envir = envir_glue,
@@ -502,14 +502,14 @@ logger_error <- function(command = NULL, error_msg = NULL) {
 #' @examples
 #' read_clipboard()
 #'
-#' \dontrun{\donttest{
+#' \dontrun{
 #' testthat::expect_true(
 #'   all.equal(read_clipboard(), read_clipboard_tcltk())
 #' )
 #' testthat::expect_true(
 #'   all.equal(read_clipboard_clipr(), read_clipboard_tcltk())
 #' )
-#' }}
+#' }
 #' @export
 #' @md
 
@@ -642,15 +642,15 @@ get_obj_names <-  function(
     objs <- mget(all_variable_names, envir = envir)
 
     if (!is.null(include_class)) {
-      objs <- purrr::keep(objs, ~inherits(.x, include_class))
+      objs <- purrr::keep(objs, ~ inherits(.x, include_class))
     }
 
     if (!is.null(exclude_class)) {
-      objs <- purrr::discard(objs, ~inherits(.x, exclude_class))
+      objs <- purrr::discard(objs, ~ inherits(.x, exclude_class))
     }
 
     if (!is.null(include2_class)) {
-      objs <- purrr::keep(objs, ~inherits(.x, include2_class))
+      objs <- purrr::keep(objs, ~ inherits(.x, include2_class))
     }
 
     names(objs)
@@ -670,15 +670,15 @@ get_obj_names_by_class <-  function(
     objs <- mget(all_variable_names, envir = envir)
 
     if (!is.null(include_class)) {
-      objs <- purrr::keep(objs, ~inherits(.x, include_class))
+      objs <- purrr::keep(objs, ~ inherits(.x, include_class))
     }
 
     if (!is.null(exclude_class)) {
-      objs <- purrr::discard(objs, ~inherits(.x, exclude_class))
+      objs <- purrr::discard(objs, ~ inherits(.x, exclude_class))
     }
 
     if (!is.null(include2_class)) {
-      objs <- purrr::keep(objs, ~inherits(.x, include2_class))
+      objs <- purrr::keep(objs, ~ inherits(.x, include2_class))
     }
 
     names(objs)
@@ -980,8 +980,8 @@ msg_box_clear_input <- function(parent = CommanderWindow()) {
     default = "no",
     icon = "warning",
     message = str_c(
-      'The contents of the Input window will be deleted. \n',
-      'Do you agree?'
+      "The contents of the Input window will be deleted. \n",
+      "Do you agree?"
     ),
     caption = "Clear Input")
 }
@@ -992,9 +992,9 @@ msg_box_import_file_not_found <- function(parent = CommanderWindow()) {
     type = "ok",
     icon = "error",
     message = str_c(
-      'The file was not found. Check if the name and \n',
+      "The file was not found. Check if the name and \n",
       'the path in the box "File, URL" are correct and\n',
-      'not empty.'),
+      "not empty."),
     caption = "File Not Found")
 }
 
@@ -1079,7 +1079,7 @@ is_url_accessible <- function(str) {
 #' @keywords internal
 #'
 #' @examples
-#' \dontrun{\donttest{
+#' \dontrun{
 #' is_valid_name("a")
 #' is_valid_name("")
 #' is_valid_name("|||")
@@ -1087,7 +1087,7 @@ is_url_accessible <- function(str) {
 #' is_empty_name("a")
 #' is_empty_name("")
 #' is_empty_name("|||")
-#' }}
+#' }
 is_valid_name <- function(name, parent = CommanderWindow()) {
 
   if (is_empty_name(name)) {
@@ -1194,7 +1194,7 @@ is_not_empty_name <- function(name, which_name = "name",
     return(FALSE)
 
   } else if (!(is.character(name))) {
-    message  <- str_glue('The class of the object with \n',
+    message  <- str_glue("The class of the object with \n",
       'the {which_name} must be "character".')
     show_error_messages(
       message, message,
@@ -1204,8 +1204,8 @@ is_not_empty_name <- function(name, which_name = "name",
     return(FALSE)
 
   } else if (name == "") {
-    message  <- str_glue('The {which_name} field must not be empty.\n',
-      'Please, enter {article} {which_name}.')
+    message  <- str_glue("The {which_name} field must not be empty.\n",
+      "Please, enter {article} {which_name}.")
     show_error_messages(
       message, message,
       title = str_glue("Empty {str_to_title(which_name)}"),
@@ -1329,9 +1329,9 @@ are_not_valid_names <- function(name, parent = CommanderWindow()) {
 #' @export
 #'
 #' @examples
-#' \dontrun{\donttest{
+#' \dontrun{
 #' msg_box_confirm_to_replace()
-#' }}
+#' }
 msg_box_confirm_to_replace <- function(name, type = "Variable",
   parent = CommanderWindow()) {
   Type <- stringr::str_to_title(type)
@@ -1341,8 +1341,8 @@ msg_box_confirm_to_replace <- function(name, type = "Variable",
     caption = str_glue("Overwrite {Type}"),
     message = sprintf(
       str_c('%s "%s" already exists.\n\n',
-        'Do you agree to DELETE existing %s and \n',
-        'REPLACE it with the new one?'),
+        "Do you agree to DELETE existing %s and \n",
+        "REPLACE it with the new one?"),
       Type, name, tolower(type)),
     icon = "warning",
     type = "yesno",
@@ -1360,10 +1360,10 @@ msg_box_confirm_to_replace_all <- function(name, type = "Variables",
     parent = parent,
     caption = str_glue("Overwrite All {Type}"),
     message = str_glue(
-      'The following {tolower(type)} already exist:\n\n',
-      '{vars}\n\n',
-      'Do you agree to DELETE ALL the {tolower(type)} and\n',
-      'REPLACE them with the new ones?'),
+      "The following {tolower(type)} already exist:\n\n",
+      "{vars}\n\n",
+      "Do you agree to DELETE ALL the {tolower(type)} and\n",
+      "REPLACE them with the new ones?"),
     icon = "warning",
     type = "yesno",
     default = "no")
@@ -1545,8 +1545,8 @@ msg_missing_pkg <- function(pkg = "", msg = "", install_log = FALSE,
 
   if (isTRUE(install_log)) {
     logger(paste0(
-      '# To install the package, uncomment and use this code:\n',
-      '# install.packages("', pkg,'")'
+      "# To install the package, uncomment and use this code:\n",
+      '# install.packages("', pkg, '")'
     ))
   }
 
@@ -1841,7 +1841,9 @@ make_red_text <- function(P, W, S, v) {
 
 make_red_text_reset_val <- function(to = "Inf") {
   function(P, W, S, v, s) {
-    tcl("after", "idle", function() {tkconfigure(W, validate = v)})
+    tcl("after", "idle", function() {
+      tkconfigure(W, validate = v)
+    })
     tkconfigure(W, foreground = "red2")
     tkdelete(W, "0", "end")
     tkinsert(W, "0", to)
@@ -1895,21 +1897,20 @@ restart_commander <- function() {
 rcmdr_restart_commander <- function() {
 
   if (is_commander_open()) {
-
     # if (packageVersion("Rcmdr") >= "2.7") {
     #   Rcmdr:::restartCommander()
     #
     # } else {
-      ans <- command_rcmdr_close()
-      if (ans != "cancel") {
-        Rcmdr::Commander()
-      }
+    ans <- command_rcmdr_close()
+    if (ans != "cancel") {
+      Rcmdr::Commander()
+    }
     # }
 
   } else {
 
     if ("Rcmdr" %in% .packages()) {
-       Rcmdr::Commander()
+      Rcmdr::Commander()
 
     } else {
       stop("\nPackage 'Rcmdr' is not loaded. Use code: \nlibrary('Rcmdr')")
@@ -1942,7 +1943,7 @@ command_rcmdr_close_and_update_cran <- function() {
   ans <- command_rcmdr_close()
   if (ans != "cancel") {
     rstudioapi::restartSession(
-        command = 'update.packages(checkBuilt = TRUE, ask = "graphics")')
+      command = 'update.packages(checkBuilt = TRUE, ask = "graphics")')
   }
 }
 

@@ -5,14 +5,13 @@
 #' @keywords internal
 #' @export
 #' @examples
-#' \dontrun{\donttest{
+#' \dontrun{
 #'
 #' # Active dataset must be selected
 #' top <- tktoplevel()
 #' lb <- bs_listbox_y_gr(top)
 #' tkgrid(lb$frame)
-#'
-#' }}
+#' }
 bs_listbox_y_gr <- function(
   parent = top,
 
@@ -51,7 +50,6 @@ bs_listbox_y_gr <- function(
 
   # Functions ----------------------------------------------------------
   cmd_ch_box <- function() {
-
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # If f2_box_gr contents change
     if (get_size(f2_box_gr) == 0) {
@@ -177,7 +175,7 @@ bs_listbox_y_gr <- function(
       values   = ch_initial,
       commands = list("use_groups" = cmd_ch_box),
       default_tip = ch_tip
-    ))
+  ))
 
   f2_box_ch <- do.call(bs_checkboxes, ch_params)
 
@@ -208,7 +206,6 @@ bs_listbox_y_gr <- function(
 
       ch_fun = cmd_ch_box,
       gr_fun = cmd_gr_box
-
     ),
     class = c("tk_widget_y_gr_boxes", "bs_tk_widget", "list")
   )

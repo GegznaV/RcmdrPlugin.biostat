@@ -9,12 +9,11 @@
 #' @export
 #' @keywords internal
 #' @examples
-#' \dontrun{\donttest{
+#' \dontrun{
 #' paret_frame <- tktoplevel()
 #' widget <- tk_widget_modify_names(paret_frame, layout = "vvhv")
 #' tkgrid(widget$frame)
-#' }}
-
+#' }
 tk_widget_modify_names <- function(
   parent = top,
   init_val_radiobuttons = c("modify", "overwrite"),
@@ -88,7 +87,7 @@ tk_widget_modify_names <- function(
           str_c("Overwrite values of existing variables.\n",
             "Do not change names. "
             # ,"\nNo warning will be issued."
-          )),
+        )),
         modify = gettext_bs(
           str_c("Create new variables by adding \n",
             "prefix/suffix to existing names \n",
@@ -158,7 +157,7 @@ tk_widget_modify_names <- function(
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   if (layout_entries == "h") {
-    tkgrid(f2_pre$frame, f2_suf$frame, pady = c(0 , 2))
+    tkgrid(f2_pre$frame, f2_suf$frame, pady = c(0, 2))
     tkgrid.configure(f2_suf$frame,     padx = c(15, 0))
 
   } else {
@@ -177,7 +176,6 @@ tk_widget_modify_names <- function(
       f2          = f2,
       prefix      = f2_pre,
       suffix      = f2_suf
-
     ),
     class = c("tk_widget_modify_names", "bs_tk_widget", "list")
   )

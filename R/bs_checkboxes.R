@@ -1,4 +1,4 @@
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #' Checkboxes widget.
 #'
@@ -30,55 +30,53 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{\donttest{
+#' \dontrun{
 #'
 #' library(RcmdrPlugin.biostat)
 #'
-#'  top <- tcltk::tktoplevel()
+#' top <- tcltk::tktoplevel()
 #'
-#'  boxes_1 <- bs_checkboxes(top, c("A", "B", "C"))
-#'  tcltk::tkgrid(boxes_1$frame)
-#'
-#'
-#'  top <- tcltk::tktoplevel()
-#'  boxes_2 <- bs_checkboxes(top, boxes = c("A", "B", "C"), border = TRUE)
-#'  tcltk::tkgrid(boxes_2$frame)
+#' boxes_1 <- bs_checkboxes(top, c("A", "B", "C"))
+#' tcltk::tkgrid(boxes_1$frame)
 #'
 #'
-#'  top <- tcltk::tktoplevel()
-#'  boxes_3 <- bs_checkboxes(top, c("A", "B", "C"),
-#'    layout = "h", title = "Buttons")
-#'  tcltk::tkgrid(boxes_3$frame)
+#' top <- tcltk::tktoplevel()
+#' boxes_2 <- bs_checkboxes(top, boxes = c("A", "B", "C"), border = TRUE)
+#' tcltk::tkgrid(boxes_2$frame)
 #'
 #'
-#'  set_values(boxes_3, B = TRUE, C = TRUE)
+#' top <- tcltk::tktoplevel()
+#' boxes_3 <- bs_checkboxes(top, c("A", "B", "C"),
+#'   layout = "h", title = "Buttons")
+#' tcltk::tkgrid(boxes_3$frame)
 #'
-#'  new_vals <- c(A = TRUE, B = FALSE)
-#'  set_values(boxes_3, new_vals)
+#'
+#' set_values(boxes_3, B = TRUE, C = TRUE)
+#'
+#' new_vals <- c(A = TRUE, B = FALSE)
+#' set_values(boxes_3, new_vals)
 #'
 #'
-#'  get_values(boxes_3)
-#'  get_values(boxes_3, "B")
-#'  get_values(boxes_3, simplify = FALSE)
-#'
-#'}}
-
+#' get_values(boxes_3)
+#' get_values(boxes_3, "B")
+#' get_values(boxes_3, simplify = FALSE)
+#' }
 bs_checkboxes <- function(
-    parent          = top,
-    boxes,
-    labels          = NULL,
-    title           = NULL,
-    values          = NULL,
-    default_value   = "0",
-    commands        = list(),          # named list of functions
-    default_command = function() {},
-    tips            = list(), # named list of strings
-    default_tip     = "",
-    border          = FALSE,
-    layout          = c("vertical", "horizontal"),
-    sticky_buttons  = "w",
-    sticky_title    = "w"
-    ) {
+  parent          = top,
+  boxes,
+  labels          = NULL,
+  title           = NULL,
+  values          = NULL,
+  default_value   = "0",
+  commands        = list(),          # named list of functions
+  default_command = function() {},
+  tips            = list(), # named list of strings
+  default_tip     = "",
+  border          = FALSE,
+  layout          = c("vertical", "horizontal"),
+  sticky_buttons  = "w",
+  sticky_title    = "w"
+) {
   checkmate::assert_character(boxes)
   checkmate::assert_character(labels, null.ok = TRUE)
   checkmate::assert_string(title, null.ok = TRUE)

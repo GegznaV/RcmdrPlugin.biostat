@@ -1,4 +1,4 @@
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #' Radiobuttons widget.
 #'
@@ -28,7 +28,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{\donttest{
+#' \dontrun{
 #'
 #' top <- tcltk::tktoplevel()
 #'
@@ -38,17 +38,15 @@
 #'
 #' top <- tcltk::tktoplevel()
 #' buttons_2 <- bs_radiobuttons(top, buttons = c("A", "B", "C"),
-#'                              border = TRUE, title = "Buttons")
+#'   border = TRUE, title = "Buttons")
 #' tcltk::tkgrid(buttons_2$frame)
 #'
 #'
 #' top <- tcltk::tktoplevel()
 #' buttons_3 <- bs_radiobuttons(top, c("A", "B", "C"), layout = "h",
-#'                          title = "Buttons", sticky_buttons = "")
+#'   title = "Buttons", sticky_buttons = "")
 #' tcltk::tkgrid(buttons_3$frame)
-#'
-#' }}
-
+#' }
 bs_radiobuttons <- function(
   parent               = top,
   buttons,
@@ -65,8 +63,7 @@ bs_radiobuttons <- function(
   sticky_buttons       = "w",
   sticky_buttons_frame = "",
   sticky_title         = "w"
-)
-{
+) {
   checkmate::assert_string(title, null.ok = TRUE)
   checkmate::assert_list(commands)
   checkmate::assert_function(default_command)
@@ -192,7 +189,7 @@ bs_radiobuttons <- function(
     horizontal = {
       buttons_str <- paste0("objs[[", seq_along(objs), "]]",
         collapse = ", ")
-      str_glue_eval('tkgrid({buttons_str}, sticky = sticky_buttons)')
+      str_glue_eval("tkgrid({buttons_str}, sticky = sticky_buttons)")
     },
 
     stop("Unrecognized layout: ", layout)
@@ -207,7 +204,7 @@ bs_radiobuttons <- function(
     obj   = structure(objs, names = buttons),
     frame_obj = frame_for_buttons
   ),
-    class = c("bs_radiobuttons", "bs_tk_buttonset", "bs_tk_widget", "list"))
+  class = c("bs_radiobuttons", "bs_tk_buttonset", "bs_tk_widget", "list"))
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -224,4 +221,3 @@ get_values.bs_radiobuttons <- function(obj, ...) {
 set_values.bs_radiobuttons <- function(obj, values, ...) {
   tclvalue(obj$var) <- values
 }
-

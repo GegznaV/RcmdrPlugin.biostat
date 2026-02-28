@@ -47,7 +47,7 @@
 #'     \item{"scroll"}{toggle view of values that start with the pressed letter.
 #'      Do not toggle selection (i.e., do not select or deselect). }
 #'     \item{"ignore"}{Do not bind any action. Letter binding is good for read-only list boxes only.}
-#'}
+#' }
 #' @param on_keyboard_fun Function that is activated on keyboard button press, if
 #'        \code{on_keyboard} is "select" or "scroll".
 #' @param bind_row_swap (Does not work yet!) if TRUE, Ctrl/Alt + Up/Down keys move rows in the list box
@@ -82,18 +82,15 @@
 #'          \url{https://www.tcl.tk/man/tcl8.4/TkCmd/listbox.htm}
 #' @export
 #' @examples
-#'
-#' \dontrun{\donttest{
+#' \dontrun{
 #'
 #' # Active dataset must be selected
 #' top <- tktoplevel()
 #' lb1 <- bs_listbox(top, values = LETTERS, value = "K")
 #' lb2 <- bs_listbox(top, values = LETTERS, selection = c(12, 15), selectmode = "multiple")
 #' tkgrid(lb1$frame, lb2$frame)
+#' }
 #'
-#' }}
-#'
-
 bs_listbox <-
   function(parent,
     values       = variables_all(), # TODO: set to NULL
@@ -130,10 +127,9 @@ bs_listbox <-
     subtitle_sticky    = title_sticky,
     title_color        = getRcmdr("title.color"),
     subtitle_color     = "black",
-    filter_label_color = title_color
-    , ...
-  )
-  {
+    filter_label_color = title_color,
+    ...
+  ) {
 
     selectmode  <- match.arg(selectmode)
     scroll      <- match.arg(scroll)
@@ -157,7 +153,7 @@ bs_listbox <-
     width  <- min(max(width[1], 2 + nchar(values)), width[2]) # Set width
 
     selection_code <- if (length(selection) > 0) "selection  = {selection}," else ""
-    value_code     <- if (length(value) > 0)     "value      = {value},"     else ""
+    value_code     <- if (length(value) > 0) "value      = {value},"     else ""
 
     listbox <-  str_glue_eval("
         tk2listbox(
@@ -417,7 +413,7 @@ get_values_listbox <- function(listbox, trim = FALSE) {
   n <- tclvalue_int(tksize(listbox))
   vars <-
     (seq_len(n) - 1) %>% # zero based index
-    purrr::map_chr(~tclvalue_chr(tkget(listbox, ., .), trim = trim))  %>%
+    purrr::map_chr(~ tclvalue_chr(tkget(listbox, ., .), trim = trim))  %>%
     # removes { }, if several words are used as one value.
     stringr::str_replace("^\\{(.*? .*?)\\}$", "\\1")
 
@@ -744,12 +740,24 @@ move_selected_row_in_listbox__previous_version <- function(listbox, move_to = ""
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 tk_bind_row_swap_listbox <- function(listbox, ...) {
-  tkbind(listbox, "<Control-Up>",   function() {move_selected_row_in_box(listbox, "top")})
-  tkbind(listbox, "<Up>",           function() {move_selection_in_box(listbox,    "-1")})
-  tkbind(listbox, "<Alt-Up>",       function() {move_selected_row_in_box(listbox, "-1")})
-  tkbind(listbox, "<Alt-Down>",     function() {move_selected_row_in_box(listbox, "+1")})
-  tkbind(listbox, "<Down>",         function() {move_selection_in_box(listbox,    "+1")})
-  tkbind(listbox, "<Control-Down>", function() {move_selected_row_in_box(listbox, "end")})
+  tkbind(listbox, "<Control-Up>",   function() {
+    move_selected_row_in_box(listbox, "top")
+  })
+  tkbind(listbox, "<Up>",           function() {
+    move_selection_in_box(listbox,    "-1")
+  })
+  tkbind(listbox, "<Alt-Up>",       function() {
+    move_selected_row_in_box(listbox, "-1")
+  })
+  tkbind(listbox, "<Alt-Down>",     function() {
+    move_selected_row_in_box(listbox, "+1")
+  })
+  tkbind(listbox, "<Down>",         function() {
+    move_selection_in_box(listbox,    "+1")
+  })
+  tkbind(listbox, "<Control-Down>", function() {
+    move_selected_row_in_box(listbox, "end")
+  })
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -912,4 +920,3 @@ tk_enable.tk2listbox <- function(obj, ..., background = "white") {
 tk_enable.listbox_with_filter <- function(obj, ..., background = "grey95") {
   tk_normalize(obj, ..., background = background)
 }
-
