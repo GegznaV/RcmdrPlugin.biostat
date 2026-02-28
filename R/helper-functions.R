@@ -657,6 +657,34 @@ get_obj_names <-  function(
   }
 }
 
+get_obj_names_by_class <-  function(
+  include  = NULL,
+  exclude  = NULL,
+  include2_class = NULL,
+  all.names = TRUE,
+  envir = globalenv()) {
+
+  all_variable_names <- objects(envir, all.names = all.names)
+
+  if (length(all_variable_names) > 0) {
+    objs <- mget(all_variable_names, envir = envir)
+
+    if (!is.null(include_class)) {
+      objs <- purrr::keep(objs, ~inherits(.x, include_class))
+    }
+
+    if (!is.null(exclude_class)) {
+      objs <- purrr::discard(objs, ~inherits(.x, exclude_class))
+    }
+
+    if (!is.null(include2_class)) {
+      objs <- purrr::keep(objs, ~inherits(.x, include2_class))
+    }
+
+    names(objs)
+  }
+}
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Helper-functions
