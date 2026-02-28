@@ -18,7 +18,7 @@ window_dataset_new_rcmdr <- function() {
     # Checks if no name is entered
     if (dsnameValue == "") {
       errorCondition(
-        recall = window_new_dataset_rcmdr,
+        recall = window_dataset_new_rcmdr,
         message = gettext_bs("You must enter the name of the dataset."))
       return()
     }
@@ -26,7 +26,7 @@ window_dataset_new_rcmdr <- function() {
     # Check validity of the entered name
     if (!is.valid.name(dsnameValue)) {
       errorCondition(
-        recall = window_new_dataset_rcmdr,
+        recall = window_dataset_new_rcmdr,
         message = str_glue('"{dsnameValue}" ',
           gettext_bs("is not a valid name for a dataset."))
       )
@@ -36,7 +36,7 @@ window_dataset_new_rcmdr <- function() {
     # Check if a dataset with the same name exists in the workspace
     if (is.element(dsnameValue, listDataSets())) {
       if ("no" == tclvalue(checkReplace(dsnameValue, gettext_bs("Dataset")))) {
-        window_new_dataset_rcmdr()
+        window_dataset_new_rcmdr()
         return()
       }
     }
@@ -51,7 +51,7 @@ window_dataset_new_rcmdr <- function() {
       if (!getRcmdr("dataset.modified")) return()
       .data <- try(get(dsnameValue, envir = .GlobalEnv), silent = TRUE)
       if (nrow(.data) == 0) {
-        errorCondition(recall = window_new_dataset_rcmdr,
+        errorCondition(recall = window_dataset_new_rcmdr,
           message = gettext_bs("empty data set."))
         return()
       }
