@@ -186,7 +186,7 @@ window_import_from_excel <- function() {
   get_stringsAsFactors <- function(x) {
     val <- get_values(f2_opts, "stringsAsFactors")
     if (isTRUE(val)) {
-      dplyr::mutate_if(x, is.character, forcats::as_factor)
+      dplyr::mutate(x, dplyr::across(where(is.character), forcats::as_factor))
     } else {
       force(x)
     }
@@ -195,7 +195,7 @@ window_import_from_excel <- function() {
   get_code_stringsAsFactors <- function() {
     val <- get_values(f2_opts, "stringsAsFactors")
     if (isTRUE(val)) {
-      "%>% \n dplyr::mutate_if(is.character, forcats::as_factor)"
+      "|> \n dplyr::mutate(dplyr::across(where(is.character), forcats::as_factor))"
     } else {
       ""
     }
@@ -1168,8 +1168,8 @@ window_import_from_excel <- function() {
     tkadd(menu_main, "separator")
 
     tkadd(menu_main, "command",
-      label    = "Function `mutate_if()`",
-      command  = open_help("mutate_if", package = "dplyr"))
+      label    = "Function `mutate()` + `across()`",
+      command  = open_help("across", package = "dplyr"))
 
     tkadd(menu_main, "command",
       label    = "Function `as_factor()`",
