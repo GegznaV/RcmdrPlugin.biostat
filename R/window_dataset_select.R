@@ -197,8 +197,8 @@ window_dataset_select <- function() {
       Library("tidyverse")
       doItAndPrint(style_cmd(str_glue(
         "## The summary of categorical variables\n",
-        "dplyr::select_if(is.factor) %>% \n",
         "{.ds_1} |> \n ",
+        "dplyr::select(where(is.factor)) |> \n",
         "summarytools::freq(round.digits = 1)"
       )))
 
