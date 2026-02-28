@@ -267,9 +267,9 @@ biostat_env$use_relative_path <- TRUE
     rev(sort(add_plugins))
   )
 
-  # Open 3-window Rcmdr, if options is not defined
+  # Open 1-window Rcmdr, if options is not defined
   if (is.null(Rcmdr_opts$console.output)) {
-    console.output <- FALSE
+    console.output <- TRUE
 
   } else {
     console.output <- Rcmdr_opts$console.output
