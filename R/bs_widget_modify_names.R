@@ -124,7 +124,7 @@ tk_widget_modify_names <- function(
     bs_entry(
       parent = f2,
       width  = width,
-      value  = init_val_prefix,
+      value  = init_val_suffix,
       label  = gettext_bs("Suffix:"))
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
