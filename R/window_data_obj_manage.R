@@ -91,14 +91,14 @@ window_data_obj_manage <- function() {
   on_view <- function() {
     buttons_activation()
 
-    obj_names <- get_selection(f1_listbox_y) %>% safe_names()
+    obj_names <- get_selection(f1_listbox_y) |> safe_names()
     if (length(obj_names) < 1) {
       return()
     }
     # FIXME: add warning if too many datasets are selected.
 
-    str_glue("View({obj_names})") %>%
-      str_c(collapse = "\n") %>%
+    str_glue("View({obj_names})") |>
+      str_c(collapse = "\n") |>
       doItAndPrint()
   }
 
@@ -249,8 +249,8 @@ window_data_obj_manage <- function() {
     lab_2_1 <- tk_label_blue(pop_up_window, text = "New name: ")
 
     initlal_name <-
-      get_selection(f1_listbox_y) %>%
-      unique_obj_names() %>%
+      get_selection(f1_listbox_y) |>
+      unique_obj_names() |>
       .[1]
 
     text_box_1 <-
@@ -393,8 +393,8 @@ window_data_obj_manage <- function() {
     lab_2_1 <- tk_label_blue(pop_up_window, text = "Name of a copy: ")
 
     initlal_name <-
-      get_selection(f1_listbox_y) %>%
-      unique_obj_names() %>%
+      get_selection(f1_listbox_y) |>
+      unique_obj_names() |>
       .[1]
 
     text_box_1 <-
@@ -443,7 +443,7 @@ window_data_obj_manage <- function() {
 
     } else {
       obj_names_str_short <-
-        stringr::str_trunc(obj_names_str, 1000) %>%
+        stringr::str_trunc(obj_names_str, 1000) |>
         # Remove the last non-full name
         stringr::str_replace(", [^,]*?\\.\\.\\.$", ", ...")
 
@@ -478,7 +478,7 @@ window_data_obj_manage <- function() {
       # Construct the command ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       command <-
         str_glue("## Delete objects \n",
-          "remove({obj_names_str})") %>%
+          "remove({obj_names_str})") |>
         style_cmd()
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       doItAndPrint(command)

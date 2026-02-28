@@ -253,7 +253,7 @@ get_values.bs_checkboxes <- function(obj,
 
   } else {
     stop("Possibly misspelled names: ",
-      setdiff(names(values), names(obj_list)) %>% str_c(collapse = ", "),
+      setdiff(names(values), names(obj_list)) |> str_c(collapse = ", "),
       ".",
       call. = FALSE
     )

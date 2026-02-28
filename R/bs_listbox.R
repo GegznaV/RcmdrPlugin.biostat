@@ -412,8 +412,8 @@ get_size.tkwin <- function(obj, ...) {
 get_values_listbox <- function(listbox, trim = FALSE) {
   n <- tclvalue_int(tksize(listbox))
   vars <-
-    (seq_len(n) - 1) %>% # zero based index
-    purrr::map_chr(~ tclvalue_chr(tkget(listbox, ., .), trim = trim))  %>%
+    (seq_len(n) - 1) |> # zero based index
+    purrr::map_chr(~ tclvalue_chr(tkget(listbox, ., .), trim = trim))  |>
     # removes { }, if several words are used as one value.
     stringr::str_replace("^\\{(.*? .*?)\\}$", "\\1")
 

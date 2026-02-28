@@ -8,8 +8,8 @@ command_model_std_lm_coeffs <- function() {
   .mod <- activeModel()
 
   obj <-
-    str_glue("{.ds}_{.mod}") %>%
-    str_trunc(width = 40, ellipsis = "") %>%
+    str_glue("{.ds}_{.mod}") |>
+    str_trunc(width = 40, ellipsis = "") |>
     unique_obj_names(suffix = "_std")
 
   Library("tidyverse")
@@ -20,11 +20,11 @@ command_model_std_lm_coeffs <- function() {
     "## Statistical findings of the model \n",
     "## with standardized coefficients\n\n",
 
-    "{obj} <- \n {.mod} %>% \n ",
+    "{obj} <- \n {.mod} |> \n ",
     "lm.beta::lm.beta() \n\n",
     "summary({obj})"
-  ) %>%
-    style_cmd() %>%
+  ) |>
+    style_cmd() |>
     doItAndPrint()
 
   doItAndPrint(str_glue(
@@ -97,9 +97,9 @@ command_model_glance <- function() {
   .mod <- activeModel()
 
   obj <-
-    str_glue("{.ds}_{.mod}") %>%
-    str_trunc(width = 40, ellipsis = "") %>%
-    str_c("_glance") %>%
+    str_glue("{.ds}_{.mod}") |>
+    str_trunc(width = 40, ellipsis = "") |>
+    str_c("_glance") |>
     unique_obj_names()
 
   Library("tidyverse")
@@ -120,9 +120,9 @@ command_model_tidy <- function() {
   .mod <- activeModel()
 
   obj <-
-    str_glue("{.ds}_{.mod}") %>%
-    str_trunc(width = 40, ellipsis = "") %>%
-    str_c("_tidy") %>%
+    str_glue("{.ds}_{.mod}") |>
+    str_trunc(width = 40, ellipsis = "") |>
+    str_c("_tidy") |>
     unique_obj_names()
 
   Library("tidyverse")

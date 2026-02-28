@@ -63,8 +63,8 @@ tk_widget_modify_names <- function(
 
   vals <- vals1 <- vals2 <- vals3 <- c("v", "h")
   layout_combinations <-
-    tidyr::crossing(vals, vals1, vals2, vals3) %>%
-    dplyr::transmute(v = str_c(vals, vals1, vals2, vals3)) %>%
+    tidyr::crossing(vals, vals1, vals2, vals3) |>
+    dplyr::transmute(v = str_c(vals, vals1, vals2, vals3)) |>
     dplyr::pull(v)
 
   layout <- match.arg(layout, choices = layout_combinations)

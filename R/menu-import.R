@@ -217,19 +217,19 @@ get_info_about_datasets <- function(package = NULL) {
   # package   <- "ggplot2"
 
   res <-
-    package %>%
-    purrr::map_dfr(~ tibble::as_tibble(data(package = .)$results)) %>%
-    dplyr::select(-LibPath) %>%
+    package |>
+    purrr::map_dfr(~ tibble::as_tibble(data(package = .)$results)) |>
+    dplyr::select(-LibPath) |>
     dplyr::mutate(
       # removes unnecessary information
       Item = stringr::str_trim(stringr::str_replace(Item, " .*$", "")),
       pkg_ds = stringr::str_c(Package, "::", Item),
       code_to_load = stringr::str_glue('data({Item}, package = "{Package}")'),
       info = purrr::map(pkg_ds, ~ purrr::safely(get_ds_info_2)(.)$result)
-    ) %>%
-    tidyr::unnest(info) %>%
-    dplyr::rename(Dataset = Item) %>%
-    dplyr::select(-pkg_ds, -code_to_load, dplyr::everything(), code_to_load) %>%
+    ) |>
+    tidyr::unnest(info) |>
+    dplyr::rename(Dataset = Item) |>
+    dplyr::select(-pkg_ds, -code_to_load, dplyr::everything(), code_to_load) |>
     dplyr::arrange(Package, Dataset)
 
   # If no datasets are present
@@ -267,9 +267,9 @@ list_datasets_in_package <- function(package) {
 }
 
 get_ds_info_as_sring <- function(str) {
-  str %>%
-    get_ds_info_2() %>%
-    knitr::kable(format = "pandoc") %>%
+  str |>
+    get_ds_info_2() |>
+    knitr::kable(format = "pandoc") |>
     str_c(collapse = "\n")
 }
 
@@ -277,8 +277,8 @@ get_ds_info_as_sring <- function(str) {
 # pkgs <- c( "sandwich", "datasets")
 # get_ds_list(pkgs)
 get_ds_list <- function(pkgs) {
-  pkgs %>%
-    purrr::map_dfr(~ tibble::as_tibble(data(package = .)$results)) %>%
-    dplyr::mutate(Item = stringr::str_trim(stringr::str_replace(Item, " .*$", ""))) %>%
+  pkgs |>
+    purrr::map_dfr(~ tibble::as_tibble(data(package = .)$results)) |>
+    dplyr::mutate(Item = stringr::str_trim(stringr::str_replace(Item, " .*$", ""))) |>
     dplyr::pull(Item)
 }

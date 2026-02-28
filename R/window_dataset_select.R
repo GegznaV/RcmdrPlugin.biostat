@@ -38,40 +38,40 @@ window_dataset_select <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   cmd_ds_class_print <- function() {
-    .ds_1 <- get_selection(var_ds_box) %>% safe_names()
+    .ds_1 <- get_selection(var_ds_box) |> safe_names()
     doItAndPrint(str_glue(
       '## The class of dataset "{.ds_1}"\n',
       "class({.ds_1})"))
   }
 
   cmd_ds_dims <- function() {
-    .ds_1 <- get_selection(var_ds_box) %>% safe_names()
+    .ds_1 <- get_selection(var_ds_box) |> safe_names()
     command_dataset_dim_0(.ds_1)
   }
 
   cmd_ds_size <- function() {
-    .ds_1 <- get_selection(var_ds_box) %>% safe_names()
+    .ds_1 <- get_selection(var_ds_box) |> safe_names()
     Library("tidyverse")
     doItAndPrint(str_glue(
       '## The size of dataset "{.ds_1}"\n',
-      'object.size({.ds_1}) %>% print(unit = "auto")'
+      'object.size({.ds_1}) |> print(unit = "auto")'
     ))
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   cmd_var_type_summary <- function() {
-    .ds_1 <- get_selection(var_ds_box) %>% safe_names()
+    .ds_1 <- get_selection(var_ds_box) |> safe_names()
     summary_var_types_0(.ds_1)
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   cmd_var_type_summary_plot <- function() {
-    .ds_1 <- get_selection(var_ds_box) %>% safe_names()
+    .ds_1 <- get_selection(var_ds_box) |> safe_names()
     summary_var_types_plot_0(.ds_1)
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   cmd_var_names_print <- function() {
-    .ds_1 <- get_selection(var_ds_box) %>% safe_names()
+    .ds_1 <- get_selection(var_ds_box) |> safe_names()
     doItAndPrint(str_glue(
       "## Variable names in dataset '{.ds_1}'\n",
       "names({.ds_1})"
@@ -80,7 +80,7 @@ window_dataset_select <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   cmd_ds_glimpse <- function() {
-    .ds_1 <- get_selection(var_ds_box) %>% safe_names()
+    .ds_1 <- get_selection(var_ds_box) |> safe_names()
     doItAndPrint(str_glue(
       '## The structure of dataset "{.ds_1}"\n',
       "dplyr::glimpse({.ds_1})"
@@ -104,7 +104,7 @@ window_dataset_select <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   cmd_var_summary <- function() {
-    .ds_1     <- get_selection(var_ds_box) %>% safe_names()
+    .ds_1     <- get_selection(var_ds_box) |> safe_names()
 
     command <- str_glue(
       .trim = FALSE,
@@ -116,7 +116,7 @@ window_dataset_select <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   cmd_var_summary_dfSummary <- function() {
-    .ds_1 <- get_selection(var_ds_box) %>% safe_names()
+    .ds_1 <- get_selection(var_ds_box) |> safe_names()
     Library("summarytools")
 
     # FIXME: remove when summarytools fixes this bug
@@ -143,7 +143,7 @@ window_dataset_select <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   cmd_var_summary_desc <- function() {
     # DescTools
-    .ds_1     <- get_selection(var_ds_box) %>% safe_names()
+    .ds_1     <- get_selection(var_ds_box) |> safe_names()
 
     Library("DescTools")
     opts_code <- get_desctools_opts_str()
@@ -158,7 +158,7 @@ window_dataset_select <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   cmd_var_summary_descr <- function() {
     # SummaryTools
-    .ds_1     <- get_selection(var_ds_box) %>% safe_names()
+    .ds_1     <- get_selection(var_ds_box) |> safe_names()
 
     # If any numeric variables exist
     ds_numeric <-
@@ -171,9 +171,8 @@ window_dataset_select <- function() {
       command <- str_glue(
         .trim = FALSE,
         "## The summary of numeric variables\n",
-        "{.ds_1} %>% ",
-        # "  group_by() %>%",
-        "  select_if(is.numeric) %>%",
+        "{.ds_1} |> ",
+        "  dplyr::select(where(is.numeric)) |>",
         "  summarytools::descr(round.digits = 2)"
       )
       doItAndPrint(style_cmd(command))
@@ -185,7 +184,7 @@ window_dataset_select <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   cmd_var_summary_fct <- function() {
-    .ds_1 <- get_selection(var_ds_box) %>% safe_names()
+    .ds_1 <- get_selection(var_ds_box) |> safe_names()
 
     # If any factors exist
     ds_factors <-
@@ -198,10 +197,9 @@ window_dataset_select <- function() {
       Library("tidyverse")
       doItAndPrint(style_cmd(str_glue(
         "## The summary of categorical variables\n",
-        "{.ds_1} %>% \n ",
         "dplyr::select_if(is.factor) %>% \n",
+        "{.ds_1} |> \n ",
         "summarytools::freq(round.digits = 1)"
-        # "purrr::map(~data.frame(n = summary(.)))"
       )))
 
     } else {
@@ -211,7 +209,7 @@ window_dataset_select <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   cmd_ds_view <- function() {
-    .ds_1 <- get_selection(var_ds_box) %>% safe_names()
+    .ds_1 <- get_selection(var_ds_box) |> safe_names()
     doItAndPrint(str_glue(
       "## Open '{.ds_1}' in Data Viewer \n",
       "View({.ds_1})"
@@ -246,7 +244,7 @@ window_dataset_select <- function() {
       return()
     }
 
-    selection <- getSelection(var_ds_box) %>% safe_names()
+    selection <- getSelection(var_ds_box) |> safe_names()
     closeDialog()
 
     active_dataset(selection)

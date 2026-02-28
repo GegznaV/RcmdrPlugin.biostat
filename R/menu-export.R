@@ -22,10 +22,10 @@ to_pptx <- function() {
   Library("officer")
 
   doc <-
-    read_pptx() %>%
-    add_slide(layout = "Title and Content", master = "Office Theme") %>%
-    ph_with_text(type =  "title", str = "A title") %>%
-    ph_with_table(type = "body", value = mtcars) %>%
+    read_pptx() |>
+    add_slide(layout = "Title and Content", master = "Office Theme") |>
+    ph_with_text(type =  "title", str = "A title") |>
+    ph_with_table(type = "body", value = mtcars) |>
     ph_with_text(type = "dt", str = format(Sys.Date()))
 
   print(doc, target = "ph_with_table.pptx")
@@ -54,13 +54,13 @@ to_word <- function() {
   }
 
 
-  doc %>%
+  doc |>
     # body_add_par(value = "dataset mtcars", style = "heading 1") %>%
     # body_add_break() %>%
 
-    body_add_par(value = str_glue("Dataset '{ds_name}'"), style = "table title") %>%
-    body_add_table(value = ds, style = "table_template") %>%
-    body_end_section_portrait() %>%
+    body_add_par(value = str_glue("Dataset '{ds_name}'"), style = "table title") |>
+    body_add_table(value = ds, style = "table_template") |>
+    body_end_section_portrait() |>
     print(doc, target = f_name)
 
   fs::file_show(f_name)

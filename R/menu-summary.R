@@ -17,8 +17,8 @@ window_summary_inspect <- function() {
 
   # command <- str_glue("{active_dataset_0()} %>% inspect_mem() %>% show_plot()")
   # command <- str_glue("{active_dataset_0()} %>% inspect_types() %>% show_plot()")
-  command_num <- str_glue("{active_dataset_0()} %>% inspect_num() %>% show_plot()")
-  command_cat <- str_glue("{active_dataset_0()} %>% inspect_cat() %>% show_plot()")
+  command_num <- str_glue("{active_dataset_0()} |> inspect_num() |> show_plot()")
+  command_cat <- str_glue("{active_dataset_0()} |> inspect_cat() |> show_plot()")
 
   doItAndPrint(command_num)
   doItAndPrint(command_cat)
@@ -52,7 +52,7 @@ command_glimpse <- function() {
     str_glue(
       "## Structure of dataset \n",
       "dplyr::glimpse({active_dataset_0()})"
-    ) %>%
+    ) |>
     style_cmd()
 
   doItAndPrint(command)
@@ -71,7 +71,7 @@ window_summary_desc_all <- function() {
       "{opts_code} ",
       "## Summarize all variables \n",
       'DescTools::Desc({active_dataset_0()}, plotit = FALSE, ord = "level")'
-    ) %>%
+    ) |>
     style_cmd()
 
   doItAndPrint(command)
@@ -99,11 +99,11 @@ summary_head_tail <- function() {
 
   str_glue(
     "## Top and bottom rows\n",
-    "{.ds} %>% \n",
-    "as.data.table({keep_rownames_txt}) %>% \n",
+    "{.ds} |> \n",
+    "as.data.table({keep_rownames_txt}) |> \n",
     "print(topn = 5, nrows = 10)"
-  ) %>%
-    style_cmd() %>%
+  ) |>
+    style_cmd() |>
     doItAndPrint()
 }
 
@@ -130,10 +130,10 @@ summary_var_types_0 <- function(.ds) {
     str_glue(
       "## Variable type summary \n",
       '## (dataset "{.ds}")\n',
-      "{.ds} %>% \n",
-      '  purrr::map_chr(~ class(.) %>% paste(collapse = ", ")) %>% \n',
-      '  tibble::enframe("variable", "class") %>% \n',
-      '  dplyr::count(class, name = "n variables") %>% \n',
+      "{.ds} |> \n",
+      '  purrr::map_chr(~ class(.) |> paste(collapse = ", ")) |> \n',
+      '  tibble::enframe("variable", "class") |> \n',
+      '  dplyr::count(class, name = "n variables") |> \n',
       '  knitr::kable(format = "pandoc")'
     )
   )
@@ -150,7 +150,7 @@ summary_var_types_plot_0 <- function(.ds) {
   }
   doItAndPrint(str_glue(
     "## Variable sizes in memory \n",
-    "{.ds} %>% inspect_mem() %>% show_plot()"
+    "{.ds} |> inspect_mem() |> show_plot()"
   ))
 
   if (is_plot_in_separate_window()) {
@@ -158,12 +158,12 @@ summary_var_types_plot_0 <- function(.ds) {
   }
   doItAndPrint(str_glue(
     "## Plot of variable type frequency \n",
-    "{.ds} %>% inspect_types() %>% show_plot()"
+    "{.ds} |> inspect_types() |> show_plot()"
   ))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 cmd_var_summary_skim <- function() {
-  .ds_1 <- get_selection(var_ds_box) %>% safe_names()
+  .ds_1 <- get_selection(var_ds_box) |> safe_names()
   summary_skim(.ds_1)
 }

@@ -29,7 +29,7 @@
   if (!all(.which %in% names(obj$obj))) {
 
     stop("Possibly misspelled names: ",
-      setdiff(.which, names(obj$obj)) %>% str_c(collapse = ", "),
+      setdiff(.which, names(obj$obj)) |> str_c(collapse = ", "),
       ".",
       call. = FALSE
     )

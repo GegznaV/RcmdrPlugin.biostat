@@ -430,7 +430,7 @@ window_export_fig_to_pptx__old <- function() {
 
     file_open <-
       if (file.exists(pptx_file)) {
-        str_glue('"{pptx_file}" %>% \n')
+        str_glue('"{pptx_file}" |> \n')
 
       } else {
         ""
@@ -451,19 +451,19 @@ window_export_fig_to_pptx__old <- function() {
     command <- str_c(
       sep = "\n",
       "## Save plot",
-      "    {file_open}officer::read_pptx() %>%",
-      '    officer::add_slide(layout = "Blank", master = "Office Theme") %>%',
+      "    {file_open}officer::read_pptx() |>",
+      '    officer::add_slide(layout = "Blank", master = "Office Theme") |>',
       "    rvg::ph_with_vg_at(",
       "        width  = {pos_width}, # {in_units}",
       "        height = {pos_height}, # {in_units}",
       "        left   = {pos_left}, # {in_units}",
       "        top    = {pos_top}, # {in_units}",
       "        {gg_code}",
-      "    ) %>%",
+      "    ) |>",
       '    print(target = "{pptx_file}")',
 
       "{code__open_after_saving}"
-    ) %>%
+    ) |>
       str_glue()
 
     # command %>% structure(class = c("glue", "character"))

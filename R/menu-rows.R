@@ -39,7 +39,7 @@ command_rows_rm_empty_rows <- function() {
 
   if (any(empty_rows_tmp)) {
     empty_rows_ind <-
-      which(empty_rows_tmp) %>%
+      which(empty_rows_tmp) |>
       stringr::str_c(collapse = ", ")
 
     logger(str_glue("# Indices of empty rows: \n# {empty_rows_ind} \n"))
@@ -51,7 +51,7 @@ command_rows_rm_empty_rows <- function() {
       "which({empty_row_var}, useNames = FALSE) # Indices of empty rows \n")
 
     command_2 <- str_glue(
-      "{ds} <- {ds} %>% dplyr::filter(!{empty_row_var}) # Remove the rows\n",
+      "{ds} <- {ds} |> dplyr::filter(!{empty_row_var}) # Remove the rows\n",
       "remove({empty_row_var}) # Clean up\n")
 
     doItAndPrint(command_1)

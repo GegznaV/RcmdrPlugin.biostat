@@ -59,10 +59,10 @@ refresh_dataset_window_0 <- function(
 
   # Format fread error for display
   parse_file_read_error <- function(err) {
-    err %>%
-      str_replace("Error in .*\n", "") %>%
-      str_replace("(does not exist)", "\n\\1") %>%
-      str_replace("\\. ", ".\n") %>%
+    err |>
+      str_replace("Error in .*\n", "") |>
+      str_replace("(does not exist)", "\n\\1") |>
+      str_replace("\\. ", ".\n") |>
       str_trim()
   }
 
@@ -107,8 +107,8 @@ refresh_dataset_window_0 <- function(
             print(tibble::as_tibble(ds_contents),
               width = Inf,
               n = nrow_preview_ds)
-          ) %>%
-          str_subset("^(?!# A tibble.*)") %>%
+          ) |>
+          str_subset("^(?!# A tibble.*)") |>
           str_replace("^# \\.\\.\\. with.*", txt_trunc)
 
         options(op)

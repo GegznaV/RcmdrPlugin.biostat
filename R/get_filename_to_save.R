@@ -22,7 +22,7 @@ get_filename_to_save <- function(
       filetypes   = filetypes,
       defaultextension = defaultextension,
       ...
-    ) %>%
+    ) |>
     tclvalue_chr()
 
   file_name
