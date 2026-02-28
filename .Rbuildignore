@@ -23,3 +23,4 @@ pkgdown/
 ^pkgdown$
 ^\.github$
 ^_tmp$
+^_ai-context\.qmd$
