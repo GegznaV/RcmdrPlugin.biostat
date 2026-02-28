@@ -1712,7 +1712,7 @@ modelClassP <- function(class_) {
 #' @keywords internal
 variables_with_unique_values_P <- function(n = 1) {
 
-  activeDataSetP() && length(variables_with_unique_values() >= n)
+  activeDataSetP() && length(variables_with_unique_values()) >= n
 }
 
 
