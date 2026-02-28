@@ -2108,14 +2108,6 @@ rcmdr_read_rmd_window <- function() {
   rcmdr_read_window(RmdWindow())
 }
 
-
-#' @rdname Helper-functions
-#' @export
-#' @keywords internal
-rcmdr_read_rmd_window <- function() {
-  rcmdr_read_window(RmdWindow())
-}
-
 #' @rdname Helper-functions
 #' @export
 #' @keywords internal
