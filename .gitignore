@@ -64,3 +64,6 @@ inst/tklibs/
 
 docs/
 /inst/tcltk_libs
+
+# AI context file
+_ai-context.qmd
