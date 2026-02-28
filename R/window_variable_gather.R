@@ -162,13 +162,13 @@ window_variable_gather <- function() {
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Construct code
-    variables <-
+    cols_expr <-
       if (gather_all == TRUE) {
-        ""
+        "everything()"
 
       } else {
         stringr::str_c(
-          ",\n", stringr::str_c(safe_names(variables), collapse = ", "))
+          "c(", stringr::str_c(safe_names(variables), collapse = ", "), ")")
       }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -181,37 +181,34 @@ window_variable_gather <- function() {
 
     na_rm_text <-
       if (na_rm == TRUE) {
-        "na.rm = TRUE"
+        "values_drop_na = TRUE"
       } else {
         NULL
       }
 
-    convert_key_text <-
+    # convert takes precedence over factor_key (same as gather behavior)
+    names_transform_text <-
       if (convert_key == TRUE) {
-        "convert = TRUE"
-      } else {
-        NULL
-      }
-
-    factor_key_text <-
-      if (factor_key == TRUE) {
-        "factor_key = TRUE"
+        "names_transform = readr::parse_guess"
+      } else if (factor_key == TRUE) {
+        "names_transform = as.factor"
       } else {
         NULL
       }
 
     opts_text <- stringr::str_c(
       options_new_line,
-      stringr::str_c(na_rm_text, factor_key_text, convert_key_text,
+      stringr::str_c(na_rm_text, names_transform_text,
         sep = ", "))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     command <- str_glue(
       "## Convert to long-format data frame \n",
       "{new_dataset} <- \n",
-      "{.ds} %>% \n",
-      'tidyr::gather(key = "{key_colname}", value = "{value_colname}"',
-      "{variables}{opts_text}",
+      "{.ds} |> \n",
+      'tidyr::pivot_longer(cols = {cols_expr}',
+      ', names_to = "{key_colname}", values_to = "{value_colname}"',
+      "{opts_text}",
       ")")
 
     # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -247,8 +244,8 @@ window_variable_gather <- function() {
 
   # Initialize dialog window and title ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  initializeDialog(title = gettext_bs("Gather: Convert Dataset into Long Format"))
-  tk_title(top, gettext_bs("Gather / Stack Columns into Key-Value Pairs"))
+  initializeDialog(title = gettext_bs("Pivot Longer: Convert Dataset into Long Format"))
+  tk_title(top, gettext_bs("Pivot Longer: Stack Columns into Name-Value Pairs"))
 
 
   # Get default values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -338,10 +335,10 @@ window_variable_gather <- function() {
     title  = "Options",
     boxes  = c("gather_all", "na_rm", "factor_key", "convert_key"),
     labels = gettext_bs(
-      c("Gather all variables",
+      c("Pivot all variables",
         "Remove missing values from output",
-        "Convert key column to factor",
-        "Convert key column to numeric, integer, or logical ")),
+        "Convert names column to factor",
+        "Convert names column to numeric, integer, or logical ")),
     values = c(
       initial$gather_all,
       initial$na_rm,
@@ -434,13 +431,13 @@ window_variable_gather <- function() {
     )
 
     tkadd(menu_main, "command",
-      label    = "Function `gather()`",
-      command  = open_help("gather", package = "tidyr")
+      label    = "Function `pivot_longer()`",
+      command  = open_help("pivot_longer", package = "tidyr")
     )
 
     tkadd(menu_main, "command",
-      label    = "Function `pivot_longer()`",
-      command  = open_help("pivot_longer", package = "tidyr")
+      label    = "Function `gather()` (superseded)",
+      command  = open_help("gather", package = "tidyr")
     )
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
