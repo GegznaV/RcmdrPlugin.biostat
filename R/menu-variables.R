@@ -87,8 +87,8 @@ command_all_chr_to_fctr <- function() {
   command <-
     str_glue(
       "## Convert all text variables to factor variables\n",
-      "dplyr::mutate_if(is.character, forcats::as_factor)"
       "{.ds} <- {.ds} |> \n",
+      "dplyr::mutate(dplyr::across(where(is.character), forcats::as_factor))"
     ) |>
     style_cmd()
 
