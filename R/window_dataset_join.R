@@ -28,9 +28,9 @@ window_dataset_join <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tk_pair_control <- function(obj1, obj2,
-      state = c("readonly", "disabled", "active", "normal"),
-      reset = FALSE,
-      selected = c("", ""), ...) {
+                              state = c("readonly", "disabled", "active", "normal"),
+                              reset = FALSE,
+                              selected = c("", ""), ...) {
     state <- match.arg(state)
     if (reset == TRUE) {
       tclvalue(obj1$combovar) <- selected[1]
@@ -352,7 +352,6 @@ window_dataset_join <- function() {
 
     labelRcmdr(var_names_Frame,
       text = gettext_bs("Variable in y"))
-
   )
 
   tkgrid(getFrame(v_x1),

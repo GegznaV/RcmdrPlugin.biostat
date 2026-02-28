@@ -441,8 +441,8 @@ window_import_from_text <- function() {
   # @param char_width (integer) Character width (in points). Default is 6.
   # @md
   align_tabs <- function(input = get_input_by_mode(),
-      auto_align_tabs = isTRUE(get_values(f3_tabs_align)), default_stops = "",
-      add_spaces = 2L, char_width = 6L, skip = get_skip()) {
+                         auto_align_tabs = isTRUE(get_values(f3_tabs_align)), default_stops = "",
+                         add_spaces = 2L, char_width = 6L, skip = get_skip()) {
 
     if (isTRUE(auto_align_tabs)) {
 

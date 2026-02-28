@@ -42,8 +42,8 @@
 #' @export
 #' @keywords internal
 refresh_dataset_window_0 <- function(
-    widget, ds_contents, preview_type, nrow_preview_ds, expect_more_rows = FALSE,
-    err_msg_default = NULL) {
+  widget, ds_contents, preview_type, nrow_preview_ds, expect_more_rows = FALSE,
+  err_msg_default = NULL) {
   # Check arguments
   preview_type <- match.arg(preview_type,
     choices = c("Tibble", "Data table", "Structure"))

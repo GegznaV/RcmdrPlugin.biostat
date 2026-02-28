@@ -79,7 +79,7 @@ tk_get_state.default <- function(obj, ...) {
 #' @keywords internal
 #' @export
 tk_set_default_enabled_state.default <- function(obj,
-    state = c("active", "normal", "readonly"), ...) {
+  state = c("active", "normal", "readonly"), ...) {
 
   state <- match.arg(state)
   obj$default_enabled_state <- state

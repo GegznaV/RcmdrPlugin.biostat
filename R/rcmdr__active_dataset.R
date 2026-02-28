@@ -106,7 +106,7 @@ active_dataset <- function(dsname, flushModel = TRUE, flushDialogMemory = TRUE) 
   }
 
   if (!is.null(.ds) &&
-      getRcmdr("attach.data.set") && (length(grep(.ds, search(), useBytes = TRUE)) != 0)) {
+    getRcmdr("attach.data.set") && (length(grep(.ds, search(), useBytes = TRUE)) != 0)) {
     detach(pos = match(.ds, search()))
     logger(str_glue("detach({.ds})"))
   }

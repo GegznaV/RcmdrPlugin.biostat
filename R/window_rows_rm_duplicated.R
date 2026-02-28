@@ -126,7 +126,6 @@ window_rows_rm_duplicated <- function() {
     scope          = "search_all",
     var_y          = NULL,
     keep_variables = "keep_selected_"
-
   )
   initial <- getDialog("window_rows_rm_duplicated", defaults)
 

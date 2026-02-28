@@ -24,8 +24,8 @@ window_rows_filter0  <- function() {
 # init_conditions (character) - conditions to be evaluated to select rows
 # incorrect_cond_msg (character) - Message for incorrect expression.
 window_rows_filter <- function(new_dsname = NULL,
-    init_conditions = NULL,
-    incorrect_cond_msg = NULL) {
+  init_conditions = NULL,
+  incorrect_cond_msg = NULL) {
   # Functions --------------------------------------------------------------
   onDoubleClick_variable <- function() {
     var <- trim.blanks(get_selection(y_var_box))
@@ -184,7 +184,7 @@ window_rows_filter <- function(new_dsname = NULL,
   examples_frame <- tkframe(upper_frame)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid_text <- function(text = "", frame = examples_frame, fg = "black",
-      sticky = "w", padx = 20, pady = 0, ...) {
+                          sticky = "w", padx = 20, pady = 0, ...) {
     tkgrid(labelRcmdr(frame, text = gettext_bs(text), fg = fg),
       sticky = sticky, padx = padx, pady = pady, ...)
   }

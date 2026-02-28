@@ -723,7 +723,7 @@ window_variable_recode0 <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid_text <- function(text = "", frame = examples_frame, fg = "black",
-      sticky = "w", padx = 10, pady = 0, ...) {
+                          sticky = "w", padx = 10, pady = 0, ...) {
     tkgrid(tk_label(frame, text = gettext_bs(text), fg = fg),
       sticky = sticky, padx = padx, pady = pady, ...)
   }

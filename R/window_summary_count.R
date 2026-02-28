@@ -256,7 +256,6 @@ window_summary_count <- function() {
         fisher_test  = fisher_test,
         assoc_stats  = assoc_stats,
         keep_model   = keep_model
-
       )
     )
 

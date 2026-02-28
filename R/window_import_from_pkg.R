@@ -506,7 +506,6 @@ window_import_from_pkg <- function() {
       title = gettext_bs("Package (select one)"),
       use_filter = TRUE,
       filter_label = "Filter packages"
-
     )
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   f2_box_ds <-

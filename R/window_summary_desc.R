@@ -880,8 +880,8 @@ window_summary_desc <- function() {
 # Returns only those options that have to be changed.
 # .force = TRUE  -- print options string even if options are not changed
 get_desctools_opts_str <- function(num_digits = 3, per_digits = 1, scipen = 9,
-    big_mark = "", abs_big_mark = big_mark, num_big_mark = big_mark,
-    .force = FALSE) {
+  big_mark = "", abs_big_mark = big_mark, num_big_mark = big_mark,
+  .force = FALSE) {
 
   x <- DescTools::Fmt()
   str <- ""

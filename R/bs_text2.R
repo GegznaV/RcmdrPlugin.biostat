@@ -107,7 +107,6 @@ bs_text2 <- function(parent, width = 80, ..., label = "", undo = TRUE, k = 2,
     context_menu_fun =
       purrr::partial(right_click_menu_text, tcl_widget = obj_txt, undo = undo),
     update_line_numbers = update_line_numbers
-
   ),
   class = c("bs_text2", "bs_text", "bs_tk_widget", "list"))
 }

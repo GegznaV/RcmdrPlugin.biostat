@@ -232,8 +232,8 @@ window_import_from_excel <- function() {
                     {{Excel open XML files}   .xlsx}
                     {{Excel 97-2003 files}    .xls}
                  {{All Files} *}")
-        )
       )
+    )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (filename == "") {
       return()
@@ -264,8 +264,8 @@ window_import_from_excel <- function() {
   # Return TRUE on success
   #        FALSE on failure.
   check_file_name <- function(on_success = do_nothing,
-      on_failure = do_nothing,
-      silent = FALSE) {
+                              on_failure = do_nothing,
+                              silent = FALSE) {
     filename <- read_path_to_file()
 
     if (fs::is_file(filename) || is_url(filename)) {

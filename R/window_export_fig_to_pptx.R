@@ -520,7 +520,6 @@ window_export_fig_to_pptx_2 <- function() {
           "    )"
         ),
         stop("Unknown value of 'location_type': ", location_type)
-
       )
 
     # Save plot

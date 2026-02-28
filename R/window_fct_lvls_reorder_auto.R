@@ -15,6 +15,4 @@
 #
 
 
-window_fct_lvls_reorder_auto <- function() {
-
-}
+window_fct_lvls_reorder_auto <- function() {}
