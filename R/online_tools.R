@@ -195,13 +195,6 @@ window_online_forcats <- function() {
 #' @rdname Menu-window-functions
 #' @export
 #' @keywords internal
-window_online_magrittr <- function() {
-  open_online_tool("https://magrittr.tidyverse.org/")
-}
-
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
 window_online_purrr <- function() {
   open_online_tool("https://purrr.tidyverse.org/")
 }

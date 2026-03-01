@@ -88,7 +88,6 @@
 \alias{window_online_broom}
 \alias{window_online_dplyr}
 \alias{window_online_forcats}
-\alias{window_online_magrittr}
 \alias{window_online_purrr}
 \alias{window_online_readr}
 \alias{window_online_readxl}
@@ -307,8 +306,6 @@ window_online_broom()
 window_online_dplyr()
 
 window_online_forcats()
-
-window_online_magrittr()
 
 window_online_purrr()
 
