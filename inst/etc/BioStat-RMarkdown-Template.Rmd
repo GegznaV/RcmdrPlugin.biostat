@@ -23,7 +23,6 @@ library(car)
 library(RcmdrMisc)
 
 library(tidyverse)
-library(magrittr)
 library(skimr)
 ```
 

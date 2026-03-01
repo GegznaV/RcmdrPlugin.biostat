@@ -16,7 +16,6 @@
 #' @import nortest
 #' @import ggplot2
 #' @importFrom dplyr glimpse is_grouped_df
-#' @importFrom magrittr "%>%"  "%<>%"  "%T>%"  "%$%"
 #' @importFrom graphics plot par
 #' @importFrom stats p.adjust.methods C setNames
 #' @importFrom utils browseURL packageVersion data installed.packages modifyList

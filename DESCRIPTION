@@ -77,7 +77,6 @@ Imports:
     janitor (>= 1.2.0),
     lm.beta,
     lmtest  (>= 0.9-3),
-    magrittr,
     methods,
     nortest,
     officer,
