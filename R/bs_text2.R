@@ -4,7 +4,20 @@
 #         state = "normal",
 #         font = font_consolas_regular
 
-
+#' Create a two-pane text widget (line numbers + content)
+#'
+#' A variant of [bs_text()] with a separate line-number pane.
+#'
+#' @param parent Parent TclTk frame.
+#' @param width Total width (characters).
+#' @param ... Additional arguments passed to `tk2text()`.
+#' @param label Label displayed above the widget.
+#' @param undo Logical. Enable undo support.
+#' @param k Width of the line-number pane.
+#' @param context_menu Logical. Add right-click context menu.
+#'
+#' @return A `bs_text2` / `bs_tk_widget` object.
+#' @keywords internal
 bs_text2 <- function(parent, width = 80, ..., label = "", undo = TRUE, k = 2,
                      context_menu = FALSE) {
 

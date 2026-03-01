@@ -15,14 +15,14 @@ window_factor_lvls_drop <- function() {
 
   .ds <- active_dataset()
 
-  allfactorsVariable <- tclVar("0")
-  allFrame <- tkframe(top)
-  allfactorsCheckBox <- ttkcheckbutton(
-    allFrame,
-    variable = allfactorsVariable
+  all_factors_variable <- tclVar("0")
+  all_frame <- tkframe(top)
+  all_factors_checkbox <- ttkcheckbutton(
+    all_frame,
+    variable = all_factors_variable
   )
 
-  variablesBox <-
+  variables_box <-
     bs_listbox(
       parent     = top,
       values     = variables_fct(),
@@ -38,8 +38,8 @@ window_factor_lvls_drop <- function() {
     #     "#####",
     #     sep = ""
     # ))
-    all <- tclvalue(allfactorsVariable)
-    variables <- get_selection(variablesBox)
+    all <- tclvalue(all_factors_variable)
+    variables <- get_selection(variables_box)
     closeDialog()
     if (all == 0 && length(variables) == 0) {
       errorCondition(
@@ -81,11 +81,11 @@ window_factor_lvls_drop <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ok_cancel_help(helpSubject = "droplevels")
 
-  tkgrid(variablesBox$frame, sticky = "nw")
+  tkgrid(variables_box$frame, sticky = "nw")
 
-  tkgrid(allfactorsCheckBox,
+  tkgrid(all_factors_checkbox,
     labelRcmdr(
-      allFrame,
+      all_frame,
       text = gettext_bs("All factor variables")
     ),
     sticky = "w", pady = c(2, 0))

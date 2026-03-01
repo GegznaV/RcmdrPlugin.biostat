@@ -1,6 +1,9 @@
 
-# This function is based on function `onEdit` from package `Rcmdr` 2.5-1
-
+#' Edit the active dataset (Rcmdr-based)
+#'
+#' Based on function `onEdit` from Rcmdr 2.5-1.
+#'
+#' @keywords internal
 window_dataset_edit_rcmdr <- function() {
   .ds <- active_dataset_0()
 

@@ -103,18 +103,14 @@ window_show_colors <- function() {
 
   command <- style_cmd(str_glue(
     "## This is just an example of code to show colors. \n",
-    "## Please write either color names or color codes of inerest: \n\n",
+    "## Please write either color names or color codes of interest: \n\n",
     "scales::show_col(c({color_names}))"))
 
   doItAndPrint(command)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Menu-window-functions
-#' @export
-#' @keywords internal
-window_plots_image_digitizer <- function() {
-  # digitizeR::wpd.launch()
-}
+# window_plots_image_digitizer() — removed (empty stub)
+# Backed up to functions-under-development/removed/
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -1,3 +1,13 @@
+#' Get and set BioStat package options
+#'
+#' Functions to retrieve or modify `rcmdr_bs.*` options.
+#'
+#' @param x Option name (without `rcmdr_bs.` prefix).
+#'
+#' @return `get_bs_options()` returns a named list; `get_bs_option()` returns
+#'   a single option value.
+#' @keywords internal
+
 # opt <- "new_plots_window"
 # opt_name <- str_glue("rcmdr_bs.{opt}")
 # default  <- TRUE

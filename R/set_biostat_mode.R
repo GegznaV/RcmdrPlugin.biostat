@@ -1273,15 +1273,15 @@ bs_mode_menu__variables <- function() {
     state = set_menu_state(numericP()),
     command  = window_bin_variable)
 
-  tkadd(menu_num_bins, "command",
-    label    = "two manual bins [EZR]...",
-    state = set_menu_state(numericP()),
-    command  = window_bin_variable_manual)
+  # tkadd(menu_num_bins, "command",
+  #   label    = "two manual bins [EZR]...",
+  #   state = set_menu_state(numericP()),
+  #   command  = window_bin_variable_manual)
 
-  tkadd(menu_num_bins, "command",
-    label    = "several manual bins [EZR]...",
-    state = set_menu_state(numericP()),
-    command  = window_bin_variable_manual2)
+  # tkadd(menu_num_bins, "command",
+  #   label    = "several manual bins [EZR]...",
+  #   state = set_menu_state(numericP()),
+  #   command  = window_bin_variable_manual2)
 
 
   tkadd(menu_num, "command",

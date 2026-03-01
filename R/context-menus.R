@@ -1,6 +1,15 @@
 # FIXME: Rename the main function and, possibly, some arguments as "tcl_widget"
-#        Create neming convention for Tk widgets ("tcl_widget")
+#        Create naming convention for Tk widgets ("tcl_widget")
 
+#' Right-click context menus for TclTk text widgets
+#'
+#' Adds Cut/Copy/Paste/Select All/Find context menus to a TclTk text widget.
+#'
+#' @param tcl_widget A TclTk text widget.
+#' @param undo Logical. Whether to include Undo in the menu.
+#' @param menu_rm Logical. If TRUE, shows a disabled menu instead.
+#'
+#' @keywords internal
 # right-click context menus
 right_click_menu_text <- function(tcl_widget, undo = TRUE, menu_rm = FALSE) {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -55,9 +64,9 @@ right_click_menu_text <- function(tcl_widget, undo = TRUE, menu_rm = FALSE) {
     focused <- tcl_widget
 
     initializeDialog(title = gettext_bs("Find"))
-    textFrame <- tkframe(top)
-    textVar <- tclVar(getRcmdr("last.search"))
-    textEntry <- ttkentry(textFrame, width = "20", textvariable = textVar)
+    text_frame <- tkframe(top)
+    text_var <- tclVar(getRcmdr("last.search"))
+    text_entry <- ttkentry(text_frame, width = "20", textvariable = text_var)
     checkBoxes(frame = "optionsFrame",
       boxes = c("regexpr", "case"),
       initialValues = c("0", "1"),
@@ -82,11 +91,11 @@ right_click_menu_text <- function(tcl_widget, undo = TRUE, menu_rm = FALSE) {
       case <- tclvalue(caseVariable) == 1
       direction <- tclvalue(directionVariable)
       stop <- if (direction == "-forward") "end" else "1.0"
-      where.txt <-
+      where_txt <-
         if (case) tksearch(focused, type, direction, "--", text, "insert", stop)
         else tksearch(focused, type, direction, "-nocase", "--", text, "insert", stop)
-      where.txt <- tclvalue(where.txt)
-      if (where.txt == "") {
+      where_txt <- tclvalue(where_txt)
+      if (where_txt == "") {
         Message(message = gettext_bs("Text not found."),
           type = "note")
         if (GrabFocus()) tkgrab.release(top)
@@ -96,23 +105,23 @@ right_click_menu_text <- function(tcl_widget, undo = TRUE, menu_rm = FALSE) {
       }
       if (GrabFocus()) tkgrab.release(top)
       tkfocus(focused)
-      tkmark.set(focused, "insert", where.txt)
-      tksee(focused, where.txt)
+      tkmark.set(focused, "insert", where_txt)
+      tksee(focused, where_txt)
       tkdestroy(top)
     }
     .exit <- function() {
-      text <- tclvalue(textVar)
+      text <- tclvalue(text_var)
       putRcmdr("last.search", text)
       return("")
     }
     OKCancelHelp()
-    tkgrid(labelRcmdr(textFrame, text = gettext_bs("Search for:")),
-      textEntry, sticky = "w")
-    tkgrid(textFrame, sticky = "w")
+    tkgrid(labelRcmdr(text_frame, text = gettext_bs("Search for:")),
+      text_entry, sticky = "w")
+    tkgrid(text_frame, sticky = "w")
     tkgrid(optionsFrame, sticky = "w")
     tkgrid(directionFrame, sticky = "w")
     tkgrid(buttonsFrame, sticky = "w")
-    dialogSuffix(focus = textEntry)
+    dialogSuffix(focus = text_entry)
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   onSelectAll <- function() {
@@ -154,7 +163,7 @@ right_click_menu_text <- function(tcl_widget, undo = TRUE, menu_rm = FALSE) {
   crete_context_menu <- function() {
     # if (tclvalue(tkfocus()) != tcl_widget$ID) return()
 
-    contextMenu <- tk2menu(tk2menu(tcl_widget), tearoff = FALSE)
+    context_menu <- tk2menu(tk2menu(tcl_widget), tearoff = FALSE)
 
     # tkadd(contextMenu, "command", label = gettext_bs("Submit"), command = onSubmit)
 
@@ -166,37 +175,37 @@ right_click_menu_text <- function(tcl_widget, undo = TRUE, menu_rm = FALSE) {
     #
     # tkadd(contextMenu, "separator")
 
-    tkadd(contextMenu, "command",
+    tkadd(context_menu, "command",
       label = gettext_bs("Cut"),
       image = "::image::bs_cut",
       compound = "left",
       command = onCut)
 
-    tkadd(contextMenu, "command",
+    tkadd(context_menu, "command",
       label = gettext_bs("Copy"),
       image = "::image::bs_copy",
       compound = "left",
       command = onCopy)
 
-    tkadd(contextMenu, "command",
+    tkadd(context_menu, "command",
       label = gettext_bs("Paste"),
       image = "::image::bs_paste",
       compound = "left",
       command = onPaste)
 
-    tkadd(contextMenu, "command",
+    tkadd(context_menu, "command",
       label = gettext_bs("Delete"),
       image = "::image::bs_delete",
       compound = "left",
       command = onDelete)
 
-    tkadd(contextMenu, "command",
+    tkadd(context_menu, "command",
       label = gettext_bs("Clear all"),
       image = "::image::bs_delete",
       compound = "left",
       command = onClear)
 
-    tkadd(contextMenu, "command",
+    tkadd(context_menu, "command",
       label = gettext_bs("Select all"),
       image = "::image::bs_select_all",
       compound = "left",
@@ -209,15 +218,15 @@ right_click_menu_text <- function(tcl_widget, undo = TRUE, menu_rm = FALSE) {
     # tkadd(contextMenu, "command", label = gettext_bs("Delete row"), command = onDeleteRow)
 
     if (undo == TRUE) {
-      tkadd(contextMenu, "separator")
+      tkadd(context_menu, "separator")
 
-      tkadd(contextMenu, "command",
+      tkadd(context_menu, "command",
         label = gettext_bs("Undo"),
         image = "::image::bs_undo",
         compound = "left",
         command = onUndo)
 
-      tkadd(contextMenu, "command",
+      tkadd(context_menu, "command",
         label = gettext_bs("Redo"),
         image = "::image::bs_redo",
         compound = "left",
@@ -227,7 +236,7 @@ right_click_menu_text <- function(tcl_widget, undo = TRUE, menu_rm = FALSE) {
     # tkadd(contextMenu, "separator")
     # tkadd(contextMenu, "command", label = gettext_bs("Reset directives"), command = variable_doubleclick)
 
-    tkpopup(contextMenu,
+    tkpopup(context_menu,
       tkwinfo("pointerx", tcl_widget),
       tkwinfo("pointery", tcl_widget))
   }

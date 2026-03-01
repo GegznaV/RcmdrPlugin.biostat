@@ -83,7 +83,7 @@ window_plots_ggplotly <- function() {
           "plotly::ggplotly({gg_obj})")
       } else {
         str_c(
-          "## Prnt the last ggplot as an interactive plot.\n",
+          "## Print the last ggplot as an interactive plot.\n",
           "plotly::ggplotly()")
       }
 

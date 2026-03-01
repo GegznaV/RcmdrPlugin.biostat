@@ -1,3 +1,9 @@
+#' Bind mouse click/release events to a TclTk widget
+#'
+#' @param obj A TclTk widget (unquoted name).
+#' @param envir Environment for evaluation.
+#'
+#' @keywords internal
 bind_mouse_keys <- function(obj, envir = parent.frame()) {
 
   obj <- deparse(substitute(obj))

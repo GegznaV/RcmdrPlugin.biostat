@@ -1,5 +1,9 @@
-# Function is based on Rcmdr function setContrasts()
-# TODO: adapt funtion to the coding conventions of "biostat" plugin
+#' Set contrasts for a factor variable (Rcmdr-based)
+#'
+#' Based on Rcmdr function `setContrasts()`.
+#'
+#' @keywords internal
+# TODO: adapt function to the coding conventions of "biostat" plugin
 
 window_set_contrasts <- function() {
   .ds <- ActiveDataSet()

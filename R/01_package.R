@@ -359,10 +359,16 @@ bs_add_tcl_path <- function(path, package = "RcmdrPlugin.biostat") {
 
 
 # ============================================================================
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 state.tk2widget <- function(x, ...) {
   as.character(tkcget(x, "-state", ...))
 }
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 print.tk2widget <- function(x, ...) {
 
   if (disabled(x)) txt <- " (disabled)" else txt <- ""

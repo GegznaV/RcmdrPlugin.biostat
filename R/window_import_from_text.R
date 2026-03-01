@@ -5,7 +5,7 @@
 #  3. [ ] Add warning, if file name changed, and contents did not.
 #  4. [ ] "tkxview.moveto" etc. may not be working, "after" is needed.
 #  5. [+] Add tab auto alignment
-#  6. [ ] Add more optios control to tab width, color, spacing between columns:
+#  6. [ ] Add more options control to tab width, color, spacing between columns:
 #         - tkconfigure(f3_input$text, tabs = "1.25c") # "c" means "cm"
 #         - tkconfigure(f3_input$text, tabs = "") # default
 #         - tabs = "6" equals to 1 character length

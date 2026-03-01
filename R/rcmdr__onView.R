@@ -1,6 +1,9 @@
 
-# This function is based on function `onView` from package `Rcmdr` 2.5-1
-
+#' View the active dataset (Rcmdr-based)
+#'
+#' Based on function `onView` from Rcmdr 2.5-1.
+#'
+#' @keywords internal
 window_dataset_view_rcmdr <- function() {
   .ds <- active_dataset_0()
 

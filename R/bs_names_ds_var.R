@@ -98,10 +98,16 @@ bs_names_ds_var <- function(parent = top,
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 get_values.bs_name_entry <- function(obj, ...) {
   get_values(obj$entry, ...)
 }
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 set_values.bs_name_entry <- function(obj, values, ...) {
   set_values(obj$entry, values = values, ...)
 }

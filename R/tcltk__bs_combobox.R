@@ -1,18 +1,21 @@
+#' TclTk ComboBox widget constructor
+#'
+#' Creates a labeled combobox widget.
+#'
+#' @param parent Parent TclTk frame.
+#' @param values Character vector of choices.
+#' @param export Logical.
+#' @param state Widget state.
+#' @param selection Initial selection index.
+#' @param title Label text.
+#' @param title_sticky Sticky option for the title.
+#' @param combobox_sticky Sticky option for the combobox.
+#'
+#' @keywords internal
 # TCL/TK Combo Box
 #
 # https://www.tcl.tk/man/tcl/TkCmd/ttk_combobox.htm
 # https://core.tcl.tk/bwidget/doc/bwidget/BWman/ComboBox.html#-values
-#
-# @param parent parent Tcl/Tk frame
-# @param values
-# @param export
-# @param state
-# @param selection
-# @param title
-#
-# @param title_sticky
-# @param combobox_sticky
-#
 # @param width     Specifies an integer value indicating the desired width of the entry window, in average-size characters of the widget's font.
 # @param height    Specifies the height of the pop-down listbox, in rows.
 

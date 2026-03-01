@@ -1,7 +1,7 @@
 # TODO:
 #
 # - Add tcl/tk check if sheetname is less than 30 characters length.
-# - Enable option to add excel seet instead of replacing all document.
+# - Enable option to add excel sheet instead of replacing all document.
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -38,7 +38,7 @@ window_num_transform_log <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   upper_frame <- tkframe(top)
 
-  variableBox <-
+  variable_box <-
     bs_listbox(
       parent     = upper_frame,
       values     = variables_num(),
@@ -91,7 +91,7 @@ window_num_transform_log <- function() {
     suffix    <- tclvalue_chr(suffix_variable)
     log_txt   <- tclvalue(log_txtVariable)
     fun_type  <- tclvalue(fun_typeVariable)
-    variables <- get_selection(variableBox)
+    variables <- get_selection(variable_box)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     putDialog("window_num_transform_log",
       list(prefix    = prefix,
@@ -187,7 +187,7 @@ window_num_transform_log <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(upper_frame)
   tkgrid(log_txtFrame, padx = c(15, 5))
-  tkgrid(getFrame(variableBox), log_txt_outter_Frame, sticky = "nw")
+  tkgrid(getFrame(variable_box), log_txt_outter_Frame, sticky = "nw")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(middle_frame, sticky = "ew")
   tkgrid(labelRcmdr(middle_frame,

@@ -65,6 +65,9 @@ bs_text <- function(parent, ...,
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Replace contents of text box widget
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 set_values.tk2text <- function(obj, values, ..., add = FALSE) {
   init_state <- tk_get_state(obj)
 
@@ -85,32 +88,53 @@ set_values.tk2text <- function(obj, values, ..., add = FALSE) {
   }
 }
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 get_values.tk2text <- function(obj, ..., trim = FALSE) {
   tclvalue_chr(tkget(obj, "1.0", "end"), trim = trim)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 set_values.bs_text <- function(obj, values, ..., add = FALSE) {
   set_values(obj$text, values, ..., add = add)
 }
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 get_values.bs_text <- function(obj, ...) {
   get_values(obj$text, ...)
 }
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 tk_normalize.bs_text <- function(obj, ...) {
   tk_normalize(obj$text, ...)
 }
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 tk_disable.bs_text <- function(obj, ...) {
   tk_disable(obj$text, ...)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 tk_get_n_lines.bs_text <- function(obj) {
   tclvalue_int(tcl(obj$text, "count", "-lines", "1.0", "end"))
 }
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 tk_get_n_lines.default <- function(obj) {
   tclvalue_int(tcl(obj, "count", "-lines", "1.0", "end"))
 }

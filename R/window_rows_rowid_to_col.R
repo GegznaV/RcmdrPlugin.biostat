@@ -72,7 +72,7 @@ window_rows_rowid_to_col <- function() {
     closeDialog()
 
     # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Library("tidyverse")
+    Library("dplyr")
 
     cmd_position <-
       switch(which_position,

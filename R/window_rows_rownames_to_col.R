@@ -1,6 +1,6 @@
 # TODO:
-# - rewrite the main function accotding to the new template
-# - rewrite the onOK() function accotding to the new template
+# - rewrite the main function according to the new template
+# - rewrite the onOK() function according to the new template
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Menu-window-functions

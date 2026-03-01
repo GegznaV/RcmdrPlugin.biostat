@@ -83,7 +83,7 @@ window_rows_rm_duplicated <- function() {
 
 
     # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Library("tidyverse")
+    Library("dplyr")
 
     result <- justDoIt(command)
 

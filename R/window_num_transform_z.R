@@ -9,7 +9,7 @@ window_num_transform_z <- function() {
   initializeDialog(title = gettext_bs("Z Transformation (Standardization)"))
   tk_title(top, gettext_bs("Standardize Variables"), columnspan = 2)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  variableBox <-
+  variable_box <-
     bs_listbox(
       parent     = top,
       values     = variables_num(),
@@ -20,17 +20,17 @@ window_num_transform_z <- function() {
     )
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   prefix_var  <- tclVar("z_")
-  prefixField <- ttkentry(top,
+  prefix_field <- ttkentry(top,
     width = "25",
     textvariable = prefix_var)
 
   suffix_var  <- tclVar("")
-  suffixField <- ttkentry(top,
+  suffix_field <- ttkentry(top,
     width = "25",
     textvariable = suffix_var)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   onOK <- function() {
-    variables <- get_selection(variableBox)
+    variables <- get_selection(variable_box)
     prefix    <- tclvalue_chr(prefix_var)
     suffix    <- tclvalue_chr(suffix_var)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -44,7 +44,7 @@ window_num_transform_z <- function() {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     new_names <- paste0(prefix, variables, suffix) |> make.names()
 
-    # Chech for errors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Check for errors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     for (i in seq_along(variables)) {
 
       if (!is.valid.name(new_names[i])) {
@@ -75,7 +75,7 @@ window_num_transform_z <- function() {
     # collapse = "\n")
 
     # Tidyverse way
-    Library("tidyverse")
+    Library("dplyr")
 
     command <- paste0(
       c("\n",
@@ -106,7 +106,7 @@ window_num_transform_z <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ok_cancel_help(helpSubject = "scale")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  tkgrid(getFrame(variableBox), sticky = "n", columnspan = 2)
+  tkgrid(getFrame(variable_box), sticky = "n", columnspan = 2)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(labelRcmdr(top,
     text = gettext_bs("Prefix for variable names (optional):"),
@@ -114,7 +114,7 @@ window_num_transform_z <- function() {
   sticky = "w",
   pady = c(10, 0), columnspan = 2)
 
-  tkgrid(prefixField, sticky = "ew", columnspan = 2)
+  tkgrid(prefix_field, sticky = "ew", columnspan = 2)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(labelRcmdr(top,
     text = gettext_bs("Suffix for variable names (optional):"),
@@ -122,7 +122,7 @@ window_num_transform_z <- function() {
   sticky = "w",
   pady = c(10, 0), columnspan = 2)
 
-  tkgrid(suffixField, sticky = "ew", columnspan = 2)
+  tkgrid(suffix_field, sticky = "ew", columnspan = 2)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(buttonsFrame, sticky = "w", columnspan = 2)
 

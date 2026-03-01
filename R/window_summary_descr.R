@@ -23,7 +23,7 @@
 # "max"  = "Maximum value (max)",
 # "mad"  = "Median absolute deviation (MAD)",
 # "iqr"  = "Interquartile range (IQR)",
-# "cv"   = "Cefficient of variation",
+# "cv"   = "Coefficient of variation",
 # "skewness"    = "Skewness",
 # "se.skewness" = "Standard error of skewness",
 # "kurtosis"    = "Kurtosis",

@@ -40,7 +40,7 @@ list_packages <- function(which = c("loaded", "installed"), decreasing = FALSE, 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Get number of datasets in a package
 #'
-#' @param package String with valid name of inst6alled package
+#' @param package String with valid name of installed package
 #'
 #' @return Number with number of datasets in a package
 #'
@@ -60,7 +60,7 @@ get_n_datasets <- function(package) {
 #'
 #' @param obj An R object (dataset).
 #'
-#' @return A string wiht dimensions of matrix-like or array-like oblect and
+#' @return A string with dimensions of matrix-like or array-like object and
 #'         length of other objects.
 #' @md
 #' @noRd
@@ -266,7 +266,7 @@ list_datasets_in_package <- function(package) {
   data(package = package)$results[, "Item"]
 }
 
-get_ds_info_as_sring <- function(str) {
+get_ds_info_as_string <- function(str) {
   str |>
     get_ds_info_2() |>
     knitr::kable(format = "pandoc") |>

@@ -2,7 +2,7 @@
 # 1. Add radiobuttons with values:
 #          "Use numeric ID", "Use named ID", "Do not use ID"
 #
-# 2. [!!!] functions to get and put diaglog are needed.
+# 2. [!!!] functions to get and put dialog are needed.
 # 3. [!!!] Check if id name does not have duplicated names in any of datasets
 #          in: id_name_variable
 
@@ -121,13 +121,13 @@ window_dataset_bind_rows <- function() {
     # initialValue = initial$which_names,
   )
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  dataSets <- listDataSets()
+  data_sets <- listDataSets()
   .ds      <- active_dataset()
 
   ds_1_box <-
     bs_listbox(
       parent = top,
-      values = dataSets,
+      values = data_sets,
       value  = .ds,
       height = 7,
       title  = gettext_bs("First dataset \n(pick one)"),
@@ -139,7 +139,7 @@ window_dataset_bind_rows <- function() {
   ds_2_box <-
     bs_listbox(
       parent    = top,
-      values    = dataSets,
+      values    = data_sets,
       height    = 7,
       on_select = set_id_name2,
       title     = gettext_bs("Second dataset \n(pick one)"))
@@ -147,7 +147,7 @@ window_dataset_bind_rows <- function() {
   ds_3_box <-
     bs_listbox(
       parent    = top,
-      values    = dataSets,
+      values    = data_sets,
       height    = 7,
       on_select = set_id_name3,
       title     = gettext_bs("Third dataset \n(pick one or none)"))

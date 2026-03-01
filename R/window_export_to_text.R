@@ -7,7 +7,7 @@
 # 4. If field  separator is a whitespace, NA walue must not be space
 #    (forbid this choice and warn).
 # 5. Custom separator entrance field:
-#       a. Add restrioctions to the number of symbols to 1 symbol;
+#       a. Add restrictions to the number of symbols to 1 symbol;
 #       b. Forbid custom separator field to be empty in all cases.
 # 6. Filename field:  unique initial name (that does not exist in the folder)
 #    should be chosen.

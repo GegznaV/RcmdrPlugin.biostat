@@ -30,7 +30,7 @@ command_clean_names <- function() {
 
   command <-
     str_glue(
-      "## Clean names (to sanke case)\n",
+      "## Clean names (to snake case)\n",
       "{.ds} <- {.ds} |> \n",
       'janitor::clean_names(case = "snake")'
     ) |>

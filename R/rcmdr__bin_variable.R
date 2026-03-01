@@ -1,9 +1,9 @@
 
-# Author: Dan Putler
-# (revision by J. Fox, 2 Feb 05)
-#
-# Function is based on Rcmdr function binVariable()
-# (revision by V. Gegzna, 2019-12-17)
+#' Bin a numeric variable into intervals (Rcmdr-based)
+#'
+#' Based on Rcmdr function `binVariable()`. Authors: Dan Putler, J. Fox.
+#'
+#' @keywords internal
 window_bin_variable <- function() {
   defaults <- list(initial.levels = "ranges", initial.bins = "3", initial.varName = NULL,
     initial.newVar = "variable", initial.method = "intervals")

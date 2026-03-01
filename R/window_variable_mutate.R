@@ -154,7 +154,7 @@ window_variable_mutate <- function() {
 
     # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Library("tidyverse")
+    Library("dplyr")
 
     result <- justDoIt(command)
 

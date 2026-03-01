@@ -1,3 +1,8 @@
+#' Load R packages dialog
+#'
+#' A dialog window to load/unload R packages.
+#'
+#' @keywords internal
 # TODO:
 #  1. [ ] enable package unloading
 #         to_unload <- 1:4

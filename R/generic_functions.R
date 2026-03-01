@@ -218,22 +218,40 @@ print.bs_tk_widget <- function(x, ...) {
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 set_values.default <- function(obj, values, ...) {
   tcltk::tclvalue(obj) <- values
 }
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 set_values.tclVar <- function(obj, values, ...) {
   tcltk::tclvalue(obj) <- values
 }
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 set_values.tclObj <- function(obj, values, ...) {
   tcltk::tclvalue(obj) <- values
 }
 
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 get_values.default <- function(obj, ...) {
   tcltk::tclvalue(obj, ...)
 }
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 get_values.tclVar <- function(obj, ...) {
   tcltk::tclvalue(obj, ...)
 }
+#' @rdname Helper-functions
+#' @export
+#' @keywords internal
 get_values.tclObj <- function(obj, ...) {
   tcltk::tclvalue(obj, ...)
 }

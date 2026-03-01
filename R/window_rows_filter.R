@@ -1,6 +1,6 @@
 # TODO:
 #
-# 1. Check code for possible inconsisnencies and bugs.
+# 1. Check code for possible inconsistencies and bugs.
 # 2. When push "Apply" and error occurs, two windows open. Apply is now disabled.
 #    It should be fixed.
 # 3. Add buttons "==", "!=", "<" etc. in the same style as used in "fit linear model" window
@@ -92,14 +92,14 @@ window_rows_filter <- function(new_dsname = NULL,
     width = "50",
     textvariable = conditions_variable
   )
-  conditionsXscroll <- ttkscrollbar(conditions_frame,
+  conditions_x_scroll <- ttkscrollbar(conditions_frame,
     orient = "horizontal",
     command = function(...)
       tkxview(conditions_field, ...)
   )
   tkconfigure(conditions_field,
     xscrollcommand = function(...)
-      tkset(conditionsXscroll, ...)
+      tkset(conditions_x_scroll, ...)
   )
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -123,9 +123,9 @@ window_rows_filter <- function(new_dsname = NULL,
 
     # Check if expression is not empty ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    check.empty <- gsub(";", "", gsub(" ", "", conditions))
+    check_empty <- gsub(";", "", gsub(" ", "", conditions))
 
-    if ("" == check.empty) {
+    if ("" == check_empty) {
       Message(message = gettext_bs("No conditions were specified!"),
         type = "error")
       window_rows_filter(new_dsname = new_dsname,
@@ -224,7 +224,7 @@ window_rows_filter <- function(new_dsname = NULL,
     sticky = "nw")
 
   tkgrid(conditions_field,  sticky = "ew")
-  tkgrid(conditionsXscroll, sticky = "ew")
+  tkgrid(conditions_x_scroll, sticky = "ew")
 
   # tkgrid(variablesFrame, sticky = "nw")
   tkgrid(conditions_frame,  sticky = "nw")

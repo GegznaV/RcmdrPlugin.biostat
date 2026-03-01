@@ -1,5 +1,9 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Based on funcrion from Rcmdr v 2.5-1
+#' Initialize a TclTk dialog window (Rcmdr-based macro)
+#'
+#' Based on function from Rcmdr v 2.5-1.
+#'
+#' @keywords internal
 initialize_dialog <- defmacro(
   window   = top,
   title    = "",

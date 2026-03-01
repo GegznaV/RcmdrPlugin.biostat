@@ -1,3 +1,13 @@
+#' Open a file-save dialog and return the selected path
+#'
+#' @param file_name Initial file name or path.
+#' @param filetypes Tcl file-type filter string.
+#' @param defaultextension Default file extension.
+#' @param parent Parent TclTk window.
+#' @param ... Additional arguments passed to `tkgetSaveFile()`.
+#'
+#' @return A file path string, or `character(0)` if cancelled.
+#' @keywords internal
 get_filename_to_save <- function(
   file_name = "",
   filetypes = "{ {All Files} * }",

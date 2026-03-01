@@ -1,5 +1,9 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Based on funcrion from Rcmdr v 2.5-1
+#' Get Commander window position
+#'
+#' Based on function from Rcmdr v 2.5-1.
+#'
+#' @keywords internal
 commander_position <- function() {
   ID <- CommanderWindow()$ID
   as.numeric(c(

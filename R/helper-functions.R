@@ -408,13 +408,7 @@ is_named <- function(x) {
 
 # ___ Translate ___ ==========================================================
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname Helper-functions
-#' @export
-#' @keywords internal
-gettext_ezr <- function(...) {
-  gettext(domain = "R-RcmdrPlugin.EZR", ...)
-}
+# gettext_ezr() removed — EZR dependency eliminated
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname Helper-functions
@@ -669,12 +663,12 @@ get_obj_names_by_class <-  function(
   if (length(all_variable_names) > 0) {
     objs <- mget(all_variable_names, envir = envir)
 
-    if (!is.null(include_class)) {
-      objs <- purrr::keep(objs, ~ inherits(.x, include_class))
+    if (!is.null(include)) {
+      objs <- purrr::keep(objs, ~ inherits(.x, include))
     }
 
-    if (!is.null(exclude_class)) {
-      objs <- purrr::discard(objs, ~ inherits(.x, exclude_class))
+    if (!is.null(exclude)) {
+      objs <- purrr::discard(objs, ~ inherits(.x, exclude))
     }
 
     if (!is.null(include2_class)) {
@@ -1497,9 +1491,9 @@ show_code_evaluation_error_message <- function(parent = CommanderWindow(),
 #' @keywords internal
 dataset_not_persent <- function(parent = CommanderWindow()) {
 
-  dataSets <- listDataSets()
+  data_sets <- listDataSets()
 
-  if (length(dataSets) == 0) {
+  if (length(data_sets) == 0) {
     tk_messageBox(
       parent = parent,
       "There are no datasets in R memory.\nPlease, create or import a dataset.",
@@ -1694,7 +1688,7 @@ first_class_isP <- function(df_class) {
     ))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Chech the class of the active model in Rcmdr
+#' Check the class of the active model in Rcmdr
 #'
 #' @param class_ (string) a character vector of length 1. The name of class.
 #'

@@ -252,7 +252,7 @@ window_variable_recode0 <- function() {
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   insert_template <- function(template = "1") {
-    active_variable  <- get_selection(variablesBox)
+    active_variable  <- get_selection(variables_box)
     var_val          <- get_active_ds()[[active_variable]]
     # var_val        <- str_glue_eval("{active_dataset()}${active_variable}", envir_eval = .GlobalEnv)
 
@@ -265,14 +265,14 @@ window_variable_recode0 <- function() {
     tkinsert(recodes, "1.0", recode_values_template(var_val, template))
 
     # Change new variable name
-    tclvalue(newVariableName) <-
+    tclvalue(new_variable_name) <-
       unique_colnames(active_variable, suffix = "_recoded")
   }
 
   tk_see_current_variable <- function() {
     tk_see(
-      variablesBox,
-      which(get_selection(variablesBox) == get_values(variablesBox)))
+      variables_box,
+      which(get_selection(variables_box) == get_values(variables_box)))
   }
 
   insert_template_1  <- function() {
@@ -338,9 +338,9 @@ window_variable_recode0 <- function() {
 
     # Get values ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     recode_into       <- tclvalue(recode_intoVariable)
-    variables         <- get_selection(variablesBox)
+    variables         <- get_selection(variables_box)
     selected_variable <- tclvalue(selected_variable)
-    name              <- tclvalue_chr(newVariableName)
+    name              <- tclvalue_chr(new_variable_name)
 
     # Read recode directives
     save_recodes <- trimws(tclvalue(tkget(recodes, "1.0", "end")))
@@ -463,7 +463,7 @@ window_variable_recode0 <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   f1 <- tkframe(top)
 
-  variablesBox <-
+  variables_box <-
     bs_listbox(
       parent = f1,
       height = 7,
@@ -477,10 +477,10 @@ window_variable_recode0 <- function() {
       value = initial$variables
     )
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  recodesFrame <- tkframe(f1)
+  recodes_frame <- tkframe(f1)
   recodes <-
     tktext(
-      recodesFrame,
+      recodes_frame,
       bg     = "white",
       font   = getRcmdr("logFont"),
       height = "7",
@@ -490,24 +490,24 @@ window_variable_recode0 <- function() {
 
   right_click_menu_text(recodes, undo = TRUE)
 
-  recodesXscroll <-
+  recodes_x_scroll <-
     ttkscrollbar(
-      recodesFrame,
+      recodes_frame,
       orient  = "horizontal",
       command = function(...) tkxview(recodes, ...)
     )
-  recodesYscroll <-
+  recodes_y_scroll <-
     ttkscrollbar(
-      recodesFrame,
+      recodes_frame,
       command = function(...) tkyview(recodes, ...)
     )
   tkconfigure(
     recodes,
-    xscrollcommand = function(...) tkset(recodesXscroll, ...)
+    xscrollcommand = function(...) tkset(recodes_x_scroll, ...)
   )
   tkconfigure(
     recodes,
-    yscrollcommand = function(...) tkset(recodesYscroll, ...)
+    yscrollcommand = function(...) tkset(recodes_y_scroll, ...)
   )
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkinsert(recodes, "1.0", initial$recode_directives)
@@ -519,8 +519,8 @@ window_variable_recode0 <- function() {
     f1_but_set_2,
     image = "::image::bs_go_next",
     command =  function() {
-      if (get_selection_length(variablesBox) == 0) {
-        set_selection(variablesBox, 1)
+      if (get_selection_length(variables_box) == 0) {
+        set_selection(variables_box, 1)
       }
       insert_template_1()
     },
@@ -531,8 +531,8 @@ window_variable_recode0 <- function() {
     f1_but_set_2,
     image = "::image::bs_go_last",
     command = function() {
-      if (get_selection_length(variablesBox) == 0) {
-        set_selection(variablesBox, 1)
+      if (get_selection_length(variables_box) == 0) {
+        set_selection(variables_box, 1)
       }
       insert_template_2()
     },
@@ -590,13 +590,13 @@ window_variable_recode0 <- function() {
   f2 <- tkframe(top)
   lower_options_frame <- tkframe(f2)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  variablesFrame  <- tkframe(lower_options_frame)
-  newVariableName <- tclVar(initial$name)
+  variables_frame  <- tkframe(lower_options_frame)
+  new_variable_name <- tclVar(initial$name)
 
-  newVariable <-
-    ttkentry(variablesFrame,
+  new_variable <-
+    ttkentry(variables_frame,
       width = "23",
-      textvariable = newVariableName)
+      textvariable = new_variable_name)
   # ------------------------------------------------------------------------
   variable_type_frame <- tkframe(lower_options_frame)
 
@@ -654,24 +654,24 @@ window_variable_recode0 <- function() {
     reset = "window_variable_recode0()",
     apply = "window_variable_recode0()",
     after_apply_success_fun = function() {
-      new_name <- tclvalue_chr(newVariableName)
+      new_name <- tclvalue_chr(new_variable_name)
 
-      set_values(variablesBox, variables_all())
-      tk_see(variablesBox, new_name)
-      set_selection(variablesBox, new_name)
+      set_values(variables_box, variables_all())
+      tk_see(variables_box, new_name)
+      set_selection(variables_box, new_name)
 
       tclvalue(selected_variable) <- new_name
 
       tkdelete(recodes, "1.0", "end")
 
-      tclvalue(newVariableName) <-
+      tclvalue(new_variable_name) <-
         unique_colnames(new_name, all_numbered = TRUE)
     })
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   tkgrid(f1, sticky = "nw")
 
-  tkgrid(getFrame(variablesBox), f1_but_set_2, recodesFrame, f1_but_set_1,
+  tkgrid(getFrame(variables_box), f1_but_set_2, recodes_frame, f1_but_set_1,
     sticky = "nw")
 
   tkgrid.configure(f1_but_set_1, sticky = "")
@@ -681,12 +681,12 @@ window_variable_recode0 <- function() {
   # tkgrid()
 
   tkgrid(tk_label(
-    variablesFrame,
+    variables_frame,
     fg = getRcmdr("title.color"),
     text = gettext_bs("Name for recoded variable: ")),
   sticky = "w",
   pady = c(2, 0))
-  tkgrid(newVariable, sticky = "w")
+  tkgrid(new_variable, sticky = "w")
 
   tkgrid(
     tk_label(variable_type_frame,
@@ -700,7 +700,7 @@ window_variable_recode0 <- function() {
 
   tkgrid(
     tk_label(
-      recodesFrame,
+      recodes_frame,
       text = gettext_bs(str_c(
         "Enter recode directives\n",
         "(one directive per row; change order of rows, if needed)")),
@@ -711,11 +711,11 @@ window_variable_recode0 <- function() {
     sticky = "w"
   )
 
-  tkgrid(recodes, recodesYscroll, sticky = "nw")
-  tkgrid(recodesXscroll)
+  tkgrid(recodes, recodes_y_scroll, sticky = "nw")
+  tkgrid(recodes_x_scroll)
 
   tkgrid(f2,         sticky = "w")
-  tkgrid(variablesFrame,      sticky = "w")
+  tkgrid(variables_frame,      sticky = "w")
   tkgrid(variable_type_frame, sticky = "w")
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -751,8 +751,8 @@ window_variable_recode0 <- function() {
 
   tkgrid(buttonsFrame, sticky = "ew")
   # tkgrid(buttonsFrame, sticky = "w", columnspan = 2)
-  tkgrid.configure(recodesXscroll, sticky = "ew")
-  tkgrid.configure(recodesYscroll, sticky = "ns")
+  tkgrid.configure(recodes_x_scroll, sticky = "ew")
+  tkgrid.configure(recodes_y_scroll, sticky = "ns")
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   dialogSuffix(bindReturn = FALSE)

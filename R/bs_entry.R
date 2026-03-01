@@ -272,7 +272,7 @@ bs_entry <- function(
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   if (isTRUE(scroll_x)) {
-    computeXscroll <- ttkscrollbar(
+    x_scrollbar <- ttkscrollbar(
       text_frame,
       orient = "horizontal",
       command = function(...)
@@ -281,10 +281,10 @@ bs_entry <- function(
     tkconfigure(
       obj_text,
       xscrollcommand = function(...)
-        tkset(computeXscroll, ...)
+        tkset(x_scrollbar, ...)
     )
-    tkgrid(computeXscroll, sticky = "ew")
-    tkgrid.columnconfigure(computeXscroll, 0, weight = 1)
+    tkgrid(x_scrollbar, sticky = "ew")
+    tkgrid.columnconfigure(x_scrollbar, 0, weight = 1)
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
