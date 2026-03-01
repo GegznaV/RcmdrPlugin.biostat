@@ -34,8 +34,6 @@ window_num_transform_z <- function() {
     prefix    <- tclvalue_chr(prefix_var)
     suffix    <- tclvalue_chr(suffix_var)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    closeDialog()
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Check conditions
     if (length(variables) == 0) {
       errorCondition(recall = window_num_transform_z,
@@ -64,6 +62,7 @@ window_num_transform_z <- function() {
       }
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    closeDialog()
     .ds <- active_dataset_0()
 
     # Base way
@@ -92,7 +91,7 @@ window_num_transform_z <- function() {
 
     result <- justDoIt(command)
 
-    if (class(result)[1] !=  "try-error")
+    if (!inherits(result, "try-error"))
       active_dataset(.ds, flushModel = FALSE)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

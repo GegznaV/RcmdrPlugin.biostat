@@ -30,7 +30,7 @@ window_dataset_bind_rows <- function() {
   }
 
   set_ds_name <- function() {
-    base_name        <- paste0(getSelection(ds_1_box), "_with_rows_added")
+    base_name        <- paste0(get_selection(ds_1_box), "_with_rows_added")
     unique_base_name <- unique_df_name(base_name, all_numbered = TRUE)
     tclvalue(new_ds_name_variable) <- unique_base_name
   }

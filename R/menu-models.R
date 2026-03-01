@@ -38,8 +38,8 @@ command_model_std_lm_coeffs <- function() {
   # "## Statistical findings of the model\n",
   # "# std_estimate \u2014 standardized coefficients\n",
   #
-  # "{obj} <- \n {.mod} %>% \n ",
-  # "lm.beta::l)m.beta() %>% \n ",
+  # "{obj} <- \n {.mod} |> \n ",
+  # "lm.beta::l)m.beta() |> \n ",
   # "broom::tidy() \n\n",
   # "{obj}"
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -48,13 +48,13 @@ command_model_std_lm_coeffs <- function() {
   #     "## Standardized regression coefficients\n",
   #     "# (rounded to 3 decimal places)\n\n",
   #
-  #     "lm.beta::lm.beta({.mod}) %>% \n ",
-  #     "coef() %>% as.data.frame() %>% set_names('std_coef') %>% \n",
-  #     "rownames_to_column('term') %>% ",
+  #     "lm.beta::lm.beta({.mod}) |> \n ",
+  #     "coef() |> as.data.frame() |> set_names('std_coef') |> \n",
+  #     "rownames_to_column('term') |> ",
   #     "dplyr::mutate(influence_rank = min_rank(-abs(std_coef)),\n",
   #     "              std_coef = round(std_coef, digits = 3))"
-  # ) %>%
-  #     style_cmd() %>%
+  # ) |>
+  #     style_cmd() |>
   #     doItAndPrint()
 }
 

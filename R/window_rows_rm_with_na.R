@@ -92,10 +92,11 @@ window_rows_rm_with_na <- function() {
 
     # Construct commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     vars_y_txt <- str_c(safe_names(vars_y), collapse = ", ")
-    prepare_lab <-
-      . %>%
-      str_wrap(width = 40) %>%
-      str_replace_all("\n", "\n## ")
+    prepare_lab <- function(x) {
+      x |>
+        str_wrap(width = 40) |>
+        str_replace_all("\n", "\n## ")
+    }
 
     command <-
       switch(
@@ -142,7 +143,7 @@ window_rows_rm_with_na <- function() {
     result <- justDoIt(command)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (class(result)[1] != "try-error") {
+    if (!inherits(result, "try-error")) {
       logger(style_cmd(command))
       active_dataset(new_name)
 

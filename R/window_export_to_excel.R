@@ -162,7 +162,7 @@ window_export_to_excel <- function() {
     result <- justDoIt(command)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (class(result)[1] != "try-error") {
+    if (!inherits(result, "try-error")) {
       logger(style_cmd(command))
       # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       closeDialog()

@@ -168,7 +168,7 @@ window_data_obj_manage <- function() {
 
       result <- justDoIt(command)
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      if (class(result)[1] != "try-error") {
+      if (!inherits(result, "try-error")) {
         logger(style_cmd(command))
 
         # Re-choose active dataset
@@ -250,8 +250,8 @@ window_data_obj_manage <- function() {
 
     initlal_name <-
       get_selection(f1_listbox_y) |>
-      unique_obj_names() |>
-      .[1]
+      unique_obj_names()
+    initlal_name <- initlal_name[1]
 
     text_box_1 <-
       bs_entry(
@@ -316,7 +316,7 @@ window_data_obj_manage <- function() {
 
       result <- justDoIt(command)
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      if (class(result)[1] != "try-error") {
+      if (!inherits(result, "try-error")) {
         logger(style_cmd(command))
 
       } else {
@@ -394,8 +394,8 @@ window_data_obj_manage <- function() {
 
     initlal_name <-
       get_selection(f1_listbox_y) |>
-      unique_obj_names() |>
-      .[1]
+      unique_obj_names()
+    initlal_name <- initlal_name[1]
 
     text_box_1 <-
       bs_entry(

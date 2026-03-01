@@ -177,7 +177,7 @@ window_import_from_excel <- function() {
       "Data frame" = " |> \n as.data.frame(stringsAsFactors = FALSE)",
       "Data table" = " |> \n data.table::as.data.table()",
       "Tibble"     = "",
-      # "Tibble"     = " %>% \n tibble::as_tibble()",
+      # "Tibble"     = " |> \n tibble::as_tibble()",
       stop("Value '", val, "' is unknown (f2_box_out).")
     )
   }
@@ -341,7 +341,7 @@ window_import_from_excel <- function() {
         trim_ws      = get_values(f2_opts, "strip_white"),
         .name_repair = get_name_repair()
       ) |>
-        # get_output_type() %>%
+        # get_output_type() |>
         get_stringsAsFactors()
 
     })
@@ -703,7 +703,7 @@ window_import_from_excel <- function() {
     # ~~ Apply commands --------------------------------------------------
     result <- justDoIt(command)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (class(result)[1] != "try-error") {
+    if (!inherits(result, "try-error")) {
       logger(style_cmd(command))
       active_dataset(new_name, flushModel = FALSE, flushDialogMemory = FALSE)
 

@@ -879,7 +879,7 @@ bs_mode_menu__inspect <- function() {
     command  = command_dataset_dim)
 
   tkadd(menu_p, "command",
-    label    = "Variable type summay",
+    label    = "Variable type summary",
     command  = summary_var_types)
 
   tkadd(menu_p, "command",

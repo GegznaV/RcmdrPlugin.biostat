@@ -37,7 +37,7 @@ window_set_contrasts <- function() {
         'contrasts({.ds}${variable}) <- "{contrasts}"'
       )
       result <- doItAndPrint(command)
-      if (class(result)[1] != "try-error") activeDataSet(.ds)
+      if (!inherits(result, "try-error")) activeDataSet(.ds)
       tkfocus(CommanderWindow())
 
     } else {
@@ -122,7 +122,7 @@ window_set_contrasts <- function() {
 
         result <- doItAndPrint(command)
 
-        if (class(result)[1] != "try-error") {
+        if (!inherits(result, "try-error")) {
           activeDataSet(.ds, flushModel = FALSE, flushDialogMemory = FALSE)
 
         } else {

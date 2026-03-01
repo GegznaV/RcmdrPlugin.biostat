@@ -445,7 +445,7 @@ window_import_from_pkg <- function() {
     result <- justDoIt(command)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (class(result)[1] != "try-error") {
+    if (!inherits(result, "try-error")) {
       logger(style_cmd(command))
 
     } else {

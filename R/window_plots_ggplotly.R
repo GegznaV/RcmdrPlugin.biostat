@@ -91,7 +91,7 @@ window_plots_ggplotly <- function() {
     result <- try_command(command)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (class(result)[1] != "try-error") {
+    if (!inherits(result, "try-error")) {
       doItAndPrint(style_cmd(command))
 
       # Close graphical device if it was opened

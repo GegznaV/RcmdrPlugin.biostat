@@ -88,7 +88,7 @@ window_rows_rm_duplicated <- function() {
     result <- justDoIt(command)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (class(result)[1] != "try-error") {
+    if (!inherits(result, "try-error")) {
       logger(style_cmd(command))
       active_dataset(new_name, flushDialogMemory = TRUE)
 

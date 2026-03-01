@@ -714,10 +714,10 @@ unique_obj_names <- function(names,
       c(list_of_choices, initial_names)
     }
 
-  list_to_check %>%
-    make.unique(sep = "_") %>%
-    rev() %>%
-    .[1:n_names] %>%    # select the last elements
+  list_to_check |>
+    make.unique(sep = "_") |>
+    rev() |>
+    (\(x) x[1:n_names])() |>    # select the last elements
     rev()
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1020,8 +1020,8 @@ do_nothing <- function(...) {}
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # - Show Windows locale:
 #   shell("systeminfo", intern = TRUE)
-#   shell("systeminfo", intern = TRUE) %>% str_subset("Locale")
-#   shell("systeminfo", intern = TRUE) %>% str_subset(fixed("locale", ignore_case = TRUE))
+#   shell("systeminfo", intern = TRUE) |> str_subset("Locale")
+#   shell("systeminfo", intern = TRUE) |> str_subset(fixed("locale", ignore_case = TRUE))
 #   https://superuser.com/questions/1354256/how-can-i-programmatically-access-the-region-of-a-windows-computer
 get_system_info <- function() {
 

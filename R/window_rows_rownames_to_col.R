@@ -11,8 +11,6 @@ window_rows_rownames_to_col <- function() {
   onOK <- function() {
     new_name <- trim.blanks(tclvalue(name_variable))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    closeDialog()
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (!is.valid.name(new_name)) {
       errorCondition(
         recall = window_rows_rownames_to_col,
@@ -24,12 +22,12 @@ window_rows_rownames_to_col <- function() {
     if (is.element(new_name, listDataSets())) {
       if ("no" == tclvalue(checkReplace(new_name,
         type = gettext_bs("Variable")))) {
-        closeDialog()
         window_rows_rownames_to_col()
         return()
       }
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    closeDialog()
 
     Library("tibble")
 
@@ -42,7 +40,7 @@ window_rows_rownames_to_col <- function() {
     logger(command)
     result <- justDoIt(command)
 
-    if (class(result)[1] != "try-error")
+    if (!inherits(result, "try-error"))
       command_dataset_refresh()
 
     tkfocus(CommanderWindow())

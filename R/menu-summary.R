@@ -9,14 +9,14 @@ window_summary_inspect <- function() {
   Library("tidyverse")
   Library("inspectdf")
 
-  # command <- str_glue("{active_dataset_0()} %>% inspect_na() %>% show_plot()")
+  # command <- str_glue("{active_dataset_0()} |> inspect_na() |> show_plot()")
 
   # if (is_plot_in_separate_window()) {
   #     open_new_plots_window()
   # }
 
-  # command <- str_glue("{active_dataset_0()} %>% inspect_mem() %>% show_plot()")
-  # command <- str_glue("{active_dataset_0()} %>% inspect_types() %>% show_plot()")
+  # command <- str_glue("{active_dataset_0()} |> inspect_mem() |> show_plot()")
+  # command <- str_glue("{active_dataset_0()} |> inspect_types() |> show_plot()")
   command_num <- str_glue("{active_dataset_0()} |> inspect_num() |> show_plot()")
   command_cat <- str_glue("{active_dataset_0()} |> inspect_cat() |> show_plot()")
 

@@ -33,10 +33,10 @@ tktag_add <- function(obj, tag, pattern, row_ind = NULL, all = TRUE) {
 
   if (isTRUE(all)) {
     mat <-
-      stringr::str_locate_all(str, pattern) %>%
-      setNames(seq_along(.)) %>%
-      purrr::discard(~ nrow(.) < 1) %>%
-      purrr::map(as.data.frame) %>%
+      stringr::str_locate_all(str, pattern) |>
+      (\(x) setNames(x, seq_along(x)))() |>
+      purrr::discard(\(x) nrow(x) < 1) |>
+      purrr::map(as.data.frame) |>
       dplyr::bind_rows(.id = "row")
 
   } else {

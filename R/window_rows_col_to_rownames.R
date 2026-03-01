@@ -32,7 +32,7 @@ window_rows_col_to_rownames <- function(new_dsname = NULL,
     )
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   onOK <- function() {
-    col_name <- getSelection(y_var_box)
+    col_name <- get_selection(y_var_box)
 
     .ds <- active_dataset_0()
 

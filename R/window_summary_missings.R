@@ -68,7 +68,7 @@ window_summary_missings <- function() {
 
       result <- justDoIt(command_plot)
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      if (class(result)[1] != "try-error") {
+      if (!inherits(result, "try-error")) {
         doItAndPrint(style_cmd(command_plot))
 
       } else {
@@ -85,7 +85,7 @@ window_summary_missings <- function() {
       # Library("inspectdf")
       #
       # command_plot_2 <-
-      #     str_glue("{active_dataset_0()} %>% inspect_na() %>% show_plot()")
+      #     str_glue("{active_dataset_0()} |> inspect_na() |> show_plot()")
       # if (new_plots_window == TRUE) {
       #     open_new_plots_window()
       # }
@@ -110,7 +110,7 @@ window_summary_missings <- function() {
 
       result <- try_command(command_count)
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      if (class(result)[1] != "try-error") {
+      if (!inherits(result, "try-error")) {
         doItAndPrint(style_cmd(command_count))
 
       } else {

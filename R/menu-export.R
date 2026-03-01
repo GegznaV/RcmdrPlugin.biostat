@@ -55,8 +55,8 @@ to_word <- function() {
 
 
   doc |>
-    # body_add_par(value = "dataset mtcars", style = "heading 1") %>%
-    # body_add_break() %>%
+    # body_add_par(value = "dataset mtcars", style = "heading 1") |>
+    # body_add_break() |>
 
     body_add_par(value = str_glue("Dataset '{ds_name}'"), style = "table title") |>
     body_add_table(value = ds, style = "table_template") |>

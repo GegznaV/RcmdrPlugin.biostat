@@ -483,14 +483,14 @@ window_test_normality <- function() {
         perform_test_code <-
           str_glue(.trim = FALSE,
             "\n possibly({test_function}, otherwise = htest_na)({chi_sq_params})")
-        # perform_test_code <- str_glue("safely({test_function})({chi_sq_params}) %>% .$result")
+        # perform_test_code <- str_glue("safely({test_function})({chi_sq_params}) |> .$result")
       }
 
 
       single_test_code <-
         str_glue(".${y_var} |> {perform_test_code} |> broom::tidy()")
-      # str_glue("(.) %>% pull({y_var}) %>% {perform_test_code} %>% broom::tidy()")
-      # str_glue(".${y_var} %>% {test_function}({chi_sq_params}) %>% broom::tidy()")
+      # str_glue("(.) |> pull({y_var}) |> {perform_test_code} |> broom::tidy()")
+      # str_glue(".${y_var} |> {test_function}({chi_sq_params}) |> broom::tidy()")
       # str_glue("broom::tidy({test_function}(.${y_var}{chi_sq_params}))")
 
       accu <- str_c("0.",  str_dup(0, times = as.integer(digits_p) - 1), "1")
@@ -552,7 +552,7 @@ window_test_normality <- function() {
     # Checks for syntax errors
     result <- try_command(command)
 
-    if (class(result)[1] == "try-error") {
+    if (inherits(result, "try-error")) {
       logger_error(command, error_msg = as.character(result))
       show_code_evaluation_error_message(parent = top,
         add_msg = result$message)
@@ -565,7 +565,7 @@ window_test_normality <- function() {
     result <- doItAndPrint(style_cmd(command))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (class(result)[1] == "try-error") {
+    if (inherits(result, "try-error")) {
 
       logger_error(command, error_msg = result)
       show_code_evaluation_error_message(

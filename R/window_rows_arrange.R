@@ -67,7 +67,7 @@ window_rows_arrange <- function() {
     Library("dplyr")
     result <- justDoIt(command)
 
-    if (class(result)[1] != "try-error") {
+    if (!inherits(result, "try-error")) {
       logger(style_cmd(command))
 
       active_dataset(new_dsname, flushModel = FALSE)

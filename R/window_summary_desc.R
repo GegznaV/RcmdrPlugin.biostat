@@ -429,7 +429,7 @@ window_summary_desc <- function() {
     # Checks for syntax errors
     result <- try_command(command)
 
-    if (class(result)[1] == "try-error") {
+    if (inherits(result, "try-error")) {
       logger_error(command, error_msg = as.character(result))
       show_code_evaluation_error_message(parent = top, result$message)
       return()
@@ -440,7 +440,7 @@ window_summary_desc <- function() {
 
     result <- doItAndPrint(style_cmd(command))
 
-    if (class(result)[1] == "try-error") {
+    if (inherits(result, "try-error")) {
 
       logger_error(command, error_msg = result)
       show_code_evaluation_error_message(parent = top, result)

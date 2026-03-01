@@ -10,7 +10,7 @@
 window_variable_rename <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   onOK <- function() {
-    old_names <- getSelection(var_y_box)
+    old_names <- get_selection(var_y_box)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     n_old_names <- length(old_names)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -107,7 +107,7 @@ window_variable_rename <- function() {
       result <- justDoIt(command)
       logger(command)
 
-      if (class(result)[1] !=  "try-error")
+      if (!inherits(result, "try-error"))
         active_dataset(.ds, flushModel = FALSE)
 
       tkfocus(CommanderWindow())

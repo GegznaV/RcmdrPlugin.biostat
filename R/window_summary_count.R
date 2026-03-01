@@ -25,8 +25,8 @@
 # 10. Add three boxes for variables as in "multi-way table.." in original Rcommander menu.
 # 11. Acticate/Deactivate approptiate checkboxes if exactly 2 variables are selected.
 #
-# df %>% dplyr::count(..., ...);
-# df %>% with(table(..., ...)) %>% as.data.frame()
+# df |> dplyr::count(..., ...);
+# df |> with(table(..., ...)) |> as.data.frame()
 
 
 
@@ -38,9 +38,9 @@ window_summary_count <- function() {
 
   # Functions --------------------------------------------------------------
   activate_checkboxes <- function() {
-    x_var            <- getSelection(xBox)
-    y_var            <- getSelection(yBox)
-    z_var            <- getSelection(zBox)
+    x_var            <- get_selection(xBox)
+    y_var            <- get_selection(yBox)
+    z_var            <- get_selection(zBox)
 
     n_vars <- length(c(x_var, y_var, z_var))
 

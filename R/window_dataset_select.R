@@ -244,7 +244,7 @@ window_dataset_select <- function() {
       return()
     }
 
-    selection <- getSelection(var_ds_box) |> safe_names()
+    selection <- get_selection(var_ds_box) |> safe_names()
     closeDialog()
 
     active_dataset(selection)

@@ -21,7 +21,7 @@ window_dataset_bind_cols <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Functions --------------------------------------------------------------
   set_ds_name <- function() {
-    ds_1             <- getSelection(ds_1_box)
+    ds_1             <- get_selection(ds_1_box)
     base_name        <- paste(ds_1, "with_cols_added", sep = "_")
     unique_base_name <- unique_df_name(base_name, all_numbered = TRUE)
     tclvalue(new_ds_name_variable) <- unique_base_name

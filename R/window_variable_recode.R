@@ -73,7 +73,7 @@ recode_values_template <- function(x, template = "1") {
         paste("\n",
           '\n.default = ""',
           '\n.missing = ""')
-      # %>% align_at_equal()
+      # |> align_at_equal()
     },
     "2" = {
       rez <-
@@ -90,7 +90,7 @@ recode_values_template <- function(x, template = "1") {
         paste("\n",
           '\n.default = ""',
           '\n.missing = ""')
-      # %>% align_at_equal()
+      # |> align_at_equal()
     }
   )
 
@@ -433,7 +433,7 @@ window_variable_recode0 <- function() {
     result <- justDoIt(command)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (class(result)[1] != "try-error") {
+    if (!inherits(result, "try-error")) {
       # closeDialog()
       logger(style_cmd(command))
       active_dataset(.ds, flushModel = FALSE, flushDialogMemory = FALSE)

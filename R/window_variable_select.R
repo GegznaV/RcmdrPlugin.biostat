@@ -321,7 +321,7 @@ window_variable_select <- function(new_dsname = NULL, incorrect_cond_msg = NULL)
 
     result <- doItAndPrint(command)
 
-    if (class(result)[1] !=  "try-error") {
+    if (!inherits(result, "try-error")) {
       # Change active dataset
       active_dataset(new_dsname, flushModel = FALSE)
     }

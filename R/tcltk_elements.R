@@ -101,7 +101,7 @@ tcl_get_parent <- function(obj) {
 #' @keywords internal
 tcl_get_children_id <- function(obj) {
   tkwinfo("children", obj) |> as.character()
-  # tkwinfo("children", obj) %>% tclvalue() %>% tcl_str_split()
+  # tkwinfo("children", obj) |> tclvalue() |> tcl_str_split()
 }
 
 tcl_str_split <- function(str) {
@@ -114,14 +114,14 @@ tcl_str_split <- function(str) {
 #' @export
 #' @keywords internal
 tcl_get_siblings_id <- function(obj) {
-  tkwinfo("parent", obj) %>%
-    tkwinfo("children", .) %>%
+  parent <- tkwinfo("parent", obj)
+  tkwinfo("children", parent) |>
     as.character()
 
-  # tkwinfo("parent", obj) %>%
-  #   tkwinfo("children", .) %>%
-  #   tclvalue() %>%
-  #   str_split(" ") %>%
+  # parent_obj <- tkwinfo("parent", obj) |>
+  #   tkwinfo("children", parent_obj) |>
+  #   tclvalue() |>
+  #   str_split(" ") |>
   #   .[[1]]
 
 }
@@ -133,11 +133,10 @@ tcl_get_obj_by_id <- function(id, main_win = CommanderWindow()) {
   # id -- Tcl/Tk object ID as string, e.g. ".1", ".1.24", ".1.35.4"
   # main Tcl/Tk window (Tcl/Tk object)
   to_widget <-
-    stringr::str_split(id, "\\.") %>%
-    .[[1]] %>%
-    purrr::accumulate(str_c, sep = ".") %>%
-    .[-1] %>%
-    safe_names() %>%
+    stringr::str_split(id, "\\.")[[1]] |>
+    purrr::accumulate(str_c, sep = ".") |>
+    (\(x) x[-1])() |>
+    safe_names() |>
     stringr::str_c(collapse = "$env$")
 
   str_glue_eval("main_win$env$parent$env${to_widget}")

@@ -234,7 +234,7 @@ window_variable_convert_type <- function() {
     result <- justDoIt(command)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (class(result)[1] != "try-error") {
+    if (!inherits(result, "try-error")) {
       msg <- str_glue(
         "## Convert variables into {into} variables \n\n",
         "# New variable(s): \n",

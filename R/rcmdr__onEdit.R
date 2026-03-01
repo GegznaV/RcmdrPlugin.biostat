@@ -16,7 +16,7 @@ window_dataset_edit_rcmdr <- function() {
     save.dataset <- get(.ds, envir = .GlobalEnv)
     command <- paste("fix(", .ds, ")", sep = "")
     result <- justDoIt(command)
-    if (class(result)[1] != "try-error") {
+    if (!inherits(result, "try-error")) {
       if (nrow(get(.ds)) == 0) {
         errorCondition(window = NULL,
           message = gettextRcmdr("empty data set."))
@@ -34,7 +34,7 @@ window_dataset_edit_rcmdr <- function() {
     command <- paste("editDataset(", .ds, ")", sep = "")
     result <- justDoIt(command)
 
-    if (class(result)[1] != "try-error") {
+    if (!inherits(result, "try-error")) {
       logger(command, rmd = FALSE)
 
     } else {

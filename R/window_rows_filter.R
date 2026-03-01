@@ -155,7 +155,7 @@ window_rows_filter <- function(new_dsname = NULL,
 
     result <- justDoIt(command)
 
-    if (class(result)[1] !=  "try-error") {
+    if (!inherits(result, "try-error")) {
       # Change active dataset
       active_dataset(new_dsname, flushModel = FALSE)
 

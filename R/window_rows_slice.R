@@ -38,8 +38,6 @@ window_rows_slice <- function() {
     index      <- tclvalue(indexVariable)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    closeDialog()
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (!is.valid.name(new_dsname)) {
       errorCondition(
         recall = window_rows_slice,
@@ -51,7 +49,6 @@ window_rows_slice <- function() {
     if (is.element(new_dsname, listDataSets())) {
       if ("no" == tclvalue(checkReplace(new_dsname,
         type = gettext_bs("Data set")))) {
-        closeDialog()
         window_rows_slice()
         return()
       }
@@ -60,7 +57,6 @@ window_rows_slice <- function() {
     if (index == "") {
       errorCondition(recall = window_rows_slice,
         message = "No rows to select/remove")
-      closeDialog()
       return()
     }
 
@@ -69,11 +65,11 @@ window_rows_slice <- function() {
 
     if (inherits(index, "try-error")) {
       errorCondition(recall = window_rows_slice, message = index)
-      closeDialog()
       return()
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    closeDialog()
     Library("dplyr")
 
     # If multiple comma separated conditions are selected
@@ -91,7 +87,7 @@ window_rows_slice <- function() {
     logger(command)
     result <- justDoIt(command)
 
-    if (class(result)[1] !=  "try-error")
+    if (!inherits(result, "try-error"))
       active_dataset(new_dsname)
 
     tkfocus(CommanderWindow())

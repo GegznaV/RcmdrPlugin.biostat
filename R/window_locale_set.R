@@ -108,21 +108,22 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
 
       # 'cur_loc' must be informative enough
       # cur_loc <-
-      #     cur_loc_all %>%
-      #     str_match(pattern) %>%
-      #     as.vector() %>%
-      #     .[-1] %>%
-      #     unique() %>%
+      #     cur_loc_all |>
+      #     str_match(pattern) |>
+      #     as.vector() |>
+      #     .[-1] |>
+      #     unique() |>
       #     str_c(collapse = "; ")
 
       cur_loc <-
-        cur_loc_all %>%
-        str_match(pattern) %>%
-        as.vector() %>%
-        .[-1] %>%
-        forcats::fct_infreq() %>%
-        levels() %>%
-        .[1]
+        cur_loc_all |>
+        str_match(pattern) |>
+        as.vector()
+      cur_loc <-
+        cur_loc[-1] |>
+        forcats::fct_infreq() |>
+        levels()
+      cur_loc <- cur_loc[1]
 
       # 'loc_to_view' must be short enough
       loc_to_view <- str_extract(cur_loc_all, "(?<=\\=).*?(?=(\\.|;|_))")
@@ -270,7 +271,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
     result <- try_command(command)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (class(result)[1] != "try-error") {
+    if (!inherits(result, "try-error")) {
       doItAndPrint(style_cmd(command))
 
 

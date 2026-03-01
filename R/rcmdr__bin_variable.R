@@ -110,7 +110,7 @@ window_bin_variable <- function() {
       "))", sep = "")
     logger(command)
     result <- justDoIt(command)
-    if (class(result)[1] != "try-error")
+    if (!inherits(result, "try-error"))
       activeDataSet(.ds, flushModel = FALSE,
         flushDialogMemory = FALSE)
     tkfocus(CommanderWindow())

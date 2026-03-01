@@ -54,9 +54,9 @@ get_filename_to_save <- function(
 #             filetypes   = filetypes,
 #             defaultextension = "txt"
 #             # , ...
-#         ) %>%
+#         ) |>
 #             tclvalue_chr()
-#         # %>%
+#         # |>
 #         #     fs_path_ext_set(ext)
 #
 #         # If canceled

@@ -537,7 +537,7 @@ window_export_fig_to_pptx_2 <- function() {
     ) |>
       str_glue()
 
-    # command %>% structure(class = c("glue", "character"))
+    # command |> structure(class = c("glue", "character"))
 
     # Apply commands ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Library("tidyverse")
@@ -547,7 +547,7 @@ window_export_fig_to_pptx_2 <- function() {
     result <- justDoIt(command)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    if (class(result)[1] != "try-error") {
+    if (!inherits(result, "try-error")) {
       logger(style_cmd(command))
 
       # Close dialog ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
