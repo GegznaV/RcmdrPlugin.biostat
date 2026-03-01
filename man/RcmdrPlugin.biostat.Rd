@@ -20,4 +20,37 @@ Useful links:
 }
 
 }
+\author{
+\strong{Maintainer}: Vilmantas Gegzna \email{GegznaV@gmail.com} (\href{https://orcid.org/0000-0002-9500-5167}{ORCID})
+
+Other contributors:
+\itemize{
+  \item Yoshinobu Kanda [contributor]
+  \item John Fox [contributor]
+  \item Milan Bouchet-Valat [contributor]
+  \item Liviu Andronic [contributor]
+  \item Michael Ash [contributor]
+  \item Theophilius Boye [contributor]
+  \item Stefano Calza [contributor]
+  \item Andy Chang [contributor]
+  \item Philippe Grosjean [contributor]
+  \item Richard Heiberger [contributor]
+  \item Kosar Karimi Pour [contributor]
+  \item G. Jay Kerns [contributor]
+  \item Renaud Lancelot [contributor]
+  \item Matthieu Lesnoff [contributor]
+  \item Uwe Ligges [contributor]
+  \item Samir Messad [contributor]
+  \item Martin Maechler [contributor]
+  \item Robert Muenchen [contributor]
+  \item Duncan Murdoch [contributor]
+  \item Erich Neuwirth [contributor]
+  \item Dan Putler [contributor]
+  \item Brian Ripley [contributor]
+  \item Miroslav Ristic [contributor]
+  \item Peter Wolf [contributor]
+  \item Kevin Wright [contributor]
+}
+
+}
 \keyword{internal}
