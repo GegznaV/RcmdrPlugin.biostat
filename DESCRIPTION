@@ -10,11 +10,7 @@ Authors@R: c(
     person("Vilmantas", "Gegzna", role = c("aut","cre"),
            comment = c(ORCID = "0000-0002-9500-5167"),
            email = "GegznaV@gmail.com"),
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    #> As some functions are based on code from RcmdrPlugin.EZR:
     person("Yoshinobu", "Kanda", role = "ctb"),
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    #> As some functions are based on code from Rcmdr:
     person("John", "Fox", role = "ctb"),
     person("Milan", "Bouchet-Valat", role = "ctb"),
     person("Liviu", "Andronic", role = "ctb"),
