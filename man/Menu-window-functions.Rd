@@ -8,11 +8,11 @@
 %   R/window_dataset_print_as_md.R, R/window_dataset_select.R,
 %   R/window_export_fig_to_pptx.R, R/window_export_to_excel.R,
 %   R/window_export_to_rdata.R, R/window_export_to_rds.R,
-%   R/window_export_to_text.R, R/window_fct_drop_lvls.R, R/window_fct_relevel.R,
-%   R/window_import_from_excel.R, R/window_import_from_pkg.R,
-%   R/window_import_from_rds.R, R/window_import_from_text.R,
-%   R/window_import_rdata.R, R/window_locale_set.R, R/window_model_select.R,
-%   R/window_plots_ggplotly.R, R/window_rows_arrange.R,
+%   R/window_export_to_text.R, R/window_factor_lvls_drop.R,
+%   R/window_fct_relevel.R, R/window_import_from_excel.R,
+%   R/window_import_from_pkg.R, R/window_import_from_rds.R,
+%   R/window_import_from_text.R, R/window_import_rdata.R, R/window_locale_set.R,
+%   R/window_model_select.R, R/window_plots_ggplotly.R, R/window_rows_arrange.R,
 %   R/window_rows_col_to_rownames.R, R/window_rows_filter.R,
 %   R/window_rows_rm_duplicated.R, R/window_rows_rm_with_na.R,
 %   R/window_rows_rowid_to_col.R, R/window_rows_rownames_to_col.R,
@@ -516,10 +516,10 @@ df <- tibble::tribble(
 )
 
 # remove empty rows
-df \%>\% filter_all(any_vars(!is.na(.)))
+df |> dplyr::filter(if_any(everything(), \(x) !is.na(x)))
 
 # remove rows with all NA in selected vars
-df \%>\% filter_at(vars(q, z), any_vars(!is.na(.)))
+df |> dplyr::filter(if_any(c(q, z), \(x) !is.na(x)))
 
 }
 \keyword{internal}

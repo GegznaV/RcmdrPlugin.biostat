@@ -11,7 +11,7 @@ tk_label(parent, text = "", ..., fg = NULL)
 
 tk_label_blue(parent, text = "", ..., fg = Rcmdr::getRcmdr("title.color"))
 
-tk_label_red(parent, ..., size = 8, weight = "bold", fg = "darkred")
+tk_label_red(parent, text = "", ..., size = 8, weight = "bold", fg = "darkred")
 }
 \arguments{
 \item{parent}{(\code{"tkwin"} object) Parent Tcl/Tk window or frame.}
