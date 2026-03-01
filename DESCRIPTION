@@ -106,7 +106,6 @@ Imports:
 Suggests:
     extrafont,
     knitr,
-    RcmdrPlugin.EZR,
     rmarkdown,
     rvg
 RoxygenNote: 7.3.3
