@@ -9,7 +9,7 @@ window_set_contrasts <- function() {
   .ds <- ActiveDataSet()
 
   initializeDialog(title = gettextRcmdr("Set Contrasts for Factor"))
-  variableBox <- variableListBox(top, Factors(), title = gettextRcmdr("Factor (pick one)"))
+  variable_box <- variableListBox(top, Factors(), title = gettextRcmdr("Factor (pick one)"))
   radioButtons(
     name = "contrasts", buttons = c("treatment", "sum", "helmert", "poly", "specify"),
     values = c("contr.Treatment", "contr.Sum", "contr.helmert", "contr.poly", "specify"),
@@ -23,7 +23,7 @@ window_set_contrasts <- function() {
     columns = 2
   )
   onOK <- function() {
-    variable <- getSelection(variableBox)
+    variable <- getSelection(variable_box)
 
     closeDialog()
 
@@ -49,30 +49,30 @@ window_set_contrasts <- function() {
       tkgrid(labelRcmdr(subdialog, text = gettextRcmdr("Enter Contrast Coefficients"),
         fg = getRcmdr("title.color"), font = "RcmdrTitleFont"), sticky = "w")
       env <- environment()
-      tableFrame <- tkframe(subdialog)
-      row.names <- str_glue_eval("levels({.ds}${variable})", envir_eval = .GlobalEnv)
-      row.names <- substring(paste(abbreviate(row.names, 12), "            "), 1, 12)
-      nrows <- length(row.names)
+      table_frame <- tkframe(subdialog)
+      row_names <- str_glue_eval("levels({.ds}${variable})", envir_eval = .GlobalEnv)
+      row_names <- substring(paste(abbreviate(row_names, 12), "            "), 1, 12)
+      nrows <- length(row_names)
       ncols <- nrows - 1
-      make.col.names <- paste0("labelRcmdr(tableFrame, text='", gettextRcmdr("Contrast Name:"), "')")
+      make_col_names <- paste0("labelRcmdr(table_frame, text='", gettextRcmdr("Contrast Name:"), "')")
       for (j in 1:ncols) {
         varname <- paste(".col.", j, sep = "")
         assign(varname, tclVar(str_glue(".{j}")), envir = env)
-        make.col.names <-
-          str_glue("{make.col.names}, ttkentry(tableFrame, width = '12', textvariable = {varname})")
+        make_col_names <-
+          str_glue("{make_col_names}, ttkentry(table_frame, width = '12', textvariable = {varname})")
       }
-      str_glue_eval("tkgrid({make.col.names}, sticky = 'w')", envir_eval = env)
+      str_glue_eval("tkgrid({make_col_names}, sticky = 'w')", envir_eval = env)
       for (i in 1:nrows) {
-        make.row <- str_glue("labelRcmdr(tableFrame, text = '{row.names[i]}')")
+        make_row <- str_glue("labelRcmdr(table_frame, text = '{row_names[i]}')")
         for (j in 1:ncols) {
           varname <- str_glue(".tab.{i}.{j}")
           assign(varname, tclVar("0"), envir = env)
-          make.row <-
-            str_glue("{make.row}, ttkentry(tableFrame, width = '5', textvariable = {varname})")
+          make_row <-
+            str_glue("{make_row}, ttkentry(table_frame, width = '5', textvariable = {varname})")
         }
-        str_glue_eval("tkgrid({make.row}, sticky = 'w')", envir_eval = env)
+        str_glue_eval("tkgrid({make_row}, sticky = 'w')", envir_eval = env)
       }
-      tkgrid(tableFrame, sticky = "w")
+      tkgrid(table_frame, sticky = "w")
 
       onOKsub <- function() {
         closeDialog(subdialog)
@@ -103,18 +103,18 @@ window_set_contrasts <- function() {
           return()
         }
 
-        contrast.names <- rep("", ncols)
+        contrast_names <- rep("", ncols)
         for (j in 1:ncols) {
           varname <- str_glue(".col.{j}")
-          contrast.names[j] <- str_glue_eval("tclvalue({varname})")
+          contrast_names[j] <- str_glue_eval("tclvalue({varname})")
         }
-        if (length(unique(contrast.names)) < ncols) {
+        if (length(unique(contrast_names)) < ncols) {
           errorCondition(subdialog, recall = window_set_contrasts, message = gettextRcmdr("Contrast names must be unique"))
           return()
         }
 
         all_values <- paste(values, collapse = ", ")
-        all_contrasts <- paste("'", contrast.names, "'", sep = "", collapse = ", ")
+        all_contrasts <- paste("'", contrast_names, "'", sep = "", collapse = ", ")
 
         command <- str_glue(
           "## Define contrasts for a factor ('{variable}') \n",
@@ -137,15 +137,15 @@ window_set_contrasts <- function() {
       }
       subOKCancelHelp(helpSubject = "contrasts")
 
-      tkgrid(tableFrame, sticky = "w")
+      tkgrid(table_frame, sticky = "w")
       tkgrid(labelRcmdr(subdialog, text = ""))
       tkgrid(subButtonsFrame, sticky = "w")
       dialogSuffix(subdialog, focus = subdialog, force.wait = TRUE)
     }
   }
   ok_cancel_help(helpSubject = "contrasts")
-  tkgrid(getFrame(variableBox), sticky = "nw")
+  tkgrid(getFrame(variable_box), sticky = "nw")
   tkgrid(contrastsFrame, sticky = "nw")
-  tkgrid(buttonsFrame, sticky = "w")
+  tkgrid(buttons_frame, sticky = "w")
   dialogSuffix()
 }

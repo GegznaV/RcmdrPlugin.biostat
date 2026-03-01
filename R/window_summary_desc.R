@@ -865,7 +865,7 @@ window_summary_desc <- function() {
     reset = "window_summary_desc()",
     apply = "window_summary_desc()")
 
-  tkgrid(buttonsFrame, sticky = "ew")
+  tkgrid(buttons_frame, sticky = "ew")
   dialogSuffix()
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Apply initial configuration functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

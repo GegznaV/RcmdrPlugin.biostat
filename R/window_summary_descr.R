@@ -399,7 +399,7 @@ window_summary_descr <- function() {
 #     apply = "window_test_normality"
 #   )
 #
-#   tkgrid(buttonsFrame, sticky = "ew")
+#   tkgrid(buttons_frame, sticky = "ew")
 #   dialogSuffix()
 #   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #   # Apply initial configuration functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

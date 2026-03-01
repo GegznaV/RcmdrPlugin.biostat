@@ -468,7 +468,7 @@ window_variable_gather <- function() {
 
     })
 
-  tkgrid(buttonsFrame, sticky = "we", columnspan = 2)
+  tkgrid(buttons_frame, sticky = "we", columnspan = 2)
   dialogSuffix(preventGrabFocus = TRUE)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   activate_gather_all_box()

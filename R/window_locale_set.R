@@ -450,7 +450,7 @@ window_locale_set_0 <- function(parent = CommanderWindow()) {
 
   # Finalize ---------------------------------------------------------------
   ok_cancel_help(on_help = help_menu)
-  tkgrid(buttonsFrame, sticky = "ew")
+  tkgrid(buttons_frame, sticky = "ew")
   dialogSuffix()
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

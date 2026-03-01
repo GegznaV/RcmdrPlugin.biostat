@@ -216,7 +216,7 @@ window_rows_rm_duplicated <- function() {
   ok_cancel_help(helpSubject = "distinct", helpPackage = "dplyr",
     reset = "window_rows_rm_duplicated()")
 
-  tkgrid(buttonsFrame, sticky = "ew")
+  tkgrid(buttons_frame, sticky = "ew")
   dialogSuffix()
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Apply initial configuration functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

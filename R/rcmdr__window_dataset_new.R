@@ -10,13 +10,13 @@ window_dataset_new_rcmdr <- function() {
 
   initializeDialog(title = gettext_bs("Create New Dataset"))
   dsname <- tclVar(unique_df_name("dataset", all_numbered = TRUE))
-  entryDsname <- ttkentry(top, width = "30", textvariable = dsname)
+  entry_dsname <- ttkentry(top, width = "30", textvariable = dsname)
 
   onOK <- function() {
-    dsnameValue <- trim.blanks(tclvalue(dsname))
+    dsname_value <- trim.blanks(tclvalue(dsname))
 
     # Checks if no name is entered
-    if (dsnameValue == "") {
+    if (dsname_value == "") {
       errorCondition(
         recall = window_dataset_new_rcmdr,
         message = gettext_bs("You must enter the name of the dataset."))
@@ -24,18 +24,18 @@ window_dataset_new_rcmdr <- function() {
     }
 
     # Check validity of the entered name
-    if (!is.valid.name(dsnameValue)) {
+    if (!is.valid.name(dsname_value)) {
       errorCondition(
         recall = window_dataset_new_rcmdr,
-        message = str_glue('"{dsnameValue}" ',
+        message = str_glue('"{dsname_value}" ',
           gettext_bs("is not a valid name for a dataset."))
       )
       return()
     }
 
     # Check if a dataset with the same name exists in the workspace
-    if (is.element(dsnameValue, listDataSets())) {
-      if ("no" == tclvalue(checkReplace(dsnameValue, gettext_bs("Dataset")))) {
+    if (is.element(dsname_value, listDataSets())) {
+      if ("no" == tclvalue(checkReplace(dsname_value, gettext_bs("Dataset")))) {
         window_dataset_new_rcmdr()
         return()
       }
@@ -43,13 +43,13 @@ window_dataset_new_rcmdr <- function() {
     closeDialog()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Edit window
-    command <- str_glue("Rcmdr::editDataset(dsname = '{dsnameValue}')")
+    command <- str_glue("Rcmdr::editDataset(dsname = '{dsname_value}')")
     result <- justDoIt(command)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (inherits(result, "try-error")) {
       if (!getRcmdr("dataset.modified")) return()
-      .data <- try(get(dsnameValue, envir = .GlobalEnv), silent = TRUE)
+      .data <- try(get(dsname_value, envir = .GlobalEnv), silent = TRUE)
       if (nrow(.data) == 0) {
         errorCondition(recall = window_dataset_new_rcmdr,
           message = gettext_bs("empty data set."))
@@ -57,7 +57,7 @@ window_dataset_new_rcmdr <- function() {
       }
       tempdir <- tempdir()
       tempdir <- gsub("\\\\", "/", tempdir)
-      savefile <- paste0(tempdir, "/", dsnameValue)
+      savefile <- paste0(tempdir, "/", dsname_value)
       save(".data", file = savefile)
 
       if (getRcmdr("use.markdown")) {
@@ -76,11 +76,11 @@ window_dataset_new_rcmdr <- function() {
   tkgrid(labelRcmdr(
     top,
     text = gettext_bs("Enter dataset's name:   ")),
-  entryDsname,
+  entry_dsname,
   pady = c(5, 5),
   sticky = "e")
 
-  tkgrid(buttonsFrame, columnspan = "2", sticky = "ew")
-  tkgrid.configure(entryDsname, sticky = "w")
-  dialogSuffix(focus = entryDsname)
+  tkgrid(buttons_frame, columnspan = "2", sticky = "ew")
+  tkgrid.configure(entry_dsname, sticky = "w")
+  dialogSuffix(focus = entry_dsname)
 }

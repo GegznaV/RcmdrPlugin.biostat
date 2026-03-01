@@ -378,7 +378,7 @@ window_variable_convert_type <- function() {
     helpSubject = "as.character",
     apply = "window_variable_convert_type()")
 
-  tkgrid(buttonsFrame, sticky = "ew")
+  tkgrid(buttons_frame, sticky = "ew")
   dialogSuffix(preventGrabFocus = TRUE)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

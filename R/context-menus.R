@@ -120,7 +120,7 @@ right_click_menu_text <- function(tcl_widget, undo = TRUE, menu_rm = FALSE) {
     tkgrid(text_frame, sticky = "w")
     tkgrid(optionsFrame, sticky = "w")
     tkgrid(directionFrame, sticky = "w")
-    tkgrid(buttonsFrame, sticky = "w")
+    tkgrid(buttons_frame, sticky = "w")
     dialogSuffix(focus = text_entry)
   }
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

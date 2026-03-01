@@ -184,7 +184,7 @@ window_dataset_bind_cols <- function() {
 
   tkgrid(names_Frame, pady = c(10, 5), columnspan = 3, sticky = "sew")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  tkgrid(buttonsFrame, sticky = "we", columnspan = 3)
+  tkgrid(buttons_frame, sticky = "we", columnspan = 3)
   dialogSuffix()
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   set_ds_name()

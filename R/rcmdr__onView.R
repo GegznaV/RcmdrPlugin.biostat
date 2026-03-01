@@ -20,8 +20,8 @@ window_dataset_view_rcmdr <- function() {
       ""
     }
 
-  view.height <- max(getRcmdr("output.height") + getRcmdr("log.height"), 10)
-  view.width  <- getRcmdr("log.width")
+  view_height <- max(getRcmdr("output.height") + getRcmdr("log.height"), 10)
+  view_width  <- getRcmdr("log.width")
 
 
   dims <- dim(get(.ds, envir = .GlobalEnv))
@@ -36,8 +36,8 @@ window_dataset_view_rcmdr <- function() {
       str_glue("showData(as.data.frame({.ds}), ",
         "    placement = '-20+200', ",
         "    font      = getRcmdr('logFont'), ",
-        "    maxwidth  = {view.width}, ",
-        "    maxheight = {view.height}",
+        "    maxwidth  = {view_width}, ",
+        "    maxheight = {view_height}",
         "    {suppress})",
       )
 
@@ -59,10 +59,10 @@ window_dataset_view_rcmdr <- function() {
   window <- justDoIt(command)
 
   if (!is.null(window)) {
-    open.showData.windows <- getRcmdr("open.showData.windows")
-    open.window           <- open.showData.windows[[.ds]]
-    if (!is.null(open.window)) tkdestroy(open.window)
-    open.showData.windows[[.ds]] <- window
-    putRcmdr("open.showData.windows", open.showData.windows)
+    open_show_data_windows <- getRcmdr("open.showData.windows")
+    open_window           <- open_show_data_windows[[.ds]]
+    if (!is.null(open_window)) tkdestroy(open_window)
+    open_show_data_windows[[.ds]] <- window
+    putRcmdr("open.showData.windows", open_show_data_windows)
   }
 }

@@ -635,7 +635,7 @@ window_import_from_pkg <- function() {
   tkgrid.configure(f2_lab_info,     sticky = "w", padx = c(5, 0), columnspan = 2)
   tkgrid.configure(f2_but_set_2,    sticky = "",  padx = c(2, 0))
   # ======================================================================~~~~
-  tkgrid(buttonsFrame, sticky = "ew")
+  tkgrid(buttons_frame, sticky = "ew")
   dialogSuffix(bindReturn = FALSE)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   update_packages_list()

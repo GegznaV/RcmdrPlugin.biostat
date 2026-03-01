@@ -124,7 +124,7 @@ window_num_transform_z <- function() {
 
   tkgrid(suffix_field, sticky = "ew", columnspan = 2)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  tkgrid(buttonsFrame, sticky = "w", columnspan = 2)
+  tkgrid(buttons_frame, sticky = "w", columnspan = 2)
 
   dialogSuffix(rows = 4,
     columns = 2,

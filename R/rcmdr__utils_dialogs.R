@@ -57,7 +57,7 @@ dialog_suffix <- defmacro(
       tkgrid(notebook, sticky = "nsew")
     }
 
-    if (grid.buttons) tkgrid(buttonsFrame, sticky = "ew")
+    if (grid.buttons) tkgrid(buttons_frame, sticky = "ew")
 
     if (use.tabs &&
       exists("dialog.values") &&

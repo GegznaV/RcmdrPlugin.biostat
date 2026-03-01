@@ -749,8 +749,8 @@ window_variable_recode0 <- function() {
     columnspan = 2)
   # ========================================================================
 
-  tkgrid(buttonsFrame, sticky = "ew")
-  # tkgrid(buttonsFrame, sticky = "w", columnspan = 2)
+  tkgrid(buttons_frame, sticky = "ew")
+  # tkgrid(buttons_frame, sticky = "w", columnspan = 2)
   tkgrid.configure(recodes_x_scroll, sticky = "ew")
   tkgrid.configure(recodes_y_scroll, sticky = "ns")
 

@@ -535,7 +535,7 @@ window_fct_relevel <- function() {
     after_apply_success_fun = refresh_window
   )
   # ======================================================================~~~~
-  tkgrid(buttonsFrame, sticky = "ew")
+  tkgrid(buttons_frame, sticky = "ew")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   dialogSuffix(bindReturn = FALSE)
 

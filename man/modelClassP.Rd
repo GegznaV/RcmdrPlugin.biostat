@@ -2,7 +2,7 @@
 % Please edit documentation in R/helper-functions.R
 \name{modelClassP}
 \alias{modelClassP}
-\title{Chech the class of the active model in Rcmdr}
+\title{Check the class of the active model in Rcmdr}
 \usage{
 modelClassP(class_)
 }
@@ -10,6 +10,6 @@ modelClassP(class_)
 \item{class_}{(string) a character vector of length 1. The name of class.}
 }
 \description{
-Chech the class of the active model in Rcmdr
+Check the class of the active model in Rcmdr
 }
 \keyword{internal}

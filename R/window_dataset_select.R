@@ -509,7 +509,7 @@ window_dataset_select <- function() {
 
   # Finalize ---------------------------------------------------------------
   ok_cancel_help()
-  tkgrid(buttonsFrame, pady = c(10, 0))
+  tkgrid(buttons_frame, pady = c(10, 0))
   dialogSuffix()
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

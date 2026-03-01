@@ -63,13 +63,13 @@ window_variable_rename <- function() {
       # TODO: [???] warn if any of the names is incorrect,
       # but allow to continue, if user wants.
 
-      test.names <- new_names == make.names(new_names)
+      test_names <- new_names == make.names(new_names)
 
-      if (!all(test.names)) {
+      if (!all(test_names)) {
         errorCondition(recall = window_variable_rename,
           message = paste(
             gettext_bs("The following variable names are not valid:\n"),
-            paste(new_names[!test.names], collapse = ", ")))
+            paste(new_names[!test_names], collapse = ", ")))
         return()
       }
 
@@ -123,10 +123,10 @@ window_variable_rename <- function() {
     )
 
     for (i in 1:n_old_names) {
-      valVar <- paste0("newName", i)
-      assign(valVar, tclVar(""))
+      val_var <- paste0("newName", i)
+      assign(val_var, tclVar(""))
       assign(x = paste0("entry", i),
-        value =  ttkentry(subdialog, width = "20", textvariable = get(valVar)
+        value =  ttkentry(subdialog, width = "20", textvariable = get(val_var)
       ))
 
       tkgrid(labelRcmdr(subdialog, text = old_names[i]),
@@ -175,6 +175,6 @@ window_variable_rename <- function() {
   ok_cancel_help(helpSubject = "rename", helpPackage = "dplyr")
   tkgrid(variables_frame, columnspan = 2)
   tkgrid(info_1)
-  tkgrid(buttonsFrame, sticky = "we")
+  tkgrid(buttons_frame, sticky = "we")
   dialogSuffix(rows = 2, columns = 1)
 }

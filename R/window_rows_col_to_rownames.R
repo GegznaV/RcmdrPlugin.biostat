@@ -62,7 +62,7 @@ window_rows_col_to_rownames <- function(new_dsname = NULL,
     # sticky = "nw",
     columnspan = 2)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  tkgrid(buttonsFrame, sticky = "ew", columnspan = 2)
+  tkgrid(buttons_frame, sticky = "ew", columnspan = 2)
   dialogSuffix(rows = 3, columns = 2)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }

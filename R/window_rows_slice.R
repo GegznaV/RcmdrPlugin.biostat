@@ -162,7 +162,7 @@ window_rows_slice <- function() {
     sticky = "nw"
   )
 
-  tkgrid(buttonsFrame, sticky = "ew")
+  tkgrid(buttons_frame, sticky = "ew")
   dialogSuffix()
 }
 

@@ -97,7 +97,7 @@ window_dataset_class <- function() {
   }
   # Finalize ---------------------------------------------------------------
   ok_cancel_help(apply = "window_dataset_class", on_help = help_menu)
-  tkgrid(buttonsFrame)
+  tkgrid(buttons_frame)
   dialogSuffix()
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }

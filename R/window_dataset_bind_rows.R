@@ -314,6 +314,6 @@ window_dataset_bind_rows <- function() {
   #     sticky = "nw"
   # )
 
-  tkgrid(buttonsFrame, sticky = "we", columnspan = 3)
+  tkgrid(buttons_frame, sticky = "we", columnspan = 3)
   dialogSuffix()
 }

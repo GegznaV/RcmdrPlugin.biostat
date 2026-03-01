@@ -462,7 +462,7 @@ window_variable_mutate <- function() {
   tkgrid.configure(f2_eq, sticky = "ns")
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  tkgrid(buttonsFrame, sticky = "ew", columnspan = 2)
+  tkgrid(buttons_frame, sticky = "ew", columnspan = 2)
   dialogSuffix(rows = 3, columns = 2, focus = f2_entry_expr$obj_text)
 }
 

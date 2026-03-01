@@ -64,7 +64,7 @@ ok_cancel_help <- Rcmdr::defmacro(
 
     use_help_button <- !is.null(helpSubject) || is.function(on_help)
 
-    button.strings <- c(
+    button_strings <- c(
       gettext_bs(ok_label),
       gettext_bs("Cancel"),
       if (use_help_button) gettext_bs("Help"),
@@ -72,12 +72,12 @@ ok_cancel_help <- Rcmdr::defmacro(
       if (!is.null(apply)) gettext_bs(apply_label)
     )
 
-    width <- max(nchar(gettext_bs(button.strings)))
+    width <- max(nchar(gettext_bs(button_strings)))
     if (WindowsP()) width <- width + 2
 
-    buttonsFrame    <- tkframe(window)
-    leftButtonsBox  <- tkframe(buttonsFrame)
-    rightButtonsBox <- tkframe(buttonsFrame)
+    buttons_frame    <- tkframe(window)
+    left_buttons_box  <- tkframe(buttons_frame)
+    right_buttons_box <- tkframe(buttons_frame)
 
     # Button call-back functions ==========================================
     # START: ok -----------------------------------------------------------
@@ -127,7 +127,7 @@ ok_cancel_help <- Rcmdr::defmacro(
       putRcmdr("rgl.command", FALSE)
     }
 
-    OKbutton <- buttonRcmdr(rightButtonsBox,
+    OKbutton <- buttonRcmdr(right_buttons_box,
       text       = gettext_bs(ok_label),
       foreground = "darkgreen",
       width      = width,
@@ -157,8 +157,8 @@ ok_cancel_help <- Rcmdr::defmacro(
       tkfocus(CommanderWindow())
     }
 
-    cancelButton <- buttonRcmdr(
-      rightButtonsBox,
+    cancel_button <- buttonRcmdr(
+      right_buttons_box,
       text         = gettext_bs("Cancel"),
       foreground   = "red",
       width        = width,
@@ -189,8 +189,8 @@ ok_cancel_help <- Rcmdr::defmacro(
         }
       }
 
-      helpButton <- buttonRcmdr(
-        leftButtonsBox,
+      help_button <- buttonRcmdr(
+        left_buttons_box,
         text          = gettext_bs("Help"),
         width         = width,
         command       = onHelp,
@@ -226,8 +226,8 @@ ok_cancel_help <- Rcmdr::defmacro(
       }
 
 
-      resetButton <- buttonRcmdr(
-        leftButtonsBox,
+      reset_button <- buttonRcmdr(
+        left_buttons_box,
         text     = gettext_bs("Reset"),
         width    = width,
         command  = onReset,
@@ -308,8 +308,8 @@ ok_cancel_help <- Rcmdr::defmacro(
         }
       }
 
-      applyButton <- buttonRcmdr(
-        rightButtonsBox,
+      apply_button <- buttonRcmdr(
+        right_buttons_box,
         text       = gettext_bs(apply_label),
         foreground = "yellow",
         width      = width,
@@ -323,50 +323,50 @@ ok_cancel_help <- Rcmdr::defmacro(
     # Grid ===============================================================
     if (!WindowsP()) {
       if (!is.null(apply)) {
-        tkgrid(applyButton, cancelButton, OKbutton, sticky = sticky)
+        tkgrid(apply_button, cancel_button, OKbutton, sticky = sticky)
         tkgrid.configure(OKbutton, padx = c(6, 0))
 
       } else {
-        tkgrid(cancelButton, OKbutton, sticky = sticky)
+        tkgrid(cancel_button, OKbutton, sticky = sticky)
       }
-      tkgrid.configure(cancelButton, padx = c(6, 6))
+      tkgrid.configure(cancel_button, padx = c(6, 6))
 
     } else {
       if (!is.null(apply)) {
-        tkgrid(OKbutton, cancelButton, applyButton, sticky = sticky)
-        tkgrid.configure(applyButton, padx = c(6, 0))
+        tkgrid(OKbutton, cancel_button, apply_button, sticky = sticky)
+        tkgrid.configure(apply_button, padx = c(6, 0))
 
       } else {
-        tkgrid(OKbutton, cancelButton, sticky = sticky)
+        tkgrid(OKbutton, cancel_button, sticky = sticky)
       }
       tkgrid.configure(OKbutton, padx = c(6, 6))
     }
 
     if (!is.null(reset) && memory) {
       if (use_help_button) {
-        tkgrid(helpButton, resetButton, pady = 6)
+        tkgrid(help_button, reset_button, pady = 6)
 
       } else {
-        tkgrid(resetButton, pady = 6)
+        tkgrid(reset_button, pady = 6)
       }
-      if (!WindowsP()) tkgrid.configure(resetButton, padx = c(0, 6))
+      if (!WindowsP()) tkgrid.configure(reset_button, padx = c(0, 6))
 
     } else if (use_help_button) {
-      tkgrid(helpButton, pady = 6)
+      tkgrid(help_button, pady = 6)
     }
 
-    tkgrid(leftButtonsBox, rightButtonsBox, pady = 6, sticky = "ew")
+    tkgrid(left_buttons_box, right_buttons_box, pady = 6, sticky = "ew")
 
     if (use_help_button) {
-      tkgrid.configure(helpButton, padx = c(0, 18))
+      tkgrid.configure(help_button, padx = c(0, 18))
 
     } else if (!is.null(reset) && memory) {
-      tkgrid.configure(resetButton, padx = c(0, 18))
+      tkgrid.configure(reset_button, padx = c(0, 18))
     }
 
-    tkgrid.columnconfigure(buttonsFrame, 0, weight = 1)
-    tkgrid.columnconfigure(buttonsFrame, 1, weight = 1)
-    tkgrid.configure(leftButtonsBox,  sticky = "w")
-    tkgrid.configure(rightButtonsBox, sticky = "e")
+    tkgrid.columnconfigure(buttons_frame, 0, weight = 1)
+    tkgrid.columnconfigure(buttons_frame, 1, weight = 1)
+    tkgrid.configure(left_buttons_box,  sticky = "w")
+    tkgrid.configure(right_buttons_box, sticky = "e")
   }
 )

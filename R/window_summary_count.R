@@ -367,7 +367,7 @@ window_summary_count <- function() {
     reset = "window_summary_count",
     apply = "window_summary_count"
   )
-  tkgrid(buttonsFrame, sticky = "ew", columnspan = 2, pady = c(10, 0))
+  tkgrid(buttons_frame, sticky = "ew", columnspan = 2, pady = c(10, 0))
 
   dialogSuffix(rows = 4,
     columns = 2,

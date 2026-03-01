@@ -370,6 +370,6 @@ window_variable_select <- function(new_dsname = NULL, incorrect_cond_msg = NULL)
 
   tkgrid(new_dsname_field, pady = c(0, 0), sticky = "")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  tkgrid(buttonsFrame, sticky = "ew", columnspan = 5)
+  tkgrid(buttons_frame, sticky = "ew", columnspan = 5)
   dialogSuffix(rows = 2, columns = 5)
 }

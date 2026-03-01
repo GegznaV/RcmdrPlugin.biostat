@@ -95,6 +95,6 @@ window_rows_arrange <- function() {
   tkgrid(var_y_box$frame, options_frame, sticky = "new", columnspan = 2)
   tkgrid(decreasingFrame, sticky = "nw")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  tkgrid(buttonsFrame, sticky = "w", columnspan = 2)
+  tkgrid(buttons_frame, sticky = "w", columnspan = 2)
   dialogSuffix(rows = 6, columns = 1)
 }

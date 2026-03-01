@@ -11,7 +11,7 @@ globalVariables(c(
   "add_plotVariable", "add_slide", "aes", "as_markdownCheckBox",
   "as_markdownVariable", "assoc_statsCheckBox", "assoc_statsVariable",
   "body_add_par", "body_add_table", "body_end_section_portrait", "boot", "boot.ci",
-  "buttonRcmdr", "buttonsFrame", "by_groupCheckBox", "by_groupVariable",
+  "buttonRcmdr", "buttons_frame", "by_groupCheckBox", "by_groupVariable",
   "by_group_Frame", "caseVariable", "case_Variable", "characterButton", "checkBoxes",
   "checkReplace", "check_locale_CheckBox", "check_locale_Variable",
   "check_locale_frame", "checkboxes_frame", "chisq_testCheckBox",
@@ -51,7 +51,7 @@ globalVariables(c(
   "trim_frame", "ungroup", "upper", "use_groups_CheckBox", "use_groups_Variable",
   "use_groups_frame", "varPosn", "variableListBox", "which_idFrame",
   "which_idVariable", "window_new_dataset_rcmdr", "x", "start", "tktag_add_obj",
-  "cancelButton", "active_ds", "loadPackages", "activate_menus",
+  "cancel_button", "active_ds", "loadPackages", "activate_menus",
   "f3_input",
 
   ".Contrasts", "Dataset", "Item LibPath", "Package", "code_to_load",

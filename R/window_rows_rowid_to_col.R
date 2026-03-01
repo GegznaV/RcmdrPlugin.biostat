@@ -139,6 +139,6 @@ window_rows_rowid_to_col <- function() {
   tkgrid(name_entry, sticky = "w")
   tkgrid(positionFrame, padx = c(15, 0))
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  tkgrid(buttonsFrame, sticky = "ew")
+  tkgrid(buttons_frame, sticky = "ew")
   dialogSuffix()
 }

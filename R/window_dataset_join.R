@@ -378,6 +378,6 @@ window_dataset_join <- function() {
 
   ok_cancel_help(helpSubject = "join", helpPackage = "dplyr")
 
-  tkgrid(buttonsFrame, sticky = "ew", columnspan = 3, pady = c(5, 0))
+  tkgrid(buttons_frame, sticky = "ew", columnspan = 3, pady = c(5, 0))
   dialogSuffix()
 }

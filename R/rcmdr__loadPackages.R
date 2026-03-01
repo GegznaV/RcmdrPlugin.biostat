@@ -15,10 +15,10 @@ window_load_packages <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   refresh_window <- function() {
     loaded_packages <- .packages()
-    availablePackages <-
+    available_packages <-
       sort(setdiff(.packages(all.available = TRUE), loaded_packages))
 
-    set_values(f2_box_not_loaded, availablePackages)
+    set_values(f2_box_not_loaded, available_packages)
     set_values(f2_box_loaded,     loaded_packages)
     set_values(
       f1_lab_var,
@@ -48,9 +48,9 @@ window_load_packages <- function() {
 
 
   loaded_packages <- .packages()
-  availablePackages <- sort(setdiff(.packages(all.available = TRUE), loaded_packages))
+  available_packages <- sort(setdiff(.packages(all.available = TRUE), loaded_packages))
 
-  # if (length(availablePackages) == 0) {
+  # if (length(available_packages) == 0) {
   #   errorCondition(message = gettextRcmdr("No packages available to load."))
   #   return()
   # }
@@ -65,7 +65,7 @@ window_load_packages <- function() {
   f2_box_not_loaded <-
     bs_listbox(
       parent       = f2,
-      values       = availablePackages,
+      values       = available_packages,
       title        = gettextRcmdr("Available packages (to load)"),
       use_filter   = TRUE,
       height       = 10,
@@ -165,7 +165,7 @@ window_load_packages <- function() {
   tkgrid(f2_box_loaded$frame, f2_box_not_loaded$frame, sticky = "nw")
   tkgrid.configure(f2_box_not_loaded$frame, padx = c(10, 0))
 
-  tkgrid(buttonsFrame, sticky = "we", columnspan = 2)
+  tkgrid(buttons_frame, sticky = "we", columnspan = 2)
   dialogSuffix()
 
   tkbind(f2_box_not_loaded$listbox, "<Double-ButtonPress-1>", context_menu)

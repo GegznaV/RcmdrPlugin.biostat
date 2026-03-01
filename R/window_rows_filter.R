@@ -231,7 +231,7 @@ window_rows_filter <- function(new_dsname = NULL,
 
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  tkgrid(buttonsFrame, sticky = "ew", columnspan = 2)
+  tkgrid(buttons_frame, sticky = "ew", columnspan = 2)
   dialogSuffix(rows = 3,
     columns = 2,
     focus = conditions_field)

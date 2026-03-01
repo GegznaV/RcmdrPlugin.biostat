@@ -208,7 +208,7 @@ window_num_transform_log <- function() {
     sticky = "w",
     pady = c(10, 0))
   #
-  tkgrid(buttonsFrame, sticky = "ew", columnspan = 2)
+  tkgrid(buttons_frame, sticky = "ew", columnspan = 2)
 
   dialogSuffix(rows = 4,
     columns = 2,

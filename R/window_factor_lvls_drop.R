@@ -91,6 +91,6 @@ window_factor_lvls_drop <- function() {
     sticky = "w", pady = c(2, 0))
   tkgrid(allFrame, sticky = "ew")
 
-  tkgrid(buttonsFrame, sticky = "w")
+  tkgrid(buttons_frame, sticky = "w")
   dialogSuffix()
 }

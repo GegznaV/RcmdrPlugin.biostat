@@ -121,8 +121,8 @@ window_about_biostat_version <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ok_cancel_help()
 
-  tkgrid(buttonsFrame)
-  tkgrid.remove(cancelButton)
+  tkgrid(buttons_frame)
+  tkgrid.remove(cancel_button)
 
   dialogSuffix()
 }
