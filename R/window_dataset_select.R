@@ -3,7 +3,7 @@
 #' @keywords internal
 window_dataset_select <- function() {
 
-  dataSets <- listDataSets()
+  data_sets <- listDataSets()
   .ds      <- active_dataset_0()
 
   # Functions --------------------------------------------------------------
@@ -428,9 +428,9 @@ window_dataset_select <- function() {
       parent          = top,
       title           = gettext_bs("Datasets in R memory (select one)"),
       title_sticky    = "",
-      values          = dataSets,
+      values          = data_sets,
       value           = .ds,
-      # selection       = if (is.null(.ds)) NULL else which(.ds == dataSets),
+      # selection       = if (is.null(.ds)) NULL else which(.ds == data_sets),
       height          = 10,
       width           = c(47, Inf),
       on_release      = cmd_ds_selection_callback,

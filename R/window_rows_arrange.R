@@ -25,10 +25,10 @@ window_rows_arrange <- function() {
       height     = 8
     )
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  optionsFrame <- tkframe(upper_frame)
+  options_frame <- tkframe(upper_frame)
 
   Rcmdr::radioButtons(
-    optionsFrame,
+    options_frame,
     name    = "decreasing",
     buttons = gettext_bs(c("Ascending", "Descending")),
     values  = c("FALSE", "TRUE"),
@@ -92,7 +92,7 @@ window_rows_arrange <- function() {
   ok_cancel_help(helpSubject = "arrange", helpPackage = "dplyr")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(upper_frame, sticky = "new")
-  tkgrid(var_y_box$frame, optionsFrame, sticky = "new", columnspan = 2)
+  tkgrid(var_y_box$frame, options_frame, sticky = "new", columnspan = 2)
   tkgrid(decreasingFrame, sticky = "nw")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(buttonsFrame, sticky = "w", columnspan = 2)

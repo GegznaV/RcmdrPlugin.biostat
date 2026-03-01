@@ -7,35 +7,35 @@
 #' @export
 #' @keywords internal
 window_rows_slice <- function() {
-  dataSet <- active_dataset()
+  data_set <- active_dataset()
 
   initializeDialog(title = gettext_bs("Select / Remove Rows by Position"))
 
-  indexVariable <- tclVar(gettext_bs(""))
-  indexFrame <- tkframe(top)
-  indexEntry <- ttkentry(indexFrame, width = "60", textvariable = indexVariable)
+  index_variable <- tclVar(gettext_bs(""))
+  index_frame <- tkframe(top)
+  index_entry <- ttkentry(index_frame, width = "60", textvariable = index_variable)
 
-  indexScroll <- ttkscrollbar(
-    indexFrame,
+  index_scroll <- ttkscrollbar(
+    index_frame,
     orient = "horizontal",
     command = function(...)
-      tkxview(indexEntry, ...)
+      tkxview(index_entry, ...)
   )
   tkconfigure(
-    indexEntry,
+    index_entry,
     xscrollcommand = function(...)
-      tkset(indexScroll, ...)
+      tkset(index_scroll, ...)
   )
-  newDataSetName <- tclVar(unique_df_name(suffix = "_subset", all_numbered = TRUE))
+  new_dataset_name <- tclVar(unique_df_name(suffix = "_subset", all_numbered = TRUE))
 
-  dataSetNameFrame <- tkframe(top)
-  dataSetNameEntry <-
-    ttkentry(dataSetNameFrame, width = "36", textvariable = newDataSetName)
+  dataset_name_frame <- tkframe(top)
+  dataset_name_entry <-
+    ttkentry(dataset_name_frame, width = "36", textvariable = new_dataset_name)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   onOK <- function() {
-    new_dsname <- trim.blanks(tclvalue(newDataSetName))
-    index      <- tclvalue(indexVariable)
+    new_dsname <- trim.blanks(tclvalue(new_dataset_name))
+    index      <- tclvalue(index_variable)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (!is.valid.name(new_dsname)) {
@@ -114,7 +114,7 @@ window_rows_slice <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(
     tk_label(
-      indexFrame,
+      index_frame,
       text = gettext_bs("Row indices:"),
       foreground = getRcmdr("title.color"),
       font = "RcmdrTitleFont"
@@ -122,17 +122,17 @@ window_rows_slice <- function() {
     sticky = "w"
   )
 
-  tkgrid(indexEntry,  sticky = "w")
-  tkgrid(indexScroll, sticky = "ew")
-  tkgrid(indexFrame,  sticky = "w")
+  tkgrid(index_entry,  sticky = "w")
+  tkgrid(index_scroll, sticky = "ew")
+  tkgrid(index_frame,  sticky = "w")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  tkgrid(labelRcmdr(dataSetNameFrame,
+  tkgrid(labelRcmdr(dataset_name_frame,
     text = gettext_bs("Name for sliced dataset:   ")),
-  dataSetNameEntry,
+  dataset_name_entry,
   sticky = "w")
 
   # tkgrid(dataSetNameEntry, sticky = "w")
-  tkgrid(dataSetNameFrame, sticky = "w")
+  tkgrid(dataset_name_frame, sticky = "w")
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(
     labelRcmdr(

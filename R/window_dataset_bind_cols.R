@@ -36,7 +36,7 @@ window_dataset_bind_cols <- function() {
     width = "68",
     textvariable = new_ds_name_variable)
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  dataSets <- listDataSets()
+  data_sets <- listDataSets()
   .ds      <- active_dataset_0()
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   upper_frame <- tkframe(top)
@@ -44,7 +44,7 @@ window_dataset_bind_cols <- function() {
   ds_1_box <-
     bs_listbox(
       parent    = upper_frame,
-      values    = dataSets,
+      values    = data_sets,
       value     = .ds,
       height    = 7,
       on_select = set_ds_name,
@@ -53,14 +53,14 @@ window_dataset_bind_cols <- function() {
   ds_2_box <-
     bs_listbox(
       parent = upper_frame,
-      values = dataSets,
+      values = data_sets,
       height = 7,
       title  = gettext_bs("Second dataset \n(pick one)"))
 
   ds_3_box <-
     bs_listbox(
       parent = upper_frame,
-      values = dataSets,
+      values = data_sets,
       height =  7,
       title  = gettext_bs("Third dataset \n(pick none or one)"))
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

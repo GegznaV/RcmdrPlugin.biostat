@@ -11,7 +11,7 @@
 #' @keywords internal
 window_dataset_join <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  dataSets <- listDataSets()
+  data_sets <- listDataSets()
   .ds <- active_dataset_0()
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   win_title <- gettext_bs("Join Two Datasets")
@@ -160,7 +160,7 @@ window_dataset_join <- function() {
   ds_1_box <-
     bs_listbox(
       parent = middle_Frame,
-      values = dataSets,
+      values = data_sets,
       value  = .ds,
       height = 7,
       title = gettext_bs("First dataset (left, x) \n(pick one)"),
@@ -172,7 +172,7 @@ window_dataset_join <- function() {
   ds_2_box <-
     bs_listbox(
       parent = middle_Frame,
-      values = dataSets,
+      values = data_sets,
       height = 7,
       selection = 1,
       on_select = function() {

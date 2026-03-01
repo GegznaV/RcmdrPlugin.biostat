@@ -38,9 +38,9 @@ window_summary_count <- function() {
 
   # Functions --------------------------------------------------------------
   activate_checkboxes <- function() {
-    x_var            <- get_selection(xBox)
-    y_var            <- get_selection(yBox)
-    z_var            <- get_selection(zBox)
+    x_var            <- get_selection(x_box)
+    y_var            <- get_selection(y_box)
+    z_var            <- get_selection(z_box)
 
     n_vars <- length(c(x_var, y_var, z_var))
 
@@ -99,7 +99,7 @@ window_summary_count <- function() {
 
   main_data_frame <- tkframe(main_frame)
 
-  xBox <-
+  x_box <-
     bs_listbox(
       parent     = main_data_frame,
       values     = variables_all(),
@@ -109,7 +109,7 @@ window_summary_count <- function() {
       value      = initial$x_var,
       on_select  = activate_checkboxes)
 
-  yBox <-
+  y_box <-
     bs_listbox(
       parent     = main_data_frame,
       values     = variables_all(),
@@ -119,7 +119,7 @@ window_summary_count <- function() {
       value      = initial$y_var,
       on_select  = activate_checkboxes)
 
-  zBox <-
+  z_box <-
     bs_listbox(
       parent     = main_data_frame,
       values     = variables_all(),
@@ -201,9 +201,9 @@ window_summary_count <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   onOK <- function() {
     # gr_var         <- get_selection(groupBox)
-    x_var            <- get_selection(xBox)
-    y_var            <- get_selection(yBox)
-    z_var            <- get_selection(zBox)
+    x_var            <- get_selection(x_box)
+    y_var            <- get_selection(y_box)
+    z_var            <- get_selection(z_box)
     # digits         <- suppressWarnings(tclvalue_int(digitsVar))
 
     table_type       <- tclvalue(table_typeVariable)
@@ -338,7 +338,7 @@ window_summary_count <- function() {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   tkgrid(main_data_frame, columnspan = 2, sticky = "sw")
   tkgrid(
-    getFrame(xBox), getFrame(yBox), getFrame(zBox),
+    getFrame(x_box), getFrame(y_box), getFrame(z_box),
     sticky = "nw",
     pady = c(5, 5)
   )
